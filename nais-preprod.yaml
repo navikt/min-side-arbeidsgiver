@@ -1,0 +1,21 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: ditt-nav-arbeidsgiver
+  namespace: default
+  labels:
+    team: teamtag
+spec:
+  image: navikt/ditt-nav-arbeidsgiver:1
+  team: teamtag
+  port: 3000
+  vault:
+    enabled: true
+  ingresses:
+    - https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver
+  liveness:
+    path: /ditt-nav-arbeidsgiver/internal/isAlive
+    initialDelay: 20
+  readiness:
+    path: /ditt-nav-arbeidsgiver/internal/isReady
+    initialDelay: 20
