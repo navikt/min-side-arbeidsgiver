@@ -7,8 +7,9 @@ jobs:
       - checkout
       - run:
         name: build react app
-          npm ci
-          npm run build
+          command: |
+            npm ci
+            npm run build
           - setup_remote_docker
                 - run:
                 name: Setter miljøvariable
