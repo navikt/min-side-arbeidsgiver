@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:1
+  image: navikt/ditt-nav-arbeidsgiver:11
   team: teamtag
   port: 3000
   vault:
