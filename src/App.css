@@ -23,6 +23,46 @@
   color: #61dafb;
 }
 
+.forside {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  text-align: center;
+  align-conntent: flex-start;
+  padding-bottom: 5rem;
+
+}
+
+.veileder {
+
+  background-color: #C6C2BF;
+  height: 55%;
+  width: 55%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.overpanel{
+  display: flex;
+  justify-content: center;
+  color: black;
+  background-color: #363636;
+
+
+}
+.menu1{
+  color: white;
+  font-size: 11px;
+}
+.menu2{
+  color: white;
+  font-size: 11px;
+}
+.menu3{
+  color: white;
+  font-size: 11px;
+}
+
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
