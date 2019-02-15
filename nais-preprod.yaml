@@ -6,11 +6,9 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:1
+  image: navikt/ditt-nav-arbeidsgiver:7
   team: teamtag
   port: 3000
-  vault:
-    enabled: true
   ingresses:
     - https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver
   liveness:
