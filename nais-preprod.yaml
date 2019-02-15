@@ -9,8 +9,6 @@ spec:
   image: navikt/ditt-nav-arbeidsgiver:11
   team: teamtag
   port: 3000
-  vault:
-    enabled: true
   ingresses:
     - https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver
   liveness:
