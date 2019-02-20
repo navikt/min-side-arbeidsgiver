@@ -35,29 +35,46 @@ class App extends Component {
             </div>
             <Sidetittel className={"overskrift"}>Ditt NAV Arbeidsgiver </Sidetittel>
 
-
-            <div className={"containerNotifications"}>
+            <div className={"hovedcontainer"}>
+            <div className={"container1"}>
+                <div className={"boks11"}>
               <Notificationbox bildeurl={mann} notification={true} tittel={"Sykemeldte"} undertittel={"6 sykemeldte"} notify = {varsel} />
-                <Notificationbox bildeurl={mann} notification={true} tittel={"Foreldrepenger"} undertittel={"3 i foreldrepermisjon"} notify = {varsel} />
-                <Notificationbox bildeurl={mann} notification={true} tittel={"Arbeidstrening"} undertittel={"7 på tiltak"} notify = {varsel} />
-
-          </div>
-            <div className={"containerNotifications2"}>
-            <Panel className={"nyboks"}border={true}>
-                <Undertittel><span>Finn nye </span> medarbeidere </Undertittel>
-            </Panel>
-                <Panel className={"nyboks2"}border={true}>
+              </div>
+                <div className={"boks21"}>
+              <Panel className={"nyboks"}border={true}>
                     <Undertittel><span>Finn nye </span> medarbeidere </Undertittel>
                 </Panel>
-            </div>
-            <div className={"containerNotifications3"}>
+                </div>
+                <div className={"boks31"}>
                 <Panel className={"nyboks3"}border={true}>
                     <Undertittel><span>Finn nye </span> medarbeidere </Undertittel>
                 </Panel>
+                </div>
+            </div>
+
+            <div className={"container2"}>
+            <div className= {"containerTwoNotificationBoxes"}>
+                <div className={"boks12"}>
+                <Notificationbox bildeurl={mann} notification={true} tittel={"Foreldrepenger"} undertittel={"3 i foreldrepermisjon"} notify = {varsel} />
+                </div>
+                <div className={"boks13"}>
+                <Notificationbox bildeurl={mann} notification={true} tittel={"Arbeidstrening"} undertittel={"7 på tiltak"} notify = {varsel} />
+                </div>
+                </div>
+                <div className={"boks22"}>
+                <Panel className={"nyboks2"}border={true}>
+                    <Undertittel><span>Finn nye </span> medarbeidere </Undertittel>
+                </Panel>
+                    </div>
+                <div className={"boks31"}>
                 <Panel className={"nyboks4"}border={true}>
                     <Undertittel><span>Finn nye </span> medarbeidere </Undertittel>
                 </Panel>
+                    </div>
+
             </div>
+            </div>
+
 
         </div>
 
