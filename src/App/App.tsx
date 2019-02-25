@@ -7,6 +7,7 @@ import mann from "./forfra.svg";
 
 import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
+import { hentHello } from "../api/dnaApi";
 
 interface State {
   tekst: string;
@@ -17,10 +18,9 @@ class App extends Component<{}, State> {
     tekst: ""
   };
 
-  componentDidMount(): void {
-    fetch("/ditt-nav-arbeidsgiver-api/")
-      .then(response => response.text())
-      .then(text => this.setState({ tekst: text }));
+  async componentDidMount() {
+    let tekst = await hentHello();
+    this.setState({ tekst: tekst });
   }
 
   render() {
