@@ -4,7 +4,6 @@ import "./App.less";
 import { Sidetittel, Undertittel } from "nav-frontend-typografi";
 
 import mann from "./forfra.svg";
-import varsel from "./fill-7.svg";
 
 import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
@@ -24,7 +23,6 @@ class App extends Component {
             notification={true}
             tittel={"Sykemeldte"}
             undertittel={"6 sykemeldte"}
-            notify={varsel}
           />
 
           <Notificationboks
@@ -32,7 +30,6 @@ class App extends Component {
             notification={false}
             tittel={"Foreldrepenger"}
             undertittel={"3 i foreldrepermisjon"}
-            notify={varsel}
           />
 
           <Notificationboks
@@ -40,7 +37,6 @@ class App extends Component {
             notification={true}
             tittel={"Arbeidstrening"}
             undertittel={"7 på tiltak"}
-            notify={varsel}
           />
         </div>
       </div>
