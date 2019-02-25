@@ -8,7 +8,21 @@ import mann from "./forfra.svg";
 import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
 
-class App extends Component {
+interface State {
+  tekst: string;
+}
+
+class App extends Component<{}, State> {
+  state = {
+    tekst: ""
+  };
+
+  componentDidMount(): void {
+    fetch("/ditt-nav-arbeidsgiver-api/")
+      .then(response => response.text())
+      .then(text => this.setState({ tekst: text }));
+  }
+
   render() {
     return (
       <div className="forside">
@@ -36,7 +50,7 @@ class App extends Component {
             bildeurl={mann}
             notification={true}
             tittel={"Arbeidstrening"}
-            undertittel={"7 på tiltak"}
+            undertittel={this.state.tekst}
           />
         </div>
       </div>
