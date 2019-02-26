@@ -7,20 +7,27 @@ import mann from "./forfra.svg";
 
 import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
-import { hentHello } from "../api/dnaApi";
+import { hentHello, hentOrganisasjoner } from "../api/dnaApi";
+import { Organisasjon } from "../organisasjon";
 
 interface State {
   tekst: string;
+  organisasjoner: Array<Organisasjon>;
 }
 
 class App extends Component<{}, State> {
   state = {
-    tekst: ""
+    tekst: "",
+    organisasjoner: []
   };
 
   async componentDidMount() {
     let tekst = await hentHello();
+    let organisasjoner = await hentOrganisasjoner();
+
+    this.setState({ organisasjoner: organisasjoner });
     this.setState({ tekst: tekst });
+    console.log(this.state.organisasjoner);
   }
 
   render() {
@@ -29,7 +36,7 @@ class App extends Component<{}, State> {
         <Banner
           tittel={"Ditt nav arbeidsgiver"}
           bildeurl={"null"}
-          organisasjoner={["aha", "nav"]}
+          organisasjoner={this.state.organisasjoner}
         />
         <div className={"notifikasjonsbokser"}>
           <Notificationboks
