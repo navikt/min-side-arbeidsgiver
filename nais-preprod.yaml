@@ -17,3 +17,5 @@ spec:
   readiness:
     path: /ditt-nav-arbeidsgiver/internal/isReady
     initialDelay: 20
+  vault:
+    enabled: true
