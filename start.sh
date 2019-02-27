@@ -11,4 +11,4 @@ then
     done
 fi
 
-exec npm run server
+exec node server.js
