@@ -1,5 +1,6 @@
 {
   "name": "ditt-nav-arbeidsgiver",
+  "proxy": "http://localhost:8080",
   "version": "0.1.0",
   "private": true,
   "homepage": "/ditt-nav-arbeidsgiver",
@@ -33,8 +34,7 @@
     "react": "^16.8.2",
     "react-collapse": "^4.0.3",
     "react-dom": "^16.8.1",
-    "react-scripts": "2.1.5",
-    "react-styled-box": "^1.3.0",
+    "react-scripts": "2.1.3",
     "typescript": "3.3.3"
   },
   "scripts": {
