@@ -20,7 +20,7 @@ server.use('/ditt-nav-arbeidsgiver', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 });
 
-server.use(('/api'), sonekrysning);
+server.use('/api', sonekrysning);
 
 server.listen(port, () => {
     console.log('Server listening on port', port);
