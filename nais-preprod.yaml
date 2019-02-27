@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:sonekryssning-konfig_39
+  image: navikt/ditt-nav-arbeidsgiver:sonekryssning-konfig_40
   team: teamtag
   port: 3000
   ingresses:
