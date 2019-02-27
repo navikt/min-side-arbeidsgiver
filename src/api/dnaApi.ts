@@ -7,7 +7,7 @@ export async function hentHello(): Promise<string> {
 }
 
 export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
-  let respons = await fetch("/ditt-nav-arbeidsgiver-api/api/organisasjoner");
+  let respons = await fetch("/api/organisasjoner");
   console.log(respons);
   let organisasjonsArray = await respons.json();
   console.log(organisasjonsArray);
