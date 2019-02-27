@@ -18,7 +18,9 @@ const Banner: FunctionComponent<Props> = props => {
 
       <Select className={"banner__organisasjoner"} label="Organisasjoner">
         {props.organisasjoner.map(organisasjon => (
-          <option value={organisasjon}>{organisasjon}</option>
+          <option key={organisasjon} value={organisasjon}>
+            {organisasjon}
+          </option>
         ))}
       </Select>
     </div>

@@ -7,8 +7,22 @@ import mann from "./forfra.svg";
 
 import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
+import { hentHello } from "../api/dnaApi";
 
-class App extends Component {
+interface State {
+  tekst: string;
+}
+
+class App extends Component<{}, State> {
+  state = {
+    tekst: ""
+  };
+
+  async componentDidMount() {
+    let tekst = await hentHello();
+    this.setState({ tekst: tekst });
+  }
+
   render() {
     return (
       <div className="forside">
@@ -36,7 +50,7 @@ class App extends Component {
             bildeurl={mann}
             notification={true}
             tittel={"Arbeidstrening"}
-            undertittel={"7 på tiltak"}
+            undertittel={this.state.tekst}
           />
         </div>
       </div>
