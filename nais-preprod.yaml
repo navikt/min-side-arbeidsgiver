@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:11
+  image: navikt/ditt-nav-arbeidsgiver:sonekryssning-konfig_28
   team: teamtag
   port: 3000
   ingresses:
@@ -19,4 +19,3 @@ spec:
     initialDelay: 20
   vault:
     enabled: true
-    
