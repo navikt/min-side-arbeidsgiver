@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 
 const server = express();
-const sonekrysning = require('"src/api/apiPathConfig.js"');
+const sonekrysning = require('./src/api/apiPathConfig.js');
 server.use('/ditt-nav-arbeidsgiver', express.static(path.join(__dirname,'build')));
 
 const port = process.env.PORT || 3000;
