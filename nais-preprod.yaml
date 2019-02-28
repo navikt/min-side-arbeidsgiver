@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:11
+  image: navikt/ditt-nav-arbeidsgiver:sonekryssning-konfig_41
   team: teamtag
   port: 3000
   ingresses:
@@ -19,3 +19,8 @@ spec:
     initialDelay: 20
   vault:
     enabled: true
+  env:
+    - name: API_GATEWAY
+      value: https://api-gw-q1.oera.no
+    - name: CA_CERTS
+      value: /etc/ssl/ca-bundle.pem
