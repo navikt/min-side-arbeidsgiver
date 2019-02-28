@@ -10,7 +10,7 @@ const proxyConfig = {
     changeOrigin: true,
     target: envProperties.API_GATEWAY,
     pathRewrite: {
-        '/ditt-nav-arbeidsgiver/api/organisasjoner': '/ditt-nav-arbeidsgiver-api/api/organisasjoner',
+        '^/ditt-nav-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
     },
     secure: true,
     xfwd: true,
