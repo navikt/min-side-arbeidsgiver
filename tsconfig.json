@@ -23,6 +23,7 @@
     "src"
   ],
   "exclude": [
-    "server.js"
+    "server.js",
+    "src/api/apiPathConfig.js"
   ]
 }
