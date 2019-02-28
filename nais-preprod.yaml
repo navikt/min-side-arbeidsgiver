@@ -24,3 +24,4 @@ spec:
       value: https://api-gw-q1.oera.no
     - name: CA_CERTS
       value: /etc/ssl/ca-bundle.pem
+
