@@ -17,10 +17,10 @@ const Banner: FunctionComponent<Props> = props => {
       <img src={companyImage} />
       <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
 
-      <Select className={"banner__organisasjoner"} label="Organisasjoner">
+      <Select className={"banner__organisasjoner"} label="">
         {props.organisasjoner.map(organisasjon => (
           <option key={organisasjon.orgNo} value={organisasjon.navn}>
-            {organisasjon.navn}
+            {organisasjon.navn + " orgnr : " + organisasjon.orgNo + "   "}
           </option>
         ))}
       </Select>

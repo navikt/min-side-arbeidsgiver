@@ -4,11 +4,14 @@ import "./App.less";
 import { Sidetittel, Undertittel } from "nav-frontend-typografi";
 
 import mann from "./forfra.svg";
+import sykeIkon from "./iconSykemeldte.svg";
+import rekrutteringsIkon from "./iconRekruttering.svg";
 
 import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
 import { hentHello, hentOrganisasjoner } from "../api/dnaApi";
 import { Organisasjon } from "../organisasjon";
+import Oppgave from "./Oppgave/Oppgave";
 
 interface State {
   tekst: string;
@@ -38,26 +41,26 @@ class App extends Component<{}, State> {
           bildeurl={"null"}
           organisasjoner={this.state.organisasjoner}
         />
-        <div className={"notifikasjonsbokser"}>
-          <Notificationboks
-            bildeurl={mann}
-            notification={true}
-            tittel={"Sykemeldte"}
-            undertittel={"6 sykemeldte"}
+        <div className={"oppgavebokser"}>
+          <Oppgave
+            className={"oppgavebokser__sykemeldte"}
+            tittel={"Dine sykemeldte"}
+            undertekst={
+              "Hold oversikten over sykemeldingene for de ansatte som du følger opp"
+            }
+            bildeurl={sykeIkon}
+            lenketekst={"Gå til dine sykemeldte"}
+            lenke={"https://www.nav.no/Forsiden"}
           />
-
-          <Notificationboks
-            bildeurl={mann}
-            notification={false}
-            tittel={"Foreldrepenger"}
-            undertittel={"3 i foreldrepermisjon"}
-          />
-
-          <Notificationboks
-            bildeurl={mann}
-            notification={true}
-            tittel={"Arbeidstrening"}
-            undertittel={this.state.tekst}
+          <Oppgave
+            className={"oppgavebokser__rekruttering"}
+            tittel={"Rekruttering"}
+            undertekst={
+              "Utlys stillinger, finn kandidater og se deres annonser."
+            }
+            bildeurl={rekrutteringsIkon}
+            lenketekst={"Gå til rekruttering"}
+            lenke={"https://www.nav.no/Forsiden"}
           />
         </div>
       </div>
