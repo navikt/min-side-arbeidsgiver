@@ -29,5 +29,3 @@ const Banner: FunctionComponent<Props> = props => {
 };
 
 export default Banner;
-
-//{organisasjon.navn + " org.nr : " + organisasjon.orgNo + "   "}
