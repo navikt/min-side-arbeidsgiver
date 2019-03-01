@@ -20,7 +20,7 @@ const Banner: FunctionComponent<Props> = props => {
       <Select className={"banner__organisasjoner"} label="">
         {props.organisasjoner.map(organisasjon => (
           <option key={organisasjon.orgNo} value={organisasjon.navn}>
-            {organisasjon.navn + " orgnr : " + organisasjon.orgNo + "   "}
+            {`${organisasjon.navn} org.nr : ${organisasjon.orgNo}  `}
           </option>
         ))}
       </Select>
@@ -29,3 +29,5 @@ const Banner: FunctionComponent<Props> = props => {
 };
 
 export default Banner;
+
+//{organisasjon.navn + " org.nr : " + organisasjon.orgNo + "   "}

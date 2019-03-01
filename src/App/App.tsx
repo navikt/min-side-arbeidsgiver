@@ -11,7 +11,7 @@ import { Panel } from "nav-frontend-paneler";
 import Banner from "./Banner/Banner";
 import { hentHello, hentOrganisasjoner } from "../api/dnaApi";
 import { Organisasjon } from "../organisasjon";
-import Oppgave from "./Oppgave/Oppgave";
+import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 
 interface State {
   tekst: string;
@@ -42,8 +42,7 @@ class App extends Component<{}, State> {
           organisasjoner={this.state.organisasjoner}
         />
         <div className={"oppgavebokser"}>
-          <Oppgave
-            className={"oppgavebokser__sykemeldte"}
+          <TjenesteBoks
             tittel={"Dine sykemeldte"}
             undertekst={
               "Hold oversikten over sykemeldingene for de ansatte som du følger opp"
@@ -52,8 +51,7 @@ class App extends Component<{}, State> {
             lenketekst={"Gå til dine sykemeldte"}
             lenke={"https://www.nav.no/Forsiden"}
           />
-          <Oppgave
-            className={"oppgavebokser__rekruttering"}
+          <TjenesteBoks
             tittel={"Rekruttering"}
             undertekst={
               "Utlys stillinger, finn kandidater og se deres annonser."

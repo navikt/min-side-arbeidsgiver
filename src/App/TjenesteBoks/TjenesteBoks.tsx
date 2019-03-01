@@ -1,11 +1,10 @@
 import React, { Component, FunctionComponent } from "react";
-import "./Oppgave.less";
+import "./TjenesteBoks.less";
 import { Undertittel, Normaltekst } from "nav-frontend-typografi";
 import { Panel } from "nav-frontend-paneler";
 import Lenke from "nav-frontend-lenker";
 
 interface Props {
-  className: string;
   tittel: string;
   bildeurl: string;
   undertekst: string;
@@ -13,7 +12,7 @@ interface Props {
   lenketekst: string;
 }
 
-const Oppgave: FunctionComponent<Props> = props => {
+const TjenesteBoks: FunctionComponent<Props> = props => {
   return (
     <Panel className={"container"} border={true}>
       <img className={"container__icon"} src={props.bildeurl} />
@@ -32,4 +31,4 @@ const Oppgave: FunctionComponent<Props> = props => {
   );
 };
 
-export default Oppgave;
+export default TjenesteBoks;
