@@ -1,32 +1,26 @@
 const path = require('path');
 const express = require('express');
-
+const BASE_PATH='/ditt-nav-arbeidsgiver';
 const server = express();
 const sonekrysning = require('./src/api/apiPathConfig.js');
 
 
-server.use('/ditt-nav-arbeidsgiver', express.static(path.join(__dirname,'build')));
+server.use(BASE_PATH, express.static(path.join(__dirname,'build')));
 
-// server.use('/ditt-nav-arbeidsgiver', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
-// });
 
 const port = process.env.PORT || 3000;
 
 server.get(
-    '/ditt-nav-arbeidsgiver/internal/isAlive',
+    `${BASE_PATH}/internal/isAlive`,
     (req, res) => res.sendStatus(200)
 );
 server.get(
-    '/ditt-nav-arbeidsgiver/internal/isReady',
+    `${BASE_PATH}/internal/isReady`,
     (req, res) => res.sendStatus(200)
 );
 
-
-
-server.use('/ditt-nav-arbeidsgiver/api', sonekrysning);
+server.use(`${BASE_PATH}/api`, sonekrysning);
 
 server.listen(port, () => {
     console.log('Server listening on port', port);
 });
-

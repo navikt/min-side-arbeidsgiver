@@ -1,4 +1,5 @@
 const proxy = require('http-proxy-middleware');
+const BASE_PATH= '/ditt-nav-arbeidsgiver';
 
 
 const envProperties = {
