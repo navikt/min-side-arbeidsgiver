@@ -8,8 +8,8 @@ jobs:
       - run:
           name: build react app
           command: |
-            npm ci
-            npm run build
+            yarn
+            yarn build
       - setup_remote_docker
       - run:
           name: Setter miljøvariable
