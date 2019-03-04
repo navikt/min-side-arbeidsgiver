@@ -1,7 +1,6 @@
-import React, { Component, FunctionComponent } from "react";
+import React, { FunctionComponent } from "react";
 import "./TjenesteBoks.less";
 import { Undertittel, Normaltekst } from "nav-frontend-typografi";
-import { Panel } from "nav-frontend-paneler";
 import Lenke from "nav-frontend-lenker";
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 
 const TjenesteBoks: FunctionComponent<Props> = props => {
   return (
-    <Panel className={"tjenesteboks"} border={true}>
+    <div className={"tjenesteboks"}>
       <img className={"tjenesteboks__icon"} src={props.bildeurl} />
       <div className={"tjenesteboks__tekstboks"}>
         <Undertittel className={"tjenesteboks__header"}>
@@ -23,11 +22,11 @@ const TjenesteBoks: FunctionComponent<Props> = props => {
         <Normaltekst className={"tjenesteboks__undertekst"}>
           {props.undertekst}
         </Normaltekst>
-        <Lenke className={"tjenesteboks__lenke"} href={props.lenke}>
+        <Lenke href={props.lenke}>
           {props.lenketekst}
         </Lenke>
       </div>
-    </Panel>
+    </div>
   );
 };
 
