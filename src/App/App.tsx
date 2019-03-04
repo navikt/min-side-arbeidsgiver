@@ -40,11 +40,11 @@ class App extends Component<{}, State> {
           bildeurl={"null"}
           organisasjoner={this.state.organisasjoner}
         />
-        <div className={"oppgavebokser"}>
+        <div className={"tjenestebokser"}>
           <TjenesteBoks
             tittel={"Dine sykemeldte"}
             undertekst={
-              "Hold oversikten over sykemeldingene for de ansatte som du følger opp"
+              "Hold oversikten over sykemeldingene for de ansatte som du følger opp."
             }
             bildeurl={sykeIkon}
             lenketekst={"Gå til dine sykemeldte"}

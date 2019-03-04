@@ -17,13 +17,13 @@ const TjenesteBoks: FunctionComponent<Props> = props => {
     <Panel className={"tjenesteboks"} border={true}>
       <img className={"tjenesteboks__icon"} src={props.bildeurl} />
       <div className={"tjenesteboks__tekstboks"}>
-        <Undertittel className={"tjenesteboks__tekstboks__header"}>
+        <Undertittel className={"tjenesteboks__header"}>
           {props.tittel}
         </Undertittel>
-        <Normaltekst className={"tjenesteboks__tekstboks__undertekst"}>
+        <Normaltekst className={"tjenesteboks__undertekst"}>
           {props.undertekst}
         </Normaltekst>
-        <Lenke className={"tjenesteboks__tekstboks__lenke"} href={props.lenke}>
+        <Lenke className={"tjenesteboks__lenke"} href={props.lenke}>
           {props.lenketekst}
         </Lenke>
       </div>
