@@ -12,8 +12,8 @@ COPY craco.config.js craco.config.js
 COPY tsconfig.json tsconfig.json
 COPY start.sh ./
 
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn build
 
 EXPOSE 3000
 ENTRYPOINT ["/bin/sh", "start.sh"]
