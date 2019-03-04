@@ -1,6 +1,6 @@
 FROM navikt/node-express:1.0.0
 
-WORKDIR /app
+WORKDIR /app/
 
 COPY src/ src/
 COPY public/ public/
