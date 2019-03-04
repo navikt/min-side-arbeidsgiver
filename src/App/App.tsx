@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Notificationboks from "./Notificationboks/Notificationboks";
 import "./App.less";
 import { Sidetittel, Undertittel } from "nav-frontend-typografi";
 
