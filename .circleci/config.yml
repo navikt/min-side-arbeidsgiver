@@ -5,16 +5,27 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
+      - restore_cache:
+          name: Hent Yarn cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
-          name: build react app
+          name: Installer avhengigheter
           command: |
-            yarn
-            yarn build
+            yarn install --frozen-lockfile
+      - save_cache:
+          name: Lagre Yarn cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Bygg produksjonsversjon av React app
+          command: yarn build
       - setup_remote_docker
       - run:
           name: Setter miljøvariabler
           command: |
-            echo 'export RELEASE_VERSION="$(git rev-list --count $CIRCLE_SHA1)"' >> $BASH_ENV
+              echo 'export RELEASE_VERSION="$(git rev-list --count $CIRCLE_SHA1)"' >> $BASH_ENV
               echo 'export BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"' >> $BASH_ENV
               echo 'export BRANCH_PREFIX=`[ $BRANCH_NAME == "master" ] && echo "" || echo $BRANCH_NAME\_`' >> $BASH_ENV
               echo 'export DOCKER_IMAGE_VERSIONED="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:$BRANCH_PREFIX$RELEASE_VERSION"' >> $BASH_ENV
