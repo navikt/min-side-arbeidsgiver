@@ -12,7 +12,7 @@ jobs:
             yarn build
       - setup_remote_docker
       - run:
-          name: Setter miljøvariable
+          name: Setter miljøvariabler
           command: |
             echo 'export RELEASE_VERSION="$(git rev-list --count $CIRCLE_SHA1)"' >> $BASH_ENV
               echo 'export BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"' >> $BASH_ENV

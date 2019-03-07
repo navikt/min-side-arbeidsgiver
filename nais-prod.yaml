@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:50
+  image: navikt/ditt-nav-arbeidsgiver:43
   team: teamtag
   port: 3000
   ingresses:
@@ -24,4 +24,3 @@ spec:
       value: https://api-gw.oera.no
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
-
