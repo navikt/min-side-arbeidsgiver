@@ -14,14 +14,7 @@ const proxyConfig = {
         '^/ditt-nav-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
     },
     secure: false,
-    xfwd: true,
-    onError: (err, req, res) => {
-        console.log(err); // tslint:disable-line no-console
-        console.log('\n\n\n'); // tslint:disable-line no-console
-        console.log(req); // tslint:disable-line no-console
-        console.log('\n\n\n'); // tslint:disable-line no-console
-        console.log(res); // tslint:disable-line no-console
-    }
+    xfwd: true
 };
 
 if (envProperties.APIGW_HEADER) {
