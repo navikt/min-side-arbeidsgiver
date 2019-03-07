@@ -1,17 +1,18 @@
-FROM navikt/node-express:1.0.0
+FROM node:alpine as builder
 
 WORKDIR /app
+RUN yarn add http-proxy-middleware
 
-COPY src/ src/
-COPY public/ public/
-COPY server.js server.js
-COPY package.json package.json
-COPY craco.config.js craco.config.js
-COPY tsconfig.json tsconfig.json
+
+FROM navikt/node-express:1.0.0
+WORKDIR /app
+
+COPY build/ build/
+COPY src/server/server.js server.js
+COPY src/server/sonekrysningConfig.js sonekrysningConfig.js
 COPY start.sh ./
-
-RUN yarn
-RUN yarn build
+COPY --from=builder /app/node_modules /app/node_modules
 
 EXPOSE 3000
 ENTRYPOINT ["/bin/sh", "start.sh"]
+

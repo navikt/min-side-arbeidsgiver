@@ -13,8 +13,8 @@ const proxyConfig = {
     pathRewrite: {
         '^/ditt-nav-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
     },
-    secure: true,
-    xfwd: true,
+    secure: false,
+    xfwd: true
 };
 
 if (envProperties.APIGW_HEADER) {
