@@ -12,7 +12,6 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 
 function redirectHvisUnauthorized(respons: Response) {
   if (respons.status === 401) {
-    window.location.href =
-      "http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver";
+    window.location.href = "/ditt-nav-arbeidsgiver/login";
   }
 }
