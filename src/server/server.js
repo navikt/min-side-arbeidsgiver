@@ -5,7 +5,7 @@ const server = express();
 const sonekrysning = require('./sonekrysningConfig.js');
 
 
-server.use(BASE_PATH, express.static(path.join(__dirname,'build')));
+server.use(BASE_PATH, express.static(path.join(__dirname,'../../build')));
 
 
 const port = process.env.PORT || 3000;
@@ -18,6 +18,12 @@ server.get(
     `${BASE_PATH}/internal/isReady`,
     (req, res) => res.sendStatus(200)
 );
+
+server.get(`${BASE_PATH}/login`, (req, res) => {
+    const loginUrl = process.env.LOGIN_URL ||
+        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver';
+    res.redirect(loginUrl);
+});
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
 
