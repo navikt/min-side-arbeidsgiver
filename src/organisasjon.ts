@@ -1,7 +1,7 @@
 export interface Organisasjon {
-  navn: string;
-  type: string;
-  orgNo: string;
-  overordnetOrgNo: string;
-  status: string;
+  Name: string;
+  Type: string;
+  OrganizationNumber: string;
+  OrganizationForm: string;
+  Status: string;
 }
