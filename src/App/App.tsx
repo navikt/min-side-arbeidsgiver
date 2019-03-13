@@ -7,6 +7,7 @@ import { basename } from "../paths";
 import Hovedside from "./Hovedside/Hovedside";
 import Banner from "./Banner/Banner";
 import { hentOrganisasjoner } from "../api/dnaApi";
+import LoginBoundary from "./LoginBoundary";
 
 interface State {
   organisasjoner: Array<Organisasjon>;
@@ -18,24 +19,24 @@ class App extends Component<{}, State> {
 
   async componentDidMount() {
     let organisasjoner = await hentOrganisasjoner();
-    console.log(organisasjoner);
     this.setState({ organisasjoner });
   }
 
   render() {
     return (
-      <div>
+      <>
         <Banner
           tittel={"Ditt nav arbeidsgiver"}
           organisasjoner={this.state.organisasjoner}
         />
-        <BrowserRouter basename={basename}>
-          <Switch>
-            <Route path="/login" exact={true} component={LoggInn} />
-            <Route path="/" exact={true} component={Hovedside} />
-          </Switch>
-        </BrowserRouter>
-      </div>
+        <LoginBoundary>
+          <BrowserRouter basename={basename}>
+            <Switch>
+              <Route path="/" exact={true} component={Hovedside} />
+            </Switch>
+          </BrowserRouter>
+        </LoginBoundary>
+      </>
     );
   }
 }
