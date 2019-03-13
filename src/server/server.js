@@ -4,9 +4,20 @@ const BASE_PATH='/ditt-nav-arbeidsgiver';
 const server = express();
 const sonekrysning = require('./sonekrysningConfig.js');
 
+const buildPath = path.join(__dirname,'../../build');
 
-server.use(BASE_PATH, express.static(path.join(__dirname,'../../build')));
 
+server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
+    const loginUrl = process.env.LOGIN_URL ||
+        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver';
+    res.redirect(loginUrl);
+});
+
+server.use(BASE_PATH, express.static(buildPath));
+
+server.use(BASE_PATH, (req, res) => {
+    res.sendFile(path.resolve(buildPath, 'index.html'));
+});
 
 const port = process.env.PORT || 3000;
 
@@ -19,11 +30,6 @@ server.get(
     (req, res) => res.sendStatus(200)
 );
 
-server.get(`${BASE_PATH}/login`, (req, res) => {
-    const loginUrl = process.env.LOGIN_URL ||
-        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver';
-    res.redirect(loginUrl);
-});
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
 
