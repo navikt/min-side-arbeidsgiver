@@ -4,6 +4,7 @@ import sykeIkon from "../iconSykemeldte.svg";
 import rekrutteringsIkon from "../iconRekruttering.svg";
 import { Organisasjon } from "../../organisasjon";
 import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
+import "./Hovedside.less";
 
 interface State {
   organisasjoner: Array<Organisasjon>;
