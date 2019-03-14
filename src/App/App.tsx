@@ -11,10 +11,20 @@ import LoginBoundary from "./LoginBoundary";
 
 interface State {
   organisasjoner: Array<Organisasjon>;
+  valgtOrganisasjon?: Organisasjon;
 }
 class App extends Component<{}, State> {
-  state = {
-    organisasjoner: []
+  state: State = {
+    organisasjoner: [],
+    valgtOrganisasjon: undefined
+  };
+
+  endreOrganisasjon = (organisasjon: string) => {
+    const valgtOrganisasjon = this.state.organisasjoner.find(
+      org => organisasjon === org.OrganizationNumber
+    );
+
+    this.setState({ valgtOrganisasjon: valgtOrganisasjon });
   };
 
   async componentDidMount() {
@@ -23,11 +33,14 @@ class App extends Component<{}, State> {
   }
 
   render() {
+    console.log(this.state.valgtOrganisasjon);
     return (
       <>
         <Banner
           tittel={"Ditt nav arbeidsgiver"}
           organisasjoner={this.state.organisasjoner}
+          endreOrganisasjon={this.endreOrganisasjon}
+          organisasjon={this.state.valgtOrganisasjon}
         />
         <LoginBoundary>
           <BrowserRouter basename={basename}>
