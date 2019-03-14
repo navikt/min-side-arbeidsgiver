@@ -5,6 +5,8 @@ import rekrutteringsIkon from "../iconRekruttering.svg";
 import { Organisasjon } from "../../organisasjon";
 import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import "./Hovedside.less";
+import AltinnBoks from "./AltinnBoks/AltinnBoks";
+import { Undertittel, Normaltekst } from "nav-frontend-typografi";
 
 interface State {
   organisasjoner: Array<Organisasjon>;
@@ -41,6 +43,19 @@ class Hovedside extends Component<{}, State> {
             lenketekst={"Gå til rekruttering"}
             lenke={"https://www.nav.no/Forsiden"}
           />
+        </div>
+        <div className={"containerSkjemaArbTlfKontakt"}>
+          <AltinnBoks> </AltinnBoks>
+          <div className={"containerArbeidsgiverTlfKomIKontakt"}>
+            <div className={"boks"}>
+              <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>
+              <Undertittel className={"tlfnr"}>{"55 55 33 36"}</Undertittel>
+              <Normaltekst>{"Kl 08.00 - 15.30 (hverdager)"}</Normaltekst>
+            </div>
+            <div className={"boks"}>
+              <Undertittel>{"Kom i kontakt med NAV"}</Undertittel>
+            </div>
+          </div>
         </div>
       </div>
     );

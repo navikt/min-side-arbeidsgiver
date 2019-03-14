@@ -35,7 +35,7 @@ class App extends Component<{}, State> {
   render() {
     console.log(this.state.valgtOrganisasjon);
     return (
-      <>
+      <div className={"Side"}>
         <Banner
           tittel={"Ditt nav arbeidsgiver"}
           organisasjoner={this.state.organisasjoner}
@@ -49,7 +49,7 @@ class App extends Component<{}, State> {
             </Switch>
           </BrowserRouter>
         </LoginBoundary>
-      </>
+      </div>
     );
   }
 }
