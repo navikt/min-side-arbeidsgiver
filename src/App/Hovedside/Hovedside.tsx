@@ -43,10 +43,8 @@ class Hovedside extends Component<{}, State> {
             lenketekst={"Gå til rekruttering"}
             lenke={"https://www.nav.no/Forsiden"}
           />
-        </div>
-        <div className={"containerSkjemaArbTlfKontakt"}>
           <AltinnBoks> </AltinnBoks>
-          <div className={"containerArbeidsgiverTlfKomIKontakt"}>
+          <div className={"containerTlfogKontakt"}>
             <div className={"boks"}>
               <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>
               <Undertittel className={"tlfnr"}>{"55 55 33 36"}</Undertittel>
