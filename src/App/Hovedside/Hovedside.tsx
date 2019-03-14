@@ -47,7 +47,9 @@ class Hovedside extends Component<{}, State> {
           <div className={"containerTlfogKontakt"}>
             <div className={"boks"}>
               <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>
-              <Undertittel className={"tlfnr"}>{"55 55 33 36"}</Undertittel>
+              <a className={"arbTlf"} href="tel:55-55-33-36">
+                55 55 33 36
+              </a>
               <Normaltekst>{"Kl 08.00 - 15.30 (hverdager)"}</Normaltekst>
             </div>
             <div className={"boks"}>
