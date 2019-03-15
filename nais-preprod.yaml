@@ -10,7 +10,7 @@ spec:
   team: teamtag
   port: 3000
   ingresses:
-    - https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver
+    - https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/
   liveness:
     path: /ditt-nav-arbeidsgiver/internal/isAlive
     initialDelay: 20
@@ -25,4 +25,4 @@ spec:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
-      value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver
+      value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/
