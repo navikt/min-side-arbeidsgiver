@@ -7,6 +7,8 @@ import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import "./Hovedside.less";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import { Undertittel, Normaltekst } from "nav-frontend-typografi";
+import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
+import KontaktOss from "./KontaktOss/KontaktOss";
 
 interface State {
   organisasjoner: Array<Organisasjon>;
@@ -43,18 +45,10 @@ class Hovedside extends Component<{}, State> {
             lenketekst={"Gå til rekruttering"}
             lenke={"https://www.nav.no/Forsiden"}
           />
-          <AltinnBoks />
+          <AltinnBoks> </AltinnBoks>
           <div className={"containerTlfogKontakt"}>
-            <div className={"boks"}>
-              <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>
-              <a className={"arbTlf"} href="tel:55-55-33-36">
-                55 55 33 36
-              </a>
-              <Normaltekst>{"Kl 08.00 - 15.30 (hverdager)"}</Normaltekst>
-            </div>
-            <div className={"boks"}>
-              <Undertittel>{"Kom i kontakt med NAV"}</Undertittel>
-            </div>
+            <ArbeidsgiverTelefon />
+            <KontaktOss />
           </div>
         </div>
       </div>

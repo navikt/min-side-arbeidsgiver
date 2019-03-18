@@ -29,7 +29,7 @@ const Banner: FunctionComponent<Props> = props => {
               key={organisasjon.OrganizationNumber}
               value={organisasjon.OrganizationNumber}
             >
-              {`${organisasjon.Name} org.nr: \n${
+              {`${organisasjon.Name} org.nr: ${
                 organisasjon.OrganizationNumber
               }`}
             </option>

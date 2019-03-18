@@ -9,30 +9,33 @@ import {
   soknadsskjemaLonnstilskudd,
   soknadTilskuddTilMentor
 } from "../../../lenker";
+import Innholdsboks from "../Innholdsboks/Innholdsboks";
 
 class AltinnBoks extends Component {
   render() {
     return (
-      <div className={"alltinnBoks"}>
-        <Undertittel>Digitale skjema på Altinn</Undertittel>
-        <Lenke href={soknadskjemaInkluderingstilskudd}>
-          {"Søk om inkluderingstilskudd"}
-        </Lenke>
-        <Lenke href={soknadsskjemaLonnstilskudd}>
-          {"Søk om lønnstilskudd"}
-        </Lenke>
-        <Lenke href={soknadTilskuddTilMentor}>
-          {"Søk om tilskudd til mentor"}
-        </Lenke>
-        <Lenke href={inntekstmelding}>{"Inntektsmelding til NAV"}</Lenke>
-        <Undertittel>Velg søknadsskjema (PDF)</Undertittel>
-        <Normaltekst>
-          Oversikt over skjemaer og søknader for arbeidsgivere
-        </Normaltekst>
-        <Lenke href={skjemaForArbeidsgivere}>
-          {"Gå til skjemaer og søknader for arbeidsgivere"}
-        </Lenke>
-      </div>
+      <Innholdsboks>
+        <div className={"alltinnBoks"}>
+          <Undertittel>Digitale skjema på Altinn</Undertittel>
+          <Lenke href={soknadskjemaInkluderingstilskudd}>
+            {"Søk om inkluderingstilskudd"}
+          </Lenke>
+          <Lenke href={soknadsskjemaLonnstilskudd}>
+            {"Søk om lønnstilskudd"}
+          </Lenke>
+          <Lenke href={soknadTilskuddTilMentor}>
+            {"Søk om tilskudd til mentor"}
+          </Lenke>
+          <Lenke href={inntekstmelding}>{"Inntektsmelding til NAV"}</Lenke>
+          <Undertittel>Velg søknadsskjema (PDF)</Undertittel>
+          <Normaltekst>
+            Oversikt over skjemaer og søknader for arbeidsgivere
+          </Normaltekst>
+          <Lenke href={skjemaForArbeidsgivere}>
+            {"Gå til skjemaer og søknader for arbeidsgivere"}
+          </Lenke>
+        </div>
+      </Innholdsboks>
     );
   }
 }
