@@ -33,9 +33,8 @@ class App extends Component<{}, State> {
   }
 
   render() {
-    console.log(this.state.valgtOrganisasjon);
     return (
-      <div className={"Side"}>
+      <div className={"bakgrunnsside"}>
         <Banner
           tittel={"Ditt nav arbeidsgiver"}
           organisasjoner={this.state.organisasjoner}
