@@ -6,19 +6,7 @@ import { Organisasjon } from "../../organisasjon";
 import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import "./Hovedside.less";
 
-interface State {
-  organisasjoner: Array<Organisasjon>;
-}
-
-class Hovedside extends Component<{}, State> {
-  state = {
-    organisasjoner: []
-  };
-
-  async componentDidMount() {
-    let organisasjoner = await hentOrganisasjoner();
-    this.setState({ organisasjoner });
-  }
+class Hovedside extends Component {
   render() {
     return (
       <div className="forside">
@@ -38,8 +26,8 @@ class Hovedside extends Component<{}, State> {
               "Utlys stillinger, finn kandidater og se deres annonser."
             }
             bildeurl={rekrutteringsIkon}
-            lenketekst={"Gå til rekruttering"}
-            lenke={"https://www.nav.no/Forsiden"}
+            lenketekst={"Finn kandidater"}
+            lenke={"https://arbeidsplassen.nav.no/kandidater"}
           />
         </div>
       </div>
