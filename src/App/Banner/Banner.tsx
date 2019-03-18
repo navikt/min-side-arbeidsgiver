@@ -9,7 +9,7 @@ interface Props {
   tittel: string;
   organisasjoner: Organisasjon[];
   organisasjon?: Organisasjon;
-  endreOrganisasjon: (organisasjon: string) => void;
+  endreOrganisasjon: (orgnr: string) => void;
 }
 
 const Banner: FunctionComponent<Props> = props => {
@@ -29,7 +29,7 @@ const Banner: FunctionComponent<Props> = props => {
               key={organisasjon.OrganizationNumber}
               value={organisasjon.OrganizationNumber}
             >
-              {`${organisasjon.Name} org.nr: \n${
+              {`${organisasjon.Name} org.nr: ${
                 organisasjon.OrganizationNumber
               }`}
             </option>
