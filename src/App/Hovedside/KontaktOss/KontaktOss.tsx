@@ -9,7 +9,7 @@ import Lenkepanel from "nav-frontend-lenkepanel";
 const KontaktOss: FunctionComponent = () => {
   return (
     <Lenkepanel
-      className={"lenkepanelKontaktOss"}
+      className={"kontakt-oss"}
       href={"https://arbeidsgiver.nav.no/kontakt-oss/"}
       tittelProps={"undertittel"}
       linkCreator={(props: any) => (
@@ -18,9 +18,9 @@ const KontaktOss: FunctionComponent = () => {
         </a>
       )}
     >
-      <div className={"kontaktNAV"}>
-        <img className={"kontaktNAV__ikonKontakNAV"} src={iconKontaktNav} />
-        <Undertittel className={"kontaktNAV__tekst"}>
+      <div className={"kontakt-oss__wrapper"}>
+        <img className={"kontakt-oss__ikon"} src={iconKontaktNav} />
+        <Undertittel className={"kontakt-oss__tekst"}>
           Kom i kontakt med NAV
         </Undertittel>
       </div>
