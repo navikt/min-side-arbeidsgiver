@@ -1,11 +1,23 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .forside {
   display: flex;
   flex-direction: column;
-  background-color: #EFEFEF;
+  background-color: @navLysGra;
+  height: 45rem;
+
+  &__tlfOgKontakt {
+    display:flex;
+    justify-content: center;
+  }
+
+  &__tjenestebokser {
+    width: 56rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-self: center;
+  }
 }
 
-.tjenestebokser {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
+
