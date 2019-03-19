@@ -10,3 +10,5 @@ export const inntekstmelding =
   "https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/";
 export const skjemaForArbeidsgivere =
   "https://www.nav.no/no/bedrift/skjemaer-for-arbeidsgivere";
+export const syfoLink = "https://tjenester.nav.no/sykefravaerarbeidsgiver";
+export const pamLink = "https://arbeidsplassen.nav.no/";

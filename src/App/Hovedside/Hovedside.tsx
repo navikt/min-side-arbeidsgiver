@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from "react";
-import sykeIkon from "../iconSykemeldte.svg";
-import rekrutteringsIkon from "../iconRekruttering.svg";
+import sykeIkon from "./iconSykemeldte.svg";
+import rekrutteringsIkon from "./iconRekruttering.svg";
 import "./Hovedside.less";
 import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
+import { pamLink, syfoLink } from "../../lenker";
 
 const Hovedside: FunctionComponent = () => {
   return (
@@ -18,14 +19,14 @@ const Hovedside: FunctionComponent = () => {
           }
           bildeurl={sykeIkon}
           lenketekst={"Gå til dine sykemeldte"}
-          lenke={"https://www.nav.no/Forsiden"}
+          lenke={syfoLink}
         />
         <TjenesteBoks
           tittel={"Rekruttering"}
           undertekst={"Utlys stillinger, finn kandidater og se deres annonser."}
           bildeurl={rekrutteringsIkon}
           lenketekst={"Gå til rekruttering"}
-          lenke={"https://www.nav.no/Forsiden"}
+          lenke={pamLink}
         />
         <AltinnBoks> </AltinnBoks>
         <div className={"forside__tlfogKontakt"}>
