@@ -19,9 +19,9 @@ class App extends Component<{}, State> {
     valgtOrganisasjon: undefined
   };
 
-  endreOrganisasjon = (organisasjon: string) => {
+  endreOrganisasjon = (orgnr: string) => {
     const valgtOrganisasjon = this.state.organisasjoner.find(
-      org => organisasjon === org.OrganizationNumber
+      org => orgnr === org.OrganizationNumber
     );
 
     this.setState({ valgtOrganisasjon: valgtOrganisasjon });

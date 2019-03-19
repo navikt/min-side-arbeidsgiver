@@ -9,7 +9,7 @@ interface Props {
   tittel: string;
   organisasjoner: Organisasjon[];
   organisasjon?: Organisasjon;
-  endreOrganisasjon: (organisasjon: string) => void;
+  endreOrganisasjon: (orgnr: string) => void;
 }
 
 const Banner: FunctionComponent<Props> = props => {
