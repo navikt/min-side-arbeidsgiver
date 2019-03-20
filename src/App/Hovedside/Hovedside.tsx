@@ -1,4 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useState,
+  useContext
+} from "react";
 import sykeIkon from "./iconSykemeldte.svg";
 import rekrutteringsIkon from "./iconRekruttering.svg";
 import "./Hovedside.less";
@@ -7,8 +12,31 @@ import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import { pamLink, syfoLink } from "../../lenker";
+import { sjekkPamTilgang } from "../../api/pamApi";
+import { OrganisasjonContext } from "../../OrganisasjonProvider";
 
 const Hovedside: FunctionComponent = () => {
+  const [tilgangTilPam, setTilgangTilPam] = useState(false);
+  const { valgtOrganisasjon } = useContext(OrganisasjonContext);
+  const context = useContext(OrganisasjonContext);
+  console.log(context);
+
+  const hentPamTilgang = async () => {
+    console.log(valgtOrganisasjon);
+    if (valgtOrganisasjon) {
+      let tilgangPam = await sjekkPamTilgang(
+        valgtOrganisasjon.OrganizationNumber
+      );
+      setTilgangTilPam(tilgangPam);
+      console.log("hentPam kalt");
+    }
+  };
+
+  useEffect(() => {
+    console.log("useEffect kalt");
+    hentPamTilgang();
+  }, []);
+
   return (
     <div className="forside">
       <div className={"forside__tjenestebokser"}>
@@ -21,13 +49,17 @@ const Hovedside: FunctionComponent = () => {
           lenketekst={"Gå til dine sykemeldte"}
           lenke={syfoLink}
         />
-        <TjenesteBoks
-          tittel={"Rekruttering"}
-          undertekst={"Utlys stillinger, finn kandidater og se deres annonser."}
-          bildeurl={rekrutteringsIkon}
-          lenketekst={"Gå til rekruttering"}
-          lenke={pamLink}
-        />
+        {tilgangTilPam && (
+          <TjenesteBoks
+            tittel={"Rekruttering"}
+            undertekst={
+              "Utlys stillinger, finn kandidater og se deres annonser."
+            }
+            bildeurl={rekrutteringsIkon}
+            lenketekst={"Gå til rekruttering"}
+            lenke={pamLink}
+          />
+        )}
         <AltinnBoks> </AltinnBoks>
         <div className={"forside__tlfogKontakt"}>
           <ArbeidsgiverTelefon />

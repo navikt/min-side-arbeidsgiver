@@ -3,7 +3,6 @@ import React, { FunctionComponent, useContext } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
-import { Organisasjon } from "../../organisasjon";
 import { OrganisasjonContext } from "../../OrganisasjonProvider";
 
 interface Props {
@@ -11,18 +10,19 @@ interface Props {
 }
 
 const Banner: FunctionComponent<Props> = props => {
-  const context = useContext(OrganisasjonContext);
+  const { organisasjoner, endreOrganisasjon } = useContext(OrganisasjonContext);
+
   return (
     <div className={"banner"}>
       <img src={companyImage} />
       <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
-      {context.organisasjoner.length > 0 && (
+      {organisasjoner.length > 0 && (
         <Select
           className={"banner__organisasjoner"}
           label=""
-          onChange={event => context.endreOrganisasjon(event.target.value)}
+          onChange={event => endreOrganisasjon(event.target.value)}
         >
-          {context.organisasjoner.map(organisasjon => (
+          {organisasjoner.map(organisasjon => (
             <option
               key={organisasjon.OrganizationNumber}
               value={organisasjon.OrganizationNumber}
