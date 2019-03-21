@@ -23,7 +23,6 @@
     "src"
   ],
   "exclude": [
-    "src/server/server.js",
-    "src/server/sonekrysningConfig.js"
+    "src/server/",
   ]
 }

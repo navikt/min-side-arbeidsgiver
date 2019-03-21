@@ -1,5 +1,3 @@
-import Lenke from "./App/Hovedside/AltinnBoks/AltinnBoks";
-
 export const soknadskjemaInkluderingstilskudd =
   "https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/";
 export const soknadsskjemaLonnstilskudd =
@@ -13,5 +11,6 @@ export const skjemaForArbeidsgivere =
 export const syfoLink = "https://tjenester.nav.no/sykefravaerarbeidsgiver";
 export const pamLink = "https://arbeidsplassen.nav.no/";
 export const pamApiLink = (orgnr: string) => {
-  return `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+  //https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}
+  return `/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };

@@ -18,24 +18,18 @@ import { OrganisasjonContext } from "../../OrganisasjonProvider";
 const Hovedside: FunctionComponent = () => {
   const [tilgangTilPam, setTilgangTilPam] = useState(false);
   const { valgtOrganisasjon } = useContext(OrganisasjonContext);
-  const context = useContext(OrganisasjonContext);
-  console.log(context);
-
-  const hentPamTilgang = async () => {
-    console.log(valgtOrganisasjon);
-    if (valgtOrganisasjon) {
-      let tilgangPam = await sjekkPamTilgang(
-        valgtOrganisasjon.OrganizationNumber
-      );
-      setTilgangTilPam(tilgangPam);
-      console.log("hentPam kalt");
-    }
-  };
 
   useEffect(() => {
-    console.log("useEffect kalt");
+    const hentPamTilgang = async () => {
+      if (valgtOrganisasjon) {
+        let tilgangPam = await sjekkPamTilgang(
+          valgtOrganisasjon.OrganizationNumber
+        );
+        setTilgangTilPam(tilgangPam);
+      }
+    };
     hentPamTilgang();
-  }, []);
+  }, [valgtOrganisasjon]);
 
   return (
     <div className="forside">

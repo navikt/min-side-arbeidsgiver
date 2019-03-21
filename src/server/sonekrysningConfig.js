@@ -1,6 +1,4 @@
 const proxy = require('http-proxy-middleware');
-const BASE_PATH= '/ditt-nav-arbeidsgiver';
-
 
 const envProperties = {
     API_GATEWAY: process.env.API_GATEWAY || 'http://localhost:8080',
@@ -13,7 +11,7 @@ const proxyConfig = {
     pathRewrite: {
         '^/ditt-nav-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
     },
-    secure: false,
+    secure: true,
     xfwd: true
 };
 

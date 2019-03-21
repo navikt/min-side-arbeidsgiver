@@ -25,7 +25,6 @@ export class OrganisasjonProvider extends Component<{}, State> {
   async componentDidMount() {
     let organisasjoner = await hentOrganisasjoner();
     this.setState({ organisasjoner });
-
     if (organisasjoner[0]) {
       this.setState({ valgtOrganisasjon: organisasjoner[0] });
     }

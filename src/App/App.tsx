@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./App.less";
 import { basename } from "../paths";
 import Hovedside from "./Hovedside/Hovedside";
@@ -16,6 +16,7 @@ const App: FunctionComponent = () => {
           <BrowserRouter basename={basename}>
             <Switch>
               <Route path="/" exact={true} component={Hovedside} />
+              {/*<Redirect to={"/"} />*/}
             </Switch>
           </BrowserRouter>
         </div>
