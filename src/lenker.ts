@@ -13,7 +13,3 @@ export const pamLink = "https://arbeidsplassen.nav.no/";
 export const pamApiLink = (orgnr: string) => {
   return `/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };
-export const linkTilPamHardkodetBedrift =
-  "/pam/stillingsregistrering-api/api/arbeidsgiver/811076422";
-export const MockKallLinkTilPam =
-  "begin:/pam/stillingsregistrering-api/api/arbeidsgiver/";

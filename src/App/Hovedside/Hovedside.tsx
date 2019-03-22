@@ -12,7 +12,7 @@ import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import { pamLink, syfoLink } from "../../lenker";
-import { sjekkPamTilgang } from "../../api/pamApi";
+import { hentPamTilgang } from "../../api/pamApi";
 import { OrganisasjonContext } from "../../OrganisasjonProvider";
 
 const Hovedside: FunctionComponent = () => {
@@ -20,14 +20,14 @@ const Hovedside: FunctionComponent = () => {
   const { valgtOrganisasjon } = useContext(OrganisasjonContext);
 
   useEffect(() => {
-    const hentPamTilgang = async () => {
+    const sjekkPamTilgang = async () => {
       if (valgtOrganisasjon) {
         setTilgangTilPam(
-          await sjekkPamTilgang(valgtOrganisasjon.OrganizationNumber)
+          await hentPamTilgang(valgtOrganisasjon.OrganizationNumber)
         );
       }
     };
-    hentPamTilgang();
+    sjekkPamTilgang();
   }, [valgtOrganisasjon]);
 
   return (

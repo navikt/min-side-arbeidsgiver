@@ -1,6 +1,6 @@
 import fetchMock from "fetch-mock";
-import { linkTilPamHardkodetBedrift, MockKallLinkTilPam } from "../lenker";
 
-fetchMock.get(linkTilPamHardkodetBedrift, 200);
-
-fetchMock.get(MockKallLinkTilPam, 401).spy();
+fetchMock.get("/pam/stillingsregistrering-api/api/arbeidsgiver/811076422", 200);
+fetchMock
+  .get("begin:/pam/stillingsregistrering-api/api/arbeidsgiver/", 401)
+  .spy();
