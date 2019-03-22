@@ -1,4 +1,6 @@
 import fetchMock from "fetch-mock";
-import { pamApiLink } from "../lenker";
+import { linkTilPamHardkodetBedrift, MockKallLinkTilPam } from "../lenker";
 
-fetchMock.get(pamApiLink("*"), 401).spy();
+fetchMock.get(linkTilPamHardkodetBedrift, 200);
+
+fetchMock.get(MockKallLinkTilPam, 401).spy();

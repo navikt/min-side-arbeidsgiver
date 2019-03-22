@@ -21,11 +21,11 @@ const Hovedside: FunctionComponent = () => {
 
   useEffect(() => {
     const hentPamTilgang = async () => {
+      console.log("valgt oganisasjon: ", valgtOrganisasjon);
       if (valgtOrganisasjon) {
-        let tilgangPam = await sjekkPamTilgang(
-          valgtOrganisasjon.OrganizationNumber
+        setTilgangTilPam(
+          await sjekkPamTilgang(valgtOrganisasjon.OrganizationNumber)
         );
-        setTilgangTilPam(tilgangPam);
       }
     };
     hentPamTilgang();

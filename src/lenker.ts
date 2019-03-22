@@ -14,3 +14,7 @@ export const pamApiLink = (orgnr: string) => {
   //https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}
   return `/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };
+export const linkTilPamHardkodetBedrift =
+  "/pam/stillingsregistrering-api/api/arbeidsgiver/811076422";
+export const MockKallLinkTilPam =
+  "begin:/pam/stillingsregistrering-api/api/arbeidsgiver/";
