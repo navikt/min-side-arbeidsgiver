@@ -11,7 +11,6 @@ export const skjemaForArbeidsgivere =
 export const syfoLink = "https://tjenester.nav.no/sykefravaerarbeidsgiver";
 export const pamLink = "https://arbeidsplassen.nav.no/";
 export const pamApiLink = (orgnr: string) => {
-  //https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}
   return `/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };
 export const linkTilPamHardkodetBedrift =

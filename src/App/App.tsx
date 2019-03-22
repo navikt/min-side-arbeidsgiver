@@ -16,7 +16,7 @@ const App: FunctionComponent = () => {
           <BrowserRouter basename={basename}>
             <Switch>
               <Route path="/" exact={true} component={Hovedside} />
-              {/*<Redirect to={"/"} />*/}
+              {<Redirect to={"/"} />}
             </Switch>
           </BrowserRouter>
         </div>

@@ -21,7 +21,6 @@ const Hovedside: FunctionComponent = () => {
 
   useEffect(() => {
     const hentPamTilgang = async () => {
-      console.log("valgt oganisasjon: ", valgtOrganisasjon);
       if (valgtOrganisasjon) {
         setTilgangTilPam(
           await sjekkPamTilgang(valgtOrganisasjon.OrganizationNumber)
@@ -54,7 +53,7 @@ const Hovedside: FunctionComponent = () => {
             lenke={pamLink}
           />
         )}
-        <AltinnBoks> </AltinnBoks>
+        <AltinnBoks />
         <div className={"forside__tlfogKontakt"}>
           <ArbeidsgiverTelefon />
           <KontaktOss />
