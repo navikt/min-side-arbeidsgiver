@@ -1,30 +1,28 @@
 import { Sidetittel } from "nav-frontend-typografi";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
-import { Organisasjon } from "../../organisasjon";
+import { OrganisasjonContext } from "../../OrganisasjonProvider";
 
 interface Props {
   tittel: string;
-  organisasjoner: Organisasjon[];
-  organisasjon?: Organisasjon;
-  endreOrganisasjon: (orgnr: string) => void;
 }
 
 const Banner: FunctionComponent<Props> = props => {
+  const { organisasjoner, endreOrganisasjon } = useContext(OrganisasjonContext);
+
   return (
     <div className={"banner"}>
       <img src={companyImage} />
       <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
-
-      {props.organisasjoner.length > 0 && (
+      {organisasjoner.length > 0 && (
         <Select
           className={"banner__organisasjoner"}
           label=""
-          onChange={event => props.endreOrganisasjon(event.target.value)}
+          onChange={event => endreOrganisasjon(event.target.value)}
         >
-          {props.organisasjoner.map(organisasjon => (
+          {organisasjoner.map(organisasjon => (
             <option
               key={organisasjon.OrganizationNumber}
               value={organisasjon.OrganizationNumber}
