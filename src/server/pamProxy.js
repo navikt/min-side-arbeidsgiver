@@ -2,7 +2,6 @@ const proxy = require('http-proxy-middleware');
 
 let pamUrl;
 if (process.env.NAIS_CLUSTER_NAME === "dev-sbs"){
-    pamUrl= "https://arbeidsplassen-q.nav.no";
 } else if (process.env.NAIS_CLUSTER_NAME ==="prod-sbs"){
     pamUrl="https://arbeidsplassen.nav.no";
 }

@@ -22,16 +22,19 @@ const Banner: FunctionComponent<Props> = props => {
           label=""
           onChange={event => endreOrganisasjon(event.target.value)}
         >
-          {organisasjoner.map(organisasjon => (
-            <option
-              key={organisasjon.OrganizationNumber}
-              value={organisasjon.OrganizationNumber}
-            >
-              {`${organisasjon.Name} org.nr: ${
-                organisasjon.OrganizationNumber
-              }`}
-            </option>
-          ))}
+          {organisasjoner.map(
+            organisasjon =>
+              organisasjon.Type === "Business" && (
+                <option
+                  key={organisasjon.OrganizationNumber}
+                  value={organisasjon.OrganizationNumber}
+                >
+                  {`${organisasjon.Name} org.nr: ${
+                    organisasjon.OrganizationNumber
+                  }`}
+                </option>
+              )
+          )}
         </Select>
       )}
     </div>

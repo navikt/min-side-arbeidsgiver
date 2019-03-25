@@ -25,6 +25,7 @@ const Hovedside: FunctionComponent = () => {
         setTilgangTilPam(
           await hentPamTilgang(valgtOrganisasjon.OrganizationNumber)
         );
+        console.log(valgtOrganisasjon);
       }
     };
     sjekkPamTilgang();
