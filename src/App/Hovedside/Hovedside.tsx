@@ -53,9 +53,10 @@ const Hovedside: FunctionComponent = () => {
             lenke={pamLink}
           />
         )}
+        {!tilgangTilPam && <ArbeidsgiverTelefon />}
         <AltinnBoks />
         <div className={"forside__tlfogKontakt"}>
-          <ArbeidsgiverTelefon />
+          {tilgangTilPam && <ArbeidsgiverTelefon />}
           <KontaktOss />
         </div>
       </div>
