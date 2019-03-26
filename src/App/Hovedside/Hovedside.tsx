@@ -17,6 +17,7 @@ import { OrganisasjonContext } from "../../OrganisasjonProvider";
 
 const Hovedside: FunctionComponent = () => {
   const [tilgangTilPam, setTilgangTilPam] = useState(false);
+  const [tilgangTilSyfo, setTilgangTilSyfo] = useState(false);
   const { valgtOrganisasjon } = useContext(OrganisasjonContext);
 
   useEffect(() => {
@@ -33,31 +34,37 @@ const Hovedside: FunctionComponent = () => {
   return (
     <div className="forside">
       <div className={"forside__tjenestebokser"}>
-        <TjenesteBoks
-          tittel={"Dine sykemeldte"}
-          undertekst={
-            "Hold oversikten over sykemeldingene for de ansatte som du følger opp."
-          }
-          bildeurl={sykeIkon}
-          lenketekst={"Gå til dine sykemeldte"}
-          lenke={syfoLink}
-        />
-        {tilgangTilPam && (
-          <TjenesteBoks
-            tittel={"Rekruttering"}
-            undertekst={
-              "Utlys stillinger, finn kandidater og se deres annonser."
-            }
-            bildeurl={rekrutteringsIkon}
-            lenketekst={"Gå til rekruttering"}
-            lenke={pamLink}
-          />
-        )}
-        {!tilgangTilPam && <ArbeidsgiverTelefon />}
-        <AltinnBoks />
-        <div className={"forside__tlfogKontakt"}>
-          {tilgangTilPam && <ArbeidsgiverTelefon />}
-          <KontaktOss />
+        <div className={"forstekolonne"}>
+          {tilgangTilSyfo && (
+            <TjenesteBoks
+              tittel={"Dine sykemeldte"}
+              undertekst={
+                "Hold oversikten over sykemeldingene for de ansatte som du følger opp."
+              }
+              bildeurl={sykeIkon}
+              lenketekst={"Gå til dine sykemeldte"}
+              lenke={syfoLink}
+            />
+          )}
+          <AltinnBoks />
+        </div>
+        <div className={"andrekolonne"}>
+          {tilgangTilPam && (
+            <TjenesteBoks
+              tittel={"Rekruttering"}
+              undertekst={
+                "Utlys stillinger, finn kandidater og se deres annonser."
+              }
+              bildeurl={rekrutteringsIkon}
+              lenketekst={"Gå til rekruttering"}
+              lenke={pamLink}
+            />
+          )}
+          {!tilgangTilPam && <ArbeidsgiverTelefon />}
+          <div className={"forside__tlfogKontakt"}>
+            {tilgangTilPam && <ArbeidsgiverTelefon />}
+            <KontaktOss />
+          </div>
         </div>
       </div>
     </div>
