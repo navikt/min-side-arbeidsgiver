@@ -15,7 +15,6 @@ import rekrutteringsIkon from "./iconRekruttering.svg";
 import { pamLink, syfoLink } from "../../lenker";
 import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import sykeIkon from "./iconSykemeldte.svg";
-import Pamboks from "./TjenesteBoks/Pamboks";
 
 const Hovedside: FunctionComponent = () => {
   const [tilgangTilPam, setTilgangTilPam] = useState(false);

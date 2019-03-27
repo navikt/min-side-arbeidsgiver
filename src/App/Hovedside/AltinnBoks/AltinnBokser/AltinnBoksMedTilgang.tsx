@@ -25,7 +25,6 @@ const AltinnBoksMedTilgang: FunctionComponent = () => {
       <Lenke href={soknadTilskuddTilMentor} target={"_blank"}>
         Søk om tilskudd til mentor
       </Lenke>
-
       <Lenke href={inntekstmelding} target={"_blank"}>
         Inntektsmelding til NAV
       </Lenke>
