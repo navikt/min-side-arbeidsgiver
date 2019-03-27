@@ -12,8 +12,10 @@ export const inntekstmelding =
   "https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/";
 export const skjemaForArbeidsgivere =
   "https://www.nav.no/no/bedrift/skjemaer-for-arbeidsgivere";
-export const syfoLink = "https://tjenester.nav.no/sykefravaerarbeidsgiver";
-export const pamLink = "https://arbeidsplassen.nav.no/";
+export const syfoLink =
+  process.env.SYFO_URL || "https://tjenester-q0.nav.no/sykefravaerarbeidsgiver";
+export const pamLink =
+  process.env.PAM_URL || "https://arbeidsplassen-q.nav.no/";
 export const pamApiLink = (orgnr: string) => {
   return `/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };

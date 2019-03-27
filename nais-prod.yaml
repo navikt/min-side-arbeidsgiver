@@ -34,3 +34,7 @@ spec:
       value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/
     - name: INNTEKTSMELDING_URL
       value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/
+    - name: PAM_URL
+      value: https://arbeidsplassen.nav.no/
+    - name: SYFO_URL
+      value: https://tjenester.nav.no/sykefravaerarbeidsgiver

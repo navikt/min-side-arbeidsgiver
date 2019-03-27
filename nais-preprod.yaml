@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:90
+  image: navikt/ditt-nav-arbeidsgiver:TAG-430_135
   team: teamtag
   port: 3000
   ingresses:
@@ -34,5 +34,9 @@ spec:
       value: https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216
     - name: INNTEKTSMELDING_URL
       value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/
+    - name: PAM_URL
+      value: https://arbeidsplassen-q.nav.no/
+    - name: SYFO_URL
+      value: https://tjenester-q0.nav.no/sykefravaerarbeidsgiver
 
 
