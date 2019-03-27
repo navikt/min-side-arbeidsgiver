@@ -3,6 +3,7 @@ import "../AltinnBoks.less";
 import { Undertittel, Normaltekst } from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
 
+import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 import {
   inntekstmelding,
   skjemaForArbeidsgivere,
@@ -10,7 +11,6 @@ import {
   soknadsskjemaLonnstilskudd,
   soknadTilskuddTilMentor
 } from "../../../../lenker";
-import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 
 const AltinnBoksMedTilgang: FunctionComponent = () => {
   return (
