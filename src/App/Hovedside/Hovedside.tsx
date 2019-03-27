@@ -4,20 +4,23 @@ import React, {
   useState,
   useContext
 } from "react";
-import sykeIkon from "./iconSykemeldte.svg";
-import rekrutteringsIkon from "./iconRekruttering.svg";
+
 import "./Hovedside.less";
-import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
-import { pamLink, syfoLink } from "../../lenker";
 import { hentPamTilgang } from "../../api/pamApi";
 import { OrganisasjonContext } from "../../OrganisasjonProvider";
+import rekrutteringsIkon from "./iconRekruttering.svg";
+import { pamLink, syfoLink } from "../../lenker";
+import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
+import sykeIkon from "./iconSykemeldte.svg";
+import Pamboks from "./TjenesteBoks/Pamboks";
 
 const Hovedside: FunctionComponent = () => {
   const [tilgangTilPam, setTilgangTilPam] = useState(false);
-  const [tilgangTilSyfo, setTilgangTilSyfo] = useState(false);
+  const [tilgangTilSyfo, setTilgangTilSyfo] = useState(true);
+  const [riktigRolleAltinn, setRiktigRolleAltinn] = useState(true);
   const { valgtOrganisasjon } = useContext(OrganisasjonContext);
 
   useEffect(() => {
@@ -57,7 +60,7 @@ const Hovedside: FunctionComponent = () => {
               lenke={pamLink}
             />
           )}
-          <AltinnBoks />
+          <AltinnBoks riktigRolle={riktigRolleAltinn} />
         </div>
         <div className={"andrekolonne"}>
           {tilgangTilPam && tilgangTilSyfo && (
@@ -71,11 +74,8 @@ const Hovedside: FunctionComponent = () => {
               lenke={pamLink}
             />
           )}
-          {!tilgangTilPam && <ArbeidsgiverTelefon />}
-          <div className={"forside__tlfogKontakt"}>
-            {tilgangTilPam && <ArbeidsgiverTelefon />}
-            <KontaktOss />
-          </div>
+          <ArbeidsgiverTelefon />
+          <KontaktOss />
         </div>
       </div>
     </div>
