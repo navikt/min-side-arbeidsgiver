@@ -46,10 +46,21 @@ const Hovedside: FunctionComponent = () => {
               lenke={syfoLink}
             />
           )}
+          {!tilgangTilSyfo && tilgangTilPam && (
+            <TjenesteBoks
+              tittel={"Rekruttering"}
+              undertekst={
+                "Utlys stillinger, finn kandidater og se deres annonser."
+              }
+              bildeurl={rekrutteringsIkon}
+              lenketekst={"Gå til rekruttering"}
+              lenke={pamLink}
+            />
+          )}
           <AltinnBoks />
         </div>
         <div className={"andrekolonne"}>
-          {tilgangTilPam && (
+          {tilgangTilPam && tilgangTilSyfo && (
             <TjenesteBoks
               tittel={"Rekruttering"}
               undertekst={
