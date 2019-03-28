@@ -15,6 +15,8 @@ import rekrutteringsIkon from "./iconRekruttering.svg";
 import { pamLink, syfoLink } from "../../lenker";
 import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 import sykeIkon from "./iconSykemeldte.svg";
+import Pamboks from "./TjenesteBoks/Pamboks";
+import Syfoboks from "./TjenesteBoks/Syfoboks";
 
 const Hovedside: FunctionComponent = () => {
   const [tilgangTilPam, setTilgangTilPam] = useState(false);
@@ -37,42 +39,11 @@ const Hovedside: FunctionComponent = () => {
     <div className="forside">
       <div className={"forside__tjenestebokser"}>
         <div className={"forstekolonne"}>
-          {tilgangTilSyfo && (
-            <TjenesteBoks
-              tittel={"Dine sykemeldte"}
-              undertekst={
-                "Hold oversikten over sykemeldingene for de ansatte som du følger opp."
-              }
-              bildeurl={sykeIkon}
-              lenketekst={"Gå til dine sykemeldte"}
-              lenke={syfoLink}
-            />
-          )}
-          {!tilgangTilSyfo && tilgangTilPam && (
-            <TjenesteBoks
-              tittel={"Rekruttering"}
-              undertekst={
-                "Utlys stillinger, finn kandidater og se deres annonser."
-              }
-              bildeurl={rekrutteringsIkon}
-              lenketekst={"Gå til rekruttering"}
-              lenke={pamLink}
-            />
-          )}
+          {tilgangTilSyfo && <Syfoboks />}
           <AltinnBoks riktigRolle={riktigRolleAltinn} />
         </div>
         <div className={"andrekolonne"}>
-          {tilgangTilPam && tilgangTilSyfo && (
-            <TjenesteBoks
-              tittel={"Rekruttering"}
-              undertekst={
-                "Utlys stillinger, finn kandidater og se deres annonser."
-              }
-              bildeurl={rekrutteringsIkon}
-              lenketekst={"Gå til rekruttering"}
-              lenke={pamLink}
-            />
-          )}
+          {tilgangTilPam && <Pamboks />}
           <ArbeidsgiverTelefon />
           <KontaktOss />
         </div>
