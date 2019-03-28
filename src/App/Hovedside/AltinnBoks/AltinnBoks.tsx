@@ -9,10 +9,8 @@ interface Props {
 }
 
 const AltinnBoks: FunctionComponent<Props> = props => {
-  {
-    if (props.riktigRolle) {
-      return <AltinnBoksMedTilgang />;
-    }
+  if (props.riktigRolle) {
+    return <AltinnBoksMedTilgang />;
   }
   return <AltinnBoksUtenTilgang />;
 };
