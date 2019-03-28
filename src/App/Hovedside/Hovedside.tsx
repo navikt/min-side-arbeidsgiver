@@ -11,10 +11,6 @@ import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import { hentPamTilgang } from "../../api/pamApi";
 import { OrganisasjonContext } from "../../OrganisasjonProvider";
-import rekrutteringsIkon from "./iconRekruttering.svg";
-import { pamLink, syfoLink } from "../../lenker";
-import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
-import sykeIkon from "./iconSykemeldte.svg";
 import Pamboks from "./TjenesteBoks/Pamboks";
 import Syfoboks from "./TjenesteBoks/Syfoboks";
 
