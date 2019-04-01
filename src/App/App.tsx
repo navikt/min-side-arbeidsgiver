@@ -5,12 +5,12 @@ import { basename } from "../paths";
 import Hovedside from "./Hovedside/Hovedside";
 import Banner from "./Banner/Banner";
 import LoginBoundary from "./LoginBoundary";
-import { OrganisasjonProvider } from "../OrganisasjonProvider";
+import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 
 const App: FunctionComponent = () => {
   return (
     <LoginBoundary>
-      <OrganisasjonProvider>
+      <OrganisasjonsListeProvider>
         <div className={"bakgrunnsside"}>
           <Banner tittel={"Ditt nav arbeidsgiver"} />
           <BrowserRouter basename={basename}>
@@ -20,7 +20,7 @@ const App: FunctionComponent = () => {
             </Switch>
           </BrowserRouter>
         </div>
-      </OrganisasjonProvider>
+      </OrganisasjonsListeProvider>
     </LoginBoundary>
   );
 };

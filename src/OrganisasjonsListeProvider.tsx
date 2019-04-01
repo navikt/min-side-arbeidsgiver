@@ -13,10 +13,12 @@ interface State {
   organisasjoner: Array<Organisasjon>;
 }
 
-const OrganisasjonContext = React.createContext<Context>({} as Context);
-export { OrganisasjonContext };
+const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
+export { OrganisasjonsListeContext };
 
-export class OrganisasjonProvider extends Component<{}, State> {
+export class OrganisasjonsListeProvider extends Component<{}, State> {
+  // Denne provideren skal BARE hente og gi ut organisasjoner, IKKE ha noe å gjøre med valgt organisasjon.
+  // Burde renames.
   state: State = {
     valgtOrganisasjon: undefined,
     organisasjoner: []
@@ -29,13 +31,6 @@ export class OrganisasjonProvider extends Component<{}, State> {
       this.setState({ valgtOrganisasjon: organisasjoner[0] });
     }
   }
-
-  endreOrganisasjon = (orgnr: string) => {
-    const valgtOrganisasjon = this.state.organisasjoner.find(
-      org => orgnr === org.OrganizationNumber
-    );
-    this.setState({ valgtOrganisasjon: valgtOrganisasjon });
-  };
 
   render() {
     const context: Context = {

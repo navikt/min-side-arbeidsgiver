@@ -10,7 +10,7 @@ import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import { hentPamTilgang } from "../../api/pamApi";
-import { OrganisasjonContext } from "../../OrganisasjonProvider";
+import { OrganisasjonContext } from "../../OrganisasjonsListeProvider";
 import Pamboks from "./TjenesteBoks/Pamboks";
 import Syfoboks from "./TjenesteBoks/Syfoboks";
 

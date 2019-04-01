@@ -3,7 +3,7 @@ import React, { FunctionComponent, useContext } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
-import { OrganisasjonContext } from "../../OrganisasjonProvider";
+import { OrganisasjonContext } from "../../OrganisasjonsListeProvider";
 import { Normaltekst } from "nav-frontend-typografi";
 
 interface Props {
