@@ -10,7 +10,7 @@ class LoginBoundary extends Component<{}, State> {
 
   async componentDidMount() {
     let responsPam = await fetch(
-      "ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus"
+      "ditt-nav-arbeidsgiver/api/pam/stillingsregistrering-api/api/stillinger/numberByStatus"
     );
     console.log("responspam: ", responsPam);
 
