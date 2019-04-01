@@ -5,6 +5,8 @@ if (process.env.NAIS_CLUSTER_NAME === "dev-sbs"){
     pamUrl= "https://arbeidsplassen-q.nav.no";
 } else if (process.env.NAIS_CLUSTER_NAME ==="prod-sbs"){
     pamUrl="https://arbeidsplassen.nav.no";
+} else {
+    pamUrl = "http://localhost:8080";
 }
 else {
     pamUrl='http:/localhost:8080';
