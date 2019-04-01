@@ -17,7 +17,7 @@ const Banner: FunctionComponent<Props> = props => {
 
   return (
     <div className={"banner"}>
-      <img src={companyImage} />
+      <img src={companyImage} alt="Ikon til Banneret på forsiden" />
       <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
       {organisasjoner.length > 0 && (
         <div className={"banner__select"}>
