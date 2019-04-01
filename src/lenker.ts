@@ -17,5 +17,5 @@ export const syfoLink =
 export const pamLink =
   process.env.PAM_URL || "https://arbeidsplassen-q.nav.no/";
 export const pamApiLink = (orgnr: string) => {
-  return `/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+  return `/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };
