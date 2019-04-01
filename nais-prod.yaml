@@ -26,3 +26,15 @@ spec:
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
       value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/ditt-nav-arbeidsgiver/
+    - name: INKLUDERINGSTILSKUDD_URL
+      value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/
+    - name: LONNSTILSKUDD_URL
+      value: https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/
+    - name:  TILSKUDDMENTOR_URL
+      value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/
+    - name: INNTEKTSMELDING_URL
+      value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/
+    - name: PAM_URL
+      value: https://arbeidsplassen.nav.no/
+    - name: SYFO_URL
+      value: https://tjenester.nav.no/sykefravaerarbeidsgiver
