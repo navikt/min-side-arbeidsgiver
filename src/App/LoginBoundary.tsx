@@ -9,9 +9,6 @@ class LoginBoundary extends Component<{}, State> {
   state: State = { innlogget: false };
 
   async componentDidMount() {
-    let responsPam = await fetch(
-      "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus"
-    );
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: true });
