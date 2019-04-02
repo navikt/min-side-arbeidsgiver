@@ -1,6 +1,3 @@
-// Implementer en provider som:
-//   - eier staten "valgt organisasjon" + antall annonser fra PAM
-//   - eksponerer en funksjon velgOrganisasjon som skal sette state til gitt organisasjon, og sette inn informasjon om bedriften fra PAM.
 import React, { Component, useContext } from "react";
 import { Organisasjon } from "./organisasjon";
 import hentAntallannonser from "./hent-stillingsannonser";
