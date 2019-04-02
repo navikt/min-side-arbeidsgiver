@@ -8,9 +8,6 @@ if (process.env.NAIS_CLUSTER_NAME === "dev-sbs"){
 } else {
     pamUrl = "http://localhost:8080";
 }
-else {
-    pamUrl='http:/localhost:8080';
-}
 
 const proxyConfig = {
     changeOrigin: true,

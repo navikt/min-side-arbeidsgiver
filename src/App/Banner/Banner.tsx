@@ -17,7 +17,7 @@ const Banner: FunctionComponent<Props> = props => {
     OrganisasjonsDetaljerContext
   );
 
-  const setValgtOrganisasjonIBanner = async (orgnr: string) => {
+  const velgOrganisasjon = async (orgnr: string) => {
     const organisasjon = organisasjoner.find(
       org => orgnr === org.OrganizationNumber
     );
@@ -41,7 +41,7 @@ const Banner: FunctionComponent<Props> = props => {
           <Select
             className={"banner__organisasjoner"}
             label={""}
-            onChange={event => setValgtOrganisasjonIBanner(event.target.value)}
+            onChange={event => velgOrganisasjon(event.target.value)}
           >
             {organisasjoner.map((organisasjon, index) => (
               <option

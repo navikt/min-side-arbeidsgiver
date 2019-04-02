@@ -22,7 +22,6 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
     tilgangTilPam: false
   };
-  async componentDidMount() {}
 
   endreOrganisasjon = async (org: Organisasjon) => {
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
@@ -37,7 +36,8 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
     } else {
       this.setState({
         valgtOrganisasjon: org,
-        tilgangTilPam: false
+        tilgangTilPam: false,
+        antallAnnonser: 0
       });
     }
   };
