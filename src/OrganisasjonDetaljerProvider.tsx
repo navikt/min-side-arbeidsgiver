@@ -28,10 +28,12 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   async componentDidMount() {}
 
   endreOrganisasjon = async (org: Organisasjon) => {
+    const antall = await hentAntallannonser();
     this.setState({
       valgtOrganisasjon: org,
-      antallAnnonser: await hentAntallannonser()
+      antallAnnonser: antall
     });
+    console.log("antall annonser: ", antall);
   };
 
   render() {

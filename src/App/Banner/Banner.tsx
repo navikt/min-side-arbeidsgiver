@@ -37,10 +37,10 @@ const Banner: FunctionComponent<Props> = props => {
             label={""}
             onChange={event => setValgtOrganisasjonIBanner(event.target.value)}
           >
-            {organisasjoner.map(organisasjon => (
+            {organisasjoner.map((organisasjon, index) => (
               <option
                 className={"banner__option"}
-                key={organisasjon.OrganizationNumber}
+                key={index}
                 value={organisasjon.OrganizationNumber}
               >
                 {organisasjon.Name}
