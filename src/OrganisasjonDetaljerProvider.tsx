@@ -3,13 +3,12 @@
 //   - eksponerer en funksjon velgOrganisasjon som skal sette state til gitt organisasjon, og sette inn informasjon om bedriften fra PAM.
 import React, { Component, useContext } from "react";
 import { Organisasjon } from "./organisasjon";
-import { OrganisasjonsListeContext } from "./OrganisasjonsListeProvider";
-import { pamHentStillingsannonser } from "./lenker";
+import hentAntallannonser from "./hent-stillingsannonser";
 
 export interface Context {
   valgtOrganisasjon?: Organisasjon;
-  endreOrganisasjon: (orgnr: string) => void;
-  antallAnnonser: number;
+  endreOrganisasjon: (org: Organisasjon) => void;
+  antallAnnonser?: number;
 }
 
 interface State {
@@ -24,15 +23,15 @@ export { OrganisasjonsDetaljerContext };
 
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
-    valgtOrganisasjon: undefined,
-    antallAnnonser: 0
+    valgtOrganisasjon: undefined
   };
   async componentDidMount() {}
 
-  endreOrganisasjon = (org: Organisasjon) => {
-    this.hentAntallannonser;
-
-    this.setState({ valgtOrganisasjon: org });
+  endreOrganisasjon = async (org: Organisasjon) => {
+    this.setState({
+      valgtOrganisasjon: org,
+      antallAnnonser: await hentAntallannonser()
+    });
   };
 
   render() {

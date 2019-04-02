@@ -10,7 +10,7 @@ export interface PamStatusAnnonser {
   PUBLISERT: number;
 }
 
-const hentAntallannonser = async (): number => {
+const hentAntallannonser = async (): Promise<number> => {
   const respons = await fetch(pamHentStillingsannonser);
   if (respons.ok) {
     const responsBody: PamStatusAnnonser = await respons.json();

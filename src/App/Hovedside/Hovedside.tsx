@@ -10,15 +10,15 @@ import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import { hentPamTilgang } from "../../api/pamApi";
-import { OrganisasjonContext } from "../../OrganisasjonsListeProvider";
 import Pamboks from "./TjenesteBoks/Pamboks";
 import Syfoboks from "./TjenesteBoks/Syfoboks";
+import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 const Hovedside: FunctionComponent = () => {
   const [tilgangTilPam, setTilgangTilPam] = useState(false);
   const [tilgangTilSyfo, setTilgangTilSyfo] = useState(true);
   const [riktigRolleAltinn, setRiktigRolleAltinn] = useState(true);
-  const { valgtOrganisasjon } = useContext(OrganisasjonContext);
+  const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
   useEffect(() => {
     const sjekkPamTilgang = async () => {

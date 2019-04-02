@@ -6,20 +6,23 @@ import Hovedside from "./Hovedside/Hovedside";
 import Banner from "./Banner/Banner";
 import LoginBoundary from "./LoginBoundary";
 import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
+import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
 
 const App: FunctionComponent = () => {
   return (
     <LoginBoundary>
       <OrganisasjonsListeProvider>
-        <div className={"bakgrunnsside"}>
-          <Banner tittel={"Ditt nav arbeidsgiver"} />
-          <BrowserRouter basename={basename}>
-            <Switch>
-              <Route path="/" exact={true} component={Hovedside} />
-              {<Redirect to={"/"} />}
-            </Switch>
-          </BrowserRouter>
-        </div>
+        <OrganisasjonsDetaljerProvider>
+          <div className={"bakgrunnsside"}>
+            <Banner tittel={"Ditt nav arbeidsgiver"} />
+            <BrowserRouter basename={basename}>
+              <Switch>
+                <Route path="/" exact={true} component={Hovedside} />
+                {<Redirect to={"/"} />}
+              </Switch>
+            </BrowserRouter>
+          </div>
+        </OrganisasjonsDetaljerProvider>
       </OrganisasjonsListeProvider>
     </LoginBoundary>
   );

@@ -3,17 +3,28 @@ import React, { FunctionComponent, useContext } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
-import { OrganisasjonContext } from "../../OrganisasjonsListeProvider";
+import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { Normaltekst } from "nav-frontend-typografi";
+import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 interface Props {
   tittel: string;
 }
 
 const Banner: FunctionComponent<Props> = props => {
-  const { organisasjoner, endreOrganisasjon, valgtOrganisasjon } = useContext(
-    OrganisasjonContext
+  const { organisasjoner } = useContext(OrganisasjonsListeContext);
+  const { endreOrganisasjon, valgtOrganisasjon } = useContext(
+    OrganisasjonsDetaljerContext
   );
+
+  const setValgtOrganisasjonIBanner = async (orgnr: string) => {
+    const organisasjon = organisasjoner.find(
+      org => orgnr === org.OrganizationNumber
+    );
+    if (organisasjon) {
+      endreOrganisasjon(organisasjon);
+    }
+  };
 
   return (
     <div className={"banner"}>
@@ -24,7 +35,7 @@ const Banner: FunctionComponent<Props> = props => {
           <Select
             className={"banner__organisasjoner"}
             label={""}
-            onChange={event => endreOrganisasjon(event.target.value)}
+            onChange={event => setValgtOrganisasjonIBanner(event.target.value)}
           >
             {organisasjoner.map(organisasjon => (
               <option
