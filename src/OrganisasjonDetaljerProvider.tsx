@@ -1,17 +1,17 @@
 import React, { Component, useContext } from "react";
 import { Organisasjon } from "./organisasjon";
 import hentAntallannonser from "./hent-stillingsannonser";
-
-export interface Context {
-  valgtOrganisasjon?: Organisasjon;
-  endreOrganisasjon: (org: Organisasjon) => void;
-  antallAnnonser?: number;
-}
+import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 
 interface State {
   valgtOrganisasjon?: Organisasjon;
   antallAnnonser?: number;
+  tilgangTilPam: boolean;
 }
+
+export type Context = State & {
+  endreOrganisasjon: (org: Organisasjon) => void;
+};
 
 const OrganisasjonsDetaljerContext = React.createContext<Context>(
   {} as Context
@@ -20,17 +20,26 @@ export { OrganisasjonsDetaljerContext };
 
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
-    valgtOrganisasjon: undefined
+    tilgangTilPam: false
   };
   async componentDidMount() {}
 
   endreOrganisasjon = async (org: Organisasjon) => {
-    const antall = await hentAntallannonser();
-    this.setState({
-      valgtOrganisasjon: org,
-      antallAnnonser: antall
-    });
-    console.log("antall annonser: ", antall);
+    let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
+      org.OrganizationNumber
+    );
+    if (harPamTilgang) {
+      this.setState({
+        valgtOrganisasjon: org,
+        antallAnnonser: await hentAntallannonser(),
+        tilgangTilPam: true
+      });
+    } else {
+      this.setState({
+        valgtOrganisasjon: org,
+        tilgangTilPam: false
+      });
+    }
   };
 
   render() {
