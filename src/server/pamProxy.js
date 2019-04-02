@@ -13,7 +13,7 @@ const proxyConfig = {
     changeOrigin: true,
     target: pamUrl,
     pathRewrite: {
-        '^/ditt-nav-arbeidsgiver/pam': '/',
+        '^/ditt-nav-arbeidsgiver/pam': '',
     },
     secure: true,
     xfwd: true

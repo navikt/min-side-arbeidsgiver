@@ -19,3 +19,5 @@ export const pamLink =
 export const pamApiLink = (orgnr: string) => {
   return `/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
 };
+export const pamHentStillingsannonser =
+  "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus";

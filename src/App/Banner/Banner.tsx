@@ -1,19 +1,36 @@
 import { Sidetittel } from "nav-frontend-typografi";
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
-import { OrganisasjonContext } from "../../OrganisasjonProvider";
+import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { Normaltekst } from "nav-frontend-typografi";
+import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 interface Props {
   tittel: string;
 }
 
 const Banner: FunctionComponent<Props> = props => {
-  const { organisasjoner, endreOrganisasjon, valgtOrganisasjon } = useContext(
-    OrganisasjonContext
+  const { organisasjoner } = useContext(OrganisasjonsListeContext);
+  const { endreOrganisasjon, valgtOrganisasjon } = useContext(
+    OrganisasjonsDetaljerContext
   );
+
+  const velgOrganisasjon = async (orgnr: string) => {
+    const organisasjon = organisasjoner.find(
+      org => orgnr === org.OrganizationNumber
+    );
+    if (organisasjon) {
+      endreOrganisasjon(organisasjon);
+    }
+  };
+
+  useEffect(() => {
+    if (organisasjoner[0]) {
+      endreOrganisasjon(organisasjoner[0]);
+    }
+  }, [organisasjoner]);
 
   return (
     <div className={"banner"}>
@@ -24,12 +41,12 @@ const Banner: FunctionComponent<Props> = props => {
           <Select
             className={"banner__organisasjoner"}
             label={""}
-            onChange={event => endreOrganisasjon(event.target.value)}
+            onChange={event => velgOrganisasjon(event.target.value)}
           >
-            {organisasjoner.map(organisasjon => (
+            {organisasjoner.map((organisasjon, index) => (
               <option
                 className={"banner__option"}
-                key={organisasjon.OrganizationNumber}
+                key={index}
                 value={organisasjon.OrganizationNumber}
               >
                 {organisasjon.Name}
