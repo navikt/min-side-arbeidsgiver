@@ -1,5 +1,5 @@
 import { Sidetittel } from "nav-frontend-typografi";
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent, useContext, useEffect } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
@@ -25,6 +25,12 @@ const Banner: FunctionComponent<Props> = props => {
       endreOrganisasjon(organisasjon);
     }
   };
+
+  useEffect(() => {
+    if (organisasjoner[0]) {
+      endreOrganisasjon(organisasjoner[0]);
+    }
+  }, [organisasjoner]);
 
   return (
     <div className={"banner"}>
