@@ -1,7 +1,8 @@
 import environment from "./utils/environment";
 
 export const soknadskjemaInkluderingstilskudd = () => {
-  if (environment.MILJO === "prod-sbs") {
+  console.log("environment: ", environment.MILJO);
+  if (environment.MILJO === "preprod-sbs") {
     return "https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/";
   } else {
     return "https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212";
@@ -29,14 +30,14 @@ export const inntekstmelding =
 export const skjemaForArbeidsgivere =
   "https://www.nav.no/no/bedrift/skjemaer-for-arbeidsgivere";
 export const syfoLink = () => {
-  if (environment.MILJO === prod) {
+  if (environment.MILJO === "prod-sbs") {
     return "https://tjenester.nav.no/sykefravaerarbeidsgive";
   } else {
     return "https://tjenester-q0.nav.no/sykefravaerarbeidsgiver";
   }
 };
 export const pamLink = () => {
-  if (environment.MILJO === prod) {
+  if (environment.MILJO === "prod-sbs") {
     return "https://arbeidsplassen.nav.no/";
   } else {
     return "https://arbeidsplassen-q.nav.no/";

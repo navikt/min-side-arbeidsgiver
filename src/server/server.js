@@ -4,9 +4,11 @@ const BASE_PATH='/ditt-nav-arbeidsgiver';
 const server = express();
 const sonekrysning = require('./sonekrysningConfig.js');
 const pamProxy = require('./pamProxy.js');
+const createEnvSettingsFile = require('./envSettings.js');
 
 const buildPath = path.join(__dirname,'../../build');
 
+createEnvSettingsFile(path.resolve(`${buildPath}/static/js/settings.js`));
 
 server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     const loginUrl = process.env.LOGIN_URL ||
