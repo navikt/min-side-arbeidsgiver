@@ -7,9 +7,7 @@ const Syfoboks: FunctionComponent = () => {
   return (
     <TjenesteBoks
       tittel={"Dine sykemeldte"}
-      undertekst={
-        "Hold oversikten over sykemeldingene for de ansatte som du følger opp."
-      }
+      undertekst={""}
       bildeurl={sykeIkon}
       lenketekst={"Gå til dine sykemeldte"}
       lenke={syfoLink()}
