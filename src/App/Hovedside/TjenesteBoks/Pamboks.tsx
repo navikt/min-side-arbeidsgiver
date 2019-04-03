@@ -11,7 +11,7 @@ const Pamboks: FunctionComponent = () => {
       undertekst={"Utlys stillinger, finn kandidater og se deres annonser."}
       bildeurl={rekrutteringsIkon}
       lenketekst={"Gå til rekruttering"}
-      lenke={pamLink}
+      lenke={pamLink()}
     />
   );
 };

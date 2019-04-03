@@ -16,13 +16,13 @@ const AltinnBoksMedTilgang: FunctionComponent = () => {
   return (
     <Innholdsboks className={"altinnBoksMedTilgang"}>
       <Undertittel>Digitale skjema på Altinn</Undertittel>
-      <Lenke href={soknadskjemaInkluderingstilskudd} target={"_blank"}>
+      <Lenke href={soknadskjemaInkluderingstilskudd()} target={"_blank"}>
         Søk om inkluderingstilskudd
       </Lenke>
-      <Lenke href={soknadsskjemaLonnstilskudd} target={"_blank"}>
+      <Lenke href={soknadsskjemaLonnstilskudd()} target={"_blank"}>
         Søk om lønnstilskudd
       </Lenke>
-      <Lenke href={soknadTilskuddTilMentor} target={"_blank"}>
+      <Lenke href={soknadTilskuddTilMentor()} target={"_blank"}>
         Søk om tilskudd til mentor
       </Lenke>
       <Lenke href={inntekstmelding} target={"_blank"}>
