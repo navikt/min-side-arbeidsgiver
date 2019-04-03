@@ -26,17 +26,6 @@ spec:
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
       value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/
-    - name: INKLUDERINGSTILSKUDD_URL
-      value: https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212
-    - name: LONNSTILSKUDD_URL
-      value: https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5159
-    - name:  TILSKUDDMENTOR_URL
-      value: https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216
-    - name: INNTEKTSMELDING_URL
-      value: https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/
-    - name: PAM_URL
-      value: https://arbeidsplassen-q.nav.no/
-    - name: SYFO_URL
-      value: https://tjenester-q0.nav.no/sykefravaerarbeidsgiver
+
 
 
