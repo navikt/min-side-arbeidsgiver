@@ -2,7 +2,7 @@ import environment from "./utils/environment";
 
 export const soknadskjemaInkluderingstilskudd = () => {
   console.log("environment: ", environment.MILJO);
-  if (environment.MILJO === "preprod-sbs") {
+  if (environment.MILJO === "prod-sbs") {
     return "https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/";
   } else {
     return "https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212";
@@ -10,6 +10,7 @@ export const soknadskjemaInkluderingstilskudd = () => {
 };
 
 export const soknadsskjemaLonnstilskudd = () => {
+  console.log("envirl");
   if (environment.MILJO === "prod-sbs") {
     return "https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/";
   } else {
