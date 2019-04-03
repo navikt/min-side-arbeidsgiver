@@ -12,7 +12,7 @@ const Syfoboks: FunctionComponent = () => {
       }
       bildeurl={sykeIkon}
       lenketekst={"Gå til dine sykemeldte"}
-      lenke={syfoLink}
+      lenke={syfoLink()}
     />
   );
 };
