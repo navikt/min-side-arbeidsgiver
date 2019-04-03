@@ -30,7 +30,7 @@ export const skjemaForArbeidsgivere =
   "https://www.nav.no/no/bedrift/skjemaer-for-arbeidsgivere";
 export const syfoLink = () => {
   if (environment.MILJO === "prod-sbs") {
-    return "https://tjenester.nav.no/sykefravaerarbeidsgive";
+    return "https://tjenester.nav.no/sykefravaerarbeidsgiver";
   } else {
     return "https://tjenester-q0.nav.no/sykefravaerarbeidsgiver";
   }
