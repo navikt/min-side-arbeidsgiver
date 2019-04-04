@@ -2,9 +2,9 @@
 
 .banner {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  align-content: center;
   padding-top: 1.6rem;
+  justify-content: center;
   padding-bottom: 1.6rem;
   background-color: @navDypBlaLighten80;
   border-bottom: 4px solid @navLysBlaDarken40;
@@ -12,20 +12,63 @@
 
   &__tittel {
     margin-left: 1rem;
+  }
+
+  &__container{
 
   }
 
+  &__ikon-og-overskrift {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.8rem;
+  }
+
   &__select {
-    display:flex;
-    flex-direction: column;
-    position: absolute;
-    right: 2rem;
-    top: 1rem;
+    align-self:center;
+    max-width: 14rem;
   }
 
   &__orgnr {
     position: absolute;
-    top: 3rem;
+    top: 7.7rem;
+    margin-left: 0.2rem;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  .banner {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+    background-color: @navDypBlaLighten80;
+    border-bottom: 4px solid @navLysBlaDarken40;
+    margin-bottom: 1rem;
+
+    &__tittel {
+      margin-left: 1rem;
+
+    }
+
+    &__ikon-og-overskrift {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &__select {
+      display:flex;
+      flex-direction: column;
+      position: absolute;
+      right: 2rem;
+      top: 0rem;
+    }
+
+    &__orgnr {
+      position: absolute;
+      top: 3rem;
+    }
   }
 }
 

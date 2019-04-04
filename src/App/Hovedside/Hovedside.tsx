@@ -9,7 +9,7 @@ import Syfoboks from "./TjenesteBoks/Syfoboks";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 const Hovedside: FunctionComponent = () => {
-  const tilgangTilSyfo = true;
+  const tilgangTilSyfo = false;
   const riktigRolleAltinn = true;
   const { tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
 

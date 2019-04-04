@@ -34,32 +34,36 @@ const Banner: FunctionComponent<Props> = props => {
 
   return (
     <div className={"banner"}>
-      <img src={companyImage} alt="Ikon til Banneret på forsiden" />
-      <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
-      {organisasjoner.length > 0 && (
-        <div className={"banner__select"}>
-          <Select
-            className={"banner__organisasjoner"}
-            label={""}
-            onChange={event => velgOrganisasjon(event.target.value)}
-          >
-            {organisasjoner.map((organisasjon, index) => (
-              <option
-                className={"banner__option"}
-                key={index}
-                value={organisasjon.OrganizationNumber}
-              >
-                {organisasjon.Name}
-              </option>
-            ))}
-          </Select>
-          {valgtOrganisasjon && (
-            <Normaltekst className={"banner__orgnr"}>
-              {"Org.nr " + valgtOrganisasjon.OrganizationNumber}{" "}
-            </Normaltekst>
-          )}
+      <div className={"banner_container"}>
+        <div className={"banner__ikon-og-overskrift"}>
+          <img src={companyImage} alt="Ikon til Banneret på forsiden" />
+          <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
         </div>
-      )}
+        {organisasjoner.length > 0 && (
+          <div className={"banner__select"}>
+            <Select
+              className={"banner__organisasjoner"}
+              label={""}
+              onChange={event => velgOrganisasjon(event.target.value)}
+            >
+              {organisasjoner.map((organisasjon, index) => (
+                <option
+                  className={"banner__option"}
+                  key={index}
+                  value={organisasjon.OrganizationNumber}
+                >
+                  {organisasjon.Name}
+                </option>
+              ))}
+            </Select>
+            {valgtOrganisasjon && (
+              <Normaltekst className={"banner__orgnr"}>
+                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}{" "}
+              </Normaltekst>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
