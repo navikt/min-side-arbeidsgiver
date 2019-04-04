@@ -9,7 +9,7 @@ import Syfoboks from "./TjenesteBoks/Syfoboks";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 const Hovedside: FunctionComponent = () => {
-  const tilgangTilSyfo = true;
+  const tilgangTilSyfo = false;
   const riktigRolleAltinn = true;
   const { tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
 
@@ -18,9 +18,11 @@ const Hovedside: FunctionComponent = () => {
       <div className={"forside__tjenestebokser"}>
         {tilgangTilSyfo && <Syfoboks />}
         {tilgangTilPam && <Pamboks />}
+        <div className={"forside__tlf-kontakt"}>
+          <ArbeidsgiverTelefon />
+          <KontaktOss />
+        </div>
         <AltinnBoks riktigRolle={riktigRolleAltinn} />
-        <ArbeidsgiverTelefon />
-        <KontaktOss />
       </div>
     </div>
   );
