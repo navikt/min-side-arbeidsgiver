@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
-import { hentOrganisasjoner } from "./api/dnaApi";
+import { hentOrganisasjoner, hentSyfoTilgang } from "./api/dnaApi";
 
 export interface Context {
   organisasjoner: Array<Organisasjon>;
+  tilgangTilSyfo: boolean;
 }
 
 interface State {
   organisasjoner: Array<Organisasjon>;
+  tilgangTilSyfo: boolean;
 }
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
@@ -15,12 +17,14 @@ export { OrganisasjonsListeContext };
 
 export class OrganisasjonsListeProvider extends Component<{}, State> {
   state: State = {
-    organisasjoner: []
+    organisasjoner: [],
+    tilgangTilSyfo: false
   };
 
   async componentDidMount() {
     let organisasjoner = await hentOrganisasjoner();
-    this.setState({ organisasjoner });
+    let tilgangSyfo = await hentSyfoTilgang();
+    this.setState({ organisasjoner, tilgangTilSyfo: tilgangSyfo });
   }
 
   render() {
