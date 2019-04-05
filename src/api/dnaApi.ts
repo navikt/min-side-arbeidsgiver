@@ -12,12 +12,9 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 export async function hentSyfoTilgang(): Promise<boolean> {
   let respons = await fetch("/ditt-nav-arbeidsgover/api/narmesteleder");
   if (respons.ok) {
-    respons.json();
   }
-  var count = Object.keys(respons).length;
-  if (count > 0) {
-    return true;
-  }
+  let object = await respons.json;
+  console.log("hentsyfo kallt", object);
   return false;
 }
 
