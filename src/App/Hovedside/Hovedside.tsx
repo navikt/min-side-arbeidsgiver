@@ -16,15 +16,13 @@ const Hovedside: FunctionComponent = () => {
   return (
     <div className="forside">
       <div className={"forside__tjenestebokser"}>
-        <div className={"forstekolonne"}>
-          {tilgangTilSyfo && <Syfoboks />}
-          <AltinnBoks riktigRolle={riktigRolleAltinn} />
-        </div>
-        <div className={"andrekolonne"}>
-          {tilgangTilPam && <Pamboks />}
+        {tilgangTilSyfo && <Syfoboks />}
+        {tilgangTilPam && <Pamboks />}
+        <div className={"forside__tlf-kontakt"}>
           <ArbeidsgiverTelefon />
           <KontaktOss />
         </div>
+        <AltinnBoks riktigRolle={riktigRolleAltinn} />
       </div>
     </div>
   );

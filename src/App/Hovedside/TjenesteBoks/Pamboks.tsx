@@ -8,7 +8,7 @@ const Pamboks: FunctionComponent = () => {
   return (
     <TjenesteBoks
       tittel={"Rekruttering"}
-      undertekst={"Utlys stillinger, finn kandidater og se deres annonser."}
+      undertekst={""}
       bildeurl={rekrutteringsIkon}
       lenketekst={"Gå til rekruttering"}
       lenke={pamLink()}
