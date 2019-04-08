@@ -13,7 +13,9 @@ export interface PamStatusAnnonser {
 //TODO TAG-378: finne ut hvilke annonser som regner som "aktive"
 
 const hentAntallannonser = async (): Promise<number> => {
-  const respons = await fetch(pamHentStillingsannonser);
+  const respons = await fetch(pamHentStillingsannonser, {
+    credentials: "same-origin"
+  });
   if (respons.ok) {
     const responsBody: PamStatusAnnonser = await respons.json();
     return Object.values(responsBody).reduce((a, b) => a + b);
