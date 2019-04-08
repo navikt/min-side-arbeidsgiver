@@ -14,7 +14,8 @@ export interface PamStatusAnnonser {
 
 const hentAntallannonser = async (): Promise<number> => {
   const respons = await fetch(pamHentStillingsannonser, {
-    credentials: "same-origin"
+    method: "GET",
+    credentials: "include"
   });
   if (respons.ok) {
     const responsBody: PamStatusAnnonser = await respons.json();
