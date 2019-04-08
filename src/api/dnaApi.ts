@@ -1,4 +1,5 @@
 import { Organisasjon } from "../organisasjon";
+import { SyfoKallObjekt } from "../syfoKallObjekt";
 
 export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
@@ -12,9 +13,12 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 export async function hentSyfoTilgang(): Promise<boolean> {
   let respons = await fetch("/ditt-nav-arbeidsgover/api/narmesteleder");
   if (respons.ok) {
+    const objekt: SyfoKallObjekt = await respons.json();
+    console.log(objekt);
+    if (objekt.narmesteLedere.length) {
+      return true;
+    }
   }
-  let object = await respons.json;
-  console.log("hentsyfo kallt", object);
   return false;
 }
 

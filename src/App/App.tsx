@@ -7,22 +7,25 @@ import Banner from "./Banner/Banner";
 import LoginBoundary from "./LoginBoundary";
 import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
+import { SyfoTilgangProvider } from "../SyfoTilgangProvider";
 
 const App: FunctionComponent = () => {
   return (
     <LoginBoundary>
       <OrganisasjonsListeProvider>
-        <OrganisasjonsDetaljerProvider>
-          <div className={"bakgrunnsside"}>
-            <Banner tittel={"Ditt nav arbeidsgiver"} />
-            <BrowserRouter basename={basename}>
-              <Switch>
-                <Route path="/" exact={true} component={Hovedside} />
-                {<Redirect to={"/"} />}
-              </Switch>
-            </BrowserRouter>
-          </div>
-        </OrganisasjonsDetaljerProvider>
+        <SyfoTilgangProvider>
+          <OrganisasjonsDetaljerProvider>
+            <div className={"bakgrunnsside"}>
+              <Banner tittel={"Ditt nav arbeidsgiver"} />
+              <BrowserRouter basename={basename}>
+                <Switch>
+                  <Route path="/" exact={true} component={Hovedside} />
+                  {<Redirect to={"/"} />}
+                </Switch>
+              </BrowserRouter>
+            </div>
+          </OrganisasjonsDetaljerProvider>
+        </SyfoTilgangProvider>
       </OrganisasjonsListeProvider>
     </LoginBoundary>
   );

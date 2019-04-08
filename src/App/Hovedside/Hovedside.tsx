@@ -7,10 +7,10 @@ import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import Pamboks from "./TjenesteBoks/Pamboks";
 import Syfoboks from "./TjenesteBoks/Syfoboks";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
+import { SyfoTilgangContext } from "../../SyfoTilgangProvider";
 
 const Hovedside: FunctionComponent = () => {
-  const { tilgangTilSyfo } = useContext(OrganisasjonsListeContext);
+  const { tilgangTilSyfo } = useContext(SyfoTilgangContext);
   const riktigRolleAltinn = true;
   const { tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
 
