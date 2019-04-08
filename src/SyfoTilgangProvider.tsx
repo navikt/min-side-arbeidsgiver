@@ -18,6 +18,7 @@ export class SyfoTilgangProvider extends Component<{}, State> {
   };
 
   async componentDidMount() {
+    console.log("compdidmount i syfotilgangprovider");
     let tilgangSyfo = await hentSyfoTilgang();
     this.setState({ tilgangTilSyfo: tilgangSyfo });
   }
