@@ -16,6 +16,11 @@ server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     res.redirect(loginUrl);
 });
 
+server.use(function (request, response, next) {
+    console.log('response:', response);
+    next();
+})
+
 server.use(BASE_PATH, express.static(buildPath));
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
