@@ -4,12 +4,12 @@ import "./Hovedside.less";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
-import Pamboks from "./TjenesteBoks/Pamboks";
-import Syfoboks from "./TjenesteBoks/Syfoboks";
+import Pamboks from "./Pamboks/Pamboks";
+import Syfoboks from "./Syfoboks/Syfoboks";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 const Hovedside: FunctionComponent = () => {
-  const tilgangTilSyfo = false;
+  const tilgangTilSyfo = true;
   const riktigRolleAltinn = true;
   const { tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
 

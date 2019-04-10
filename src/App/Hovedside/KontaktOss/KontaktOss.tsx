@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Undertittel } from "nav-frontend-typografi";
-import Innholdsboks from "../Innholdsboks/Innholdsboks";
-import Chevron from "nav-frontend-chevron";
-import iconKontaktNav from "./call.svg";
+import iconKontaktNav from "./kontaktossikon.svg";
 import "./KontaktOss.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 
