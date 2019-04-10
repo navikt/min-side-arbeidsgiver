@@ -1,10 +1,13 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .arbeidsgivertelefon {
   height: 9rem;
+  margin: 1rem;
 
   &__icon {
-    width: 5rem;
-    height: 5rem;
-    margin-top: 0.7rem;
+    width: 4rem;
+    height: 4rem;
+    margin: 1rem;
   }
 
   &__innhold {
@@ -27,4 +30,13 @@
     font-weight: 600;
     margin-top: 0.7rem;
   }
+}
+
+@media (min-width: @screen-sm-min) {
+  .arbeidsgivertelefon {
+    height: 12rem;
+    width: 29rem;
+    margin:1rem;
+  }
+
 }

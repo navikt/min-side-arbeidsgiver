@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 
 import { pamLink } from "../../../lenker";
-import rekrutteringsIkon from "../iconRekruttering.svg";
+import rekrutteringsIkon from "./pamikon.svg";
 import TjenesteBoks from "./TjenesteBoks";
 interface Props {
   andrelenke?: string;
