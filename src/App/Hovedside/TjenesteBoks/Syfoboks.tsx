@@ -1,16 +1,20 @@
 import React, { FunctionComponent } from "react";
-import sykeIkon from "../iconSykemeldte.svg";
+import syfoikon from "./syfoikon.svg";
 import { syfoLink } from "../../../lenker";
 import TjenesteBoks from "./TjenesteBoks";
 
-const Syfoboks: FunctionComponent = () => {
+interface Props {
+  varseltekst?: string;
+}
+
+const Syfoboks: FunctionComponent<Props> = props => {
   return (
     <TjenesteBoks
       tittel={"Dine sykemeldte"}
-      undertekst={""}
-      bildeurl={sykeIkon}
-      lenketekst={"Gå til dine sykemeldte"}
-      lenke={syfoLink()}
+      bildeurl={syfoikon}
+      forstelenketekst={"Gå til dine sykemeldte"}
+      forstelenke={syfoLink()}
+      varseltekst={props.varseltekst}
     />
   );
 };

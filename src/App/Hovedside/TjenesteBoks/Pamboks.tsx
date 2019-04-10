@@ -3,15 +3,20 @@ import React, { FunctionComponent } from "react";
 import { pamLink } from "../../../lenker";
 import rekrutteringsIkon from "../iconRekruttering.svg";
 import TjenesteBoks from "./TjenesteBoks";
+interface Props {
+  andrelenke?: string;
+  andrelenketekst?: string;
+}
 
-const Pamboks: FunctionComponent = () => {
+const Pamboks: FunctionComponent<Props> = props => {
   return (
     <TjenesteBoks
       tittel={"Rekruttering"}
-      undertekst={""}
       bildeurl={rekrutteringsIkon}
-      lenketekst={"Gå til rekruttering"}
-      lenke={pamLink()}
+      andrelenke={props.andrelenke}
+      andrelenketekst={props.andrelenketekst}
+      forstelenketekst={"Finn kandidater"}
+      forstelenke={pamLink()}
     />
   );
 };

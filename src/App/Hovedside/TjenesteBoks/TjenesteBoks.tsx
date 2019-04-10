@@ -7,9 +7,11 @@ import Innholdsboks from "../Innholdsboks/Innholdsboks";
 interface Props {
   tittel: string;
   bildeurl: string;
-  undertekst: string;
-  lenke: string;
-  lenketekst: string;
+  forstelenke: string;
+  andrelenke?: string;
+  forstelenketekst: string;
+  andrelenketekst?: string;
+  varseltekst?: string;
 }
 
 const TjenesteBoks: FunctionComponent<Props> = props => {
@@ -20,10 +22,8 @@ const TjenesteBoks: FunctionComponent<Props> = props => {
         <Undertittel className={"tjenesteboks__header"}>
           {props.tittel}
         </Undertittel>
-        <Normaltekst className={"tjenesteboks__undertekst"}>
-          {props.undertekst}
-        </Normaltekst>
-        <Lenke href={props.lenke}>{props.lenketekst}</Lenke>
+        <Normaltekst>{props.varseltekst}</Normaltekst>
+        <Lenke href={props.forstelenke}>{props.forstelenketekst}</Lenke>
       </div>
     </Innholdsboks>
   );
