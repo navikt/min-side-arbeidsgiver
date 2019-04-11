@@ -7,11 +7,11 @@ fetchMock.get(
 fetchMock.get(
   "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus",
   {
-    TIL_GODKJENNING: 17,
-    GODKJENT: 0,
-    PAABEGYNT: 42,
+    TIL_GODKJENNING: 0,
+    GODKJENT: 8,
+    PAABEGYNT: 0,
     TIL_AVSLUTTING: 0,
-    AVSLUTTET: 5,
+    AVSLUTTET: 0,
     AVVIST: 0,
     PUBLISERT: 0
   }
