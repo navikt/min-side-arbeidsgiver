@@ -12,22 +12,15 @@ const ArbeidsgiverTelefon: FunctionComponent = () => {
       className={"arbeidsgivertelefon"}
       href={"tel:55-55-33-36"}
       tittelProps={"undertittel"}
-      linkCreator={(props: any) => (
-        <a target="_blank" {...props}>
-          {props.children}
-        </a>
-      )}
+      linkCreator={(props: any) => <a {...props}>{props.children}</a>}
     >
       <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>
       <div className={"arbeidsgivertelefon__innhold"}>
         <img className={"arbeidsgivertelefon__icon"} src={iconTlf} />
         <div className={"arbeidsgivertelefon__nrOgTidspunkt"}>
-          <Lenke
-            className={"arbeidsgivertelefon__nummer"}
-            href="tel:55-55-33-36"
-          >
+          <Undertittel className={"arbeidsgivertelefon__nummer"}>
             55 55 33 36
-          </Lenke>
+          </Undertittel>
           <Normaltekst>Kl 08.00 - 15.30 (hverdager)</Normaltekst>
         </div>
       </div>
