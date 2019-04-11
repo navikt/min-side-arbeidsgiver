@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext } from "react";
 
 import { pamRekruttering, pamStillingsannonser } from "../../../lenker";
 import pamikon from "./pamikon.svg";
@@ -6,18 +6,21 @@ import Innholdsboks from "../Innholdsboks/Innholdsboks";
 import { Undertittel, Normaltekst } from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
 import "./Pamboks.less";
+import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 
-interface Props {
-  varseltekst?: string;
-}
+const Pamboks: FunctionComponent = () => {
+  const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
 
-const Pamboks: FunctionComponent<Props> = props => {
   return (
     <Innholdsboks className={"pamboks"}>
       <img className={"pamboks__icon"} src={pamikon} />
       <div className={"pamboks__tekst"}>
         <Undertittel className={"pamboks__header"}>Rekruttering</Undertittel>
-        <Normaltekst>{props.varseltekst}</Normaltekst>
+        {antallAnnonser > 0 && (
+          <Normaltekst>
+            {antallAnnonser.toString() + " aktive stillingsannonser"}
+          </Normaltekst>
+        )}
         <Lenke href={pamStillingsannonser()}>Stillingsannonser</Lenke>
         <Lenke href={pamRekruttering()}>Finn kandidater</Lenke>
       </div>

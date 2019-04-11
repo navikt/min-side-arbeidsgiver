@@ -11,23 +11,13 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 const Hovedside: FunctionComponent = () => {
   const tilgangTilSyfo = true;
   const riktigRolleAltinn = true;
-  const { tilgangTilPam, antallAnnonser } = useContext(
-    OrganisasjonsDetaljerContext
-  );
-  const [varselTekst, setVarselTekst] = useState("");
-
-  React.useEffect(() => {
-    const varselString = antallAnnonser.toString();
-    if (antallAnnonser > 0) {
-      setVarselTekst(varselString + " aktive annonser");
-    }
-  }, [antallAnnonser]);
+  const { tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
 
   return (
     <div className="forside">
       <div className={"forside__tjenestebokser"}>
         {tilgangTilSyfo && <Syfoboks />}
-        {tilgangTilPam && <Pamboks varseltekst={varselTekst} />}
+        {tilgangTilPam && <Pamboks />}
         <ArbeidsgiverTelefon />
         <KontaktOss />
         <AltinnBoks riktigRolle={riktigRolleAltinn} />
