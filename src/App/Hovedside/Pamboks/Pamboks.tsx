@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 
 import { pamRekruttering, pamStillingsannonser } from "../../../lenker";
 import pamikon from "./pamikon.svg";
@@ -10,6 +15,15 @@ import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvi
 
 const Pamboks: FunctionComponent = () => {
   const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
+  const [stillingsAnnonseTekst, setStillingsAnnonseTekst] = useState(
+    "Lag ny stillingsannonse"
+  );
+
+  useEffect(() => {
+    if (antallAnnonser > 0) {
+      setStillingsAnnonseTekst("Stillingsannonser");
+    }
+  });
 
   return (
     <Innholdsboks className={"pamboks"}>
@@ -21,7 +35,7 @@ const Pamboks: FunctionComponent = () => {
             {antallAnnonser.toString() + " aktive stillingsannonser"}
           </Normaltekst>
         )}
-        <Lenke href={pamStillingsannonser()}>Stillingsannonser</Lenke>
+        <Lenke href={pamStillingsannonser()}>{stillingsAnnonseTekst}</Lenke>
         <Lenke href={pamRekruttering()}>Finn kandidater</Lenke>
       </div>
     </Innholdsboks>
