@@ -10,6 +10,7 @@ if (process.env.REACT_APP_MOCK) {
   console.log("===DETTE SKAL DU IKKE SE I PRODUKSJON===");
   console.log("========================================");
   require("./mock/pamMock");
+  require("./mock/syfoMock");
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

@@ -65,3 +65,6 @@ export const pamHentStillingsannonserLenke = () => {
     return "https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus";
   }
 };
+
+export const digiSyfoNarmesteLederLink =
+  "/ditt-nav-arbeidsgiver/api/narmesteleder";
