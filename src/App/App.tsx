@@ -14,17 +14,15 @@ const App: FunctionComponent = () => {
     <LoginBoundary>
       <OrganisasjonsListeProvider>
         <OrganisasjonsDetaljerProvider>
-          <Normaltekst tag={"div"}>
-            <div className={"bakgrunnsside"}>
-              <Banner tittel={"Ditt nav arbeidsgiver"} />
-              <BrowserRouter basename={basename}>
-                <Switch>
-                  <Route path="/" exact={true} component={Hovedside} />
-                  {<Redirect to={"/"} />}
-                </Switch>
-              </BrowserRouter>
-            </div>
-          </Normaltekst>
+          <div className="bakgrunnsside typo-normal">
+            <Banner tittel={"Ditt nav arbeidsgiver"} />
+            <BrowserRouter basename={basename}>
+              <Switch>
+                <Route path="/" exact={true} component={Hovedside} />
+                {<Redirect to={"/"} />}
+              </Switch>
+            </BrowserRouter>
+          </div>
         </OrganisasjonsDetaljerProvider>
       </OrganisasjonsListeProvider>
     </LoginBoundary>

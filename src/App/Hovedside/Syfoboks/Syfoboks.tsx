@@ -19,7 +19,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
         <Undertittel className={"syfoboks__header"}>
           Dine sykemeldte
         </Undertittel>
-        <Normaltekst>{props.varseltekst}</Normaltekst>
+        {props.varseltekst}
         <Lenke href={syfoLink()}>Gå til dine sykemeldte</Lenke>
       </div>
     </Innholdsboks>
