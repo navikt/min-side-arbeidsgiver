@@ -18,7 +18,7 @@ export class SyfoTilgangProvider extends Component<{}, State> {
   };
 
   async componentDidMount() {
-    let tilgangSyfo = await hentSyfoTilgang();
+    const tilgangSyfo = await hentSyfoTilgang();
     this.setState({ tilgangTilSyfo: tilgangSyfo });
   }
 

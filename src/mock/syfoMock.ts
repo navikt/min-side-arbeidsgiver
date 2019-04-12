@@ -1,7 +1,8 @@
 import fetchMock from "fetch-mock";
+import { digiSyfoNarmesteLederLink } from "../lenker";
 
 fetchMock
-  .get("/ditt-nav-arbeidsgiver/api/narmesteleder", {
+  .get(digiSyfoNarmesteLederLink, {
     narmesteLedere: [
       {
         aktor: "1000029353768",
