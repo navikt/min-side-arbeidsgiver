@@ -1,28 +1,26 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.forside__tjenestebokser {
+.forside {
   display: flex;
   flex-direction: column;
+  background-color: @navLysGra;
   align-items: center;
-}
 
-@media (min-width: @screen-sm-min) {
-  .forside {
+  &__tjenestebokser {
     display: flex;
     flex-direction: column;
-    background-color: @navLysGra;
     align-items: center;
+  }
 
+}
 
-    .forside__tjenestebokser {
-      display: flex;
-      flex-direction: row;
-      width: 62rem;
-      flex-wrap: wrap;
-      align-items: flex-start
-    }
-
-
+@media (min-width: @screen-md-min) {
+  .forside__tjenestebokser {
+    display: flex;
+    flex-direction: row;
+    max-width: 62rem;
+    flex-wrap: wrap;
+    align-items: flex-start
   }
 }
 
