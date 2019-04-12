@@ -1,10 +1,14 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .arbeidsgivertelefon {
   height: 9rem;
+  margin: 1rem;
+  width: 20rem;
 
   &__icon {
     width: 5rem;
     height: 5rem;
-    margin-top: 0.7rem;
+    margin: 1rem;
   }
 
   &__innhold {
@@ -20,11 +24,15 @@
   }
 
   &__nummer {
-    color: black;
-    font-family: 'Source Sans Pro', Arial, sans-serif;
-    font-size: 1.25rem;
-    line-height: 1.5625rem;
-    font-weight: 600;
     margin-top: 0.7rem;
   }
+}
+
+@media (min-width: @screen-sm-min) {
+  .arbeidsgivertelefon {
+    height: 12rem;
+    width: 29rem;
+    margin:1rem;
+  }
+
 }

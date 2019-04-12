@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent, useContext, useState } from "react";
 
 import "./Hovedside.less";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
-import Pamboks from "./TjenesteBoks/Pamboks";
-import Syfoboks from "./TjenesteBoks/Syfoboks";
+import Pamboks from "./Pamboks/Pamboks";
+import Syfoboks from "./Syfoboks/Syfoboks";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 const Hovedside: FunctionComponent = () => {
@@ -18,10 +18,8 @@ const Hovedside: FunctionComponent = () => {
       <div className={"forside__tjenestebokser"}>
         {tilgangTilSyfo && <Syfoboks />}
         {tilgangTilPam && <Pamboks />}
-        <div className={"forside__tlf-kontakt"}>
-          <ArbeidsgiverTelefon />
-          <KontaktOss />
-        </div>
+        <ArbeidsgiverTelefon />
+        <KontaktOss />
         <AltinnBoks riktigRolle={riktigRolleAltinn} />
       </div>
     </div>
