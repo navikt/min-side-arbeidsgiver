@@ -3,7 +3,6 @@ const express = require('express');
 const BASE_PATH='/ditt-nav-arbeidsgiver';
 const server = express();
 const sonekrysning = require('./sonekrysningConfig.js');
-const pamProxy = require('./pamProxy.js');
 const createEnvSettingsFile = require('./envSettings.js');
 
 const buildPath = path.join(__dirname,'../../build');
@@ -19,7 +18,6 @@ server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
 server.use(BASE_PATH, express.static(buildPath));
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
-server.use(`${BASE_PATH}/pam`, pamProxy);
 
 server.use(BASE_PATH, (req, res) => {
     res.sendFile(path.resolve(buildPath, 'index.html'));
