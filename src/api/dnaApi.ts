@@ -12,10 +12,8 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 
 export async function hentSyfoTilgang(): Promise<boolean> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/narmesteleder");
-  console.log("kaller hent syfotilgang", respons);
   if (respons.ok) {
     const objekt: SyfoKallObjekt = await respons.json();
-    console.log(objekt);
     if (objekt.narmesteLedere.length) {
       return true;
     }
