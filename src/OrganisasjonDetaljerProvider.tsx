@@ -5,7 +5,7 @@ import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 
 interface State {
   valgtOrganisasjon?: Organisasjon;
-  antallAnnonser?: number;
+  antallAnnonser: number;
   tilgangTilPam: boolean;
 }
 
@@ -20,7 +20,8 @@ export { OrganisasjonsDetaljerContext };
 
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
-    tilgangTilPam: false
+    tilgangTilPam: false,
+    antallAnnonser: 0
   };
 
   endreOrganisasjon = async (org: Organisasjon) => {
