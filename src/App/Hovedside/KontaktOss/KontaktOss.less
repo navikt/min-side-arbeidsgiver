@@ -1,3 +1,5 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .kontakt-oss {
   width: 20rem;
   margin: 1rem;
@@ -10,9 +12,17 @@
   &__ikon {
     height: 5rem;
     width: 5rem;
+    margin: 1rem;
   }
 
   &__tekst {
     margin: 0.7rem;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  .kontakt-oss {
+    width: 29rem;
+    height: 8rem;
   }
 }

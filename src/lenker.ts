@@ -35,15 +35,33 @@ export const syfoLink = () => {
     return "https://tjenester-q0.nav.no/sykefravaerarbeidsgiver";
   }
 };
-export const pamLink = () => {
+export const pamRekruttering = () => {
   if (environment.MILJO === "prod-sbs") {
-    return "https://arbeidsplassen.nav.no/";
+    return "https://arbeidsplassen.nav.no/kandidater/";
   } else {
-    return "https://arbeidsplassen-q.nav.no/";
+    return "https://arbeidsplassen-q.nav.no/kandidater";
   }
 };
-export const pamApiLink = (orgnr: string) => {
-  return `/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+export const pamStillingsannonser = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://arbeidsplassen.nav.no/stillingsregistrering/";
+  } else {
+    return "https://arbeidsplassen-q.nav.no/stillingsregistrering/";
+  }
 };
-export const pamHentStillingsannonser =
-  "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus";
+
+export const pamSettBedriftLenke = (orgnr: string) => {
+  if (environment.MILJO === "prod-sbs") {
+    return `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+  } else {
+    return `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+  }
+};
+
+export const pamHentStillingsannonserLenke = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus";
+  } else {
+    return "https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus";
+  }
+};

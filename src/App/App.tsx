@@ -15,7 +15,7 @@ const App: FunctionComponent = () => {
       <OrganisasjonsListeProvider>
         <SyfoTilgangProvider>
           <OrganisasjonsDetaljerProvider>
-            <div className={"bakgrunnsside"}>
+            <div className="bakgrunnsside typo-normal">
               <Banner tittel={"Ditt nav arbeidsgiver"} />
               <BrowserRouter basename={basename}>
                 <Switch>

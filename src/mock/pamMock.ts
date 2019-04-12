@@ -1,21 +1,16 @@
 import fetchMock from "fetch-mock";
+import { pamSettBedriftLenke, pamHentStillingsannonserLenke } from "../lenker";
 
-fetchMock.get(
-  "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/arbeidsgiver/811076422",
-  200
-);
-fetchMock.get(
-  "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus",
-  {
-    TIL_GODKJENNING: 17,
-    GODKJENT: 0,
-    PAABEGYNT: 42,
-    TIL_AVSLUTTING: 0,
-    AVSLUTTET: 5,
-    AVVIST: 0,
-    PUBLISERT: 0
-  }
-);
+fetchMock.get(pamSettBedriftLenke("811076422"), 200);
+fetchMock.get(pamHentStillingsannonserLenke(), {
+  TIL_GODKJENNING: 17,
+  GODKJENT: 0,
+  PAABEGYNT: 42,
+  TIL_AVSLUTTING: 0,
+  AVSLUTTET: 5,
+  AVVIST: 0,
+  PUBLISERT: 0
+});
 
 fetchMock.get("/ditt-nav-arbeidsgover/api/narmesteleder", {
   narmesteLedere: [
@@ -44,9 +39,4 @@ fetchMock.get("/ditt-nav-arbeidsgover/api/narmesteleder", {
   humanResources: []
 });
 
-fetchMock
-  .get(
-    "begin:/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/arbeidsgiver/",
-    401
-  )
-  .spy();
+fetchMock.get("begin:" + pamSettBedriftLenke(""), 401).spy();
