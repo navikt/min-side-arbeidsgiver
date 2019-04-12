@@ -1,4 +1,4 @@
-import { pamHentStillingsannonser } from "./lenker";
+import { pamHentStillingsannonserLenke } from "./lenker";
 
 export interface PamStatusAnnonser {
   TIL_GODKJENNING: number;
@@ -13,7 +13,7 @@ export interface PamStatusAnnonser {
 //TODO TAG-378: finne ut hvilke annonser som regner som "aktive"
 
 const hentAntallannonser = async (): Promise<number> => {
-  const respons = await fetch(pamHentStillingsannonser, {
+  const respons = await fetch(pamHentStillingsannonserLenke(), {
     method: "GET",
     credentials: "include"
   });
