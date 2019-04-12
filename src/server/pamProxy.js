@@ -1,4 +1,4 @@
-const proxy = require('http-proxy-middleware');
+/*const proxy = require('http-proxy-middleware');
 
 let pamUrl;
 if (process.env.NAIS_CLUSTER_NAME === "dev-sbs"){
@@ -20,3 +20,4 @@ const proxyConfig = {
 };
 
 module.exports = proxy(proxyConfig);
+*/

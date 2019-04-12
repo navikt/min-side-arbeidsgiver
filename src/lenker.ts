@@ -42,8 +42,19 @@ export const pamLink = () => {
     return "https://arbeidsplassen-q.nav.no/";
   }
 };
-export const pamApiLink = (orgnr: string) => {
-  return `/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+
+export const pamSettBedriftLenke = (orgnr: string) => {
+  if (environment.MILJO === "prod-sbs") {
+    return `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+  } else {
+    return `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
+  }
 };
-export const pamHentStillingsannonser =
-  "/ditt-nav-arbeidsgiver/pam/stillingsregistrering-api/api/stillinger/numberByStatus";
+
+export const pamHentStillingsannonserLenke = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus";
+  } else {
+    return "https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus";
+  }
+};
