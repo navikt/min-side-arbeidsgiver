@@ -6,23 +6,29 @@ import KontaktOss from "./KontaktOss/KontaktOss";
 import AltinnBoks from "./AltinnBoks/AltinnBoks";
 import Pamboks from "./Pamboks/Pamboks";
 import Syfoboks from "./Syfoboks/Syfoboks";
-import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import { SyfoTilgangContext } from "../../SyfoTilgangProvider";
+import {
+  OrganisasjonsDetaljerContext,
+  TilgangPam
+} from "../../OrganisasjonDetaljerProvider";
+import { SyfoTilgangContext, TilgangSyfo } from "../../SyfoTilgangProvider";
 
 const Hovedside: FunctionComponent = () => {
-  const { tilgangTilSyfo } = useContext(SyfoTilgangContext);
+  const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
   const riktigRolleAltinn = true;
-  const { tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
+  const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
 
   return (
     <div className="forside">
-      <div className={"forside__tjenestebokser"}>
-        {tilgangTilSyfo && <Syfoboks />}
-        {tilgangTilPam && <Pamboks />}
-        <ArbeidsgiverTelefon />
-        <KontaktOss />
-        <AltinnBoks riktigRolle={riktigRolleAltinn} />
-      </div>
+      {tilgangTilPamState !== TilgangPam.LASTER &&
+        tilgangTilSyfoState !== TilgangSyfo.LASTER && (
+          <div className={"forside__tjenestebokser"}>
+            {tilgangTilSyfoState === TilgangSyfo.TILGANG && <Syfoboks />}
+            {tilgangTilPamState === TilgangPam.TILGANG && <Pamboks />}
+            <ArbeidsgiverTelefon />
+            <KontaktOss />
+            <AltinnBoks riktigRolle={riktigRolleAltinn} />
+          </div>
+        )}
     </div>
   );
 };

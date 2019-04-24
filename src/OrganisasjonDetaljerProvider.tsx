@@ -3,10 +3,16 @@ import { Organisasjon } from "./organisasjon";
 import hentAntallannonser from "./hent-stillingsannonser";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 
+export enum TilgangPam {
+  LASTER,
+  IKKE_TILGANG,
+  TILGANG
+}
+
 interface State {
   valgtOrganisasjon?: Organisasjon;
   antallAnnonser: number;
-  tilgangTilPam: boolean;
+  tilgangTilPamState: TilgangPam;
 }
 
 export type Context = State & {
@@ -20,11 +26,12 @@ export { OrganisasjonsDetaljerContext };
 
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
-    tilgangTilPam: false,
-    antallAnnonser: 0
+    antallAnnonser: 0,
+    tilgangTilPamState: TilgangPam.IKKE_TILGANG
   };
 
   endreOrganisasjon = async (org: Organisasjon) => {
+    this.setState({ tilgangTilPamState: TilgangPam.LASTER });
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
@@ -32,12 +39,12 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
       this.setState({
         valgtOrganisasjon: org,
         antallAnnonser: await hentAntallannonser(),
-        tilgangTilPam: true
+        tilgangTilPamState: TilgangPam.TILGANG
       });
     } else {
       this.setState({
         valgtOrganisasjon: org,
-        tilgangTilPam: false,
+        tilgangTilPamState: TilgangPam.IKKE_TILGANG,
         antallAnnonser: 0
       });
     }
