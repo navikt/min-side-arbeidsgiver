@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
 import hentAntallannonser from "./hent-stillingsannonser";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
+import { hentOrganisasjoner } from "./api/dnaApi";
+import { hentBedriftsInfo } from "./api/enhetsregisteretApi";
+import { EnhetsregisteretOrg } from "./enhetsregisteretOrg";
 
 export enum TilgangPam {
   LASTER,
@@ -35,6 +38,8 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
+    let bedriftinfo: EnhetsregisteretOrg = await hentBedriftsInfo();
+    console.log(bedriftinfo);
     if (harPamTilgang) {
       this.setState({
         valgtOrganisasjon: org,
