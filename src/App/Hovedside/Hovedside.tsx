@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from "react";
+import React, { FunctionComponent, useContext } from "react";
 
 import "./Hovedside.less";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
