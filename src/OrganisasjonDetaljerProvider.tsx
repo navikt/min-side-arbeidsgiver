@@ -27,7 +27,7 @@ export { OrganisasjonsDetaljerContext };
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
     antallAnnonser: 0,
-    tilgangTilPamState: TilgangPam.IKKE_TILGANG
+    tilgangTilPamState: TilgangPam.LASTER
   };
 
   endreOrganisasjon = async (org: Organisasjon) => {

@@ -20,7 +20,7 @@ export { SyfoTilgangContext };
 
 export class SyfoTilgangProvider extends Component<{}, State> {
   state: State = {
-    tilgangTilSyfoState: TilgangSyfo.IKKE_TILGANG
+    tilgangTilSyfoState: TilgangSyfo.LASTER
   };
 
   async componentDidMount() {
