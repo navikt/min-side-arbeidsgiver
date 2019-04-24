@@ -1,23 +1,40 @@
 import React, { Component } from "react";
 import LoggInn from "./LoggInn/LoggInn";
 
+export enum Innlogget {
+  LASTER,
+  IKKE_INNLOGGET,
+  INNLOGGET
+}
+
 interface State {
-  innlogget: boolean;
+  innlogget: Innlogget;
 }
 
 class LoginBoundary extends Component<{}, State> {
-  state: State = { innlogget: false };
+  state: State = {
+    innlogget: Innlogget.IKKE_INNLOGGET
+  };
 
   async componentDidMount() {
+    this.setState({ innlogget: Innlogget.LASTER });
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
-      this.setState({ innlogget: true });
+      this.setState({ innlogget: Innlogget.INNLOGGET });
     } else if (respons.status === 401) {
-      this.setState({ innlogget: false });
+      this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
     }
   }
+
   render() {
-    return <>{this.state.innlogget ? this.props.children : <LoggInn />}</>;
+    if (this.state.innlogget === Innlogget.INNLOGGET) {
+      return <> {this.props.children} </>;
+    }
+    if (this.state.innlogget === Innlogget.IKKE_INNLOGGET) {
+      return <LoggInn />;
+    } else {
+      return null;
+    }
   }
 }
 
