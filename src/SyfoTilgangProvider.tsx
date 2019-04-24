@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { hentSyfoTilgang } from "./api/dnaApi";
 
+export enum TilgangSyfo {
+  LASTER,
+  IKKE_TILGANG,
+  TILGANG
+}
+
 export interface Context {
-  tilgangTilSyfo: boolean;
+  tilgangTilSyfoState: TilgangSyfo;
 }
 
 interface State {
-  tilgangTilSyfo: boolean;
+  tilgangTilSyfoState: TilgangSyfo;
 }
 
 const SyfoTilgangContext = React.createContext<Context>({} as Context);
@@ -14,12 +20,17 @@ export { SyfoTilgangContext };
 
 export class SyfoTilgangProvider extends Component<{}, State> {
   state: State = {
-    tilgangTilSyfo: false
+    tilgangTilSyfoState: TilgangSyfo.LASTER
   };
 
   async componentDidMount() {
+    this.setState({ tilgangTilSyfoState: TilgangSyfo.LASTER });
     const tilgangSyfo = await hentSyfoTilgang();
-    this.setState({ tilgangTilSyfo: tilgangSyfo });
+    if (tilgangSyfo) {
+      this.setState({ tilgangTilSyfoState: TilgangSyfo.TILGANG });
+    } else {
+      this.setState({ tilgangTilSyfoState: TilgangSyfo.IKKE_TILGANG });
+    }
   }
 
   render() {
