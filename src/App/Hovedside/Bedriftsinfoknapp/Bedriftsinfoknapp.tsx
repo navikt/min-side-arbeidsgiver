@@ -6,11 +6,6 @@ import { LenkepanelBase } from "nav-frontend-lenkepanel";
 import { basename } from "../../../paths";
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
-  const redirectTilBedriftsInfo = () => {
-    console.log("funksjon kalt");
-    window.location.href = "/ditt-nav-arbeidsgiver/bedriftsinformasjon";
-  };
-
   return (
     <LenkepanelBase href={basename + "/bedriftsinformasjon"}>
       <div className={"kontakt-oss__wrapper"}>

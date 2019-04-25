@@ -21,7 +21,6 @@ const App: FunctionComponent = () => {
               <BrowserRouter basename={basename}>
                 <Switch>
                   <Route path="/" exact={true} component={Hovedside} />
-                  {<Redirect to={"/"} />}
                   <Route
                     path="/bedriftsinformasjon"
                     exact={true}

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
 import hentAntallannonser from "./hent-stillingsannonser";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
-import { hentOrganisasjoner } from "./api/dnaApi";
 import { hentBedriftsInfo } from "./api/enhetsregisteretApi";
 import { EnhetsregisteretOrg } from "./enhetsregisteretOrg";
 
