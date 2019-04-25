@@ -6,21 +6,18 @@ import {
   organisasjonsform,
   postadresse
 } from "../enhetsregisteretOrg";
+import { enhetsregisteretApiLink } from "../lenker";
 
-export async function hentBedriftsInfo(): Promise<EnhetsregisteretOrg> {
-  let respons = await fetch(
-    "https://data.brreg.no/enhetsregisteret/api/enheter/889640782"
-  );
-  console.log("respons: ", respons);
-
+export async function hentBedriftsInfo(
+  orgnr: string
+): Promise<EnhetsregisteretOrg> {
+  let respons = await fetch(enhetsregisteretApiLink(orgnr));
   const enhet = await respons.json();
-
   const {
     underTvangsavviklingEllerTvangsopplosning,
     underAvvikling,
 
     ...annet
   } = enhet;
-
   return annet;
 }

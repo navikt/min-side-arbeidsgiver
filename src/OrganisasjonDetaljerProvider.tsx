@@ -38,8 +38,8 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
-    let bedriftinfo: EnhetsregisteretOrg = await hentBedriftsInfo();
-    console.log(bedriftinfo);
+    let bedriftinfo: EnhetsregisteretOrg = await hentBedriftsInfo("889640782");
+    console.log("postadresse: ", bedriftinfo.postadresse);
     if (harPamTilgang) {
       this.setState({
         valgtOrganisasjon: org,

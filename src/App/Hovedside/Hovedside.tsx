@@ -11,6 +11,7 @@ import {
   TilgangPam
 } from "../../OrganisasjonDetaljerProvider";
 import { SyfoTilgangContext, TilgangSyfo } from "../../SyfoTilgangProvider";
+import Bedriftsinfoknapp from "./Bedriftsinfoknapp/Bedriftsinfoknapp";
 
 const Hovedside: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -27,6 +28,7 @@ const Hovedside: FunctionComponent = () => {
             <ArbeidsgiverTelefon />
             <KontaktOss />
             <AltinnBoks riktigRolle={riktigRolleAltinn} />
+            <Bedriftsinfoknapp />
           </div>
         )}
     </div>
