@@ -8,6 +8,7 @@ import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { hentBedriftsInfo } from "../../api/enhetsregisteretApi";
 import { defaultOrg, EnhetsregisteretOrg } from "../../enhetsregisteretOrg";
+import "./InformasjonOmBedrift.less";
 
 const InformasjonOmBedrift: FunctionComponent = () => {
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -15,7 +16,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
   useEffect(() => {
     const getInfo = async () => {
       const bedriftinfo: EnhetsregisteretOrg = await hentBedriftsInfo(
-        "889640782"
+        "975959171"
       );
       setOrg(bedriftinfo);
     };
@@ -24,7 +25,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
 
   return (
     <div className="Informasjon-om-bedrift">
-      <Normaltekst>Helloo</Normaltekst>
+      <Normaltekst>{org.navn}</Normaltekst>
     </div>
   );
 };

@@ -40,35 +40,32 @@ export interface naeringskode3 {
 }
 
 export const defaultOrg: EnhetsregisteretOrg = {
-  organisasjonsnummer: "889640782",
-  navn: "ARBEIDS- OG VELFERDSETATEN",
+  organisasjonsnummer: "",
+  navn: "",
   organisasjonsform: {
-    kode: "ORGL",
-    beskrivelse: "Organisasjonsledd"
+    kode: "",
+    beskrivelse: ""
   },
-  hjemmeside: "www.nav.no",
+  hjemmeside: "",
   postadresse: {
-    land: "Norge",
-    landkode: "NO",
-    postnummer: "0130",
-    poststed: "OSLO",
-    adresse: ["Postboks 5 St Olavs Plass"],
-    kommune: "OSLO",
-    kommunenummer: "0301"
+    land: "",
+    landkode: "",
+    postnummer: "",
+    poststed: "",
+    adresse: [""],
+    kommune: "",
+    kommunenummer: ""
   },
   naeringskode1: {
-    beskrivelse:
-      "Offentlig administrasjon tilknyttet helsestell, sosial virksomhet, undervisning, kirke, kultur og miljøvern",
-    kode: "84.120"
+    beskrivelse: "",
+    kode: ""
   },
   naeringskode2: {
-    beskrivelse:
-      "Offentlig administrasjon tilknyttet helsestell, sosial virksomhet, undervisning, kirke, kultur og miljøvern",
-    kode: "84.120"
+    beskrivelse: "",
+    kode: ""
   },
   naeringskode3: {
-    beskrivelse:
-      "Offentlig administrasjon tilknyttet helsestell, sosial virksomhet, undervisning, kirke, kultur og miljøvern",
-    kode: "84.120"
+    beskrivelse: "",
+    kode: ""
   }
 };
