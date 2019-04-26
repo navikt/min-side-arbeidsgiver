@@ -1,19 +1,49 @@
+@import '~nav-frontend-core/less/_variabler';
 
-.Informasjon-om-bedrift{
-  width: 50rem;
-  height:40rem;
+.informasjon-om-bedrift{
   background-color: white;
   align-self: center;
   display: flex;
+  flex-direction: column;
   padding: 1rem;
+  margin: 1rem;
 
-  &__foerstekolonne {
-    display: flex;
-    flex-direction: column;
+
+  &__forstekolonne {
+    width: 20rem;
   }
+
+
+  &__andrekolonne {
+    width : 20rem;
+
+  }
+
+  &__naeringskoder {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: @screen-sm-min) {
+  .informasjon-om-bedrift {
+    background-color: white;
+    align-self: center;
+    display: flex;
+    padding: 1rem;
+
+  }&__forstekolonne {
+     display: flex;
+     flex-direction: column;
+     width: 30rem;
+   }
+
 
   &__andrekolonne {
     display: flex;
     flex-direction: column;
+    width : 30rem;
+
   }
 }
+
+

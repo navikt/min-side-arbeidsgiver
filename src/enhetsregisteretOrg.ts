@@ -6,6 +6,7 @@ export interface EnhetsregisteretOrg {
   naeringskode2: naeringskode2;
   naeringskode3: naeringskode3;
   postadresse: postadresse;
+  forretningsadresse: forretningsadresse;
   hjemmeside: string;
 }
 
@@ -15,6 +16,16 @@ export interface organisasjonsform {
 }
 
 export interface postadresse {
+  adresse: Array<string>;
+  postnummer: string;
+  poststed: string;
+  kommunenummer: string;
+  kommune: string;
+  landkode: string;
+  land: string;
+}
+
+export interface forretningsadresse {
   adresse: Array<string>;
   postnummer: string;
   poststed: string;
@@ -48,6 +59,15 @@ export const defaultOrg: EnhetsregisteretOrg = {
   },
   hjemmeside: "",
   postadresse: {
+    land: "",
+    landkode: "",
+    postnummer: "",
+    poststed: "",
+    adresse: [""],
+    kommune: "",
+    kommunenummer: ""
+  },
+  forretningsadresse: {
     land: "",
     landkode: "",
     postnummer: "",
