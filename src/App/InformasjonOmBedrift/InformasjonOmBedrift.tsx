@@ -13,6 +13,7 @@ import "./InformasjonOmBedrift.less";
 const InformasjonOmBedrift: FunctionComponent = () => {
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [org, setOrg] = useState<EnhetsregisteretOrg>(defaultOrg);
+  console.log("org.naeringskode: ", org.naeringskode3);
   useEffect(() => {
     const getInfo = async () => {
       const bedriftinfo: EnhetsregisteretOrg = await hentBedriftsInfo(
@@ -36,10 +37,23 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         <Ingress>
           {org.postadresse.postnummer + " " + org.postadresse.poststed}
         </Ingress>
-        {org.naeringskode1.beskrivelse ||
-          org.naeringskode2.beskrivelse ||
-          (org.naeringskode3.beskrivelse && <Ingress>Næringskoder </Ingress>)}
-
+        <br />
+        <Normaltekst>Næringskoder</Normaltekst>
+        {org.naeringskode1 && (
+          <Ingress>
+            {org.naeringskode1.kode + " " + org.naeringskode1.beskrivelse}
+          </Ingress>
+        )}
+        {org.naeringskode2 && (
+          <Ingress>
+            {org.naeringskode2.kode + " " + org.naeringskode2.beskrivelse}
+          </Ingress>
+        )}
+        {org.naeringskode3 && (
+          <Ingress>
+            {org.naeringskode3.kode + " " + org.naeringskode3.beskrivelse}
+          </Ingress>
+        )}
         <br />
       </div>
       <div className={"informasjon-om-bedrift__andrekolonne"} />
