@@ -35,6 +35,15 @@ export const syfoLink = () => {
     return "https://tjenester-q0.nav.no/sykefravaerarbeidsgiver";
   }
 };
+
+export const veilarbStepup = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://tjenester.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver.nav.no/ditt-nav-arbeidsgiver/";
+  } else {
+    return "https://tjenester-q1.nav.no/veilarbstepup/oidchttps://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/";
+  }
+};
+
 export const pamRekruttering = () => {
   if (environment.MILJO === "prod-sbs") {
     return "https://arbeidsplassen.nav.no/kandidater/";

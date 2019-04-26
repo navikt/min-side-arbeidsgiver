@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import LoggInn from "./LoggInn/LoggInn";
+import {veilarbStepup} from "../lenker";
 
 export enum Innlogget {
   LASTER,
@@ -21,6 +22,7 @@ class LoginBoundary extends Component<{}, State> {
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: Innlogget.INNLOGGET });
+      window.location.href= veilarbStepup();
     } else if (respons.status === 401) {
       this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
     }
