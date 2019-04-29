@@ -40,7 +40,7 @@ export const veilarbStepup = () => {
   if (environment.MILJO === "prod-sbs") {
     return "https://tjenester.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver.nav.no/ditt-nav-arbeidsgiver/";
   } else {
-    return "https://tjenester-q1.nav.no/veilarbstepup/oidchttps://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/";
+    return "https://tjenester-q1.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/";
   }
 };
 
