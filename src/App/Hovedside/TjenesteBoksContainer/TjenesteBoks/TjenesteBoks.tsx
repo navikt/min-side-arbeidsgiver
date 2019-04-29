@@ -8,9 +8,7 @@ interface Props {
 
 const TjenesteBoks: React.FunctionComponent<Props> = props => (
   <div>
-    <div className={classNames("tjenesteboks", props.className)}>
-      {props.children}
-    </div>
+    <div className={classNames("test", props.className)}>{props.children}</div>
   </div>
 );
 

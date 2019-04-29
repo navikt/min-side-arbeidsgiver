@@ -13,7 +13,6 @@ import {
 } from "../../../OrganisasjonDetaljerProvider";
 import "./TjenesteBoksContainer.less";
 import Pamboks from "../Pamboks/Pamboks";
-import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -33,28 +32,41 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    const antallTjenesteTilganger = tellAntallTilganger();
+    let antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
-      settypeAntall("partall");
+      settypeAntall("antall-partall");
     } else if (antallTjenesteTilganger === 1) {
-      settypeAntall("en");
+      settypeAntall("antall-en");
     } else {
-      settypeAntall("oddetall");
+      settypeAntall("antall-oddetall");
     }
-    settypeAntall("en");
+    settypeAntall("antall-oddetall");
   }, [TilgangSyfo, TilgangPam]);
 
   return (
-    <div className="tjenesteboks-container ">
+    <div className={"tjenesteboks-container " + typeAntall}>
       {tilgangTilPamState !== TilgangPam.LASTER &&
         tilgangTilSyfoState !== TilgangSyfo.LASTER && (
           <div className={"tjenesteboks-container " + typeAntall}>
             {tilgangTilSyfoState === TilgangSyfo.TILGANG && (
-              <Syfoboks className={"tjenesteboks"} />
+              <div className={"tjenesteboks"}>
+                <Syfoboks className={"syfobokstest"} />
+              </div>
             )}
             {tilgangTilPamState === TilgangPam.TILGANG && (
-              <Pamboks className={"tjenesteboks"} />
+              <div className={"tjenesteboks"}>
+                <Pamboks className={"hei"} />
+              </div>
             )}
+            <div className={"tjenesteboks"}>
+              <Pamboks className={"hei"} />
+            </div>
+            <div className={"tjenesteboks"}>
+              <Pamboks className={"hei"} />
+            </div>
+            <div className={"tjenesteboks"}>
+              <Pamboks className={"hei"} />
+            </div>
           </div>
         )}
     </div>

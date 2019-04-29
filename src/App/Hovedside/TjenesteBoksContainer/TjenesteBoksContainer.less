@@ -2,34 +2,35 @@
 
 .tjenesteboks-container {
     display: flex;
-    width: 62rem;
+    width: 69rem;
     flex-wrap: wrap;
 
     .tjenesteboks {
         margin: 1rem;
         padding: 1rem;
-        backround-color: white;
+        background-color: white;
+    }
 
 
-        .antall-partall {
-            .tjenesteboks {
-                max-width: 29rem;
+    &.antall-partall {
+        .tjenesteboks {
+                width: 32.5rem;
+                max-height: 10rem;
             }
         }
 
-        .antall-en {
-            .tjenesteboks {
-                display: flex;
-                flex-growm: 1;
-
-            }
-        }
-
-        .antall-oddetall {
-            .tjenesteboks {
-                max-width: 62rem;
-            }
+    &.antall-en {
+        .tjenesteboks {
+            display: flex;
+            flex-grow: 1;
         }
     }
+
+    &.antall-oddetall {
+        .tjenesteboks {
+                width: 21rem;
+        }
+    }
+
 
 }
