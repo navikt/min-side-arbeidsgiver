@@ -24,7 +24,6 @@ function getEssoToken(){
     }else{
     setEssoCookieLocally();
   }
-
 }
 
 class LoginBoundary extends Component<{}, State> {
@@ -38,14 +37,14 @@ class LoginBoundary extends Component<{}, State> {
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: Innlogget.INNLOGGET });
-
+      let veilarbStatusRespons = await hentVeilarbStatus();
+      if(!veilarbStatusRespons.erInnlogget){
+        getEssoToken()
+      }
     } else if (respons.status === 401) {
       this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
     }
-    let veilarbStatusRespons = await hentVeilarbStatus();
-    if(!veilarbStatusRespons.erInnlogget){
-      getEssoToken()
-    }
+
   }
 
   render() {
