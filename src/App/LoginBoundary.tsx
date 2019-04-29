@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import LoggInn from "./LoggInn/LoggInn";
-import {veilarbStepup} from "../lenker";
+import {veilarbStatus, veilarbStepup} from "../lenker";
 import environment from "../utils/environment";
+import hentVeilarbStatus from "../api/veilarbApi";
 
 export enum Innlogget {
   LASTER,
@@ -16,6 +17,16 @@ function setEssoCookieLocally(){
   console.log("set EssoLocally");
   document.cookie = "nav-esso=0123456789..*; path=/; domain=localhost;"
 }
+function getEssoToken(){
+  //TODO: sessionstorage item må fjernes ved utlogging
+  if (environment.MILJO){
+      console.log("no esso-cookie")
+      window.location.href = veilarbStepup();
+    }else{
+    setEssoCookieLocally();
+  }
+
+}
 
 class LoginBoundary extends Component<{}, State> {
   state: State = {
@@ -28,11 +39,9 @@ class LoginBoundary extends Component<{}, State> {
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: Innlogget.INNLOGGET });
-      if (environment.MILJO){
-        if(!document.cookie.split(';').filter((item) => item.trim().startsWith('nav-esso=')).length) {
-          window.location.href = veilarbStepup();
-        }}else{
-        setEssoCookieLocally();
+      let veilarbStatusRespons = await hentVeilarbStatus();
+      if(!veilarbStatusRespons.erInnlogget){
+        getEssoToken()
       }
     } else if (respons.status === 401) {
       this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
