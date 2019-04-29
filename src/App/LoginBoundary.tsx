@@ -22,7 +22,9 @@ class LoginBoundary extends Component<{}, State> {
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: Innlogget.INNLOGGET });
-      window.location.href= veilarbStepup();
+      if(!document.cookie.split(';').filter((item) => item.trim().startsWith('nav-esso=')).length) {
+        window.location.href = veilarbStepup();
+      }
     } else if (respons.status === 401) {
       this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
     }
