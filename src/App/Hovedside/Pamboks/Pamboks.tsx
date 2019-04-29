@@ -5,15 +5,19 @@ import React, {
   useState
 } from "react";
 
-import { pamRekruttering, pamStillingsannonser } from "../../../lenker";
 import pamikon from "./pamikon.svg";
-import Innholdsboks from "../Innholdsboks/Innholdsboks";
-import { Undertittel, Normaltekst } from "nav-frontend-typografi";
 import Lenke from "nav-frontend-lenker";
 import "./Pamboks.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
+import Innholdsboks from "../Innholdsboks/Innholdsboks";
+import { pamRekruttering, pamStillingsannonser } from "../../../lenker";
+import { Normaltekst, Undertittel } from "nav-frontend-typografi";
 
-const Pamboks: FunctionComponent = () => {
+interface Props {
+  className: string;
+}
+
+const Pamboks: FunctionComponent<Props> = props => {
   const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
   const [stillingsAnnonseTekst, setStillingsAnnonseTekst] = useState(
     "Lag ny stillingsannonse"
@@ -26,7 +30,7 @@ const Pamboks: FunctionComponent = () => {
   });
 
   return (
-    <Innholdsboks className={"pamboks"}>
+    <Innholdsboks className={"pamboks " + props.className}>
       <img className={"pamboks__icon"} src={pamikon} />
       <div className={"pamboks__tekst"}>
         <Undertittel className={"pamboks__header"}>Rekruttering</Undertittel>

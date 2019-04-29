@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
-import hentAntallannonser from "./hent-stillingsannonser";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
-import { hentBedriftsInfo } from "./api/enhetsregisteretApi";
-import { EnhetsregisteretOrg } from "./enhetsregisteretOrg";
+import hentAntallannonser from "./hent-stillingsannonser";
 
 export enum TilgangPam {
   LASTER,
@@ -21,10 +19,9 @@ export type Context = State & {
   endreOrganisasjon: (org: Organisasjon) => void;
 };
 
-const OrganisasjonsDetaljerContext = React.createContext<Context>(
+export const OrganisasjonsDetaljerContext = React.createContext<Context>(
   {} as Context
 );
-export { OrganisasjonsDetaljerContext };
 
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
