@@ -13,6 +13,8 @@ import {
 } from "../../../OrganisasjonDetaljerProvider";
 import "./TjenesteBoksContainer.less";
 import Pamboks from "../Pamboks/Pamboks";
+import pamikon from "./pamikon.svg";
+import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -58,9 +60,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 <Pamboks className={"hei"} />
               </div>
             )}
-            <div className={"tjenesteboks"}>
+            <TjenesteBoks
+              className={"tjenesteboks"}
+              ikonsrc={pamikon}
+              tittel={"rekruttering"}
+            >
               <Pamboks className={"hei"} />
-            </div>
+            </TjenesteBoks>
             <div className={"tjenesteboks"}>
               <Pamboks className={"hei"} />
             </div>

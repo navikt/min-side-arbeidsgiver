@@ -5,7 +5,7 @@ import React, {
   useState
 } from "react";
 
-import pamikon from "./pamikon.svg";
+import pamikon from "../TjenesteBoksContainer/pamikon.svg";
 import Lenke from "nav-frontend-lenker";
 import "./Pamboks.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
