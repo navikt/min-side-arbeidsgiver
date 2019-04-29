@@ -1,10 +1,10 @@
-import {veilarbStatus} from "../lenker";
 
 const path = require('path');
 const express = require('express');
 const BASE_PATH='/ditt-nav-arbeidsgiver';
 const server = express();
 const sonekrysning = require('./sonekrysningConfig.js');
+const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
 const createEnvSettingsFile = require('./envSettings.js');
 
 const buildPath = path.join(__dirname,'../../build');
@@ -20,7 +20,9 @@ server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
 server.use(BASE_PATH, express.static(buildPath));
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
-server.use(`${BASE_PATH}/veilarbstatus`,veilarbStatusProxyConfig)
+
+server.use(`${BASE_PATH}/veilarbstepup/status`,veilarbStatusProxyConfig);
+
 server.use(BASE_PATH, (req, res) => {
     res.sendFile(path.resolve(buildPath, 'index.html'));
 });

@@ -1,4 +1,4 @@
-import {veilarbStatus} from "../lenker";
+
 
 export interface VeilStatus {
     erInnlogget: boolean;
@@ -10,7 +10,7 @@ export interface VeilStatus {
 
 const hentVeilarbStatus = async (): Promise<VeilStatus> => {
     let responsBody = {} as VeilStatus;
-    const respons = await fetch("/ditt-nav-arbeidsgiver/veilarbstatus", {
+    const respons = await fetch("/ditt-nav-arbeidsgiver/veilarbstepup/status", {
         method: "GET",
         credentials: "include"
     });
