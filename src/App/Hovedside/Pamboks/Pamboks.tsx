@@ -11,7 +11,8 @@ import "./Pamboks.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import Innholdsboks from "../Innholdsboks/Innholdsboks";
 import { pamRekruttering, pamStillingsannonser } from "../../../lenker";
-import { Normaltekst, Undertittel } from "nav-frontend-typografi";
+import { Normaltekst } from "nav-frontend-typografi";
+import Undertittel from "nav-frontend-typografi/lib/undertittel";
 
 interface Props {
   className: string;
