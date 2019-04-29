@@ -10,7 +10,7 @@ export interface VeilStatus {
 
 const hentVeilarbStatus = async (): Promise<VeilStatus> => {
     let responsBody = {} as VeilStatus;
-    const respons = await fetch(veilarbStatus(), {
+    const respons = await fetch("/ditt-nav-arbeidsgiver/veilarbstatus", {
         method: "GET",
         credentials: "include"
     });
