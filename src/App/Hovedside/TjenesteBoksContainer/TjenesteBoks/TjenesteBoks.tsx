@@ -1,17 +1,17 @@
-import React, { FunctionComponent } from "react";
-import "./Tjenesteboks.less";
+import React from "react";
+import "./TjenesteBoks.less";
 import classNames from "classnames";
 
 interface Props {
   className?: string;
 }
 
-const Tjenesteboks: React.FunctionComponent<Props> = props => (
+const TjenesteBoks: React.FunctionComponent<Props> = props => (
   <div>
-    <div className={classNames("innholdsboks", props.className)}>
+    <div className={classNames("tjenesteboks", props.className)}>
       {props.children}
     </div>
   </div>
 );
 
-export default Tjenesteboks;
+export default TjenesteBoks;

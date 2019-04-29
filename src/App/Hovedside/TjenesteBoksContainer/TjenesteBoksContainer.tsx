@@ -13,6 +13,7 @@ import {
 } from "../../../OrganisasjonDetaljerProvider";
 import "./TjenesteBoksContainer.less";
 import Pamboks from "../Pamboks/Pamboks";
+import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -40,10 +41,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("oddetall");
     }
+    settypeAntall("en");
   }, [TilgangSyfo, TilgangPam]);
 
   return (
-    <div className="tjenesteboks-container abc">
+    <div className="tjenesteboks-container ">
       {tilgangTilPamState !== TilgangPam.LASTER &&
         tilgangTilSyfoState !== TilgangSyfo.LASTER && (
           <div className={"tjenesteboks-container " + typeAntall}>
