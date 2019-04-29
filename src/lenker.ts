@@ -44,13 +44,6 @@ export const veilarbStepup = () => {
     return "https://tjenester-q1.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/";
   }
 };
-export const veilarbStatus = () => {
-  if (environment.MILJO === "prod-sbs") {
-    return "https://tjenester.nav.no/veilarbstepup/status";
-  } else {
-    return "https://tjenester-q1.nav.no/veilarbstepup/status";
-  }
-};
 
 export const pamRekruttering = () => {
   if (environment.MILJO === "prod-sbs") {

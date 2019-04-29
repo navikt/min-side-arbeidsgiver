@@ -1,11 +1,18 @@
-//const veilarbStatus = require('../lenker.ts');
-//const veilarbStatus =  require("../lenker.ts").veilarbStatus;
 
 const proxy = require('http-proxy-middleware');
 
+const veilarbStatus = () => {
+    if (process.env.NAIS_CLUSTER_NAME === "prod-sbs") {
+        return "https://tjenester.nav.no/";
+    } else {
+        return "https://tjenester-q1.nav.no/";
+    }
+};
+
+
 const veilarbStatusProxyConfig = {
     changeOrigin: true,
-    target: "https://tjenester-q1.nav.no",
+    target: veilarbStatus(),
         pathRewrite: {
     '^/ditt-nav-arbeidsgiver': '',
 },
