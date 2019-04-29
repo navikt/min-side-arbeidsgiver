@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import LoggInn from "./LoggInn/LoggInn";
-import {veilarbStatus, veilarbStepup} from "../lenker";
+import { veilarbStepup} from "../lenker";
 import environment from "../utils/environment";
 import hentVeilarbStatus from "../api/veilarbApi";
 
