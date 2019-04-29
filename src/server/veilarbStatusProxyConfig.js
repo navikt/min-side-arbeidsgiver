@@ -1,10 +1,11 @@
-import {veilarbStatus} from "../lenker";
+//const veilarbStatus = require('../lenker.ts');
+//const veilarbStatus =  require("../lenker.ts").veilarbStatus;
 
 const proxy = require('http-proxy-middleware');
 
 const veilarbStatusProxyConfig = {
     changeOrigin: true,
-    target: veilarbStatus(),
+    target: "https://tjenester-q1.nav.no",
         pathRewrite: {
     '^/ditt-nav-arbeidsgiver': '',
 },
