@@ -5,14 +5,15 @@ import React, {
   useState
 } from "react";
 
-import pamikon from "../TjenesteBoksContainer/pamikon.svg";
+import pamikon from "../pamikon.svg";
 import Lenke from "nav-frontend-lenker";
 import "./Pamboks.less";
-import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
-import Innholdsboks from "../Innholdsboks/Innholdsboks";
-import { pamRekruttering, pamStillingsannonser } from "../../../lenker";
+
 import { Normaltekst } from "nav-frontend-typografi";
 import Undertittel from "nav-frontend-typografi/lib/undertittel";
+import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
+import Innholdsboks from "../../Innholdsboks/Innholdsboks";
+import { pamRekruttering, pamStillingsannonser } from "../../../../lenker";
 
 interface Props {
   className: string;

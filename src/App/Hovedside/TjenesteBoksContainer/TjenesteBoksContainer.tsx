@@ -4,7 +4,6 @@ import React, {
   useEffect,
   useState
 } from "react";
-import Syfoboks from "../Syfoboks/Syfoboks";
 
 import { SyfoTilgangContext, TilgangSyfo } from "../../../SyfoTilgangProvider";
 import {
@@ -12,9 +11,11 @@ import {
   TilgangPam
 } from "../../../OrganisasjonDetaljerProvider";
 import "./TjenesteBoksContainer.less";
-import Pamboks from "../Pamboks/Pamboks";
+
+import Syfoboks from "./Syfoboks/Syfoboks";
+import Pamboks from "./Pamboks/Pamboks";
+import TjenesteBoksBanner from "./TjenesteBoksBanner/TjenesteBoksBanner";
 import pamikon from "./pamikon.svg";
-import TjenesteBoks from "./TjenesteBoks/TjenesteBoks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -57,16 +58,16 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             )}
             {tilgangTilPamState === TilgangPam.TILGANG && (
               <div className={"tjenesteboks"}>
+                <TjenesteBoksBanner
+                  tittel={"Rekruttering"}
+                  imgsource={pamikon}
+                />
                 <Pamboks className={"hei"} />
               </div>
             )}
-            <TjenesteBoks
-              className={"tjenesteboks"}
-              ikonsrc={pamikon}
-              tittel={"rekruttering"}
-            >
+            <div className={"tjenesteboks"}>
               <Pamboks className={"hei"} />
-            </TjenesteBoks>
+            </div>
             <div className={"tjenesteboks"}>
               <Pamboks className={"hei"} />
             </div>

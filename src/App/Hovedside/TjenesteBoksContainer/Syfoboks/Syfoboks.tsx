@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from "react";
 import syfoikon from "./syfoikon.svg";
-import { syfoLink } from "../../../lenker";
+import { syfoLink } from "../../../../lenker";
 import Undertittel from "nav-frontend-typografi/lib/undertittel";
 import Lenke from "nav-frontend-lenker";
-import Innholdsboks from "../Innholdsboks/Innholdsboks";
+import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 import "./Syfoboks.less";
 
 interface Props {
