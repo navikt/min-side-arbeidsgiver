@@ -17,13 +17,12 @@ function setEssoCookieLocally(){
   console.log("set EssoLocally");
   document.cookie = "nav-esso=0123456789..*; path=/; domain=localhost;"
 }
-function getEssoToken(){
-   if (environment.MILJO){
+async function getEssoToken() {
+    let veilarbStatusRespons = await hentVeilarbStatus();
+    if (!veilarbStatusRespons.erInnlogget) {
       console.log("no esso-cookie")
       window.location.href = veilarbStepup();
-    }else{
-    setEssoCookieLocally();
-  }
+    }
 }
 
 class LoginBoundary extends Component<{}, State> {
@@ -37,9 +36,10 @@ class LoginBoundary extends Component<{}, State> {
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: Innlogget.INNLOGGET });
-      let veilarbStatusRespons = await hentVeilarbStatus();
-      if(!veilarbStatusRespons.erInnlogget){
-        getEssoToken()
+      if (environment.MILJO) {
+         await getEssoToken();
+        }else{
+        setEssoCookieLocally();
       }
     } else if (respons.status === 401) {
       this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
