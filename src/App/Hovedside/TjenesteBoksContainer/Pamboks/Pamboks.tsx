@@ -38,6 +38,7 @@ const Pamboks: FunctionComponent<Props> = props => {
         className={"__stillingsannonser"}
         href={pamStillingsannonser()}
         tittelProps={"element"}
+        border={false}
       >
         {stillingsAnnonseTekst}
       </Lenkepanel>
@@ -45,6 +46,7 @@ const Pamboks: FunctionComponent<Props> = props => {
         className={"__rekruttering"}
         href={pamRekruttering()}
         tittelProps={"element"}
+        border={false}
       >
         Finn kandidater
       </Lenkepanel>
