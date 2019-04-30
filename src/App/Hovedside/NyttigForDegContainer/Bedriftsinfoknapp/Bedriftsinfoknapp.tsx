@@ -8,14 +8,12 @@ import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
   return (
-    <Innholdsboks className={"kontakt-oss"}>
+    <Innholdsboks className={"bedriftsinformasjon"}>
       <LenkepanelBase href={basename + "/bedriftsinformasjon"}>
-        <div className={"kontakt-oss__wrapper"}>
-          <img className={"kontakt-oss__ikon"} src={iconKontaktNav} />
-          <Undertittel className={"kontakt-oss__tekst"}>
-            Informasjon om din bedrift
-          </Undertittel>
-        </div>
+        <img className={"bedriftsinformasjon__ikon"} src={iconKontaktNav} />
+        <Undertittel className={"bedriftsinformasjon__tekst"}>
+          Informasjon om din bedrift
+        </Undertittel>
       </LenkepanelBase>
     </Innholdsboks>
   );
