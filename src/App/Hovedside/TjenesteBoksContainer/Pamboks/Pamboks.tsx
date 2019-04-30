@@ -5,15 +5,13 @@ import React, {
   useState
 } from "react";
 
-import pamikon from "../pamikon.svg";
-import Lenke from "nav-frontend-lenker";
 import "./Pamboks.less";
-
-import { Normaltekst } from "nav-frontend-typografi";
-import Undertittel from "nav-frontend-typografi/lib/undertittel";
+import Lenkepanel from "nav-frontend-lenkepanel";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
 import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 import { pamRekruttering, pamStillingsannonser } from "../../../../lenker";
+import pamikon from "./pamikon.svg";
+import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 
 interface Props {
   className: string;
@@ -27,23 +25,29 @@ const Pamboks: FunctionComponent<Props> = props => {
 
   useEffect(() => {
     if (antallAnnonser > 0) {
-      setStillingsAnnonseTekst("Stillingsannonser");
+      setStillingsAnnonseTekst(
+        "Stillingsannonser (" + antallAnnonser + " aktive)"
+      );
     }
   });
 
   return (
     <Innholdsboks className={"pamboks " + props.className}>
-      <img className={"pamboks__icon"} src={pamikon} />
-      <div className={"pamboks__tekst"}>
-        <Undertittel className={"pamboks__header"}>Rekruttering</Undertittel>
-        {antallAnnonser > 0 && (
-          <Normaltekst>
-            {antallAnnonser.toString() + " aktive stillingsannonser"}
-          </Normaltekst>
-        )}
-        <Lenke href={pamStillingsannonser()}>{stillingsAnnonseTekst}</Lenke>
-        <Lenke href={pamRekruttering()}>Finn kandidater</Lenke>
-      </div>
+      <TjenesteBoksBanner tittel={"Rekruttering"} imgsource={pamikon} />
+      <Lenkepanel
+        className={"__stillingsannonser"}
+        href={pamStillingsannonser()}
+        tittelProps={"element"}
+      >
+        {stillingsAnnonseTekst}
+      </Lenkepanel>
+      <Lenkepanel
+        className={"__rekruttering"}
+        href={pamRekruttering()}
+        tittelProps={"element"}
+      >
+        Finn kandidater
+      </Lenkepanel>
     </Innholdsboks>
   );
 };

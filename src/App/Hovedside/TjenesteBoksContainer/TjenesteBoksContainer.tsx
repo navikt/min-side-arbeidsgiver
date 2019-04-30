@@ -15,7 +15,7 @@ import "./TjenesteBoksContainer.less";
 import Syfoboks from "./Syfoboks/Syfoboks";
 import Pamboks from "./Pamboks/Pamboks";
 import TjenesteBoksBanner from "./TjenesteBoksBanner/TjenesteBoksBanner";
-import pamikon from "./pamikon.svg";
+import pamikon from "./Pamboks/pamikon.svg";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -58,10 +58,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             )}
             {tilgangTilPamState === TilgangPam.TILGANG && (
               <div className={"tjenesteboks"}>
-                <TjenesteBoksBanner
-                  tittel={"Rekruttering"}
-                  imgsource={pamikon}
-                />
                 <Pamboks className={"hei"} />
               </div>
             )}

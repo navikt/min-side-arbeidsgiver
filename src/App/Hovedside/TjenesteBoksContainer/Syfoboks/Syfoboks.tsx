@@ -14,7 +14,6 @@ interface Props {
 const Syfoboks: FunctionComponent<Props> = props => {
   return (
     <Innholdsboks className={"syfoboks " + props.className}>
-      <img className={"syfoboks__icon"} src={syfoikon} />
       <div className={"syfoboks__tekst"}>
         <Undertittel className={"syfoboks__header"}>
           Dine sykemeldte
