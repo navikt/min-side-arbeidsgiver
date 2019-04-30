@@ -32,7 +32,7 @@ const Pamboks: FunctionComponent<Props> = props => {
   });
 
   return (
-    <Innholdsboks className={"pamboks " + props.className}>
+    <div className={"pamboks " + props.className}>
       <TjenesteBoksBanner tittel={"Rekruttering"} imgsource={pamikon} />
       <Lenkepanel
         className={"__stillingsannonser"}
@@ -50,7 +50,7 @@ const Pamboks: FunctionComponent<Props> = props => {
       >
         Finn kandidater
       </Lenkepanel>
-    </Innholdsboks>
+    </div>
   );
 };
 

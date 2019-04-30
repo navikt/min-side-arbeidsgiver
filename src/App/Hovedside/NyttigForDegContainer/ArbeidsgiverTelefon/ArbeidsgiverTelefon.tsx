@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Undertittel, Normaltekst } from "nav-frontend-typografi";
-import Innholdsboks from "../Innholdsboks/Innholdsboks";
+import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 import Lenke from "nav-frontend-lenker";
 import "./ArbeidsgiverTelefon.less";
 import iconTlf from "./arbeidsgivertlfikon.svg";

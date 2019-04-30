@@ -13,7 +13,7 @@ interface Props {
 
 const Syfoboks: FunctionComponent<Props> = props => {
   return (
-    <Innholdsboks className={"syfoboks " + props.className}>
+    <div className={"syfoboks " + props.className}>
       <TjenesteBoksBanner tittel={"Sykemeldte"} imgsource={syfoikon} />
       <Lenkepanel
         className={"__sykemeldte"}
@@ -22,7 +22,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
       >
         6 sykemeldte som du har ansvar for å følge opp
       </Lenkepanel>
-    </Innholdsboks>
+    </div>
   );
 };
 
