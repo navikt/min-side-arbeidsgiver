@@ -9,7 +9,10 @@ import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 const Bedriftsinfoknapp: FunctionComponent = () => {
   return (
     <Innholdsboks className={"bedriftsinformasjon"}>
-      <LenkepanelBase href={basename + "/bedriftsinformasjon"}>
+      <LenkepanelBase
+        href={basename + "/bedriftsinformasjon"}
+        className={"bedriftsinformasjon"}
+      >
         <img className={"bedriftsinformasjon__ikon"} src={iconKontaktNav} />
         <Undertittel className={"bedriftsinformasjon__tekst"}>
           Informasjon om din bedrift

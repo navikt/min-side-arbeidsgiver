@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import syfoikon from "./syfoikon.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
-import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 import "./Syfoboks.less";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 import { syfoLink } from "../../../../lenker";
