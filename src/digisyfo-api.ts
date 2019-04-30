@@ -9,7 +9,6 @@ export async function hentSykemeldinger(): Promise<Array<Sykemelding>> {
     if (respons.ok) {
         responsBody = await respons.json();
     }
-    console.log("hentsykemeldingerrespons:",responsBody);
     return responsBody;
 
 }
