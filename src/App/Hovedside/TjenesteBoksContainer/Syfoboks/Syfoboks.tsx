@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from "react";
 import syfoikon from "./syfoikon.svg";
-import { syfoLink } from "../../../../lenker";
-import Undertittel from "nav-frontend-typografi/lib/undertittel";
-import Lenke from "nav-frontend-lenker";
+import Lenkepanel from "nav-frontend-lenkepanel";
 import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 import "./Syfoboks.less";
+import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
+import { syfoLink } from "../../../../lenker";
 
 interface Props {
   varseltekst?: string;
@@ -14,13 +14,14 @@ interface Props {
 const Syfoboks: FunctionComponent<Props> = props => {
   return (
     <Innholdsboks className={"syfoboks " + props.className}>
-      <div className={"syfoboks__tekst"}>
-        <Undertittel className={"syfoboks__header"}>
-          Dine sykemeldte
-        </Undertittel>
-        {props.varseltekst}
-        <Lenke href={syfoLink()}>Gå til dine sykemeldte</Lenke>
-      </div>
+      <TjenesteBoksBanner tittel={"Sykemeldte"} imgsource={syfoikon} />
+      <Lenkepanel
+        className={"__sykemeldte"}
+        href={syfoLink()}
+        tittelProps={"normaltekst"}
+      >
+        6 sykemeldte som du har ansvar for å følge opp
+      </Lenkepanel>
     </Innholdsboks>
   );
 };
