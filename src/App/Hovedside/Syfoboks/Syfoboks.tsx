@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, {FunctionComponent, useEffect} from "react";
 import syfoikon from "./syfoikon.svg";
 import { syfoLink } from "../../../lenker";
 import Undertittel from "nav-frontend-typografi/lib/undertittel";
@@ -12,6 +12,7 @@ interface Props {
 }
 
 const Syfoboks: FunctionComponent<Props> = props => {
+
   return (
     <Innholdsboks className={"syfoboks"}>
       <img className={"syfoboks__icon"} src={syfoikon} />
