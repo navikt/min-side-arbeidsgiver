@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { hentSyfoTilgang } from "./api/dnaApi";
 import {Sykemelding} from "./sykemelding";
-import {hentSykemeldinger} from "./digisyfo-api";
+import {hentSyfoOppgaver, hentSykemeldinger} from "./digisyfoApi";
+import {SyfoOppgave} from "./syfoOppgaver";
 
 export enum TilgangSyfo {
   LASTER,
@@ -12,11 +13,13 @@ export enum TilgangSyfo {
 export interface Context {
   tilgangTilSyfoState: TilgangSyfo;
   sykemeldingerState: Array<Sykemelding>;
+  syfoOppgaverState: Array<SyfoOppgave>;
 }
 
 interface State {
   tilgangTilSyfoState: TilgangSyfo;
   sykemeldingerState: Array<Sykemelding>;
+  syfoOppgaverState: Array<SyfoOppgave>;
 }
 
 const SyfoTilgangContext = React.createContext<Context>({} as Context);
@@ -25,7 +28,8 @@ export { SyfoTilgangContext };
 export class SyfoTilgangProvider extends Component<{}, State> {
   state: State = {
     tilgangTilSyfoState: TilgangSyfo.LASTER,
-    sykemeldingerState: Array<Sykemelding>()
+    sykemeldingerState: Array<Sykemelding>(),
+    syfoOppgaverState: Array<SyfoOppgave>()
   };
 
   async componentDidMount() {
@@ -35,6 +39,8 @@ export class SyfoTilgangProvider extends Component<{}, State> {
       this.setState({ tilgangTilSyfoState: TilgangSyfo.TILGANG });
       const sykemeldinger=await hentSykemeldinger();
       this.setState({sykemeldingerState: sykemeldinger});
+      const syfoOppgaver=await hentSyfoOppgaver();
+      this.setState({syfoOppgaverState: syfoOppgaver});
     } else {
       this.setState({ tilgangTilSyfoState: TilgangSyfo.IKKE_TILGANG });
     }
