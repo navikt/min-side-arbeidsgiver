@@ -1,4 +1,4 @@
-
+@import '~nav-frontend-core/less/_variabler';
 
 
 .nyttig-for-deg {
@@ -10,12 +10,24 @@
   &__bokser {
     display: flex;
     width: 66rem;
+    flex-direction: column;
 
   }
 
   &__tekst {
     margin: 1rem 0rem 0rem 1rem;
 
+  }
+}
+
+@media (min-width: @screen-md-min) {
+
+  .nyttig-for-deg {
+    &__bokser {
+      flex-direction: row;
+    }
 
   }
+
+
 }
