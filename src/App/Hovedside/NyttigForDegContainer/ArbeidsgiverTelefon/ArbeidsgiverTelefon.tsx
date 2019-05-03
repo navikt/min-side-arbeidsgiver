@@ -14,7 +14,7 @@ const ArbeidsgiverTelefon: FunctionComponent = () => {
       tittelProps={"undertittel"}
       linkCreator={(props: any) => <a {...props}>{props.children}</a>}
     >
-      <div className={"arbeidsgivertelefon__innhold"}>
+      <div className={"arbeidsgivertelefon__wrapper"}>
         <img className={"arbeidsgivertelefon__icon"} src={iconTlf} />
         <div className={"arbeidsgivertelefon__tekst"}>
           <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>

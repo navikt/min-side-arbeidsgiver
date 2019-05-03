@@ -18,12 +18,12 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
         </a>
       )}
     >
-      <Innholdsboks className={"bedriftsinfo-knapp__wrapper"}>
+      <div className={"bedriftsinfo-knapp__wrapper"}>
         <img className={"bedriftsinfo-knapp__ikon"} src={iconKontaktNav} />
         <Undertittel className={"bedriftsinfo-knapp__tekst"}>
           Informasjon om din bedrift
         </Undertittel>
-      </Innholdsboks>
+      </div>
     </Lenkepanel>
   );
 };

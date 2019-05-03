@@ -17,12 +17,12 @@ const KontaktOss: FunctionComponent = () => {
         </a>
       )}
     >
-      <Innholdsboks className={"kontakt-oss__wrapper"}>
+      <div className={"kontakt-oss__wrapper"}>
         <img className={"kontakt-oss__ikon"} src={iconKontaktNav} />
         <Undertittel className={"kontakt-oss__tekst"}>
           Kom i kontakt med NAV
         </Undertittel>
-      </Innholdsboks>
+      </div>
     </Lenkepanel>
   );
 };

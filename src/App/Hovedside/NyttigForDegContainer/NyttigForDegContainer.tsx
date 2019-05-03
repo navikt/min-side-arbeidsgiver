@@ -10,9 +10,15 @@ const NyttigForDegContainer: FunctionComponent = () => {
     <div className={"nyttig-for-deg"}>
       <Ingress className={"nyttig-for-deg__tekst"}>Nyttig for deg</Ingress>
       <div className={"nyttig-for-deg__bokser"}>
-        <Bedriftsinfoknapp />
-        <KontaktOss />
-        <ArbeidsgiverTelefon />
+        <div className={"nyttig-for-deg__innholdsboks"}>
+          <Bedriftsinfoknapp />
+        </div>
+        <div className={"nyttig-for-deg__innholdsboks"}>
+          <KontaktOss />
+        </div>
+        <div className={"nyttig-for-deg__innholdsboks"}>
+          <ArbeidsgiverTelefon />
+        </div>
       </div>
     </div>
   );
