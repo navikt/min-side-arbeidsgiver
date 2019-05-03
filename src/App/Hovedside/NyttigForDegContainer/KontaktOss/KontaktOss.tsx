@@ -18,7 +18,11 @@ const KontaktOss: FunctionComponent = () => {
       )}
     >
       <div className={"kontakt-oss__wrapper"}>
-        <img className={"kontakt-oss__ikon"} src={iconKontaktNav} />
+        <img
+          className={"kontakt-oss__ikon"}
+          src={iconKontaktNav}
+          alt="To snakkebobler"
+        />
         <Undertittel className={"kontakt-oss__tekst"}>
           Kom i kontakt med NAV
         </Undertittel>

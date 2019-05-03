@@ -13,7 +13,11 @@ interface Props {
 const Syfoboks: FunctionComponent<Props> = props => {
   return (
     <div className={"syfoboks " + props.className}>
-      <TjenesteBoksBanner tittel={"Sykemeldte"} imgsource={syfoikon} />
+      <TjenesteBoksBanner
+        tittel={"Sykemeldte"}
+        imgsource={syfoikon}
+        altTekst={"En person med brukket hånd som snakker med en annen person"}
+      />
       <Lenkepanel
         className={"__sykemeldte"}
         href={syfoLink()}

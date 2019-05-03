@@ -32,7 +32,11 @@ const Pamboks: FunctionComponent<Props> = props => {
 
   return (
     <div className={"pamboks " + props.className}>
-      <TjenesteBoksBanner tittel={"Rekruttering"} imgsource={pamikon} />
+      <TjenesteBoksBanner
+        tittel={"Rekruttering"}
+        imgsource={pamikon}
+        altTekst={"Forstørrelsesglass som fokuserer på jobbsøker"}
+      />
       <Lenkepanel
         className={"__stillingsannonser"}
         href={pamStillingsannonser()}

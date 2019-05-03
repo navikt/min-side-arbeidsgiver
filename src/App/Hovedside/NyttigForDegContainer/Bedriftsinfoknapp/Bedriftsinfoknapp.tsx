@@ -18,7 +18,11 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
       )}
     >
       <div className={"bedriftsinfo-knapp__wrapper"}>
-        <img className={"bedriftsinfo-knapp__ikon"} src={bedriftinfoikon} />
+        <img
+          className={"bedriftsinfo-knapp__ikon"}
+          src={bedriftinfoikon}
+          alt="Stresskoffert"
+        />
         <Undertittel className={"bedriftsinfo-knapp__tekst"}>
           Informasjon om din bedrift
         </Undertittel>
