@@ -7,7 +7,7 @@ import { syfoLink } from "../../../../lenker";
 
 interface Props {
   varseltekst?: string;
-  className: string;
+  className?: string;
 }
 
 const Syfoboks: FunctionComponent<Props> = props => {

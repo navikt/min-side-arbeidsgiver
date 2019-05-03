@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Undertittel } from "nav-frontend-typografi";
-import iconKontaktNav from "./kontaktossikon.svg";
+import bedriftinfoikon from "./infoombedriftikon.svg";
 import "./Bedriftsinfoknapp.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { basename } from "../../../../paths";
@@ -18,7 +18,7 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
       )}
     >
       <div className={"bedriftsinfo-knapp__wrapper"}>
-        <img className={"bedriftsinfo-knapp__ikon"} src={iconKontaktNav} />
+        <img className={"bedriftsinfo-knapp__ikon"} src={bedriftinfoikon} />
         <Undertittel className={"bedriftsinfo-knapp__tekst"}>
           Informasjon om din bedrift
         </Undertittel>

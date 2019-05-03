@@ -52,16 +52,16 @@ const TjenesteBoksContainer: FunctionComponent = () => {
           <div className={"tjenesteboks-container " + typeAntall}>
             {tilgangTilSyfoState === TilgangSyfo.TILGANG && (
               <Innholdsboks className={"tjenesteboks innholdsboks"}>
-                <Syfoboks className={"syfobokstest"} />
+                <Syfoboks className={"syfoboks"} />
               </Innholdsboks>
             )}
             {tilgangTilPamState === TilgangPam.TILGANG && (
               <div className={"tjenesteboks innholdsboks"}>
-                <Pamboks className={"hei"} />
+                <Pamboks />
               </div>
             )}
             <Innholdsboks className={"tjenesteboks innholdsboks"}>
-              <Pamboks className={"hei"} />
+              <Pamboks />
             </Innholdsboks>
           </div>
         )}

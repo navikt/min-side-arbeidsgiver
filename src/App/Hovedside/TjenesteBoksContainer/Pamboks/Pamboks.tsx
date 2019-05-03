@@ -13,7 +13,7 @@ import pamikon from "./pamikon.svg";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 
 interface Props {
-  className: string;
+  className?: string;
 }
 
 const Pamboks: FunctionComponent<Props> = props => {
