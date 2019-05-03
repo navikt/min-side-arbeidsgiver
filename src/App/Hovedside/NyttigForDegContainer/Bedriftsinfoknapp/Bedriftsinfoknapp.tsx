@@ -4,7 +4,6 @@ import iconKontaktNav from "./kontaktossikon.svg";
 import "./Bedriftsinfoknapp.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { basename } from "../../../../paths";
-import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
   return (

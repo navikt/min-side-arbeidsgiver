@@ -1,29 +1,56 @@
+@import '~nav-frontend-core/less/_variabler';
+
 
 .altinn-container {
+  width: 24rem;
+
+
 
   &__bokser {
     display: flex;
-    width: 66rem;
+    width: 22rem;
     flex-wrap: wrap;
+    flex-direction: column;
+    margin-left: 1rem;
   }
 
   &__tekst {
-    margin: 1rem 0rem 0rem 1rem;
+    margin: 1rem 0rem 1rem 1rem;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+
+  .altinn-container {
+    width: 66rem;
+
+    &__bokser {
+      display: flex;
+      width: 66rem;
+      flex-wrap: wrap;
+      flex-direction: row;
+      margin: 0;
+    }
+
+    &__tekst {
+      margin: 1rem 0rem 0rem 1rem;
+    }
+
+    &__antall-skjema-partall{
+      width: 31rem;
+      margin: 1rem;
+    }
+
+    &__antall-skjema-en {
+      display: flex;
+      flex-grow: 1;
+      margin: 1rem;
+    }
+
+    &__antall-skjema-tre {
+      width: 20rem;
+      margin: 1rem;
+    }
   }
 
-  &__antall-skjema-partall{
-    width: 31rem;
-    margin: 1rem;
-  }
-
-  &__antall-skjema-en {
-    display: flex;
-    flex-grow: 1;
-    margin: 1rem;
-  }
-
-  &__antall-skjema-tre {
-    width: 20rem;
-    margin: 1rem;
-  }
 }

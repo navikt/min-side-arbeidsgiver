@@ -1,11 +1,5 @@
-import React, {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState
-} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
-import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import "./AltinnContainer.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { Ingress } from "nav-frontend-typografi";
@@ -46,7 +40,9 @@ const AltinnContainer: FunctionComponent = () => {
       <div className={"altinn-container__bokser"}>
         {riktigRoll1 && (
           <Lenkepanel
-            className={"altinn-container__" + typeAntall}
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
             href={soknadskjemaInkluderingstilskudd()}
             tittelProps={"element"}
             border={false}

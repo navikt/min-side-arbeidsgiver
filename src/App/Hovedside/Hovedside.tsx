@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent } from "react";
 
 import "./Hovedside.less";
 import TjenesteBoksContainer from "./TjenesteBoksContainer/TjenesteBoksContainer";
