@@ -14,6 +14,7 @@ import "./TjenesteBoksContainer.less";
 
 import Syfoboks from "./Syfoboks/Syfoboks";
 import Pamboks from "./Pamboks/Pamboks";
+import Innholdsboks from "../Innholdsboks/Innholdsboks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -41,7 +42,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("antall-oddetall");
     }
-    settypeAntall("antall-partall");
+    settypeAntall("antall-oddetall");
   }, [TilgangSyfo, TilgangPam]);
 
   return (
@@ -50,21 +51,18 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangTilSyfoState !== TilgangSyfo.LASTER && (
           <div className={"tjenesteboks-container " + typeAntall}>
             {tilgangTilSyfoState === TilgangSyfo.TILGANG && (
-              <div className={"tjenesteboks innholdsboks"}>
+              <Innholdsboks className={"tjenesteboks innholdsboks"}>
                 <Syfoboks className={"syfobokstest"} />
-              </div>
+              </Innholdsboks>
             )}
             {tilgangTilPamState === TilgangPam.TILGANG && (
               <div className={"tjenesteboks innholdsboks"}>
                 <Pamboks className={"hei"} />
               </div>
             )}
-            <div className={"tjenesteboks innholdsboks"}>
+            <Innholdsboks className={"tjenesteboks innholdsboks"}>
               <Pamboks className={"hei"} />
-            </div>
-            <div className={"tjenesteboks innholdsboks"}>
-              <Pamboks className={"hei"} />
-            </div>
+            </Innholdsboks>
           </div>
         )}
     </div>
