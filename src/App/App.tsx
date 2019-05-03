@@ -8,6 +8,7 @@ import LoginBoundary from "./LoginBoundary";
 import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
 import { SyfoTilgangProvider } from "../SyfoTilgangProvider";
+import InformasjonOmBedrift from "./InformasjonOmBedrift/InformasjonOmBedrift";
 
 const App: FunctionComponent = () => {
   return (
@@ -20,7 +21,12 @@ const App: FunctionComponent = () => {
               <BrowserRouter basename={basename}>
                 <Switch>
                   <Route path="/" exact={true} component={Hovedside} />
-                  {<Redirect to={"/"} />}
+                  <Route
+                    path="/bedriftsinformasjon"
+                    exact={true}
+                    component={InformasjonOmBedrift}
+                  />
+                  {<Redirect to={"/bedriftsinformasjon/"} />}
                 </Switch>
               </BrowserRouter>
             </div>

@@ -3,6 +3,7 @@ import { Undertittel } from "nav-frontend-typografi";
 import iconKontaktNav from "./kontaktossikon.svg";
 import "./KontaktOss.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
+import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 
 const KontaktOss: FunctionComponent = () => {
   return (
@@ -17,7 +18,11 @@ const KontaktOss: FunctionComponent = () => {
       )}
     >
       <div className={"kontakt-oss__wrapper"}>
-        <img className={"kontakt-oss__ikon"} src={iconKontaktNav} />
+        <img
+          className={"kontakt-oss__ikon"}
+          src={iconKontaktNav}
+          alt="To snakkebobler"
+        />
         <Undertittel className={"kontakt-oss__tekst"}>
           Kom i kontakt med NAV
         </Undertittel>
