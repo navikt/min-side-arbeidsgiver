@@ -4,6 +4,7 @@ import "./NyttigForDegContainer.less";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
 import { Ingress } from "nav-frontend-typografi";
+import Innholdsboks from "../Innholdsboks/Innholdsboks";
 
 const NyttigForDegContainer: FunctionComponent = () => {
   return (
