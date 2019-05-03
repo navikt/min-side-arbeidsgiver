@@ -2,23 +2,29 @@ import React, { FunctionComponent } from "react";
 import { Undertittel } from "nav-frontend-typografi";
 import iconKontaktNav from "./kontaktossikon.svg";
 import "./Bedriftsinfoknapp.less";
-import { LenkepanelBase } from "nav-frontend-lenkepanel";
+import Lenkepanel from "nav-frontend-lenkepanel";
 import { basename } from "../../../../paths";
 import Innholdsboks from "../../Innholdsboks/Innholdsboks";
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
   return (
-    <Innholdsboks className={"bedriftsinformasjon"}>
-      <LenkepanelBase
-        href={basename + "/bedriftsinformasjon"}
-        className={"bedriftsinformasjon"}
-      >
-        <img className={"bedriftsinformasjon__ikon"} src={iconKontaktNav} />
-        <Undertittel className={"bedriftsinformasjon__tekst"}>
+    <Lenkepanel
+      href={basename + "/bedriftsinformasjon"}
+      className={"bedriftsinfo-knapp"}
+      tittelProps={"undertittel"}
+      linkCreator={(props: any) => (
+        <a target="_blank" {...props}>
+          {props.children}
+        </a>
+      )}
+    >
+      <Innholdsboks className={"bedriftsinfo-knapp__wrapper"}>
+        <img className={"bedriftsinfo-knapp__ikon"} src={iconKontaktNav} />
+        <Undertittel className={"bedriftsinfo-knapp__tekst"}>
           Informasjon om din bedrift
         </Undertittel>
-      </LenkepanelBase>
-    </Innholdsboks>
+      </Innholdsboks>
+    </Lenkepanel>
   );
 };
 

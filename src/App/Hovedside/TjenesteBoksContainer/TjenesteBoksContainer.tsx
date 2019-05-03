@@ -14,8 +14,6 @@ import "./TjenesteBoksContainer.less";
 
 import Syfoboks from "./Syfoboks/Syfoboks";
 import Pamboks from "./Pamboks/Pamboks";
-import TjenesteBoksBanner from "./TjenesteBoksBanner/TjenesteBoksBanner";
-import pamikon from "./Pamboks/pamikon.svg";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);

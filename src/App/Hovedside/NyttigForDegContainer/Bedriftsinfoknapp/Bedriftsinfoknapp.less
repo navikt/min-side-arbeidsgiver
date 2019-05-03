@@ -1,25 +1,31 @@
 @import '../../../../../node_modules/nav-frontend-core/less/_variabler';
 
-.bedriftsinformasjon {
+.bedriftsinfo-knapp {
   width: 20rem;
   height: 8rem;
   display: flex;
-  align-items: center;
   padding-top: 1rem;
+  margin: 1rem;
 
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+  }
 
   &__ikon {
     width: 6rem;
-    margin: 1rem;
+    margin-right: 2rem;
   }
 
-  &__tekst {
-    margin: 0.7rem;
-  }
 }
 
 @media (min-width: @screen-sm-min) {
-  .bedriftsinfoknapp {
-
+  .bedriftsinfo-knapp {
+    width: 20rem;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+    padding-top: 1rem;
   }
 }
