@@ -3,6 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import "./AltinnContainer.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { Ingress } from "nav-frontend-typografi";
+import nyfane from "./external-link.svg";
 
 import {
   inntekstmelding,
@@ -48,6 +49,11 @@ const AltinnContainer: FunctionComponent = () => {
             border={false}
           >
             Søk om inkluderingstilskudd
+            <img
+              className={"altinn-container__ikon"}
+              src={nyfane}
+              alt="ikon for å beskrive at lenken åpnes i en ny fane"
+            />
           </Lenkepanel>
         )}
         {riktigRoll1 && (
@@ -58,6 +64,11 @@ const AltinnContainer: FunctionComponent = () => {
             border={false}
           >
             Søk om lønnstilskudd
+            <img
+              className={"altinn-container__ikon"}
+              src={nyfane}
+              alt="ikon for å beskrive at lenken åpnes i en ny fane"
+            />
           </Lenkepanel>
         )}
         {riktigRoll1 && (
@@ -68,6 +79,11 @@ const AltinnContainer: FunctionComponent = () => {
             border={false}
           >
             Søk om tilskudd til mentor
+            <img
+              className={"altinn-container__ikon"}
+              src={nyfane}
+              alt="ikon for å beskrive at lenken åpnes i en ny fane"
+            />
           </Lenkepanel>
         )}
         {riktigRoll2 && (
@@ -78,6 +94,11 @@ const AltinnContainer: FunctionComponent = () => {
             border={false}
           >
             Inntektsmelding til NAV
+            <img
+              className={"altinn-container__ikon"}
+              src={nyfane}
+              alt="ikon for å beskrive at lenken åpnes i en ny fane"
+            />
           </Lenkepanel>
         )}
       </div>
