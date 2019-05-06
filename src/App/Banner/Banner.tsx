@@ -8,7 +8,7 @@ import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 interface Props {
-  tittel: string;
+  tittel?: string;
 }
 
 const Banner: FunctionComponent<Props> = props => {
@@ -34,12 +34,8 @@ const Banner: FunctionComponent<Props> = props => {
 
   return (
     <div className={"banner"}>
-      <div className={"banner_container"}>
-        <div className={"banner__ikon-og-overskrift"}>
-          <img src={companyImage} alt="Ikon til Banneret på forsiden" />
-          <Sidetittel className={"banner__tittel"}> {props.tittel} </Sidetittel>
-        </div>
-        {organisasjoner.length > 0 && (
+      {organisasjoner.length > 0 && (
+        <div className={"banner__container"}>
           <div className={"banner__select"}>
             <Select
               className={"banner__organisasjoner"}
@@ -62,8 +58,8 @@ const Banner: FunctionComponent<Props> = props => {
               </Normaltekst>
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
