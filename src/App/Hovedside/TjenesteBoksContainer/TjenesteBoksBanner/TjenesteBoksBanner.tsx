@@ -7,6 +7,7 @@ interface Props {
   imgsource: string;
   tittel: string;
   altTekst: string;
+  antallVarsler?: number;
 }
 
 const TjenesteBoksBanner: FunctionComponent<Props> = props => {
@@ -20,6 +21,11 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
       <Undertittel className={"tjeneste-boks-banner__tittel"}>
         {props.tittel}
       </Undertittel>
+        {props.antallVarsler && props.antallVarsler > 0 &&
+        <span className={"tjeneste-boks-banner__varselsirkel"}>
+            <Undertittel>
+                {props.antallVarsler}</Undertittel></span>
+        }
     </div>
   );
 };
