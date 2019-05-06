@@ -47,6 +47,11 @@ const AltinnContainer: FunctionComponent = () => {
             href={soknadskjemaInkluderingstilskudd()}
             tittelProps={"element"}
             border={false}
+            linkCreator={(props: any) => (
+              <a target="_blank" {...props}>
+                {props.children}
+              </a>
+            )}
           >
             Søk om inkluderingstilskudd
             <img
@@ -62,6 +67,11 @@ const AltinnContainer: FunctionComponent = () => {
             href={soknadsskjemaLonnstilskudd()}
             tittelProps={"element"}
             border={false}
+            linkCreator={(props: any) => (
+              <a target="_blank" {...props}>
+                {props.children}
+              </a>
+            )}
           >
             Søk om lønnstilskudd
             <img
@@ -77,6 +87,11 @@ const AltinnContainer: FunctionComponent = () => {
             href={soknadTilskuddTilMentor()}
             tittelProps={"element"}
             border={false}
+            linkCreator={(props: any) => (
+              <a target="_blank" {...props}>
+                {props.children}
+              </a>
+            )}
           >
             Søk om tilskudd til mentor
             <img
@@ -99,6 +114,12 @@ const AltinnContainer: FunctionComponent = () => {
               src={nyfane}
               alt="ikon for å beskrive at lenken åpnes i en ny fane"
             />
+            linkCreator=
+            {(props: any) => (
+              <a target="_blank" {...props}>
+                {props.children}
+              </a>
+            )}
           </Lenkepanel>
         )}
       </div>
