@@ -107,6 +107,11 @@ const AltinnContainer: FunctionComponent = () => {
             href={inntekstmelding}
             tittelProps={"element"}
             border={false}
+            linkCreator={(props: any) => (
+              <a target="_blank" {...props}>
+                {props.children}
+              </a>
+            )}
           >
             Inntektsmelding til NAV
             <img
@@ -114,12 +119,6 @@ const AltinnContainer: FunctionComponent = () => {
               src={nyfane}
               alt="ikon for å beskrive at lenken åpnes i en ny fane"
             />
-            linkCreator=
-            {(props: any) => (
-              <a target="_blank" {...props}>
-                {props.children}
-              </a>
-            )}
           </Lenkepanel>
         )}
       </div>
