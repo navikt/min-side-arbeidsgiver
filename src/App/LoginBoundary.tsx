@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import LoggInn from "./LoggInn/LoggInn";
+
 import { veilarbStepup } from "../lenker";
+import environment from "../utils/environment";
+import hentVeilarbStatus from "../api/veilarbApi";
 
 export enum Innlogget {
   LASTER,
@@ -11,6 +14,17 @@ export enum Innlogget {
 interface State {
   innlogget: Innlogget;
 }
+function setEssoCookieLocally() {
+  console.log("set EssoLocally");
+  document.cookie = "nav-esso=0123456789..*; path=/; domain=localhost;";
+}
+async function getEssoToken() {
+  let veilarbStatusRespons = await hentVeilarbStatus();
+  if (!veilarbStatusRespons.erInnlogget) {
+    console.log("no esso-cookie");
+    window.location.href = veilarbStepup();
+  }
+}
 
 class LoginBoundary extends Component<{}, State> {
   state: State = {
@@ -18,11 +32,16 @@ class LoginBoundary extends Component<{}, State> {
   };
 
   async componentDidMount() {
+    console.log("mount");
     this.setState({ innlogget: Innlogget.LASTER });
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {
       this.setState({ innlogget: Innlogget.INNLOGGET });
-      window.location.href = veilarbStepup();
+      if (environment.MILJO) {
+        await getEssoToken();
+      } else {
+        setEssoCookieLocally();
+      }
     } else if (respons.status === 401) {
       this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
     }

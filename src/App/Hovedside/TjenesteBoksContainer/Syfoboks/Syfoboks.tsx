@@ -19,9 +19,10 @@ const Syfoboks: FunctionComponent<Props> = props => {
         altTekst={"En person med brukket hånd som snakker med en annen person"}
       />
       <Lenkepanel
-        className={"__sykemeldte"}
+        className={"syfoboks__sykemeldte"}
         href={syfoLink()}
         tittelProps={"normaltekst"}
+        linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >
         6 sykemeldte som du har ansvar for å følge opp
       </Lenkepanel>
