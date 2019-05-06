@@ -2,7 +2,22 @@ import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import { digiSyfoNarmesteLederLink } from "../lenker";
 
+export interface Rolle {
+  Roledefinition: number;
+  RoleName: string;
+  RoleDescription: string;
+}
+
 export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
+  let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
+  if (respons.ok) {
+    return await respons.json();
+  } else {
+    return [];
+  }
+}
+
+export async function hentRoller(): Promise<Array<Rolle>> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
   if (respons.ok) {
     return await respons.json();
