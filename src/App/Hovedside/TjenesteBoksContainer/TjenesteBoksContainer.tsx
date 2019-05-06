@@ -42,7 +42,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("antall-oddetall");
     }
-    settypeAntall("antall-oddetall");
+    settypeAntall("antall-partall");
   }, [TilgangSyfo, TilgangPam]);
 
   return (
@@ -60,9 +60,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 <Pamboks />
               </div>
             )}
-            <Innholdsboks className={"tjenesteboks innholdsboks"}>
-              <Pamboks />
-            </Innholdsboks>
           </div>
         )}
     </div>

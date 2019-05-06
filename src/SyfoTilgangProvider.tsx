@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { hentSyfoTilgang } from "./api/dnaApi";
-import {Sykemelding} from "./sykemelding";
-import {hentSyfoOppgaver, hentSykemeldinger} from "./digisyfoApi";
-import {SyfoOppgave} from "./syfoOppgaver";
+import { Sykemelding } from "./sykemelding";
+import { hentSyfoOppgaver, hentSykemeldinger } from "./digisyfoApi";
+import { SyfoOppgave } from "./syfoOppgaver";
 
 export enum TilgangSyfo {
   LASTER,

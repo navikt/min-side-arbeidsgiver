@@ -19,7 +19,7 @@ const hentAntallannonser = async (): Promise<number> => {
   });
   if (respons.ok) {
     const responsBody: PamStatusAnnonser = await respons.json();
-    return Object.values(responsBody).reduce((a, b) => a + b);
+    return responsBody.PUBLISERT;
   }
   // TODO TAG-378 Hvordan burde vi håndtere denne feilen? Snakke med resten av teamet
   return 0;
