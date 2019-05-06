@@ -37,7 +37,7 @@ export class SyfoTilgangProvider extends Component<{}, State> {
     const tilgangSyfo = await hentSyfoTilgang();
     if (tilgangSyfo) {
       this.setState({ tilgangTilSyfoState: TilgangSyfo.TILGANG });
-      this.setState({syfoOppgaverState:await hentSyfoOppgaver()});
+      this.setState({ syfoOppgaverState: await hentSyfoOppgaver() });
     } else {
       this.setState({ tilgangTilSyfoState: TilgangSyfo.IKKE_TILGANG });
     }

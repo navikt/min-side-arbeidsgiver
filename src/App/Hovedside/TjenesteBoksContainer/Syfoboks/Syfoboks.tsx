@@ -1,10 +1,10 @@
-import React, {FunctionComponent, useContext} from "react";
+import React, { FunctionComponent, useContext } from "react";
 import syfoikon from "./syfoikon.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import "./Syfoboks.less";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 import { syfoLink } from "../../../../lenker";
-import {SyfoTilgangContext} from "../../../../SyfoTilgangProvider";
+import { SyfoTilgangContext } from "../../../../SyfoTilgangProvider";
 
 interface Props {
   varseltekst?: string;
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const Syfoboks: FunctionComponent<Props> = props => {
-    const { syfoOppgaverState } = useContext(SyfoTilgangContext);
+  const { syfoOppgaverState } = useContext(SyfoTilgangContext);
   return (
     <div className={"syfoboks " + props.className}>
       <TjenesteBoksBanner

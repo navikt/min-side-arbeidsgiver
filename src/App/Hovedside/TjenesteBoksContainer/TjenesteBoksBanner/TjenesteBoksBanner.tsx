@@ -21,11 +21,11 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
       <Undertittel className={"tjeneste-boks-banner__tittel"}>
         {props.tittel}
       </Undertittel>
-        {props.antallVarsler && props.antallVarsler > 0 &&
+      {props.antallVarsler && props.antallVarsler > 0 && (
         <span className={"tjeneste-boks-banner__varselsirkel"}>
-            <Undertittel>
-                {props.antallVarsler}</Undertittel></span>
-        }
+          <Undertittel>{props.antallVarsler}</Undertittel>
+        </span>
+      )}
     </div>
   );
 };
