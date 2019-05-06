@@ -78,3 +78,7 @@ export const pamHentStillingsannonserLenke = () => {
 
 export const digiSyfoNarmesteLederLink =
   "/ditt-nav-arbeidsgiver/api/narmesteleder";
+
+export const enhetsregisteretApiLink = (orgnr: string) => {
+  return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
+};

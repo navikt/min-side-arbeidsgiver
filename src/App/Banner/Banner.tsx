@@ -3,8 +3,8 @@ import React, { FunctionComponent, useContext, useEffect } from "react";
 import "./Banner.less";
 import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
-import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { Normaltekst } from "nav-frontend-typografi";
+import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 
 interface Props {
