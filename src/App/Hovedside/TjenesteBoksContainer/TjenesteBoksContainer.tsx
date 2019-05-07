@@ -34,15 +34,19 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    let antallTjenesteTilganger = tellAntallTilganger();
+    console.log("useeffect for tjenestebokscontainer");
+    const antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
       settypeAntall("antall-partall");
-    } else if (antallTjenesteTilganger === 1) {
+      console.log("setTypetall: ", typeAntall);
+    } else if (antallTjenesteTilganger == 1) {
       settypeAntall("antall-en");
+      console.log("setTypetall: ", typeAntall);
     } else {
       settypeAntall("antall-oddetall");
+      console.log("setTypetall: ", typeAntall);
     }
-  }, [TilgangSyfo, TilgangPam]);
+  }, [tilgangTilSyfoState, tilgangTilPamState]);
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
+import { TilgangSyfo } from "./SyfoTilgangProvider";
 
 export enum TilgangPam {
   LASTER,
