@@ -34,17 +34,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   };
 
   useEffect(() => {
-    console.log("useeffect for tjenestebokscontainer");
     const antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
       settypeAntall("antall-partall");
-      console.log("setTypetall: ", typeAntall);
     } else if (antallTjenesteTilganger == 1) {
       settypeAntall("antall-en");
-      console.log("setTypetall: ", typeAntall);
     } else {
       settypeAntall("antall-oddetall");
-      console.log("setTypetall: ", typeAntall);
     }
   }, [tilgangTilSyfoState, tilgangTilPamState]);
 

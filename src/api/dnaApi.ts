@@ -17,8 +17,8 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
   }
 }
 
-export async function hentRoller(): Promise<Array<Rolle>> {
-  let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
+export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
+  let respons = await fetch("/ditt-nav-arbeidsgiver-api/api/roller/" + orgnr);
   if (respons.ok) {
     return await respons.json();
   } else {
