@@ -1,11 +1,14 @@
 import React, {
   FunctionComponent,
+  useContext,
   useEffect,
-  useState,
-  useContext
+  useState
 } from "react";
 
-import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
+import {
+  OrganisasjonsDetaljerContext,
+  TilgangAltinn
+} from "../../../OrganisasjonDetaljerProvider";
 
 import "./AltinnContainer.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
@@ -21,18 +24,31 @@ import {
 
 const AltinnContainer: FunctionComponent = () => {
   const [typeAntall, settypeAntall] = useState("");
-  const { tilgangTilAltinnState } = useContext(OrganisasjonsDetaljerContext);
-  let riktigRoll1 = false;
-  let riktigRoll2 = true;
+  const {
+    tilgangTilAltinnForInntektsmelding,
+    tilgangTilAltinnForTreSkjemaState
+  } = useContext(OrganisasjonsDetaljerContext);
 
   useEffect(() => {
-    console.log("tilgangAltinn: ", tilgangTilAltinnState);
-    if (tilgangTilAltinnState) {
+    if (
+      tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
+    ) {
       settypeAntall("antall-skjema-partall");
-      riktigRoll1 = true;
-      riktigRoll2 = true;
     }
-  }, [tilgangTilAltinnState]);
+    if (
+      tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.IKKE_TILGANG
+    ) {
+      settypeAntall("antall-skjema-en");
+    }
+    if (
+      tilgangTilAltinnForInntektsmelding === TilgangAltinn.IKKE_TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
+    ) {
+      settypeAntall("antall-skjema-en");
+    }
+  }, [tilgangTilAltinnForTreSkjemaState, tilgangTilAltinnForInntektsmelding]);
 
   return (
     <div className={"altinn-container"}>

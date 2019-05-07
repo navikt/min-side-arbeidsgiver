@@ -4,7 +4,6 @@ import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
   hentRoller,
-  hentRollerOgSjekkTilgang,
   sjekkAltinnRolleForInntekstmelding,
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
