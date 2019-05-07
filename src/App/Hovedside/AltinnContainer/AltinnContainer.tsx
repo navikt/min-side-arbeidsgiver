@@ -22,20 +22,27 @@ import {
 const AltinnContainer: FunctionComponent = () => {
   const [typeAntall, settypeAntall] = useState("");
   const { tilgangTilAltinnState } = useContext(OrganisasjonsDetaljerContext);
+  let riktigRoll1 = false;
+  let riktigRoll2 = true;
 
   useEffect(() => {
+    console.log("tilgangAltinn: ", tilgangTilAltinnState);
     if (tilgangTilAltinnState) {
       settypeAntall("antall-skjema-partall");
+      riktigRoll1 = true;
+      riktigRoll2 = true;
     }
   }, [tilgangTilAltinnState]);
 
-  if (tilgangTilAltinnState === 2) {
-    return (
-      <div className={"altinn-container"}>
+  return (
+    <div className={"altinn-container"}>
+      {tilgangTilAltinnState === 2 && (
         <Ingress className={"altinn-container__tekst"}>
           Skjema på Altinn
         </Ingress>
-        <div className={"altinn-container__bokser"}>
+      )}
+      <div className={"altinn-container__bokser"}>
+        {riktigRoll1 && (
           <Lenkepanel
             className={
               "altinn-container__" + typeAntall + " altinn-container__lenke"
@@ -56,6 +63,8 @@ const AltinnContainer: FunctionComponent = () => {
               alt="ikon for å beskrive at lenken åpnes i en ny fane"
             />
           </Lenkepanel>
+        )}
+        {riktigRoll1 && (
           <Lenkepanel
             className={"altinn-container__" + typeAntall}
             href={soknadsskjemaLonnstilskudd()}
@@ -74,6 +83,8 @@ const AltinnContainer: FunctionComponent = () => {
               alt="ikon for å beskrive at lenken åpnes i en ny fane"
             />
           </Lenkepanel>
+        )}
+        {riktigRoll1 && (
           <Lenkepanel
             className={"altinn-container__" + typeAntall}
             href={soknadTilskuddTilMentor()}
@@ -92,6 +103,8 @@ const AltinnContainer: FunctionComponent = () => {
               alt="ikon for å beskrive at lenken åpnes i en ny fane"
             />
           </Lenkepanel>
+        )}
+        {riktigRoll2 && (
           <Lenkepanel
             className={"altinn-container__" + typeAntall}
             href={inntekstmelding}
@@ -110,11 +123,10 @@ const AltinnContainer: FunctionComponent = () => {
               alt="ikon for å beskrive at lenken åpnes i en ny fane"
             />
           </Lenkepanel>
-        </div>
+        )}
       </div>
-    );
-  }
-  return null;
+    </div>
+  );
 };
 
 export default AltinnContainer;
