@@ -22,9 +22,11 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 export async function hentRollerOgSjekkTilgang(
   orgnr: string
 ): Promise<boolean> {
-  let respons = await fetch("/ditt-nav-arbeidsgiver-api/api/roller/" + orgnr);
+  let respons = await fetch("/ditt-nav-arbeidsgiver/api/roller/" + orgnr);
+  console.log("respons fra altinn: ", respons);
   if (respons.ok) {
     const objekt: Array<Rolle> = await respons.json();
+    console.log("respons fra altinn: ", objekt);
     const rolle = objekt.find(rolle => 131 === rolle.RoleDefinitionId);
     if (rolle) {
       return true;

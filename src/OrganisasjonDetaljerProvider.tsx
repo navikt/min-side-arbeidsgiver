@@ -3,6 +3,7 @@ import { Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import { TilgangSyfo } from "./SyfoTilgangProvider";
+import { hentRollerOgSjekkTilgang } from "./api/dnaApi";
 
 export enum TilgangPam {
   LASTER,
@@ -43,6 +44,15 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
+    let harAltinnTilgang = await hentRollerOgSjekkTilgang(
+      org.OrganizationNumber
+    );
+    if (harAltinnTilgang) {
+      this.setState({ tilgangTilAltinnState: TilgangAltinn.TILGANG });
+    } else {
+      this.setState({ tilgangTilAltinnState: TilgangAltinn.IKKE_TILGANG });
+    }
+
     if (harPamTilgang) {
       this.setState({
         valgtOrganisasjon: org,
