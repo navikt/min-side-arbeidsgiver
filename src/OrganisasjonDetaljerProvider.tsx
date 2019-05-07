@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
-import { hentRollerOgSjekkTilgang } from "./api/dnaApi";
+import {
+  hentRoller,
+  hentRollerOgSjekkTilgang,
+  sjekkAltinnRolleForInntekstmelding,
+  sjekkAltinnRolleHelseSosial
+} from "./api/dnaApi";
 
 export enum TilgangPam {
   LASTER,
@@ -20,7 +25,8 @@ interface State {
   valgtOrganisasjon?: Organisasjon;
   antallAnnonser: number;
   tilgangTilPamState: TilgangPam;
-  tilgangTilAltinnState: TilgangAltinn;
+  tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
+  tilgangTilAltinnForInntektsmelding: TilgangAltinn;
 }
 
 export type Context = State & {
@@ -35,23 +41,35 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
     antallAnnonser: 0,
     tilgangTilPamState: TilgangPam.LASTER,
-    tilgangTilAltinnState: TilgangAltinn.LASTER
+    tilgangTilAltinnForTreSkjemaState: TilgangAltinn.LASTER,
+    tilgangTilAltinnForInntektsmelding: TilgangAltinn.LASTER
   };
 
   endreOrganisasjon = async (org: Organisasjon) => {
     this.setState({ tilgangTilPamState: TilgangPam.LASTER });
-    this.setState({ tilgangTilAltinnState: TilgangAltinn.LASTER });
+    this.setState({ tilgangTilAltinnForTreSkjemaState: TilgangAltinn.LASTER });
+    this.setState({ tilgangTilAltinnForInntektsmelding: TilgangAltinn.LASTER });
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
-    let harAltinnTilgang = await hentRollerOgSjekkTilgang(
-      org.OrganizationNumber
-    );
-    if (harAltinnTilgang) {
-      this.setState({ tilgangTilAltinnState: TilgangAltinn.TILGANG });
+    let roller = await hentRoller(org.OrganizationNumber);
+    if (sjekkAltinnRolleForInntekstmelding(roller)) {
+      this.setState({
+        tilgangTilAltinnForInntektsmelding: TilgangAltinn.TILGANG
+      });
+    } else {
+      this.setState({
+        tilgangTilAltinnForInntektsmelding: TilgangAltinn.IKKE_TILGANG
+      });
     }
-    if (!harAltinnTilgang) {
-      this.setState({ tilgangTilAltinnState: TilgangAltinn.IKKE_TILGANG });
+    if (sjekkAltinnRolleHelseSosial(roller)) {
+      this.setState({
+        tilgangTilAltinnForTreSkjemaState: TilgangAltinn.TILGANG
+      });
+    } else {
+      this.setState({
+        tilgangTilAltinnForTreSkjemaState: TilgangAltinn.IKKE_TILGANG
+      });
     }
     if (harPamTilgang) {
       this.setState({
