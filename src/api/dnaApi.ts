@@ -1,9 +1,11 @@
 import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
-import { digiSyfoNarmesteLederLink } from "../lenker";
+import { digiSyfoNarmesteLederLink, enhetsregisteretApiLink } from "../lenker";
+import { defaultOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
 
 export interface Rolle {
-  Roledefinition: number;
+  RoleType: string;
+  RoleDefinitionId: number;
   RoleName: string;
   RoleDescription: string;
 }
@@ -17,13 +19,31 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
   }
 }
 
-export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
+export async function hentRollerOgSjekkTilgang(
+  orgnr: string
+): Promise<boolean> {
   let respons = await fetch("/ditt-nav-arbeidsgiver-api/api/roller/" + orgnr);
   if (respons.ok) {
-    return await respons.json();
-  } else {
-    return [];
+    const objekt: Array<Rolle> = await respons.json();
+    const rolle = objekt.find(rolle => 131 === rolle.RoleDefinitionId);
+    if (rolle) {
+      return true;
+    }
+    return false;
   }
+  return false;
+}
+
+export async function hentBedriftsInfo(
+  orgnr: string
+): Promise<EnhetsregisteretOrg> {
+  let respons = await fetch(enhetsregisteretApiLink(orgnr));
+  if (respons.ok) {
+    const enhet: EnhetsregisteretOrg = await respons.json();
+    return enhet;
+  }
+  console.log("kunne ikke hente informasjon for orgnr: ", orgnr);
+  return defaultOrg;
 }
 
 export async function hentSyfoTilgang(): Promise<boolean> {

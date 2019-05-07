@@ -10,10 +10,17 @@ export enum TilgangPam {
   TILGANG
 }
 
+export enum TilgangAltinn {
+  LASTER,
+  IKKE_TILGANG,
+  TILGANG
+}
+
 interface State {
   valgtOrganisasjon?: Organisasjon;
   antallAnnonser: number;
   tilgangTilPamState: TilgangPam;
+  tilgangTilAltinnState: TilgangAltinn;
 }
 
 export type Context = State & {
@@ -27,7 +34,8 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>(
 export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
   state: State = {
     antallAnnonser: 0,
-    tilgangTilPamState: TilgangPam.LASTER
+    tilgangTilPamState: TilgangPam.LASTER,
+    tilgangTilAltinnState: TilgangAltinn.LASTER
   };
 
   endreOrganisasjon = async (org: Organisasjon) => {
