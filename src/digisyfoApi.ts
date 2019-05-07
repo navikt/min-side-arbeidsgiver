@@ -22,6 +22,5 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
   if (respons.ok) {
     responsBody = await respons.json();
   }
-  console.log("hent syfo oppgaver respons", responsBody);
   return responsBody;
 }

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
-import { TilgangSyfo } from "./SyfoTilgangProvider";
 import { hentRollerOgSjekkTilgang } from "./api/dnaApi";
 
 export enum TilgangPam {
@@ -41,6 +40,7 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
 
   endreOrganisasjon = async (org: Organisasjon) => {
     this.setState({ tilgangTilPamState: TilgangPam.LASTER });
+    this.setState({ tilgangTilAltinnState: TilgangAltinn.LASTER });
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
@@ -49,10 +49,10 @@ export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
     );
     if (harAltinnTilgang) {
       this.setState({ tilgangTilAltinnState: TilgangAltinn.TILGANG });
-    } else {
+    }
+    if (!harAltinnTilgang) {
       this.setState({ tilgangTilAltinnState: TilgangAltinn.IKKE_TILGANG });
     }
-
     if (harPamTilgang) {
       this.setState({
         valgtOrganisasjon: org,
