@@ -24,8 +24,15 @@
     -->
     <title>Ditt NAV arbeidsgiver</title>
   </head>
+
   <body>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <script type="application/javascript">
+      window.frontendlogger = { info: function(){}, warn: function(){}, error: function(){}, event: function(){}};
+      window.frontendlogger.appname = 'testapp';
+    </script>
+    <script type="application/javascript" src="/frontendlogger/logger.js"></script>
     <div id="root"></div>
     <script type="application/javascript">
       window.appSettings = {};
