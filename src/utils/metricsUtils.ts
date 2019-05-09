@@ -12,6 +12,7 @@ export const logEvent = (eventNavn: string, felter?: {}, tags?: {}) => {
 };
 export const logInfo = (message: string ) => {
     const logger: Logger = (window as any).frontendlogger;
+    console.log("window", window);
     if (logger) {
         logger.info(message);
     }
