@@ -1,5 +1,5 @@
 import { pamHentStillingsannonserLenke } from "./lenker";
-import {logEvent} from "./utils/metricsUtils";
+import {logEvent, logInfo} from "./utils/metricsUtils";
 
 export interface PamStatusAnnonser {
   TIL_GODKJENNING: number;
@@ -14,7 +14,8 @@ export interface PamStatusAnnonser {
 //TODO TAG-378: finne ut hvilke annonser som regner som "aktive"
 
 const hentAntallannonser = async (): Promise<number> => {
-  logEvent('hent annonser');
+  logInfo('hent annonser');
+  console.log("get annonser");
   const respons = await fetch(pamHentStillingsannonserLenke(), {
     method: "GET",
     credentials: "include"

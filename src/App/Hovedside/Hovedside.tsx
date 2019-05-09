@@ -4,10 +4,11 @@ import "./Hovedside.less";
 import TjenesteBoksContainer from "./TjenesteBoksContainer/TjenesteBoksContainer";
 import NyttigForDegContainer from "./NyttigForDegContainer/NyttigForDegContainer";
 import AltinnContainer from "./AltinnContainer/AltinnContainer";
-import {logEvent} from "../../utils/metricsUtils";
+import {logEvent, logInfo} from "../../utils/metricsUtils";
 
 const Hovedside: FunctionComponent = () => {
-    logEvent('lasthovedside');
+    console.log("lasthovedside")
+    logInfo("lasthovedside");
   return (
     <div className="forside">
       <TjenesteBoksContainer />
