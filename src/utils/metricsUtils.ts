@@ -10,7 +10,7 @@ export const logEvent = (eventNavn: string, felter?: {}, tags?: {}) => {
         logger.event(eventNavn, felter || {}, tags || {});
     }
 };
-export const logInfo = (message: string, ) => {
+export const logInfo = (message: string ) => {
     const logger: Logger = (window as any).frontendlogger;
     if (logger) {
         logger.info(message);
