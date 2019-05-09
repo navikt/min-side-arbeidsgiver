@@ -4,9 +4,10 @@ import "./Hovedside.less";
 import TjenesteBoksContainer from "./TjenesteBoksContainer/TjenesteBoksContainer";
 import NyttigForDegContainer from "./NyttigForDegContainer/NyttigForDegContainer";
 import AltinnContainer from "./AltinnContainer/AltinnContainer";
+import {logEvent} from "../../utils/metricsUtils";
 
 const Hovedside: FunctionComponent = () => {
-    (window as any).frontendlogger.info('Min melding');
+    logEvent('lasthovedside');
   return (
     <div className="forside">
       <TjenesteBoksContainer />
