@@ -7,9 +7,9 @@ import AltinnContainer from "./AltinnContainer/AltinnContainer";
 import {logEvent, logInfo} from "../../utils/metricsUtils";
 
 const Hovedside: FunctionComponent = () => {
-    console.log("lasthovedside")
+    console.log("console log lasthovedside");
     logInfo("lasthovedside");
-    (window as any).frontendlogger.info('Min melding fra hovedside');
+
   return (
     <div className="forside">
       <TjenesteBoksContainer />

@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { Normaltekst } from "nav-frontend-typografi";
 import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
+import {logInfo} from "../../utils/metricsUtils";
 
 class LoggInn extends Component {
   redirectTilLogin = () => {
+    logInfo("klikk på login");
     window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
   };
 
