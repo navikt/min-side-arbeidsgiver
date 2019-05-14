@@ -12,7 +12,7 @@ const KontaktOss: FunctionComponent = () => {
       href={"https://arbeidsgiver.nav.no/kontakt-oss/"}
       tittelProps={"undertittel"}
       linkCreator={(props: any) => (
-        <a target="_blank" {...props}>
+        <a {...props}>
           {props.children}
         </a>
       )}
