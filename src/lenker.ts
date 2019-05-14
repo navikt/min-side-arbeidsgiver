@@ -33,7 +33,7 @@ export const syfoLink = () => {
   if (environment.MILJO === "prod-sbs") {
     return "https://tjenester.nav.no/sykefravaerarbeidsgiver";
   } else {
-    return "https://tjenester-q0.nav.no/sykefravaerarbeidsgiver";
+    return "https://tjenester-q1.nav.no/sykefravaerarbeidsgiver";
   }
 };
 
