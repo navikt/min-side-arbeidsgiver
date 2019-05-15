@@ -10,9 +10,7 @@ WORKDIR /app
 COPY build/ build/
 COPY src/server/ src/server/
 COPY start.sh ./
-FROM docker.adeo.no:5000/pus/decorator
-ENV APPLICATION_NAME=ditt-nav-arbeidsgiver
-COPY --from=builder /source/build /app
+COPY --from=builder /app/node_modules /app/node_modules
 
 
 EXPOSE 3000
