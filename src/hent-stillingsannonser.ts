@@ -15,7 +15,6 @@ export interface PamStatusAnnonser {
 
 const hentAntallannonser = async (): Promise<number> => {
   logInfo('hent annonser');
-  console.log("get annonser");
   const respons = await fetch(pamHentStillingsannonserLenke(), {
     method: "GET",
     credentials: "include"
