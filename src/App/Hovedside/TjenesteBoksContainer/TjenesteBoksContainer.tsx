@@ -47,24 +47,18 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
-      {tilgangTilPamState !== TilgangPam.LASTER &&
-        tilgangTilSyfoState !== TilgangSyfo.LASTER && (
-          <div className={"tjenesteboks-container " + typeAntall}>
-            {tilgangTilSyfoState === TilgangSyfo.TILGANG && (
+      <div className={"tjenesteboks-container " + typeAntall}>
+            {tilgangTilSyfoState !== TilgangSyfo.LASTER &&  tilgangTilSyfoState === TilgangSyfo.TILGANG && (
               <Innholdsboks className={"tjenesteboks innholdsboks"}>
                 <Syfoboks className={"syfoboks"} />
               </Innholdsboks>
             )}
-            {tilgangTilPamState === TilgangPam.TILGANG && (
+            { tilgangTilPamState !== TilgangPam.LASTER && tilgangTilPamState === TilgangPam.TILGANG && (
               <div className={"tjenesteboks innholdsboks"}>
                 <Pamboks />
               </div>
             )}
-            <div className={"tjenesteboks innholdsboks"}>
-              <Pamboks />
-            </div>
           </div>
-        )}
     </div>
   );
 };
