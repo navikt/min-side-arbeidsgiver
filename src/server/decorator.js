@@ -2,13 +2,12 @@ const jsdom = require('jsdom');
 const request = require('request');
 
 const { JSDOM } = jsdom;
-const url = () => {
+url = ''
     if (process.env.NAIS_CLUSTER_NAME === "prod-sbs") {
-        return "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true";
+        url ="https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true";
     } else {
-        return "https://appres-q1.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true";
+        url = "https://appres-q1.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true";
     }
-};
 
 const requestDecorator = (callback) => request(url, callback);
 
