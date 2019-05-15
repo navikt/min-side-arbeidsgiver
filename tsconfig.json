@@ -23,6 +23,6 @@
     "src"
   ],
   "exclude": [
-    "src/server/",
+    "src/server/"
   ]
 }
