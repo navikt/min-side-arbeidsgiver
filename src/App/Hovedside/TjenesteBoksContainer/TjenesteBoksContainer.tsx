@@ -21,19 +21,18 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
   const [typeAntall, settypeAntall] = useState("");
 
-  const tellAntallTilganger = (): number => {
-    let antallTilganger: number = 0;
-    if (tilgangTilPamState === TilgangPam.TILGANG) {
-      antallTilganger++;
-    }
-    if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
-      antallTilganger++;
-    }
-
-    return antallTilganger;
-  };
-
   useEffect(() => {
+    const tellAntallTilganger = (): number => {
+      let antallTilganger: number = 0;
+      if (tilgangTilPamState === TilgangPam.TILGANG) {
+        antallTilganger++;
+      }
+      if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
+        antallTilganger++;
+      }
+
+      return antallTilganger;
+    };
     let antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
       settypeAntall("antall-partall");
@@ -43,28 +42,22 @@ const TjenesteBoksContainer: FunctionComponent = () => {
       settypeAntall("antall-oddetall");
     }
     settypeAntall("antall-oddetall");
-  }, [TilgangSyfo, TilgangPam]);
+  }, [tilgangTilPamState, tilgangTilSyfoState]);
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
-      {tilgangTilPamState !== TilgangPam.LASTER &&
-        tilgangTilSyfoState !== TilgangSyfo.LASTER && (
-          <div className={"tjenesteboks-container " + typeAntall}>
-            {tilgangTilSyfoState === TilgangSyfo.TILGANG && (
+      <div className={"tjenesteboks-container " + typeAntall}>
+            {tilgangTilSyfoState !== TilgangSyfo.LASTER &&  tilgangTilSyfoState === TilgangSyfo.TILGANG && (
               <Innholdsboks className={"tjenesteboks innholdsboks"}>
                 <Syfoboks className={"syfoboks"} />
               </Innholdsboks>
             )}
-            {tilgangTilPamState === TilgangPam.TILGANG && (
+            { tilgangTilPamState !== TilgangPam.LASTER && tilgangTilPamState === TilgangPam.TILGANG && (
               <div className={"tjenesteboks innholdsboks"}>
                 <Pamboks />
               </div>
             )}
-            <div className={"tjenesteboks innholdsboks"}>
-              <Pamboks />
-            </div>
           </div>
-        )}
     </div>
   );
 };

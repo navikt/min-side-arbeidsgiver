@@ -6,11 +6,13 @@ import NyttigForDegContainer from "./NyttigForDegContainer/NyttigForDegContainer
 import AltinnContainer from "./AltinnContainer/AltinnContainer";
 
 const Hovedside: FunctionComponent = () => {
+
   return (
     <div className="forside">
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
+
     </div>
   );
 };

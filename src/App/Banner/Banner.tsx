@@ -1,7 +1,5 @@
-import { Sidetittel } from "nav-frontend-typografi";
 import React, { FunctionComponent, useContext, useEffect } from "react";
 import "./Banner.less";
-import companyImage from "./company.svg";
 import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
@@ -30,7 +28,7 @@ const Banner: FunctionComponent<Props> = props => {
     if (organisasjoner[0]) {
       endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner]);
+  }, [organisasjoner,endreOrganisasjon]);
 
   return (
     <div className={"banner"}>

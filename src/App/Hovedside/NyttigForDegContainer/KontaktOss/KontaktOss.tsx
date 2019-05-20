@@ -3,7 +3,7 @@ import { Undertittel } from "nav-frontend-typografi";
 import iconKontaktNav from "./kontaktossikon.svg";
 import "./KontaktOss.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
-import Innholdsboks from "../../Innholdsboks/Innholdsboks";
+
 
 const KontaktOss: FunctionComponent = () => {
   return (
@@ -12,7 +12,7 @@ const KontaktOss: FunctionComponent = () => {
       href={"https://arbeidsgiver.nav.no/kontakt-oss/"}
       tittelProps={"undertittel"}
       linkCreator={(props: any) => (
-        <a target="_blank" {...props}>
+        <a {...props}>
           {props.children}
         </a>
       )}
