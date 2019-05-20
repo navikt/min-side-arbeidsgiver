@@ -1,6 +1,7 @@
 import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import { digiSyfoNarmesteLederLink } from "../lenker";
+import {logInfo} from "../utils/metricsUtils";
 
 export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
@@ -16,14 +17,10 @@ export async function hentSyfoTilgang(): Promise<boolean> {
   if (respons.ok) {
     const objekt: SyfoKallObjekt = await respons.json();
     if (objekt.narmesteLedere.length) {
+      logInfo("har syfotilgang");
       return true;
     }
   }
   return false;
 }
 
-function redirectHvisUnauthorized(respons: Response) {
-  if (respons.status === 401) {
-    window.location.href = "/ditt-nav-arbeidsgiver/login";
-  }
-}

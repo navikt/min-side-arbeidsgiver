@@ -3,7 +3,7 @@ import { Undertittel } from "nav-frontend-typografi";
 import iconKontaktNav from "./kontaktossikon.svg";
 import "./KontaktOss.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
-import Innholdsboks from "../../Innholdsboks/Innholdsboks";
+
 
 const KontaktOss: FunctionComponent = () => {
   return (

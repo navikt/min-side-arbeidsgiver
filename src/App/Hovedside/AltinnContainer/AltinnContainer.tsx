@@ -29,7 +29,7 @@ const AltinnContainer: FunctionComponent = () => {
     if (riktigRoll1 && !riktigRoll2) {
       settypeAntall("antall-skjema-tre");
     }
-  });
+  },[riktigRoll1, riktigRoll2]);
 
   return (
     <div className={"altinn-container"}>

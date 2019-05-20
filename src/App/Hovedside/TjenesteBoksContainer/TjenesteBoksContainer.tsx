@@ -21,19 +21,18 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
   const [typeAntall, settypeAntall] = useState("");
 
-  const tellAntallTilganger = (): number => {
-    let antallTilganger: number = 0;
-    if (tilgangTilPamState === TilgangPam.TILGANG) {
-      antallTilganger++;
-    }
-    if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
-      antallTilganger++;
-    }
-
-    return antallTilganger;
-  };
-
   useEffect(() => {
+    const tellAntallTilganger = (): number => {
+      let antallTilganger: number = 0;
+      if (tilgangTilPamState === TilgangPam.TILGANG) {
+        antallTilganger++;
+      }
+      if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
+        antallTilganger++;
+      }
+
+      return antallTilganger;
+    };
     let antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
       settypeAntall("antall-partall");
@@ -43,7 +42,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
       settypeAntall("antall-oddetall");
     }
     settypeAntall("antall-oddetall");
-  }, [TilgangSyfo, TilgangPam]);
+  }, [tilgangTilPamState, tilgangTilSyfoState]);
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
