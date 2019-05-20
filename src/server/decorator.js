@@ -2,7 +2,7 @@ const jsdom = require('jsdom');
 const request = require('request');
 
 const { JSDOM } = jsdom;
-url = ''
+url = '';
     if (process.env.NAIS_CLUSTER_NAME === "prod-sbs") {
         url ="https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true";
     } else {
@@ -27,7 +27,6 @@ const getDecorator = () =>
                 };
                 resolve(data);
             } else {
-                console.log(error);
                 reject(new Error(error));
             }
         };
