@@ -1,7 +1,7 @@
 interface Logger {
     event: (navn: string, fields: {}, tags: {}) => void;
     error: (melding: string) => void;
-    info: (message: string , x_Message?: string) => void;
+    info: (logContent: {message: string , x_Message?: string}) => void;
 }
 
 export const logEvent = (eventNavn: string, felter?: {}, tags?: {}) => {
@@ -13,6 +13,10 @@ export const logEvent = (eventNavn: string, felter?: {}, tags?: {}) => {
 export const logInfo = (message: string, x_Message?: string ) => {
     const logger: Logger = (window as any).frontendlogger;
     if (logger) {
-            logger.info(message, x_Message);
-    }
+        if(x_Message){
+            logger.info({"message":message, "x_Message": x_Message});
+    }else{
+            logger.info({"message":message});
+
+        }}
 };
