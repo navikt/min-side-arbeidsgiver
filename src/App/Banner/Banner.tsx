@@ -4,6 +4,7 @@ import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
+import {logInfo} from "../../utils/metricsUtils";
 
 interface Props {
   tittel?: string;
@@ -29,6 +30,10 @@ const Banner: FunctionComponent<Props> = props => {
       endreOrganisasjon(organisasjoner[0]);
     }
   }, [organisasjoner,endreOrganisasjon]);
+
+  if(valgtOrganisasjon){
+    logInfo("besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber);
+  }
 
   return (
     <div className={"banner"}>
