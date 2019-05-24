@@ -32,7 +32,7 @@ const Banner: FunctionComponent<Props> = props => {
   }, [organisasjoner,endreOrganisasjon]);
 
   if(valgtOrganisasjon){
-    logInfo("besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber);
+    logInfo("besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber, valgtOrganisasjon.OrganizationNumber);
   }
 
   return (
