@@ -41,23 +41,24 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("antall-oddetall");
     }
-    settypeAntall("antall-oddetall");
-  }, [tilgangTilPamState, tilgangTilSyfoState]);
+  }, [tilgangTilSyfoState, tilgangTilPamState]);
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
       <div className={"tjenesteboks-container " + typeAntall}>
-            {tilgangTilSyfoState !== TilgangSyfo.LASTER &&  tilgangTilSyfoState === TilgangSyfo.TILGANG && (
-              <Innholdsboks className={"tjenesteboks innholdsboks"}>
-                <Syfoboks className={"syfoboks"} />
-              </Innholdsboks>
-            )}
-            { tilgangTilPamState !== TilgangPam.LASTER && tilgangTilPamState === TilgangPam.TILGANG && (
-              <div className={"tjenesteboks innholdsboks"}>
-                <Pamboks />
-              </div>
-            )}
-          </div>
+        {tilgangTilSyfoState !== TilgangSyfo.LASTER &&
+          tilgangTilSyfoState === TilgangSyfo.TILGANG && (
+            <Innholdsboks className={"tjenesteboks innholdsboks"}>
+              <Syfoboks className={"syfoboks"} />
+            </Innholdsboks>
+          )}
+        {tilgangTilPamState !== TilgangPam.LASTER &&
+          tilgangTilPamState === TilgangPam.TILGANG && (
+            <div className={"tjenesteboks innholdsboks"}>
+              <Pamboks />
+            </div>
+          )}
+      </div>
     </div>
   );
 };

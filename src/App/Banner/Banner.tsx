@@ -29,7 +29,7 @@ const Banner: FunctionComponent<Props> = props => {
     if (organisasjoner[0]) {
       endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner,endreOrganisasjon]);
+  }, [organisasjoner, endreOrganisasjon]);
 
   if(valgtOrganisasjon){
     logInfo("besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber, valgtOrganisasjon.OrganizationNumber);
@@ -57,7 +57,7 @@ const Banner: FunctionComponent<Props> = props => {
             </Select>
             {valgtOrganisasjon && (
               <Normaltekst className={"banner__orgnr"}>
-                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}{" "}
+                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
               </Normaltekst>
             )}
           </div>
