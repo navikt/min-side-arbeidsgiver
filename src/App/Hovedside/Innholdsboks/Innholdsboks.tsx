@@ -6,7 +6,7 @@ interface Props {
   className?: string;
 }
 
-const Innholdsboks: React.FunctionComponent<Props> = props => (
+const Innholdsboks: FunctionComponent<Props> = props => (
   <div className={classNames("innholdsboks", props.className)}>
     {props.children}
   </div>

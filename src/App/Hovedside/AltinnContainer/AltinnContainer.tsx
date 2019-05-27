@@ -49,6 +49,7 @@ const AltinnContainer: FunctionComponent = () => {
     ) {
       settypeAntall("antall-skjema-en");
     }
+    
   }, [tilgangTilAltinnForTreSkjemaState, tilgangTilAltinnForInntektsmelding]);
 
   return (

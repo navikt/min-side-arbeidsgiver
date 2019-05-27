@@ -2,6 +2,7 @@ import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import { digiSyfoNarmesteLederLink, enhetsregisteretApiLink } from "../lenker";
 import { defaultOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
+import {logInfo} from "../utils/metricsUtils";
 
 export interface Rolle {
   RoleType: string;
@@ -88,14 +89,10 @@ export async function hentSyfoTilgang(): Promise<boolean> {
   if (respons.ok) {
     const objekt: SyfoKallObjekt = await respons.json();
     if (objekt.narmesteLedere.length) {
+      logInfo("har syfotilgang");
       return true;
     }
   }
   return false;
 }
 
-function redirectHvisUnauthorized(respons: Response) {
-  if (respons.status === 401) {
-    window.location.href = "/ditt-nav-arbeidsgiver/login";
-  }
-}

@@ -12,7 +12,7 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
       className={"bedriftsinfo-knapp"}
       tittelProps={"undertittel"}
       linkCreator={(props: any) => (
-        <a target="_blank" {...props}>
+        <a {...props}>
           {props.children}
         </a>
       )}

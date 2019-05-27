@@ -22,11 +22,23 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    {{{NAV_SCRIPTS}}}
+    {{{NAV_MENU_RESOURCES}}}
+    {{{NAV_STYLES}}}
     <title>Ditt NAV arbeidsgiver</title>
   </head>
+
   <body>
+  <script type="application/javascript">
+    window.frontendlogger = { info: function(){}, warn: function(){}, error: function(){}, event: function(){}};
+    window.frontendlogger.appname = 'ditt-nav-arbeidsgiver';
+    window.appSettings = {};
+  </script>
+  <script type="application/javascript" src="/frontendlogger/logger.js"></script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+  {{{NAV_HEADING}}}
     <div id="root"></div>
+  {{{NAV_FOOTER}}}
     <script type="application/javascript">
       window.appSettings = {};
     </script>
