@@ -11,11 +11,7 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
       href={basename + "/bedriftsinformasjon"}
       className={"bedriftsinfo-knapp"}
       tittelProps={"undertittel"}
-      linkCreator={(props: any) => (
-        <a {...props}>
-          {props.children}
-        </a>
-      )}
+      linkCreator={(props: any) => <a {...props}>{props.children}</a>}
     >
       <div className={"bedriftsinfo-knapp__wrapper"}>
         <img
