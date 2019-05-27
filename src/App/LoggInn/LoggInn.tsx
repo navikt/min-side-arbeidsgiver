@@ -1,16 +1,17 @@
-import React, { Component } from "react";
+import React, { FunctionComponent} from "react";
 import { Normaltekst } from "nav-frontend-typografi";
 import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
 import { logInfo } from "../../utils/metricsUtils";
 
-class LoggInn extends Component {
-  redirectTilLogin = () => {
+const LoggInn: FunctionComponent = () => {
+
+  const redirectTilLogin = () => {
     logInfo("klikk på login");
     window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
   };
 
-  render() {
+
     return (
       <div className="innloggingsside">
         <div className={"innloggingsside__innloggingsboks"}>
@@ -23,14 +24,14 @@ class LoggInn extends Component {
           </Normaltekst>
           <Hovedknapp
             className={"innloggingsside__loginKnapp"}
-            onClick={this.redirectTilLogin}
+            onClick={redirectTilLogin}
           >
             Logg inn
           </Hovedknapp>
         </div>
       </div>
     );
-  }
-}
+
+};
 
 export default LoggInn;

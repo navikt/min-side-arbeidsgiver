@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 import LoggInn from "./LoggInn/LoggInn";
 
 import { veilarbStepup } from "../lenker";
@@ -11,9 +11,6 @@ export enum Innlogget {
   INNLOGGET
 }
 
-interface State {
-  innlogget: Innlogget;
-}
 function setEssoCookieLocally() {
   document.cookie = "nav-esso=0123456789..*; path=/; domain=localhost;";
 }
@@ -24,36 +21,37 @@ async function getEssoToken() {
   }
 }
 
-class LoginBoundary extends Component<{}, State> {
-  state: State = {
-    innlogget: Innlogget.IKKE_INNLOGGET
-  };
+const LoginBoundary: FunctionComponent = (props) => {
 
-  async componentDidMount() {
-    this.setState({ innlogget: Innlogget.LASTER });
-    let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
-    if (respons.ok) {
-      this.setState({ innlogget: Innlogget.INNLOGGET });
-      if (environment.MILJO) {
-        await getEssoToken();
-      } else {
-        setEssoCookieLocally();
+  const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
+  useEffect(() => {
+    setInnlogget(Innlogget.LASTER);
+    const getLoginStatus = async () => {
+      let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
+      if (respons.ok) {
+        setInnlogget(Innlogget.INNLOGGET);
+        if (environment.MILJO) {
+          await getEssoToken();
+        } else {
+          setEssoCookieLocally();
+        }
+      } else if (respons.status === 401) {
+        setInnlogget(Innlogget.IKKE_INNLOGGET);
       }
-    } else if (respons.status === 401) {
-      this.setState({ innlogget: Innlogget.IKKE_INNLOGGET });
-    }
-  }
+    };
+    getLoginStatus();
+    },[]);
 
-  render() {
-    if (this.state.innlogget === Innlogget.INNLOGGET) {
-      return <> {this.props.children} </>;
+
+    if (innlogget === Innlogget.INNLOGGET) {
+      return <> {props.children} </>;
     }
-    if (this.state.innlogget === Innlogget.IKKE_INNLOGGET) {
+    if (innlogget === Innlogget.IKKE_INNLOGGET) {
       return <LoggInn />;
     } else {
       return null;
     }
-  }
+
 }
 
 export default LoginBoundary;
