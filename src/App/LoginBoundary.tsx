@@ -15,13 +15,11 @@ interface State {
   innlogget: Innlogget;
 }
 function setEssoCookieLocally() {
-  console.log("set EssoLocally");
   document.cookie = "nav-esso=0123456789..*; path=/; domain=localhost;";
 }
 async function getEssoToken() {
   let veilarbStatusRespons = await hentVeilarbStatus();
   if (!veilarbStatusRespons.erInnlogget) {
-    console.log("no esso-cookie");
     window.location.href = veilarbStepup();
   }
 }
@@ -32,7 +30,6 @@ class LoginBoundary extends Component<{}, State> {
   };
 
   async componentDidMount() {
-    console.log("mount");
     this.setState({ innlogget: Innlogget.LASTER });
     let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
     if (respons.ok) {

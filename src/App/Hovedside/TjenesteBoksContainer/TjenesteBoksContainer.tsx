@@ -41,8 +41,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("antall-oddetall");
     }
-    settypeAntall("antall-oddetall");
-  }, [tilgangTilPamState, tilgangTilSyfoState]);
+  }, [tilgangTilSyfoState, tilgangTilPamState]);
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
