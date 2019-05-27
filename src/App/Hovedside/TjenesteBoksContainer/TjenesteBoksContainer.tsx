@@ -41,7 +41,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("antall-oddetall");
     }
-    
   }, [tilgangTilSyfoState, tilgangTilPamState]);
 
   return (

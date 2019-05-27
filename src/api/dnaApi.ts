@@ -2,7 +2,7 @@ import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import { digiSyfoNarmesteLederLink, enhetsregisteretApiLink } from "../lenker";
 import { defaultOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
-import {logInfo} from "../utils/metricsUtils";
+import { logInfo } from "../utils/metricsUtils";
 
 export interface Rolle {
   RoleType: string;
@@ -93,4 +93,3 @@ export async function hentSyfoTilgang(): Promise<boolean> {
   }
   return false;
 }
-

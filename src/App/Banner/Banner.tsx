@@ -52,7 +52,7 @@ const Banner: FunctionComponent<Props> = props => {
             </Select>
             {valgtOrganisasjon && (
               <Normaltekst className={"banner__orgnr"}>
-                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}{" "}
+                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
               </Normaltekst>
             )}
           </div>
