@@ -53,7 +53,11 @@ const AltinnContainer: FunctionComponent = () => {
 
   return (
     <div className={"altinn-container"}>
-      <Ingress className={"altinn-container__tekst"}>Skjema på Altinn</Ingress>
+      {typeAntall !== "" && (
+        <Ingress className={"altinn-container__tekst"}>
+          Skjema på Altinn
+        </Ingress>
+      )}
       <div className={"altinn-container__bokser"}>
         {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
           <AltinnLenke
