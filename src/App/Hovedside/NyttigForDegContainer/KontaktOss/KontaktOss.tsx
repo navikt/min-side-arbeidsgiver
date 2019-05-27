@@ -4,18 +4,13 @@ import iconKontaktNav from "./kontaktossikon.svg";
 import "./KontaktOss.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 
-
 const KontaktOss: FunctionComponent = () => {
   return (
     <Lenkepanel
       className={"kontakt-oss"}
       href={"https://arbeidsgiver.nav.no/kontakt-oss/"}
       tittelProps={"undertittel"}
-      linkCreator={(props: any) => (
-        <a {...props}>
-          {props.children}
-        </a>
-      )}
+      linkCreator={(props: any) => <a {...props}>{props.children}</a>}
     >
       <div className={"kontakt-oss__wrapper"}>
         <img

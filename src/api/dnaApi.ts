@@ -11,8 +11,6 @@ export interface Rolle {
   RoleDescription: string;
 }
 
-const kodeForHelse = 131;
-
 enum AltinnKode {
   HelseSosialOgVelferdstjenester = 131,
   AnsvarligRevisor = 5602,

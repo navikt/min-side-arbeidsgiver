@@ -28,7 +28,7 @@ const Banner: FunctionComponent<Props> = props => {
     if (organisasjoner[0]) {
       endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner,endreOrganisasjon]);
+  }, [organisasjoner, endreOrganisasjon]);
 
   return (
     <div className={"banner"}>

@@ -28,7 +28,7 @@ const Pamboks: FunctionComponent<Props> = props => {
         "Stillingsannonser (" + antallAnnonser + " aktive)"
       );
     }
-  },[antallAnnonser]);
+  }, [antallAnnonser]);
 
   return (
     <div className={"pamboks " + props.className}>

@@ -36,7 +36,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     let antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
       settypeAntall("antall-partall");
-    } else if (antallTjenesteTilganger == 1) {
+    } else if (antallTjenesteTilganger === 1) {
       settypeAntall("antall-en");
     } else {
       settypeAntall("antall-oddetall");
@@ -47,17 +47,19 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
       <div className={"tjenesteboks-container " + typeAntall}>
-            {tilgangTilSyfoState !== TilgangSyfo.LASTER &&  tilgangTilSyfoState === TilgangSyfo.TILGANG && (
-              <Innholdsboks className={"tjenesteboks innholdsboks"}>
-                <Syfoboks className={"syfoboks"} />
-              </Innholdsboks>
-            )}
-            { tilgangTilPamState !== TilgangPam.LASTER && tilgangTilPamState === TilgangPam.TILGANG && (
-              <div className={"tjenesteboks innholdsboks"}>
-                <Pamboks />
-              </div>
-            )}
-          </div>
+        {tilgangTilSyfoState !== TilgangSyfo.LASTER &&
+          tilgangTilSyfoState === TilgangSyfo.TILGANG && (
+            <Innholdsboks className={"tjenesteboks innholdsboks"}>
+              <Syfoboks className={"syfoboks"} />
+            </Innholdsboks>
+          )}
+        {tilgangTilPamState !== TilgangPam.LASTER &&
+          tilgangTilPamState === TilgangPam.TILGANG && (
+            <div className={"tjenesteboks innholdsboks"}>
+              <Pamboks />
+            </div>
+          )}
+      </div>
     </div>
   );
 };

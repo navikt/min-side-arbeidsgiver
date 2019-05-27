@@ -11,9 +11,7 @@ import {
 } from "../../../OrganisasjonDetaljerProvider";
 
 import "./AltinnContainer.less";
-import Lenkepanel from "nav-frontend-lenkepanel";
 import { Ingress } from "nav-frontend-typografi";
-import nyfane from "./AltinnLenke/external-link.svg";
 
 import {
   inntekstmelding,
