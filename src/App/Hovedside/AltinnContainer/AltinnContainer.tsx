@@ -64,60 +64,34 @@ const AltinnContainer: FunctionComponent = () => {
             tekst={"Søk om inkluderingstilskudd"}
           />
         )}
-        <Lenkepanel
-          className={"altinn-container__" + typeAntall}
-          href={soknadsskjemaLonnstilskudd()}
-          tittelProps={"element"}
-          border={false}
-          linkCreator={(props: any) => (
-            <a target="_blank" {...props}>
-              {props.children}
-            </a>
-          )}
-        >
-          Søk om lønnstilskudd
-          <img
-            className={"altinn-container__ikon"}
-            src={nyfane}
-            alt="ikon for å beskrive at lenken åpnes i en ny fane"
+        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+          <AltinnLenke
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
+            href={soknadsskjemaLonnstilskudd()}
+            tekst={"Søk om lønnstilskudd"}
           />
-        </Lenkepanel>
-        <Lenkepanel
-          className={"altinn-container__" + typeAntall}
-          href={soknadTilskuddTilMentor()}
-          tittelProps={"element"}
-          border={false}
-          linkCreator={(props: any) => (
-            <a target="_blank" {...props}>
-              {props.children}
-            </a>
-          )}
-        >
-          Søk om tilskudd til mentor
-          <img
-            className={"altinn-container__ikon"}
-            src={nyfane}
-            alt="ikon for å beskrive at lenken åpnes i en ny fane"
+        )}
+        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+          <AltinnLenke
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
+            href={soknadTilskuddTilMentor()}
+            tekst={"Søk om tilskudd til mentor"}
           />
-        </Lenkepanel>
-        <Lenkepanel
-          className={"altinn-container__" + typeAntall}
-          href={inntekstmelding}
-          tittelProps={"element"}
-          border={false}
-          linkCreator={(props: any) => (
-            <a target="_blank" {...props}>
-              {props.children}
-            </a>
-          )}
-        >
-          Inntektsmelding til NAV
-          <img
-            className={"altinn-container__ikon"}
-            src={nyfane}
-            alt="ikon for å beskrive at lenken åpnes i en ny fane"
+        )}
+
+        {tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG && (
+          <AltinnLenke
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
+            href={inntekstmelding}
+            tekst={"Inntekstmelding"}
           />
-        </Lenkepanel>
+        )}
       </div>
     </div>
   );
