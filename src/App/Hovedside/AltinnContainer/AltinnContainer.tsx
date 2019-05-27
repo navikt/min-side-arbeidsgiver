@@ -1,9 +1,17 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState
+} from "react";
+
+import {
+  OrganisasjonsDetaljerContext,
+  TilgangAltinn
+} from "../../../OrganisasjonDetaljerProvider";
 
 import "./AltinnContainer.less";
-import Lenkepanel from "nav-frontend-lenkepanel";
 import { Ingress } from "nav-frontend-typografi";
-import nyfane from "./external-link.svg";
 
 import {
   inntekstmelding,
@@ -11,115 +19,81 @@ import {
   soknadsskjemaLonnstilskudd,
   soknadTilskuddTilMentor
 } from "../../../lenker";
+import AltinnLenke from "./AltinnLenke/AltinnLenke";
 
 const AltinnContainer: FunctionComponent = () => {
   const [typeAntall, settypeAntall] = useState("");
-  let riktigRoll1: boolean = true;
-  let riktigRoll2: boolean = true;
+  const {
+    tilgangTilAltinnForInntektsmelding,
+    tilgangTilAltinnForTreSkjemaState
+  } = useContext(OrganisasjonsDetaljerContext);
 
   useEffect(() => {
-    if (riktigRoll1 && riktigRoll2) {
+    if (
+      tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
+    ) {
       settypeAntall("antall-skjema-partall");
     }
-
-    if (riktigRoll2 && !riktigRoll1) {
+    if (
+      tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.IKKE_TILGANG
+    ) {
       settypeAntall("antall-skjema-en");
     }
-
-    if (riktigRoll1 && !riktigRoll2) {
-      settypeAntall("antall-skjema-tre");
+    if (
+      tilgangTilAltinnForInntektsmelding === TilgangAltinn.IKKE_TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
+    ) {
+      settypeAntall("antall-skjema-en");
     }
-  }, [riktigRoll1, riktigRoll2]);
+    
+  }, [tilgangTilAltinnForTreSkjemaState, tilgangTilAltinnForInntektsmelding]);
 
   return (
     <div className={"altinn-container"}>
-      {(riktigRoll1 || riktigRoll2) && (
+      {typeAntall !== "" && (
         <Ingress className={"altinn-container__tekst"}>
           Skjema på Altinn
         </Ingress>
       )}
       <div className={"altinn-container__bokser"}>
-        {riktigRoll1 && (
-          <Lenkepanel
+        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+          <AltinnLenke
             className={
               "altinn-container__" + typeAntall + " altinn-container__lenke"
             }
             href={soknadskjemaInkluderingstilskudd()}
-            tittelProps={"element"}
-            border={false}
-            linkCreator={(props: any) => (
-              <a target="_blank" {...props}>
-                {props.children}
-              </a>
-            )}
-          >
-            Søk om inkluderingstilskudd
-            <img
-              className={"altinn-container__ikon"}
-              src={nyfane}
-              alt="ikon for å beskrive at lenken åpnes i en ny fane"
-            />
-          </Lenkepanel>
+            tekst={"Søk om inkluderingstilskudd"}
+          />
         )}
-        {riktigRoll1 && (
-          <Lenkepanel
-            className={"altinn-container__" + typeAntall}
+        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+          <AltinnLenke
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
             href={soknadsskjemaLonnstilskudd()}
-            tittelProps={"element"}
-            border={false}
-            linkCreator={(props: any) => (
-              <a target="_blank" {...props}>
-                {props.children}
-              </a>
-            )}
-          >
-            Søk om lønnstilskudd
-            <img
-              className={"altinn-container__ikon"}
-              src={nyfane}
-              alt="ikon for å beskrive at lenken åpnes i en ny fane"
-            />
-          </Lenkepanel>
+            tekst={"Søk om lønnstilskudd"}
+          />
         )}
-        {riktigRoll1 && (
-          <Lenkepanel
-            className={"altinn-container__" + typeAntall}
+        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+          <AltinnLenke
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
             href={soknadTilskuddTilMentor()}
-            tittelProps={"element"}
-            border={false}
-            linkCreator={(props: any) => (
-              <a target="_blank" {...props}>
-                {props.children}
-              </a>
-            )}
-          >
-            Søk om tilskudd til mentor
-            <img
-              className={"altinn-container__ikon"}
-              src={nyfane}
-              alt="ikon for å beskrive at lenken åpnes i en ny fane"
-            />
-          </Lenkepanel>
+            tekst={"Søk om tilskudd til mentor"}
+          />
         )}
-        {riktigRoll2 && (
-          <Lenkepanel
-            className={"altinn-container__" + typeAntall}
+
+        {tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG && (
+          <AltinnLenke
+            className={
+              "altinn-container__" + typeAntall + " altinn-container__lenke"
+            }
             href={inntekstmelding}
-            tittelProps={"element"}
-            border={false}
-            linkCreator={(props: any) => (
-              <a target="_blank" {...props}>
-                {props.children}
-              </a>
-            )}
-          >
-            Inntektsmelding til NAV
-            <img
-              className={"altinn-container__ikon"}
-              src={nyfane}
-              alt="ikon for å beskrive at lenken åpnes i en ny fane"
-            />
-          </Lenkepanel>
+            tekst={"Inntekstmelding"}
+          />
         )}
       </div>
     </div>
