@@ -64,7 +64,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     settilgangTilAltinnForInntektsmelding(TilgangAltinn.LASTER);
     settilgangTilAltinnForTreSkjemaState(TilgangAltinn.LASTER);
     settilgangTilPamState(TilgangPam.LASTER);
-    setValgtOrganisasjon(org);
 
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
@@ -84,8 +83,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     if (harPamTilgang) {
       settilgangTilPamState(TilgangPam.TILGANG);
       setantallAnnonser(await hentAntallannonser());
+      setValgtOrganisasjon(org);
     } else {
       settilgangTilPamState(TilgangPam.IKKE_TILGANG);
+      setValgtOrganisasjon(org);
     }
   };
 
