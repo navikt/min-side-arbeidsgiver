@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import { Organisasjon } from "./organisasjon";
 import { hentOrganisasjoner } from "./api/dnaApi";
 
