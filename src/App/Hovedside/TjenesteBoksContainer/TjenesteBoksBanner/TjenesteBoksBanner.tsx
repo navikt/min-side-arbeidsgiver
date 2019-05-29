@@ -23,10 +23,7 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
       </Undertittel>
       {props.antallVarsler! > 0 && (
         <span className={"tjeneste-boks-banner__varselsirkel"}>
-          <Undertittel>
-            {props.antallVarsler}
-            {console.log("render antallvarsler for ", props.tittel)}
-          </Undertittel>
+          <Undertittel>{props.antallVarsler}</Undertittel>
         </span>
       )}
     </div>
