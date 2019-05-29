@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import React, { FunctionComponent } from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.less";
 import { basename } from "../paths";
 import Hovedside from "./Hovedside/Hovedside";

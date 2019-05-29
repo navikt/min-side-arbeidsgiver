@@ -32,9 +32,7 @@ const Banner: FunctionComponent<
 
   useEffect(() => {
     let orgnr = props.location.pathname.split("/")[1];
-    console.log(props.location.pathname.split("/")[1]);
     if (orgnr && orgnr.length > 0) {
-      //velgOrganisasjon(props.location.pathname.split('/')[1]);
       orgnr = props.location.pathname.split("/")[1];
       const organisasjon = organisasjoner.find(
         org => orgnr === org.OrganizationNumber
@@ -47,7 +45,6 @@ const Banner: FunctionComponent<
 
   useEffect(() => {
     let orgnr = props.location.pathname.split("/")[1];
-    console.log(props.location.pathname.split("/")[1]);
     if (orgnr && orgnr.length > 0) {
       //velgOrganisasjon(props.location.pathname.split('/')[1]);
       orgnr = props.location.pathname.split("/")[1];
