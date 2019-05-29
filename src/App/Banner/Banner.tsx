@@ -4,6 +4,7 @@ import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
+import { defaultAltinnOrg } from "../../organisasjon";
 
 interface Props {
   tittel?: string;
@@ -25,10 +26,10 @@ const Banner: FunctionComponent<Props> = props => {
   };
 
   useEffect(() => {
-    if (organisasjoner[0]) {
+    if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
       endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner]);
+  }, [organisasjoner, endreOrganisasjon]);
 
   return (
     <div className={"banner"}>

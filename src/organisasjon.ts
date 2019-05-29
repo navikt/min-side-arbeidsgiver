@@ -1,5 +1,3 @@
-import { EnhetsregisteretOrg } from "./enhetsregisteretOrg";
-
 export interface Organisasjon {
   Name: string;
   Type: string;

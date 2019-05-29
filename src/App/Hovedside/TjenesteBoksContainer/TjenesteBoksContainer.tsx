@@ -22,6 +22,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   const [typeAntall, settypeAntall] = useState("");
 
   useEffect(() => {
+    console.log("useEffect for tbcontainer kalt");
     const tellAntallTilganger = (): number => {
       let antallTilganger: number = 0;
       if (tilgangTilPamState === TilgangPam.TILGANG) {
