@@ -61,11 +61,8 @@ const Banner: FunctionComponent<
         endreOrganisasjon(organisasjon);
       }
     } else if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
-      //orgnr = organisasjoner[0].OrganizationNumber;
-      endreOrganisasjon(organisasjoner[0]);
-      //todo endre url
+      velgOrganisasjon(organisasjoner[0].OrganizationNumber);
     }
-    //props.history.replace("/" + orgnr);
   }, [organisasjoner]);
 
   if (valgtOrganisasjon) {
