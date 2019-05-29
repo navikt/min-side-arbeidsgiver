@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Organisasjon } from "./organisasjon";
+import React, { FunctionComponent, useState } from "react";
+import { defaultAltinnOrg, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
@@ -20,81 +20,83 @@ export enum TilgangAltinn {
   TILGANG
 }
 
-interface State {
-  valgtOrganisasjon?: Organisasjon;
+interface Props {
+  children: React.ReactNode;
+}
+
+export type Context = {
+  endreOrganisasjon: (org: Organisasjon) => void;
+  valgtOrganisasjon: Organisasjon;
   antallAnnonser: number;
   tilgangTilPamState: TilgangPam;
   tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
   tilgangTilAltinnForInntektsmelding: TilgangAltinn;
-}
-
-export type Context = State & {
-  endreOrganisasjon: (org: Organisasjon) => void;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>(
   {} as Context
 );
 
-export class OrganisasjonsDetaljerProvider extends Component<{}, State> {
-  state: State = {
-    antallAnnonser: 0,
-    tilgangTilPamState: TilgangPam.LASTER,
-    tilgangTilAltinnForTreSkjemaState: TilgangAltinn.LASTER,
-    tilgangTilAltinnForInntektsmelding: TilgangAltinn.LASTER
-  };
+export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
+  children
+}: Props) => {
+  const [antallAnnonser, setantallAnnonser] = useState<number>(0);
+  const [
+    tilgangTilAltinnForTreSkjemaState,
+    settilgangTilAltinnForTreSkjemaState
+  ] = useState(TilgangAltinn.LASTER);
+  const [tilgangTilPamState, settilgangTilPamState] = useState(
+    TilgangPam.LASTER
+  );
+  const [
+    tilgangTilAltinnForInntektsmelding,
+    settilgangTilAltinnForInntektsmelding
+  ] = useState(TilgangAltinn.LASTER);
+  const [valgtOrganisasjon, setValgtOrganisasjon] = useState(defaultAltinnOrg);
 
-  endreOrganisasjon = async (org: Organisasjon) => {
-    this.setState({ tilgangTilPamState: TilgangPam.LASTER });
-    this.setState({ tilgangTilAltinnForTreSkjemaState: TilgangAltinn.LASTER });
-    this.setState({ tilgangTilAltinnForInntektsmelding: TilgangAltinn.LASTER });
+  const endreOrganisasjon = async (org: Organisasjon) => {
+    setantallAnnonser(0);
+    settilgangTilAltinnForInntektsmelding(TilgangAltinn.LASTER);
+    settilgangTilAltinnForTreSkjemaState(TilgangAltinn.LASTER);
+    settilgangTilPamState(TilgangPam.LASTER);
+
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
+
     let roller = await hentRoller(org.OrganizationNumber);
     if (sjekkAltinnRolleForInntekstmelding(roller)) {
-      this.setState({
-        tilgangTilAltinnForInntektsmelding: TilgangAltinn.TILGANG
-      });
+      settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);
     } else {
-      this.setState({
-        tilgangTilAltinnForInntektsmelding: TilgangAltinn.IKKE_TILGANG
-      });
+      settilgangTilAltinnForInntektsmelding(TilgangAltinn.IKKE_TILGANG);
     }
     if (sjekkAltinnRolleHelseSosial(roller)) {
-      this.setState({
-        tilgangTilAltinnForTreSkjemaState: TilgangAltinn.TILGANG
-      });
+      settilgangTilAltinnForTreSkjemaState(TilgangAltinn.TILGANG);
     } else {
-      this.setState({
-        tilgangTilAltinnForTreSkjemaState: TilgangAltinn.IKKE_TILGANG
-      });
+      settilgangTilAltinnForTreSkjemaState(TilgangAltinn.IKKE_TILGANG);
     }
     if (harPamTilgang) {
-      this.setState({
-        valgtOrganisasjon: org,
-        antallAnnonser: await hentAntallannonser(),
-        tilgangTilPamState: TilgangPam.TILGANG
-      });
+      settilgangTilPamState(TilgangPam.TILGANG);
+      setantallAnnonser(await hentAntallannonser());
+      setValgtOrganisasjon(org);
     } else {
-      this.setState({
-        valgtOrganisasjon: org,
-        tilgangTilPamState: TilgangPam.IKKE_TILGANG,
-        antallAnnonser: 0
-      });
+      settilgangTilPamState(TilgangPam.IKKE_TILGANG);
+      setValgtOrganisasjon(org);
     }
   };
 
-  render() {
-    const context: Context = {
-      ...this.state,
-      endreOrganisasjon: this.endreOrganisasjon
-    };
+  let defaultContext: Context = {
+    antallAnnonser,
+    endreOrganisasjon,
+    tilgangTilAltinnForInntektsmelding,
+    tilgangTilAltinnForTreSkjemaState,
+    tilgangTilPamState,
+    valgtOrganisasjon
+  };
 
-    return (
-      <OrganisasjonsDetaljerContext.Provider value={context}>
-        {this.props.children}
-      </OrganisasjonsDetaljerContext.Provider>
-    );
-  }
-}
+  return (
+    <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
+      {children}
+    </OrganisasjonsDetaljerContext.Provider>
+  );
+};

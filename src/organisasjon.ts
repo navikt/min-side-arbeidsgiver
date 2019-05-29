@@ -5,3 +5,11 @@ export interface Organisasjon {
   OrganizationForm: string;
   Status: string;
 }
+
+export const defaultAltinnOrg: Organisasjon = {
+  Name: "",
+  Type: "",
+  OrganizationNumber: "",
+  OrganizationForm: "",
+  Status: ""
+};

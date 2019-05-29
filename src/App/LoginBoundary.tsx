@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useEffect, useState} from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import LoggInn from "./LoggInn/LoggInn";
 
 import { veilarbStepup } from "../lenker";
@@ -21,8 +21,7 @@ async function getEssoToken() {
   }
 }
 
-const LoginBoundary: FunctionComponent = (props) => {
-
+const LoginBoundary: FunctionComponent = props => {
   const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
   useEffect(() => {
     setInnlogget(Innlogget.LASTER);
@@ -40,18 +39,16 @@ const LoginBoundary: FunctionComponent = (props) => {
       }
     };
     getLoginStatus();
-    },[]);
+  }, []);
 
-
-    if (innlogget === Innlogget.INNLOGGET) {
-      return <> {props.children} </>;
-    }
-    if (innlogget === Innlogget.IKKE_INNLOGGET) {
-      return <LoggInn />;
-    } else {
-      return null;
-    }
-
-}
+  if (innlogget === Innlogget.INNLOGGET) {
+    return <> {props.children} </>;
+  }
+  if (innlogget === Innlogget.IKKE_INNLOGGET) {
+    return <LoggInn />;
+  } else {
+    return null;
+  }
+};
 
 export default LoginBoundary;

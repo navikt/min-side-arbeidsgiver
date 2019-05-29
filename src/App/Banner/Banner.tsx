@@ -4,7 +4,8 @@ import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import {logInfo} from "../../utils/metricsUtils";
+import { defaultAltinnOrg } from "../../organisasjon";
+import { logInfo } from "../../utils/metricsUtils";
 
 interface Props {
   tittel?: string;
@@ -26,13 +27,16 @@ const Banner: FunctionComponent<Props> = props => {
   };
 
   useEffect(() => {
-    if (organisasjoner[0]) {
+    if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
       endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner, endreOrganisasjon]);
+  }, [organisasjoner, endreOrganisasjon, valgtOrganisasjon]);
 
-  if(valgtOrganisasjon){
-    logInfo("besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber, valgtOrganisasjon.OrganizationNumber);
+  if (valgtOrganisasjon) {
+    logInfo(
+      "besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber,
+      valgtOrganisasjon.OrganizationNumber
+    );
   }
 
   return (
