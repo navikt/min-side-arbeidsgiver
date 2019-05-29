@@ -1,14 +1,21 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useContext } from "react";
 import { Undertittel } from "nav-frontend-typografi";
 import bedriftinfoikon from "./infoombedriftikon.svg";
 import "./Bedriftsinfoknapp.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { basename } from "../../../../paths";
+import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
+  const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   return (
     <Lenkepanel
-      href={basename + "/bedriftsinformasjon"}
+      href={
+        basename +
+        "/" +
+        valgtOrganisasjon.OrganizationNumber +
+        "/bedriftsinformasjon"
+      }
       className={"bedriftsinfo-knapp"}
       tittelProps={"undertittel"}
       linkCreator={(props: any) => <a {...props}>{props.children}</a>}

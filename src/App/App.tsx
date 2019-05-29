@@ -27,7 +27,7 @@ const App: FunctionComponent = () => {
                     component={Hovedside}
                   />
                   <Route
-                    path="/bedriftsinformasjon"
+                    path="/:orgnummer/bedriftsinformasjon"
                     exact={true}
                     component={InformasjonOmBedrift}
                   />

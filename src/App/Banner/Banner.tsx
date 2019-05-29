@@ -46,9 +46,6 @@ const Banner: FunctionComponent<
   }, [organisasjoner]);
 
   useEffect(() => {
-    console.log("ja");
-    // hvis orgnr i url: kall velgOrganisasjon
-
     let orgnr = props.location.pathname.split("/")[1];
     console.log(props.location.pathname.split("/")[1]);
     if (orgnr && orgnr.length > 0) {
