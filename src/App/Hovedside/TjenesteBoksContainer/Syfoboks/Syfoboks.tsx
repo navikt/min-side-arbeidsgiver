@@ -15,6 +15,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
   const { syfoOppgaverState } = useContext(SyfoTilgangContext);
   return (
     <div className={"syfoboks " + props.className}>
+      {console.log("Syfooppgave", syfoOppgaverState)}
       <TjenesteBoksBanner
         tittel={"Sykemeldte"}
         imgsource={syfoikon}

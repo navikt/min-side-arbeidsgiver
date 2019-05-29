@@ -25,7 +25,7 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
         <span className={"tjeneste-boks-banner__varselsirkel"}>
           <Undertittel>
             {props.antallVarsler}
-            {console.log("render antallvarsler")}
+            {console.log("render antallvarsler for ", props.tittel)}
           </Undertittel>
         </span>
       )}

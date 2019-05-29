@@ -26,10 +26,11 @@ const Banner: FunctionComponent<Props> = props => {
   };
 
   useEffect(() => {
+    console.log("useeffect for banner");
     if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
       endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner, endreOrganisasjon]);
+  }, [organisasjoner, endreOrganisasjon, valgtOrganisasjon]);
 
   return (
     <div className={"banner"}>

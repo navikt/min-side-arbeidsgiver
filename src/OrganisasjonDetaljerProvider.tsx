@@ -102,6 +102,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
   return (
     <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
       {children}
+      {console.log("orgprovider rendrer")}
     </OrganisasjonsDetaljerContext.Provider>
   );
 };

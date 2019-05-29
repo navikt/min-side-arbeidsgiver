@@ -34,6 +34,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
       return antallTilganger;
     };
+
     let antallTjenesteTilganger = tellAntallTilganger();
     if (antallTjenesteTilganger % 2 === 0) {
       settypeAntall("antall-partall");
