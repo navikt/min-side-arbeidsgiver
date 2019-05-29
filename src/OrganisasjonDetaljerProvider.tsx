@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useState,
-  useContext,
-  useEffect
-} from "react";
+import React, { FunctionComponent, useState } from "react";
 import { defaultAltinnOrg, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
