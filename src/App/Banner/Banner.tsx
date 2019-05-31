@@ -37,6 +37,7 @@ const Banner: FunctionComponent<
 
   useEffect(() => {
     const previousOrg: Organisasjon = valgtOrganisasjon;
+
     let orgnr = props.location.pathname.split("/")[1];
     if (orgnr && orgnr.length > 0 && orgnr !== previousOrg.OrganizationNumber) {
       //velgOrganisasjon(props.location.pathname.split('/')[1]);
