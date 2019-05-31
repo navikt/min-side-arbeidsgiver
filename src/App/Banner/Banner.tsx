@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useContext, useEffect, useRef } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useCallback
+} from "react";
 import "./Banner.less";
 import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
@@ -34,26 +39,6 @@ const Banner: FunctionComponent<
     const previousOrg: Organisasjon = valgtOrganisasjon;
     let orgnr = props.location.pathname.split("/")[1];
     if (orgnr && orgnr.length > 0 && orgnr !== previousOrg.OrganizationNumber) {
-      orgnr = props.location.pathname.split("/")[1];
-      const organisasjon = organisasjoner.find(
-        org => orgnr === org.OrganizationNumber
-      );
-      if (organisasjon && organisasjon !== previousOrg) {
-        velgOrganisasjon(organisasjon.OrganizationNumber);
-        console.log("endre organisasjon valgt i useEffect 1");
-      }
-    }
-  }, [
-    organisasjoner,
-    velgOrganisasjon,
-    valgtOrganisasjon,
-    props.location.pathname
-  ]);
-
-  useEffect(() => {
-    const previousOrg: Organisasjon = valgtOrganisasjon;
-    let orgnr = props.location.pathname.split("/")[1];
-    if (orgnr && orgnr.length > 0 && orgnr !== previousOrg.OrganizationNumber) {
       //velgOrganisasjon(props.location.pathname.split('/')[1]);
       orgnr = props.location.pathname.split("/")[1];
       const organisasjon = organisasjoner.find(
@@ -69,8 +54,9 @@ const Banner: FunctionComponent<
   }, [
     organisasjoner,
     valgtOrganisasjon,
+    props.location.pathname,
     velgOrganisasjon,
-    props.location.pathname
+    useCallback
   ]);
 
   if (valgtOrganisasjon) {
