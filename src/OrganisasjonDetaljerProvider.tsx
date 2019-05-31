@@ -8,6 +8,7 @@ import {
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
 import { logInfo } from "./utils/metricsUtils";
+import Banner from "./App/Banner/Banner";
 
 export enum TilgangPam {
   LASTER,
@@ -97,6 +98,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
 
   return (
     <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
+      <Banner />
       {children}
     </OrganisasjonsDetaljerContext.Provider>
   );

@@ -15,11 +15,9 @@ const App: FunctionComponent = () => {
     <LoginBoundary>
       <OrganisasjonsListeProvider>
         <SyfoTilgangProvider>
-          <OrganisasjonsDetaljerProvider>
-            <BrowserRouter basename={basename}>
+          <BrowserRouter basename={basename}>
+            <OrganisasjonsDetaljerProvider>
               <div className="bakgrunnsside typo-normal">
-                <Banner tittel={"Ditt nav arbeidsgiver"} />
-
                 <Switch>
                   <Route
                     path="/:orgnummer"
@@ -33,8 +31,8 @@ const App: FunctionComponent = () => {
                   />
                 </Switch>
               </div>
-            </BrowserRouter>
-          </OrganisasjonsDetaljerProvider>
+            </OrganisasjonsDetaljerProvider>
+          </BrowserRouter>
         </SyfoTilgangProvider>
       </OrganisasjonsListeProvider>
     </LoginBoundary>
