@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useContext, useEffect } from "react";
+import React, { FunctionComponent, useContext, useEffect, useRef } from "react";
 import "./Banner.less";
 import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import { defaultAltinnOrg } from "../../organisasjon";
+import { defaultAltinnOrg, Organisasjon } from "../../organisasjon";
 import { logInfo } from "../../utils/metricsUtils";
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -31,19 +31,22 @@ const Banner: FunctionComponent<
   };
 
   useEffect(() => {
+    const previousOrg: Organisasjon = valgtOrganisasjon;
     let orgnr = props.location.pathname.split("/")[1];
     if (orgnr && orgnr.length > 0) {
       orgnr = props.location.pathname.split("/")[1];
       const organisasjon = organisasjoner.find(
         org => orgnr === org.OrganizationNumber
       );
-      if (organisasjon) {
+      if (organisasjon && organisasjon !== previousOrg) {
         endreOrganisasjon(organisasjon);
+        console.log("endre organisasjon valgt i useEffect 1");
       }
     }
-  }, [organisasjoner]);
+  }, [organisasjoner, endreOrganisasjon, valgtOrganisasjon]);
 
   useEffect(() => {
+    const previousOrg: Organisasjon = valgtOrganisasjon;
     let orgnr = props.location.pathname.split("/")[1];
     if (orgnr && orgnr.length > 0) {
       //velgOrganisasjon(props.location.pathname.split('/')[1]);
@@ -51,13 +54,13 @@ const Banner: FunctionComponent<
       const organisasjon = organisasjoner.find(
         org => orgnr === org.OrganizationNumber
       );
-      if (organisasjon) {
+      if (organisasjon && organisasjon !== previousOrg) {
         endreOrganisasjon(organisasjon);
       }
     } else if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
-      velgOrganisasjon(organisasjoner[0].OrganizationNumber);
+      endreOrganisasjon(organisasjoner[0]);
     }
-  }, [organisasjoner]);
+  }, [organisasjoner, valgtOrganisasjon, endreOrganisasjon]);
 
   if (valgtOrganisasjon) {
     logInfo(
