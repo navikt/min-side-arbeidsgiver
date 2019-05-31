@@ -39,11 +39,11 @@ const Banner: FunctionComponent<
         org => orgnr === org.OrganizationNumber
       );
       if (organisasjon && organisasjon !== previousOrg) {
-        endreOrganisasjon(organisasjon);
+        velgOrganisasjon(organisasjon.OrganizationNumber);
         console.log("endre organisasjon valgt i useEffect 1");
       }
     }
-  }, [organisasjoner, endreOrganisasjon, valgtOrganisasjon]);
+  }, [organisasjoner, velgOrganisasjon, valgtOrganisasjon]);
 
   useEffect(() => {
     const previousOrg: Organisasjon = valgtOrganisasjon;
@@ -55,12 +55,13 @@ const Banner: FunctionComponent<
         org => orgnr === org.OrganizationNumber
       );
       if (organisasjon && organisasjon !== previousOrg) {
-        endreOrganisasjon(organisasjon);
+        velgOrganisasjon(organisasjon.OrganizationNumber);
       }
     } else if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
-      endreOrganisasjon(organisasjoner[0]);
+      console.log("endre til foerste org");
+      velgOrganisasjon(organisasjoner[0].OrganizationNumber);
     }
-  }, [organisasjoner, valgtOrganisasjon, endreOrganisasjon]);
+  }, [organisasjoner, valgtOrganisasjon, velgOrganisasjon]);
 
   if (valgtOrganisasjon) {
     logInfo(
