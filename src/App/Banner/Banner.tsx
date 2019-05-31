@@ -33,7 +33,7 @@ const Banner: FunctionComponent<
   useEffect(() => {
     const previousOrg: Organisasjon = valgtOrganisasjon;
     let orgnr = props.location.pathname.split("/")[1];
-    if (orgnr && orgnr.length > 0) {
+    if (orgnr && orgnr.length > 0 && orgnr !== previousOrg.OrganizationNumber) {
       orgnr = props.location.pathname.split("/")[1];
       const organisasjon = organisasjoner.find(
         org => orgnr === org.OrganizationNumber
@@ -43,12 +43,17 @@ const Banner: FunctionComponent<
         console.log("endre organisasjon valgt i useEffect 1");
       }
     }
-  }, [organisasjoner, velgOrganisasjon, valgtOrganisasjon]);
+  }, [
+    organisasjoner,
+    velgOrganisasjon,
+    valgtOrganisasjon,
+    props.location.pathname
+  ]);
 
   useEffect(() => {
     const previousOrg: Organisasjon = valgtOrganisasjon;
     let orgnr = props.location.pathname.split("/")[1];
-    if (orgnr && orgnr.length > 0) {
+    if (orgnr && orgnr.length > 0 && orgnr !== previousOrg.OrganizationNumber) {
       //velgOrganisasjon(props.location.pathname.split('/')[1]);
       orgnr = props.location.pathname.split("/")[1];
       const organisasjon = organisasjoner.find(
@@ -61,7 +66,12 @@ const Banner: FunctionComponent<
       console.log("endre til foerste org");
       velgOrganisasjon(organisasjoner[0].OrganizationNumber);
     }
-  }, [organisasjoner, valgtOrganisasjon, velgOrganisasjon]);
+  }, [
+    organisasjoner,
+    valgtOrganisasjon,
+    velgOrganisasjon,
+    props.location.pathname
+  ]);
 
   if (valgtOrganisasjon) {
     logInfo(
