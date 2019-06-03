@@ -24,6 +24,7 @@ const Banner: FunctionComponent<
   const { endreOrganisasjon, valgtOrganisasjon } = useContext(
     OrganisasjonsDetaljerContext
   );
+  console.log("rendrer Banner");
 
   const endreOrgCallback = useCallback(
     orgnr => {
@@ -40,25 +41,37 @@ const Banner: FunctionComponent<
 
   useEffect(() => {
     const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
+    console.log("useEffect i banner kallt: forrige org: ", forrigeOrganisasjon);
     let orgnrFraUrl = props.location.pathname.split("/")[1];
+    console.log("orgnr i url; ", orgnrFraUrl);
     const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
 
     if (
       orgnrErSattIUrl &&
       orgnrFraUrl !== forrigeOrganisasjon.OrganizationNumber
     ) {
+      console.log(
+        "org finnes i url og er forskjellig fra forrige org, forrige org var: ",
+        forrigeOrganisasjon.Name
+      );
       const organisasjonFraListe = organisasjoner.find(
         organisasjon => orgnrFraUrl === organisasjon.OrganizationNumber
       );
       if (organisasjonFraListe) {
+        console.log("org nr fra url finnes i lista");
         endreOrgCallback(organisasjonFraListe.OrganizationNumber);
       }
     } else if (
       organisasjoner[0] &&
       valgtOrganisasjon === tomAltinnOrganisasjon
     ) {
+      console.log("foerste bedrift velges til foerste i lista");
       endreOrgCallback(organisasjoner[0].OrganizationNumber);
     }
+    console.log(
+      "useEffect i banner siste linje, organisasjoner satt til: ",
+      organisasjoner
+    );
   }, [
     organisasjoner,
     valgtOrganisasjon,

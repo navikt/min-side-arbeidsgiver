@@ -18,7 +18,7 @@ export class OrganisasjonsListeProvider extends Component<{}, State> {
     organisasjoner: []
   };
 
-  async componentDidMount() {
+  async componentWillMount() {
     let organisasjoner = await hentOrganisasjoner();
     this.setState({ organisasjoner });
   }
