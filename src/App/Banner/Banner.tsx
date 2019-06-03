@@ -30,11 +30,13 @@ const Banner: FunctionComponent<
       const organisasjon = organisasjoner.find(
         org => org.OrganizationNumber === orgnr
       );
+
       const lengdeMidlertidigUrl = props.location.pathname.length;
+      const erPaBedriftsSide = lengdeMidlertidigUrl === 30;
       if (organisasjon && organisasjon !== valgtOrganisasjon) {
         endreOrganisasjon(organisasjon);
       }
-      if (lengdeMidlertidigUrl === 30) {
+      if (erPaBedriftsSide) {
         props.history.replace("/" + orgnr + "/bedriftsinformasjon");
       } else {
         props.history.replace("/" + orgnr);
