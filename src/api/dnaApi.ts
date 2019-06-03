@@ -1,7 +1,7 @@
 import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import { digiSyfoNarmesteLederLink, enhetsregisteretApiLink } from "../lenker";
-import { defaultOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
+import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
 import { logInfo } from "../utils/metricsUtils";
 
 export interface Rolle {
@@ -79,7 +79,7 @@ export async function hentBedriftsInfo(
     return enhet;
   }
   console.log("kunne ikke hente informasjon for orgnr: ", orgnr);
-  return defaultOrg;
+  return tomEnhetsregOrg;
 }
 
 export async function hentSyfoTilgang(): Promise<boolean> {

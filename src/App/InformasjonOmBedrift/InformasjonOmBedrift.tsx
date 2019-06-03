@@ -7,19 +7,22 @@ import React, {
 import { Normaltekst, Systemtittel, Ingress } from "nav-frontend-typografi";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { hentBedriftsInfo } from "../../api/enhetsregisteretApi";
-import { defaultOrg, EnhetsregisteretOrg } from "../../enhetsregisteretOrg";
+import {
+  tomEnhetsregOrg,
+  EnhetsregisteretOrg
+} from "../../enhetsregisteretOrg";
 import "./InformasjonOmBedrift.less";
 import Lenke from "nav-frontend-lenker";
 import Tekstboks from "./Tekstboks/Tekstboks";
-import { defaultAltinnOrg } from "../../organisasjon";
+import { tomAltinnOrganisasjon } from "../../organisasjon";
 
 const InformasjonOmBedrift: FunctionComponent = () => {
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-  const [org, setOrg] = useState<EnhetsregisteretOrg>(defaultOrg);
+  const [org, setOrg] = useState<EnhetsregisteretOrg>(tomEnhetsregOrg);
   useEffect(() => {
-    let bedriftinfo: EnhetsregisteretOrg = defaultOrg;
+    let bedriftinfo: EnhetsregisteretOrg = tomEnhetsregOrg;
     const getInfo = async () => {
-      if (valgtOrganisasjon !== defaultAltinnOrg) {
+      if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
         bedriftinfo = await hentBedriftsInfo(
           valgtOrganisasjon.OrganizationNumber
         );
@@ -31,7 +34,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
 
   return (
     <div className="informasjon-om-bedrift">
-      {org !== defaultOrg && (
+      {org !== tomEnhetsregOrg && (
         <div className={"informasjon-om-bedrift__tekstomrade"}>
           <Systemtittel>{org.navn}</Systemtittel>
           <br />
@@ -105,7 +108,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
           )}
         </div>
       )}
-      {org === defaultOrg && <div> Kunne ikke hente informasjon</div>}
+      {org === tomEnhetsregOrg && <div> Kunne ikke hente informasjon</div>}
     </div>
   );
 };
