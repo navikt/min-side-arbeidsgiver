@@ -41,7 +41,13 @@ const Banner: FunctionComponent<
         props.history.replace("/" + orgnr);
       }
     },
-    [endreOrganisasjon, organisasjoner, props.history, props.location.pathname]
+    [
+      endreOrganisasjon,
+      organisasjoner,
+      props.history,
+      props.location.pathname,
+      valgtOrganisasjon
+    ]
   );
 
   useEffect(() => {
