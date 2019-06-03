@@ -6,7 +6,7 @@ export interface Organisasjon {
   Status: string;
 }
 
-export const defaultAltinnOrg: Organisasjon = {
+export const tomAltinnOrganisasjon: Organisasjon = {
   Name: "",
   Type: "",
   OrganizationNumber: "",

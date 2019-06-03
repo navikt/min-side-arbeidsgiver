@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { defaultAltinnOrg, Organisasjon } from "./organisasjon";
+import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
@@ -52,7 +52,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tilgangTilAltinnForInntektsmelding,
     settilgangTilAltinnForInntektsmelding
   ] = useState(TilgangAltinn.LASTER);
-  const [valgtOrganisasjon, setValgtOrganisasjon] = useState(defaultAltinnOrg);
+  const [valgtOrganisasjon, setValgtOrganisasjon] = useState(
+    tomAltinnOrganisasjon
+  );
 
   const endreOrganisasjon = async (org: Organisasjon) => {
     setantallAnnonser(0);

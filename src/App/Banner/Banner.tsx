@@ -9,7 +9,7 @@ import { Select } from "nav-frontend-skjema";
 import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import { defaultAltinnOrg, Organisasjon } from "../../organisasjon";
+import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
 import { logInfo } from "../../utils/metricsUtils";
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -25,16 +25,6 @@ const Banner: FunctionComponent<
     OrganisasjonsDetaljerContext
   );
 
-  const velgOrganisasjon = async (orgnr: string) => {
-    const organisasjon = organisasjoner.find(
-      org => orgnr === org.OrganizationNumber
-    );
-    if (organisasjon) {
-      endreOrganisasjon(organisasjon);
-      props.history.replace("/" + orgnr);
-    }
-  };
-
   const endreOrgCallback = useCallback(
     orgnr => {
       const organisasjon = organisasjoner.find(
@@ -49,20 +39,24 @@ const Banner: FunctionComponent<
   );
 
   useEffect(() => {
-    const previousOrg: Organisasjon = valgtOrganisasjon;
+    const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
+    let orgnrFraUrl = props.location.pathname.split("/")[1];
+    const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
 
-    let orgnr = props.location.pathname.split("/")[1];
-    if (orgnr && orgnr.length > 0 && orgnr !== previousOrg.OrganizationNumber) {
-      //velgOrganisasjon(props.location.pathname.split('/')[1]);
-      orgnr = props.location.pathname.split("/")[1];
-      const organisasjon = organisasjoner.find(
-        org => orgnr === org.OrganizationNumber
+    if (
+      orgnrErSattIUrl &&
+      orgnrFraUrl !== forrigeOrganisasjon.OrganizationNumber
+    ) {
+      const organisasjonFraListe = organisasjoner.find(
+        organisasjon => orgnrFraUrl === organisasjon.OrganizationNumber
       );
-      if (organisasjon && organisasjon !== previousOrg) {
-        endreOrgCallback(organisasjon.OrganizationNumber);
+      if (organisasjonFraListe) {
+        endreOrgCallback(organisasjonFraListe.OrganizationNumber);
       }
-    } else if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
-      console.log("endre til foerste org");
+    } else if (
+      organisasjoner[0] &&
+      valgtOrganisasjon === tomAltinnOrganisasjon
+    ) {
       endreOrgCallback(organisasjoner[0].OrganizationNumber);
     }
   }, [
@@ -87,7 +81,7 @@ const Banner: FunctionComponent<
             <Select
               className={"banner__organisasjoner"}
               label={""}
-              onChange={event => velgOrganisasjon(event.target.value)}
+              onChange={event => endreOrgCallback(event.target.value)}
             >
               {organisasjoner.map((organisasjon, index) => (
                 <option
