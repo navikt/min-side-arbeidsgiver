@@ -31,12 +31,12 @@ const Banner: FunctionComponent<
       const organisasjon = organisasjoner.find(
         org => org.OrganizationNumber === orgnr
       );
-      if (organisasjon) {
+      if (organisasjon && props.location.pathname.length !== 30) {
         endreOrganisasjon(organisasjon);
         props.history.replace("/" + orgnr);
       }
     },
-    [endreOrganisasjon, organisasjoner, props.history]
+    [endreOrganisasjon, organisasjoner, props.history, props.location.pathname]
   );
 
   useEffect(() => {
