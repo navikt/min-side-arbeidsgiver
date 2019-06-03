@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.less";
 import { basename } from "../paths";
 import Hovedside from "./Hovedside/Hovedside";
@@ -15,22 +15,25 @@ const App: FunctionComponent = () => {
     <LoginBoundary>
       <OrganisasjonsListeProvider>
         <SyfoTilgangProvider>
-          <OrganisasjonsDetaljerProvider>
-            <div className="bakgrunnsside typo-normal">
-              <Banner tittel={"Ditt nav arbeidsgiver"} />
-              <BrowserRouter basename={basename}>
+          <BrowserRouter basename={basename}>
+            <OrganisasjonsDetaljerProvider>
+              <Banner />
+              <div className="bakgrunnsside typo-normal">
                 <Switch>
-                  <Route path="/" exact={true} component={Hovedside} />
                   <Route
-                    path="/bedriftsinformasjon"
+                    path="/:orgnummer"
+                    exact={true}
+                    component={Hovedside}
+                  />
+                  <Route
+                    path="/:orgnummer/bedriftsinformasjon"
                     exact={true}
                     component={InformasjonOmBedrift}
                   />
-                  {<Redirect to={"/bedriftsinformasjon/"} />}
                 </Switch>
-              </BrowserRouter>
-            </div>
-          </OrganisasjonsDetaljerProvider>
+              </div>
+            </OrganisasjonsDetaljerProvider>
+          </BrowserRouter>
         </SyfoTilgangProvider>
       </OrganisasjonsListeProvider>
     </LoginBoundary>

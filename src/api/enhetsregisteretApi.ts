@@ -1,4 +1,4 @@
-import { defaultOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
+import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
 import { enhetsregisteretApiLink } from "../lenker";
 
 export async function hentBedriftsInfo(
@@ -9,6 +9,5 @@ export async function hentBedriftsInfo(
     const enhet: EnhetsregisteretOrg = await respons.json();
     return enhet;
   }
-  console.log("kunne ikke hente informasjon for orgnr: ", orgnr);
-  return defaultOrg;
+  return tomEnhetsregOrg;
 }

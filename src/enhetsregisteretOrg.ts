@@ -50,7 +50,7 @@ export interface naeringskode3 {
   beskrivelse: string;
 }
 
-export const defaultOrg: EnhetsregisteretOrg = {
+export const tomEnhetsregOrg: EnhetsregisteretOrg = {
   organisasjonsnummer: "",
   navn: "",
   organisasjonsform: {

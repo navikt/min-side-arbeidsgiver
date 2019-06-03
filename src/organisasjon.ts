@@ -5,3 +5,11 @@ export interface Organisasjon {
   OrganizationForm: string;
   Status: string;
 }
+
+export const tomAltinnOrganisasjon: Organisasjon = {
+  Name: "",
+  Type: "",
+  OrganizationNumber: "",
+  OrganizationForm: "",
+  Status: ""
+};
