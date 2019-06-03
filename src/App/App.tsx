@@ -17,6 +17,7 @@ const App: FunctionComponent = () => {
         <SyfoTilgangProvider>
           <BrowserRouter basename={basename}>
             <OrganisasjonsDetaljerProvider>
+              <Banner />
               <div className="bakgrunnsside typo-normal">
                 <Switch>
                   <Route

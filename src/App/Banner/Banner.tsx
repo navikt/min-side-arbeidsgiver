@@ -35,6 +35,19 @@ const Banner: FunctionComponent<
     }
   };
 
+  const endreOrgCallback = useCallback(
+    orgnr => {
+      const organisasjon = organisasjoner.find(
+        org => org.OrganizationNumber === orgnr
+      );
+      if (organisasjon) {
+        endreOrganisasjon(organisasjon);
+        props.history.replace("/" + orgnr);
+      }
+    },
+    [endreOrganisasjon, organisasjoner, props.history]
+  );
+
   useEffect(() => {
     const previousOrg: Organisasjon = valgtOrganisasjon;
 
@@ -46,18 +59,17 @@ const Banner: FunctionComponent<
         org => orgnr === org.OrganizationNumber
       );
       if (organisasjon && organisasjon !== previousOrg) {
-        velgOrganisasjon(organisasjon.OrganizationNumber);
+        endreOrgCallback(organisasjon.OrganizationNumber);
       }
     } else if (organisasjoner[0] && valgtOrganisasjon === defaultAltinnOrg) {
       console.log("endre til foerste org");
-      velgOrganisasjon(organisasjoner[0].OrganizationNumber);
+      endreOrgCallback(organisasjoner[0].OrganizationNumber);
     }
   }, [
     organisasjoner,
     valgtOrganisasjon,
     props.location.pathname,
-    velgOrganisasjon,
-    useCallback
+    endreOrgCallback
   ]);
 
   if (valgtOrganisasjon) {

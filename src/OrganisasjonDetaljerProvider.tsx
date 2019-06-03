@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from "react";
+import React, { FunctionComponent, useState } from "react";
 import { defaultAltinnOrg, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
@@ -7,8 +7,6 @@ import {
   sjekkAltinnRolleForInntekstmelding,
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
-import { logInfo } from "./utils/metricsUtils";
-import Banner from "./App/Banner/Banner";
 
 export enum TilgangPam {
   LASTER,
@@ -98,7 +96,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
 
   return (
     <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
-      <Banner />
       {children}
     </OrganisasjonsDetaljerContext.Provider>
   );
