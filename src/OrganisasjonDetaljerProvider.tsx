@@ -57,14 +57,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
   );
 
   const endreOrganisasjon = async (org: Organisasjon) => {
-    console.log(
-      "FUNKSJON: endre organisasjon kallt, endrer til orgnr: ",
-      org.Name
-    );
-    console.log("FUNKSJON: tidligere organisasjon: ", valgtOrganisasjon.Name);
     await setValgtOrganisasjon(org);
-    console.log("FUNKSJON: skal være oppdatert til ", valgtOrganisasjon.Name);
-
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
@@ -87,10 +80,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       settilgangTilPamState(TilgangPam.IKKE_TILGANG);
       setantallAnnonser(0);
     }
-    console.log(
-      " FUNKSJON: endre organisasjon ferdig. Valgt organisasjon er satt til",
-      valgtOrganisasjon
-    );
   };
 
   let defaultContext: Context = {
@@ -104,13 +93,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
 
   return (
     <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
-      {console.log("rendrer organisasjonsdeljeprovider")}
-      {console.log(
-        tilgangTilAltinnForTreSkjemaState,
-        tilgangTilAltinnForInntektsmelding,
-        tilgangTilPamState,
-        antallAnnonser
-      )}
       {children}
     </OrganisasjonsDetaljerContext.Provider>
   );
