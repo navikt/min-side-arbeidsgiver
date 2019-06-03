@@ -28,6 +28,7 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
 }
 
 export async function hentNarmesteAnsate(): Promise<Array<AnsattSyfo>> {
+  console.log("hent nærmeste anastte");
   let responseBody={} as Array<AnsattSyfo>;
   const response = await fetch(digisyfoSykemeldteLenke(),{method:"GET"});
   if(response.ok){
