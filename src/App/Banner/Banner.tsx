@@ -30,12 +30,25 @@ const Banner: FunctionComponent<
       const organisasjon = organisasjoner.find(
         org => org.OrganizationNumber === orgnr
       );
-      if (organisasjon) {
+
+      const lengdeMidlertidigUrl = props.location.pathname.length;
+      const erPaBedriftsSide = lengdeMidlertidigUrl === 30;
+      if (organisasjon && organisasjon !== valgtOrganisasjon) {
         endreOrganisasjon(organisasjon);
+      }
+      if (erPaBedriftsSide) {
+        props.history.replace("/" + orgnr + "/bedriftsinformasjon");
+      } else {
         props.history.replace("/" + orgnr);
       }
     },
-    [endreOrganisasjon, organisasjoner, props.history]
+    [
+      endreOrganisasjon,
+      organisasjoner,
+      props.history,
+      props.location.pathname,
+      valgtOrganisasjon
+    ]
   );
 
   useEffect(() => {
