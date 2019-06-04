@@ -34,13 +34,7 @@ const Banner: FunctionComponent<
         endreOrganisasjon(organisasjon);
       }
     },
-    [
-      endreOrganisasjon,
-      organisasjoner,
-      props.history,
-      props.location.pathname,
-      valgtOrganisasjon
-    ]
+    [endreOrganisasjon, organisasjoner, valgtOrganisasjon]
   );
 
   const settUrl = (orgnr: string) => {
