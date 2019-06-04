@@ -76,6 +76,13 @@ export const pamHentStillingsannonserLenke = () => {
   }
 };
 
+export const digisyfoSykemeldteLenke = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://tjenester.nav.no/syforest/arbeidsgiver/sykmeldte";
+  } else {
+    return "https://tjenester-q1.nav.no/syforest/arbeidsgiver/sykmeldte";
+  }
+};
 export const digiSyfoNarmesteLederLink =
   "/ditt-nav-arbeidsgiver/api/narmesteleder";
 
