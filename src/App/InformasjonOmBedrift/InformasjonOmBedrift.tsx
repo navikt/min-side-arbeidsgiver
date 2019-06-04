@@ -23,7 +23,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     let bedriftinfo: EnhetsregisteretOrg = tomEnhetsregOrg;
     const getInfo = async () => {
       if (orgnr !== "") {
-        bedriftinfo = await hentBedriftsInfo("980368742");
+        bedriftinfo = await hentBedriftsInfo(orgnr);
         setOrg(bedriftinfo);
       }
     };
