@@ -14,23 +14,21 @@ import {
 import "./InformasjonOmBedrift.less";
 import Lenke from "nav-frontend-lenker";
 import Tekstboks from "./Tekstboks/Tekstboks";
-import { tomAltinnOrganisasjon } from "../../organisasjon";
 
 const InformasjonOmBedrift: FunctionComponent = () => {
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [org, setOrg] = useState<EnhetsregisteretOrg>(tomEnhetsregOrg);
+  const orgnr = valgtOrganisasjon.OrganizationNumber;
   useEffect(() => {
     let bedriftinfo: EnhetsregisteretOrg = tomEnhetsregOrg;
     const getInfo = async () => {
-      if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
-        bedriftinfo = await hentBedriftsInfo(
-          valgtOrganisasjon.OrganizationNumber
-        );
+      if (orgnr !== "") {
+        bedriftinfo = await hentBedriftsInfo(orgnr);
         setOrg(bedriftinfo);
       }
     };
     getInfo();
-  }, [valgtOrganisasjon]);
+  }, [orgnr]);
 
   return (
     <div className="informasjon-om-bedrift">

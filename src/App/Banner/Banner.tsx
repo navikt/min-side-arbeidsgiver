@@ -30,19 +30,21 @@ const Banner: FunctionComponent<
       const organisasjon = organisasjoner.find(
         org => org.OrganizationNumber === orgnr
       );
-      if (organisasjon) {
+      if (organisasjon && organisasjon !== valgtOrganisasjon) {
         endreOrganisasjon(organisasjon);
-        props.history.replace("/" + orgnr);
       }
     },
-    [endreOrganisasjon, organisasjoner, props.history]
+    [endreOrganisasjon, organisasjoner, valgtOrganisasjon]
   );
+
+  const settUrl = (orgnr: string) => {
+    props.history.push("/" + orgnr);
+  };
 
   useEffect(() => {
     const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
     let orgnrFraUrl = props.location.pathname.split("/")[1];
     const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
-
     if (
       orgnrErSattIUrl &&
       orgnrFraUrl !== forrigeOrganisasjon.OrganizationNumber
@@ -58,10 +60,12 @@ const Banner: FunctionComponent<
       valgtOrganisasjon === tomAltinnOrganisasjon
     ) {
       endreOrgCallback(organisasjoner[0].OrganizationNumber);
+      props.history.push("/" + organisasjoner[0].OrganizationNumber);
     }
   }, [
     organisasjoner,
     valgtOrganisasjon,
+    props.history,
     props.location.pathname,
     endreOrgCallback
   ]);
@@ -81,7 +85,7 @@ const Banner: FunctionComponent<
             <Select
               className={"banner__organisasjoner"}
               label={""}
-              onChange={event => endreOrgCallback(event.target.value)}
+              onChange={event => settUrl(event.target.value)}
             >
               {organisasjoner.map((organisasjon, index) => (
                 <option
