@@ -30,16 +30,8 @@ const Banner: FunctionComponent<
       const organisasjon = organisasjoner.find(
         org => org.OrganizationNumber === orgnr
       );
-
-      const lengdeMidlertidigUrl = props.location.pathname.length;
-      const erPaBedriftsSide = lengdeMidlertidigUrl === 30;
       if (organisasjon && organisasjon !== valgtOrganisasjon) {
         endreOrganisasjon(organisasjon);
-      }
-      if (erPaBedriftsSide) {
-        props.history.replace("/" + orgnr + "/bedriftsinformasjon");
-      } else {
-        props.history.replace("/" + orgnr);
       }
     },
     [
@@ -50,6 +42,10 @@ const Banner: FunctionComponent<
       valgtOrganisasjon
     ]
   );
+
+  const settUrl = (orgnr: string) => {
+    props.history.push("/" + orgnr);
+  };
 
   useEffect(() => {
     const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
@@ -94,7 +90,7 @@ const Banner: FunctionComponent<
             <Select
               className={"banner__organisasjoner"}
               label={""}
-              onChange={event => endreOrgCallback(event.target.value)}
+              onChange={event => settUrl(event.target.value)}
             >
               {organisasjoner.map((organisasjon, index) => (
                 <option
