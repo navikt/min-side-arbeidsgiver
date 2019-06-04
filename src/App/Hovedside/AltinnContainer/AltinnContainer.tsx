@@ -23,35 +23,37 @@ import AltinnLenke from "./AltinnLenke/AltinnLenke";
 
 const AltinnContainer: FunctionComponent = () => {
   const [typeAntall, settypeAntall] = useState("");
+  const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
   const {
     tilgangTilAltinnForInntektsmelding,
     tilgangTilAltinnForTreSkjemaState
   } = useContext(OrganisasjonsDetaljerContext);
 
   useEffect(() => {
+    setgenerellAltinnTilgang(true);
     if (
       tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
       tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
     ) {
       settypeAntall("antall-skjema-partall");
-    }
-    if (
+    } else if (
       tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
       tilgangTilAltinnForTreSkjemaState === TilgangAltinn.IKKE_TILGANG
     ) {
       settypeAntall("antall-skjema-en");
-    }
-    if (
+    } else if (
       tilgangTilAltinnForInntektsmelding === TilgangAltinn.IKKE_TILGANG &&
       tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
     ) {
-      settypeAntall("antall-skjema-en");
+      settypeAntall("antall-skjema-tre");
+    } else {
+      setgenerellAltinnTilgang(false);
     }
   }, [tilgangTilAltinnForTreSkjemaState, tilgangTilAltinnForInntektsmelding]);
 
   return (
     <div className={"altinn-container"}>
-      {typeAntall !== "" && (
+      {generellAltinnTilgang && (
         <Ingress className={"altinn-container__tekst"}>
           Skjema på Altinn
         </Ingress>
