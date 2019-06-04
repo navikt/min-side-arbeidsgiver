@@ -65,6 +65,7 @@ const Banner: FunctionComponent<
   }, [
     organisasjoner,
     valgtOrganisasjon,
+    props.history,
     props.location.pathname,
     endreOrgCallback
   ]);
