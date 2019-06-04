@@ -23,7 +23,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     let bedriftinfo: EnhetsregisteretOrg = tomEnhetsregOrg;
     const getInfo = async () => {
       if (orgnr !== "") {
-        bedriftinfo = await hentBedriftsInfo(orgnr);
+        bedriftinfo = await hentBedriftsInfo("980368742");
         setOrg(bedriftinfo);
       }
     };
@@ -53,30 +53,26 @@ const InformasjonOmBedrift: FunctionComponent = () => {
               </Ingress>
             </Tekstboks>
           )}
-          <Normaltekst className={"informasjon-om-bedrift__naeringskoder"}>
-            Næringskoder
-          </Normaltekst>
-          {org.naeringskode1 && (
-            <Tekstboks>
+          <Tekstboks>
+            <Normaltekst className={"informasjon-om-bedrift__naeringskoder"}>
+              Næringskoder
+            </Normaltekst>
+            {org.naeringskode1 && (
               <Ingress>
                 {org.naeringskode1.kode + ". " + org.naeringskode1.beskrivelse}
               </Ingress>
-            </Tekstboks>
-          )}
-          {org.naeringskode2 && (
-            <Tekstboks>
+            )}
+            {org.naeringskode2 && (
               <Ingress>
                 {org.naeringskode2.kode + ". " + org.naeringskode2.beskrivelse}
               </Ingress>
-            </Tekstboks>
-          )}
-          {org.naeringskode3 && (
-            <Tekstboks>
+            )}
+            {org.naeringskode3 && (
               <Ingress>
                 {org.naeringskode3.kode + ". " + org.naeringskode3.beskrivelse}
               </Ingress>
-            </Tekstboks>
-          )}
+            )}
+          </Tekstboks>
           {org.hjemmeside && (
             <Tekstboks>
               <Normaltekst>Hjemmeside</Normaltekst>
@@ -91,7 +87,9 @@ const InformasjonOmBedrift: FunctionComponent = () => {
               <Ingress>
                 {org.organisasjonsform.beskrivelse +
                   " " +
-                  org.organisasjonsform.kode}
+                  "(" +
+                  org.organisasjonsform.kode +
+                  ")"}
               </Ingress>
             </Tekstboks>
           )}
