@@ -45,7 +45,6 @@ const Banner: FunctionComponent<
     const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
     let orgnrFraUrl = props.location.pathname.split("/")[1];
     const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
-
     if (
       orgnrErSattIUrl &&
       orgnrFraUrl !== forrigeOrganisasjon.OrganizationNumber
@@ -61,6 +60,7 @@ const Banner: FunctionComponent<
       valgtOrganisasjon === tomAltinnOrganisasjon
     ) {
       endreOrgCallback(organisasjoner[0].OrganizationNumber);
+      props.history.push("/" + organisasjoner[0].OrganizationNumber);
     }
   }, [
     organisasjoner,
