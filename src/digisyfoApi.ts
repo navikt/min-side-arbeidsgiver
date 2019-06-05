@@ -28,9 +28,9 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
 }
 
 export async function hentNarmesteAnsate(): Promise<Array<AnsattSyfo>> {
-  let responseBody = {} as Array<AnsattSyfo>;
-  const response = await fetch(digisyfoSykemeldteLenke(), { method: "GET" });
-  if (response.ok) {
+  let responseBody={} as Array<AnsattSyfo>;
+  const response = await fetch(digisyfoSykemeldteLenke(),{method:"GET"});
+  if(response.ok){
     responseBody = await response.json();
   }
   return responseBody;
