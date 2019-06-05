@@ -28,8 +28,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
   );
   const orgnr = valgtOrganisasjon.OrganizationNumber;
   useEffect(() => {
-    let bedriftinfo: EnhetsregisteretOrg = tomEnhetsregOrg;
-    const getInfo = async () => {
+    const setEnheter = async () => {
       if (orgnr !== "") {
         setUnderenhet(await hentUnderenhet(orgnr));
       }
@@ -39,8 +38,8 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         );
       }
     };
-    getInfo();
-  }, [orgnr]);
+    setEnheter();
+  }, [orgnr, underenhet]);
 
   return (
     <div className="informasjon-om-bedrift">
