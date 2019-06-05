@@ -8,6 +8,7 @@ export interface EnhetsregisteretOrg {
   postadresse: postadresse;
   forretningsadresse: forretningsadresse;
   hjemmeside: string;
+  overordnetEnhet: string;
 }
 
 export interface organisasjonsform {
@@ -57,6 +58,7 @@ export const tomEnhetsregOrg: EnhetsregisteretOrg = {
     kode: "",
     beskrivelse: ""
   },
+  overordnetEnhet: "",
   hjemmeside: "",
   postadresse: {
     land: "",

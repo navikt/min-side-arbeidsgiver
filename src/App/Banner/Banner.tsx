@@ -12,6 +12,9 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
 import { logInfo } from "../../utils/metricsUtils";
 import { withRouter, RouteComponentProps } from "react-router";
+import bedriftsikon from "./company.svg";
+import Lenke from "nav-frontend-lenker";
+import { basename } from "../../paths";
 
 interface Props {
   tittel?: string;
@@ -76,9 +79,26 @@ const Banner: FunctionComponent<
       valgtOrganisasjon.OrganizationNumber
     );
   }
+  const erPaBedriftsinfoSide = props.location.pathname.search(
+    "bedriftsinformasjon"
+  );
 
   return (
     <div className={"banner"}>
+      {erPaBedriftsinfoSide !== -1 && (
+        <div className={"banner__ikon-og-lenke"}>
+          <img
+            src={bedriftsikon}
+            className={"banner__ikon"}
+            alt={"bilde av industribygg"}
+          />
+          <Lenke
+            href={basename + "/" + valgtOrganisasjon.OrganizationNumber + "/"}
+          >
+            Din bedrift
+          </Lenke>
+        </div>
+      )}
       {organisasjoner.length > 0 && (
         <div className={"banner__container"}>
           <div className={"banner__select"}>

@@ -1,7 +1,7 @@
 import { Sykemelding } from "./sykemelding";
 import { SyfoOppgave } from "./syfoOppgaver";
-import {AnsattSyfo} from "./AnsattSyfo";
-import {digisyfoSykemeldteLenke} from "./lenker";
+import { AnsattSyfo } from "./AnsattSyfo";
+import { digisyfoSykemeldteLenke } from "./lenker";
 
 export async function hentSykemeldinger(): Promise<Array<Sykemelding>> {
   let responsBody = {} as Array<Sykemelding>;
@@ -28,7 +28,6 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
 }
 
 export async function hentNarmesteAnsate(): Promise<Array<AnsattSyfo>> {
-  console.log("hent nærmeste anastte");
   let responseBody={} as Array<AnsattSyfo>;
   const response = await fetch(digisyfoSykemeldteLenke(),{method:"GET"});
   if(response.ok){

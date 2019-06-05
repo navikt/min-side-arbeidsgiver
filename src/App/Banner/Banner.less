@@ -7,16 +7,31 @@
   align-items: center;
   background-color: @navDypBlaLighten80;
   border-bottom: 4px solid @navLysBlaDarken40;
-  height: 7rem;
+  height: 11rem;
 
   &__container {
     width: 66rem;
     align-items: center;
+    position: relative;
   }
 
   &__select {
     display: inline-block;
     margin: 1rem;
+  }
+
+  &__ikon {
+    margin-right: 0.5rem;
+  }
+
+  &__ikon-og-lenke {
+    display: flex;
+    position: absolute;
+    top: 1.5rem;
+    left: 2rem;
+    justify-content: center;
+    align-items: center;
+
   }
 
   &__organisasjoner {
@@ -39,6 +54,23 @@
 
 
   }
+
+@media (min-width: 1450px) {
+  .banner {
+    height: 7rem;
+
+    &__ikon-og-lenke {
+      display: flex;
+      position: absolute;
+      top: 3rem;
+      left: 1rem;
+      justify-content: center;
+      align-items: center;
+
+    }
+  }
+
+}
 
 
 

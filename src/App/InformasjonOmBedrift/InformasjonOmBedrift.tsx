@@ -6,7 +6,10 @@ import React, {
 } from "react";
 import { Normaltekst, Systemtittel, Ingress } from "nav-frontend-typografi";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import { hentBedriftsInfo } from "../../api/enhetsregisteretApi";
+import {
+  hentOverordnetEnhet,
+  hentUnderenhet
+} from "../../api/enhetsregisteretApi";
 import {
   tomEnhetsregOrg,
   EnhetsregisteretOrg
@@ -17,39 +20,53 @@ import Tekstboks from "./Tekstboks/Tekstboks";
 
 const InformasjonOmBedrift: FunctionComponent = () => {
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-  const [org, setOrg] = useState<EnhetsregisteretOrg>(tomEnhetsregOrg);
+  const [underenhet, setUnderenhet] = useState<EnhetsregisteretOrg>(
+    tomEnhetsregOrg
+  );
+  const [overordnetEnhet, setOverordnetEnhet] = useState<EnhetsregisteretOrg>(
+    tomEnhetsregOrg
+  );
   const orgnr = valgtOrganisasjon.OrganizationNumber;
   useEffect(() => {
-    let bedriftinfo: EnhetsregisteretOrg = tomEnhetsregOrg;
-    const getInfo = async () => {
+    const setEnheter = async () => {
       if (orgnr !== "") {
-        bedriftinfo = await hentBedriftsInfo(orgnr);
-        setOrg(bedriftinfo);
+        setUnderenhet(await hentUnderenhet(orgnr));
+      }
+      if (underenhet !== tomEnhetsregOrg && underenhet.overordnetEnhet) {
+        setOverordnetEnhet(
+          await hentOverordnetEnhet(underenhet.overordnetEnhet)
+        );
       }
     };
-    getInfo();
-  }, [orgnr]);
+    setEnheter();
+  }, [orgnr, underenhet]);
 
   return (
     <div className="informasjon-om-bedrift">
-      {org !== tomEnhetsregOrg && (
+      {underenhet !== tomEnhetsregOrg && (
         <div className={"informasjon-om-bedrift__tekstomrade"}>
-          <Systemtittel>{org.navn}</Systemtittel>
+          <Systemtittel>{underenhet.navn}</Systemtittel>
           <br />
-          {org.organisasjonsnummer && (
+          {underenhet.organisasjonsnummer && (
             <Tekstboks>
               <Normaltekst>Organisasjonsnummer</Normaltekst>
-              <Ingress> {org.organisasjonsnummer}</Ingress>
+              <Ingress> {underenhet.organisasjonsnummer}</Ingress>
             </Tekstboks>
           )}
-          {org.forretningsadresse && (
+          {underenhet.overordnetEnhet && (
+            <Tekstboks>
+              <Normaltekst>Overordnet enhet</Normaltekst>
+              <Ingress> {overordnetEnhet.navn}</Ingress>
+            </Tekstboks>
+          )}
+          {underenhet.forretningsadresse && (
             <Tekstboks>
               <Normaltekst>Forretningsadresse</Normaltekst>
-              <Ingress> {org.forretningsadresse.adresse[0]}</Ingress>
+              <Ingress> {underenhet.forretningsadresse.adresse[0]}</Ingress>
               <Ingress>
-                {org.forretningsadresse.postnummer +
+                {underenhet.forretningsadresse.postnummer +
                   " " +
-                  org.forretningsadresse.poststed}
+                  underenhet.forretningsadresse.poststed}
               </Ingress>
             </Tekstboks>
           )}
@@ -57,54 +74,66 @@ const InformasjonOmBedrift: FunctionComponent = () => {
             <Normaltekst className={"informasjon-om-bedrift__naeringskoder"}>
               Næringskoder
             </Normaltekst>
-            {org.naeringskode1 && (
+            {underenhet.naeringskode1 && (
               <Ingress>
-                {org.naeringskode1.kode + ". " + org.naeringskode1.beskrivelse}
+                {underenhet.naeringskode1.kode +
+                  ". " +
+                  underenhet.naeringskode1.beskrivelse}
               </Ingress>
             )}
-            {org.naeringskode2 && (
+            {underenhet.naeringskode2 && (
               <Ingress>
-                {org.naeringskode2.kode + ". " + org.naeringskode2.beskrivelse}
+                {underenhet.naeringskode2.kode +
+                  ". " +
+                  underenhet.naeringskode2.beskrivelse}
               </Ingress>
             )}
-            {org.naeringskode3 && (
+            {underenhet.naeringskode3 && (
               <Ingress>
-                {org.naeringskode3.kode + ". " + org.naeringskode3.beskrivelse}
+                {underenhet.naeringskode3.kode +
+                  ". " +
+                  underenhet.naeringskode3.beskrivelse}
               </Ingress>
             )}
           </Tekstboks>
-          {org.hjemmeside && (
+          {underenhet.hjemmeside && (
             <Tekstboks>
               <Normaltekst>Hjemmeside</Normaltekst>
-              <Lenke href={org.hjemmeside}>{org.hjemmeside}</Lenke>
+              <Lenke href={underenhet.hjemmeside}>
+                {underenhet.hjemmeside}
+              </Lenke>
               <br />
             </Tekstboks>
           )}
 
-          {org.organisasjonsform && (
+          {underenhet.organisasjonsform && (
             <Tekstboks>
               <Normaltekst>Organisasjonsform </Normaltekst>
               <Ingress>
-                {org.organisasjonsform.beskrivelse +
+                {underenhet.organisasjonsform.beskrivelse +
                   " " +
                   "(" +
-                  org.organisasjonsform.kode +
+                  underenhet.organisasjonsform.kode +
                   ")"}
               </Ingress>
             </Tekstboks>
           )}
-          {org.postadresse && (
+          {underenhet.postadresse && (
             <Tekstboks>
               <Normaltekst>Postadresse</Normaltekst>
-              <Ingress>{org.postadresse.adresse[0]}</Ingress>
+              <Ingress>{underenhet.postadresse.adresse[0]}</Ingress>
               <Ingress>
-                {org.postadresse.postnummer + " " + org.postadresse.poststed}
+                {underenhet.postadresse.postnummer +
+                  " " +
+                  underenhet.postadresse.poststed}
               </Ingress>
             </Tekstboks>
           )}
         </div>
       )}
-      {org === tomEnhetsregOrg && <div> Kunne ikke hente informasjon</div>}
+      {underenhet === tomEnhetsregOrg && (
+        <div> Kunne ikke hente informasjon</div>
+      )}
     </div>
   );
 };
