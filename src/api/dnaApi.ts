@@ -1,4 +1,4 @@
-import { Organisasjon } from "../organisasjon";
+import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import { digiSyfoNarmesteLederLink, hentUnderenhetApiLink } from "../lenker";
 import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
@@ -33,33 +33,31 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 
 export function lagToDimensjonalArray(
   organisasjoner: Array<Organisasjon>
-): Array<Array<Organisasjon>> {
+): Array<OverenhetOrganisasjon> {
+  let toDimListe: Array<OverenhetOrganisasjon> = [];
   let juridiskeEnheter = organisasjoner.filter(function(
     organisasjon: Organisasjon
   ) {
     return organisasjon.Type === "Enterprice";
   });
-  let toDimListe = {};
-  juridiskeEnheter.forEach(function(element) {
-
-  };
-  myArray.forEach(function(element) {
-    console.log(element);
+  juridiskeEnheter.forEach(function(organisasjon: Organisasjon) {
+    let underenheter = organisasjoner.filter(function(
+      organisasjon: Organisasjon
+    ) {
+      return (
+        organisasjon.ParentOrganizationNumber ===
+        organisasjon.OrganizationNumber
+      );
+    });
+    let juridiskEnhet: OverenhetOrganisasjon = {
+      overordnetOrg: organisasjon,
+      UnderOrganisasjoner: underenheter
+    };
+    toDimListe.push(juridiskEnhet);
   });
+
+  return toDimListe;
 }
-
-{
-  "employees":[
-  {"firstName":"John", "lastName":"Doe"},
-  {"firstName":"Anna", "lastName":"Smith"},
-  {"firstName":"Peter", "lastName":"Jones"}
-]
-}
-
-const numbers = [1, 2, 3, 4, 5];
-const doubled = numbers.map(n => n * 2);
-
-console.log(doubled);
 
 export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/roller/" + orgnr);

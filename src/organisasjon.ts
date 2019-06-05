@@ -8,8 +8,7 @@ export interface Organisasjon {
 }
 
 export interface OverenhetOrganisasjon {
-  Name: string;
-  OrganizationNumber: string;
+  overordnetOrg: Organisasjon;
   UnderOrganisasjoner: Array<Organisasjon>;
 }
 
