@@ -35,25 +35,26 @@ export function lagToDimensjonalArray(
   organisasjoner: Array<Organisasjon>
 ): Array<OverenhetOrganisasjon> {
   let toDimListe: Array<OverenhetOrganisasjon> = [];
+
   let juridiskeEnheter = organisasjoner.filter(function(
     organisasjon: Organisasjon
   ) {
-    return organisasjon.Type === "Enterprice";
+    return organisasjon.Type === "Enterprise";
   });
-  juridiskeEnheter.forEach(function(organisasjon: Organisasjon) {
+  console.log(organisasjoner, "juridiske enheter:", juridiskeEnheter);
+  juridiskeEnheter.forEach(function(juridiskEnhet: Organisasjon) {
     let underenheter = organisasjoner.filter(function(
-      organisasjon: Organisasjon
+      underenhet: Organisasjon
     ) {
       return (
-        organisasjon.ParentOrganizationNumber ===
-        organisasjon.OrganizationNumber
+        underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
       );
     });
-    let juridiskEnhet: OverenhetOrganisasjon = {
-      overordnetOrg: organisasjon,
+    let juridiskEnhetObjekt: OverenhetOrganisasjon = {
+      overordnetOrg: juridiskEnhet,
       UnderOrganisasjoner: underenheter
     };
-    toDimListe.push(juridiskEnhet);
+    toDimListe.push(juridiskEnhetObjekt);
   });
 
   return toDimListe;

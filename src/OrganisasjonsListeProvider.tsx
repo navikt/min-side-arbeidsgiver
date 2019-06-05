@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Organisasjon } from "./organisasjon";
-import { hentOrganisasjoner } from "./api/dnaApi";
+import { Organisasjon, OverenhetOrganisasjon } from "./organisasjon";
+import { hentOrganisasjoner, lagToDimensjonalArray } from "./api/dnaApi";
 
 export type Context = {
   organisasjoner: Array<Organisasjon>;
@@ -16,6 +16,10 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const getOrganisasjoner = async () => {
       let organisasjoner = await hentOrganisasjoner();
       setOrganisasjoner(organisasjoner);
+      const toDim: Array<OverenhetOrganisasjon> = lagToDimensjonalArray(
+        organisasjoner
+      );
+      console.log(toDim);
     };
     getOrganisasjoner();
   }, []);
