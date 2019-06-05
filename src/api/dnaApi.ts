@@ -31,6 +31,36 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
   }
 }
 
+export function lagToDimensjonalArray(
+  organisasjoner: Array<Organisasjon>
+): Array<Array<Organisasjon>> {
+  let juridiskeEnheter = organisasjoner.filter(function(
+    organisasjon: Organisasjon
+  ) {
+    return organisasjon.Type === "Enterprice";
+  });
+  let toDimListe = {};
+  juridiskeEnheter.forEach(function(element) {
+
+  };
+  myArray.forEach(function(element) {
+    console.log(element);
+  });
+}
+
+{
+  "employees":[
+  {"firstName":"John", "lastName":"Doe"},
+  {"firstName":"Anna", "lastName":"Smith"},
+  {"firstName":"Peter", "lastName":"Jones"}
+]
+}
+
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+
+console.log(doubled);
+
 export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/roller/" + orgnr);
   if (respons.ok) {
