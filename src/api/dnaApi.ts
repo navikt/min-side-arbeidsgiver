@@ -34,8 +34,6 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 export function lagToDimensjonalArray(
   organisasjoner: Array<Organisasjon>
 ): Array<OverenhetOrganisasjon> {
-  let toDimListe: Array<OverenhetOrganisasjon> = [];
-
   let juridiskeEnheter = organisasjoner.filter(function(
     organisasjon: Organisasjon
   ) {
