@@ -30,7 +30,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
   useEffect(() => {
     const setEnheter = async () => {
       if (orgnr !== "") {
-        setUnderenhet(await hentUnderenhet("980368742"));
+        setUnderenhet(await hentUnderenhet(orgnr));
         setOverordnetEnhet(
           await hentOverordnetEnhet(underenhet.overordnetEnhet)
         );
