@@ -15,6 +15,7 @@ import "./TjenesteBoksContainer.less";
 import Syfoboks from "./Syfoboks/Syfoboks";
 import Pamboks from "./Pamboks/Pamboks";
 import Innholdsboks from "../Innholdsboks/Innholdsboks";
+import Arbeidstreningboks from "./Arbeidstreningboks/Arbeidstreningboks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -30,6 +31,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
       if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
         antallTilganger++;
       }
+      antallTilganger++;
 
       return antallTilganger;
     };
@@ -59,6 +61,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
               <Pamboks />
             </div>
           )}
+        <div className={"tjenesteboks innholdsboks"}>
+          <Arbeidstreningboks />
+        </div>
       </div>
     </div>
   );
