@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React, { FunctionComponent, useEffect, useState} from "react";
 import { hentSyfoTilgang } from "./api/dnaApi";
-import { Sykemelding } from "./sykemelding";
 import { hentSyfoOppgaver } from "./digisyfoApi";
 import { SyfoOppgave } from "./syfoOppgaver";
 
@@ -12,46 +11,40 @@ export enum TilgangSyfo {
 
 export interface Context {
   tilgangTilSyfoState: TilgangSyfo;
-  sykemeldingerState: Array<Sykemelding>;
-  syfoOppgaverState: Array<SyfoOppgave>;
-}
-
-interface State {
-  tilgangTilSyfoState: TilgangSyfo;
-  sykemeldingerState: Array<Sykemelding>;
   syfoOppgaverState: Array<SyfoOppgave>;
 }
 
 const SyfoTilgangContext = React.createContext<Context>({} as Context);
 export { SyfoTilgangContext };
 
-export class SyfoTilgangProvider extends Component<{}, State> {
-  state: State = {
-    tilgangTilSyfoState: TilgangSyfo.LASTER,
-    sykemeldingerState: Array<Sykemelding>(),
-    syfoOppgaverState: Array<SyfoOppgave>()
-  };
+export const SyfoTilgangProvider : FunctionComponent = (props) => {
 
-  async componentDidMount() {
-    this.setState({ tilgangTilSyfoState: TilgangSyfo.LASTER });
+  const [tilgangTilSyfoState,setTilgangTilSyfoState] = useState(TilgangSyfo.LASTER);
+  const [syfoOppgaverState,setSyfoOppgaverState] = useState(Array<SyfoOppgave>());
+
+useEffect(()=>{
+  const getSyfoTilganger = async ()=> {
     const tilgangSyfo = await hentSyfoTilgang();
     if (tilgangSyfo) {
-      this.setState({ tilgangTilSyfoState: TilgangSyfo.TILGANG });
-      this.setState({ syfoOppgaverState: await hentSyfoOppgaver() });
+      setTilgangTilSyfoState(TilgangSyfo.TILGANG);
+      setSyfoOppgaverState(await hentSyfoOppgaver());
     } else {
-      this.setState({ tilgangTilSyfoState: TilgangSyfo.IKKE_TILGANG });
+      setTilgangTilSyfoState(TilgangSyfo.IKKE_TILGANG);
     }
   }
+  getSyfoTilganger();
+},[]);
 
-  render() {
-    const context: Context = {
-      ...this.state
-    };
+  let defaultContext: Context = {
+    tilgangTilSyfoState,
+    syfoOppgaverState
+  };
 
     return (
-      <SyfoTilgangContext.Provider value={context}>
-        {this.props.children}
+      <SyfoTilgangContext.Provider value={defaultContext}>
+        {props.children}
       </SyfoTilgangContext.Provider>
     );
-  }
-}
+  };
+
+
