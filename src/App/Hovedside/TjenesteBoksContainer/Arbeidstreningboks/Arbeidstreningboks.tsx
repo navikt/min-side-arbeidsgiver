@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent } from "react";
 import arbeidstreningikon from "./arbeidstreningikon.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import "./Arbeidstreningboks.less";
