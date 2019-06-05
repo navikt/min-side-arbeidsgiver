@@ -13,6 +13,7 @@ interface Props {
 
 const Syfoboks: FunctionComponent<Props> = props => {
   const { syfoOppgaverState } = useContext(SyfoTilgangContext);
+  const { syfoAnsatteState } = useContext(SyfoTilgangContext);
   return (
     <div className={"syfoboks " + props.className}>
       <TjenesteBoksBanner
@@ -28,7 +29,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
         tittelProps={"normaltekst"}
         linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >
-        6 sykemeldte som du har ansvar for å følge opp
+        {syfoAnsatteState} sykemeldte som du har ansvar for å følge opp
       </Lenkepanel>
     </div>
   );
