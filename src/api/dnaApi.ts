@@ -1,6 +1,6 @@
 import { Organisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
-import { digiSyfoNarmesteLederLink, enhetsregisteretApiLink } from "../lenker";
+import { digiSyfoNarmesteLederLink, hentUnderenhetApiLink } from "../lenker";
 import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
 import { logInfo } from "../utils/metricsUtils";
 
@@ -73,7 +73,7 @@ export function sjekkAltinnRolleForInntekstmelding(
 export async function hentBedriftsInfo(
   orgnr: string
 ): Promise<EnhetsregisteretOrg> {
-  let respons = await fetch(enhetsregisteretApiLink(orgnr));
+  let respons = await fetch(hentUnderenhetApiLink(orgnr));
   if (respons.ok) {
     const enhet: EnhetsregisteretOrg = await respons.json();
     return enhet;
