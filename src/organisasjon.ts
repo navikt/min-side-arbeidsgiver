@@ -4,6 +4,12 @@ export interface Organisasjon {
   OrganizationNumber: string;
   OrganizationForm: string;
   Status: string;
+  ParentOrganizationNumber: string;
+}
+
+export interface OverenhetOrganisasjon {
+  overordnetOrg: Organisasjon;
+  UnderOrganisasjoner: Array<Organisasjon>;
 }
 
 export const tomAltinnOrganisasjon: Organisasjon = {
@@ -11,5 +17,6 @@ export const tomAltinnOrganisasjon: Organisasjon = {
   Type: "",
   OrganizationNumber: "",
   OrganizationForm: "",
-  Status: ""
+  Status: "",
+  ParentOrganizationNumber: ""
 };

@@ -31,15 +31,13 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     const setEnheter = async () => {
       if (orgnr !== "") {
         setUnderenhet(await hentUnderenhet(orgnr));
-      }
-      if (underenhet !== tomEnhetsregOrg && underenhet.overordnetEnhet) {
         setOverordnetEnhet(
           await hentOverordnetEnhet(underenhet.overordnetEnhet)
         );
       }
     };
     setEnheter();
-  }, [orgnr, underenhet]);
+  }, [orgnr, underenhet.overordnetEnhet]);
 
   return (
     <div className="informasjon-om-bedrift">

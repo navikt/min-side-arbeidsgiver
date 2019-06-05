@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, { FunctionComponent, useEffect, useState} from "react";
 import { hentSyfoTilgang } from "./api/dnaApi";
-import { Sykemelding } from "./sykemelding";
-import {hentNarmesteAnsate, hentSyfoOppgaver} from "./digisyfoApi";
+import { hentNarmesteAnsate,hentSyfoOppgaver } from "./digisyfoApi";
 import { SyfoOppgave } from "./syfoOppgaver";
 
 export enum TilgangSyfo {
@@ -12,14 +11,6 @@ export enum TilgangSyfo {
 
 export interface Context {
   tilgangTilSyfoState: TilgangSyfo;
-  sykemeldingerState: Array<Sykemelding>;
-  syfoOppgaverState: Array<SyfoOppgave>;
-  syfoAnsatteState: number;
-}
-
-interface State {
-  tilgangTilSyfoState: TilgangSyfo;
-  sykemeldingerState: Array<Sykemelding>;
   syfoOppgaverState: Array<SyfoOppgave>;
   syfoAnsatteState: number;
 }
@@ -27,37 +18,39 @@ interface State {
 const SyfoTilgangContext = React.createContext<Context>({} as Context);
 export { SyfoTilgangContext };
 
-export class SyfoTilgangProvider extends Component<{}, State> {
-  state: State = {
-    tilgangTilSyfoState: TilgangSyfo.LASTER,
-    sykemeldingerState: Array<Sykemelding>(),
-    syfoOppgaverState: Array<SyfoOppgave>(),
-    syfoAnsatteState: 0
+export const SyfoTilgangProvider : FunctionComponent = (props) => {
+
+  const [tilgangTilSyfoState,setTilgangTilSyfoState] = useState(TilgangSyfo.LASTER);
+  const [syfoOppgaverState,setSyfoOppgaverState] = useState(Array<SyfoOppgave>());
+  const [syfoAnsatteState,setSyfoAnsatteState] = useState(0);
+
+useEffect(()=>{
+  const getSyfoTilganger = async ()=> {
+      const tilgangSyfo = await hentSyfoTilgang();
+      if (tilgangSyfo) {
+          setTilgangTilSyfoState(TilgangSyfo.TILGANG);
+          setSyfoOppgaverState(await hentSyfoOppgaver());
+          const syfoAnsatteArray = await hentNarmesteAnsate();
+          console.log("syfoAnsatteArray", syfoAnsatteArray);
+          setSyfoAnsatteState(syfoAnsatteArray.length);
+      } else {
+          setTilgangTilSyfoState(TilgangSyfo.IKKE_TILGANG);
+      }
+  }
+  getSyfoTilganger();
+},[]);
+
+  let defaultContext: Context = {
+    tilgangTilSyfoState,
+    syfoOppgaverState,
+    syfoAnsatteState
   };
 
-  async componentDidMount() {
-    this.setState({ tilgangTilSyfoState: TilgangSyfo.LASTER });
-    const tilgangSyfo = await hentSyfoTilgang();
-    if (tilgangSyfo) {
-      this.setState({ tilgangTilSyfoState: TilgangSyfo.TILGANG });
-      this.setState({ syfoOppgaverState: await hentSyfoOppgaver() });
-      const syfoAnsatteArray = await hentNarmesteAnsate();
-      console.log("syfoAnsatteArray", syfoAnsatteArray);
-      this.setState({ syfoAnsatteState: syfoAnsatteArray.length });
-    } else {
-      this.setState({ tilgangTilSyfoState: TilgangSyfo.IKKE_TILGANG });
-    }
-  }
-
-  render() {
-    const context: Context = {
-      ...this.state
-    };
-
     return (
-      <SyfoTilgangContext.Provider value={context}>
-        {this.props.children}
+      <SyfoTilgangContext.Provider value={defaultContext}>
+        {props.children}
       </SyfoTilgangContext.Provider>
     );
-  }
-}
+  };
+
+
