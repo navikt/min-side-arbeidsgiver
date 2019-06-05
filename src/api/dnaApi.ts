@@ -42,22 +42,17 @@ export function lagToDimensjonalArray(
     return organisasjon.Type === "Enterprise";
   });
   console.log(organisasjoner, "juridiske enheter:", juridiskeEnheter);
-  juridiskeEnheter.forEach(function(juridiskEnhet: Organisasjon) {
-    let underenheter = organisasjoner.filter(function(
-      underenhet: Organisasjon
-    ) {
-      return (
+
+  return juridiskeEnheter.map(juridiskEnhet => {
+    const underenheter = organisasjoner.filter(
+      underenhet =>
         underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
-      );
-    });
-    let juridiskEnhetObjekt: OverenhetOrganisasjon = {
+    );
+    return {
       overordnetOrg: juridiskEnhet,
       UnderOrganisasjoner: underenheter
     };
-    toDimListe.push(juridiskEnhetObjekt);
   });
-
-  return toDimListe;
 }
 
 export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
