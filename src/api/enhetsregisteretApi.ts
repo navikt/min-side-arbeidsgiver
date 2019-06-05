@@ -15,10 +15,12 @@ export async function hentUnderenhet(
 export async function hentOverordnetEnhet(
   orgnr: string
 ): Promise<EnhetsregisteretOrg> {
-  let respons = await fetch(hentOverordnetEnhetApiLink(orgnr));
-  if (respons.ok) {
-    const enhet: EnhetsregisteretOrg = await respons.json();
-    return enhet;
+  if (orgnr !== "") {
+    let respons = await fetch(hentOverordnetEnhetApiLink(orgnr));
+    if (respons.ok) {
+      const enhet: EnhetsregisteretOrg = await respons.json();
+      return enhet;
+    }
   }
   return tomEnhetsregOrg;
 }

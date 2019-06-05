@@ -31,7 +31,6 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     const setEnheter = async () => {
       if (orgnr !== "") {
         setUnderenhet(await hentUnderenhet(orgnr));
-        await hentOverordnetEnhet(underenhet.overordnetEnhet);
         setOverordnetEnhet(
           await hentOverordnetEnhet(underenhet.overordnetEnhet)
         );
