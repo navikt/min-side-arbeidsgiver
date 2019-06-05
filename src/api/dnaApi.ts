@@ -1,6 +1,6 @@
-import { Organisasjon } from "../organisasjon";
+import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
-import { digiSyfoNarmesteLederLink, enhetsregisteretApiLink } from "../lenker";
+import { digiSyfoNarmesteLederLink, hentUnderenhetApiLink } from "../lenker";
 import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
 import { logInfo } from "../utils/metricsUtils";
 
@@ -29,6 +29,28 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
   } else {
     return [];
   }
+}
+
+export function lagToDimensjonalArray(
+  organisasjoner: Array<Organisasjon>
+): Array<OverenhetOrganisasjon> {
+  let juridiskeEnheter = organisasjoner.filter(function(
+    organisasjon: Organisasjon
+  ) {
+    return organisasjon.Type === "Enterprise";
+  });
+  logInfo("juridiske enheter: " + juridiskeEnheter);
+
+  return juridiskeEnheter.map(juridiskEnhet => {
+    const underenheter = organisasjoner.filter(
+      underenhet =>
+        underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
+    );
+    return {
+      overordnetOrg: juridiskEnhet,
+      UnderOrganisasjoner: underenheter
+    };
+  });
 }
 
 export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
@@ -73,7 +95,7 @@ export function sjekkAltinnRolleForInntekstmelding(
 export async function hentBedriftsInfo(
   orgnr: string
 ): Promise<EnhetsregisteretOrg> {
-  let respons = await fetch(enhetsregisteretApiLink(orgnr));
+  let respons = await fetch(hentUnderenhetApiLink(orgnr));
   if (respons.ok) {
     const enhet: EnhetsregisteretOrg = await respons.json();
     return enhet;
