@@ -1,6 +1,10 @@
 import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
-import { digiSyfoNarmesteLederLink, hentUnderenhetApiLink } from "../lenker";
+import {
+  digiSyfoNarmesteLederLink,
+  hentAtbeidsavtalerApiLink,
+  hentUnderenhetApiLink
+} from "../lenker";
 import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
 import { logInfo } from "../utils/metricsUtils";
 
@@ -20,6 +24,10 @@ enum AltinnKode {
   RegnskapsførerUtenSignering = 5609,
   Revisormedarbeider = 5610,
   KontaktPersonNUF = 188
+}
+
+export interface Arbeidsavtale {
+  status: string;
 }
 
 export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
@@ -92,18 +100,6 @@ export function sjekkAltinnRolleForInntekstmelding(
   return listeMedRollerSomGirTilgang.length > 0;
 }
 
-export async function hentBedriftsInfo(
-  orgnr: string
-): Promise<EnhetsregisteretOrg> {
-  let respons = await fetch(hentUnderenhetApiLink(orgnr));
-  if (respons.ok) {
-    const enhet: EnhetsregisteretOrg = await respons.json();
-    return enhet;
-  }
-  console.log("kunne ikke hente informasjon for orgnr: ", orgnr);
-  return tomEnhetsregOrg;
-}
-
 export async function hentSyfoTilgang(): Promise<boolean> {
   let respons = await fetch(digiSyfoNarmesteLederLink);
   if (respons.ok) {
@@ -114,4 +110,15 @@ export async function hentSyfoTilgang(): Promise<boolean> {
     }
   }
   return false;
+}
+
+export async function hentSyfoTiltaksgjennomforingTilgang(): Promise<
+  Array<Arbeidsavtale>
+> {
+  let respons = await fetch(hentAtbeidsavtalerApiLink());
+  if (respons.ok) {
+    const avtaler: Array<Arbeidsavtale> = await respons.json();
+    return avtaler;
+  }
+  return [];
 }

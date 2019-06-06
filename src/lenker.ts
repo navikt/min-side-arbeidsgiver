@@ -93,3 +93,7 @@ export const hentUnderenhetApiLink = (orgnr: string) => {
 export const hentOverordnetEnhetApiLink = (orgnr: string) => {
   return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 };
+
+export const hentAtbeidsavtalerApiLink = () => {
+  return `/tiltaksgjennomforing-api/avtaler`;
+};
