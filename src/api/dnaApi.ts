@@ -2,10 +2,9 @@ import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import {
   digiSyfoNarmesteLederLink,
-  hentAtbeidsavtalerApiLink,
-  hentUnderenhetApiLink
+  hentArbeidsavtalerApiLink
 } from "../lenker";
-import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
+
 import { logInfo } from "../utils/metricsUtils";
 
 export interface Rolle {
@@ -112,10 +111,10 @@ export async function hentSyfoTilgang(): Promise<boolean> {
   return false;
 }
 
-export async function hentSyfoTiltaksgjennomforingTilgang(): Promise<
+export async function hentTiltaksgjennomforingTilgang(): Promise<
   Array<Arbeidsavtale>
 > {
-  let respons = await fetch(hentAtbeidsavtalerApiLink());
+  let respons = await fetch(hentArbeidsavtalerApiLink());
   if (respons.ok) {
     const avtaler: Array<Arbeidsavtale> = await respons.json();
     return avtaler;
