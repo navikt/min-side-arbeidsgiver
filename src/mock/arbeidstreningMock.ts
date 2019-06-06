@@ -1,4 +1,3 @@
-import { hentTiltaksgjennomforingTilgang } from "../api/dnaApi";
 import fetchMock from "fetch-mock";
 import { hentArbeidsavtalerApiLink } from "../lenker";
 
