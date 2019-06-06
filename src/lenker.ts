@@ -93,3 +93,11 @@ export const hentUnderenhetApiLink = (orgnr: string) => {
 export const hentOverordnetEnhetApiLink = (orgnr: string) => {
   return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 };
+export const loginlinjeURL = ()=>{
+  if (environment.MILJO === "prod-sbs") {
+    return "https://tjenester.nav.no/innloggingslinje/auth"
+  }else{
+    return "https://tjenester.nav.no/innloggingslinje/auth"
+  }
+
+}

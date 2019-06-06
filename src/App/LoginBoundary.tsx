@@ -20,22 +20,32 @@ async function getEssoToken() {
     window.location.href = veilarbStepup();
   }
 }
-
 const LoginBoundary: FunctionComponent = props => {
   const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
+
+  function localLogin (){
+    if(document.cookie.includes("selvbetjening-idtoken")) {
+      setInnlogget(Innlogget.INNLOGGET);
+    }
+    else{
+      setInnlogget(Innlogget.IKKE_INNLOGGET);}
+      setEssoCookieLocally();
+  }
+
   useEffect(() => {
     setInnlogget(Innlogget.LASTER);
     const getLoginStatus = async () => {
-      let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
-      if (respons.ok) {
-        setInnlogget(Innlogget.INNLOGGET);
-        if (environment.MILJO) {
+      if (environment.MILJO) {
+        let veilarbStatusRespons = await hentVeilarbStatus();
+        if (veilarbStatusRespons.harGyldigOidcToken && veilarbStatusRespons.nivaOidc===4) {
+          setInnlogget(Innlogget.INNLOGGET);
           await getEssoToken();
-        } else {
-          setEssoCookieLocally();
+        } else if (!veilarbStatusRespons.harGyldigOidcToken) {
+          setInnlogget(Innlogget.IKKE_INNLOGGET);
         }
-      } else if (respons.status === 401) {
-        setInnlogget(Innlogget.IKKE_INNLOGGET);
+      }
+      else {
+        localLogin();
       }
     };
     getLoginStatus();
