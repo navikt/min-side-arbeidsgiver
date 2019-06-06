@@ -3,7 +3,9 @@ import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
+  Arbeidsavtale,
   hentRoller,
+  hentTiltaksgjennomforingTilgang,
   sjekkAltinnRolleForInntekstmelding,
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
@@ -80,6 +82,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       settilgangTilPamState(TilgangPam.IKKE_TILGANG);
       setantallAnnonser(0);
     }
+    const arbeidsavtaler: Array<
+      Arbeidsavtale
+    > = await hentTiltaksgjennomforingTilgang();
+    console.log(arbeidsavtaler);
   };
 
   let defaultContext: Context = {
