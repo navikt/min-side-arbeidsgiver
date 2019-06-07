@@ -3,7 +3,9 @@ import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
+  Arbeidsavtale,
   hentRoller,
+  hentTiltaksgjennomforingTilgang,
   sjekkAltinnRolleForInntekstmelding,
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
@@ -31,6 +33,7 @@ export type Context = {
   tilgangTilPamState: TilgangPam;
   tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
   tilgangTilAltinnForInntektsmelding: TilgangAltinn;
+  arbeidsavtaler: Array<Arbeidsavtale>;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>(
@@ -55,8 +58,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
   const [valgtOrganisasjon, setValgtOrganisasjon] = useState(
     tomAltinnOrganisasjon
   );
+  const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
 
   const endreOrganisasjon = async (org: Organisasjon) => {
+    setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
     await setValgtOrganisasjon(org);
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
@@ -80,6 +85,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       settilgangTilPamState(TilgangPam.IKKE_TILGANG);
       setantallAnnonser(0);
     }
+    setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
   };
 
   let defaultContext: Context = {
@@ -88,7 +94,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tilgangTilAltinnForInntektsmelding,
     tilgangTilAltinnForTreSkjemaState,
     tilgangTilPamState,
-    valgtOrganisasjon
+    valgtOrganisasjon,
+    arbeidsavtaler
   };
 
   return (

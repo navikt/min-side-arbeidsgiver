@@ -1,7 +1,10 @@
 import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
-import { digiSyfoNarmesteLederLink, hentUnderenhetApiLink } from "../lenker";
-import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
+import {
+  digiSyfoNarmesteLederLink,
+  hentArbeidsavtalerApiLink
+} from "../lenker";
+
 import { logInfo } from "../utils/metricsUtils";
 
 export interface Rolle {
@@ -22,7 +25,11 @@ enum AltinnKode {
   KontaktPersonNUF = 188
 }
 
-export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
+export interface Arbeidsavtale {
+  status: string;
+}
+
+export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
   if (respons.ok) {
     return await respons.json();
@@ -32,8 +39,8 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 }
 
 export function lagToDimensjonalArray(
-  organisasjoner: Array<Organisasjon>
-): Array<OverenhetOrganisasjon> {
+  organisasjoner: Organisasjon[]
+): OverenhetOrganisasjon[] {
   let juridiskeEnheter = organisasjoner.filter(function(
     organisasjon: Organisasjon
   ) {
@@ -53,7 +60,7 @@ export function lagToDimensjonalArray(
   });
 }
 
-export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
+export async function hentRoller(orgnr: string): Promise<Rolle[]> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/roller/" + orgnr);
   if (respons.ok) {
     return await respons.json();
@@ -62,7 +69,7 @@ export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
   }
 }
 
-export function sjekkAltinnRolleHelseSosial(rolleListe: Array<Rolle>): boolean {
+export function sjekkAltinnRolleHelseSosial(rolleListe: Rolle[]): boolean {
   const rolle = rolleListe.find(
     rolle =>
       AltinnKode.HelseSosialOgVelferdstjenester === rolle.RoleDefinitionId
@@ -92,18 +99,6 @@ export function sjekkAltinnRolleForInntekstmelding(
   return listeMedRollerSomGirTilgang.length > 0;
 }
 
-export async function hentBedriftsInfo(
-  orgnr: string
-): Promise<EnhetsregisteretOrg> {
-  let respons = await fetch(hentUnderenhetApiLink(orgnr));
-  if (respons.ok) {
-    const enhet: EnhetsregisteretOrg = await respons.json();
-    return enhet;
-  }
-  console.log("kunne ikke hente informasjon for orgnr: ", orgnr);
-  return tomEnhetsregOrg;
-}
-
 export async function hentSyfoTilgang(): Promise<boolean> {
   let respons = await fetch(digiSyfoNarmesteLederLink);
   if (respons.ok) {
@@ -114,4 +109,15 @@ export async function hentSyfoTilgang(): Promise<boolean> {
     }
   }
   return false;
+}
+
+export async function hentTiltaksgjennomforingTilgang(): Promise<
+  Array<Arbeidsavtale>
+> {
+  let respons = await fetch(hentArbeidsavtalerApiLink());
+  if (respons.ok) {
+    const avtaler: Array<Arbeidsavtale> = await respons.json();
+    return avtaler;
+  }
+  return [];
 }
