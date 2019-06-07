@@ -29,7 +29,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   );
   const [antallUnderArbeidTekst, setantallUnderArbeidTekst] = useState("");
 
-  const LagTekstBasertPaAntall = (antall: string) => {
+  const lagTekstBasertPaAntall = (antall: string) => {
     if (antall === "1") {
       return " arbeidsavtale ";
     }
@@ -43,7 +43,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     let antallAvtaler: string = KlareForOppstartArbeidsavtaler.length.toString();
     setantallUnderArbeidTekst(
       antallAvtaler +
-        LagTekstBasertPaAntall(antallAvtaler) +
+        lagTekstBasertPaAntall(antallAvtaler) +
         "klare for oppstart"
     );
     const arbeidsavtalerTilGodkjenning: Arbeidsavtale[] = arbeidsavtaler.filter(
@@ -52,7 +52,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     antallAvtaler = arbeidsavtalerTilGodkjenning.length.toString();
     setantallTilGodkjenningTekst(
       antallAvtaler +
-        LagTekstBasertPaAntall(antallAvtaler) +
+        lagTekstBasertPaAntall(antallAvtaler) +
         "mangler godkjenning"
     );
     const godkjentArbeidsavtaler: Arbeidsavtale[] = arbeidsavtaler.filter(
@@ -60,7 +60,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     );
     antallAvtaler = godkjentArbeidsavtaler.length.toString();
     setantallKlareStillingsannonserTekst(
-      antallAvtaler + " godkjente" + LagTekstBasertPaAntall(antallAvtaler)
+      antallAvtaler + " godkjente" + lagTekstBasertPaAntall(antallAvtaler)
     );
   }, [arbeidsavtaler]);
 

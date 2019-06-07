@@ -86,7 +86,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       setantallAnnonser(0);
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-    console.log(arbeidsavtaler);
   };
 
   let defaultContext: Context = {
