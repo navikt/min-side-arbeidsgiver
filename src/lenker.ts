@@ -95,5 +95,5 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
 };
 
 export const hentArbeidsavtalerApiLink = () => {
-  return `/tiltaksgjennomforing-api/avtaler`;
+  return "/ditt-nav-arbeidsgiver/api/narmesteleder/avtaler";
 };

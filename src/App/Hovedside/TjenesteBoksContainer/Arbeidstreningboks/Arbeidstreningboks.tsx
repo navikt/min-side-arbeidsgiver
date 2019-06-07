@@ -29,30 +29,45 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   );
   const [antallUnderArbeidTekst, setantallUnderArbeidTekst] = useState("");
 
+  const LagTekstBasertPaAntall = (antall: string) => {
+    if (antall === "1") {
+      return " arbeidsavtale ";
+    }
+    return " arbeidsavtaler ";
+  };
+
   useEffect(() => {
-    let klareArbeidsavtaler: Array<Arbeidsavtale> = arbeidsavtaler.filter(
+    const KlareForOppstartArbeidsavtaler: Array<
+      Arbeidsavtale
+    > = arbeidsavtaler.filter(
       arbeidsavtale => arbeidsavtale.status === "Klar for oppstart"
     );
-    setantallKlareStillingsannonserTekst(
-      klareArbeidsavtaler.length.toString() +
-        " arbeidsavtaler klare for oppstart"
+    let antallAvtaler: string = KlareForOppstartArbeidsavtaler.length.toString();
+    setantallUnderArbeidTekst(
+      antallAvtaler +
+        LagTekstBasertPaAntall(antallAvtaler) +
+        "klare for oppstart"
     );
     const arbeidsavtalerTilGodkjenning: Array<
       Arbeidsavtale
     > = arbeidsavtaler.filter(
       arbeidsavtale => arbeidsavtale.status === "Mangler godkjenning"
     );
+    antallAvtaler = arbeidsavtalerTilGodkjenning.length.toString();
     setantallTilGodkjenningTekst(
-      arbeidsavtalerTilGodkjenning.length.toString() +
-        " arbeidsavtaler mangler godkjenning"
+      antallAvtaler +
+        LagTekstBasertPaAntall(antallAvtaler) +
+        "mangler godkjenning"
     );
-    let arbeidsavtalerUnderArbeid: Array<Arbeidsavtale> = arbeidsavtaler.filter(
-      arbeidsavtaler => arbeidsavtaler.status === "Påbegynt"
+    const godkjentArbeidsavtaler: Array<Arbeidsavtale> = arbeidsavtaler.filter(
+      arbeidsavtaler => arbeidsavtaler.status === "Godkjente"
     );
-    setantallUnderArbeidTekst(
-      arbeidsavtalerUnderArbeid.length.toString() + " påbegynte arbeidsavtaler"
+    antallAvtaler = godkjentArbeidsavtaler.length.toString();
+    setantallKlareStillingsannonserTekst(
+      antallAvtaler + " godkjente" + LagTekstBasertPaAntall(antallAvtaler)
     );
   }, [arbeidsavtaler]);
+
   return (
     <div className={"arbeidstreningboks " + props.className}>
       <TjenesteBoksBanner
@@ -67,9 +82,12 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         tittelProps={"normaltekst"}
         linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >
-        {antallKlareStillingsannonserTekst + "\n"}
-        {antallTilGodkjenningTekst + "\n"}
         {antallUnderArbeidTekst}
+        <br />
+        {antallTilGodkjenningTekst}
+        <br />
+        {antallKlareStillingsannonserTekst}
+        <br />
       </Lenkepanel>
     </div>
   );
