@@ -95,5 +95,9 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
 };
 
 export const hentArbeidsavtalerApiLink = () => {
-  return "/ditt-nav-arbeidsgiver/api/narmesteleder/avtaler";
+  if (environment.MILJO === "prod-sbs") {
+    return "https://api-gw.oera.no/tiltaksgjennomforing-api/avtaler";
+  } else {
+    return "https://api-gw-q0.oera.no/tiltaksgjennomforing-api/avtaler";
+  }
 };
