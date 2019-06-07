@@ -61,6 +61,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
   const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
 
   const endreOrganisasjon = async (org: Organisasjon) => {
+    console.log("endre org kallt med: ", org.Name);
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
     await setValgtOrganisasjon(org);
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
@@ -86,7 +87,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       setantallAnnonser(0);
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-    console.log(arbeidsavtaler);
   };
 
   let defaultContext: Context = {

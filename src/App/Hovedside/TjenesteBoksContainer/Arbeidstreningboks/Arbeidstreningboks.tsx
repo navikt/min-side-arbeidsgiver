@@ -29,7 +29,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   );
   const [antallUnderArbeidTekst, setantallUnderArbeidTekst] = useState("");
 
-  const LagTekstBasertPaAntall = (antall: string) => {
+  const lagTekstBasertPaAntall = (antall: string) => {
     if (antall === "1") {
       return " arbeidsavtale ";
     }
@@ -37,34 +37,30 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   };
 
   useEffect(() => {
-    const KlareForOppstartArbeidsavtaler: Array<
-      Arbeidsavtale
-    > = arbeidsavtaler.filter(
+    const KlareForOppstartArbeidsavtaler: Arbeidsavtale[] = arbeidsavtaler.filter(
       arbeidsavtale => arbeidsavtale.status === "Klar for oppstart"
     );
     let antallAvtaler: string = KlareForOppstartArbeidsavtaler.length.toString();
     setantallKlareStillingsannonserTekst(
       antallAvtaler +
-        LagTekstBasertPaAntall(antallAvtaler) +
+        lagTekstBasertPaAntall(antallAvtaler) +
         "klare for oppstart"
     );
-    const arbeidsavtalerTilGodkjenning: Array<
-      Arbeidsavtale
-    > = arbeidsavtaler.filter(
+    const arbeidsavtalerTilGodkjenning: Arbeidsavtale[] = arbeidsavtaler.filter(
       arbeidsavtale => arbeidsavtale.status === "Mangler godkjenning"
     );
     antallAvtaler = arbeidsavtalerTilGodkjenning.length.toString();
     setantallTilGodkjenningTekst(
       antallAvtaler +
-        LagTekstBasertPaAntall(antallAvtaler) +
+        lagTekstBasertPaAntall(antallAvtaler) +
         "mangler godkjenning"
     );
-    const godkjentArbeidsavtaler: Array<Arbeidsavtale> = arbeidsavtaler.filter(
-      arbeidsavtaler => arbeidsavtaler.status === "Påbegynt"
+    const godkjentArbeidsavtaler: Arbeidsavtale[] = arbeidsavtaler.filter(
+      arbeidsavtaler => arbeidsavtaler.status === "Godkjente"
     );
     antallAvtaler = godkjentArbeidsavtaler.length.toString();
-    setantallUnderArbeidTekst(
-      antallAvtaler + LagTekstBasertPaAntall(antallAvtaler) + " påbegynt"
+    setantallKlareStillingsannonserTekst(
+      antallAvtaler + lagTekstBasertPaAntall(antallAvtaler) + " godkjent"
     );
   }, [arbeidsavtaler]);
 

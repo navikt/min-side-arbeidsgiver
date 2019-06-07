@@ -44,6 +44,7 @@ const Banner: FunctionComponent<
   };
 
   useEffect(() => {
+    console.log("useffect i banner kjører");
     const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
     let orgnrFraUrl = props.location.pathname.split("/")[1];
     const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
