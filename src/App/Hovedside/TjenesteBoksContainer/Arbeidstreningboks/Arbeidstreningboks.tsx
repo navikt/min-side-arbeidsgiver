@@ -43,7 +43,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
       arbeidsavtale => arbeidsavtale.status === "Klar for oppstart"
     );
     let antallAvtaler: string = KlareForOppstartArbeidsavtaler.length.toString();
-    setantallUnderArbeidTekst(
+    setantallKlareStillingsannonserTekst(
       antallAvtaler +
         LagTekstBasertPaAntall(antallAvtaler) +
         "klare for oppstart"
@@ -60,11 +60,11 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         "mangler godkjenning"
     );
     const godkjentArbeidsavtaler: Array<Arbeidsavtale> = arbeidsavtaler.filter(
-      arbeidsavtaler => arbeidsavtaler.status === "Godkjente"
+      arbeidsavtaler => arbeidsavtaler.status === "Påbegynt"
     );
     antallAvtaler = godkjentArbeidsavtaler.length.toString();
-    setantallKlareStillingsannonserTekst(
-      antallAvtaler + " godkjente" + LagTekstBasertPaAntall(antallAvtaler)
+    setantallUnderArbeidTekst(
+      antallAvtaler + "Påbegynte" + LagTekstBasertPaAntall(antallAvtaler)
     );
   }, [arbeidsavtaler]);
 
