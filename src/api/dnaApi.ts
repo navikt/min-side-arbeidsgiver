@@ -29,7 +29,7 @@ export interface Arbeidsavtale {
   status: string;
 }
 
-export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
+export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/organisasjoner");
   if (respons.ok) {
     return await respons.json();
@@ -39,8 +39,8 @@ export async function hentOrganisasjoner(): Promise<Array<Organisasjon>> {
 }
 
 export function lagToDimensjonalArray(
-  organisasjoner: Array<Organisasjon>
-): Array<OverenhetOrganisasjon> {
+  organisasjoner: Organisasjon[]
+): OverenhetOrganisasjon[] {
   let juridiskeEnheter = organisasjoner.filter(function(
     organisasjon: Organisasjon
   ) {
@@ -60,7 +60,7 @@ export function lagToDimensjonalArray(
   });
 }
 
-export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
+export async function hentRoller(orgnr: string): Promise<Rolle[]> {
   let respons = await fetch("/ditt-nav-arbeidsgiver/api/roller/" + orgnr);
   if (respons.ok) {
     return await respons.json();
@@ -69,7 +69,7 @@ export async function hentRoller(orgnr: string): Promise<Array<Rolle>> {
   }
 }
 
-export function sjekkAltinnRolleHelseSosial(rolleListe: Array<Rolle>): boolean {
+export function sjekkAltinnRolleHelseSosial(rolleListe: Rolle[]): boolean {
   const rolle = rolleListe.find(
     rolle =>
       AltinnKode.HelseSosialOgVelferdstjenester === rolle.RoleDefinitionId
