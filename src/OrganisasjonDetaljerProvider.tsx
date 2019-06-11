@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from "react";
+import React, {FunctionComponent, useEffect, useState} from "react";
 import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
@@ -9,6 +9,7 @@ import {
   sjekkAltinnRolleForInntekstmelding,
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
+import {logInfo} from "./utils/metricsUtils";
 
 export enum TilgangPam {
   LASTER,
@@ -98,6 +99,17 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     valgtOrganisasjon,
     arbeidsavtaler
   };
+
+  useEffect(()=> {
+    if (valgtOrganisasjon.OrganizationNumber) {
+      logInfo(
+          "besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber,
+          valgtOrganisasjon.OrganizationNumber
+      );
+    }
+
+
+  },[valgtOrganisasjon]);
 
   return (
     <OrganisasjonsDetaljerContext.Provider value={defaultContext}>

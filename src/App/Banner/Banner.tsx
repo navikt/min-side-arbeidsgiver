@@ -10,7 +10,7 @@ import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
-import { logInfo } from "../../utils/metricsUtils";
+
 import { withRouter, RouteComponentProps } from "react-router";
 import Lenke from "nav-frontend-lenker";
 import { basename } from "../../paths";
@@ -73,12 +73,7 @@ const Banner: FunctionComponent<
     endreOrgCallback
   ]);
 
-  if (valgtOrganisasjon) {
-    logInfo(
-      "besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber,
-      valgtOrganisasjon.OrganizationNumber
-    );
-  }
+
   const erPaBedriftsinfoSide = props.location.pathname.search(
     "bedriftsinformasjon"
   );
