@@ -94,3 +94,10 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
   return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 };
 
+export const hentArbeidsavtalerApiLink = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://api-gw.oera.no/tiltaksgjennomforing-api/avtaler";
+  } else {
+    return "https://api-gw-q0.oera.no/tiltaksgjennomforing-api/avtaler";
+  }
+};

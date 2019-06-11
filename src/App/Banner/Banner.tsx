@@ -12,7 +12,6 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
 import { logInfo } from "../../utils/metricsUtils";
 import { withRouter, RouteComponentProps } from "react-router";
-import bedriftsikon from "./company.svg";
 import Lenke from "nav-frontend-lenker";
 import { basename } from "../../paths";
 
@@ -45,6 +44,7 @@ const Banner: FunctionComponent<
   };
 
   useEffect(() => {
+    console.log("useffect i banner kjører");
     const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
     let orgnrFraUrl = props.location.pathname.split("/")[1];
     const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
@@ -87,15 +87,10 @@ const Banner: FunctionComponent<
     <div className={"banner"}>
       {erPaBedriftsinfoSide !== -1 && (
         <div className={"banner__ikon-og-lenke"}>
-          <img
-            src={bedriftsikon}
-            className={"banner__ikon"}
-            alt={"bilde av industribygg"}
-          />
           <Lenke
             href={basename + "/" + valgtOrganisasjon.OrganizationNumber + "/"}
           >
-            Din bedrift
+            Tilbake til forsiden
           </Lenke>
         </div>
       )}
