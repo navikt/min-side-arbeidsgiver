@@ -24,17 +24,24 @@ const LoggInn: FunctionComponent = () => {
           <li>Arbeidstrening</li>
           <li>Digitale skjemaer</li>
         </ul>
-        Tjeneste er tilgangsstyrt og baserer seg på tilganger utdelt av ansatte
-        på din arbeidsplass. Hvis du kan se tjenester du mener du burde ha
-        tilgang på, kan du lese mer om tilgangsstyringen og hva du kan gjøre for
-        å få tilgang
-        <Lenke href={basename + "/"}>her.</Lenke>
+        <div>
+          Tjeneste er tilgangsstyrt og baserer seg på tilganger utdelt av
+          ansatte på din arbeidsplass. Hvis du kan se tjenester du mener du
+          burde ha tilgang på, kan du lese mer om tilgangsstyringen og hva du
+          kan gjøre for å få tilgang <Lenke href={basename}>her.</Lenke>
+        </div>
         <Hovedknapp
           className={"innloggingsside__loginKnapp"}
           onClick={redirectTilLogin}
         >
           Logg inn
         </Hovedknapp>
+        <div className="innloggingsside__besok-ditt-nav">
+          Ønsker du å se dine tjenester som privat person?{" "}
+          <Lenke href={"https://www.nav.no/no/Person"}>
+            Logg inn på Ditt NAV
+          </Lenke>
+        </div>
       </div>
     </div>
   );
