@@ -20,6 +20,7 @@ import Arbeidstreningboks from "./Arbeidstreningboks/Arbeidstreningboks";
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
   const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
+  const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
   const [typeAntall, settypeAntall] = useState("");
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             </div>
           )}
         <div className={"tjenesteboks innholdsboks"}>
-          <Arbeidstreningboks />
+          {arbeidsavtaler !== [] && <Arbeidstreningboks />}
         </div>
       </div>
     </div>
