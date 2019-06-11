@@ -8,12 +8,14 @@ const getDecorator = require('./decorator');
 const Promise = require('promise');
 const sonekrysning = require('./sonekrysningConfig.js');
 const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
+const tiltakSonekrysningConfig = require('./tiltaksSonekrysningConfig');
 const createEnvSettingsFile = require('./envSettings.js');
 
 const buildPath = path.join(__dirname,'../../build');
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
 server.use(`${BASE_PATH}/veilarbstepup/status`,veilarbStatusProxyConfig);
+server.use(`${BASE_PATH}/tiltaksgjennomforing-api/avtaler`,tiltakSonekrysningConfig);
 
 server.engine('html', mustacheExpress());
 server.set('view engine', 'mustache');
