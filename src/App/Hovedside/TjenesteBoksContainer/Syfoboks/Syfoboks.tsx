@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext } from "react";
 import syfoikon from "./syfoikon.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
+import "./Syfoboks.less";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 import { syfoLink } from "../../../../lenker";
 import { SyfoTilgangContext } from "../../../../SyfoTilgangProvider";
