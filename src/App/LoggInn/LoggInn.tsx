@@ -17,7 +17,7 @@ const LoggInn: FunctionComponent = () => {
       <LoggInnBanner />
       <div className={"innloggingsside__tekst"}>
         Nå er det enklere for deg som arbeidsgiver å samarbeide med NAV ette er
-        en felles inngang til tjenester og oppgaver relatert
+        en felles inngang til tjenester og oppgaver relatert til
         <ul>
           <li>Sykefraværtoppfølging</li>
           <li>Rekruttering</li>
@@ -25,10 +25,10 @@ const LoggInn: FunctionComponent = () => {
           <li>Digitale skjemaer</li>
         </ul>
         <div>
-          Tjeneste er tilgangsstyrt og baserer seg på tilganger utdelt av
-          ansatte på din arbeidsplass. Hvis du kan se tjenester du mener du
-          burde ha tilgang på, kan du lese mer om tilgangsstyringen og hva du
-          kan gjøre for å få tilgang <Lenke href={basename}>her.</Lenke>
+          Tjenesten er tilgangsstyrt og baserer seg på tilganger utdelt av
+          ansatte på din arbeidsplass. Hvis du ikke kan se tjenester du mener du
+          burde ha tilgang til, kan du lese om tilgangsstyringen og hva du kan
+          gjøre for å få tilgang på <Lenke href={basename}>her.</Lenke>
         </div>
         <Hovedknapp
           className={"innloggingsside__loginKnapp"}
