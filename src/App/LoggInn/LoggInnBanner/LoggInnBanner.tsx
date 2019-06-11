@@ -9,8 +9,16 @@ const LoggInnBanner: FunctionComponent = () => {
     <div className={"logg-inn-banner"}>
       <Sidetittel>NAVs tjenester for arbeidsgivere </Sidetittel>
       <Sidetittel>samlet på et sted </Sidetittel>
-      <img src={ikonhender} className={"logg-inn-banner__hender-ikon"} />
-      <img src={dialog} className={"logg-inn-banner__dialog-ikon"} />
+      <img
+        src={ikonhender}
+        alt={"hender som skriver en sjekklise med blyant"}
+        className={"logg-inn-banner__hender-ikon"}
+      />
+      <img
+        src={dialog}
+        alt={"En lilla og en grå snakkeboble"}
+        className={"logg-inn-banner__dialog-ikon"}
+      />
     </div>
   );
 };
