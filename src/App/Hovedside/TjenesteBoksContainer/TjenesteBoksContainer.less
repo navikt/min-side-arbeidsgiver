@@ -5,12 +5,14 @@
     width: 20rem;
     flex-direction: column;
     align-items: center;
+    margin-top: 1rem;
 
     .tjenesteboks {
         display: flex;
         height: 11rem;
         width: 20rem;
         margin: 1rem;
+        background-color: white;
     }
 
 }
@@ -21,11 +23,7 @@
         flex-direction: row;
         width: 66rem;
         flex-wrap: wrap;
-
-        .tjenesteboks {
-            background-color: white;
-
-        }
+        margin-top: 1rem;
 
         &.antall-partall {
             .tjenesteboks {
@@ -35,7 +33,6 @@
 
         &.antall-en {
             .tjenesteboks {
-                display: flex;
                 flex-grow: 1;
             }
         }
