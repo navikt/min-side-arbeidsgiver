@@ -74,7 +74,7 @@ export function sjekkAltinnRolleHelseSosial(rolleListe: Rolle[]): boolean {
     rolle =>
       AltinnKode.HelseSosialOgVelferdstjenester === rolle.RoleDefinitionId
   );
- return !!rolle;
+  return !!rolle;
 }
 
 export function sjekkAltinnRolleForInntekstmelding(

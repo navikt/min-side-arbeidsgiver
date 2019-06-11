@@ -8,7 +8,7 @@ import React, {
 import "./Pamboks.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
-import { pamRekruttering, pamStillingsannonser } from "../../../../lenker";
+import { linkTilArbeidsplassen } from "../../../../lenker";
 import pamikon from "./pamikon.svg";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 
@@ -38,20 +38,14 @@ const Pamboks: FunctionComponent<Props> = props => {
         altTekst={"Forstørrelsesglass som fokuserer på jobbsøker"}
       />
       <Lenkepanel
-        className={"__stillingsannonser"}
-        href={pamStillingsannonser()}
-        tittelProps={"element"}
+        className={"pamboks__lenke"}
+        href={linkTilArbeidsplassen()}
+        tittelProps={"normaltekst"}
         border={false}
       >
+        {"Finn kandidater"}
+        <br />
         {stillingsAnnonseTekst}
-      </Lenkepanel>
-      <Lenkepanel
-        className={"__rekruttering"}
-        href={pamRekruttering()}
-        tittelProps={"element"}
-        border={false}
-      >
-        Finn kandidater
       </Lenkepanel>
     </div>
   );

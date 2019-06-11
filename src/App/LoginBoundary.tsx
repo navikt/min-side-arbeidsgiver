@@ -23,13 +23,13 @@ async function getEssoToken() {
 const LoginBoundary: FunctionComponent = props => {
   const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
 
-  function localLogin (){
-    if(document.cookie.includes("selvbetjening-idtoken")) {
+  function localLogin() {
+    if (document.cookie.includes("selvbetjening-idtoken")) {
       setInnlogget(Innlogget.INNLOGGET);
+    } else {
+      setInnlogget(Innlogget.IKKE_INNLOGGET);
     }
-    else{
-      setInnlogget(Innlogget.IKKE_INNLOGGET);}
-      setEssoCookieLocally();
+    setEssoCookieLocally();
   }
 
   useEffect(() => {
@@ -37,14 +37,16 @@ const LoginBoundary: FunctionComponent = props => {
     const getLoginStatus = async () => {
       if (environment.MILJO) {
         let veilarbStatusRespons = await hentVeilarbStatus();
-        if (veilarbStatusRespons.harGyldigOidcToken && veilarbStatusRespons.nivaOidc===4) {
+        if (
+          veilarbStatusRespons.harGyldigOidcToken &&
+          veilarbStatusRespons.nivaOidc === 4
+        ) {
           setInnlogget(Innlogget.INNLOGGET);
           await getEssoToken();
         } else if (!veilarbStatusRespons.harGyldigOidcToken) {
           setInnlogget(Innlogget.IKKE_INNLOGGET);
         }
-      }
-      else {
+      } else {
         localLogin();
       }
     };

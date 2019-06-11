@@ -45,18 +45,11 @@ export const veilarbStepup = () => {
   }
 };
 
-export const pamRekruttering = () => {
+export const linkTilArbeidsplassen = () => {
   if (environment.MILJO === "prod-sbs") {
-    return "https://arbeidsplassen.nav.no/kandidater/";
+    return "https://arbeidsplassen.nav.no/";
   } else {
-    return "https://arbeidsplassen-q.nav.no/kandidater";
-  }
-};
-export const pamStillingsannonser = () => {
-  if (environment.MILJO === "prod-sbs") {
-    return "https://arbeidsplassen.nav.no/stillingsregistrering/";
-  } else {
-    return "https://arbeidsplassen-q.nav.no/stillingsregistrering/";
+    return "https://arbeidsplassen-q.nav.no/";
   }
 };
 
@@ -95,5 +88,5 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
 };
 
 export const hentArbeidsavtalerApiLink = () => {
-    return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
+  return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
 };

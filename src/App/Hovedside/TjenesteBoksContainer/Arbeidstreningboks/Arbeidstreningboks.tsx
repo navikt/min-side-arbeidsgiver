@@ -59,7 +59,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
       arbeidsavtaler => arbeidsavtaler.status === "Påbegynt"
     );
     antallAvtaler = pabegynteArbeidsavtaler.length.toString();
-      setAntallPabegyntTekst(
+    setAntallPabegyntTekst(
       antallAvtaler + lagTekstBasertPaAntall(antallAvtaler) + " påbegynt"
     );
   }, [arbeidsavtaler]);

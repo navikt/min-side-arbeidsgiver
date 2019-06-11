@@ -73,7 +73,6 @@ const Banner: FunctionComponent<
     endreOrgCallback
   ]);
 
-
   const erPaBedriftsinfoSide = props.location.pathname.search(
     "bedriftsinformasjon"
   );
