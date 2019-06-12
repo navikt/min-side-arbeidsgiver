@@ -1,7 +1,6 @@
 import fetchMock from "fetch-mock";
-import { hentArbeidsavtalerApiLink } from "../lenker";
 
-fetchMock.get(hentArbeidsavtalerApiLink(), {
+fetchMock.get("https://www.facebook.com/", {
   antall: 0,
   arbeidsforhold: [
     {

@@ -4,12 +4,14 @@ import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
   Arbeidsavtale,
+  hentArbeidsforhold,
   hentRoller,
   hentTiltaksgjennomforingTilgang,
   sjekkAltinnRolleForInntekstmelding,
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
 import { logInfo } from "./utils/metricsUtils";
+import { ObjektFraAAregisteret } from "./Ansatte";
 
 export enum TilgangPam {
   LASTER,
@@ -88,6 +90,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       setantallAnnonser(0);
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
+    let ResponsAA: ObjektFraAAregisteret = await hentArbeidsforhold();
+    console.log(
+      "stillingsprosent: ",
+      ResponsAA.arbeidsforhold[0].arbeidsavtaler[0].stillingsprosent
+    );
   };
 
   let defaultContext: Context = {

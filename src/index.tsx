@@ -12,6 +12,7 @@ if (process.env.REACT_APP_MOCK) {
   require("./mock/pamMock");
   require("./mock/syfoMock");
   require("./mock/arbeidstreningMock");
+  require("./mock/AAregisteretMock");
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

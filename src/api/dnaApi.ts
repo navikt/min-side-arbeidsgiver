@@ -6,6 +6,7 @@ import {
 } from "../lenker";
 
 import { logInfo } from "../utils/metricsUtils";
+import { ObjektFraAAregisteret } from "../Ansatte";
 
 export interface Rolle {
   RoleType: string;
@@ -117,4 +118,10 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<
     return avtaler;
   }
   return [];
+}
+
+export async function hentArbeidsforhold(): Promise<ObjektFraAAregisteret> {
+  let respons = await fetch("https://www.facebook.com/");
+  const Arbeidsforhold: ObjektFraAAregisteret = await respons.json();
+  return Arbeidsforhold;
 }
