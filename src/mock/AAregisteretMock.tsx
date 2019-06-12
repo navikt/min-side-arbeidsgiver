@@ -1,34 +1,7 @@
-import { EnhetsregisteretOrg } from "./enhetsregisteretOrg";
+import fetchMock from "fetch-mock";
+import { hentArbeidsavtalerApiLink } from "../lenker";
 
-export interface enkelArbeidsforhold {
-  arbeidsavtaler: Array<enkelArbeidsavtale>;
-  sistbekreftet: string;
-  arbeidstaker: arbeidstaker;
-}
-
-export interface arbeidstaker {
-  aktoerId: number;
-  offentligIdent: number;
-}
-
-export interface enkelArbeidsavtale {
-  bruksperiode: bruksperiode;
-  stillingsprosent: number;
-  yrke: number;
-  antallTimerPrUke: number;
-}
-
-export interface bruksperiode {
-  fom: string;
-  tom: string;
-}
-
-export interface ObjektFraAAregisteret {
-  antall: string;
-  arbeidsforhold: Array<enkelArbeidsforhold>;
-}
-
-export const mockrespons: ObjektFraAAregisteret = {
+fetchMock.get(hentArbeidsavtalerApiLink(), {
   antall: 0,
   arbeidsforhold: [
     {
@@ -172,4 +145,4 @@ export const mockrespons: ObjektFraAAregisteret = {
       ]
     }
   ]
-};
+});
