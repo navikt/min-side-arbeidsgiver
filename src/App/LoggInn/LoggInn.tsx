@@ -37,7 +37,9 @@ const LoggInn: FunctionComponent = () => {
           Logg inn
         </Hovedknapp>
         <div className="innloggingsside__besok-ditt-nav">
-          Ønsker du å se dine tjenester som privatperson?{" "}
+          <div className={"innloggingsside__besok-ditt-nav-tekst"}>
+            Ønsker du å se dine tjenester som privatperson?{" "}
+          </div>
           <Lenke href={"https://www.nav.no/no/Person"}>
             Logg inn på Ditt NAV
           </Lenke>

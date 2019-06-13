@@ -9,6 +9,7 @@ import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
 import { SyfoTilgangProvider } from "../SyfoTilgangProvider";
 import InformasjonOmBedrift from "./InformasjonOmBedrift/InformasjonOmBedrift";
+import LoggInn from "./LoggInn/LoggInn";
 
 const App: FunctionComponent = () => {
   return (
@@ -28,7 +29,7 @@ const App: FunctionComponent = () => {
                   <Route
                     path="/:orgnummer/bedriftsinformasjon"
                     exact={true}
-                    component={InformasjonOmBedrift}
+                    component={LoggInn}
                   />
                 </Switch>
               </div>

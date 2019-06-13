@@ -9,12 +9,12 @@
 
   &__tekst {
     flex-direction: column;
-    width: 35rem;
+    width: 17rem;
     display: flex;
     background-color: @navLysGra;
     height: 55rem;
-    padding: 2.5rem 6.5rem 1.75rem;
     align-self: center;
+    margin: 2rem;
   }
 
   &__overtekst {
@@ -22,7 +22,7 @@
   }
 
   &__loginKnapp {
-    margin-top: 4rem;
+    margin-top: 2rem;
     margin-bottom: 2rem;
     align-self: center;
   }
@@ -30,6 +30,27 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-self: center;
+    flex-wrap: wrap;
+    text-align: center;
   }
+}
+
+.forside {
+  display: flex;
+  flex-direction: colmn;
+  background-color: @navLysGra;
+  align-items: center;
+  align-self: center;
+  width:20rem;
+
+}
+
+@media (min-width: @screen-sm) {
+  .innloggingsside {
+    &__tekst {
+      width: 35rem;
+    }
+
+  }
+
 }
