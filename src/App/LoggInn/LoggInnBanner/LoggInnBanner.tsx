@@ -7,8 +7,10 @@ import dialog from "./dialog.svg";
 const LoggInnBanner: FunctionComponent = () => {
   return (
     <div className={"logg-inn-banner"}>
-      <Sidetittel>NAVs tjenester for arbeidsgivere </Sidetittel>
-      <Sidetittel>samlet på et sted </Sidetittel>
+      <div className={"logg-inn-banner__tekst"}>
+        <Sidetittel>NAVs tjenester for arbeidsgivere </Sidetittel>
+        <Sidetittel>samlet på et sted </Sidetittel>
+      </div>
       <img
         src={ikonhender}
         alt={"hender som skriver en sjekklise med blyant"}
