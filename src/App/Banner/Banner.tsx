@@ -23,6 +23,7 @@ const Banner: FunctionComponent<
   Props & RouteComponentProps<{ orgnummer: string }>
 > = props => {
   const { organisasjoner } = useContext(OrganisasjonsListeContext);
+  const { organisasjonstre} = useContext(OrganisasjonsListeContext);
   const { endreOrganisasjon, valgtOrganisasjon } = useContext(
     OrganisasjonsDetaljerContext
   );
@@ -95,17 +96,21 @@ const Banner: FunctionComponent<
               className={"banner__organisasjoner"}
               label={""}
               onChange={event => settUrl(event.target.value)}
-            >
-              {organisasjoner.map((organisasjon, index) => (
-                <option
-                  className={"banner__option"}
-                  key={index}
-                  value={organisasjon.OrganizationNumber}
-                  selected={organisasjon === valgtOrganisasjon}
-                >
-                  {organisasjon.Name}
-                </option>
-              ))}
+            >{organisasjonstre.map((jurEnhet, index) =>(
+                <optgroup label={jurEnhet.overordnetOrg.Name}>
+                  {jurEnhet.UnderOrganisasjoner.map((organisasjon,index) =>(
+                      <option
+                          className={"banner__option"}
+                          key={index}
+                          value={organisasjon.OrganizationNumber}
+                          selected={organisasjon === valgtOrganisasjon}
+                      >
+                        {organisasjon.Name}
+                      </option>
+                  ))}
+                      </optgroup>
+
+                ))}
             </Select>
             {valgtOrganisasjon && (
               <Normaltekst className={"banner__orgnr"}>
