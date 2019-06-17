@@ -32,9 +32,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
       if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
         antallTilganger++;
       }
-      if (arbeidsavtaler.length > 0) {
+      if (arbeidsavtaler.length) {
         antallTilganger++;
       }
+
       return antallTilganger;
     };
 
@@ -63,7 +64,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
               <Pamboks />
             </div>
           )}
-        {arbeidsavtaler.length > 0 && (
+        {arbeidsavtaler.length && (
           <div className={"tjenesteboks innholdsboks"}>
             <Arbeidstreningboks />
           </div>
