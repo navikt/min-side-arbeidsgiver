@@ -9,7 +9,7 @@ import Lenkepanel from "nav-frontend-lenkepanel";
 import "./Arbeidstreningboks.less";
 
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
-import { syfoLink } from "../../../../lenker";
+import { tiltaksgjennomføringLink } from "../../../../lenker";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
 import { Arbeidsavtale } from "../../../../api/dnaApi";
 
@@ -74,7 +74,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
 
       <Lenkepanel
         className={"arbeidstreningboks__info"}
-        href={syfoLink()}
+        href={tiltaksgjennomføringLink()}
         tittelProps={"normaltekst"}
         linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >

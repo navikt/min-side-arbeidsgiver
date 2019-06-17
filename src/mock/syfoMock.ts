@@ -55,3 +55,25 @@ fetchMock
     }
   ])
   .spy();
+
+fetchMock
+    .get("/ditt-nav-arbeidsgiver/api/syfooppgaver", [
+      {
+        "oppgaveUuid": "234212",
+        "ident": "12345645613",
+        "opprettetDato": "2019-02-07T13:51:02",
+        "oppgavetype": "Sykemelding",
+        "ressursId": "12355321,",
+        "ressurseier": "123521"
+
+
+      },{
+        "oppgaveUuid": "334212",
+        "ident": "3225645613",
+        "opprettetDato": "2019-02-07T13:51:02",
+        "oppgavetype": "Sykepengesøknad",
+        "ressursId": "12355321,",
+        "ressurseier": "123521"
+      }
+    ])
+    .spy();
