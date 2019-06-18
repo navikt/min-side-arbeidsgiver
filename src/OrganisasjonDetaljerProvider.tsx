@@ -11,7 +11,7 @@ import {
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
 import { logInfo } from "./utils/metricsUtils";
-import { ObjektFraAAregisteret } from "./Ansatte";
+import { enkelArbeidsforhold, ObjektFraAAregisteret } from "./Ansatte";
 
 export enum TilgangPam {
   LASTER,
@@ -37,7 +37,7 @@ export type Context = {
   tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
   tilgangTilAltinnForInntektsmelding: TilgangAltinn;
   arbeidsavtaler: Array<Arbeidsavtale>;
-  mineAnsatte: Array<ObjektFraAAregisteret>;
+  mineAnsatte: Array<enkelArbeidsforhold>;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>(
@@ -63,9 +63,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tomAltinnOrganisasjon
   );
   const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
-  const [mineAnsatte, setmineAnsatte] = useState(
-    Array<ObjektFraAAregisteret>()
-  );
+  const [mineAnsatte, setmineAnsatte] = useState(Array<enkelArbeidsforhold>());
 
   const endreOrganisasjon = async (org: Organisasjon) => {
     console.log("endre org kallt med: ", org.Name);
@@ -94,15 +92,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       setantallAnnonser(0);
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-    let ResponsAA: ObjektFraAAregisteret = await hentArbeidsforhold();
-    let ansatte: Array<ObjektFraAAregisteret> = [];
-    ansatte.push(ResponsAA);
-    console.log(
-      "stillingsprosent: ",
-      ResponsAA.arbeidsforhold[0].arbeidsavtaler[0].stillingsprosent
-    );
-    setmineAnsatte(ansatte);
-    console.log("respons fra Aregisteret ", ResponsAA);
+    setmineAnsatte(await hentArbeidsforhold());
+    console.log("respons fra Aregisteret ", mineAnsatte);
   };
 
   let defaultContext: Context = {
