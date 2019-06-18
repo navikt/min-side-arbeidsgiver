@@ -11,7 +11,7 @@ import {
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
 import { logInfo } from "./utils/metricsUtils";
-import { enkelArbeidsforhold, ObjektFraAAregisteret } from "./Ansatte";
+import { enkelArbeidsforhold } from "./Ansatte";
 
 export enum TilgangPam {
   LASTER,
@@ -68,6 +68,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
   const endreOrganisasjon = async (org: Organisasjon) => {
     console.log("endre org kallt med: ", org.Name);
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
+    setmineAnsatte(await hentArbeidsforhold());
     await setValgtOrganisasjon(org);
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
@@ -91,9 +92,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       settilgangTilPamState(TilgangPam.IKKE_TILGANG);
       setantallAnnonser(0);
     }
-    setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-    setmineAnsatte(await hentArbeidsforhold());
-    console.log("respons fra Aregisteret ", mineAnsatte);
   };
 
   let defaultContext: Context = {

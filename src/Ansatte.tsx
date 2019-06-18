@@ -1,9 +1,8 @@
-import { EnhetsregisteretOrg } from "./enhetsregisteretOrg";
-
 export interface enkelArbeidsforhold {
   arbeidsavtaler: Array<enkelArbeidsavtale>;
   sistbekreftet: string;
   arbeidstaker: arbeidstaker;
+  ansettelsesperiode: ansettelsesperiode;
 }
 
 export interface arbeidstaker {
@@ -12,13 +11,16 @@ export interface arbeidstaker {
 }
 
 export interface enkelArbeidsavtale {
-  bruksperiode: bruksperiode;
   stillingsprosent: number;
   yrke: number;
   antallTimerPrUke: number;
 }
 
-export interface bruksperiode {
+export interface ansettelsesperiode {
+  periode: periode;
+}
+
+export interface periode {
   fom: string;
   tom: string;
 }
