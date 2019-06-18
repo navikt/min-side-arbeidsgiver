@@ -8,7 +8,6 @@ import LoginBoundary from "./LoginBoundary";
 import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
 import { SyfoTilgangProvider } from "../SyfoTilgangProvider";
-import InformasjonOmBedrift from "./InformasjonOmBedrift/InformasjonOmBedrift";
 import LoggInn from "./LoggInn/LoggInn";
 
 const App: FunctionComponent = () => {
