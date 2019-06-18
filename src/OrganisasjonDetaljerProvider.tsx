@@ -37,6 +37,7 @@ export type Context = {
   tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
   tilgangTilAltinnForInntektsmelding: TilgangAltinn;
   arbeidsavtaler: Array<Arbeidsavtale>;
+  mineAnsatte: Array<ObjektFraAAregisteret>;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>(
@@ -62,6 +63,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tomAltinnOrganisasjon
   );
   const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
+  const [mineAnsatte, setmineAnsatte] = useState(
+    Array<ObjektFraAAregisteret>()
+  );
 
   const endreOrganisasjon = async (org: Organisasjon) => {
     console.log("endre org kallt med: ", org.Name);
@@ -91,10 +95,14 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
     let ResponsAA: ObjektFraAAregisteret = await hentArbeidsforhold();
+    let ansatte: Array<ObjektFraAAregisteret> = [];
+    ansatte.push(ResponsAA);
     console.log(
       "stillingsprosent: ",
       ResponsAA.arbeidsforhold[0].arbeidsavtaler[0].stillingsprosent
     );
+    setmineAnsatte(ansatte);
+    console.log("respons fra Aregisteret ", ResponsAA);
   };
 
   let defaultContext: Context = {
@@ -104,7 +112,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tilgangTilAltinnForTreSkjemaState,
     tilgangTilPamState,
     valgtOrganisasjon,
-    arbeidsavtaler
+    arbeidsavtaler,
+    mineAnsatte
   };
 
   useEffect(() => {
