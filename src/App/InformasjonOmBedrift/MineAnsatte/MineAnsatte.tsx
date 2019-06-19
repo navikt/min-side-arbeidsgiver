@@ -16,29 +16,20 @@ const MineAnsatte: FunctionComponent<Props> = props => {
   const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
   const [arraySomVises, setArraySomVises] = useState(mineAnsatte);
 
-  useEffect(() => {
-    let index: number = 0;
-    let table = document.getElementById("arbeidsforholdTable");
-    mineAnsatte.forEach(function(arbeidsforhold) {
-      let row = table.insertRow(index);
-      let col1 = row.insertCell(0);
-      col1.innerHTML = "Kjell Magne";
-      let col2 = row.insertCell(1);
-      col2.innerHTML = arbeidsforhold.arbeidstaker.offentligIdent;
-      let col3 = row.insertCell(2);
-      col3.innerHTML = arbeidsforhold.arbeidsavtaler[0].yrke;
-      let col4 = row.insertCell(3);
-      col4.innerHTML = arbeidsforhold.ansettelsesperiode.periode.fom;
-      let col5 = row.insertCell(4);
-      col5.innerHTML = arbeidsforhold.ansettelsesperiode.periode.tom;
-      let col6 = row.insertCell(5);
-      col6.innerHTML = "varslinger";
-    });
-  }, [mineAnsatte]);
+  const rader = mineAnsatte.map(arbeidsforhold => (
+    <tr>
+      <td>Kjell Magne</td>
+      <td>{arbeidsforhold.arbeidstaker.offentligIdent}</td>
+      <td>{arbeidsforhold.arbeidsavtaler[0].yrke}</td>
+      <td>{arbeidsforhold.ansettelsesperiode.periode.fom}</td>
+      <td>{arbeidsforhold.ansettelsesperiode.periode.tom}</td>
+      <td>varslinger</td>
+    </tr>
+  ));
 
   return (
     <div className={"hovedside-mine-ansatte"}>
-      <table id="arbeidsforholdTable" />
+      <table id="arbeidsforholdTable">{rader}</table>
     </div>
   );
 };
