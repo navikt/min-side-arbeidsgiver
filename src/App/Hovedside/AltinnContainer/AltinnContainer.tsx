@@ -93,7 +93,7 @@ const AltinnContainer: FunctionComponent = () => {
               "altinn-container__" + typeAntall + " altinn-container__lenke"
             }
             href={inntekstmelding}
-            tekst={"Inntekstmelding"}
+            tekst={"Inntektsmelding"}
           />
         )}
       </div>
