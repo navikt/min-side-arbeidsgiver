@@ -1,11 +1,5 @@
-import React, {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState
-} from "react";
-
-import Lenkepanel from "nav-frontend-lenkepanel";
+import React, { FunctionComponent, useContext, useState } from "react";
+import "./MineAnsatte.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 
 interface Props {
@@ -17,7 +11,7 @@ const MineAnsatte: FunctionComponent<Props> = props => {
   const [arraySomVises, setArraySomVises] = useState(mineAnsatte);
 
   const rader = mineAnsatte.map(arbeidsforhold => (
-    <tr>
+    <tr className={"arbeidsforhold-table__rad"}>
       <td>Kjell Magne</td>
       <td>{arbeidsforhold.arbeidstaker.offentligIdent}</td>
       <td>{arbeidsforhold.arbeidsavtaler[0].yrke}</td>
@@ -29,7 +23,13 @@ const MineAnsatte: FunctionComponent<Props> = props => {
 
   return (
     <div className={"hovedside-mine-ansatte"}>
-      <table id="arbeidsforholdTable">{rader}</table>
+      <table id="arbeidsforholdTable" className={"arbeidsforhold-table"}>
+        <tr>
+          <th>Navn</th>
+          <th>Ident</th>
+        </tr>
+        {rader}
+      </table>
     </div>
   );
 };

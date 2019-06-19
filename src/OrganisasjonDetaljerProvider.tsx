@@ -69,6 +69,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     console.log("endre org kallt med: ", org.Name);
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
     setmineAnsatte(await hentArbeidsforhold());
+    console.log("mine ansatte: ", mineAnsatte);
     await setValgtOrganisasjon(org);
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
