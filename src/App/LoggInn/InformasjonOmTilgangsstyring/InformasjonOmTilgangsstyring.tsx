@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Hovedknapp } from "nav-frontend-knapper";
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import "./InformasjonOmTilgangsstyring.less";
 import LoggInnBanner from "../LoggInnBanner/LoggInnBanner";
 import Lenke from "nav-frontend-lenker";
@@ -7,15 +7,65 @@ import {
   LenkeTilInfoOmAltinnRoller,
   LenkeTilInfoOmNarmesteLeder
 } from "../../../lenker";
+import {
+  Sidetittel,
+  Ingress,
+  Innholdstittel,
+  Normaltekst,
+  Systemtittel,
+  Undertittel
+} from "nav-frontend-typografi";
 
 const InformasjonOmTilgangsstyring: FunctionComponent = () => {
   return (
-    <div className={"informasjon-om-tilgangsstyring"}>
+    <div className={"informasjon-om-tilgangsstyring "}>
       <LoggInnBanner />
       <div className={"informasjon-om-tilgangsstyring__tekst"}>
+        <Innholdstittel
+          className={"informasjon-om-tilgangsstyring__innholdstittel"}
+        >
+          {" "}
+          Tilganger i Altinn{" "}
+        </Innholdstittel>
+        <Normaltekst className={"informasjon-om-tilgangsstyring__ingress"}>
+          Navs tjenester for arbeidsgivere krever at du er registrert med
+          bestemte roller i Altinn. Her får du en oversikt over hvilke roller de
+          forskjellige tjenestene krever.
+        </Normaltekst>
+        <Undertittel className={"informasjon-om-tilgangsstyring__systemtittel"}>
+          Slik får du tilgang til tjenestene
+        </Undertittel>
+        <Ekspanderbartpanel tittel="Rekruttering" border>
+          <Normaltekst>
+            På{" "}
+            <Lenke href={"https://arbeidsplassen.nav.no/"}>
+              Arbeidsplassen
+            </Lenke>{" "}
+            kan du finne kandidater og opprette stillingsannonser. Tilgang til
+            denne tjenesten krever at du er registrert som en av følgende roller
+            i Altinn
+          </Normaltekst>
+          <ul>
+            <li>Lønn og personalmedarbeider</li>
+            <li>Utfyller/innsender</li>
+          </ul>
+          Eller blitt tildelt rollen
+          <ul>
+            <li>Rekruttering</li>
+          </ul>
+        </Ekspanderbartpanel>
+        <Ekspanderbartpanel tittel="Sykemeldte" border>
+          Tilgang til digitale sykemeldinger krever at du er registrert som
+          Nærmeste leder for én eller flere ansatte i din virksomhet. Les mer om
+          registrering av Nærmeste leder{" "}
+          <Lenke href={LenkeTilInfoOmNarmesteLeder}>her.</Lenke>
+        </Ekspanderbartpanel>
+        <Ekspanderbartpanel tittel="Klikk her for å åpne/lukke panelet" border>
+          Panelet vil da ekspandere og vise innholdet.
+        </Ekspanderbartpanel>
         Navs tjenester for arbeidsgivere krever at du er registrert med bestemte
         roller i Altinn. Her får du en oversikt over hvilke roller de
-        forskjellige tjeneste krever.
+        forskjellige tjenestene krever.
         <br />
         <br />
         Rollen
@@ -37,7 +87,7 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
           </ul>
         </ul>
         <br />
-        En av rollene
+        // En av rollene
         <ul>
           <li>Ansvarlig revisor</li>
           <li>Lønn og personalmedarbeider</li>
@@ -56,7 +106,6 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
                 Arbeidsplassen
               </Lenke>
             </li>
-            <li>Tilskudd til mentor</li>
           </ul>
         </ul>
         Tilgang til Dine sykemeldte krever at du er registrert som Nærmeste
