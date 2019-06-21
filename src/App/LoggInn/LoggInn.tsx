@@ -7,7 +7,7 @@ import Lenke from "nav-frontend-lenker";
 import { basename } from "../../paths";
 import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 
-const LoggInn: FunctionComponent = () => {
+export const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
     logInfo("klikk på login");
     window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
@@ -50,5 +50,3 @@ const LoggInn: FunctionComponent = () => {
     </div>
   );
 };
-
-export default LoggInn;
