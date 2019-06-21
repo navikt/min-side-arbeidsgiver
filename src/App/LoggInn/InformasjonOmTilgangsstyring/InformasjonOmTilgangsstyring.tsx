@@ -34,19 +34,29 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
           Slik får du tilgang til tjenestene
         </Undertittel>
         <Ekspanderbartpanel tittel="Rekruttering" border>
-          <Normaltekst>
+          <Normaltekst
+            className={"informasjon-om-tilgangsstyring__arbeidsplassen-tekst"}
+          >
             På{" "}
             <Lenke href={"https://arbeidsplassen.nav.no/"}>
               Arbeidsplassen
             </Lenke>{" "}
             kan du finne kandidater og opprette stillingsannonser.
           </Normaltekst>
-          <Element>Du må ha en av disse rollene: </Element>
+          <Element
+            className={"informasjon-om-tilgangsstyring__rolle-overskrift"}
+          >
+            Du må ha en av disse rollene:{" "}
+          </Element>
           <ul>
             <li>Lønn og personalmedarbeider</li>
             <li>Utfyller/innsender</li>
           </ul>
-          <Element>Eller denne rettigheten: </Element>
+          <Element
+            className={"informasjon-om-tilgangsstyring__rolle-overskrift"}
+          >
+            Eller denne rettigheten:{" "}
+          </Element>
           <ul>
             <li>Rekruttering</li>
           </ul>
