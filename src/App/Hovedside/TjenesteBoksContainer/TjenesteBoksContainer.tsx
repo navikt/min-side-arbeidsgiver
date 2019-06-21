@@ -53,7 +53,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     <div className={"tjenesteboks-container " + typeAntall}>
       <div className={"tjenesteboks-container " + typeAntall}>
         {tilgangTilSyfoState !== TilgangSyfo.LASTER &&
-          tilgangTilSyfoState == TilgangSyfo.TILGANG && (
+          tilgangTilSyfoState === TilgangSyfo.TILGANG && (
             <Innholdsboks className={"tjenesteboks innholdsboks"}>
               <Syfoboks className={"syfoboks"} />
             </Innholdsboks>

@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from "react";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import "./InformasjonOmTilgangsstyring.less";
-import LoggInnBanner from "../LoggInnBanner/LoggInnBanner";
 import Lenke from "nav-frontend-lenker";
 import {
   LenkeTilInfoOmAltinnRoller,
@@ -13,6 +12,7 @@ import {
   Element,
   Undertittel
 } from "nav-frontend-typografi";
+import LoggInnBanner from "../LoggInnBanner/LoggInnBanner";
 
 const InformasjonOmTilgangsstyring: FunctionComponent = () => {
   return (

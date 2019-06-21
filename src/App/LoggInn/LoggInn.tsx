@@ -2,9 +2,10 @@ import React, { FunctionComponent } from "react";
 import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
 import { logInfo } from "../../utils/metricsUtils";
-import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
+
 import Lenke from "nav-frontend-lenker";
 import { basename } from "../../paths";
+import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 
 const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
@@ -28,7 +29,7 @@ const LoggInn: FunctionComponent = () => {
           Tjenesten er tilgangsstyrt og baserer seg på roller registrert av din
           virksomhet i Altinn. Hvis du ikke kan se tjenester du mener du burde
           ha tilgang til, kan du lese om tilgangsstyringen og hva du kan gjøre
-          for å få tilgang på{" "}
+          for å få tilgang{" "}
           <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
             her.
           </Lenke>

@@ -9,7 +9,6 @@ import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
 import { SyfoTilgangProvider } from "../SyfoTilgangProvider";
 import InformasjonOmBedrift from "./InformasjonOmBedrift/InformasjonOmBedrift";
-import LoggInn from "./LoggInn/LoggInn";
 import InformasjonOmTilgangsstyring from "./LoggInn/InformasjonOmTilgangsstyring/InformasjonOmTilgangsstyring";
 
 const App: FunctionComponent = () => {
@@ -23,30 +22,31 @@ const App: FunctionComponent = () => {
               exact={true}
               component={InformasjonOmTilgangsstyring}
             />
+
+            <LoginBoundary>
+              <OrganisasjonsListeProvider>
+                <SyfoTilgangProvider>
+                  <OrganisasjonsDetaljerProvider>
+                    <Banner />
+                    <div className="bakgrunnsside">
+                      <Switch>
+                        <Route
+                          path="/:orgnummer"
+                          exact={true}
+                          component={Hovedside}
+                        />
+                        <Route
+                          path="/:orgnummer/bedriftsinformasjon"
+                          exact={true}
+                          component={InformasjonOmBedrift}
+                        />
+                      </Switch>
+                    </div>
+                  </OrganisasjonsDetaljerProvider>
+                </SyfoTilgangProvider>
+              </OrganisasjonsListeProvider>
+            </LoginBoundary>
           </Switch>
-          <LoginBoundary>
-            <OrganisasjonsListeProvider>
-              <SyfoTilgangProvider>
-                <OrganisasjonsDetaljerProvider>
-                  <Banner />
-                  <div className="bakgrunnsside">
-                    <Switch>
-                      <Route
-                        path="/:orgnummer"
-                        exact={true}
-                        component={Hovedside}
-                      />
-                      <Route
-                        path="/:orgnummer/bedriftsinformasjon"
-                        exact={true}
-                        component={LoggInn}
-                      />
-                    </Switch>
-                  </div>
-                </OrganisasjonsDetaljerProvider>
-              </SyfoTilgangProvider>
-            </OrganisasjonsListeProvider>
-          </LoginBoundary>
         </div>
       </BrowserRouter>
     </div>
