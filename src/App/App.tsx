@@ -14,40 +14,42 @@ import InformasjonOmTilgangsstyring from "./LoggInn/InformasjonOmTilgangsstyring
 
 const App: FunctionComponent = () => {
   return (
-    <BrowserRouter basename={basename}>
-      <div>
-        <Switch>
-          <Route
-            path="/informasjon-om-tilgangsstyring"
-            exact={true}
-            component={InformasjonOmTilgangsstyring}
-          />
-        </Switch>
-        <LoginBoundary>
-          <OrganisasjonsListeProvider>
-            <SyfoTilgangProvider>
-              <OrganisasjonsDetaljerProvider>
-                <Banner />
-                <div className="bakgrunnsside typo-normal">
-                  <Switch>
-                    <Route
-                      path="/:orgnummer"
-                      exact={true}
-                      component={Hovedside}
-                    />
-                    <Route
-                      path="/:orgnummer/bedriftsinformasjon"
-                      exact={true}
-                      component={LoggInn}
-                    />
-                  </Switch>
-                </div>
-              </OrganisasjonsDetaljerProvider>
-            </SyfoTilgangProvider>
-          </OrganisasjonsListeProvider>
-        </LoginBoundary>
-      </div>
-    </BrowserRouter>
+    <div className="typo-normal">
+      <BrowserRouter basename={basename}>
+        <div>
+          <Switch>
+            <Route
+              path="/informasjon-om-tilgangsstyring"
+              exact={true}
+              component={InformasjonOmTilgangsstyring}
+            />
+          </Switch>
+          <LoginBoundary>
+            <OrganisasjonsListeProvider>
+              <SyfoTilgangProvider>
+                <OrganisasjonsDetaljerProvider>
+                  <Banner />
+                  <div className="bakgrunnsside">
+                    <Switch>
+                      <Route
+                        path="/:orgnummer"
+                        exact={true}
+                        component={Hovedside}
+                      />
+                      <Route
+                        path="/:orgnummer/bedriftsinformasjon"
+                        exact={true}
+                        component={LoggInn}
+                      />
+                    </Switch>
+                  </div>
+                </OrganisasjonsDetaljerProvider>
+              </SyfoTilgangProvider>
+            </OrganisasjonsListeProvider>
+          </LoginBoundary>
+        </div>
+      </BrowserRouter>
+    </div>
   );
 };
 

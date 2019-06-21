@@ -8,11 +8,9 @@ import {
   LenkeTilInfoOmNarmesteLeder
 } from "../../../lenker";
 import {
-  Sidetittel,
-  Ingress,
   Innholdstittel,
   Normaltekst,
-  Systemtittel,
+  Element,
   Undertittel
 } from "nav-frontend-typografi";
 
@@ -41,15 +39,14 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
             <Lenke href={"https://arbeidsplassen.nav.no/"}>
               Arbeidsplassen
             </Lenke>{" "}
-            kan du finne kandidater og opprette stillingsannonser. Tilgang til
-            denne tjenesten krever at du er registrert som en av følgende roller
-            i Altinn
+            kan du finne kandidater og opprette stillingsannonser.
           </Normaltekst>
+          <Element>Du må ha en av disse rollene: </Element>
           <ul>
             <li>Lønn og personalmedarbeider</li>
             <li>Utfyller/innsender</li>
           </ul>
-          Eller blitt tildelt rollen
+          <Element>Eller denne rettigheten: </Element>
           <ul>
             <li>Rekruttering</li>
           </ul>
