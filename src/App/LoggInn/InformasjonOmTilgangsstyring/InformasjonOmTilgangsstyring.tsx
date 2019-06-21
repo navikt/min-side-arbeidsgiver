@@ -3,6 +3,10 @@ import { Hovedknapp } from "nav-frontend-knapper";
 import "./InformasjonOmTilgangsstyring.less";
 import LoggInnBanner from "../LoggInnBanner/LoggInnBanner";
 import Lenke from "nav-frontend-lenker";
+import {
+  LenkeTilInfoOmAltinnRoller,
+  LenkeTilInfoOmNarmesteLeder
+} from "../../../lenker";
 
 const InformasjonOmTilgangsstyring: FunctionComponent = () => {
   return (
@@ -56,10 +60,14 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
           </ul>
         </ul>
         Tilgang til Dine sykemeldte krever at du er registrert som Nærmeste
-        leder for én eller flere ansatte.
+        leder for én eller flere ansatte i din virksomhet. Les mer om
+        registrering av Nærmeste leder{" "}
+        <Lenke href={LenkeTilInfoOmNarmesteLeder}>Her.</Lenke>
         <br />
-        Dersom du ikke har til tjenester du mener du burde ha tilgang på, må du
-        kontakte
+        <br />
+        Dersom mangler tilgang til tjenester du mener du burde ha tilgang på,
+        kan du lese mer om Altinnroller og hvem du må kontakte på
+        <Lenke href={LenkeTilInfoOmAltinnRoller}>Her.</Lenke>
       </div>
     </div>
   );

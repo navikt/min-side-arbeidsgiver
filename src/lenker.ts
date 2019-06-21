@@ -98,3 +98,11 @@ export const arbeidsAvtaleLink = () => {
 export const hentArbeidsavtalerApiLink = () => {
   return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
 };
+
+export const LenkeTilInfoOmNarmesteLeder =
+  "https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-n%C3%A6rmeste-leder-for-en-sykmeldt";
+
+"https://www.altinn.no/hjelp/profil/roller-og-rettigheter/";
+
+export const LenkeTilInfoOmAltinnRoller =
+  "https://www.altinn.no/hjelp/profil/roller-og-rettigheter/";
