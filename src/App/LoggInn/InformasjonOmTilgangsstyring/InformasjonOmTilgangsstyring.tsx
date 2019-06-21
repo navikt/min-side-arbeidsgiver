@@ -55,6 +55,11 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
             <li>Tilskudd til mentor</li>
           </ul>
         </ul>
+        Tilgang til Dine sykemeldte krever at du er registrert som Nærmeste
+        leder for én eller flere ansatte.
+        <br />
+        Dersom du ikke har til tjenester du mener du burde ha tilgang på, må du
+        kontakte
       </div>
     </div>
   );

@@ -25,10 +25,13 @@ const LoggInn: FunctionComponent = () => {
           <li>Digitale skjemaer</li>
         </ul>
         <div>
-          Tjenesten er tilgangsstyrt og baserer seg på tilganger utdelt av
-          ansatte på din arbeidsplass. Hvis du ikke kan se tjenester du mener du
-          burde ha tilgang til, kan du lese om tilgangsstyringen og hva du kan
-          gjøre for å få tilgang på <Lenke href={basename}>her.</Lenke>
+          Tjenesten er tilgangsstyrt og baserer seg på roller registrert av din
+          virksomhet i Altinn. Hvis du ikke kan se tjenester du mener du burde
+          ha tilgang til, kan du lese om tilgangsstyringen og hva du kan gjøre
+          for å få tilgang på{" "}
+          <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
+            her.
+          </Lenke>
         </div>
         <Hovedknapp
           className={"innloggingsside__loginKnapp"}

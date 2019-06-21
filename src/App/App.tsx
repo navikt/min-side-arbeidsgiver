@@ -14,31 +14,40 @@ import InformasjonOmTilgangsstyring from "./LoggInn/InformasjonOmTilgangsstyring
 
 const App: FunctionComponent = () => {
   return (
-    <LoginBoundary>
-      <OrganisasjonsListeProvider>
-        <SyfoTilgangProvider>
-          <BrowserRouter basename={basename}>
-            <OrganisasjonsDetaljerProvider>
-              <Banner />
-              <div className="bakgrunnsside typo-normal">
-                <Switch>
-                  <Route
-                    path="/:orgnummer"
-                    exact={true}
-                    component={Hovedside}
-                  />
-                  <Route
-                    path="/:orgnummer/bedriftsinformasjon"
-                    exact={true}
-                    component={InformasjonOmTilgangsstyring}
-                  />
-                </Switch>
-              </div>
-            </OrganisasjonsDetaljerProvider>
-          </BrowserRouter>
-        </SyfoTilgangProvider>
-      </OrganisasjonsListeProvider>
-    </LoginBoundary>
+    <BrowserRouter basename={basename}>
+      <div>
+        <Switch>
+          <Route
+            path="/informasjon-om-tilgangsstyring"
+            exact={true}
+            component={InformasjonOmTilgangsstyring}
+          />
+        </Switch>
+        <LoginBoundary>
+          <OrganisasjonsListeProvider>
+            <SyfoTilgangProvider>
+              <OrganisasjonsDetaljerProvider>
+                <Banner />
+                <div className="bakgrunnsside typo-normal">
+                  <Switch>
+                    <Route
+                      path="/:orgnummer"
+                      exact={true}
+                      component={Hovedside}
+                    />
+                    <Route
+                      path="/:orgnummer/bedriftsinformasjon"
+                      exact={true}
+                      component={InformasjonOmBedrift}
+                    />
+                  </Switch>
+                </div>
+              </OrganisasjonsDetaljerProvider>
+            </SyfoTilgangProvider>
+          </OrganisasjonsListeProvider>
+        </LoginBoundary>
+      </div>
+    </BrowserRouter>
   );
 };
 
