@@ -99,8 +99,8 @@ export function sjekkAltinnRolleForInntekstmelding(
 export async function hentSyfoTilgang(): Promise<boolean> {
   let respons = await fetch(digiSyfoNarmesteLederLink);
   if (respons.ok) {
-    const objekt: SyfoKallObjekt = await respons.json();
-    if (objekt.narmesteLedere.length) {
+    const syfoTilgang: SyfoKallObjekt = await respons.json();
+    if (syfoTilgang.tilgang) {
       logInfo("har syfotilgang");
       return true;
     }
