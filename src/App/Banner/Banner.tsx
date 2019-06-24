@@ -78,44 +78,50 @@ const Banner: FunctionComponent<
   );
 
   return (
-    <div className={"banner"}>
-      {erPaBedriftsinfoSide !== -1 && (
-        <div className={"banner__ikon-og-lenke"}>
-          <Lenke
-            href={basename + "/" + valgtOrganisasjon.OrganizationNumber + "/"}
-          >
-            Tilbake til forsiden
-          </Lenke>
-        </div>
-      )}
-      {organisasjoner.length > 0 && (
-        <div className={"banner__container"}>
-          <div className={"banner__select"}>
-            <Select
-              className={"banner__organisasjoner"}
-              label={""}
-              onChange={event => settUrl(event.target.value)}
-            >
-              {organisasjoner.map((organisasjon, index) => (
-                <option
-                  className={"banner__option"}
-                  key={index}
-                  value={organisasjon.OrganizationNumber}
-                  selected={organisasjon === valgtOrganisasjon}
+    <>
+      {organisasjoner.length !== 0 && (
+        <div className={"banner"}>
+          {erPaBedriftsinfoSide !== -1 && (
+            <div className={"banner__ikon-og-lenke"}>
+              <Lenke
+                href={
+                  basename + "/" + valgtOrganisasjon.OrganizationNumber + "/"
+                }
+              >
+                Tilbake til forsiden
+              </Lenke>
+            </div>
+          )}
+          {organisasjoner.length > 0 && (
+            <div className={"banner__container"}>
+              <div className={"banner__select"}>
+                <Select
+                  className={"banner__organisasjoner"}
+                  label={""}
+                  onChange={event => settUrl(event.target.value)}
                 >
-                  {organisasjon.Name}
-                </option>
-              ))}
-            </Select>
-            {valgtOrganisasjon && (
-              <Normaltekst className={"banner__orgnr"}>
-                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
-              </Normaltekst>
-            )}
-          </div>
+                  {organisasjoner.map((organisasjon, index) => (
+                    <option
+                      className={"banner__option"}
+                      key={index}
+                      value={organisasjon.OrganizationNumber}
+                      selected={organisasjon === valgtOrganisasjon}
+                    >
+                      {organisasjon.Name}
+                    </option>
+                  ))}
+                </Select>
+                {valgtOrganisasjon && (
+                  <Normaltekst className={"banner__orgnr"}>
+                    {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
+                  </Normaltekst>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -10,6 +10,7 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { basename } from "../../paths";
 import Lenke from "nav-frontend-lenker";
+import { Innholdstittel } from "nav-frontend-typografi";
 
 const Hovedside: FunctionComponent = () => {
   const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
@@ -20,14 +21,19 @@ const Hovedside: FunctionComponent = () => {
 
   return (
     <div className="forside">
+      {organisasjoner.length === 0 && (
+        <Innholdstittel className={"forside__overskrift"}>
+          Min bedriftsside
+        </Innholdstittel>
+      )}
       {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
       {!skalViseManglerTilgangBoks && (
         <div>
-          Er det tjenester du forventet å se men mangler tilgang til? Les om
-          hvordan tilgangsstyringen fungerer{" "}
+          Forventet du å se flere tjenester? Les om hvordan tilgangsstyringen
+          fungerer{" "}
           <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
             her.
           </Lenke>{" "}

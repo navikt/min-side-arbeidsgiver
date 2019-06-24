@@ -2,11 +2,9 @@ import fetchMock from "fetch-mock";
 import { digiSyfoNarmesteLederLink, digisyfoSykemeldteLenke } from "../lenker";
 
 fetchMock
-  .get(digiSyfoNarmesteLederLink,
-      {
-          "tilgang": true
-      }
-  )
+  .get(digiSyfoNarmesteLederLink, {
+    tilgang: true
+  })
   .spy();
 
 fetchMock
