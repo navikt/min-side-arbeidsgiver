@@ -19,7 +19,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
   useEffect(() => {
     const getOrganisasjoner = async () => {
       let organisasjoner = await hentOrganisasjoner();
-      setOrganisasjoner(organisasjoner);
+
+
+      setOrganisasjoner(organisasjoner.filter( (organisasjon:Organisasjon) => {return organisasjon.OrganizationForm==="BEDR"}));
       const toDim: Array<OverenhetOrganisasjon> = lagToDimensjonalArray(
         organisasjoner
       );
