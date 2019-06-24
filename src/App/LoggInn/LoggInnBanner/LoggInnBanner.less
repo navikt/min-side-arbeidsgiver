@@ -13,13 +13,13 @@
 
   &__dialog-ikon {
     position: absolute;
-    display: flex;
+    display: none;
     align-self: flex-end;
     right: 9%;
     top: 1rem;
     }
   &__hender-ikon {
-    display: flex;
+    display: none;
     position: absolute;
     align-self: flex-end;
     bottom: 0rem;
@@ -28,4 +28,35 @@
   }
 
   }
+
+@media (min-width: 1430px) {
+  .logg-inn-banner {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    background-color: @navDypBlaLighten80;
+    border-bottom: 4px solid @navLysBlaDarken40;
+    height: 9rem;
+    position: relative;
+    margin-bottom: 1rem;
+
+    &__dialog-ikon {
+      position: absolute;
+      display: flex;
+      align-self: flex-end;
+      right: 9%;
+      top: 1rem;
+    }
+    &__hender-ikon {
+      display: flex;
+      position: absolute;
+      align-self: flex-end;
+      bottom: 0rem;
+      right: 22%;
+
+    }
+
+  }
+}
 
