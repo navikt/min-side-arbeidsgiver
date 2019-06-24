@@ -8,6 +8,8 @@ import ManglerTilgangBoks from "./ManglerTilgangBoks/ManglerTilgangBoks";
 
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
+import { basename } from "../../paths";
+import Lenke from "nav-frontend-lenker";
 
 const Hovedside: FunctionComponent = () => {
   const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
@@ -22,6 +24,15 @@ const Hovedside: FunctionComponent = () => {
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
+      {!skalViseManglerTilgangBoks && (
+        <div>
+          Er det tjenester du forventet å se men mangler tilgang til? Les om
+          hvordan tilgangsstyringen fungerer{" "}
+          <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
+            Her.
+          </Lenke>{" "}
+        </div>
+      )}
     </div>
   );
 };
