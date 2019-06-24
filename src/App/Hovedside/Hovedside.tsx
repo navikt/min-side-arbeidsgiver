@@ -29,7 +29,7 @@ const Hovedside: FunctionComponent = () => {
           Er det tjenester du forventet å se men mangler tilgang til? Les om
           hvordan tilgangsstyringen fungerer{" "}
           <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
-            Her.
+            her.
           </Lenke>{" "}
         </div>
       )}
