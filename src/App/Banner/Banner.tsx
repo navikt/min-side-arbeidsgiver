@@ -97,14 +97,14 @@ const Banner: FunctionComponent<
               onChange={event => settUrl(event.target.value)}
             >
               {organisasjoner.map((organisasjon, index) => (
-                  <option
-                      className={"banner__option"}
-                      key={index}
-                      value={organisasjon.OrganizationNumber}
-                      selected={organisasjon === valgtOrganisasjon}
-                  >
-                    {organisasjon.Name}
-                  </option>
+                <option
+                  className={"banner__option"}
+                  key={index}
+                  value={organisasjon.OrganizationNumber}
+                  selected={organisasjon === valgtOrganisasjon}
+                >
+                  {organisasjon.Name}
+                </option>
               ))}
             </Select>
             {valgtOrganisasjon && (

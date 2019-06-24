@@ -2,11 +2,12 @@ import React, { FunctionComponent } from "react";
 import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
 import { logInfo } from "../../utils/metricsUtils";
-import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
+
 import Lenke from "nav-frontend-lenker";
 import { basename } from "../../paths";
+import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 
-const LoggInn: FunctionComponent = () => {
+export const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
     logInfo("klikk på login");
     window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
@@ -25,10 +26,13 @@ const LoggInn: FunctionComponent = () => {
           <li>Digitale skjemaer</li>
         </ul>
         <div>
-          Tjenesten er tilgangsstyrt og baserer seg på tilganger utdelt av
-          ansatte på din arbeidsplass. Hvis du ikke kan se tjenester du mener du
-          burde ha tilgang til, kan du lese om tilgangsstyringen og hva du kan
-          gjøre for å få tilgang på <Lenke href={basename}>her.</Lenke>
+          Tjenesten er tilgangsstyrt og baserer seg på roller registrert av din
+          virksomhet i Altinn. Hvis du ikke kan se tjenester du mener du burde
+          ha tilgang til, kan du lese om tilgangsstyringen og hva du kan gjøre
+          for å få tilgang{" "}
+          <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
+            her.
+          </Lenke>
         </div>
         <Hovedknapp
           className={"innloggingsside__loginKnapp"}
@@ -46,5 +50,3 @@ const LoggInn: FunctionComponent = () => {
     </div>
   );
 };
-
-export default LoggInn;

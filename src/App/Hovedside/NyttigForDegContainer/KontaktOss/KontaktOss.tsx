@@ -19,7 +19,7 @@ const KontaktOss: FunctionComponent = () => {
           alt="To snakkebobler"
         />
         <Undertittel className={"kontakt-oss__tekst"}>
-          Kom i kontakt med NAV
+          Bli oppringt av NAV
         </Undertittel>
       </div>
     </Lenkepanel>

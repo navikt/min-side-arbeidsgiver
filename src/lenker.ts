@@ -87,11 +87,11 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
   return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 };
 
-export const arbeidsAvtaleLink = () =>{
-  if(environment.MILJO === "prod-sbs"){
-    return "https://arbeidsgiver.nav.no/tiltaksgjennomforing/"
-  }else{
-    return "https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/"
+export const arbeidsAvtaleLink = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://arbeidsgiver.nav.no/tiltaksgjennomforing/";
+  } else {
+    return "https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/";
   }
 };
 
@@ -99,3 +99,8 @@ export const hentArbeidsavtalerApiLink = () => {
   return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
 };
 
+export const LenkeTilInfoOmNarmesteLeder =
+  "https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-n%C3%A6rmeste-leder-for-en-sykmeldt";
+
+export const LenkeTilInfoOmAltinnRoller =
+  "https://www.altinn.no/hjelp/profil/roller-og-rettigheter/";
