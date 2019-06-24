@@ -12,8 +12,6 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
 
 import { withRouter, RouteComponentProps } from "react-router";
-import Lenke from "nav-frontend-lenker";
-import { basename } from "../../paths";
 
 interface Props {
   tittel?: string;
@@ -72,10 +70,6 @@ const Banner: FunctionComponent<
     props.location.pathname,
     endreOrgCallback
   ]);
-
-  const erPaBedriftsinfoSide = props.location.pathname.search(
-    "bedriftsinformasjon"
-  );
 
   return (
     <>
