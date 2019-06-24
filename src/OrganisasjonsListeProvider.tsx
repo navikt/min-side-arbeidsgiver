@@ -4,7 +4,7 @@ import { hentOrganisasjoner, lagToDimensjonalArray } from "./api/dnaApi";
 
 export type Context = {
   organisasjoner: Array<Organisasjon>;
-  organisasjonstre:  Array<OverenhetOrganisasjon>;
+  organisasjonstre: Array<OverenhetOrganisasjon>;
 };
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
@@ -12,7 +12,9 @@ export { OrganisasjonsListeContext };
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
   const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
-  const [organisasjonstre, setorganisasjonstre] = useState(Array<OverenhetOrganisasjon>());
+  const [organisasjonstre, setorganisasjonstre] = useState(
+    Array<OverenhetOrganisasjon>()
+  );
 
   useEffect(() => {
     const getOrganisasjoner = async () => {

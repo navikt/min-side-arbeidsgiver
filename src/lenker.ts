@@ -76,6 +76,7 @@ export const digisyfoSykemeldteLenke = () => {
     return "https://tjenester-q1.nav.no/syforest/arbeidsgiver/sykmeldte";
   }
 };
+
 export const digiSyfoNarmesteLederLink =
   "/ditt-nav-arbeidsgiver/api/narmesteleder";
 
@@ -87,15 +88,14 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
   return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 };
 
-export const arbeidsAvtaleLink = () =>{
-  if(environment.MILJO === "prod-sbs"){
-    return "https://arbeidsgiver.nav.no/tiltaksgjennomforing/"
-  }else{
-    return "https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/"
+export const arbeidsAvtaleLink = () => {
+  if (environment.MILJO === "prod-sbs") {
+    return "https://arbeidsgiver.nav.no/tiltaksgjennomforing/";
+  } else {
+    return "https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/";
   }
 };
 
 export const hentArbeidsavtalerApiLink = () => {
   return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
 };
-
