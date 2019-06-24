@@ -81,17 +81,6 @@ const Banner: FunctionComponent<
     <>
       {organisasjoner.length !== 0 && (
         <div className={"banner"}>
-          {erPaBedriftsinfoSide !== -1 && (
-            <div className={"banner__ikon-og-lenke"}>
-              <Lenke
-                href={
-                  basename + "/" + valgtOrganisasjon.OrganizationNumber + "/"
-                }
-              >
-                Tilbake til forsiden
-              </Lenke>
-            </div>
-          )}
           {organisasjoner.length > 0 && (
             <div className={"banner__container"}>
               <div className={"banner__select"}>
