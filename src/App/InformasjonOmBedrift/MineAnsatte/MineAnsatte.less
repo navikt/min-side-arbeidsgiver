@@ -2,74 +2,28 @@
 
 .hovedside-mine-ansatte {
   padding: 1rem;
-}
 
-.arbeidsforhold-table {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: white;
-  color: black;
-  width: 90%;
-  border-collapse: collapse;
-  justify-self: center;
-  margin-left: 2rem;
-  margin-top: 2rem;
-  border-radius: 4px;
-}
+  &__innholdstittel {
+    margin: 2rem;
+  }
 
-.tr {
-  border-top: solid 1px @navGra20;
-  padding: 1rem;
-}
-
-.td {
-  padding: 1rem;
-}
-
-.th {
-  padding: 1rem;
-}
-
-
-@media (max-width: 760px) {
-  th, td, tr, thead{
-    display: block;
+  &__innhold {
+    border-radius: 4px;
+    background-color: white;
+    margin-left: 2rem;
+    padding: 1rem;
 
   }
 
-  .arbeidsforhold-table {
-    width: 100%;
-    margin: 0rem;
+  &__systemtittel {
+    margin: 2rem;
   }
-
-  thead tr {
-    display:none;
-  }
-
-
-
-  .td {
-    border: none;
-    position: relative;
-    padding-left: 50%;
-  }
-
-  td:before {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    width: 45%;
-    white-space: nowrap;
-  }
-
-  td:nth-of-type(1):before { content: "Navn"; }
-  td:nth-of-type(2):before { content: "Fødselsnummer"; }
-  td:nth-of-type(3):before { content: "Yrke"; }
-  td:nth-of-type(4):before { content: "Startdato"; }
-  td:nth-of-type(5):before { content: "Sluttdato"; }
-  td:nth-of-type(6):before { content: "Varsel"; }
 }
+
+
+
+
+
 
 
 
