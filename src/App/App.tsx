@@ -12,13 +12,14 @@ import MineAnsatte from "./InformasjonOmBedrift/MineAnsatte/MineAnsatte";
 
 const App: FunctionComponent = () => {
   return (
-    <LoginBoundary>
-      <OrganisasjonsListeProvider>
-        <SyfoTilgangProvider>
-          <BrowserRouter basename={basename}>
-            <OrganisasjonsDetaljerProvider>
-              <Banner />
-              <div className="bakgrunnsside typo-normal">
+    <div className="bakgrunnsside typo-normal">
+      <LoginBoundary>
+        <OrganisasjonsListeProvider>
+          <SyfoTilgangProvider>
+            <BrowserRouter basename={basename}>
+              <OrganisasjonsDetaljerProvider>
+                <Banner />
+
                 <Switch>
                   <Route
                     path="/:orgnummer"
@@ -31,12 +32,12 @@ const App: FunctionComponent = () => {
                     component={MineAnsatte}
                   />
                 </Switch>
-              </div>
-            </OrganisasjonsDetaljerProvider>
-          </BrowserRouter>
-        </SyfoTilgangProvider>
-      </OrganisasjonsListeProvider>
-    </LoginBoundary>
+              </OrganisasjonsDetaljerProvider>
+            </BrowserRouter>
+          </SyfoTilgangProvider>
+        </OrganisasjonsListeProvider>
+      </LoginBoundary>
+    </div>
   );
 };
 
