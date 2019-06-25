@@ -26,7 +26,11 @@ const MineAnsatte: FunctionComponent<Props> = props => {
       <table id="arbeidsforholdTable" className={"arbeidsforhold-table"}>
         <tr>
           <th>Navn</th>
-          <th>Ident</th>
+          <th>Fødselsnummer</th>
+          <th>Yrke</th>
+          <th>Startdato</th>
+          <th>Sluttdato</th>
+          <th>Varsel</th>
         </tr>
         {rader}
       </table>
