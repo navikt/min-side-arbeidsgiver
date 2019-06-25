@@ -24,14 +24,16 @@ const MineAnsatte: FunctionComponent<Props> = props => {
   return (
     <div className={"hovedside-mine-ansatte"}>
       <table id="arbeidsforholdTable" className={"arbeidsforhold-table"}>
-        <tr>
-          <th className={"th"}>Navn</th>
-          <th className={"th"}>Fødselsnummer</th>
-          <th className={"th"}>Yrke</th>
-          <th className={"th"}>Startdato</th>
-          <th className={"th"}>Sluttdato</th>
-          <th className={"th"}>Varsel</th>
-        </tr>
+        <thead className="thead">
+          <tr>
+            <th className={"th"}>Navn</th>
+            <th className={"th"}>Fødselsnummer</th>
+            <th className={"th"}>Yrke</th>
+            <th className={"th"}>Startdato</th>
+            <th className={"th"}>Sluttdato</th>
+            <th className={"th"}>Varsel</th>
+          </tr>
+        </thead>
         {rader}
       </table>
     </div>
