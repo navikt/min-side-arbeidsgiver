@@ -9,11 +9,32 @@
   color: black;
   width: 100%;
   border-collapse: collapse;
+}
 
-  &__rad {
-    color: rebeccapurple;
-    border-bottom: solid 1px @navGra20;
+.tr {
+  color: rebeccapurple;
+  border-bottom: solid 1px @navGra20;
+}
+
+
+@media (max-width: 760px) {
+  th, td, tr{
+    display: block;
+
   }
+
+  .tr {
+    border: 1px solid #ccc
+  }
+
+  .td {
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+
 }
 
 

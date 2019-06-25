@@ -11,13 +11,13 @@ const MineAnsatte: FunctionComponent<Props> = props => {
   const [arraySomVises, setArraySomVises] = useState(mineAnsatte);
 
   const rader = mineAnsatte.map(arbeidsforhold => (
-    <tr className={"arbeidsforhold-table__rad"}>
-      <td>Kjell Magne</td>
-      <td>{arbeidsforhold.arbeidstaker.offentligIdent}</td>
-      <td>{arbeidsforhold.arbeidsavtaler[0].yrke}</td>
-      <td>{arbeidsforhold.ansettelsesperiode.periode.fom}</td>
-      <td>{arbeidsforhold.ansettelsesperiode.periode.tom}</td>
-      <td>varslinger</td>
+    <tr className={"tr"}>
+      <td className={"td"}>Kjell Magne</td>
+      <td className={"td"}>{arbeidsforhold.arbeidstaker.offentligIdent}</td>
+      <td className={"td"}>{arbeidsforhold.arbeidsavtaler[0].yrke}</td>
+      <td className={"td"}>{arbeidsforhold.ansettelsesperiode.periode.fom}</td>
+      <td className={"td"}>{arbeidsforhold.ansettelsesperiode.periode.tom}</td>
+      <td className={"td"}>varslinger</td>
     </tr>
   ));
 
@@ -25,12 +25,12 @@ const MineAnsatte: FunctionComponent<Props> = props => {
     <div className={"hovedside-mine-ansatte"}>
       <table id="arbeidsforholdTable" className={"arbeidsforhold-table"}>
         <tr>
-          <th>Navn</th>
-          <th>Fødselsnummer</th>
-          <th>Yrke</th>
-          <th>Startdato</th>
-          <th>Sluttdato</th>
-          <th>Varsel</th>
+          <th className={"th"}>Navn</th>
+          <th className={"th"}>Fødselsnummer</th>
+          <th className={"th"}>Yrke</th>
+          <th className={"th"}>Startdato</th>
+          <th className={"th"}>Sluttdato</th>
+          <th className={"th"}>Varsel</th>
         </tr>
         {rader}
       </table>
