@@ -47,9 +47,9 @@ export const veilarbStepup = () => {
 
 export const linkTilArbeidsplassen = () => {
   if (environment.MILJO === "prod-sbs") {
-    return "https://arbeidsplassen.nav.no/";
+    return "https://arbeidsplassen.nav.no/stillingsregistrering";
   } else {
-    return "https://arbeidsplassen-q.nav.no/";
+    return "https://arbeidsplassen-q.nav.no/stillingsregistrering";
   }
 };
 
