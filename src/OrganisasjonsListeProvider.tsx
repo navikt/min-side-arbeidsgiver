@@ -20,8 +20,11 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const getOrganisasjoner = async () => {
       let organisasjoner = await hentOrganisasjoner();
 
-
-      setOrganisasjoner(organisasjoner.filter( (organisasjon:Organisasjon) => {return organisasjon.OrganizationForm==="BEDR"}));
+      setOrganisasjoner(
+        organisasjoner.filter((organisasjon: Organisasjon) => {
+          return organisasjon.OrganizationForm === "BEDR";
+        })
+      );
       const toDim: Array<OverenhetOrganisasjon> = lagToDimensjonalArray(
         organisasjoner
       );
