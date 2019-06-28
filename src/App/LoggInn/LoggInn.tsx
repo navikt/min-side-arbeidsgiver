@@ -3,14 +3,9 @@ import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
 import { logInfo } from "../../utils/metricsUtils";
 import koffert from "./group.svg";
-import medisin from "./Innloggingstjenester/medicine-capsule-1.svg";
-import sok from "./Innloggingstjenester/search.svg";
-import verktoy from "./Innloggingstjenester/toolbox.svg";
-
 import Lenke from "nav-frontend-lenker";
-import { basename } from "../../paths";
 import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
-import { Sidetittel, Element } from "nav-frontend-typografi";
+import { Sidetittel } from "nav-frontend-typografi";
 import { Innloggingstjenester } from "./Innloggingstjenester/Innloggingstjenester";
 import { Informasjonsboks } from "./Informasjonboks/Informasjonsboks";
 
