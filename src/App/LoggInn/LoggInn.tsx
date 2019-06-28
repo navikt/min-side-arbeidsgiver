@@ -12,6 +12,7 @@ import { basename } from "../../paths";
 import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 import { Sidetittel, Element } from "nav-frontend-typografi";
 import { Innloggingstjenester } from "./Innloggingstjenester/Innloggingstjenester";
+import { Informasjonsboks } from "./Informasjonboks/Informasjonsboks";
 
 export const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
@@ -20,31 +21,29 @@ export const LoggInn: FunctionComponent = () => {
   };
 
   return (
-    <div className={"innloggingsside"}>
+    <div className="innloggingsside">
       <LoggInnBanner />
-      <img src={koffert} />
-      <Sidetittel>NAVS tjenester samlet på ett sted</Sidetittel>
-      Nå er det enklere for deg som arbeidsgiver å samarbeide med NAV med en
-      felles inngang til tjenester og oppgaver relatert til:
-      <div>
-        Tjenesten er tilgangsstyrt og baserer seg på roller registrert av din
-        virksomhet i Altinn. Hvis du ikke kan se tjenester du mener du burde ha
-        tilgang til, kan du lese om tilgangsstyringen og hva du kan gjøre for å
-        få tilgang{" "}
-        <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>her.</Lenke>
-      </div>
-      <Innloggingstjenester />
-      <Hovedknapp
-        className={"innloggingsside__loginKnapp"}
-        onClick={redirectTilLogin}
-      >
-        Logg inn
-      </Hovedknapp>
-      <div className="innloggingsside__besok-ditt-nav">
-        Ønsker du å se dine tjenester som privatperson?{" "}
-        <Lenke href={"https://www.nav.no/no/Person"}>
-          Logg inn på Ditt NAV
-        </Lenke>
+      <div className={"innloggingsside__innhold"}>
+        <img src={koffert} className={"innloggingsside__ikon"} />
+        <Sidetittel className={"innloggingsside__sidetittel"}>
+          NAVS tjenester samlet på ett sted
+        </Sidetittel>
+        Nå er det enklere for deg som arbeidsgiver å samarbeide med NAV med en
+        felles inngang til tjenester og oppgaver relatert til:
+        <Innloggingstjenester />
+        <Informasjonsboks />
+        <Hovedknapp
+          className={"innloggingsside__loginKnapp"}
+          onClick={redirectTilLogin}
+        >
+          Logg inn
+        </Hovedknapp>
+        <div className="innloggingsside__besok-ditt-nav">
+          Ønsker du å se dine tjenester som privatperson?{" "}
+          <Lenke href={"https://www.nav.no/no/Person"}>
+            Logg inn på Ditt NAV
+          </Lenke>
+        </div>
       </div>
     </div>
   );
