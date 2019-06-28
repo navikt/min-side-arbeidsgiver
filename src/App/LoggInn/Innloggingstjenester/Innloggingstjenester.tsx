@@ -39,7 +39,7 @@ export const Innloggingstjenester: FunctionComponent = () => {
         <img
           alt={"Bilde av skjemaer for å illustrere skjemaer på altinn"}
           src={skjema}
-          className={"innloggingsside__tjeneste-ikon"}
+          className={"innloggingsside-tjenester__tjeneste-ikon"}
         />
         <Element>Digitale skjemaer </Element>
       </div>
