@@ -1,36 +1,43 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .innloggingsside {
   flex-direction: column;
   display: flex;
-  background-color: @navLysGra;
-  height: 55rem;
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
 
+  &__ikon {
+    margin: 3rem;
+  }
 
-  &__tekst {
+  &__innhold {
     flex-direction: column;
-    max-width: 30rem;
     display: flex;
-    background-color: @navLysGra;
-    height: 55rem;
-    padding: 2.5rem 4rem 1.75rem;
+    text-align: center;
+    align-items: center;
+    max-width: 40rem;
     align-self: center;
   }
 
-  &__overtekst {
-    margin-bottom: 1rem;
+  &__sidetittel {
+    margin: 0rem 1rem  3rem 1rem;
+
   }
 
   &__loginKnapp {
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-    align-self: center;
+    margin: 2rem;
   }
+
   &__besok-ditt-nav{
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-self: center;
     text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  &__tekst {
+    margin: 0rem 1rem 0rem 1rem;
   }
 }
+
+
