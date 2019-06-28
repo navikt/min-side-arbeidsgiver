@@ -19,7 +19,11 @@ export const LoggInn: FunctionComponent = () => {
     <div className="innloggingsside">
       <LoggInnBanner />
       <div className={"innloggingsside__innhold"}>
-        <img src={koffert} className={"innloggingsside__ikon"} />
+        <img
+          src={koffert}
+          alt={"Bilde av koffert for å illustrere arbeidsgivere"}
+          className={"innloggingsside__ikon"}
+        />
         <Sidetittel className={"innloggingsside__sidetittel"}>
           NAVS tjenester samlet på ett sted
         </Sidetittel>

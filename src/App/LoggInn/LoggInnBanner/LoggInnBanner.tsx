@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import "./LoggInnBanner.less";
-import { Innholdstittel, Systemtittel } from "nav-frontend-typografi";
+import { Systemtittel } from "nav-frontend-typografi";
 
 const LoggInnBanner: FunctionComponent = () => {
   return (
