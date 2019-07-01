@@ -1,14 +1,51 @@
 import React, { FunctionComponent, useContext } from "react";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
-import { Systemtittel } from "nav-frontend-typografi";
+const AriaMenuButton = require("react-aria-menubutton");
+import { withRouter, RouteComponentProps } from "react-router";
 
-const LoggInnBanner: FunctionComponent = () => {
+import { Button, Wrapper, Menu, MenuItem } from "react-aria-menubutton";
+
+
+
+const DropDown: FunctionComponent<
+    RouteComponentProps<>
+    > = props => {
   const { organisasjoner } = useContext(OrganisasjonsListeContext);
+  const settUrl = (orgnr: string) => {
+    props.history.push("/" + orgnr);
+  };
+
+
+  const OrganisasjonsMenyKomponenter = organisasjoner.map(function(organisasjon, index) {
+    return (
+        <AriaMenuButton.MenuItem
+            key={index}
+            tag='li'
+            value={organisasjon.ParentOrganizationNumber}
+            text={organisasjon.Name}
+            className='organisasjonsmeny-organisasjon'
+        >
+          <div className='organisasjonsmeny-navn'>
+            {organisasjon.Name}
+          </div>
+        </AriaMenuButton.MenuItem>
+      );
+  });
+
   return (
-    <div className={"logg-inn-banner"}>
-      <Systemtittel>Ditt NAV arbeidsgiver </Systemtittel>
-    </div>
+      <Wrapper
+          className='MyMenuButton'
+          onSelection={settUrl()}
+      >
+        <Button className='MyMenuButton-button'>
+          click me
+        </Button>
+        <Menu className='MyMenuButton-menu'>
+          <ul>{OrganisasjonsMenyKomponenter}</ul>
+        </Menu>
+      </Wrapper>
   );
+}
 };
 
-export default LoggInnBanner;
+export default withRouter(DropDown);
