@@ -41,7 +41,7 @@ const DropDown: FunctionComponent<
         {organisasjon.Name !== valgtOrganisasjon.Name && (
           <AriaMenuButton.MenuItem
             key={index}
-            value={organisasjon.ParentOrganizationNumber}
+            value={organisasjon.OrganizationNumber}
             text={skrivSomSmaBokstaver(organisasjon.Name)}
             className="organisasjons-meny__organisasjon"
           >
