@@ -1318,6 +1318,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.2.tgz#690a1475b84f2a884fd07cd797c00f5f31356ea8"
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
+"@types/react-aria-menubutton@^6.2.2":
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/@types/react-aria-menubutton/-/react-aria-menubutton-6.2.2.tgz#24c15f37ecb908d9162e3396429f2b7761a9e1f8"
+  integrity sha512-AiGB9vtQV5qgNbwwsqOp9OhjxUyCBwd0K4cVTjkwdj74OvEOemH0xeGIU9AcZr0U5U26Rq6Kz9KM4PPIwZu5tw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@16.8.0":
   version "16.8.0"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-16.8.0.tgz#c565f43f9d2ec911f9e0b8f3b74e25e67879aa3f"

@@ -10,7 +10,6 @@ import { Normaltekst } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
-
 import { withRouter, RouteComponentProps } from "react-router";
 
 interface Props {
