@@ -4,7 +4,6 @@ import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 import { withRouter, RouteComponentProps } from "react-router";
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
-import { Rolle } from "../../../api/dnaApi";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -46,9 +45,7 @@ const DropDown: FunctionComponent<
             text={skrivSomSmaBokstaver(organisasjon.Name)}
             className="organisasjons-meny__organisasjon"
           >
-            <div className="organisasjons-meny__navn">
-              {skrivSomSmaBokstaver(organisasjon.Name)}
-            </div>
+            <div className="organisasjons-meny__navn">{organisasjon.Name}</div>
           </AriaMenuButton.MenuItem>
         )}
       </>
@@ -62,10 +59,10 @@ const DropDown: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
       >
-        <AriaMenuButton.Button className="organisasjons-meny__trigger">
+        <AriaMenuButton.Button className="organisasjons-meny__button">
           {valgtOrganisasjon !== tomAltinnOrganisasjon && (
             <div className="organisasjons-meny__tekst">
-              {skrivSomSmaBokstaver(valgtOrganisasjon.Name)}
+              {valgtOrganisasjon.Name}
             </div>
           )}
         </AriaMenuButton.Button>

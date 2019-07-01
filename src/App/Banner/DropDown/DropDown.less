@@ -1,13 +1,37 @@
+@import '~nav-frontend-core/less/_variabler';
 
 .organisasjons-meny {
-  text-align: left;
   display: flex;
-  padding: 0.5rem;
-  width: 30rem;
+
 
 
   &__wrapper {
+    position: relative;
+    outline: none;
     background-color: white;
+    border-radius: 0.25rem;
 
+
+  }
+
+  &__button {
+    width: 20rem;
+    display: flex;
+    border: 1px solid #826ba1;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+  }
+
+  &__organisasjon {
+    width: 20rem;
+    display: flex;
+    border-bottom: 0.5px solid @navGra60 ;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+  }
+
+  &:hover {
   }
 }
