@@ -4,6 +4,8 @@ import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 import { withRouter, RouteComponentProps } from "react-router";
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
+import { Rolle } from "../../../api/dnaApi";
+import { tomAltinnOrganisasjon } from "../../../organisasjon";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -19,6 +21,18 @@ const DropDown: FunctionComponent<
     props.history.push("/" + orgnr);
   };
 
+  const skrivSomSmaBokstaver = (orgnavn: string): string => {
+    let nyString = orgnavn[0].toLocaleUpperCase();
+    for (let index: number = 1; index < orgnavn.length; index++) {
+      if (orgnavn[index - 1] === " ") {
+        nyString += orgnavn[index];
+      } else {
+        nyString += orgnavn[index].toLocaleLowerCase();
+      }
+    }
+    return nyString;
+  };
+
   const OrganisasjonsMenyKomponenter = organisasjoner.map(function(
     organisasjon,
     index
@@ -29,10 +43,12 @@ const DropDown: FunctionComponent<
           <AriaMenuButton.MenuItem
             key={index}
             value={organisasjon.ParentOrganizationNumber}
-            text={organisasjon.Name}
+            text={skrivSomSmaBokstaver(organisasjon.Name)}
             className="organisasjons-meny__organisasjon"
           >
-            <div className="organisasjons-meny__navn">{organisasjon.Name}</div>
+            <div className="organisasjons-meny__navn">
+              {skrivSomSmaBokstaver(organisasjon.Name)}
+            </div>
           </AriaMenuButton.MenuItem>
         )}
       </>
@@ -40,18 +56,24 @@ const DropDown: FunctionComponent<
   });
 
   return (
-    <AriaMenuButton.Wrapper
-      className="organisasjons-meny"
-      onSelection={(value: string) => settUrl(value)}
-      style={{ marginTop: 20 }}
-    >
-      <AriaMenuButton.Button className="organisasjons-meny__trigger">
-        <span className="organisasjons-meny__tekst">
-          {valgtOrganisasjon.Name}
-        </span>
-      </AriaMenuButton.Button>
-      <AriaMenuButton.Menu>{OrganisasjonsMenyKomponenter}</AriaMenuButton.Menu>
-    </AriaMenuButton.Wrapper>
+    <div className="organisasjons-meny">
+      <AriaMenuButton.Wrapper
+        className="organisasjons-meny__wrapper"
+        onSelection={(value: string) => settUrl(value)}
+        style={{ marginTop: 20 }}
+      >
+        <AriaMenuButton.Button className="organisasjons-meny__trigger">
+          {valgtOrganisasjon !== tomAltinnOrganisasjon && (
+            <div className="organisasjons-meny__tekst">
+              {skrivSomSmaBokstaver(valgtOrganisasjon.Name)}
+            </div>
+          )}
+        </AriaMenuButton.Button>
+        <AriaMenuButton.Menu>
+          {OrganisasjonsMenyKomponenter}
+        </AriaMenuButton.Menu>
+      </AriaMenuButton.Wrapper>
+    </div>
   );
 };
 
