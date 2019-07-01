@@ -5,6 +5,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
+import { NedChevron } from "nav-frontend-chevron";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -59,14 +60,15 @@ const DropDown: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
       >
-        <AriaMenuButton.Button className="organisasjons-meny__button">
-          {valgtOrganisasjon !== tomAltinnOrganisasjon && (
-            <div className="organisasjons-meny__tekst">
-              {valgtOrganisasjon.Name}
+        {valgtOrganisasjon !== tomAltinnOrganisasjon && (
+          <AriaMenuButton.Button className="organisasjons-meny__button">
+            {valgtOrganisasjon.Name}
+            <div className={"organisasjons-meny__chevron"}>
+              <NedChevron />
             </div>
-          )}
-        </AriaMenuButton.Button>
-        <AriaMenuButton.Menu>
+          </AriaMenuButton.Button>
+        )}
+        <AriaMenuButton.Menu className={"organisasjons-meny"}>
           {OrganisasjonsMenyKomponenter}
         </AriaMenuButton.Menu>
       </AriaMenuButton.Wrapper>

@@ -1,12 +1,19 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .organisasjons-meny {
-  display: flex;
+  position: relative;
 
+  &__meny {
+    padding-right: 1rem;
+  }
 
+  &__chevron {
+    position: absolute;
+    right: 1.5rem;
+
+  }
 
   &__wrapper {
-    position: relative;
     outline: none;
     background-color: white;
     border-radius: 0.25rem;
@@ -21,6 +28,7 @@
     align-items: center;
     flex-wrap: nowrap;
     padding: 0.5rem 2rem 0.5rem 1rem;
+
   }
 
   &__organisasjon {
