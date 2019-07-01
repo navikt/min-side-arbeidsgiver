@@ -22,7 +22,6 @@ const Hovedside: FunctionComponent = () => {
 
   return (
     <div className="forside">
-      {organisasjoner.length > 0 && <DropDown />}
       {organisasjoner.length === 0 && (
         <Innholdstittel className={"forside__overskrift"}>
           Min bedriftsside
@@ -41,6 +40,7 @@ const Hovedside: FunctionComponent = () => {
           </Lenke>{" "}
         </div>
       )}
+      <DropDown />
     </div>
   );
 };

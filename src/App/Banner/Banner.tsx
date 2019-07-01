@@ -11,6 +11,7 @@ import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
 import { withRouter, RouteComponentProps } from "react-router";
+import DropDown from "./DropDown/DropDown";
 
 interface Props {
   tittel?: string;
@@ -74,33 +75,14 @@ const Banner: FunctionComponent<
     <>
       {organisasjoner.length !== 0 && (
         <div className={"banner"}>
-          {organisasjoner.length > 0 && (
-            <div className={"banner__container"}>
-              <div className={"banner__select"}>
-                <Select
-                  className={"banner__organisasjoner"}
-                  label={""}
-                  onChange={event => settUrl(event.target.value)}
-                >
-                  {organisasjoner.map((organisasjon, index) => (
-                    <option
-                      className={"banner__option"}
-                      key={index}
-                      value={organisasjon.OrganizationNumber}
-                      selected={organisasjon === valgtOrganisasjon}
-                    >
-                      {organisasjon.Name}
-                    </option>
-                  ))}
-                </Select>
-                {valgtOrganisasjon && (
-                  <Normaltekst className={"banner__orgnr"}>
-                    {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
-                  </Normaltekst>
-                )}
-              </div>
-            </div>
-          )}
+          <div className={"banner__select"}>
+            <DropDown className={"banner__organisasjoner"} />
+            {valgtOrganisasjon && (
+              <Normaltekst className={"banner__orgnr"}>
+                {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
+              </Normaltekst>
+            )}
+          </div>
         </div>
       )}
     </>
