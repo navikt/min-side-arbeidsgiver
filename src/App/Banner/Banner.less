@@ -3,10 +3,15 @@
 .banner {
   display: flex;
   padding-bottom: 2rem;
-  justify-content: center;
-  background-color: @navDypBlaLighten80;
-  border-bottom: 4px solid @navLysBlaDarken40;
+  background-color: @navBlaLighten80;;
+  border-bottom: 4px solid @navBlaLighten60;;
   height: 6rem;
+  justify-content: center;
+
+  &__senter {
+    width: 66rem;
+    background-color: white;
+  }
 
   &__orgnr {
     width: 15rem;
@@ -22,15 +27,14 @@
 
 @media (min-width: @screen-sm-min) {
   .banner {
-    justify-content: flex-start;
 
     &__select {
       margin-left: 1.5rem;
+      width: 20rem;
     }
   }
 
 }
-
 
 
 
