@@ -1,1 +1,1 @@
-web: yarn mock
+web: node src/server/server.js
