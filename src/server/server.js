@@ -6,6 +6,7 @@ const server = express();
 const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
 const Promise = require('promise');
+const port = process.env.PORT || 3000;
 const sonekrysning = require('./sonekrysningConfig.js');
 const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
 const tiltakSonekrysningConfig = require('./tiltaksSonekrysningConfig');
@@ -56,8 +57,8 @@ const startServer = html => {
     server.get(`${BASE_PATH}/*`, (req, res) => {
         res.send(html);
     });
-    server.listen(3000, () => {
-        console.log('Server listening on port', 3000);
+    server.listen(port, () => {
+        console.log('Server listening on port', port);
     });
 };
 
