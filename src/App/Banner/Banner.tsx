@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import "./Banner.less";
 import { Select } from "nav-frontend-skjema";
-import { Normaltekst } from "nav-frontend-typografi";
+import { Normaltekst, Sidetittel } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
@@ -76,6 +76,9 @@ const Banner: FunctionComponent<
       {organisasjoner.length !== 0 && (
         <div className={"banner"}>
           <div className={"banner__senter"}>
+            <Sidetittel className={"banner__sidetittel"}>
+              Min Side -Arbeidsgiver
+            </Sidetittel>
             <DropDown className={"banner__organisasjoner"} />
           </div>
         </div>
