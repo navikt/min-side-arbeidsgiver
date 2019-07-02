@@ -62,7 +62,9 @@ const DropDown: FunctionComponent<
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
-            {valgtOrganisasjon.Name}
+            {valgtOrganisasjon.Name +
+              ", " +
+              valgtOrganisasjon.OrganizationNumber}
             <div className={"organisasjons-meny__chevron"}>
               <NedChevron />
             </div>

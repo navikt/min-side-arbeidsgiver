@@ -76,14 +76,7 @@ const Banner: FunctionComponent<
       {organisasjoner.length !== 0 && (
         <div className={"banner"}>
           <div className={"banner__senter"}>
-            <div className={"banner__select"}>
-              <DropDown className={"banner__organisasjoner"} />
-              {valgtOrganisasjon && (
-                <Normaltekst className={"banner__orgnr"}>
-                  {"Org.nr " + valgtOrganisasjon.OrganizationNumber}
-                </Normaltekst>
-              )}
-            </div>
+            <DropDown className={"banner__organisasjoner"} />
           </div>
         </div>
       )}

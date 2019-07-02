@@ -2,7 +2,6 @@
 
 .banner {
   display: flex;
-  padding-bottom: 2rem;
   background-color: @navBlaLighten80;;
   border-bottom: 4px solid @navBlaLighten60;;
   height: 6rem;
@@ -10,29 +9,21 @@
 
   &__senter {
     width: 66rem;
-    background-color: white;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 0rem 1rem 0rem 1rem;
   }
 
-  &__orgnr {
-    width: 15rem;
-    margin-top: 0.5rem;
+  &__organisasjoner {
+    display: flex;
   }
 
-  &__select {
-    margin: 0rem;
 
-  }
 
 }
 
 @media (min-width: @screen-sm-min) {
-  .banner {
 
-    &__select {
-      margin-left: 1.5rem;
-      width: 20rem;
-    }
-  }
 
 }
 
