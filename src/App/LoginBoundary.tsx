@@ -36,8 +36,8 @@ const LoginBoundary: FunctionComponent = props => {
   useEffect(() => {
     setInnlogget(Innlogget.LASTER);
     const getLoginStatus = async () => {
-      if (environment.MILJO==="prod-sbs") {
-        console.log("environment.MILJO:",environment.MILJO);
+      if (environment.MILJO) {
+        console.log("ikke lokalt", environment.MILJO);
         let veilarbStatusRespons = await hentVeilarbStatus();
         if (
           veilarbStatusRespons.harGyldigOidcToken &&

@@ -68,7 +68,7 @@
   "scripts": {
     "start": "craco start",
     "mock": "set REACT_APP_MOCK=true && yarn start",
-    "server": "set REACT_APP_MOCK=true && yarn build && node src/server/server.js",
+    "server": "yarn build && node src/server/server.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
