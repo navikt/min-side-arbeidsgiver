@@ -40,7 +40,6 @@ const Hovedside: FunctionComponent = () => {
           </Lenke>{" "}
         </div>
       )}
-      <DropDown />
     </div>
   );
 };
