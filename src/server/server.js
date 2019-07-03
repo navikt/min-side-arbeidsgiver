@@ -61,7 +61,30 @@ const startServer = html => {
         console.log('Server listening on port', port);
     });
 };
+const startMockServer = html => {
+    console.log("start server");
+    server.use(BASE_PATH, express.static(buildPath));
 
-getDecorator()
-    .then(renderApp, error => console.log('Kunne ikke hente dekoratør ', error))
-    .then(startServer, error => console.log('Kunne ikke rendre app ', error));
+    server.get(
+        `${BASE_PATH}/internal/isAlive`,
+        (req, res) => res.sendStatus(200)
+    );
+    server.get(
+        `${BASE_PATH}/internal/isReady`,
+        (req, res) => res.sendStatus(200)
+    );
+    server.get(`${BASE_PATH}/*`, (req, res) => {
+        res.sendFile(path.resolve(buildPath, 'index.html'));
+    });
+    server.listen(port, () => {
+        console.log('Server listening on port', port);
+    });
+};
+if(process.env.REACT_APP_MOCK){
+    startMockServer();
+
+}else {
+    getDecorator()
+        .then(renderApp, error => console.log('Kunne ikke hente dekoratør ', error))
+        .then(startServer, error => console.log('Kunne ikke rendre app ', error));
+}
