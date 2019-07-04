@@ -12,7 +12,7 @@ import environment from "../../utils/environment";
 
 export const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
-    if(environment.MILJO) {
+    if((window as any).appSettings.MILJO === "prod-sbs" || (window as any).appSettings.MILJO === "dev-sbs") {
       logInfo("klikk på login");
       console.log("environment.MILJO",environment.MILJO);
       window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
