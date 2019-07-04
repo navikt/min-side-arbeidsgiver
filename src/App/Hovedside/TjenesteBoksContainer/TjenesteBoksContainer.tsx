@@ -35,7 +35,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
       if (arbeidsavtaler.length) {
         antallTilganger++;
       }
-      antallTilganger++;
 
       return antallTilganger;
     };
@@ -68,11 +67,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         {arbeidsavtaler.length > 0 && (
           <div className={"tjenesteboks innholdsboks"}>
             <Arbeidstreningboks />
-          </div>
-        )}
-        {arbeidsavtaler.length > 0 && (
-          <div className={"tjenesteboks innholdsboks"}>
-            <Pamboks />
           </div>
         )}
       </div>
