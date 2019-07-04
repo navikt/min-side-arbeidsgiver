@@ -26,7 +26,7 @@ const Hovedside: FunctionComponent = () => {
           Min bedriftsside
         </Innholdstittel>
       )}
-      {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
+      {!skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
