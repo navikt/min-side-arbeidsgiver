@@ -32,11 +32,11 @@ const Hovedside: FunctionComponent = () => {
       <NyttigForDegContainer />
       <AltinnContainer />
       {!skalViseManglerTilgangBoks && (
-        <div>
-          Forventet du å se flere tjenester? Les om hvordan tilgangsstyringen
-          fungerer{" "}
+        <div className={"forside__informasjonstekst"}>
+          Forventet du å se flere tjenester?
+          <br />
           <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
-            her.
+            Les mer om hvordan du får tilgang
           </Lenke>{" "}
         </div>
       )}
