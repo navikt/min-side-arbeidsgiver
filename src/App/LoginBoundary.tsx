@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import LoggInn from "./LoggInn/LoggInn";
+import { LoggInn } from "./LoggInn/LoggInn";
 
 import { veilarbStepup } from "../lenker";
 import environment from "../utils/environment";

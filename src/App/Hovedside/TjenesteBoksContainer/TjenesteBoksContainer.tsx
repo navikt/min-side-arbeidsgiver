@@ -32,7 +32,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
       if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
         antallTilganger++;
       }
-      antallTilganger++;
+      if (arbeidsavtaler.length) {
+        antallTilganger++;
+      }
 
       return antallTilganger;
     };
@@ -45,7 +47,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } else {
       settypeAntall("antall-oddetall");
     }
-  }, [tilgangTilSyfoState, tilgangTilPamState]);
+  }, [tilgangTilSyfoState, tilgangTilPamState, arbeidsavtaler]);
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
@@ -62,9 +64,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
               <Pamboks />
             </div>
           )}
-        <div className={"tjenesteboks innholdsboks"}>
-          {arbeidsavtaler.length && <Arbeidstreningboks />}
-        </div>
+        {arbeidsavtaler.length !== 0 && (
+          <div className={"tjenesteboks innholdsboks"}>
+            <Arbeidstreningboks />
+          </div>
+        )}
       </div>
     </div>
   );

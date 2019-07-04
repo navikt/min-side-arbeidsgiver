@@ -2,34 +2,37 @@ import React, { FunctionComponent } from "react";
 import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
 import { logInfo } from "../../utils/metricsUtils";
-import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
+import koffert from "./group.svg";
 import Lenke from "nav-frontend-lenker";
-import { basename } from "../../paths";
+import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
+import { Sidetittel } from "nav-frontend-typografi";
+import { Innloggingstjenester } from "./Innloggingstjenester/Innloggingstjenester";
+import { Informasjonsboks } from "./Informasjonboks/Informasjonsboks";
 
-const LoggInn: FunctionComponent = () => {
+export const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
     logInfo("klikk på login");
     window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
   };
 
   return (
-    <div className={"innloggingsside"}>
+    <div className="innloggingsside">
       <LoggInnBanner />
-      <div className={"innloggingsside__tekst"}>
-        Nå er det enklere for deg som arbeidsgiver å samarbeide med NAV ette er
-        en felles inngang til tjenester og oppgaver relatert til
-        <ul>
-          <li>Sykefraværtoppfølging</li>
-          <li>Rekruttering</li>
-          <li>Arbeidstrening</li>
-          <li>Digitale skjemaer</li>
-        </ul>
-        <div>
-          Tjenesten er tilgangsstyrt og baserer seg på tilganger utdelt av
-          ansatte på din arbeidsplass. Hvis du ikke kan se tjenester du mener du
-          burde ha tilgang til, kan du lese om tilgangsstyringen og hva du kan
-          gjøre for å få tilgang på <Lenke href={basename}>her.</Lenke>
+      <div className={"innloggingsside__innhold"}>
+        <img
+          src={koffert}
+          alt={"Bilde av koffert for å illustrere arbeidsgivere"}
+          className={"innloggingsside__ikon"}
+        />
+        <Sidetittel className={"innloggingsside__sidetittel"}>
+          NAVS tjenester samlet på ett sted
+        </Sidetittel>
+        <div className={"innloggingsside__tekst"}>
+          Nå er det enklere for deg som arbeidsgiver å samarbeide med NAV med en
+          felles inngang til tjenester og oppgaver relatert til:
         </div>
+        <Innloggingstjenester />
+        <Informasjonsboks />
         <Hovedknapp
           className={"innloggingsside__loginKnapp"}
           onClick={redirectTilLogin}
@@ -46,5 +49,3 @@ const LoggInn: FunctionComponent = () => {
     </div>
   );
 };
-
-export default LoggInn;
