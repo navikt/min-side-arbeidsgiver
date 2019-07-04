@@ -25,7 +25,7 @@ export const LoggInn: FunctionComponent = () => {
           className={"innloggingsside__ikon"}
         />
         <Sidetittel className={"innloggingsside__sidetittel"}>
-          NAVS tjenester samlet på ett sted
+          NAVs tjenester samlet på ett sted
         </Sidetittel>
         <div className={"innloggingsside__tekst"}>
           Nå er det enklere for deg som arbeidsgiver å samarbeide med NAV med en

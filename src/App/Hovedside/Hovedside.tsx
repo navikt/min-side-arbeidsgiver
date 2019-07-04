@@ -10,7 +10,6 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { basename } from "../../paths";
 import Lenke from "nav-frontend-lenker";
-import { Innholdstittel } from "nav-frontend-typografi";
 
 const Hovedside: FunctionComponent = () => {
   const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);

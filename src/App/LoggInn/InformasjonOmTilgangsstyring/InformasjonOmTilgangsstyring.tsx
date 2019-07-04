@@ -78,7 +78,7 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
             <Lenke href={LenkeTilInfoOmNarmesteLeder}>her.</Lenke>
           </Ekspanderbartpanel>
           <Ekspanderbartpanel
-            tittel="Tilskudd til mentor, lønn- og inkluderingstilskudd"
+            tittel="Tilskudd til mentor, lønn- og inkludering"
             border
           >
             Tilgang til disse skjemaene i Altinn krever rollen:
@@ -99,9 +99,11 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
             </ul>
           </Ekspanderbartpanel>
           <div className="informasjon-om-tilgangsstyring__bunntekst">
-            Mangler du tilgang på tjenester du mener du burde ha sett? Les mer
-            om Altinnroller og hvordan de tildeles{" "}
-            <Lenke href={LenkeTilInfoOmAltinnRoller}>her.</Lenke>
+            Mangler du tilgang til tjenester du mener du burde ha sett?
+            <br />
+            <Lenke href={LenkeTilInfoOmAltinnRoller}>
+              Her kan du lese om Altinnroller og hvordan de tildeles.
+            </Lenke>
           </div>
         </div>
       </div>

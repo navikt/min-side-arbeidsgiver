@@ -5,7 +5,7 @@ import { Systemtittel } from "nav-frontend-typografi";
 const LoggInnBanner: FunctionComponent = () => {
   return (
     <div className={"logg-inn-banner"}>
-      <Systemtittel>Ditt NAV arbeidsgiver </Systemtittel>
+      <Systemtittel>Min Side Arbeidsgiver </Systemtittel>
     </div>
   );
 };
