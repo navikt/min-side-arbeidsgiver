@@ -77,7 +77,7 @@ const Banner: FunctionComponent<
         <div className={"banner"}>
           <div className={"banner__senter"}>
             <Sidetittel className={"banner__sidetittel"}>
-              Min Side -Arbeidsgiver
+              Min Side Arbeidsgiver
             </Sidetittel>
             <DropDown className={"banner__organisasjoner"} />
           </div>

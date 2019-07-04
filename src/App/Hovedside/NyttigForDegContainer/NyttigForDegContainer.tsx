@@ -8,12 +8,8 @@ import Bedriftsinfoknapp from "./Bedriftsinfoknapp/Bedriftsinfoknapp";
 import "./NyttigForDegContainer.less";
 import KontaktOss from "./KontaktOss/KontaktOss";
 import ArbeidsgiverTelefon from "./ArbeidsgiverTelefon/ArbeidsgiverTelefon";
-import { Ingress } from "nav-frontend-typografi";
+import { Undertittel } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
-import { TilgangPam } from "../../../OrganisasjonDetaljerProvider";
-import { TilgangSyfo } from "../../../SyfoTilgangProvider";
-import { pamSettBedriftLenke } from "../../../lenker";
-import Innholdsboks from "../Innholdsboks/Innholdsboks";
 
 const NyttigForDegContainer: FunctionComponent = () => {
   const { organisasjoner } = useContext(OrganisasjonsListeContext);
@@ -27,7 +23,9 @@ const NyttigForDegContainer: FunctionComponent = () => {
 
   return (
     <div className={"nyttig-for-deg"}>
-      <Ingress className={"nyttig-for-deg__tekst"}>Nyttig for deg</Ingress>
+      <Undertittel className={"nyttig-for-deg__tekst"}>
+        Nyttig for deg
+      </Undertittel>
       <div className={"nyttig-for-deg__bokser"}>
         {organisasjoner.length > 0 && (
           <div className={"nyttig-for-deg__boks-" + antallBokser}>

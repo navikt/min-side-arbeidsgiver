@@ -11,7 +11,7 @@ import {
 } from "../../../OrganisasjonDetaljerProvider";
 
 import "./AltinnContainer.less";
-import { Ingress } from "nav-frontend-typografi";
+import { Undertittel } from "nav-frontend-typografi";
 
 import {
   inntekstmelding,
@@ -54,9 +54,9 @@ const AltinnContainer: FunctionComponent = () => {
   return (
     <div className={"altinn-container"}>
       {generellAltinnTilgang && (
-        <Ingress className={"altinn-container__tekst"}>
+        <Undertittel className={"altinn-container__tekst"}>
           Skjema på Altinn
-        </Ingress>
+        </Undertittel>
       )}
       <div className={"altinn-container__bokser"}>
         {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
