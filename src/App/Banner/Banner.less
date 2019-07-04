@@ -30,10 +30,29 @@
 
 }
 
-@media (min-width: @screen-sm-min) {
+@media (max-width: @screen-sm-min) {
+  .banner {
+    height: 9.5rem;
 
+    &__senter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__sidetittel {
+      position: static;
+      display: flex;
+      align-self: center;
+
+    }
+
+  }
 
 }
+
+
+
 
 
 

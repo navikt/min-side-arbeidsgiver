@@ -11,7 +11,6 @@ import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { basename } from "../../paths";
 import Lenke from "nav-frontend-lenker";
 import { Innholdstittel } from "nav-frontend-typografi";
-import DropDown from "../Banner/DropDown/DropDown";
 
 const Hovedside: FunctionComponent = () => {
   const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);

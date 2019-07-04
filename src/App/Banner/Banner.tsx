@@ -5,8 +5,7 @@ import React, {
   useCallback
 } from "react";
 import "./Banner.less";
-import { Select } from "nav-frontend-skjema";
-import { Normaltekst, Sidetittel } from "nav-frontend-typografi";
+import { Sidetittel } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
@@ -36,10 +35,6 @@ const Banner: FunctionComponent<
     },
     [endreOrganisasjon, organisasjoner, valgtOrganisasjon]
   );
-
-  const settUrl = (orgnr: string) => {
-    props.history.push("/" + orgnr);
-  };
 
   useEffect(() => {
     console.log("useffect i banner kjører");
