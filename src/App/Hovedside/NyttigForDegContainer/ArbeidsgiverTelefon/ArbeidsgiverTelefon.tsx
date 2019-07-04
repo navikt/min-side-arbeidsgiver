@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Undertittel, Normaltekst } from "nav-frontend-typografi";
+import { Element, Normaltekst } from "nav-frontend-typografi";
 import "./ArbeidsgiverTelefon.less";
 import iconTlf from "./arbeidsgivertlfikon.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
@@ -19,10 +19,10 @@ const ArbeidsgiverTelefon: FunctionComponent = () => {
           alt="Mann med kommunikasjonsutstyr"
         />
         <div className={"arbeidsgivertelefon__tekst"}>
-          <Undertittel>{"Arbeidsgivertelefonen"}</Undertittel>
-          <Undertittel className={"arbeidsgivertelefon__nummer"}>
+          <Element>{"Arbeidsgivertelefonen"}</Element>
+          <Element className={"arbeidsgivertelefon__nummer"}>
             55 55 33 36
-          </Undertittel>
+          </Element>
           <Normaltekst>Kl 08.00 - 15.30 (hverdager)</Normaltekst>
         </div>
       </div>
