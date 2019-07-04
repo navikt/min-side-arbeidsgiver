@@ -21,12 +21,7 @@ const Hovedside: FunctionComponent = () => {
 
   return (
     <div className="forside">
-      {organisasjoner.length === 0 && (
-        <Innholdstittel className={"forside__overskrift"}>
-          Min bedriftsside
-        </Innholdstittel>
-      )}
-      {!skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
+      {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
