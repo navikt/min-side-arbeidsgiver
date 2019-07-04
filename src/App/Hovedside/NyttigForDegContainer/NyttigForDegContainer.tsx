@@ -13,13 +13,14 @@ import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 import { TilgangPam } from "../../../OrganisasjonDetaljerProvider";
 import { TilgangSyfo } from "../../../SyfoTilgangProvider";
 import { pamSettBedriftLenke } from "../../../lenker";
+import Innholdsboks from "../Innholdsboks/Innholdsboks";
 
 const NyttigForDegContainer: FunctionComponent = () => {
   const { organisasjoner } = useContext(OrganisasjonsListeContext);
   const [antallBokser, setAntallBokser] = useState("to");
 
   useEffect(() => {
-    if (organisasjoner.length < 0) {
+    if (organisasjoner.length > 0) {
       setAntallBokser("tre");
     }
   }, [organisasjoner]);
@@ -27,16 +28,16 @@ const NyttigForDegContainer: FunctionComponent = () => {
   return (
     <div className={"nyttig-for-deg"}>
       <Ingress className={"nyttig-for-deg__tekst"}>Nyttig for deg</Ingress>
-      <div className={"nyttig-for-deg__bokser " + antallBokser}>
-        {organisasjoner.length < 0 && (
-          <div className={"nyttig-for-deg-innholdsboks"}>
+      <div className={"nyttig-for-deg__bokser"}>
+        {organisasjoner.length > 0 && (
+          <div className={"nyttig-for-deg__boks-" + antallBokser}>
             <Bedriftsinfoknapp />
           </div>
         )}
-        <div className={"nyttig-for-deg-innholdsboks"}>
+        <div className={"nyttig-for-deg__boks-" + antallBokser}>
           <KontaktOss />
         </div>
-        <div className={"nyttig-for-deg-innholdsboks"}>
+        <div className={"nyttig-for-deg__boks-" + antallBokser}>
           <ArbeidsgiverTelefon />
         </div>
       </div>
