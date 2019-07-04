@@ -105,11 +105,3 @@ export const arbeidsAvtaleLink = () => {
 export const hentArbeidsavtalerApiLink = () => {
   return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
 };
-export const tiltaksgjennomføringLink = () =>{
-  if (environment.MILJO === "prod-sbs") {
-    return "https://arbeidsgiver.nav.no/tiltaksgjennomforing/";
-  } else {
-    return "https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/";
-  }
-
-};

@@ -8,11 +8,19 @@ import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 import { Sidetittel } from "nav-frontend-typografi";
 import { Innloggingstjenester } from "./Innloggingstjenester/Innloggingstjenester";
 import { Informasjonsboks } from "./Informasjonboks/Informasjonsboks";
+import environment from "../../utils/environment";
 
 export const LoggInn: FunctionComponent = () => {
   const redirectTilLogin = () => {
-    logInfo("klikk på login");
-    window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
+    if(environment.MILJO) {
+      logInfo("klikk på login");
+      console.log("environment.MILJO",environment.MILJO);
+      window.location.href = "/ditt-nav-arbeidsgiver/redirect-til-login";
+    }else{
+      document.cookie = "nav-esso=0123456789..*; path=/;";
+      document.cookie = "selvbetjening-idtoken =0123456789..*; path=/;";
+      window.location.href = "/ditt-nav-arbeidsgiver/";
+      }
   };
 
   return (

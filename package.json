@@ -23,6 +23,7 @@
     "http-proxy-middleware": "^0.19.1",
     "install": "^0.12.2",
     "lodash.throttle": "^4.1.1",
+    "motion": "^5.0.0-beta26",
     "mustache-express": "^1.2.8",
     "nav-frontend-alertstriper": "^3.0.3",
     "nav-frontend-alertstriper-style": "^2.0.2",
@@ -69,7 +70,7 @@
   "scripts": {
     "start": "craco start",
     "mock": "set REACT_APP_MOCK=true && yarn start",
-    "server": "yarn build && node src/server/server.js",
+    "server": "set REACT_APP_MOCK=true && yarn build && node src/server/server.js",
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
