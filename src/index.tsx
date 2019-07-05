@@ -12,6 +12,8 @@ if (process.env.REACT_APP_MOCK) {
   require("./mock/pamMock");
   require("./mock/syfoMock");
   require("./mock/arbeidstreningMock");
+  require("./mock/altinnMock");
+  //require("./mock/veilarbMock");
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));

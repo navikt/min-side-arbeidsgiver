@@ -24,6 +24,7 @@ const LoginBoundary: FunctionComponent = props => {
   const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
 
   function localLogin() {
+    console.log("local login");
     if (document.cookie.includes("selvbetjening-idtoken")) {
       setInnlogget(Innlogget.INNLOGGET);
     } else {
@@ -35,7 +36,7 @@ const LoginBoundary: FunctionComponent = props => {
   useEffect(() => {
     setInnlogget(Innlogget.LASTER);
     const getLoginStatus = async () => {
-      if (environment.MILJO) {
+      if (environment.MILJO === "prod-sbs" || environment.MILJO === "dev-sbs") {
         let veilarbStatusRespons = await hentVeilarbStatus();
         if (
           veilarbStatusRespons.harGyldigOidcToken &&
