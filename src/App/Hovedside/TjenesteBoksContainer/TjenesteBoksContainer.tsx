@@ -64,7 +64,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
               <Pamboks />
             </div>
           )}
-        {arbeidsavtaler.length !== 0 && (
+        {arbeidsavtaler.length > 0 && (
           <div className={"tjenesteboks innholdsboks"}>
             <Arbeidstreningboks />
           </div>

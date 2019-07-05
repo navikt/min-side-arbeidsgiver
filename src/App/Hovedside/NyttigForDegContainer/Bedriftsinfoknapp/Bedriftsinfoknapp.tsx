@@ -24,7 +24,7 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
         <img
           className={"bedriftsinfo-knapp__ikon"}
           src={bedriftinfoikon}
-          alt="Stresskoffert"
+          alt="Bilde av stresskoffert"
         />
         <Undertittel className={"bedriftsinfo-knapp__tekst"}>
           Informasjon om din bedrift

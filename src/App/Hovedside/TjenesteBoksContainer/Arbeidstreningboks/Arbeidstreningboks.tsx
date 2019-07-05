@@ -69,7 +69,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
       <TjenesteBoksBanner
         tittel={"Arbeidstrening"}
         imgsource={arbeidstreningikon}
-        altTekst={"En industriarbeider med hjelm"}
+        altTekst={"En stresskoffert"}
       />
 
       <Lenkepanel

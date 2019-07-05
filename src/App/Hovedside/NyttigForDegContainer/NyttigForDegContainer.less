@@ -2,23 +2,27 @@
 
 
 .nyttig-for-deg {
-  width: 22rem;
+  width: 20rem;
 
 
-  &__innholdsboks {
-    width: 22rem;
-  }
 
   &__bokser {
     display: flex;
-    width: 22rem;
+    width: 20rem;
     flex-direction: column;
     align-items: center;
+  }
 
+  &__boks-to {
+    width: 20rem;
+  }
+
+  &__boks-tre {
+    width: 20rem;
   }
 
   &__tekst {
-    margin: 1rem 0rem 0rem 1rem;
+    margin-bottom: 1rem;
 
   }
 }
@@ -26,14 +30,29 @@
 @media (min-width: @screen-md-min) {
 
   .nyttig-for-deg {
-    width: 66rem;
+    width: 60rem;
+    margin-top: 1.5rem;
 
     &__bokser {
+      display: flex;
       flex-direction: row;
-      width: 66rem;
+      width: 60rem;
+      justify-content: space-between;
+      margin-top: 1rem;
+    }
+
+    &__tekst {
+      margin-bottom: 1rem;
+    }
+
+    &__boks-to {
+      width: 29.5rem;
+    }
+
+    &__boks-tre {
+      width: 19.3rem;
     }
 
   }
-
 
 }

@@ -73,12 +73,15 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
           </Ekspanderbartpanel>
           <Ekspanderbartpanel tittel="Sykemeldte" border>
             Tilgang til digitale sykemeldinger krever at du er registrert som
-            Nærmeste leder for én eller flere ansatte i din virksomhet. Les mer
-            om registrering av Nærmeste leder{" "}
-            <Lenke href={LenkeTilInfoOmNarmesteLeder}>her.</Lenke>
+            Nærmeste leder for én eller flere ansatte i din virksomhet.
+            <br />
+            <br />
+            <Lenke href={LenkeTilInfoOmNarmesteLeder}>
+              Les mer om registrering av Nærmeste leder.
+            </Lenke>
           </Ekspanderbartpanel>
           <Ekspanderbartpanel
-            tittel="Tilskudd til mentor, lønn- og inkluderingstilskudd"
+            tittel="Tilskudd til mentor, lønn- og inkludering"
             border
           >
             Tilgang til disse skjemaene i Altinn krever rollen:
@@ -99,9 +102,11 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
             </ul>
           </Ekspanderbartpanel>
           <div className="informasjon-om-tilgangsstyring__bunntekst">
-            Mangler du tilgang på tjenester du mener du burde ha sett? Les mer
-            om Altinnroller og hvordan de tildeles{" "}
-            <Lenke href={LenkeTilInfoOmAltinnRoller}>her.</Lenke>
+            Mangler du tilgang til tjenester du mener du burde ha sett?
+            <br />
+            <Lenke href={LenkeTilInfoOmAltinnRoller}>
+              Her kan du lese om Altinnroller og hvordan de tildeles.
+            </Lenke>
           </div>
         </div>
       </div>
