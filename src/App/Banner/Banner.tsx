@@ -67,18 +67,16 @@ const Banner: FunctionComponent<
   ]);
 
   return (
-    <>
-      {organisasjoner.length !== 0 && (
-        <div className={"banner"}>
-          <div className={"banner__senter"}>
-            <Sidetittel className={"banner__sidetittel"}>
-              Min Side Arbeidsgiver
-            </Sidetittel>
-            <DropDown className={"banner__organisasjoner"} />
-          </div>
-        </div>
-      )}
-    </>
+    <div className={"banner"}>
+      <div className={"banner__senter"}>
+        <Sidetittel className={"banner__sidetittel"}>
+          Min Side Arbeidsgiver
+        </Sidetittel>
+        {organisasjoner.length !== 0 && (
+          <DropDown className={"banner__organisasjoner"} />
+        )}
+      </div>
+    </div>
   );
 };
 
