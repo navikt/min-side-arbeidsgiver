@@ -21,18 +21,6 @@ const DropDown: FunctionComponent<
     props.history.push("/" + orgnr);
   };
 
-  const skrivSomSmaBokstaver = (orgnavn: string): string => {
-    let nyString = orgnavn[0].toLocaleUpperCase();
-    for (let index: number = 1; index < orgnavn.length; index++) {
-      if (orgnavn[index - 1] === " ") {
-        nyString += orgnavn[index];
-      } else {
-        nyString += orgnavn[index].toLocaleLowerCase();
-      }
-    }
-    return nyString;
-  };
-
   const OrganisasjonsMenyKomponenter = organisasjoner.map(function(
     organisasjon,
     index
@@ -43,7 +31,7 @@ const DropDown: FunctionComponent<
           <AriaMenuButton.MenuItem
             key={index}
             value={organisasjon.OrganizationNumber}
-            text={skrivSomSmaBokstaver(organisasjon.Name)}
+            text={organisasjon.Name}
             className="organisasjons-meny__organisasjon"
           >
             <div className="organisasjons-meny__navn">{organisasjon.Name}</div>
