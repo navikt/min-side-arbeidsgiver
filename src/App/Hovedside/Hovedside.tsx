@@ -10,6 +10,7 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { basename } from "../../paths";
 import Lenke from "nav-frontend-lenker";
+import ikon from "./infomation-circle-2.svg";
 
 const Hovedside: FunctionComponent = () => {
   const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
@@ -26,9 +27,12 @@ const Hovedside: FunctionComponent = () => {
       <AltinnContainer />
       {!skalViseManglerTilgangBoks && (
         <div className={"forside__informasjonstekst"}>
+          <img className={"forside__ikon"} src={ikon} />
           Forventet du å se flere tjenester?
-          <br />
-          <Lenke href={basename + "/informasjon-om-tilgangsstyring"}>
+          <Lenke
+            className={"forside__lenke"}
+            href={basename + "/informasjon-om-tilgangsstyring"}
+          >
             Les mer om hvordan du får tilgang
           </Lenke>{" "}
         </div>

@@ -9,7 +9,7 @@ import "./Pamboks.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
 import { linkTilArbeidsplassen } from "../../../../lenker";
-import pamikon from "./pamikon.svg";
+import pamikon from "./search.svg";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 
 interface Props {

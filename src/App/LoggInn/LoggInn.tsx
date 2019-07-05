@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import { Hovedknapp } from "nav-frontend-knapper";
 import "./Logginn.less";
 import { logInfo } from "../../utils/metricsUtils";
-import koffert from "./group.svg";
+import koffert from "../Hovedside/group.svg";
 import Lenke from "nav-frontend-lenker";
 import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 import { Sidetittel } from "nav-frontend-typografi";

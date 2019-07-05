@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import "./Informasjonsboks.less";
-import alertikon from "./infomation-circle-2.svg";
+import alertikon from "../../Hovedside/infomation-circle-2.svg";
 import { Element } from "nav-frontend-typografi";
 
 import Lenke from "nav-frontend-lenker";

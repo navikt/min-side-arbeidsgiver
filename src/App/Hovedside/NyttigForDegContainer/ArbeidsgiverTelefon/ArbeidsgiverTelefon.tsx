@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { Element, Normaltekst } from "nav-frontend-typografi";
 import "./ArbeidsgiverTelefon.less";
-import iconTlf from "./group.png";
+import iconTlf from "./mobil.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
 
 const ArbeidsgiverTelefon: FunctionComponent = () => {

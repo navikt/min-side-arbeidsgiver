@@ -28,14 +28,14 @@ const DropDown: FunctionComponent<
     return (
       <>
         {organisasjon.Name !== valgtOrganisasjon.Name && (
-          <AriaMenuButton.MenuItem
+          <AriaMenuButton.Button
             key={index}
             value={organisasjon.OrganizationNumber}
             text={organisasjon.Name}
             className="organisasjons-meny__organisasjon"
           >
             <div className="organisasjons-meny__navn">{organisasjon.Name}</div>
-          </AriaMenuButton.MenuItem>
+          </AriaMenuButton.Button>
         )}
       </>
     );

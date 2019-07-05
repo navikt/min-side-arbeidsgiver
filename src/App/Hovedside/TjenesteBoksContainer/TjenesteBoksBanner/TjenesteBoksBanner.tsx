@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import Undertittel from "nav-frontend-typografi/lib/undertittel";
+import { Element, Undertittel } from "nav-frontend-typografi";
 import "./TjenesteBoksBanner.less";
 
 interface Props {
@@ -23,7 +23,9 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
       </Undertittel>
       {props.antallVarsler! > 0 && (
         <span className={"tjeneste-boks-banner__varselsirkel"}>
-          <Undertittel>{props.antallVarsler}</Undertittel>
+          <Element className={"tjeneste-boks-banner__varsel"}>
+            {props.antallVarsler}
+          </Element>
         </span>
       )}
     </div>
