@@ -16,7 +16,7 @@ const ArbeidsgiverTelefon: FunctionComponent = () => {
         <img
           className={"arbeidsgivertelefon__icon"}
           src={iconTlf}
-          alt="Mann med kommunikasjonsutstyr"
+          alt="Bilde av en mobiltelefon"
         />
         <div className={"arbeidsgivertelefon__tekst"}>
           <Element>{"Arbeidsgivertelefonen"}</Element>

@@ -73,9 +73,12 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
           </Ekspanderbartpanel>
           <Ekspanderbartpanel tittel="Sykemeldte" border>
             Tilgang til digitale sykemeldinger krever at du er registrert som
-            Nærmeste leder for én eller flere ansatte i din virksomhet. Les mer
-            om registrering av Nærmeste leder{" "}
-            <Lenke href={LenkeTilInfoOmNarmesteLeder}>her.</Lenke>
+            Nærmeste leder for én eller flere ansatte i din virksomhet.
+            <br />
+            <br />
+            <Lenke href={LenkeTilInfoOmNarmesteLeder}>
+              Les mer om registrering av Nærmeste leder.
+            </Lenke>
           </Ekspanderbartpanel>
           <Ekspanderbartpanel
             tittel="Tilskudd til mentor, lønn- og inkludering"
