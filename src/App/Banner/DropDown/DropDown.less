@@ -26,7 +26,6 @@
     border-radius: 0.25rem;
     position: relative;
 
-
   }
 
   &__button {
@@ -41,7 +40,6 @@
   }
 
   &__organisasjon {
-    width: 100%;
     display: flex;
     border-bottom: 0.5px solid @navGra60 ;
     align-items: center;
@@ -57,6 +55,19 @@
   .organisasjons-meny {
     width:18rem;
     margin: 0rem 1rem 0rem 1rem;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    margin: 0rem;
+
+    &__organisasjon {
+      display: flex;
+      border-bottom: 0.5px solid @navGra60 ;
+      align-items: center;
+      flex-wrap: nowrap;
+      padding: 0.7rem 2rem 0.7rem 1rem;
+    }
 
   }
 
