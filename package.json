@@ -23,7 +23,6 @@
     "http-proxy-middleware": "^0.19.1",
     "install": "^0.12.2",
     "lodash.throttle": "^4.1.1",
-    "motion": "^5.0.0-beta26",
     "mustache-express": "^1.2.8",
     "nav-frontend-alertstriper": "^3.0.3",
     "nav-frontend-alertstriper-style": "^2.0.2",
