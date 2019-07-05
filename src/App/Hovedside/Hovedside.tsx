@@ -27,7 +27,7 @@ const Hovedside: FunctionComponent = () => {
       <AltinnContainer />
       {!skalViseManglerTilgangBoks && (
         <div className={"forside__informasjonstekst"}>
-          <img className={"forside__ikon"} src={ikon} />
+          <img className={"forside__ikon"} src={ikon} alt="informasjonsikon" />
           Forventet du å se flere tjenester?
           <Lenke
             className={"forside__lenke"}
