@@ -8,6 +8,8 @@ import { tomAltinnOrganisasjon } from "../../../organisasjon";
 import { NedChevron } from "nav-frontend-chevron";
 import OrganisasjonsValg from "./OrganisasjonsValg/OrganisasjonsValg";
 import OrganisasjonsKnapp from "../OrganisasjonsKnapp/Organisasjonsknapp";
+import { Undertittel } from "nav-frontend-typografi";
+
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -62,6 +64,13 @@ const DropDown: FunctionComponent<
         )}
         <div className="organisasjons-meny__meny-wrapper">
           <AriaMenuButton.Menu className={"organisasjons-meny"}>
+            <div className={"organisasjons-meny__topp"}>
+              <OrganisasjonsKnapp
+                hovedOrganisasjon={valgtOrganisasjon}
+                className={"organisasjons-meny__vis-valgt"}
+              />
+            </div>
+            <Undertittel>Dine aktører </Undertittel>
             {organisasjonstre.length !== 0 && (
               <OrganisasjonsValg
                 className="undermeny"
