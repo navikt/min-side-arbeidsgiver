@@ -77,10 +77,7 @@ export function lagToDimensjonalArray(
       });
     }
   });
-  console.log("opprinnelige organisasjoner: ", organisasjoner);
-  console.log("juridiske enheter: ", juridiskeEnheter);
-  console.log("org uten jurenhet", utenTilgangTilJuridiskEnhetBedrifter);
-  console.log("orgliste: ", organisasjonsliste);
+
   return organisasjonsliste;
 }
 

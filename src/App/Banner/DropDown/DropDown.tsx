@@ -6,6 +6,7 @@ import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 import { NedChevron } from "nav-frontend-chevron";
+import Snakkeboble from "nav-frontend-snakkeboble";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -60,9 +61,11 @@ const DropDown: FunctionComponent<
             </div>
           </AriaMenuButton.Button>
         )}
-        <AriaMenuButton.Menu className={"organisasjons-meny"}>
-          {OrganisasjonsMenyKomponenter}
-        </AriaMenuButton.Menu>
+        <div className="organisasjons-meny__meny-wrapper">
+          <AriaMenuButton.Menu className={"organisasjons-meny"}>
+            {OrganisasjonsMenyKomponenter}
+          </AriaMenuButton.Menu>
+        </div>
       </AriaMenuButton.Wrapper>
     </div>
   );
