@@ -7,6 +7,7 @@ import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvi
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 import { NedChevron } from "nav-frontend-chevron";
 import OrganisasjonsValg from "./OrganisasjonsValg/OrganisasjonsValg";
+import OrganisasjonsKnapp from "../OrganisasjonsKnapp/Organisasjonsknapp";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -24,20 +25,21 @@ const DropDown: FunctionComponent<
     props.history.push("/" + orgnr);
   };
 
-  const OrganisasjonsMenyKomponenter = organisasjoner.map(function(
+  const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon,
     index
   ) {
     return (
       <>
-        {organisasjon.Name !== valgtOrganisasjon.Name && (
+        {organisasjon.overordnetOrg.OrganizationNumber !==
+          valgtOrganisasjon.OrganizationNumber && (
           <AriaMenuButton.MenuItem
             key={index}
-            value={organisasjon.OrganizationNumber}
-            text={organisasjon.Name}
+            value={organisasjon.overordnetOrg.OrganizationNumber}
+            text={organisasjon.overordnetOrg.Name}
             className="organisasjons-meny__organisasjon"
           >
-            <div className="organisasjons-meny__navn">{organisasjon.Name}</div>
+            <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
           </AriaMenuButton.MenuItem>
         )}
       </>
