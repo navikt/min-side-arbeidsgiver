@@ -43,8 +43,11 @@ const DropDownElement: FunctionComponent<
         className="under-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
       >
-        <AriaMenuButton.Button className="under-meny__button">
-          <OrganisasjonsKnapp hovedOrganisasjon={props.hovedOrganisasjon} />
+        <AriaMenuButton.Button>
+          <OrganisasjonsKnapp
+            className={"under-meny__hovedknapp"}
+            hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
+          />
           <div className="under-meny__nedre-button">
             <NedChevron className="under-meny__nedre-button-chevron" />
             Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}

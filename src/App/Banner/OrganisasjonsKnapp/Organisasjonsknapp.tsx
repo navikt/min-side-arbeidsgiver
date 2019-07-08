@@ -3,11 +3,11 @@ import "./OrganisasjonsKnapp.less";
 import bedriftsikon from "./bedriftsikon.svg";
 import { Element } from "nav-frontend-typografi";
 
-import { OverenhetOrganisasjon } from "../../../organisasjon";
+import { Organisasjon } from "../../../organisasjon";
 
 interface Props {
   className?: string;
-  hovedOrganisasjon: OverenhetOrganisasjon;
+  hovedOrganisasjon: Organisasjon;
 }
 
 const OrganisasjonsKnapp: FunctionComponent<Props> = props => {
@@ -15,8 +15,8 @@ const OrganisasjonsKnapp: FunctionComponent<Props> = props => {
     <div className={"ovre-button"}>
       <img src={bedriftsikon} />
       <div className="ovre-button-tekst">
-        <Element>{props.hovedOrganisasjon.overordnetOrg.Name}</Element>
-        org. nr. {props.hovedOrganisasjon.overordnetOrg.OrganizationNumber}
+        <Element>{props.hovedOrganisasjon.Name}</Element>
+        org. nr. {props.hovedOrganisasjon.OrganizationNumber}
       </div>
     </div>
   );

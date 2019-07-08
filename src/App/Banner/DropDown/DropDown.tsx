@@ -39,7 +39,9 @@ const DropDown: FunctionComponent<
             text={organisasjon.overordnetOrg.Name}
             className="organisasjons-meny__organisasjon"
           >
-            <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
+            <OrganisasjonsKnapp
+              hovedOrganisasjon={organisasjon.overordnetOrg}
+            />
           </AriaMenuButton.MenuItem>
         )}
       </>
@@ -55,12 +57,7 @@ const DropDown: FunctionComponent<
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
-            {valgtOrganisasjon.Name +
-              ", " +
-              valgtOrganisasjon.OrganizationNumber}
-            <div className={"organisasjons-meny__chevron"}>
-              <NedChevron />
-            </div>
+            <OrganisasjonsKnapp hovedOrganisasjon={valgtOrganisasjon} />
           </AriaMenuButton.Button>
         )}
         <div className="organisasjons-meny__meny-wrapper">
