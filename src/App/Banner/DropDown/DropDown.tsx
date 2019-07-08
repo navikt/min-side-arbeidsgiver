@@ -6,7 +6,6 @@ import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 import { NedChevron } from "nav-frontend-chevron";
-import Snakkeboble from "nav-frontend-snakkeboble";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {

@@ -11,6 +11,7 @@ import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider
 import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
 import { withRouter, RouteComponentProps } from "react-router";
 import DropDown from "./DropDown/DropDown";
+import OrganisasjonsValg from "./DropDown/OrganisasjonsValg/OrganisasjonsValg";
 
 interface Props {
   tittel?: string;
@@ -19,7 +20,9 @@ interface Props {
 const Banner: FunctionComponent<
   Props & RouteComponentProps<{ orgnummer: string }>
 > = props => {
-  const { organisasjoner } = useContext(OrganisasjonsListeContext);
+  const { organisasjoner, organisasjonstre } = useContext(
+    OrganisasjonsListeContext
+  );
   const { endreOrganisasjon, valgtOrganisasjon } = useContext(
     OrganisasjonsDetaljerContext
   );
@@ -76,6 +79,12 @@ const Banner: FunctionComponent<
           <DropDown className={"banner__organisasjoner"} />
         )}
       </div>
+      {organisasjonstre.length !== 0 && (
+        <OrganisasjonsValg
+          className="undermeny"
+          hovedOrganisasjon={organisasjonstre[0]}
+        />
+      )}
     </div>
   );
 };
