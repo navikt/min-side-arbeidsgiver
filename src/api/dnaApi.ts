@@ -54,11 +54,13 @@ export function lagToDimensjonalArray(
       if (
         underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
       ) {
-        utenTilgangTilJuridiskEnhetBedrifter.filter(organisasjon => {
-          if (organisasjon !== underenhet) {
-            return organisasjon;
+        utenTilgangTilJuridiskEnhetBedrifter = utenTilgangTilJuridiskEnhetBedrifter.filter(
+          organisasjon => {
+            return (
+              organisasjon.OrganizationNumber !== underenhet.OrganizationNumber
+            );
           }
-        });
+        );
         return underenhet;
       }
     });
@@ -68,12 +70,16 @@ export function lagToDimensjonalArray(
     };
   });
   utenTilgangTilJuridiskEnhetBedrifter.forEach(organisasjon => {
-    if (organisasjon.Type === "BEDR")
+    if (organisasjon.OrganizationForm === "BEDR") {
       organisasjonsliste.push({
         overordnetOrg: organisasjon,
         UnderOrganisasjoner: []
       });
+    }
   });
+  console.log("opprinnelige organisasjoner: ", organisasjoner);
+  console.log("juridiske enheter: ", juridiskeEnheter);
+  console.log("org uten jurenhet", utenTilgangTilJuridiskEnhetBedrifter);
   console.log("orgliste: ", organisasjonsliste);
   return organisasjonsliste;
 }

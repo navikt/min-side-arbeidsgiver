@@ -23,9 +23,6 @@ const DropDown: FunctionComponent<
     props.history.push("/" + orgnr);
   };
 
-  console.log("organisasjoner: ", organisasjoner);
-  console.log("organisasjonstre: ", organisasjonstre);
-
   const OrganisasjonsMenyKomponenter = organisasjoner.map(function(
     organisasjon,
     index

@@ -29,8 +29,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjoner
       );
       setorganisasjonstre(toDim);
-      console.log(organisasjoner);
-      console.log(toDim);
     };
     getOrganisasjoner();
   }, []);
