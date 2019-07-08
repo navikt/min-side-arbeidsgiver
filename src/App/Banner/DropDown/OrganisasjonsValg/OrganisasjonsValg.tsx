@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from "react";
 import "./OrganisasjonsValg.less";
+import bedriftsikon from "./bedriftsikon.svg";
+import { Element, Normaltekst } from "nav-frontend-typografi";
 
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -39,14 +41,12 @@ const DropDownElement: FunctionComponent<
       <AriaMenuButton.Wrapper
         className="under-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
-        style={{ marginTop: 20 }}
       >
         <AriaMenuButton.Button className="under-meny__button">
-          {props.hovedOrganisasjon.overordnetOrg.Name +
-            ", " +
-            props.hovedOrganisasjon.overordnetOrg.OrganizationNumber}
-          <div className={"under-meny__chevron"}>
-            <NedChevron />
+          <img src={bedriftsikon} />
+          <div className="under-meny__button-tekst">
+            <Element>{props.hovedOrganisasjon.overordnetOrg.Name}</Element>
+            org. nr. {props.hovedOrganisasjon.overordnetOrg.OrganizationNumber}
           </div>
         </AriaMenuButton.Button>
         <div className="under-meny__meny-wrapper">
