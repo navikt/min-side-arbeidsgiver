@@ -15,11 +15,16 @@ interface Props {
 const DropDown: FunctionComponent<
   Props & RouteComponentProps<{ className: string }>
 > = props => {
-  const { organisasjoner } = useContext(OrganisasjonsListeContext);
+  const { organisasjoner, organisasjonstre } = useContext(
+    OrganisasjonsListeContext
+  );
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const settUrl = (orgnr: string) => {
     props.history.push("/" + orgnr);
   };
+
+  console.log("organisasjoner: ", organisasjoner);
+  console.log("organisasjonstre: ", organisasjonstre);
 
   const OrganisasjonsMenyKomponenter = organisasjoner.map(function(
     organisasjon,

@@ -46,18 +46,36 @@ export function lagToDimensjonalArray(
   ) {
     return organisasjon.Type === "Enterprise";
   });
+  let utenTilgangTilJuridiskEnhetBedrifter = organisasjoner;
   logInfo("juridiske enheter: " + juridiskeEnheter);
 
-  return juridiskeEnheter.map(juridiskEnhet => {
-    const underenheter = organisasjoner.filter(
-      underenhet =>
+  let organisasjonsliste = juridiskeEnheter.map(juridiskEnhet => {
+    const underenheter = organisasjoner.filter(underenhet => {
+      if (
         underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
-    );
+      ) {
+        utenTilgangTilJuridiskEnhetBedrifter.filter(organisasjon => {
+          if (organisasjon !== underenhet) {
+            return organisasjon;
+          }
+        });
+        return underenhet;
+      }
+    });
     return {
       overordnetOrg: juridiskEnhet,
       UnderOrganisasjoner: underenheter
     };
   });
+  utenTilgangTilJuridiskEnhetBedrifter.forEach(organisasjon => {
+    if (organisasjon.Type === "BEDR")
+      organisasjonsliste.push({
+        overordnetOrg: organisasjon,
+        UnderOrganisasjoner: []
+      });
+  });
+  console.log("orgliste: ", organisasjonsliste);
+  return organisasjonsliste;
 }
 
 export async function hentRoller(orgnr: string): Promise<Rolle[]> {
