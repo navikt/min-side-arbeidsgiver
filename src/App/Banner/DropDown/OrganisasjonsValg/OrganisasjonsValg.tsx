@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from "react";
 import "./OrganisasjonsValg.less";
-import bedriftsikon from "./bedriftsikon.svg";
+import bedriftsikon from "../../OrganisasjonsKnapp/bedriftsikon.svg";
 import { Element, Normaltekst } from "nav-frontend-typografi";
 
 import { withRouter, RouteComponentProps } from "react-router";
 
 import { NedChevron } from "nav-frontend-chevron";
 import { Organisasjon, OverenhetOrganisasjon } from "../../../../organisasjon";
+import OrganisasjonsKnapp from "../../OrganisasjonsKnapp/Organisasjonsknapp";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -43,14 +44,7 @@ const DropDownElement: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
       >
         <AriaMenuButton.Button className="under-meny__button">
-          <div className={"under-meny__ovre-button"}>
-            <img src={bedriftsikon} />
-            <div className="under-meny__button-tekst">
-              <Element>{props.hovedOrganisasjon.overordnetOrg.Name}</Element>
-              org. nr.{" "}
-              {props.hovedOrganisasjon.overordnetOrg.OrganizationNumber}
-            </div>
-          </div>
+          <OrganisasjonsKnapp hovedOrganisasjon={props.hovedOrganisasjon} />
           <div className="under-meny__nedre-button">
             <NedChevron className="under-meny__nedre-button-chevron" />
             Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}

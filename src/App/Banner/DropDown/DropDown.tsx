@@ -6,6 +6,7 @@ import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 import { NedChevron } from "nav-frontend-chevron";
+import OrganisasjonsValg from "./OrganisasjonsValg/OrganisasjonsValg";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -62,6 +63,12 @@ const DropDown: FunctionComponent<
         )}
         <div className="organisasjons-meny__meny-wrapper">
           <AriaMenuButton.Menu className={"organisasjons-meny"}>
+            {organisasjonstre.length !== 0 && (
+              <OrganisasjonsValg
+                className="undermeny"
+                hovedOrganisasjon={organisasjonstre[0]}
+              />
+            )}
             {OrganisasjonsMenyKomponenter}
           </AriaMenuButton.Menu>
         </div>
