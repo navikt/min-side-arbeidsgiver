@@ -66,9 +66,13 @@ const DropDown: FunctionComponent<
             )}
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
               <>
-                <OrganisasjonsKnapp
-                  hovedOrganisasjon={organisasjon.overordnetOrg}
-                />
+                <div className={"organisasjons-meny__juridisk-enhet"}>
+                  <img src={bedriftsikon} />
+                  <div className="organisasjons-meny__juridisk-enhet-tekst">
+                    <Element>{valgtOrganisasjon.Name}</Element>
+                    org. nr. {valgtOrganisasjon.OrganizationNumber}
+                  </div>
+                </div>
                 <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
               </>
             )}
