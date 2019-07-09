@@ -87,14 +87,14 @@ const DropDown: FunctionComponent<
           }
         >
           <AriaMenuButton.Menu className={"organisasjons-meny"}>
-            <div className={"organisasjons-meny__vis-valgt"}>
+            <div className={"organisasjons-meny__vis-valgt-bedrift"}>
               <img src={bedriftsikon} />
-              <div className="organisasjons-meny__vis-valgt-tekst">
+              <div className="organisasjons-meny__vis-valgt-bedrift-tekst">
                 <Undertittel>{valgtOrganisasjon.Name}</Undertittel>
                 org. nr. {valgtOrganisasjon.OrganizationNumber}
               </div>
             </div>
-            <Undertittel className={"organisasjons-meny__dine-aktorer"}>
+            <Undertittel className={"organisasjons-meny__dine-aktorer-tekst"}>
               Dine aktører{" "}
             </Undertittel>
             {OrganisasjonsMenyKomponenter}
