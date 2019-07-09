@@ -72,7 +72,7 @@ const DropDown: FunctionComponent<
   });
 
   return (
-    <div className="organisasjons-meny">
+    <div className="organisasjons-meny noselect">
       <AriaMenuButton.Wrapper
         className="organisasjons-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
