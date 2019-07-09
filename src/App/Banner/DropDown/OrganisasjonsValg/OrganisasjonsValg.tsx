@@ -29,13 +29,15 @@ const DropDownElement: FunctionComponent<
   const OrganisasjonsMenyKomponenter = props.hovedOrganisasjon.UnderOrganisasjoner.map(
     function(organisasjon: Organisasjon) {
       return (
-        <AriaMenuButton.MenuItem
-          key={organisasjon.OrganizationNumber}
-          value={organisasjon.OrganizationNumber}
-          text={organisasjon.Name}
-        >
-          <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
-        </AriaMenuButton.MenuItem>
+        <div className="item-wrapper">
+          <AriaMenuButton.MenuItem
+            key={organisasjon.OrganizationNumber}
+            value={organisasjon.OrganizationNumber}
+            text={organisasjon.Name}
+          >
+            <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
+          </AriaMenuButton.MenuItem>
+        </div>
       );
     }
   );

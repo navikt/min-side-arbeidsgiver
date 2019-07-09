@@ -1,5 +1,10 @@
 @import '~nav-frontend-core/less/_variabler';
 
+.item-wrapper:hover {
+  background-color: @navBla;
+  color: white;
+}
+
 .under-meny {
   position: relative;
   z-index: 10;
@@ -56,6 +61,11 @@
     border-bottom: 2px solid white;
   }
 
+  &__nedre-button:hover {
+    background-color: @navBla;
+    color: white;
+  }
+
   &__nedre-button-chevron {
     margin: 0rem 0.7rem 0rem 0.7rem;
   }
@@ -70,8 +80,6 @@
     padding: 0.7rem 2rem 0.7rem 1rem;
   }
 
-  &:hover {
-  }
 }
 
 @media (max-width: @screen-md-min) {
