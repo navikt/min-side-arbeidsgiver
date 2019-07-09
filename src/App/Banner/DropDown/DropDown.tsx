@@ -15,6 +15,7 @@ import OrganisasjonsValg from "./OrganisasjonsValg/OrganisasjonsValg";
 import OrganisasjonsKnapp from "../OrganisasjonsKnapp/Organisasjonsknapp";
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "../OrganisasjonsKnapp/bedriftsikon.svg";
+import { WrapperState } from "react-aria-menubutton";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -31,16 +32,6 @@ const DropDown: FunctionComponent<
   const settUrl = (orgnr: string) => {
     props.history.push("/" + orgnr);
   };
-
-  let klassenavnMenyWrapper = "organisasjons-meny__wrapper-lukket";
-
-  useEffect(() => {
-    if (erApen) {
-      klassenavnMenyWrapper = "organisasjons-meny__wrapper-apen";
-    } else {
-      klassenavnMenyWrapper = "organisasjons-meny__wrapper-lukket";
-    }
-  }, [erApen]);
 
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon,
@@ -71,14 +62,20 @@ const DropDown: FunctionComponent<
         className="organisasjons-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
-        onMenuToggle={(erApen: boolean) => setErApen(erApen)}
+        onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
             <OrganisasjonsKnapp hovedOrganisasjon={valgtOrganisasjon} />
           </AriaMenuButton.Button>
         )}
-        <div className={klassenavnMenyWrapper}>
+        <div
+          className={
+            erApen
+              ? "organisasjons-meny__wrapper-apen"
+              : "organisasjons-meny__wrapper-lukket"
+          }
+        >
           <AriaMenuButton.Menu className={"organisasjons-meny"}>
             <div className={"organisasjons-meny__vis-valgt"}>
               <img src={bedriftsikon} />
