@@ -58,7 +58,12 @@ const DropDown: FunctionComponent<
               </AriaMenuButton.MenuItem>
             )}
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
-              <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
+              <>
+                <OrganisasjonsKnapp
+                  hovedOrganisasjon={organisasjon.overordnetOrg}
+                />
+                <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
+              </>
             )}
           </>
         )}
@@ -76,7 +81,11 @@ const DropDown: FunctionComponent<
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
-            <OrganisasjonsKnapp hovedOrganisasjon={valgtOrganisasjon} />
+            <img src={bedriftsikon} />
+            <div className="organisasjons-meny__button-tekst">
+              <Element>{valgtOrganisasjon.Name}</Element>
+              org. nr. {valgtOrganisasjon.OrganizationNumber}
+            </div>
           </AriaMenuButton.Button>
         )}
         <div

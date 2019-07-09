@@ -76,7 +76,9 @@ const Banner: FunctionComponent<
             Min Side Arbeidsgiver
           </Sidetittel>
 
-          <DropDown className={"banner__organisasjoner"} />
+          <div className="banner__drop-down-container">
+            <DropDown className={"banner__organisasjoner"} />
+          </div>
         </div>
       )}
     </div>

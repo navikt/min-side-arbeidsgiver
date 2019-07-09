@@ -2,10 +2,11 @@
 
 .banner {
   display: flex;
-  background-color: @navBlaLighten80;;
-  border-bottom: 4px solid @navBlaLighten60;;
+  background-color: @navBlaLighten80;
+  border-bottom: 4px solid @navBlaLighten60;
   height: 8rem;
   justify-content: center;
+  position: relative;
 
 
   &__senter {
@@ -15,10 +16,9 @@
     padding-top: 1.5rem;
     position: relative;
   }
-
-  &__organisasjoner {
-    display: flex;
-    width: 18rem;
+  &__drop-down-container {
+    position: absolute;
+    right: 0rem;
   }
 
   &__sidetittel {

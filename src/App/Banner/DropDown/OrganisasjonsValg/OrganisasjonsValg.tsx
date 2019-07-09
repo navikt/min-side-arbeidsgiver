@@ -48,10 +48,6 @@ const DropDownElement: FunctionComponent<
         onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
       >
         <AriaMenuButton.Button>
-          <OrganisasjonsKnapp
-            className={"under-meny__hovedknapp"}
-            hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
-          />
           {!erApen && (
             <div className={"under-meny__nedre-button"}>
               <NedChevron className="under-meny__nedre-button-chevron" />
