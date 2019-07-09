@@ -29,11 +29,18 @@ const DropDown: FunctionComponent<
   const { organisasjonstre } = useContext(OrganisasjonsListeContext);
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [erApen, setErApen] = useState(false);
+  const [valgtOrgNavn, setValgtOrgNavn] = useState(" ");
   const settUrl = (orgnr: string) => {
     props.history.push("/" + orgnr);
   };
 
-  console.log(organisasjonstre);
+  useEffect(() => {
+    if (valgtOrganisasjon.Name.length > 23) {
+      setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + "...");
+    } else {
+      setValgtOrgNavn(valgtOrganisasjon.Name);
+    }
+  }, [valgtOrganisasjon]);
 
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon,
@@ -83,7 +90,7 @@ const DropDown: FunctionComponent<
           <AriaMenuButton.Button className="organisasjons-meny__button">
             <img src={bedriftsikon} />
             <div className="organisasjons-meny__button-tekst">
-              <Element>{valgtOrganisasjon.Name}</Element>
+              <Element>{valgtOrgNavn}</Element>
               org. nr. {valgtOrganisasjon.OrganizationNumber}
             </div>
           </AriaMenuButton.Button>
