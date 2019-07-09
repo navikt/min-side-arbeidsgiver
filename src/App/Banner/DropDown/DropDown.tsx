@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, {
+  FunctionComponent,
+  useContext,
+  useState,
+  useEffect
+} from "react";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 
 import { withRouter, RouteComponentProps } from "react-router";
@@ -22,9 +27,20 @@ const DropDown: FunctionComponent<
 > = props => {
   const { organisasjonstre } = useContext(OrganisasjonsListeContext);
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+  const [erApen, setErApen] = useState(false);
   const settUrl = (orgnr: string) => {
     props.history.push("/" + orgnr);
   };
+
+  let klassenavnMenyWrapper = "organisasjons-meny__wrapper-lukket";
+
+  useEffect(() => {
+    if (erApen) {
+      klassenavnMenyWrapper = "organisasjons-meny__wrapper-apen";
+    } else {
+      klassenavnMenyWrapper = "organisasjons-meny__wrapper-lukket";
+    }
+  }, [erApen]);
 
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon,
@@ -38,7 +54,7 @@ const DropDown: FunctionComponent<
             key={index}
             value={organisasjon.overordnetOrg.OrganizationNumber}
             text={organisasjon.overordnetOrg.Name}
-            className="organisasjons-meny__organisasjon"
+            className={"organisasjons-meny__organisasjon}"}
           >
             <OrganisasjonsKnapp
               hovedOrganisasjon={organisasjon.overordnetOrg}
@@ -55,13 +71,14 @@ const DropDown: FunctionComponent<
         className="organisasjons-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
+        onMenuToggle={(erApen: boolean) => setErApen(erApen)}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
             <OrganisasjonsKnapp hovedOrganisasjon={valgtOrganisasjon} />
           </AriaMenuButton.Button>
         )}
-        <div className="organisasjons-meny__meny-wrapper">
+        <div className={klassenavnMenyWrapper}>
           <AriaMenuButton.Menu className={"organisasjons-meny"}>
             <div className={"organisasjons-meny__vis-valgt"}>
               <img src={bedriftsikon} />

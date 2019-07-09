@@ -7,11 +7,31 @@
   flex-direction: column;
   padding: 1rem;
 
-  &__meny-wrapper {
-    margin-top: 2rem;
-    position:relative;
+  &__wrapper-apen {
+    position: relative;
     background-color: white;
     border: solid 1px #78706a;
+
+  }
+
+  &__wrapper-lukket {
+    position:relative;
+    background-color: white;
+    border: none;
+  }
+
+  &__wrapper-lukket:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-bottom-color: white;
+    border-top: 0;
+    margin-left: -20px;
+    margin-top: -20px;
   }
 
   &__meny {
@@ -52,6 +72,7 @@
     align-items: center;
     flex-wrap: nowrap;
     background-color: white;
+    margin-bottom: 3rem;
 
 
   }
