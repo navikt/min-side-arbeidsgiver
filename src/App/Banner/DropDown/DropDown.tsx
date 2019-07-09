@@ -33,6 +33,8 @@ const DropDown: FunctionComponent<
     props.history.push("/" + orgnr);
   };
 
+  console.log(organisasjonstre);
+
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon,
     index
@@ -41,16 +43,24 @@ const DropDown: FunctionComponent<
       <>
         {organisasjon.overordnetOrg.OrganizationNumber !==
           valgtOrganisasjon.OrganizationNumber && (
-          <AriaMenuButton.MenuItem
-            key={index}
-            value={organisasjon.overordnetOrg.OrganizationNumber}
-            text={organisasjon.overordnetOrg.Name}
-            className={"organisasjons-meny__organisasjon}"}
-          >
-            <OrganisasjonsKnapp
-              hovedOrganisasjon={organisasjon.overordnetOrg}
-            />
-          </AriaMenuButton.MenuItem>
+          <>
+            {" "}
+            {organisasjon.overordnetOrg.OrganizationForm === "BEDR" && (
+              <AriaMenuButton.MenuItem
+                key={index}
+                value={organisasjon.overordnetOrg.OrganizationNumber}
+                text={organisasjon.overordnetOrg.Name}
+                className={"organisasjons-meny__organisasjon}"}
+              >
+                <OrganisasjonsKnapp
+                  hovedOrganisasjon={organisasjon.overordnetOrg}
+                />
+              </AriaMenuButton.MenuItem>
+            )}
+            {organisasjon.overordnetOrg.Type === "Enterprise" && (
+              <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
+            )}
+          </>
         )}
       </>
     );
@@ -87,12 +97,6 @@ const DropDown: FunctionComponent<
             <Undertittel className={"organisasjons-meny__dine-aktorer"}>
               Dine aktører{" "}
             </Undertittel>
-            {organisasjonstre.length !== 0 && (
-              <OrganisasjonsValg
-                className="undermeny"
-                hovedOrganisasjon={organisasjonstre[0]}
-              />
-            )}
             {OrganisasjonsMenyKomponenter}
           </AriaMenuButton.Menu>
         </div>
