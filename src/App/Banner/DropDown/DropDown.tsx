@@ -69,8 +69,8 @@ const DropDown: FunctionComponent<
                 <div className={"organisasjons-meny__juridisk-enhet"}>
                   <img src={bedriftsikon} />
                   <div className="organisasjons-meny__juridisk-enhet-tekst">
-                    <Element>{valgtOrganisasjon.Name}</Element>
-                    org. nr. {valgtOrganisasjon.OrganizationNumber}
+                    <Element>{organisasjon.overordnetOrg.Name}</Element>
+                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
                   </div>
                 </div>
                 <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
@@ -89,6 +89,7 @@ const DropDown: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
         onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
+        closeOnSelection={false}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
