@@ -35,6 +35,7 @@ const DropDownElement: FunctionComponent<
               key={organisasjon.OrganizationNumber}
               value={organisasjon.OrganizationNumber}
               text={organisasjon.Name}
+              tabIndex={0}
             >
               <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
             </AriaMenuButton.MenuItem>
