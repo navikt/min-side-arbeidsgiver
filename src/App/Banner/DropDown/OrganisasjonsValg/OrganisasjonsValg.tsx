@@ -47,7 +47,12 @@ const DropDownElement: FunctionComponent<
       <AriaMenuButton.Wrapper
         className="under-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
-        onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
+        onMenuToggle={(erApen: WrapperState) => {
+          setErApen(erApen.isOpen);
+          if (props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise") {
+            settUrl(props.hovedOrganisasjon.overordnetOrg.OrganizationNumber);
+          }
+        }}
       >
         <AriaMenuButton.Button>
           {props.hovedOrganisasjon.UnderOrganisasjoner.length === 0 && (
