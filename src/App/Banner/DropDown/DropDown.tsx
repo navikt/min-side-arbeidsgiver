@@ -43,8 +43,7 @@ const DropDown: FunctionComponent<
   }, [valgtOrganisasjon]);
 
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
-    organisasjon,
-    index
+    organisasjon
   ) {
     return (
       <>
@@ -52,30 +51,17 @@ const DropDown: FunctionComponent<
           valgtOrganisasjon.OrganizationNumber && (
           <>
             {" "}
-            {organisasjon.overordnetOrg.OrganizationForm === "BEDR" && (
-              <AriaMenuButton.MenuItem
-                key={index}
-                value={organisasjon.overordnetOrg.OrganizationNumber}
-                text={organisasjon.overordnetOrg.Name}
-                className={"organisasjons-meny__organisasjon}"}
-              >
-                <OrganisasjonsKnapp
-                  hovedOrganisasjon={organisasjon.overordnetOrg}
-                />
-              </AriaMenuButton.MenuItem>
-            )}
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
-              <>
-                <div className={"organisasjons-meny__juridisk-enhet"}>
-                  <img src={bedriftsikon} />
-                  <div className="organisasjons-meny__juridisk-enhet-tekst">
-                    <Element>{organisasjon.overordnetOrg.Name}</Element>
-                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
-                  </div>
+              <div className={"organisasjons-meny__juridisk-enhet"}>
+                <img src={bedriftsikon} />
+
+                <div className="organisasjons-meny__juridisk-enhet-tekst">
+                  <Element>{organisasjon.overordnetOrg.Name}</Element>
+                  org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
                 </div>
-                <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
-              </>
+              </div>
             )}
+            <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
           </>
         )}
       </>
@@ -89,7 +75,8 @@ const DropDown: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
         onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
-        closeOnSelection={false}
+        closeOnSelection={true}
+        id={"wrapper-id"}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">

@@ -50,21 +50,34 @@ const DropDownElement: FunctionComponent<
         onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
       >
         <AriaMenuButton.Button>
-          {!erApen && (
-            <div className={"under-meny__nedre-button"}>
-              <NedChevron className="under-meny__nedre-button-chevron" />
-              Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
-              underenheter
-            </div>
+          {props.hovedOrganisasjon.UnderOrganisasjoner.length === 0 && (
+            <OrganisasjonsKnapp
+              hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
+            />
           )}
-          {erApen && (
-            <div className={"under-meny__nedre-button"}>
-              <OppChevron className="under-meny__nedre-button-chevron" />
-              Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
-              underenheter
-            </div>
+
+          {props.hovedOrganisasjon.UnderOrganisasjoner.length > 0 && (
+            <>
+              {!erApen && (
+                <div className={"under-meny__nedre-button"}>
+                  <NedChevron className="under-meny__nedre-button-chevron" />
+                  Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
+                  underenheter
+                </div>
+              )}
+              {erApen && (
+                <div className={"under-meny__nedre-button"}>
+                  <OppChevron className="under-meny__nedre-button-chevron" />
+                  Skjul {
+                    props.hovedOrganisasjon.UnderOrganisasjoner.length
+                  }{" "}
+                  underenheter
+                </div>
+              )}
+            </>
           )}
         </AriaMenuButton.Button>
+
         <div className="under-meny__meny-wrapper">
           <AriaMenuButton.Menu className={"under-meny"}>
             {OrganisasjonsMenyKomponenter}
