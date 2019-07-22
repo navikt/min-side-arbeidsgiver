@@ -30,9 +30,6 @@ const DropDown: FunctionComponent<
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [erApen, setErApen] = useState(false);
   const [valgtOrgNavn, setValgtOrgNavn] = useState(" ");
-  const settUrl = (orgnr: string) => {
-    props.history.push("/" + orgnr);
-  };
 
   useEffect(() => {
     if (valgtOrganisasjon.Name.length > 23) {
@@ -72,10 +69,9 @@ const DropDown: FunctionComponent<
     <div className="organisasjons-meny noselect">
       <AriaMenuButton.Wrapper
         className="organisasjons-meny__wrapper"
-        onSelection={(value: string) => settUrl(value)}
         style={{ marginTop: 20 }}
         onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
-        closeOnSelection={true}
+        closeOnSelection={false}
         id={"wrapper-id"}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (

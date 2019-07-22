@@ -30,13 +30,15 @@ const DropDownElement: FunctionComponent<
     function(organisasjon: Organisasjon) {
       return (
         <div className="item-wrapper">
-          <AriaMenuButton.MenuItem
-            key={organisasjon.OrganizationNumber}
-            value={organisasjon.OrganizationNumber}
-            text={organisasjon.Name}
-          >
-            <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
-          </AriaMenuButton.MenuItem>
+          {
+            <AriaMenuButton.MenuItem
+              key={organisasjon.OrganizationNumber}
+              value={organisasjon.OrganizationNumber}
+              text={organisasjon.Name}
+            >
+              <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
+            </AriaMenuButton.MenuItem>
+          }
         </div>
       );
     }
@@ -47,21 +49,26 @@ const DropDownElement: FunctionComponent<
       <AriaMenuButton.Wrapper
         className="under-meny__wrapper"
         onSelection={(value: string) => settUrl(value)}
+        closeOnSelection={false}
         onMenuToggle={(erApen: WrapperState) => {
           setErApen(erApen.isOpen);
           if (props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise") {
             settUrl(props.hovedOrganisasjon.overordnetOrg.OrganizationNumber);
+            console.log(
+              "orgtype: ",
+              props.hovedOrganisasjon.overordnetOrg.Type
+            );
           }
         }}
       >
         <AriaMenuButton.Button>
-          {props.hovedOrganisasjon.UnderOrganisasjoner.length === 0 && (
+          {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
             <OrganisasjonsKnapp
               hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
             />
           )}
 
-          {props.hovedOrganisasjon.UnderOrganisasjoner.length > 0 && (
+          {props.hovedOrganisasjon.overordnetOrg.Type === "Enterprise" && (
             <>
               {!erApen && (
                 <div className={"under-meny__nedre-button"}>
