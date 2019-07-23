@@ -1,10 +1,5 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.item-wrapper:hover {
-  background-color: @navBla;
-  color: white;
-}
-
 .under-meny {
   position: relative;
   z-index: 15;
@@ -17,6 +12,17 @@
     position:relative;
     background-color: white;
     margin-top: 4px;
+  }
+
+  &__menyobjekt:hover {
+    background-color: @navBla;
+    color: white;
+  }
+
+  &__menyobjekt:active {
+    background-color: @navBla;
+    color: white;
+    border: 2px solid black ;
   }
 
   &__meny {
