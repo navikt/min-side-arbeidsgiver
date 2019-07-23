@@ -36,6 +36,7 @@ const DropDown: FunctionComponent<
       setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + "...");
     } else {
       setValgtOrgNavn(valgtOrganisasjon.Name);
+      setErApen(false);
     }
   }, [valgtOrganisasjon]);
 
@@ -46,7 +47,7 @@ const DropDown: FunctionComponent<
       <>
         {organisasjon.overordnetOrg.OrganizationNumber !==
           valgtOrganisasjon.OrganizationNumber && (
-          <>
+          <AriaMenuButton.MenuItem>
             {" "}
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
               <div className={"organisasjons-meny__juridisk-enhet"}>
@@ -59,7 +60,7 @@ const DropDown: FunctionComponent<
               </div>
             )}
             <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
-          </>
+          </AriaMenuButton.MenuItem>
         )}
       </>
     );
