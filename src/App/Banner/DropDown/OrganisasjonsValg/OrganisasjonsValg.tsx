@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
 import "./OrganisasjonsValg.less";
-import bedriftsikon from "../../OrganisasjonsKnapp/bedriftsikon.svg";
-import { Element, Normaltekst } from "nav-frontend-typografi";
 
 import { withRouter, RouteComponentProps } from "react-router";
 
