@@ -6,26 +6,22 @@ import React, {
 } from "react";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 
-import { withRouter, RouteComponentProps } from "react-router";
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 
 import OrganisasjonsValg from "./OrganisasjonsValg/OrganisasjonsValg";
-import OrganisasjonsKnapp from "../OrganisasjonsKnapp/Organisasjonsknapp";
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "../OrganisasjonsKnapp/bedriftsikon.svg";
 import { WrapperState } from "react-aria-menubutton";
-
-const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
   className?: string;
 }
 
-const DropDown: FunctionComponent<
-  Props & RouteComponentProps<{ className: string }>
-> = props => {
+const AriaMenuButton = require("react-aria-menubutton");
+
+const DropDown: FunctionComponent<Props> = props => {
   const { organisasjonstre } = useContext(OrganisasjonsListeContext);
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [erApen, setErApen] = useState(false);
@@ -47,7 +43,7 @@ const DropDown: FunctionComponent<
       <>
         {organisasjon.overordnetOrg.OrganizationNumber !==
           valgtOrganisasjon.OrganizationNumber && (
-          <AriaMenuButton.MenuItem>
+          <>
             {" "}
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
               <div className={"organisasjons-meny__juridisk-enhet"}>
@@ -59,15 +55,17 @@ const DropDown: FunctionComponent<
                 </div>
               </div>
             )}
-            <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
-          </AriaMenuButton.MenuItem>
+            <AriaMenuButton.MenuItem>
+              <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
+            </AriaMenuButton.MenuItem>
+          </>
         )}
       </>
     );
   });
 
   return (
-    <div className="organisasjons-meny noselect">
+    <div className={"organisasjons-meny noselect" + props.className}>
       <AriaMenuButton.Wrapper
         className="organisasjons-meny__wrapper"
         style={{ marginTop: 20 }}
@@ -110,4 +108,4 @@ const DropDown: FunctionComponent<
   );
 };
 
-export default withRouter(DropDown);
+export default DropDown;
