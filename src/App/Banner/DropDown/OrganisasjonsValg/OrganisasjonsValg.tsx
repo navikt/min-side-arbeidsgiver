@@ -57,7 +57,7 @@ const DropDownElement: FunctionComponent<
           }
         }}
       >
-        <AriaMenuButton.Button>
+        <div className={"under-meny__aria-nedre-button"}>
           {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
             <OrganisasjonsKnapp
               hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
@@ -65,7 +65,7 @@ const DropDownElement: FunctionComponent<
           )}
 
           {props.hovedOrganisasjon.overordnetOrg.Type === "Enterprise" && (
-            <>
+            <AriaMenuButton.Button className={"under-meny__nedre-button"}>
               {!erApen && (
                 <div className={"under-meny__nedre-button"}>
                   <NedChevron className="under-meny__nedre-button-chevron" />
@@ -82,9 +82,9 @@ const DropDownElement: FunctionComponent<
                   underenheter
                 </div>
               )}
-            </>
+            </AriaMenuButton.Button>
           )}
-        </AriaMenuButton.Button>
+        </div>
 
         <div className="under-meny__meny-wrapper">
           <AriaMenuButton.Menu className={"under-meny"}>

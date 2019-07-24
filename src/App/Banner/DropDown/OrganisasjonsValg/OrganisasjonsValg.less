@@ -19,7 +19,7 @@
     color: white;
   }
 
-  &__menyobjekt:active {
+  &__menyobjekt:ac {
     background-color: @navBla;
     color: white;
     border: 2px solid black ;
@@ -49,11 +49,6 @@
 
   }
 
-  &__button {
-    width: 100%;
-    flex-wrap: nowrap;
-  }
-
   &__hovedknapp {
     background-color: @navLysBlaLighten60;
   }
@@ -72,11 +67,14 @@
     color: white;
   }
 
+  &__nedre-button:focus {
+    box-shadow: 0 0 0 3px @fokusFarge;
+    outline: none;
+    }
+
   &__nedre-button-chevron {
     margin: 0rem 0.7rem 0rem 0.7rem;
   }
-
-
 
   &__organisasjon {
     display: flex;
