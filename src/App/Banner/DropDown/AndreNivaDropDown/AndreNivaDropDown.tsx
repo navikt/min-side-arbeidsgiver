@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import "./OrganisasjonsValg.less";
+import "./AndreNivaDropDown.less";
 
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -15,7 +15,7 @@ interface Props {
   hovedOrganisasjon: OverenhetOrganisasjon;
 }
 
-const DropDownElement: FunctionComponent<
+const AndreNivaDropDown: FunctionComponent<
   Props & RouteComponentProps<{ className: string }>
 > = props => {
   const settUrl = (orgnr: string) => {
@@ -92,4 +92,4 @@ const DropDownElement: FunctionComponent<
   );
 };
 
-export default withRouter(DropDownElement);
+export default withRouter(AndreNivaDropDown);

@@ -10,7 +10,7 @@ import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { tomAltinnOrganisasjon } from "../../../organisasjon";
 
-import OrganisasjonsValg from "./OrganisasjonsValg/OrganisasjonsValg";
+import OrganisasjonsValg from "./AndreNivaDropDown/AndreNivaDropDown";
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "../OrganisasjonsKnapp/bedriftsikon.svg";
 import { WrapperState } from "react-aria-menubutton";
