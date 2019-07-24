@@ -57,34 +57,30 @@ const DropDownElement: FunctionComponent<
           }
         }}
       >
-        <div className={"under-meny__aria-nedre-button"}>
-          {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
-            <OrganisasjonsKnapp
-              hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
-            />
-          )}
+        {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
+          <OrganisasjonsKnapp
+            hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
+          />
+        )}
 
-          {props.hovedOrganisasjon.overordnetOrg.Type === "Enterprise" && (
-            <AriaMenuButton.Button className={"under-meny__nedre-button"}>
-              {!erApen && (
-                <div className={"under-meny__nedre-button"}>
-                  <NedChevron className="under-meny__nedre-button-chevron" />
-                  Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
-                  underenheter
-                </div>
-              )}
-              {erApen && (
-                <div className={"under-meny__nedre-button"}>
-                  <OppChevron className="under-meny__nedre-button-chevron" />
-                  Skjul {
-                    props.hovedOrganisasjon.UnderOrganisasjoner.length
-                  }{" "}
-                  underenheter
-                </div>
-              )}
-            </AriaMenuButton.Button>
-          )}
-        </div>
+        {props.hovedOrganisasjon.overordnetOrg.Type === "Enterprise" && (
+          <AriaMenuButton.Button className={"under-meny__nedre-button"}>
+            {!erApen && (
+              <>
+                <NedChevron className="under-meny__nedre-button-chevron" />
+                Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
+                underenheter
+              </>
+            )}
+            {erApen && (
+              <>
+                <OppChevron className="under-meny__nedre-button-chevron" />
+                Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
+                underenheter
+              </>
+            )}
+          </AriaMenuButton.Button>
+        )}
 
         <div className="under-meny__meny-wrapper">
           <AriaMenuButton.Menu className={"under-meny"}>
