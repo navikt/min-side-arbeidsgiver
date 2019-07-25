@@ -1,21 +1,22 @@
 import React, { FunctionComponent } from "react";
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import "./InformasjonOmTilgangsstyring.less";
+import "./InformasjonOmTilgangsstyringSide.less";
 import Lenke from "nav-frontend-lenker";
-import {
-  LenkeTilInfoOmAltinnRoller,
-  LenkeTilInfoOmNarmesteLeder
-} from "../../../lenker";
+
 import {
   Innholdstittel,
   Normaltekst,
   Element,
   Undertittel
 } from "nav-frontend-typografi";
-import LoggInnBanner from "../LoggInnBanner/LoggInnBanner";
-import { basename } from "../../../paths";
+import { basename } from "../../paths";
+import LoggInnBanner from "../LoggInn/LoggInnBanner/LoggInnBanner";
+import {
+  LenkeTilInfoOmAltinnRoller,
+  LenkeTilInfoOmNarmesteLeder
+} from "../../lenker";
 
-const InformasjonOmTilgangsstyring: FunctionComponent = () => {
+const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
   return (
     <div className={"informasjon-om-tilgangsstyring "}>
       <LoggInnBanner />
@@ -114,4 +115,4 @@ const InformasjonOmTilgangsstyring: FunctionComponent = () => {
   );
 };
 
-export default InformasjonOmTilgangsstyring;
+export default InformasjonOmTilgangsstyringSide;

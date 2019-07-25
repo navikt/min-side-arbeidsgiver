@@ -22,17 +22,21 @@ const Hovedside: FunctionComponent = () => {
   );
 
   return (
-    <div className="forside">
+    <div className="hovedside">
       {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
       {!skalViseManglerTilgangBoks && (
-        <div className={"forside__informasjonstekst"}>
-          <img className={"forside__ikon"} src={ikon} alt="informasjonsikon" />
+        <div className={"hovedside__informasjonstekst"}>
+          <img
+            className={"hovedside__ikon"}
+            src={ikon}
+            alt="informasjonsikon"
+          />
           Forventet du å se flere tjenester?
           <Lenke
-            className={"forside__lenke"}
+            className={"hovedside__lenke"}
             href={basename + "/informasjon-om-tilgangsstyring"}
           >
             Les mer om hvordan du får tilgang
