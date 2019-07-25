@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useCallback
 } from "react";
-import "./Banner.less";
+import "./HovedBanner.less";
 import { Sidetittel } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";

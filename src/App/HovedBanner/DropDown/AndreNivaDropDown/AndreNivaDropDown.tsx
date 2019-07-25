@@ -5,7 +5,7 @@ import { withRouter, RouteComponentProps } from "react-router";
 
 import { NedChevron, OppChevron } from "nav-frontend-chevron";
 import { Organisasjon, OverenhetOrganisasjon } from "../../../../organisasjon";
-import OrganisasjonsKnapp from "../../OrganisasjonsKnapp/Organisasjonsknapp";
+import OrganisasjonsVisning from "../../OrganisasjonsVisning/OrganisasjonsVisning";
 import { WrapperState } from "react-aria-menubutton";
 
 const AriaMenuButton = require("react-aria-menubutton");
@@ -34,7 +34,7 @@ const AndreNivaDropDown: FunctionComponent<
           tabIndex={0}
           className="under-meny__menyobjekt"
         >
-          <OrganisasjonsKnapp hovedOrganisasjon={organisasjon} />
+          <OrganisasjonsVisning hovedOrganisasjon={organisasjon} />
         </AriaMenuButton.MenuItem>
       );
     }
@@ -58,7 +58,7 @@ const AndreNivaDropDown: FunctionComponent<
         }}
       >
         {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
-          <OrganisasjonsKnapp
+          <OrganisasjonsVisning
             hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
           />
         )}

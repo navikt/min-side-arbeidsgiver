@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import "./OrganisasjonsKnapp.less";
+import "./OrganisasjonsVisning.less";
 import bedriftsikon from "./bedriftsikon.svg";
 import { Element } from "nav-frontend-typografi";
 

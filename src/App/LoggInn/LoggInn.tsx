@@ -7,7 +7,7 @@ import Lenke from "nav-frontend-lenker";
 import LoggInnBanner from "./LoggInnBanner/LoggInnBanner";
 import { Sidetittel } from "nav-frontend-typografi";
 import { Innloggingstjenester } from "./Innloggingstjenester/Innloggingstjenester";
-import { Informasjonsboks } from "./Informasjonboks/Informasjonsboks";
+import { TilgangsStyringInfoTekst } from "./TilgangsStyringInfoTekst/TilgangsStyringInfoTekst";
 import environment from "../../utils/environment";
 
 export const LoggInn: FunctionComponent = () => {
@@ -39,7 +39,7 @@ export const LoggInn: FunctionComponent = () => {
           felles inngang til tjenester og oppgaver relatert til:
         </div>
         <Innloggingstjenester />
-        <Informasjonsboks />
+        <TilgangsStyringInfoTekst />
         <Hovedknapp
           className={"innloggingsside__loginKnapp"}
           onClick={redirectTilLogin}

@@ -12,7 +12,7 @@ import { tomAltinnOrganisasjon } from "../../../organisasjon";
 
 import OrganisasjonsValg from "./AndreNivaDropDown/AndreNivaDropDown";
 import { Undertittel, Element } from "nav-frontend-typografi";
-import bedriftsikon from "../OrganisasjonsKnapp/bedriftsikon.svg";
+import bedriftsikon from "../OrganisasjonsVisning/bedriftsikon.svg";
 import { WrapperState } from "react-aria-menubutton";
 
 interface Props {

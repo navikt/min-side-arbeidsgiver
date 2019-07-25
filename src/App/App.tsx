@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.less";
 import { basename } from "../paths";
 import Hovedside from "./Hovedside/Hovedside";
-import Banner from "./Banner/Banner";
+import Banner from "./HovedBanner/HovedBanner";
 import LoginBoundary from "./LoginBoundary";
 import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
