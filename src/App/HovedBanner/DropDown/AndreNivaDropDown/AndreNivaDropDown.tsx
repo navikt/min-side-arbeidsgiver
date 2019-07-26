@@ -4,7 +4,10 @@ import "./AndreNivaDropDown.less";
 import { withRouter, RouteComponentProps } from "react-router";
 
 import { NedChevron, OppChevron } from "nav-frontend-chevron";
-import { Organisasjon, OverenhetOrganisasjon } from "../../../../organisasjon";
+import {
+  Organisasjon,
+  OverenhetOrganisasjon
+} from "../../../../Objekter/organisasjon";
 import OrganisasjonsVisning from "../../OrganisasjonsVisning/OrganisasjonsVisning";
 import { WrapperState } from "react-aria-menubutton";
 

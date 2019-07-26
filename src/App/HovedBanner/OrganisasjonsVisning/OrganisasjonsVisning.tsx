@@ -3,7 +3,7 @@ import "./OrganisasjonsVisning.less";
 import bedriftsikon from "./bedriftsikon.svg";
 import { Element } from "nav-frontend-typografi";
 
-import { Organisasjon } from "../../../organisasjon";
+import { Organisasjon } from "../../../Objekter/organisasjon";
 
 interface Props {
   className?: string;

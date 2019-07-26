@@ -8,7 +8,10 @@ import "./HovedBanner.less";
 import { Sidetittel } from "nav-frontend-typografi";
 import { OrganisasjonsListeContext } from "../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../OrganisasjonDetaljerProvider";
-import { tomAltinnOrganisasjon, Organisasjon } from "../../organisasjon";
+import {
+  tomAltinnOrganisasjon,
+  Organisasjon
+} from "../../Objekter/organisasjon";
 import { withRouter, RouteComponentProps } from "react-router";
 import DropDown from "./DropDown/DropDown";
 

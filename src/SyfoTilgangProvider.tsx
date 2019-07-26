@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { hentSyfoTilgang } from "./api/dnaApi";
-import { hentNarmesteAnsate, hentSyfoOppgaver } from "./digisyfoApi";
-import { SyfoOppgave } from "./syfoOppgaver";
+import { hentNarmesteAnsate, hentSyfoOppgaver } from "./api/digisyfoApi";
+import { SyfoOppgave } from "./Objekter/syfoOppgaver";
 
 export enum TilgangSyfo {
   LASTER,

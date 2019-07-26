@@ -4,9 +4,9 @@ import React, {
   useState,
   useContext
 } from "react";
-import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
+import { tomAltinnOrganisasjon, Organisasjon } from "./Objekter/organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
-import hentAntallannonser from "./hent-stillingsannonser";
+import hentAntallannonser from "./api/hent-stillingsannonser";
 import {
   Arbeidsavtale,
   hentRoller,

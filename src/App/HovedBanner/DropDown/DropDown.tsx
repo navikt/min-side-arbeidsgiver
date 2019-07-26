@@ -8,7 +8,7 @@ import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
-import { tomAltinnOrganisasjon } from "../../../organisasjon";
+import { tomAltinnOrganisasjon } from "../../../Objekter/organisasjon";
 
 import OrganisasjonsValg from "./AndreNivaDropDown/AndreNivaDropDown";
 import { Undertittel, Element } from "nav-frontend-typografi";

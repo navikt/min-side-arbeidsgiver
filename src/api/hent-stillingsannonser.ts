@@ -1,5 +1,5 @@
-import { pamHentStillingsannonserLenke } from "./lenker";
-import { logInfo } from "./utils/metricsUtils";
+import { pamHentStillingsannonserLenke } from "../lenker";
+import { logInfo } from "../utils/metricsUtils";
 
 export interface PamStatusAnnonser {
   TIL_GODKJENNING: number;

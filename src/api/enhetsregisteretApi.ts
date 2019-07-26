@@ -1,4 +1,7 @@
-import { tomEnhetsregOrg, EnhetsregisteretOrg } from "../enhetsregisteretOrg";
+import {
+  tomEnhetsregOrg,
+  EnhetsregisteretOrg
+} from "../Objekter/enhetsregisteretOrg";
 import { hentOverordnetEnhetApiLink, hentUnderenhetApiLink } from "../lenker";
 
 export async function hentUnderenhet(

@@ -1,4 +1,4 @@
-import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
+import { Organisasjon, OverenhetOrganisasjon } from "../Objekter/organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import {
   digiSyfoNarmesteLederLink,

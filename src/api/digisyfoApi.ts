@@ -1,7 +1,7 @@
-import { Sykemelding } from "./sykemelding";
-import { SyfoOppgave } from "./syfoOppgaver";
-import { AnsattSyfo } from "./AnsattSyfo";
-import { digisyfoSykemeldteLenke } from "./lenker";
+import { Sykemelding } from "../Objekter/sykemelding";
+import { SyfoOppgave } from "../Objekter/syfoOppgaver";
+import { AnsattSyfo } from "../Objekter/AnsattSyfo";
+import { digisyfoSykemeldteLenke } from "../lenker";
 
 export async function hentSykemeldinger(): Promise<Array<Sykemelding>> {
   let responsBody = {} as Array<Sykemelding>;

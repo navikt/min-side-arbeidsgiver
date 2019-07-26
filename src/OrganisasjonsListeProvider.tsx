@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
-import { Organisasjon, OverenhetOrganisasjon } from "./organisasjon";
+import { Organisasjon, OverenhetOrganisasjon } from "./Objekter/organisasjon";
 import { hentOrganisasjoner, lagToDimensjonalArray } from "./api/dnaApi";
 
 export type Context = {

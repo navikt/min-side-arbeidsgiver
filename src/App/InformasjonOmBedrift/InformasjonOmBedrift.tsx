@@ -13,7 +13,7 @@ import {
 import {
   tomEnhetsregOrg,
   EnhetsregisteretOrg
-} from "../../enhetsregisteretOrg";
+} from "../../Objekter/enhetsregisteretOrg";
 import "./InformasjonOmBedrift.less";
 import Lenke from "nav-frontend-lenker";
 import Tekstboks from "./Tekstboks/Tekstboks";
