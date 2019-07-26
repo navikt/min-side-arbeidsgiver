@@ -5,7 +5,7 @@
   z-index: 15;
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.3rem;
+  margin-bottom: 2px;
 
   &__meny-wrapper {
     border-radius: 4px;
@@ -14,15 +14,19 @@
     margin-top: 4px;
   }
 
+  &__menyobjekt {
+    margin-top: 2px;
+  }
+
   &__menyobjekt:hover {
     background-color: @navBla;
     color: white;
   }
 
-  &__menyobjekt:ac {
-    background-color: @navBla;
-    color: white;
-    border: 2px solid black ;
+  &__menyobjekt:focus {
+    box-shadow: 0 0 0 3px @fokusFarge;
+    outline: none;
+    z-index: 15;
   }
 
   &__meny {
@@ -89,12 +93,11 @@
 
 @media (max-width: @screen-md-min) {
   .under-meny {
-    margin: 0rem 1rem 0rem 1rem;
+
     position: relative;
     z-index: 10;
     display: flex;
     flex-direction: column;
-    margin: 0rem;
 
     &__organisasjon {
       display: flex;
