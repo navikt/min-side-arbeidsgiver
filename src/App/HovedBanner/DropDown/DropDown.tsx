@@ -32,8 +32,8 @@ const DropDown: FunctionComponent<Props> = props => {
       setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + "...");
     } else {
       setValgtOrgNavn(valgtOrganisasjon.Name);
-      setErApen(false);
     }
+    setErApen(false);
   }, [valgtOrganisasjon]);
 
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(

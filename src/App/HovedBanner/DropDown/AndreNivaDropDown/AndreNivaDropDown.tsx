@@ -62,7 +62,7 @@ const AndreNivaDropDown: FunctionComponent<
         }}
       >
         {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
-          <AriaMenuButton.Button className={"under-meny__velg-underenhet"}>
+          <AriaMenuButton.Button className={"under-meny__underenhet-valg"}>
             <OrganisasjonsVisning
               hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
             />
