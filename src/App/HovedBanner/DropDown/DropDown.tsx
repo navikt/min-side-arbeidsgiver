@@ -11,8 +11,11 @@ import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvi
 import { tomAltinnOrganisasjon } from "../../../Objekter/organisasjon";
 
 import OrganisasjonsValg from "./AndreNivaDropDown/AndreNivaDropDown";
+
+import OrganisasjonsVisning from "./OrganisasjonsVisning/OrganisasjonsVisning";
+
 import { Undertittel, Element } from "nav-frontend-typografi";
-import bedriftsikon from "../OrganisasjonsVisning/bedriftsikon.svg";
+import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
 import { WrapperState } from "react-aria-menubutton";
 
 interface Props {
@@ -28,12 +31,12 @@ const DropDown: FunctionComponent<Props> = props => {
   const [valgtOrgNavn, setValgtOrgNavn] = useState(" ");
 
   useEffect(() => {
+    setErApen(false);
     if (valgtOrganisasjon.Name.length > 23) {
       setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + "...");
     } else {
       setValgtOrgNavn(valgtOrganisasjon.Name);
     }
-    setErApen(false);
   }, [valgtOrganisasjon]);
 
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
@@ -46,18 +49,30 @@ const DropDown: FunctionComponent<Props> = props => {
           <>
             {" "}
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
-              <div className={"organisasjons-meny__juridisk-enhet"}>
-                <img src={bedriftsikon} />
+              <>
+                <div className={"organisasjons-meny__juridisk-enhet"}>
+                  <img src={bedriftsikon} />
 
-                <div className="organisasjons-meny__juridisk-enhet-tekst">
-                  <Element>{organisasjon.overordnetOrg.Name}</Element>
-                  org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
+                  <div className="organisasjons-meny__juridisk-enhet-tekst">
+                    <Element>{organisasjon.overordnetOrg.Name}</Element>
+                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
+                  </div>
                 </div>
-              </div>
+                <AriaMenuButton.MenuItem>
+                  <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
+                </AriaMenuButton.MenuItem>
+              </>
             )}
-            <AriaMenuButton.MenuItem>
-              <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
-            </AriaMenuButton.MenuItem>
+            {organisasjon.overordnetOrg.Type !== "Enterprise" && (
+              <AriaMenuButton.MenuItem
+                className={"organisasjons-meny__underenhet-valg"}
+                tabIndex={0}
+              >
+                <OrganisasjonsVisning
+                  hovedOrganisasjon={organisasjon.overordnetOrg}
+                />
+              </AriaMenuButton.MenuItem>
+            )}
           </>
         )}
       </>

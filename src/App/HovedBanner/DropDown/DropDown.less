@@ -66,6 +66,22 @@
 
   }
 
+  &__underenhet-valg {
+    background-color: @navLysBlaLighten60;
+  }
+
+  &__underenhet-valg:focus {
+    box-shadow: 0 0 0 3px @fokusFarge;
+    outline: none;
+  }
+
+  &__underenhet-valg:hover {
+    background-color: @navBla;
+    color: white;
+  }
+
+
+
   &__vis-valgt-bedrift{
     width: 100%;
     display: flex;
@@ -129,7 +145,6 @@
   &__juridisk-enhet {
     width: 100%;
     display: flex;
-    heght: 4rem;
     align-items: center;
     flex-wrap: nowrap;
     padding: 0.7rem;

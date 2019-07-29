@@ -2,15 +2,14 @@ import React, { FunctionComponent } from "react";
 import "./OrganisasjonsVisning.less";
 import bedriftsikon from "./bedriftsikon.svg";
 import { Element } from "nav-frontend-typografi";
-
-import { Organisasjon } from "../../../Objekter/organisasjon";
+import { Organisasjon } from "../../../../Objekter/organisasjon";
 
 interface Props {
   className?: string;
   hovedOrganisasjon: Organisasjon;
 }
 
-const OrganisasjonsKnapp: FunctionComponent<Props> = props => {
+const OrganisasjonsVisning: FunctionComponent<Props> = props => {
   return (
     <div className={"ovre-button"}>
       <img src={bedriftsikon} />
@@ -22,4 +21,4 @@ const OrganisasjonsKnapp: FunctionComponent<Props> = props => {
   );
 };
 
-export default OrganisasjonsKnapp;
+export default OrganisasjonsVisning;

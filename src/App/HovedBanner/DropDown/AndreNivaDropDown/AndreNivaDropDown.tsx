@@ -8,8 +8,9 @@ import {
   Organisasjon,
   OverenhetOrganisasjon
 } from "../../../../Objekter/organisasjon";
-import OrganisasjonsVisning from "../../OrganisasjonsVisning/OrganisasjonsVisning";
+
 import { WrapperState } from "react-aria-menubutton";
+import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -61,32 +62,22 @@ const AndreNivaDropDown: FunctionComponent<
           }
         }}
       >
-        {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
-          <AriaMenuButton.Button className={"under-meny__underenhet-valg"}>
-            <OrganisasjonsVisning
-              hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
-            />
-          </AriaMenuButton.Button>
-        )}
-
-        {props.hovedOrganisasjon.overordnetOrg.Type === "Enterprise" && (
-          <AriaMenuButton.Button className={"under-meny__nedre-button"}>
-            {!erApen && (
-              <>
-                <NedChevron className="under-meny__nedre-button-chevron" />
-                Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
-                underenheter
-              </>
-            )}
-            {erApen && (
-              <>
-                <OppChevron className="under-meny__nedre-button-chevron" />
-                Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
-                underenheter
-              </>
-            )}
-          </AriaMenuButton.Button>
-        )}
+        <AriaMenuButton.Button className={"under-meny__nedre-button"}>
+          {!erApen && (
+            <>
+              <NedChevron className="under-meny__nedre-button-chevron" />
+              Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
+              underenheter
+            </>
+          )}
+          {erApen && (
+            <>
+              <OppChevron className="under-meny__nedre-button-chevron" />
+              Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
+              underenheter
+            </>
+          )}
+        </AriaMenuButton.Button>
 
         <div className="under-meny__meny-wrapper">
           <AriaMenuButton.Menu className={"under-meny"}>
