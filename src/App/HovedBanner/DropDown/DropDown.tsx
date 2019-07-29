@@ -8,7 +8,10 @@ import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
-import { tomAltinnOrganisasjon } from "../../../Objekter/organisasjon";
+import {
+  OverenhetOrganisasjon,
+  tomAltinnOrganisasjon
+} from "../../../Objekter/organisasjon";
 
 import OrganisasjonsValg from "./AndreNivaDropDown/AndreNivaDropDown";
 
@@ -17,6 +20,7 @@ import OrganisasjonsVisning from "./OrganisasjonsVisning/OrganisasjonsVisning";
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
 import { WrapperState } from "react-aria-menubutton";
+import { withRouter, RouteComponentProps } from "react-router";
 
 interface Props {
   className?: string;
@@ -24,11 +28,17 @@ interface Props {
 
 const AriaMenuButton = require("react-aria-menubutton");
 
-const DropDown: FunctionComponent<Props> = props => {
+const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
   const { organisasjonstre } = useContext(OrganisasjonsListeContext);
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [erApen, setErApen] = useState(false);
   const [valgtOrgNavn, setValgtOrgNavn] = useState(" ");
+
+  const setOrganisasjonHvisUnderEnhet = (org: OverenhetOrganisasjon) => {
+    if (org.overordnetOrg.Type !== "Enterprise") {
+      props.history.push("/" + org.overordnetOrg.OrganizationNumber);
+    }
+  };
 
   useEffect(() => {
     setErApen(false);
@@ -58,7 +68,7 @@ const DropDown: FunctionComponent<Props> = props => {
                     org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
                   </div>
                 </div>
-                <AriaMenuButton.MenuItem>
+                <AriaMenuButton.MenuItem value={organisasjon}>
                   <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
                 </AriaMenuButton.MenuItem>
               </>
@@ -67,6 +77,7 @@ const DropDown: FunctionComponent<Props> = props => {
               <AriaMenuButton.MenuItem
                 className={"organisasjons-meny__underenhet-valg"}
                 tabIndex={0}
+                value={organisasjon}
               >
                 <OrganisasjonsVisning
                   hovedOrganisasjon={organisasjon.overordnetOrg}
@@ -86,6 +97,9 @@ const DropDown: FunctionComponent<Props> = props => {
         style={{ marginTop: 20 }}
         onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
         closeOnSelection={false}
+        onSelection={(value: OverenhetOrganisasjon) =>
+          setOrganisasjonHvisUnderEnhet(value)
+        }
         id={"wrapper-id"}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
@@ -123,4 +137,4 @@ const DropDown: FunctionComponent<Props> = props => {
   );
 };
 
-export default DropDown;
+export default withRouter(DropDown);
