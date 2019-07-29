@@ -50,6 +50,7 @@ const AndreNivaDropDown: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
         closeOnSelection={false}
         onMenuToggle={(erApen: WrapperState) => {
+          console.log("onToggle kalt");
           setErApen(erApen.isOpen);
           if (props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise") {
             settUrl(props.hovedOrganisasjon.overordnetOrg.OrganizationNumber);
@@ -61,9 +62,11 @@ const AndreNivaDropDown: FunctionComponent<
         }}
       >
         {props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise" && (
-          <OrganisasjonsVisning
-            hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
-          />
+          <AriaMenuButton.Button>
+            <OrganisasjonsVisning
+              hovedOrganisasjon={props.hovedOrganisasjon.overordnetOrg}
+            />
+          </AriaMenuButton.Button>
         )}
 
         {props.hovedOrganisasjon.overordnetOrg.Type === "Enterprise" && (
