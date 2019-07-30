@@ -51,7 +51,7 @@ const AndreNivaDropDown: FunctionComponent<
         onSelection={(value: string) => settUrl(value)}
         closeOnSelection={false}
         onMenuToggle={(erApen: WrapperState) => {
-          console.log("onToggle kalt");
+          console.log("onToggle kalt i andreniva");
           setErApen(erApen.isOpen);
           if (props.hovedOrganisasjon.overordnetOrg.Type !== "Enterprise") {
             settUrl(props.hovedOrganisasjon.overordnetOrg.OrganizationNumber);

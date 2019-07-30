@@ -37,11 +37,13 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
   const setOrganisasjonHvisUnderEnhet = (org: OverenhetOrganisasjon) => {
     if (org.overordnetOrg.Type !== "Enterprise") {
       props.history.push("/" + org.overordnetOrg.OrganizationNumber);
+      setErApen(false);
     }
   };
 
   useEffect(() => {
     setErApen(false);
+    console.log("useEffect i dropdown kalt");
     if (valgtOrganisasjon.Name.length > 23) {
       setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + "...");
     } else {
@@ -95,7 +97,10 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
       <AriaMenuButton.Wrapper
         className="organisasjons-meny__wrapper"
         style={{ marginTop: 20 }}
-        onMenuToggle={(erApen: WrapperState) => setErApen(erApen.isOpen)}
+        onMenuToggle={(erApen: WrapperState) => {
+          setErApen(erApen.isOpen);
+          console.log("menutoggle kalt i fortsenivadropdown, erApen:", erApen);
+        }}
         closeOnSelection={false}
         onSelection={(value: OverenhetOrganisasjon) =>
           setOrganisasjonHvisUnderEnhet(value)
