@@ -62,12 +62,9 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
               <>
                 <div className={"organisasjons-meny__juridisk-enhet"}>
-                  <img src={bedriftsikon} />
-
-                  <div className="organisasjons-meny__juridisk-enhet-tekst">
-                    <Element>{organisasjon.overordnetOrg.Name}</Element>
-                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
-                  </div>
+                  <OrganisasjonsVisning
+                    hovedOrganisasjon={organisasjon.overordnetOrg}
+                  />
                 </div>
                 <AriaMenuButton.MenuItem value={organisasjon}>
                   <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
