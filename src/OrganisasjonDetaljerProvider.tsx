@@ -72,7 +72,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
 
   const endreOrganisasjon = async (org: Organisasjon) => {
     let antallTilganger = 0;
-    console.log("endre org kallt med: ", org.Name);
     await setValgtOrganisasjon(org);
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
@@ -104,7 +103,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     if (antallTilganger > 0 || tilgangTilSyfoState === TilgangSyfo.TILGANG) {
       setHarNoenTilganger(true);
     }
-    console.log("antall tilganger: ", antallTilganger);
   };
 
   let defaultContext: Context = {

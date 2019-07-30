@@ -30,7 +30,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
       );
       setorganisasjonstre(toDim);
     };
-    console.log(organisasjonstre);
     getOrganisasjoner();
   }, []);
 

@@ -43,7 +43,6 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
 
   useEffect(() => {
     setErApen(false);
-    console.log("useEffect i dropdown kalt");
     if (valgtOrganisasjon.Name.length > 23) {
       setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + "...");
     } else {
@@ -99,7 +98,6 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
         style={{ marginTop: 20 }}
         onMenuToggle={(erApen: WrapperState) => {
           setErApen(erApen.isOpen);
-          console.log("menutoggle kalt i fortsenivadropdown, erApen:", erApen);
         }}
         closeOnSelection={false}
         onSelection={(value: OverenhetOrganisasjon) =>

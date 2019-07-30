@@ -34,7 +34,6 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
         setTilgangTilSyfoState(TilgangSyfo.TILGANG);
         setSyfoOppgaverState(await hentSyfoOppgaver());
         const syfoAnsatteArray = await hentNarmesteAnsate();
-        console.log("syfoAnsatteArray", syfoAnsatteArray);
         setSyfoAnsatteState(syfoAnsatteArray.length);
       } else {
         setTilgangTilSyfoState(TilgangSyfo.IKKE_TILGANG);
