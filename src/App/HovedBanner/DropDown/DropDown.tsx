@@ -5,6 +5,7 @@ import React, {
   useEffect
 } from "react";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
+import { Collapse } from "react-collapse";
 
 import "./DropDown.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
@@ -19,6 +20,7 @@ import OrganisasjonsVisning from "./OrganisasjonsVisning/OrganisasjonsVisning";
 
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
+import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-bedrift.svg";
 import { WrapperState } from "react-aria-menubutton";
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -62,9 +64,11 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
             {organisasjon.overordnetOrg.Type === "Enterprise" && (
               <>
                 <div className={"organisasjons-meny__juridisk-enhet"}>
-                  <OrganisasjonsVisning
-                    hovedOrganisasjon={organisasjon.overordnetOrg}
-                  />
+                  <img src={bedriftsikon} />
+                  <div className="organisasjons-meny__juridisk-enhet-tekst">
+                    <Element>{organisasjon.overordnetOrg.Name}</Element>
+                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
+                  </div>
                 </div>
                 <AriaMenuButton.MenuItem value={organisasjon}>
                   <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
@@ -104,7 +108,14 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
-            <img src={bedriftsikon} />
+            <img
+              className={"organisasjons-meny__button__bedrifts-ikon"}
+              src={bedriftsikon}
+            />
+            <img
+              className={"organisasjons-meny__button__hvitt-ikon"}
+              src={hvittbedriftsikon}
+            />
             <div className="organisasjons-meny__button-tekst">
               <Element>{valgtOrgNavn}</Element>
               org. nr. {valgtOrganisasjon.OrganizationNumber}
@@ -118,19 +129,21 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
               : "organisasjons-meny__wrapper-lukket"
           }
         >
-          <AriaMenuButton.Menu className={"organisasjons-meny"}>
-            <div className={"organisasjons-meny__vis-valgt-bedrift"}>
-              <img src={bedriftsikon} />
-              <div className="organisasjons-meny__vis-valgt-bedrift-tekst">
-                <Undertittel>{valgtOrganisasjon.Name}</Undertittel>
-                org. nr. {valgtOrganisasjon.OrganizationNumber}
+          <Collapse isOpened={true || false}>
+            <AriaMenuButton.Menu className={"organisasjons-meny"}>
+              <div className={"organisasjons-meny__vis-valgt-bedrift"}>
+                <img src={bedriftsikon} />
+                <div className="organisasjons-meny__vis-valgt-bedrift-tekst">
+                  <Undertittel>{valgtOrganisasjon.Name}</Undertittel>
+                  org. nr. {valgtOrganisasjon.OrganizationNumber}
+                </div>
               </div>
-            </div>
-            <Undertittel className={"organisasjons-meny__dine-aktorer-tekst"}>
-              Dine aktører{" "}
-            </Undertittel>
-            {OrganisasjonsMenyKomponenter}
-          </AriaMenuButton.Menu>
+              <Undertittel className={"organisasjons-meny__dine-aktorer-tekst"}>
+                Dine aktører{" "}
+              </Undertittel>
+              {OrganisasjonsMenyKomponenter}
+            </AriaMenuButton.Menu>
+          </Collapse>
         </div>
       </AriaMenuButton.Wrapper>
     </div>
