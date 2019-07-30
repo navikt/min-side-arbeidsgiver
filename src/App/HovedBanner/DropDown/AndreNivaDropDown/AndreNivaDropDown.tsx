@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useState } from "react";
 import "./AndreNivaDropDown.less";
+import { Collapse } from "react-collapse";
 
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -75,9 +76,11 @@ const AndreNivaDropDown: FunctionComponent<
         </AriaMenuButton.Button>
 
         <div className="under-meny__meny-wrapper">
-          <AriaMenuButton.Menu className={"under-meny"}>
-            {OrganisasjonsMenyKomponenter}
-          </AriaMenuButton.Menu>
+          <Collapse isOpened={true || false}>
+            <AriaMenuButton.Menu className={"under-meny"}>
+              {OrganisasjonsMenyKomponenter}
+            </AriaMenuButton.Menu>
+          </Collapse>
         </div>
       </AriaMenuButton.Wrapper>
     </div>
