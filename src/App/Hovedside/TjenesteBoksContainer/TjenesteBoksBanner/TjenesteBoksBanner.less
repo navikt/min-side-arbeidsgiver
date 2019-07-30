@@ -5,9 +5,10 @@
   background-color: @navBlaLighten80;
   align-self: stretch;
   align-elemtents: center;
-  height: 5rem;
-  padding-left: 1.5rem;
-  flex-grow: 1;
+  height: 4rem;
+  border-radius: 4px 4px 0 0;
+  padding-left: 1rem;
+  flex-shrink: 0;
   position: relative;
 
   &__ikon {
@@ -43,3 +44,8 @@
 
 }
 
+@media (min-width: @screen-md-min) {
+  .tjeneste-boks-banner {
+    padding-left: 1.5rem;
+    }
+  }
