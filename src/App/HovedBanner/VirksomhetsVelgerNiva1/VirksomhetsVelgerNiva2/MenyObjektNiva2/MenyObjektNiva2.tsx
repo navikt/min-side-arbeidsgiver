@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from "react";
+import "./MenyObjektNiva2.less";
 
 import { Organisasjon } from "../../../../../Objekter/organisasjon";
 import OrganisasjonsVisning from "../../OrganisasjonsVisning/OrganisasjonsVisning";

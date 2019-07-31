@@ -12,6 +12,7 @@ import {
 
 import { WrapperState } from "react-aria-menubutton";
 import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
+import MenyObjektNiva2 from "./MenyObjektNiva2/MenyObjektNiva2";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -31,24 +32,14 @@ const AndreNivaDropDown: FunctionComponent<
 
   const OrganisasjonsMenyKomponenter = props.hovedOrganisasjon.UnderOrganisasjoner.map(
     function(organisasjon: Organisasjon) {
-      return (
-        <AriaMenuButton.MenuItem
-          key={organisasjon.OrganizationNumber}
-          value={organisasjon.OrganizationNumber}
-          text={organisasjon.Name}
-          tabIndex={0}
-          className="under-meny__menyobjekt"
-        >
-          <OrganisasjonsVisning hovedOrganisasjon={organisasjon} />
-        </AriaMenuButton.MenuItem>
-      );
+      return <MenyObjektNiva2 UnderEnhet={organisasjon} />;
     }
   );
 
   return (
-    <div className="under-meny">
+    <div className="virksomhets-velger-niva-2">
       <AriaMenuButton.Wrapper
-        className="under-meny__wrapper"
+        className="virksomhets-velger-niva-2__wrapper"
         onSelection={(value: string) => settUrl(value)}
         closeOnSelection={false}
         onMenuToggle={(erApen: WrapperState) => {
@@ -58,26 +49,28 @@ const AndreNivaDropDown: FunctionComponent<
           }
         }}
       >
-        <AriaMenuButton.Button className={"under-meny__nedre-button"}>
+        <AriaMenuButton.Button
+          className={"virksomhets-velger-niva-2__nedre-button"}
+        >
           {!erApen && (
             <>
-              <NedChevron className="under-meny__nedre-button-chevron" />
+              <NedChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
               Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
               underenheter
             </>
           )}
           {erApen && (
             <>
-              <OppChevron className="under-meny__nedre-button-chevron" />
+              <OppChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
               Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length}{" "}
               underenheter
             </>
           )}
         </AriaMenuButton.Button>
 
-        <div className="under-meny__meny-wrapper">
+        <div className="virksomhets-velger-niva-2__meny-wrapper">
           <Collapse isOpened={true || false}>
-            <AriaMenuButton.Menu className={"under-meny"}>
+            <AriaMenuButton.Menu className={"virksomhets-velger-niva-2"}>
               {OrganisasjonsMenyKomponenter}
             </AriaMenuButton.Menu>
           </Collapse>
