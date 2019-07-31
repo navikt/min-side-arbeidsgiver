@@ -57,7 +57,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
   });
 
   return (
-    <div className={"organisasjons-meny noselect" + props.className}>
+    <div className={"organisasjons-meny " + props.className}>
       <AriaMenuButton.Wrapper
         className="organisasjons-meny__wrapper"
         style={{ marginTop: 20 }}
@@ -68,7 +68,6 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
         onSelection={(value: OverenhetOrganisasjon) =>
           setOrganisasjonHvisUnderEnhet(value)
         }
-        id={"wrapper-id"}
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">

@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from "react";
-import "./OrganisasjonsVisning.less";
 import bedriftsikon from "./bedriftsikon.svg";
 import hvittbedriftsikon from "./hvit-bedrift.svg";
 import { Element } from "nav-frontend-typografi";

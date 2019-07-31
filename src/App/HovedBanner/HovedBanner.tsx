@@ -78,7 +78,6 @@ const Banner: FunctionComponent<
           <Sidetittel className={"banner__sidetittel"}>
             Min Side Arbeidsgiver
           </Sidetittel>
-
           <div className="banner__drop-down-container">
             <VirksomhetsVelgerNiva1 className={"banner__organisasjoner"} />
           </div>
