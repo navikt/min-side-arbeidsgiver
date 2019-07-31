@@ -5,6 +5,7 @@ import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerPr
 import "./MenyObjekt.less";
 import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
 import VirksomhetsVelgerNiva2 from "./VirksomhetsVelgerNiva2/VirksomhetsVelgerNiva2";
+
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {

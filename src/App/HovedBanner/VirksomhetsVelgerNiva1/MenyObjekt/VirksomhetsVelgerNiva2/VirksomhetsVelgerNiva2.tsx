@@ -1,18 +1,14 @@
 import React, { FunctionComponent, useState } from "react";
 import "./VirksomhetsVelgerNiva2.less";
 import { Collapse } from "react-collapse";
-
 import { withRouter, RouteComponentProps } from "react-router";
-
 import { NedChevron, OppChevron } from "nav-frontend-chevron";
+import { WrapperState } from "react-aria-menubutton";
+import MenyObjektNiva2 from "./MenyObjektNiva2/MenyObjektNiva2";
 import {
   Organisasjon,
   OverenhetOrganisasjon
-} from "../../../../Objekter/organisasjon";
-
-import { WrapperState } from "react-aria-menubutton";
-import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
-import MenyObjektNiva2 from "./MenyObjektNiva2/MenyObjektNiva2";
+} from "../../../../../Objekter/organisasjon";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
