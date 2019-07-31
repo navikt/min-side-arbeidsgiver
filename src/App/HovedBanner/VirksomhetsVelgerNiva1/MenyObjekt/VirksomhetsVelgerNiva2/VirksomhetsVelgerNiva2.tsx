@@ -66,7 +66,7 @@ const AndreNivaDropDown: FunctionComponent<
 
         <div className="virksomhets-velger-niva-2__meny-wrapper">
           <Collapse isOpened={true || false}>
-            <AriaMenuButton.Menu className={"virksomhets-velger-niva-2"}>
+            <AriaMenuButton.Menu className={"virksomhets-velger-niva-2__meny"}>
               {OrganisasjonsMenyKomponenter}
             </AriaMenuButton.Menu>
           </Collapse>

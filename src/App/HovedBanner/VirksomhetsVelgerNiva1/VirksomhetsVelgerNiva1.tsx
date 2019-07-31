@@ -104,7 +104,9 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
               <Undertittel className={"organisasjons-meny__dine-aktorer-tekst"}>
                 Dine aktører{" "}
               </Undertittel>
-              {OrganisasjonsMenyKomponenter}
+              <div className={"organisasjons-meny__meny-komponenter-container"}>
+                {OrganisasjonsMenyKomponenter}
+              </div>
             </AriaMenuButton.Menu>
           </Collapse>
         </div>
