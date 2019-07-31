@@ -1,0 +1,64 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.meny-objekt {
+
+  &__juridisk-enhet {
+    width: 100%;
+    display: flex;
+    heght: 4rem;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0.7rem;
+    background-color: @navLysBlaLighten60;
+    border-top: 4px solid white;
+
+    &__hvitt-ikon {
+      display: none;
+
+    }
+
+    &__tekst {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-left: 1rem;
+      flex-wrap: nowrap;
+    }
+
+  }
+
+  &__under-enhet {
+    width: 100%;
+    display: flex;
+    heght: 4rem;
+    align-items: center;
+    flex-wrap: nowrap;
+    padding: 0.7rem;
+    background-color: @navLysBlaLighten60;
+    border-top: 4px solid white;
+
+    &__hvitt-ikon {
+      display: none;
+    }
+
+    &__tekst {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      margin-left: 1rem;
+      flex-wrap: nowrap;
+    }
+
+    &__under-enhet:hover .meny-objekt__under-enhet__bedrifts-ikon {
+      display: none;
+    }
+
+    &__under-enhet:hover .meny-objekt__under-enhet__hvitt-ikon {
+      display: initial;
+    }
+
+  }
+
+}
+
+

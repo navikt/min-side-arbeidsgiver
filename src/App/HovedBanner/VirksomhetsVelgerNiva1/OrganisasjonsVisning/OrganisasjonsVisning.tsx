@@ -12,10 +12,13 @@ interface Props {
 
 const OrganisasjonsVisning: FunctionComponent<Props> = props => {
   return (
-    <div className={"organisasjons-visning"}>
-      <img className={"bedrifts-ikon"} src={bedriftsikon} />
-      <img className={"hvitt-ikon"} src={hvittbedriftsikon} />
-      <div className="organisasjons-visning__tekst">
+    <div className={props.className}>
+      <img className={props.className + "__bedrifts-ikon"} src={bedriftsikon} />
+      <img
+        className={props.className + "__hvitt-ikon"}
+        src={hvittbedriftsikon}
+      />
+      <div className={props.className + "__tekst"}>
         <Element>{props.hovedOrganisasjon.Name}</Element>
         org. nr. {props.hovedOrganisasjon.OrganizationNumber}
       </div>

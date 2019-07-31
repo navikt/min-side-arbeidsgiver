@@ -6,31 +6,31 @@ import React, {
 } from "react";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 import { Collapse } from "react-collapse";
+import { withRouter, RouteComponentProps } from "react-router";
 
-import "./DropDown.less";
+import "./VirksomhetsVelgerNiva1.less";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import {
   OverenhetOrganisasjon,
   tomAltinnOrganisasjon
 } from "../../../Objekter/organisasjon";
-
-import OrganisasjonsValg from "./AndreNivaDropDown/AndreNivaDropDown";
-
+import OrganisasjonsValg from "./VirksomhetsVelgerNiva2/VirksomhetsVelgerNiva2";
 import OrganisasjonsVisning from "./OrganisasjonsVisning/OrganisasjonsVisning";
 
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
 import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-bedrift.svg";
 import { WrapperState } from "react-aria-menubutton";
-import { withRouter, RouteComponentProps } from "react-router";
+import MenyObjekt from "./MenyObjekt/MenyObjekt";
+const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
   className?: string;
 }
 
-const AriaMenuButton = require("react-aria-menubutton");
-
-const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
+const VirksomhetsVelgerNiva1: FunctionComponent<
+  Props & RouteComponentProps
+> = props => {
   const { organisasjonstre } = useContext(OrganisasjonsListeContext);
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [erApen, setErApen] = useState(false);
@@ -55,41 +55,7 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon
   ) {
-    return (
-      <>
-        {organisasjon.overordnetOrg.OrganizationNumber !==
-          valgtOrganisasjon.OrganizationNumber && (
-          <>
-            {" "}
-            {organisasjon.overordnetOrg.Type === "Enterprise" && (
-              <>
-                <div className={"organisasjons-meny__juridisk-enhet"}>
-                  <img src={bedriftsikon} />
-                  <div className="organisasjons-meny__juridisk-enhet-tekst">
-                    <Element>{organisasjon.overordnetOrg.Name}</Element>
-                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
-                  </div>
-                </div>
-                <AriaMenuButton.MenuItem value={organisasjon}>
-                  <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
-                </AriaMenuButton.MenuItem>
-              </>
-            )}
-            {organisasjon.overordnetOrg.Type !== "Enterprise" && (
-              <AriaMenuButton.MenuItem
-                className={"organisasjons-meny__underenhet-valg"}
-                tabIndex={0}
-                value={organisasjon}
-              >
-                <OrganisasjonsVisning
-                  hovedOrganisasjon={organisasjon.overordnetOrg}
-                />
-              </AriaMenuButton.MenuItem>
-            )}
-          </>
-        )}
-      </>
-    );
+    return <MenyObjekt organisasjon={organisasjon} />;
   });
 
   return (
@@ -150,4 +116,4 @@ const DropDown: FunctionComponent<Props & RouteComponentProps> = props => {
   );
 };
 
-export default withRouter(DropDown);
+export default withRouter(VirksomhetsVelgerNiva1);

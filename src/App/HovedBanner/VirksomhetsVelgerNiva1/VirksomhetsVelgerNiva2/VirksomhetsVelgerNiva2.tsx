@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import "./AndreNivaDropDown.less";
+import "./VirksomhetsVelgerNiva2.less";
 import { Collapse } from "react-collapse";
 
 import { withRouter, RouteComponentProps } from "react-router";
