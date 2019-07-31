@@ -12,7 +12,7 @@ interface Props {
 
 const OrganisasjonsVisning: FunctionComponent<Props> = props => {
   return (
-    <div className={props.className}>
+    <>
       <img className={props.className + "__bedrifts-ikon"} src={bedriftsikon} />
       <img
         className={props.className + "__hvitt-ikon"}
@@ -22,7 +22,7 @@ const OrganisasjonsVisning: FunctionComponent<Props> = props => {
         <Element>{props.hovedOrganisasjon.Name}</Element>
         org. nr. {props.hovedOrganisasjon.OrganizationNumber}
       </div>
-    </div>
+    </>
   );
 };
 

@@ -55,7 +55,41 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon
   ) {
-    return <MenyObjekt organisasjon={organisasjon} />;
+    return (
+      <MenyObjekt organisasjon={organisasjon}>
+        {organisasjon.overordnetOrg.OrganizationNumber !==
+          valgtOrganisasjon.OrganizationNumber && (
+          <>
+            {" "}
+            {organisasjon.overordnetOrg.Type === "Enterprise" && (
+              <>
+                <div className={"organisasjons-meny__juridisk-enhet"}>
+                  <img src={bedriftsikon} />
+                  <div className="organisasjons-meny__juridisk-enhet-tekst">
+                    <Element>{organisasjon.overordnetOrg.Name}</Element>
+                    org. nr. {organisasjon.overordnetOrg.OrganizationNumber}
+                  </div>
+                </div>
+                <AriaMenuButton.MenuItem value={organisasjon}>
+                  <OrganisasjonsValg hovedOrganisasjon={organisasjon} />
+                </AriaMenuButton.MenuItem>
+              </>
+            )}
+            {organisasjon.overordnetOrg.Type !== "Enterprise" && (
+              <AriaMenuButton.MenuItem
+                className={"organisasjons-meny__underenhet-valg"}
+                tabIndex={0}
+                value={organisasjon}
+              >
+                <OrganisasjonsVisning
+                  hovedOrganisasjon={organisasjon.overordnetOrg}
+                />
+              </AriaMenuButton.MenuItem>
+            )}
+          </>
+        )}
+      </MenyObjekt>
+    );
   });
 
   return (

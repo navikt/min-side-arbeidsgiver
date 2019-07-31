@@ -22,15 +22,14 @@ const MenyObjekt: FunctionComponent<Props> = props => {
           {" "}
           {props.organisasjon.overordnetOrg.Type === "Enterprise" && (
             <>
-              <OrganisasjonsVisning
-                hovedOrganisasjon={props.organisasjon.overordnetOrg}
-                className={"meny-objekt__juridisk-enhet"}
-              />
-              <AriaMenuButton.MenuItem value={props.organisasjon}>
-                <VirksomhetsVelgerNiva2
-                  hovedOrganisasjon={props.organisasjon}
+              <div className={"meny-objekt__juridisk-enhet"}>
+                <OrganisasjonsVisning
+                  hovedOrganisasjon={props.organisasjon.overordnetOrg}
+                  className={"meny-objekt__juridisk-enhet"}
                 />
-              </AriaMenuButton.MenuItem>
+                <AriaMenuButton.MenuItem value={props.organisasjon} />
+              </div>
+              <VirksomhetsVelgerNiva2 hovedOrganisasjon={props.organisasjon} />
             </>
           )}
           {props.organisasjon.overordnetOrg.Type !== "Enterprise" && (
