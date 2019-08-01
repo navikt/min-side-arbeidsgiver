@@ -25,7 +25,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
           return organisasjon.OrganizationForm === "BEDR";
         })
       );
-      const toDim: Array<OverenhetOrganisasjon> = lagToDimensjonalArray(
+      const toDim: Array<OverenhetOrganisasjon> = await lagToDimensjonalArray(
         organisasjoner
       );
       setorganisasjonstre(toDim);

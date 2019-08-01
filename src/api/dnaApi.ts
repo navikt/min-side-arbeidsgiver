@@ -1,11 +1,16 @@
-import { Organisasjon, OverenhetOrganisasjon } from "../Objekter/organisasjon";
+import {
+  Organisasjon,
+  OverenhetOrganisasjon,
+  tomAltinnOrganisasjon
+} from "../Objekter/organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import {
   digiSyfoNarmesteLederLink,
   hentArbeidsavtalerApiLink
 } from "../lenker";
-
+import { EnhetsregisteretOrg } from "../Objekter/enhetsregisteretOrg";
 import { logInfo } from "../utils/metricsUtils";
+import { hentOverordnetEnhet } from "./enhetsregisteretApi";
 
 export interface Rolle {
   RoleType: string;
@@ -38,9 +43,9 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
   }
 }
 
-export function lagToDimensjonalArray(
+export async function lagToDimensjonalArray(
   organisasjoner: Organisasjon[]
-): OverenhetOrganisasjon[] {
+): Promise<OverenhetOrganisasjon[]> {
   let juridiskeEnheter = organisasjoner.filter(function(
     organisasjon: Organisasjon
   ) {
@@ -69,12 +74,20 @@ export function lagToDimensjonalArray(
       UnderOrganisasjoner: underenheter
     };
   });
-  utenTilgangTilJuridiskEnhetBedrifter.forEach(organisasjon => {
+  utenTilgangTilJuridiskEnhetBedrifter.forEach(async organisasjon => {
     if (organisasjon.OrganizationForm === "BEDR") {
+      const overordnetEnhetEReg: EnhetsregisteretOrg = await hentOverordnetEnhet(
+        organisasjon.OrganizationNumber
+      );
+      let overordnetAltinnOrg: Organisasjon = tomAltinnOrganisasjon;
+      overordnetAltinnOrg.OrganizationNumber =
+        overordnetEnhetEReg.organisasjonsnummer;
+      overordnetAltinnOrg.Name = overordnetEnhetEReg.navn;
       organisasjonsliste.push({
-        overordnetOrg: organisasjon,
-        UnderOrganisasjoner: []
+        overordnetOrg: overordnetAltinnOrg,
+        UnderOrganisasjoner: [organisasjon]
       });
+      organisasjon.OrganizationNumber = overordnetEnhetEReg.organisasjonsnummer;
     }
   });
 
