@@ -17,12 +17,26 @@ interface Props {
 
 const Sokefelt: FunctionComponent<Props> = props => {
   const { organisasjonstre } = useContext(OrganisasjonsListeContext);
+  const [inputTekst, setInputTekst] = useState("");
 
-  const LagListeBasertPaSok = (orgnr: string) => {};
+  const HentTekstOgSettState = (event: any) => {
+    setInputTekst(event.currentTarget.value);
+  };
+
+  useEffect(() => {
+    //if (document.getElementById("input-felt").value) !== null {
+    //console.log(document.getElementById("input-felt").value);
+  }, []);
+
+  const LagListeBasertPaSok = () => {};
 
   return (
     <Innholdsboks>
-      <input type="text" name="FirstName" />
+      <Input
+        label={"tekst over"}
+        value={inputTekst}
+        onChange={HentTekstOgSettState}
+      />
     </Innholdsboks>
   );
 };
