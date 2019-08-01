@@ -53,7 +53,21 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
   const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(
     organisasjon
   ) {
-    return <MenyObjekt organisasjon={organisasjon} />;
+    if (organisasjon === organisasjonstre[0]) {
+      return (
+        <MenyObjekt
+          organisasjon={organisasjon}
+          className={"meny-objekt__juridisk-enhet"}
+        />
+      );
+    } else {
+      return (
+        <MenyObjekt
+          organisasjon={organisasjon}
+          className={"meny-objekt__juridisk-enhet ikke-forst"}
+        />
+      );
+    }
   });
 
   return (

@@ -7,14 +7,14 @@ import VirksomhetsVelgerNiva2 from "./VirksomhetsVelgerNiva2/VirksomhetsVelgerNi
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
-  className?: string;
+  className: string;
   organisasjon: OverenhetOrganisasjon;
 }
 
 const MenyObjekt: FunctionComponent<Props> = props => {
   return (
     <>
-      <div className={"meny-objekt__juridisk-enhet"}>
+      <div className={props.className}>
         <OrganisasjonsVisning
           hovedOrganisasjon={props.organisasjon.overordnetOrg}
           className={"meny-objekt__juridisk-enhet"}
