@@ -4315,6 +4315,11 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
+fuzzysort@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/fuzzysort/-/fuzzysort-1.1.4.tgz#a0510206ed44532cbb52cf797bf5a3cb12acd4ba"
+  integrity sha512-JzK/lHjVZ6joAg3OnCjylwYXYVjRiwTY6Yb25LvfpJHK8bjisfnZJ5bY8aVWwTwCXgxPNgLAtmHL+Hs5q1ddLQ==
+
 gauge@~2.7.3:
   version "2.7.4"
   resolved "https://registry.yarnpkg.com/gauge/-/gauge-2.7.4.tgz#2c03405c7538c39d7eb37b317022e325fb018bf7"
@@ -6590,15 +6595,15 @@ nav-frontend-paneler@^1.0.17:
   resolved "https://registry.yarnpkg.com/nav-frontend-paneler/-/nav-frontend-paneler-1.0.17.tgz#7f3d4de752633428e13f5b1eec6ef761262e941a"
   integrity sha512-1ASPwIraZIbsZa+iIx9Dafztu//8DXf6MBvy02tcitEhfaRRK00/Jf26HdFAbwbdvRHqjXFDGi8KiumFaHZb1g==
 
-nav-frontend-skjema-style@^1.0.37:
+nav-frontend-skjema-style@^1.0.40:
   version "1.0.40"
   resolved "https://registry.yarnpkg.com/nav-frontend-skjema-style/-/nav-frontend-skjema-style-1.0.40.tgz#fd9dc74eaf5881bdbddfe8e2ec0cba424f48c4dc"
   integrity sha512-/r7rycF2ihrcSD8QPPdNNGxHI2gkFBibT5ipsxu4512GxNowNDfBriZ9H3FHIN3RRklEsLKTytVDaDjXHenolQ==
 
-nav-frontend-skjema@^1.0.57:
-  version "1.0.65"
-  resolved "https://registry.yarnpkg.com/nav-frontend-skjema/-/nav-frontend-skjema-1.0.65.tgz#2453f201cccc8887e64cbc11148daee8e7a0279e"
-  integrity sha512-2+iT5961FjpWGNz1iMAFGWClJkp8S7XCdCQYM+e0JuLB995aoxq3fPZgTQcqI4f8tOCXpOXr7RyeR0dEauLb8g==
+nav-frontend-skjema@^1.0.67:
+  version "1.0.67"
+  resolved "https://registry.yarnpkg.com/nav-frontend-skjema/-/nav-frontend-skjema-1.0.67.tgz#6af322e271b84c1b3df0feb9c84f4710133e2bde"
+  integrity sha512-IHUBUBsbzfAF6TCdHNrBe6bdqMbUYEW/6QYmJ9Y0nhO/tMOASFq8ugBlAW8xuO1iEBUd3k3VJEtIOBN7uWwltg==
 
 nav-frontend-snakkeboble-style@^0.2.19:
   version "0.2.19"

@@ -4,16 +4,27 @@ import React, {
   useState,
   useEffect
 } from "react";
-import { WrapperState } from "react-aria-menubutton";
-import TjenesteBoksContainer from "../../Hovedside/TjenesteBoksContainer/TjenesteBoksContainer";
+import { Input } from "nav-frontend-skjema";
+import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
+import { OverenhetOrganisasjon } from "../../../Objekter/organisasjon";
+import Innholdsboks from "../../Hovedside/Innholdsboks/Innholdsboks";
+const fuzzysort = require("fuzzysort");
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
   className?: string;
 }
 
-const VirksomhetsVelgerNiva1: FunctionComponent<Props> = props => {
-  return <AriaMenuButton.Menu />;
+const Sokefelt: FunctionComponent<Props> = props => {
+  const { organisasjonstre } = useContext(OrganisasjonsListeContext);
+
+  const LagListeBasertPaSok = (orgnr: string) => {};
+
+  return (
+    <Innholdsboks>
+      <input type="text" name="FirstName" />
+    </Innholdsboks>
+  );
 };
 
-export default VirksomhetsVelgerNiva1;
+export default Sokefelt;

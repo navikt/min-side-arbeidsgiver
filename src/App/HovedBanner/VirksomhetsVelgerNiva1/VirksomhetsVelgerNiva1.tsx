@@ -20,6 +20,7 @@ import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
 import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-bedrift.svg";
 import { WrapperState } from "react-aria-menubutton";
 import MenyObjekt from "./MenyObjekt/MenyObjekt";
+import Sokefelt from "../Søkefelt/Søkefelt";
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
@@ -118,6 +119,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
               <Undertittel className={"organisasjons-meny__dine-aktorer-tekst"}>
                 Dine aktører{" "}
               </Undertittel>
+              <Sokefelt />
               <div className={"organisasjons-meny__meny-komponenter-container"}>
                 {OrganisasjonsMenyKomponenter}
               </div>
