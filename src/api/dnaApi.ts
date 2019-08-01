@@ -83,13 +83,22 @@ export async function lagToDimensjonalArray(
       overordnetAltinnOrg.OrganizationNumber =
         overordnetEnhetEReg.organisasjonsnummer;
       overordnetAltinnOrg.Name = overordnetEnhetEReg.navn;
+      if (
+        overordnetEnhetEReg.navn === "" &&
+        overordnetEnhetEReg.organisasjonsnummer === ""
+      ) {
+        overordnetAltinnOrg.Name = "JURIDISK ENHET TEST";
+        overordnetAltinnOrg.OrganizationNumber = "999999999";
+      }
+      overordnetAltinnOrg.Type = "Enterprise";
       organisasjonsliste.push({
         overordnetOrg: overordnetAltinnOrg,
         UnderOrganisasjoner: [organisasjon]
       });
-      organisasjon.OrganizationNumber = overordnetEnhetEReg.organisasjonsnummer;
     }
   });
+
+  console.log(organisasjonsliste);
 
   return organisasjonsliste;
 }

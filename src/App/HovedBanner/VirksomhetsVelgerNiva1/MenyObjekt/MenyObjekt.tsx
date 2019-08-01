@@ -33,18 +33,6 @@ const MenyObjekt: FunctionComponent<Props> = props => {
               <VirksomhetsVelgerNiva2 hovedOrganisasjon={props.organisasjon} />
             </>
           )}
-          {props.organisasjon.overordnetOrg.Type !== "Enterprise" && (
-            <AriaMenuButton.MenuItem
-              className={"meny-objekt__under-enhet"}
-              tabIndex={0}
-              value={props.organisasjon}
-            >
-              <OrganisasjonsVisning
-                hovedOrganisasjon={props.organisasjon.overordnetOrg}
-                className={"meny-objekt__under-enhet"}
-              />
-            </AriaMenuButton.MenuItem>
-          )}
         </>
       )}
     </>
