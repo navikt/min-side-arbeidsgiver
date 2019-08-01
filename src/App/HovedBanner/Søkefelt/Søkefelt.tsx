@@ -6,7 +6,10 @@ import React, {
 } from "react";
 import { Input } from "nav-frontend-skjema";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
-import { OverenhetOrganisasjon } from "../../../Objekter/organisasjon";
+import {
+  Organisasjon,
+  OverenhetOrganisasjon
+} from "../../../Objekter/organisasjon";
 import Innholdsboks from "../../Hovedside/Innholdsboks/Innholdsboks";
 const fuzzysort = require("fuzzysort");
 const AriaMenuButton = require("react-aria-menubutton");
@@ -16,19 +19,15 @@ interface Props {
 }
 
 const Sokefelt: FunctionComponent<Props> = props => {
-  const { organisasjonstre } = useContext(OrganisasjonsListeContext);
+  const { organisasjoner } = useContext(OrganisasjonsListeContext);
   const [inputTekst, setInputTekst] = useState("");
+  const [sokeResultat, setSokeResultat] = useState(organisasjoner);
 
   const HentTekstOgSettState = (event: any) => {
     setInputTekst(event.currentTarget.value);
+    setSokeResultat(fuzzysort.go(inputTekst, organisasjoner, { key: "Name" }));
+    console.log(sokeResultat);
   };
-
-  useEffect(() => {
-    //if (document.getElementById("input-felt").value) !== null {
-    //console.log(document.getElementById("input-felt").value);
-  }, []);
-
-  const LagListeBasertPaSok = () => {};
 
   return (
     <Innholdsboks>
