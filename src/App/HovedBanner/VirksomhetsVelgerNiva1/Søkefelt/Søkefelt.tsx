@@ -29,7 +29,7 @@ const Sokefelt: FunctionComponent<Props> = props => {
   };
 
 
-  const SamletListe: OverenhetOrganisasjon[] = () => {
+  const lagSokeResultatListe = (): OverenhetOrganisasjon[] => {
     let kopiAvOrganisansonsTre: OverenhetOrganisasjon[] = [];
     let SokeResultat: OverenhetOrganisasjon[];
     kopiAvOrganisansonsTre.forEach( juridiskEnhet => {
