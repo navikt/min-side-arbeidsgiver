@@ -7,6 +7,7 @@ import React, {
 
 import { Collapse } from "react-collapse";
 import { withRouter, RouteComponentProps } from "react-router";
+import { Input } from "nav-frontend-skjema";
 
 import "./VirksomhetsVelgerNiva1.less";
 
@@ -19,9 +20,10 @@ import {
   OverenhetOrganisasjon,
   tomAltinnOrganisasjon
 } from "../../../../Objekter/organisasjon";
-import Sokefelt from "../Søkefelt";
 import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
+import { LagMenyListe } from "../Søkefelt";
+import MenyEtterSok from "../MenyEtterSok/MenyEtterSok";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -32,10 +34,24 @@ interface Props {
 const VirksomhetsVelgerNiva1: FunctionComponent<
   Props & RouteComponentProps
 > = props => {
-  const { organisasjonstre } = useContext(OrganisasjonsListeContext);
+  const { organisasjonstre, organisasjoner } = useContext(
+    OrganisasjonsListeContext
+  );
   const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
   const [erApen, setErApen] = useState(false);
   const [valgtOrgNavn, setValgtOrgNavn] = useState(" ");
+  const [inputTekst, setInputTekst] = useState("");
+  const [
+    listeMedOrganisasjonerFraSok,
+    setlisteMedOrganisasjonerFraSok
+  ] = useState(organisasjonstre);
+
+  const HentTekstOgSettState = (event: any) => {
+    setInputTekst(event.currentTarget.value);
+    setlisteMedOrganisasjonerFraSok(
+      LagMenyListe(organisasjonstre, organisasjoner, inputTekst)
+    );
+  };
 
   const setOrganisasjonHvisUnderEnhet = (org: OverenhetOrganisasjon) => {
     if (org.overordnetOrg.Type !== "Enterprise") {
@@ -121,9 +137,18 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
               <Undertittel className={"organisasjons-meny__dine-aktorer-tekst"}>
                 Dine aktører{" "}
               </Undertittel>
-              <Sokefelt />
+              <Input
+                label={"tekst over"}
+                value={inputTekst}
+                onChange={HentTekstOgSettState}
+              />
               <div className={"organisasjons-meny__meny-komponenter-container"}>
-                {OrganisasjonsMenyKomponenter}
+                {inputTekst.length === 0 && OrganisasjonsMenyKomponenter}
+                {inputTekst.length > 0 && (
+                  <MenyEtterSok
+                    ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
+                  />
+                )}
               </div>
             </AriaMenuButton.Menu>
           </Collapse>
