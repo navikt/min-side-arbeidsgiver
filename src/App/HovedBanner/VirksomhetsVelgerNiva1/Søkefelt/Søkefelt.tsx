@@ -9,11 +9,9 @@ import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvide
 import Innholdsboks from "../../../Hovedside/Innholdsboks/Innholdsboks";
 import {
   Organisasjon,
-  OverenhetOrganisasjon,
-  tomAltinnOrganisasjon
+  OverenhetOrganisasjon
 } from "../../../../Objekter/organisasjon";
-import { EnhetsregisteretOrg } from "../../../../Objekter/enhetsregisteretOrg";
-import { hentOverordnetEnhet } from "../../../../api/enhetsregisteretApi";
+
 const fuzzysort = require("fuzzysort");
 
 interface Props {
@@ -28,6 +26,7 @@ const Sokefelt: FunctionComponent<Props> = props => {
   const [sokeResultatUnderEnheter, setSokeResultatUnderEnheter] = useState(
     organisasjoner
   );
+  const [menyObjekter, setMenyObjekter] = useState(organisasjonstre);
   const [
     sokeResultatJuridiskeEnheter,
     setSokeResultatJuridiskeEnheter
@@ -36,33 +35,34 @@ const Sokefelt: FunctionComponent<Props> = props => {
   const HentTekstOgSettState = (event: any) => {
     setInputTekst(event.currentTarget.value);
     setSokeResultatUnderEnheter(
-      fuzzysort.go(inputTekst, organisasjonstre, { key: "Name" })
+      fuzzysort.go(inputTekst, organisasjoner, { key: "Name" })
     );
-    console.log(sokeResultatUnderEnheter);
+    setMenyObjekter(lagSokeResultatListe);
+    console.log("menyobjekter", menyObjekter);
   };
 
   const lagSokeResultatListe = (): OverenhetOrganisasjon[] => {
-    let sokeResultat: OverenhetOrganisasjon[];
-    sokeResultat = organisasjonstre.map(juridiskEnhet => {
+    let sokeResultat = organisasjonstre.filter(juridiskEnhet => {
+      console.log("underenheter i sok", sokeResultatUnderEnheter);
       let listeMedUnderEnheterFraSokeResultat: Organisasjon[] = [];
       juridiskEnhet.UnderOrganisasjoner.forEach(underenhet => {
-        if (
-          sokeResultatUnderEnheter.find(underenhet => underenhet === underenhet)
-        ) {
+        console.log("for-løkka gjennom underenheter");
+        if (sokeResultatUnderEnheter.includes(underenhet)) {
+          console.log("underenhet funnet: ", underenhet);
           listeMedUnderEnheterFraSokeResultat.push(underenhet);
         }
       });
-      return {
-        overordnetOrg: juridiskEnhet.overordnetOrg,
-        UnderOrganisasjoner: listeMedUnderEnheterFraSokeResultat
-      };
+      if (listeMedUnderEnheterFraSokeResultat.length > 0) {
+        return {
+          overordnetOrg: juridiskEnhet.overordnetOrg,
+          UnderOrganisasjoner: listeMedUnderEnheterFraSokeResultat
+        };
+      }
     });
+    console.log("sokeResultatsamlet", sokeResultat);
 
     return sokeResultat;
   };
-
-  const sokeresultat = lagSokeResultatListe();
-  console.log(sokeresultat);
 
   return (
     <Innholdsboks>
