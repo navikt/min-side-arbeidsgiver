@@ -35,7 +35,11 @@ const Sokefelt: FunctionComponent<Props> = props => {
   const HentTekstOgSettState = (event: any) => {
     setInputTekst(event.currentTarget.value);
     setSokeResultatUnderEnheter(
-      fuzzysort.go(inputTekst, organisasjoner, { key: "Name" })
+      fuzzysort
+        .go(inputTekst, organisasjoner, { key: "Name" })
+        .map((underenhet: any) => {
+          return underenhet.obj;
+        })
     );
     setMenyObjekter(lagSokeResultatListe);
     console.log("menyobjekter", menyObjekter);
@@ -47,6 +51,9 @@ const Sokefelt: FunctionComponent<Props> = props => {
       let listeMedUnderEnheterFraSokeResultat: Organisasjon[] = [];
       juridiskEnhet.UnderOrganisasjoner.forEach(underenhet => {
         console.log("for-løkka gjennom underenheter");
+        console.log("underenhet:", underenhet);
+        console.log("overenhet:", juridiskEnhet.overordnetOrg);
+
         if (sokeResultatUnderEnheter.includes(underenhet)) {
           console.log("underenhet funnet: ", underenhet);
           listeMedUnderEnheterFraSokeResultat.push(underenhet);
