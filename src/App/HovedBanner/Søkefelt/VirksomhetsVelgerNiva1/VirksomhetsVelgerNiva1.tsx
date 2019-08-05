@@ -4,23 +4,25 @@ import React, {
   useState,
   useEffect
 } from "react";
-import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
+
 import { Collapse } from "react-collapse";
 import { withRouter, RouteComponentProps } from "react-router";
 
 import "./VirksomhetsVelgerNiva1.less";
-import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
-import {
-  OverenhetOrganisasjon,
-  tomAltinnOrganisasjon
-} from "../../../Objekter/organisasjon";
 
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
 import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-bedrift.svg";
 import { WrapperState } from "react-aria-menubutton";
 import MenyObjekt from "./MenyObjekt/MenyObjekt";
-import Sokefelt from "./Søkefelt/Søkefelt";
+import {
+  OverenhetOrganisasjon,
+  tomAltinnOrganisasjon
+} from "../../../../Objekter/organisasjon";
+import Sokefelt from "../Søkefelt";
+import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvider";
+import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
+
 const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {

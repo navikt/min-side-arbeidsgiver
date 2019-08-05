@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useContext, useState } from "react";
 import { Input } from "nav-frontend-skjema";
-import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvider";
-import Innholdsboks from "../../../Hovedside/Innholdsboks/Innholdsboks";
+import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
+import Innholdsboks from "../../Hovedside/Innholdsboks/Innholdsboks";
 import {
   Organisasjon,
   OverenhetOrganisasjon
-} from "../../../../Objekter/organisasjon";
+} from "../../../Objekter/organisasjon";
 
 const fuzzysort = require("fuzzysort");
 
@@ -67,13 +67,15 @@ const Sokefelt: FunctionComponent<Props> = props => {
   console.log("menyobjekter", menyObjekter);
 
   return (
-    <Innholdsboks>
-      <Input
-        label={"tekst over"}
-        value={inputTekst}
-        onChange={HentTekstOgSettState}
-      />
-    </Innholdsboks>
+    <>
+      <Innholdsboks>
+        <Input
+          label={"tekst over"}
+          value={inputTekst}
+          onChange={HentTekstOgSettState}
+        />
+      </Innholdsboks>
+    </>
   );
 };
 

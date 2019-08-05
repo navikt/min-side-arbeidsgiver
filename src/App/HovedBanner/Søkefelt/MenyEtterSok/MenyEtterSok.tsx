@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useState } from "react";
-import { OverenhetOrganisasjon } from "../../../../../Objekter/organisasjon";
-import MenyObjekt from "../../MenyObjekt/MenyObjekt";
-import MenyObjektNiva2 from "../../MenyObjekt/VirksomhetsVelgerNiva2/MenyObjektNiva2/MenyObjektNiva2";
+import { OverenhetOrganisasjon } from "../../../../Objekter/organisasjon";
+import MenyObjekt from "../VirksomhetsVelgerNiva1/MenyObjekt/MenyObjekt";
+import MenyObjektNiva2 from "../VirksomhetsVelgerNiva1/MenyObjekt/VirksomhetsVelgerNiva2/MenyObjektNiva2/MenyObjektNiva2";
 
 interface Props {
   className?: string;
