@@ -6,7 +6,7 @@ import { Organisasjon } from "../../../../../Objekter/organisasjon";
 import underenhetikon from "./underenhet-ikon.svg";
 
 interface Props {
-  className?: string;
+  className: string;
   hovedOrganisasjon: Organisasjon;
 }
 
