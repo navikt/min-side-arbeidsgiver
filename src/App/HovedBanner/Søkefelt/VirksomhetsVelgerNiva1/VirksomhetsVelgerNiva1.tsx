@@ -145,9 +145,11 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
               <div className={"organisasjons-meny__meny-komponenter-container"}>
                 {inputTekst.length === 0 && OrganisasjonsMenyKomponenter}
                 {inputTekst.length > 0 && (
-                  <MenyEtterSok
-                    ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                  />
+                  <>
+                    <MenyEtterSok
+                      ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
+                    />
+                  </>
                 )}
               </div>
             </AriaMenuButton.Menu>
