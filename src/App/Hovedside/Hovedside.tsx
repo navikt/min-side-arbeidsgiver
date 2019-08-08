@@ -14,7 +14,7 @@ import ikon from "./infomation-circle-2.svg";
 
 const Hovedside: FunctionComponent = () => {
   const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
-  const { organisasjoner, organisasjonstre } = useContext(
+  const { organisasjoner } = useContext(
     OrganisasjonsListeContext
   );
   const skalViseManglerTilgangBoks = !(

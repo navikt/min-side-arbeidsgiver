@@ -13,7 +13,7 @@ import {
   Organisasjon
 } from "../../Objekter/organisasjon";
 import { withRouter, RouteComponentProps } from "react-router";
-import VirksomhetsVelgerNiva1 from "./Søkefelt/VirksomhetsVelgerNiva1/VirksomhetsVelgerNiva1";
+import VirksomhetsVelgerNiva1 from "./Sokefelt/VirksomhetsVelgerNiva1/VirksomhetsVelgerNiva1";
 
 interface Props {
   tittel?: string;

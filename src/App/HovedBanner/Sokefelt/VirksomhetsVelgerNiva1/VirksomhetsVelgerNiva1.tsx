@@ -22,7 +22,7 @@ import {
 } from "../../../../Objekter/organisasjon";
 import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
-import { LagMenyListe } from "../Søkefelt";
+import { LagMenyListe } from "../Sokefelt";
 import MenyEtterSok from "../MenyEtterSok/MenyEtterSok";
 
 const AriaMenuButton = require("react-aria-menubutton");
@@ -104,11 +104,12 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
-            <img
+            <img alt={"ikon for bedrift"}
               className={"organisasjons-meny__button__bedrifts-ikon"}
               src={bedriftsikon}
             />
             <img
+                alt={"ikon for bedrift"}
               className={"organisasjons-meny__button__hvitt-ikon"}
               src={hvittbedriftsikon}
             />
@@ -128,7 +129,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
           <Collapse isOpened={true || false}>
             <AriaMenuButton.Menu className={"organisasjons-meny"}>
               <div className={"organisasjons-meny__vis-valgt-bedrift"}>
-                <img src={bedriftsikon} />
+                <img alt={"ikon for bedrift"} src={bedriftsikon} />
                 <div className="organisasjons-meny__vis-valgt-bedrift-tekst">
                   <Undertittel>{valgtOrganisasjon.Name}</Undertittel>
                   org. nr. {valgtOrganisasjon.OrganizationNumber}

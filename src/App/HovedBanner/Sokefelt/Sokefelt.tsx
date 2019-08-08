@@ -10,7 +10,6 @@ export function LagMenyListe(
   organisasjoner: Organisasjon[],
   inputTekst: string
 ): OverenhetOrganisasjon[] {
-  //setInputTekst(event.currentTarget.value);
   let sokeResultatUnderEnheter = fuzzysort
     .go(inputTekst, organisasjoner, { key: "Name" })
     .map((underenhet: any) => {

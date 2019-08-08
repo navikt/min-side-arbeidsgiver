@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from "react";
+import React, { FunctionComponent } from "react";
 import { OverenhetOrganisasjon } from "../../../../../Objekter/organisasjon";
 import "./MenyObjekt.less";
 import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";

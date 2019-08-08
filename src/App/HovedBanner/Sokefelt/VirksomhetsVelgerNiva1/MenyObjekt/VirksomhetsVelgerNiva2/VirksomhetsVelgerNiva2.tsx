@@ -28,7 +28,7 @@ const AndreNivaDropDown: FunctionComponent<
 
   const OrganisasjonsMenyKomponenter = props.hovedOrganisasjon.UnderOrganisasjoner.map(
     function(organisasjon: Organisasjon) {
-      return <MenyObjektNiva2 UnderEnhet={organisasjon} />;
+      return <MenyObjektNiva2 underEnhet={organisasjon} />;
     }
   );
 

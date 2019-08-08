@@ -8,20 +8,20 @@ const AriaMenuButton = require("react-aria-menubutton");
 
 interface Props {
   className?: string;
-  UnderEnhet: Organisasjon;
+  underEnhet: Organisasjon;
 }
 
-const MenyObjektNiva2: FunctionComponent<Props> = props => {
+const MenyObjektNiva2: FunctionComponent<Props> = ({underEnhet}) => {
   return (
     <AriaMenuButton.MenuItem
-      key={props.UnderEnhet.OrganizationNumber}
-      value={props.UnderEnhet.OrganizationNumber}
-      text={props.UnderEnhet.Name}
+      key={underEnhet.OrganizationNumber}
+      value={underEnhet.OrganizationNumber}
+      text={underEnhet.Name}
       tabIndex={0}
       className="virksomhets-velger-niva-2__meny-objekt"
     >
       <OrganisasjonsVisning
-        hovedOrganisasjon={props.UnderEnhet}
+        hovedOrganisasjon={underEnhet}
         className={"virksomhets-velger-niva-2__meny-objekt"}
       />
     </AriaMenuButton.MenuItem>

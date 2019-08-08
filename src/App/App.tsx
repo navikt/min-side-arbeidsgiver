@@ -9,7 +9,6 @@ import { OrganisasjonsListeProvider } from "../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerProvider } from "../OrganisasjonDetaljerProvider";
 import { SyfoTilgangProvider } from "../SyfoTilgangProvider";
 import InformasjonOmTilgangsstyringSide from "./InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide";
-import InformasjonOmBedrift from "./InformasjonOmBedrift/InformasjonOmBedrift";
 import { LoggInn } from "./LoggInn/LoggInn";
 
 const App: FunctionComponent = () => {
