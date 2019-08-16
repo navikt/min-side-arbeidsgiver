@@ -1,9 +1,4 @@
-import React, {
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState
-} from "react";
+import React, { FunctionComponent, useContext } from "react";
 import arbeidstreningikon from "./arbeidstreningikon.svg";
 import Lenkepanel from "nav-frontend-lenkepanel";
 import "./Arbeidstreningboks.less";
@@ -26,9 +21,13 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     ).length;
   };
 
-  const [antallKlareStillingsannonser,setantallKlareStillingsannonser] = useState(hentAntallArbeidsavtalerMedEnStatus("Klar for oppstart"));
-  const [antallTilGodkjenning, setantallTilGodkjenning] = useState(hentAntallArbeidsavtalerMedEnStatus("Mangler godkjenning"));
-  const [antallPabegynt, setAntallPabegynt] = useState(hentAntallArbeidsavtalerMedEnStatus("Påbegynt"));
+  const antallKlareStillingsannonser = hentAntallArbeidsavtalerMedEnStatus(
+    "Klar for oppstart"
+  );
+  const antallTilGodkjenning = hentAntallArbeidsavtalerMedEnStatus(
+    "Mangler godkjenning"
+  );
+  const antallPabegynt = hentAntallArbeidsavtalerMedEnStatus("Påbegynt");
 
   const boyArbeidsavtaler = (antall: number) => {
     if (antall === 1) {
@@ -38,14 +37,8 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   };
 
   const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
-    return antall + boyArbeidsavtaler(antall) + typeTekst;
+    return antall > 0 ? antall + boyArbeidsavtaler(antall) + typeTekst : "";
   };
-
-  useEffect(() => {
-    setAntallPabegynt( hentAntallArbeidsavtalerMedEnStatus("Påbegynt"));
-    setantallTilGodkjenning(  hentAntallArbeidsavtalerMedEnStatus("Mangler godkjenning"));
-    setantallKlareStillingsannonser(hentAntallArbeidsavtalerMedEnStatus("Klar for oppstart"))
-  }, [arbeidsavtaler]);
 
   return (
     <div className={"arbeidstreningboks " + props.className}>
@@ -61,11 +54,14 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         tittelProps={"normaltekst"}
         linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >
-        {lagTekstBasertPaAntall(antallPabegynt, " påbegynt")}
+        {lagTekstBasertPaAntall(antallPabegynt, "påbegynt")}
         <br />
         {lagTekstBasertPaAntall(antallTilGodkjenning, "mangler godkjenning")}
         <br />
-        {lagTekstBasertPaAntall(antallKlareStillingsannonser, "klare for oppstart")}
+        {lagTekstBasertPaAntall(
+          antallKlareStillingsannonser,
+          "klare for oppstart"
+        )}
         <br />
       </Lenkepanel>
     </div>
