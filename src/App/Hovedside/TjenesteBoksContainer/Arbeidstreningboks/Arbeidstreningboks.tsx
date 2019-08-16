@@ -33,7 +33,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     } else if (antall === 1) {
       return "1 arbeidsavtale " + typeTekst;
     } else {
-      return antall + "arbeidsavtaler " + typeTekst
+      return antall + " arbeidsavtaler " + typeTekst
     }
   };
 
