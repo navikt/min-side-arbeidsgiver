@@ -24,6 +24,7 @@
     "http-proxy-middleware": "^0.19.1",
     "install": "^0.12.2",
     "lodash": "^4.17.15",
+    "lodash.mergewith": "4.6.2",
     "lodash.throttle": "^4.1.1",
     "mustache-express": "^1.2.8",
     "nav-frontend-alertstriper": "^3.0.3",
