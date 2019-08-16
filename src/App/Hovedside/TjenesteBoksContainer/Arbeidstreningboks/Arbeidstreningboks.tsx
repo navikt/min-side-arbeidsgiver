@@ -15,11 +15,9 @@ interface Props {
 const Arbeidstreningboks: FunctionComponent<Props> = props => {
   const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
 
-  const hentAntallArbeidsavtalerMedEnStatus = (status: string) => {
-    return arbeidsavtaler.filter(
-      arbeidsavtale => arbeidsavtale.status === status
-    ).length;
-  };
+  const hentAntallArbeidsavtalerMedEnStatus = (status: string) =>
+    arbeidsavtaler.filter(arbeidsavtale => arbeidsavtale.status === status)
+      .length;
 
   const antallKlareStillingsannonser = hentAntallArbeidsavtalerMedEnStatus(
     "Klar for oppstart"
@@ -29,16 +27,16 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   );
   const antallPabegynt = hentAntallArbeidsavtalerMedEnStatus("Påbegynt");
 
-  const boyArbeidsavtaler = (antall: number) => {
-    if (antall === 1) {
-      return " arbeidsavtale ";
+  const lagTekstBasertPaAntall = (antall: number, typeTekst: string): string => {
+    if (antall === 0) {
+      return "";
+    } else if (antall === 1) {
+      return "1 arbeidsavtale " + typeTekst;
+    } else {
+      return antall + "arbeidsavtaler " + typeTekst
     }
-    return " arbeidsavtaler ";
   };
 
-  const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
-    return antall > 0 ? antall + boyArbeidsavtaler(antall) + typeTekst : "";
-  };
 
   return (
     <div className={"arbeidstreningboks " + props.className}>
