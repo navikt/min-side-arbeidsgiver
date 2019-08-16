@@ -11,7 +11,6 @@ import "./Arbeidstreningboks.less";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 import { arbeidsAvtaleLink } from "../../../../lenker";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
-import { Arbeidsavtale } from "../../../../api/dnaApi";
 
 interface Props {
   varseltekst?: string;
@@ -20,48 +19,32 @@ interface Props {
 
 const Arbeidstreningboks: FunctionComponent<Props> = props => {
   const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
-  const [
-    antallKlareStillingsannonserTekst,
-    setantallKlareStillingsannonserTekst
-  ] = useState("");
-  const [antallTilGodkjenningTekst, setantallTilGodkjenningTekst] = useState(
-    ""
-  );
-  const [antallPabegyntTekst, setAntallPabegyntTekst] = useState("");
 
-  const lagTekstBasertPaAntall = (antall: string) => {
-    if (antall === "1") {
+  const hentAntallArbeidsavtalerMedEnStatus = (status: string) => {
+    return arbeidsavtaler.filter(
+      arbeidsavtale => arbeidsavtale.status === status
+    ).length;
+  };
+
+  const [antallKlareStillingsannonser,setantallKlareStillingsannonser] = useState(hentAntallArbeidsavtalerMedEnStatus("Klar for oppstart"));
+  const [antallTilGodkjenning, setantallTilGodkjenning] = useState(hentAntallArbeidsavtalerMedEnStatus("Mangler godkjenning"));
+  const [antallPabegynt, setAntallPabegynt] = useState(hentAntallArbeidsavtalerMedEnStatus("Påbegynt"));
+
+  const boyArbeidsavtaler = (antall: number) => {
+    if (antall === 1) {
       return " arbeidsavtale ";
     }
     return " arbeidsavtaler ";
   };
 
+  const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
+    return antall + boyArbeidsavtaler(antall) + typeTekst;
+  };
+
   useEffect(() => {
-    const KlareForOppstartArbeidsavtaler: Arbeidsavtale[] = arbeidsavtaler.filter(
-      arbeidsavtale => arbeidsavtale.status === "Klar for oppstart"
-    );
-    let antallAvtaler: string = KlareForOppstartArbeidsavtaler.length.toString();
-    setantallKlareStillingsannonserTekst(
-      antallAvtaler +
-        lagTekstBasertPaAntall(antallAvtaler) +
-        "klare for oppstart"
-    );
-    const arbeidsavtalerTilGodkjenning: Arbeidsavtale[] = arbeidsavtaler.filter(
-      arbeidsavtale => arbeidsavtale.status === "Mangler godkjenning"
-    );
-    antallAvtaler = arbeidsavtalerTilGodkjenning.length.toString();
-    setantallTilGodkjenningTekst(
-      antallAvtaler +
-        lagTekstBasertPaAntall(antallAvtaler) +
-        "mangler godkjenning"
-    );
-    const pabegynteArbeidsavtaler: Arbeidsavtale[] = arbeidsavtaler.filter(
-      arbeidsavtaler => arbeidsavtaler.status === "Påbegynt"
-    );
-    antallAvtaler = pabegynteArbeidsavtaler.length.toString();
-    setAntallPabegyntTekst(
-      antallAvtaler + lagTekstBasertPaAntall(antallAvtaler) + " påbegynt"
-    );
+    setAntallPabegynt( hentAntallArbeidsavtalerMedEnStatus("Påbegynt"));
+    setantallTilGodkjenning(  hentAntallArbeidsavtalerMedEnStatus("Mangler godkjenning"));
+    setantallKlareStillingsannonser(hentAntallArbeidsavtalerMedEnStatus("Klar for oppstart"))
   }, [arbeidsavtaler]);
 
   return (
@@ -78,11 +61,11 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         tittelProps={"normaltekst"}
         linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >
-        {antallPabegyntTekst}
+        {lagTekstBasertPaAntall(antallPabegynt, " påbegynt")}
         <br />
-        {antallTilGodkjenningTekst}
+        {lagTekstBasertPaAntall(antallTilGodkjenning, "mangler godkjenning")}
         <br />
-        {antallKlareStillingsannonserTekst}
+        {lagTekstBasertPaAntall(antallKlareStillingsannonser, "klare for oppstart")}
         <br />
       </Lenkepanel>
     </div>
