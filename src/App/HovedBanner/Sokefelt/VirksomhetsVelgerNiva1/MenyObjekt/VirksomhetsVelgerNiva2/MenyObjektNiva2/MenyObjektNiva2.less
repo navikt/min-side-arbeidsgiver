@@ -14,13 +14,18 @@
     display: none;
   }
 
+
+  &__underenhet-hvit {
+    display: none;
+  }
+
   &__bedrifts-ikon {
     display: none
   }
 
   &__underenhet-ikon {
     margin-left: 0.465rem;
-    margin-reight: 1rem;
+    margin-right: 1rem;
   }
 
   &__tekst {
@@ -33,8 +38,14 @@
 
 }
 
-.virksomhets-velger-niva-2__meny-objekt:hover .virksomhets-velger-niva-2__meny-objekt__hvitt-ikon {
+.virksomhets-velger-niva-2__meny-objekt:hover .virksomhets-velger-niva-2__meny-objekt__underenhet-hvit {
   display: initial;
+  margin-left: 0.465rem;
+  margin-right: 1rem;
+}
+
+.virksomhets-velger-niva-2__meny-objekt:hover .virksomhets-velger-niva-2__meny-objekt__underenhet-ikon {
+  display: none;
 }
 
 .virksomhets-velger-niva-2__meny-objekt:hover {
@@ -47,4 +58,5 @@
   outline: none;
   z-index: 15;
 }
+
 

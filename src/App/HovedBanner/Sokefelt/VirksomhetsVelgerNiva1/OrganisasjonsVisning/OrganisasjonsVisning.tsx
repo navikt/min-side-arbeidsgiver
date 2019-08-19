@@ -4,6 +4,7 @@ import hvittbedriftsikon from "./hvit-bedrift.svg";
 import { Element } from "nav-frontend-typografi";
 import { Organisasjon } from "../../../../../Objekter/organisasjon";
 import underenhetikon from "./underenhet-ikon.svg";
+import underenhethvit from "./hvit-underenhet.svg";
 
 interface Props {
   className: string;
@@ -22,6 +23,11 @@ const OrganisasjonsVisning: FunctionComponent<Props> = props => {
         alt={"ikon for underenhet"}
         className={props.className + "__underenhet-ikon"}
         src={underenhetikon}
+      />
+      <img
+        alt={"ikon for underenhet"}
+        className={props.className + "__underenhet-hvit"}
+        src={underenhethvit}
       />
       <img
         alt={"hvitt ikon"}
