@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from "react";
 
-import OrganisasjonsVisning from "../VirksomhetsVelgerNiva1/OrganisasjonsVisning/OrganisasjonsVisning";
-
 import {
   Organisasjon,
   OverenhetOrganisasjon
 } from "../../../../Objekter/organisasjon";
 import MenyObjektNiva2 from "../VirksomhetsVelgerNiva1/MenyObjekt/VirksomhetsVelgerNiva2/MenyObjektNiva2/MenyObjektNiva2";
+import OrganisasjonsVisning from "../VirksomhetsVelgerNiva1/OrganisasjonsVisning/OrganisasjonsVisning";
+import "../VirksomhetsVelgerNiva1/MenyObjekt/MenyObjekt.less";
 
 export interface Props {
   ListeMedObjektFraSok: OverenhetOrganisasjon[];
@@ -24,10 +24,12 @@ const MenyEtterSok: FunctionComponent<Props> = props => {
 
     return (
       <>
-        <OrganisasjonsVisning
-          hovedOrganisasjon={juridiskEnhet.overordnetOrg}
-          className={"meny-objekt__juridisk-enhet"}
-        />
+        <div className={"meny-objekt__juridisk-enhet"}>
+          <OrganisasjonsVisning
+            hovedOrganisasjon={juridiskEnhet.overordnetOrg}
+            className={"meny-objekt__juridisk-enhet"}
+          />
+        </div>
         {UnderOrganisasjonsMenyKomponenter}
       </>
     );

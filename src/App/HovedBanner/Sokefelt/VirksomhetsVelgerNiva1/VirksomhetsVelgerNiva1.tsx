@@ -104,12 +104,13 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
       >
         {valgtOrganisasjon !== tomAltinnOrganisasjon && (
           <AriaMenuButton.Button className="organisasjons-meny__button">
-            <img alt={"ikon for bedrift"}
+            <img
+              alt={"ikon for bedrift"}
               className={"organisasjons-meny__button__bedrifts-ikon"}
               src={bedriftsikon}
             />
             <img
-                alt={"ikon for bedrift"}
+              alt={"ikon for bedrift"}
               className={"organisasjons-meny__button__hvitt-ikon"}
               src={hvittbedriftsikon}
             />

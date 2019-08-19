@@ -13,14 +13,18 @@ interface Props {
 const OrganisasjonsVisning: FunctionComponent<Props> = props => {
   return (
     <>
-      <img alt={"ikon for bedrift"} className={props.className + "__bedrifts-ikon"} src={bedriftsikon} />
       <img
-          alt={"ikon for underenhet"}
+        alt={"ikon for bedrift"}
+        className={props.className + "__bedrifts-ikon"}
+        src={bedriftsikon}
+      />
+      <img
+        alt={"ikon for underenhet"}
         className={props.className + "__underenhet-ikon"}
         src={underenhetikon}
       />
       <img
-          alt={"hvitt ikon"}
+        alt={"hvitt ikon"}
         className={props.className + "__hvitt-ikon"}
         src={hvittbedriftsikon}
       />

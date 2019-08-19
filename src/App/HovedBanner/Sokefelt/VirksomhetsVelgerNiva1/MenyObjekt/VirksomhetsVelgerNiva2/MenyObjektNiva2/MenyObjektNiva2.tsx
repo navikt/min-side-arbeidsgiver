@@ -11,7 +11,7 @@ interface Props {
   underEnhet: Organisasjon;
 }
 
-const MenyObjektNiva2: FunctionComponent<Props> = ({underEnhet}) => {
+const MenyObjektNiva2: FunctionComponent<Props> = ({ underEnhet }) => {
   return (
     <AriaMenuButton.MenuItem
       key={underEnhet.OrganizationNumber}
