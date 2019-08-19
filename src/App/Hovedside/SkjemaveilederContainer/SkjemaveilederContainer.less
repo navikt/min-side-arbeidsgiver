@@ -1,0 +1,22 @@
+@import '~nav-frontend-core/less/_variabler';
+.skjemaveilerderContainer {
+  width: 100%;
+  display: flex;
+  justify-self: center;
+  flex-direction: column;
+  margin-left: 0;
+  padding: 0 1rem 0 1rem;
+  &__tekst {
+    margin: 1.5rem 0 1rem 0;
+  }
+  &__lenkepanel{
+    height: 4rem;
+  }
+}
+
+@media (min-width: @screen-md-min) {
+  .skjemaveilerderContainer {
+    width: 60rem;
+    padding: 0;
+  }
+}
