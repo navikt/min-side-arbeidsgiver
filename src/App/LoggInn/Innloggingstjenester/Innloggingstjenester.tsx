@@ -12,7 +12,7 @@ export const Innloggingstjenester: FunctionComponent = () => {
       <div className={"innloggingsside-tjenester__tjeneste"}>
         <img
           src={medisin}
-          alt={"Bilde av piller for å illustrere sykefravær"}
+          alt={""}
           className={"innloggingsside-tjenester__tjeneste-ikon"}
         />
         <Element>Sykefraværsoppfølging </Element>
@@ -20,16 +20,14 @@ export const Innloggingstjenester: FunctionComponent = () => {
       <div className={"innloggingsside-tjenester__tjeneste"}>
         <img
           src={sok}
-          alt={
-            "Bilde av forstørrelsesglass for å illustrere rekrutteringstjenesten"
-          }
+          alt={""}
           className={"innloggingsside-tjenester__tjeneste-ikon"}
         />
         <Element>Rekruttering </Element>
       </div>
       <div className={"innloggingsside-tjenester__tjeneste"}>
         <img
-          alt="{Bilde av en verktøykasse }"
+          alt={""}
           src={verktoy}
           className={"innloggingsside-tjenester__tjeneste-ikon"}
         />
@@ -37,7 +35,7 @@ export const Innloggingstjenester: FunctionComponent = () => {
       </div>
       <div className={"innloggingsside-tjenester__tjeneste"}>
         <img
-          alt={"Bilde av skjemaer for å illustrere skjemaer på altinn"}
+          alt={""}
           src={skjema}
           className={"innloggingsside-tjenester__tjeneste-ikon"}
         />

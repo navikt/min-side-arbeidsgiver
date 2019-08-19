@@ -14,7 +14,7 @@ export const ManglerTilgangBoks: FunctionComponent<Props> = props => {
     <div className={"mangler-tilgang"}>
       <img
         src={alertikon}
-        alt={"ikon for å vise at det kommer informasjon om tilgangsstyring"}
+        alt={""}
         className={"mangler-tilgang__ikon"}
       />
       <div className={"mangler-tilgang__tekst"}>
