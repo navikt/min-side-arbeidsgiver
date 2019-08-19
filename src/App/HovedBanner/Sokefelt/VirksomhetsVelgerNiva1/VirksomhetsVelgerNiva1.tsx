@@ -12,8 +12,8 @@ import { Input } from "nav-frontend-skjema";
 import "./VirksomhetsVelgerNiva1.less";
 
 import { Undertittel, Element } from "nav-frontend-typografi";
-import bedriftsikon from "./OrganisasjonsVisning/bedriftsikon.svg";
-import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-bedrift.svg";
+import bedriftsikon from "./OrganisasjonsVisning/underenhet-ikon.svg";
+import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-underenhet.svg";
 import { WrapperState } from "react-aria-menubutton";
 import MenyObjekt from "./MenyObjekt/MenyObjekt";
 import {
