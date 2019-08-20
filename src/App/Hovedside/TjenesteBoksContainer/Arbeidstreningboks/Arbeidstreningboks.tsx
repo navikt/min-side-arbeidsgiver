@@ -27,23 +27,25 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   );
   const antallPabegynt = hentAntallArbeidsavtalerMedEnStatus("Påbegynt");
 
-  const lagTekstBasertPaAntall = (antall: number, typeTekst: string): string => {
+  const lagTekstBasertPaAntall = (
+    antall: number,
+    typeTekst: string
+  ): string => {
     if (antall === 0) {
       return "";
     } else if (antall === 1) {
       return "1 arbeidsavtale " + typeTekst;
     } else {
-      return antall + " arbeidsavtaler " + typeTekst
+      return antall + " arbeidsavtaler " + typeTekst;
     }
   };
-
 
   return (
     <div className={"arbeidstreningboks " + props.className}>
       <TjenesteBoksBanner
         tittel={"Arbeidstrening"}
         imgsource={arbeidstreningikon}
-        altTekst={"En stresskoffert"}
+        altTekst={""}
       />
 
       <Lenkepanel
