@@ -22,7 +22,7 @@ import {
 } from "../../../../Objekter/organisasjon";
 import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
-import { LagMenyListe } from "../Sokefelt";
+import { LagMenyListe } from "../LagMenyListe";
 import MenyEtterSok from "../MenyEtterSok/MenyEtterSok";
 import sok from "./fill-199.svg";
 import kryss from "./remove-1.svg";
