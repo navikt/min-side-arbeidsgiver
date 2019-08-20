@@ -5,6 +5,7 @@ import { Element } from "nav-frontend-typografi";
 import { Organisasjon } from "../../../../Objekter/organisasjon";
 import underenhetikon from "./underenhet-ikon.svg";
 import underenhethvit from "./hvit-underenhet.svg";
+import "./Organisasjonsvisning.less";
 
 interface Props {
   className: string;
