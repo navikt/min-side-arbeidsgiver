@@ -26,18 +26,9 @@ export function LagMenyListe(
       console.log("underenheter i sok", sokeResultatUnderEnheter);
       let listeMedUnderEnheterFraSokeResultat: Organisasjon[] = juridiskEnhet.UnderOrganisasjoner.filter(
         underenhet => {
-          console.log("underenhet som blir lest fra jurenhet: ", underenhet);
-          if (sokeResultatUnderEnheter.includes(underenhet)) {
-            console.log("underenhet funnet: ", underenhet);
-            return underenhet;
-          }
+          return sokeResultatUnderEnheter.includes(underenhet);
         }
       );
-      console.log(
-        "skal være tilhørende underenheter filtrert: ",
-        listeMedUnderEnheterFraSokeResultat
-      );
-
       if (listeMedUnderEnheterFraSokeResultat.length > 0) {
         sokeResultatListe.push({
           overordnetOrg: juridiskEnhet.overordnetOrg,
