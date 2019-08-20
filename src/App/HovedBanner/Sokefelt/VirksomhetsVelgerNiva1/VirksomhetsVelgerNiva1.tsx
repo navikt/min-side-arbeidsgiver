@@ -24,6 +24,8 @@ import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvide
 import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
 import { LagMenyListe } from "../Sokefelt";
 import MenyEtterSok from "../MenyEtterSok/MenyEtterSok";
+import sok from "./fill-199.svg";
+import kryss from "./remove-1.svg";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -140,9 +142,15 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
                 Dine aktører{" "}
               </Undertittel>
               <Input
-                label={"tekst over"}
+                label={""}
                 value={inputTekst}
                 onChange={HentTekstOgSettState}
+                placeholder="Søk etter underenheter"
+              />
+              <img
+                alt={""}
+                className={"organisasjons-meny__input-sok"}
+                src={sok}
               />
               <div className={"organisasjons-meny__meny-komponenter-container"}>
                 {inputTekst.length === 0 && OrganisasjonsMenyKomponenter}
