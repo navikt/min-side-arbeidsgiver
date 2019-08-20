@@ -23,15 +23,15 @@ const MenyEtterSok: FunctionComponent<Props> = props => {
     );
 
     return (
-      <>
-        <div className={"meny-objekt__juridisk-enhet"}>
+      <div className={"meny-objekt__objekt-etter-sok"}>
+        <div className={"meny-objekt__juridisk-enhet  etter-sok"}>
           <OrganisasjonsVisning
             hovedOrganisasjon={juridiskEnhet.overordnetOrg}
             className={"meny-objekt__juridisk-enhet"}
           />
         </div>
         {UnderOrganisasjonsMenyKomponenter}
-      </>
+      </div>
     );
   });
 
