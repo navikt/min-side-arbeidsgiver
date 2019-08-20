@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from "react";
-import "./VirksomhetsVelgerNiva2.less";
+import "./Underenhetsvelger.less";
 import { Collapse } from "react-collapse";
 import { withRouter, RouteComponentProps } from "react-router";
 import { NedChevron, OppChevron } from "nav-frontend-chevron";
 import { WrapperState } from "react-aria-menubutton";
-import MenyObjektNiva2 from "./MenyObjektNiva2/MenyObjektNiva2";
+import Underenhet from "./Underenhet/Underenhet";
 import {
   Organisasjon,
   OverenhetOrganisasjon
@@ -17,7 +17,7 @@ interface Props {
   hovedOrganisasjon: OverenhetOrganisasjon;
 }
 
-const AndreNivaDropDown: FunctionComponent<
+const Underenhetsvelger: FunctionComponent<
   Props & RouteComponentProps<{ className: string }>
 > = props => {
   const settUrl = (orgnr: string) => {
@@ -28,7 +28,7 @@ const AndreNivaDropDown: FunctionComponent<
 
   const OrganisasjonsMenyKomponenter = props.hovedOrganisasjon.UnderOrganisasjoner.map(
     function(organisasjon: Organisasjon) {
-      return <MenyObjektNiva2 underEnhet={organisasjon} />;
+      return <Underenhet underEnhet={organisasjon} />;
     }
   );
 
@@ -76,4 +76,4 @@ const AndreNivaDropDown: FunctionComponent<
   );
 };
 
-export default withRouter(AndreNivaDropDown);
+export default withRouter(Underenhetsvelger);

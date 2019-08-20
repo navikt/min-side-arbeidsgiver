@@ -13,7 +13,7 @@ import {
   Organisasjon
 } from "../../Objekter/organisasjon";
 import { withRouter, RouteComponentProps } from "react-router";
-import VirksomhetsVelgerNiva1 from "./VirksomhetsVelgerNiva1/VirksomhetsVelgerNiva1";
+import Virksomhetsvelger from "./Virksomhetsvelger/Virksomhetsvelger";
 
 interface Props {
   tittel?: string;
@@ -79,7 +79,7 @@ const Banner: FunctionComponent<
             Min Side Arbeidsgiver
           </Sidetittel>
           <div className="banner__drop-down-container">
-            <VirksomhetsVelgerNiva1 className={"banner__organisasjoner"} />
+            <Virksomhetsvelger className={"banner__organisasjoner"} />
           </div>
         </div>
       )}

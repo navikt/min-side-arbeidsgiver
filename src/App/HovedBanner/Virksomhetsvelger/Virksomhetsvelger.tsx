@@ -9,13 +9,13 @@ import { Collapse } from "react-collapse";
 import { withRouter, RouteComponentProps } from "react-router";
 import { Input } from "nav-frontend-skjema";
 
-import "./VirksomhetsVelgerNiva1.less";
+import "./Virksomhetsvelger.less";
 
 import { Undertittel, Element } from "nav-frontend-typografi";
 import bedriftsikon from "./OrganisasjonsVisning/underenhet-ikon.svg";
 import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-underenhet.svg";
 import { WrapperState } from "react-aria-menubutton";
-import MenyObjekt from "./MenyObjekt/MenyObjekt";
+import JuridiskEnhetMedUnderenheter from "./JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter";
 
 import sok from "./fill-199.svg";
 import kryss from "./remove-1.svg";
@@ -77,14 +77,14 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
   ) {
     if (organisasjon === organisasjonstre[0]) {
       return (
-        <MenyObjekt
+        <JuridiskEnhetMedUnderenheter
           organisasjon={organisasjon}
           className={"meny-objekt__juridisk-enhet"}
         />
       );
     } else {
       return (
-        <MenyObjekt
+        <JuridiskEnhetMedUnderenheter
           organisasjon={organisasjon}
           className={"meny-objekt__juridisk-enhet ikke-forst"}
         />

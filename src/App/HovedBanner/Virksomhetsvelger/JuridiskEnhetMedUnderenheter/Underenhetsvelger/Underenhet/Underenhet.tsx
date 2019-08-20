@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from "react";
-import "./MenyObjektNiva2.less";
+import "./Underenhet.less";
 
-import OrganisasjonsVisning from "../../../OrganisasjonsVisning/OrganisasjonsVisning";
 import { Organisasjon } from "../../../../../../Objekter/organisasjon";
+import OrganisasjonsVisning from "../../../OrganisasjonsVisning/OrganisasjonsVisning";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -11,7 +11,7 @@ interface Props {
   underEnhet: Organisasjon;
 }
 
-const MenyObjektNiva2: FunctionComponent<Props> = ({ underEnhet }) => {
+const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
   return (
     <AriaMenuButton.MenuItem
       key={underEnhet.OrganizationNumber}
@@ -28,4 +28,4 @@ const MenyObjektNiva2: FunctionComponent<Props> = ({ underEnhet }) => {
   );
 };
 
-export default MenyObjektNiva2;
+export default Underenhet;

@@ -4,9 +4,9 @@ import {
   Organisasjon,
   OverenhetOrganisasjon
 } from "../../../../Objekter/organisasjon";
-import MenyObjektNiva2 from "../MenyObjekt/VirksomhetsVelgerNiva2/MenyObjektNiva2/MenyObjektNiva2";
+import Underenhet from "../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet";
 import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
-import "../MenyObjekt/MenyObjekt.less";
+import "../JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less";
 
 export interface Props {
   ListeMedObjektFraSok: OverenhetOrganisasjon[];
@@ -18,7 +18,7 @@ const MenyEtterSok: FunctionComponent<Props> = props => {
   ) {
     const UnderOrganisasjonsMenyKomponenter = juridiskEnhet.UnderOrganisasjoner.map(
       function(org: Organisasjon) {
-        return <MenyObjektNiva2 underEnhet={org} />;
+        return <Underenhet underEnhet={org} />;
       }
     );
 
