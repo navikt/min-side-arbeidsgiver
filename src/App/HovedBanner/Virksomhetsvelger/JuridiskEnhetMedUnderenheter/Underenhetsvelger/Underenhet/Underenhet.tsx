@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { Organisasjon } from "../../../../../../Objekter/organisasjon";
 import OrganisasjonsVisning from "../../../OrganisasjonsVisning/OrganisasjonsVisning";
+import "./Underenhet.less";
 
 const AriaMenuButton = require("react-aria-menubutton");
 
@@ -16,6 +17,7 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
       value={underEnhet.OrganizationNumber}
       text={underEnhet.Name}
       tabIndex={0}
+      className={"underenhet-meny-valg"}
     >
       <OrganisasjonsVisning
         hovedOrganisasjon={underEnhet}
