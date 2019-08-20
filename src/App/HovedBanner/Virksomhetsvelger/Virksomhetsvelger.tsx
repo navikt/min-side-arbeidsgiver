@@ -79,14 +79,14 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
       return (
         <JuridiskEnhetMedUnderenheter
           organisasjon={organisasjon}
-          className={"meny-objekt__juridisk-enhet"}
+          className={"forste-meny-objekt"}
         />
       );
     } else {
       return (
         <JuridiskEnhetMedUnderenheter
           organisasjon={organisasjon}
-          className={"meny-objekt__juridisk-enhet ikke-forst"}
+          className={"meny-objekt"}
         />
       );
     }

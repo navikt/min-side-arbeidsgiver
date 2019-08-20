@@ -13,7 +13,7 @@ interface Props {
 
 const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
   return (
-    <>
+    <div className={props.className}>
       <OrganisasjonsVisning
         hovedOrganisasjon={props.organisasjon.overordnetOrg}
         className={"juridisk-enhet"}
@@ -21,7 +21,7 @@ const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
       <AriaMenuButton.MenuItem value={props.organisasjon} />
 
       <Underenhetsvelger hovedOrganisasjon={props.organisasjon} />
-    </>
+    </div>
   );
 };
 
