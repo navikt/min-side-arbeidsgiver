@@ -147,11 +147,20 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
                 onChange={HentTekstOgSettState}
                 placeholder="Søk etter underenheter"
               />
-              <img
-                alt={""}
-                className={"organisasjons-meny__input-sok"}
-                src={sok}
-              />
+              {inputTekst.length === 0 && (
+                <img
+                  alt={""}
+                  className={"organisasjons-meny__input-sok"}
+                  src={sok}
+                />
+              )}
+              {inputTekst.length > 0 && (
+                <img
+                  alt={""}
+                  className={"organisasjons-meny__input-kryss"}
+                  src={kryss}
+                />
+              )}
               <div className={"organisasjons-meny__meny-komponenter-container"}>
                 {inputTekst.length === 0 && OrganisasjonsMenyKomponenter}
                 {inputTekst.length > 0 && (
