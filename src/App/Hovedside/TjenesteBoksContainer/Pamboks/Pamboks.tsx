@@ -35,7 +35,7 @@ const Pamboks: FunctionComponent<Props> = props => {
       <TjenesteBoksBanner
         tittel={"Rekruttering"}
         imgsource={pamikon}
-        altTekst={"Forstørrelsesglass som fokuserer på jobbsøker"}
+        altTekst={""}
       />
       <Lenkepanel
         className={"pamboks__lenke"}
