@@ -17,8 +17,8 @@ import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-underenhet.svg";
 import { WrapperState } from "react-aria-menubutton";
 import JuridiskEnhetMedUnderenheter from "./JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter";
 
-import sok from "./fill-199.svg";
-import kryss from "./remove-1.svg";
+import sok from "./forstorrelsesglass.svg";
+import kryss from "./kryss.svg";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import { byggSokeresultat } from "./byggSokeresultat";
