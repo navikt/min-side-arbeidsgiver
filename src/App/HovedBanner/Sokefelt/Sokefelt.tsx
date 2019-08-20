@@ -11,7 +11,11 @@ export function LagMenyListe(
   inputTekst: string
 ): OverenhetOrganisasjon[] {
   let sokeResultatUnderEnheter = fuzzysort
-    .go(inputTekst, organisasjoner, { key: "Name" })
+    .go(inputTekst, organisasjoner, {
+      key: "Name",
+      allowTypo: false,
+      threshold: -1000
+    })
     .map((underenhet: any) => {
       return underenhet.obj;
     });
