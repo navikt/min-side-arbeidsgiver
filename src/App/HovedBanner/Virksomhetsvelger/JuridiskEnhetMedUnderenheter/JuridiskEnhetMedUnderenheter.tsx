@@ -19,7 +19,6 @@ const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
         className={"juridisk-enhet"}
       />
       <AriaMenuButton.MenuItem value={props.organisasjon} />
-
       <Underenhetsvelger hovedOrganisasjon={props.organisasjon} />
     </div>
   );
