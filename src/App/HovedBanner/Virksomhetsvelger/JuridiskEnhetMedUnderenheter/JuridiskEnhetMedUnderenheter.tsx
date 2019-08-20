@@ -14,13 +14,12 @@ interface Props {
 const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
   return (
     <>
-      <div className={props.className}>
-        <OrganisasjonsVisning
-          hovedOrganisasjon={props.organisasjon.overordnetOrg}
-          className={"meny-objekt__juridisk-enhet"}
-        />
-        <AriaMenuButton.MenuItem value={props.organisasjon} />
-      </div>
+      <OrganisasjonsVisning
+        hovedOrganisasjon={props.organisasjon.overordnetOrg}
+        className={"juridisk-enhet"}
+      />
+      <AriaMenuButton.MenuItem value={props.organisasjon} />
+
       <Underenhetsvelger hovedOrganisasjon={props.organisasjon} />
     </>
   );
