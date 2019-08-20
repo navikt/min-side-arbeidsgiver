@@ -16,16 +16,17 @@ import bedriftsikon from "./OrganisasjonsVisning/underenhet-ikon.svg";
 import hvittbedriftsikon from "./OrganisasjonsVisning/hvit-underenhet.svg";
 import { WrapperState } from "react-aria-menubutton";
 import MenyObjekt from "./MenyObjekt/MenyObjekt";
+
+import sok from "./fill-199.svg";
+import kryss from "./remove-1.svg";
+import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
+import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
+import { LagMenyListe } from "./LagMenyListe";
 import {
   OverenhetOrganisasjon,
   tomAltinnOrganisasjon
-} from "../../../../Objekter/organisasjon";
-import { OrganisasjonsListeContext } from "../../../../OrganisasjonsListeProvider";
-import { OrganisasjonsDetaljerContext } from "../../../../OrganisasjonDetaljerProvider";
-import { LagMenyListe } from "../LagMenyListe";
-import MenyEtterSok from "../MenyEtterSok/MenyEtterSok";
-import sok from "./fill-199.svg";
-import kryss from "./remove-1.svg";
+} from "../../../Objekter/organisasjon";
+import MenyEtterSok from "./MenyEtterSok/MenyEtterSok";
 
 const AriaMenuButton = require("react-aria-menubutton");
 

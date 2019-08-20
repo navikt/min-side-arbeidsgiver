@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import bedriftsikon from "./bedriftsikon.svg";
 import hvittbedriftsikon from "./hvit-bedrift.svg";
 import { Element } from "nav-frontend-typografi";
-import { Organisasjon } from "../../../../../Objekter/organisasjon";
+import { Organisasjon } from "../../../../Objekter/organisasjon";
 import underenhetikon from "./underenhet-ikon.svg";
 import underenhethvit from "./hvit-underenhet.svg";
 

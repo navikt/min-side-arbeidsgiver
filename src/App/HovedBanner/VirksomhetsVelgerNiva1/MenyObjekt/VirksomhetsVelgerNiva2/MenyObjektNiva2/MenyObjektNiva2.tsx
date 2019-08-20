@@ -2,7 +2,7 @@ import React, { FunctionComponent } from "react";
 import "./MenyObjektNiva2.less";
 
 import OrganisasjonsVisning from "../../../OrganisasjonsVisning/OrganisasjonsVisning";
-import { Organisasjon } from "../../../../../../../Objekter/organisasjon";
+import { Organisasjon } from "../../../../../../Objekter/organisasjon";
 
 const AriaMenuButton = require("react-aria-menubutton");
 

@@ -8,7 +8,7 @@ import MenyObjektNiva2 from "./MenyObjektNiva2/MenyObjektNiva2";
 import {
   Organisasjon,
   OverenhetOrganisasjon
-} from "../../../../../../Objekter/organisasjon";
+} from "../../../../../Objekter/organisasjon";
 
 const AriaMenuButton = require("react-aria-menubutton");
 

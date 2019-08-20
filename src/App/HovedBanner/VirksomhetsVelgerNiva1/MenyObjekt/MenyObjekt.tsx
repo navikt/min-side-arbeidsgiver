@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { OverenhetOrganisasjon } from "../../../../../Objekter/organisasjon";
+import { OverenhetOrganisasjon } from "../../../../Objekter/organisasjon";
 import "./MenyObjekt.less";
 import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
 import VirksomhetsVelgerNiva2 from "./VirksomhetsVelgerNiva2/VirksomhetsVelgerNiva2";

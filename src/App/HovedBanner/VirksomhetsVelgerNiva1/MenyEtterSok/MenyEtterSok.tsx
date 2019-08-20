@@ -4,9 +4,9 @@ import {
   Organisasjon,
   OverenhetOrganisasjon
 } from "../../../../Objekter/organisasjon";
-import MenyObjektNiva2 from "../VirksomhetsVelgerNiva1/MenyObjekt/VirksomhetsVelgerNiva2/MenyObjektNiva2/MenyObjektNiva2";
-import OrganisasjonsVisning from "../VirksomhetsVelgerNiva1/OrganisasjonsVisning/OrganisasjonsVisning";
-import "../VirksomhetsVelgerNiva1/MenyObjekt/MenyObjekt.less";
+import MenyObjektNiva2 from "../MenyObjekt/VirksomhetsVelgerNiva2/MenyObjektNiva2/MenyObjektNiva2";
+import OrganisasjonsVisning from "../OrganisasjonsVisning/OrganisasjonsVisning";
+import "../MenyObjekt/MenyObjekt.less";
 
 export interface Props {
   ListeMedObjektFraSok: OverenhetOrganisasjon[];
