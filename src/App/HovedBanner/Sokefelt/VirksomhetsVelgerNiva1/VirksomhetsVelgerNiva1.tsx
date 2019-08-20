@@ -159,6 +159,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
                   alt={""}
                   className={"organisasjons-meny__input-kryss"}
                   src={kryss}
+                  onClick={() => setInputTekst("")}
                 />
               )}
               <div className={"organisasjons-meny__meny-komponenter-container"}>
