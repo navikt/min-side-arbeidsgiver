@@ -74,6 +74,7 @@ export async function lagToDimensjonalArray(
       UnderOrganisasjoner: underenheter
     };
   });
+
   utenTilgangTilJuridiskEnhetBedrifter.forEach(async organisasjon => {
     if (organisasjon.OrganizationForm === "BEDR") {
       const overordnetEnhetEReg: EnhetsregisteretOrg = await hentOverordnetEnhet(

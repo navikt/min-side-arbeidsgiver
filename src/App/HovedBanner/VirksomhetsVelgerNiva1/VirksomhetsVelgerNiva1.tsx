@@ -21,7 +21,7 @@ import sok from "./fill-199.svg";
 import kryss from "./remove-1.svg";
 import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
 import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
-import { LagMenyListe } from "./LagMenyListe";
+import { byggSokeresultat } from "./byggSokeresultat";
 import {
   OverenhetOrganisasjon,
   tomAltinnOrganisasjon
@@ -52,7 +52,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<
   const HentTekstOgSettState = (event: any) => {
     setInputTekst(event.currentTarget.value);
     setlisteMedOrganisasjonerFraSok(
-      LagMenyListe(organisasjonstre, organisasjoner, inputTekst)
+      byggSokeresultat(organisasjonstre, organisasjoner, inputTekst)
     );
   };
 
