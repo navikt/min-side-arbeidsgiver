@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 
 import { Organisasjon, OverenhetOrganisasjon } from '../../../Objekter/organisasjon';
-import Virksomhet from './Virksomhet/Virksomhet';
 import Underenhet from './JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
 import './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
+import JuridiskEnhet from './JuridiskEnhetMedUnderenheter/JuridiskEnhet/JuridiskEnhet';
 
 export interface Props {
     ListeMedObjektFraSok: OverenhetOrganisasjon[];
@@ -21,7 +21,7 @@ const Sokeresultat: FunctionComponent<Props> = props => {
         return (
             <>
                 <div>
-                    <Virksomhet erJuridiskEnhet hovedOrganisasjon={juridiskEnhet.overordnetOrg} />
+                    <JuridiskEnhet organisasjon={juridiskEnhet} />
                 </div>
                 {UnderOrganisasjonsMenyKomponenter}
             </>
