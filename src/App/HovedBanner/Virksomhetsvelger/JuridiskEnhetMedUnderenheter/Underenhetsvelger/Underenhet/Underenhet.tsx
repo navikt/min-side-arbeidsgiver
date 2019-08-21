@@ -19,6 +19,7 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
             text={underEnhet.Name}
             tag="button"
             className={'underenhet'}
+            tabIndex={0}
         >
             <Underenhetsikon />
             <div className="underenhet__tekst">
