@@ -22,10 +22,7 @@ const Sokeresultat: FunctionComponent<Props> = props => {
         return (
             <div className={'meny-objekt__objekt-etter-sok'}>
                 <div className={'meny-objekt__juridisk-enhet  etter-sok'}>
-                    <Virksomhet
-                        hovedOrganisasjon={juridiskEnhet.overordnetOrg}
-                        className={'meny-objekt juridisk-enhet'}
-                    />
+                    <Virksomhet erJuridiskEnhet hovedOrganisasjon={juridiskEnhet.overordnetOrg} />
                 </div>
                 {UnderOrganisasjonsMenyKomponenter}
             </div>

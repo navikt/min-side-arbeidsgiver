@@ -9,36 +9,34 @@ import underenhetikon from './underenhet-ikon.svg';
 import './Virksomhet.less';
 
 interface Props {
-    className: string;
+    erJuridiskEnhet?: boolean;
     hovedOrganisasjon: Organisasjon;
 }
 
-const Virksomhet: FunctionComponent<Props> = props => {
+const Virksomhet: FunctionComponent<Props> = ({ erJuridiskEnhet, hovedOrganisasjon }) => {
+    const className = 'virksomhet' + (erJuridiskEnhet ? ' virksomhet--juridiskEnhet' : '');
+
     return (
-        <div className={props.className}>
+        <div className={className}>
             <img
                 alt={'ikon for bedrift'}
-                className={props.className + '__bedrifts-ikon'}
+                className="virksomhet__bedrifts-ikon"
                 src={bedriftsikon}
             />
             <img
                 alt={'ikon for underenhet'}
-                className={props.className + '__underenhet-ikon'}
+                className="virksomhet__underenhet-ikon"
                 src={underenhetikon}
             />
             <img
                 alt={'ikon for underenhet'}
-                className={props.className + '__underenhet-hvit'}
+                className="virksomhet__underenhet-hvit"
                 src={underenhethvit}
             />
-            <img
-                alt={'hvitt ikon'}
-                className={props.className + '__hvitt-ikon'}
-                src={hvittbedriftsikon}
-            />
-            <div className={props.className + '__tekst'}>
-                <Element>{props.hovedOrganisasjon.Name}</Element>
-                org. nr. {props.hovedOrganisasjon.OrganizationNumber}
+            <img alt={'hvitt ikon'} className="virksomhet__hvitt-ikon" src={hvittbedriftsikon} />
+            <div className="virksomhet__tekst">
+                <Element>{hovedOrganisasjon.Name}</Element>
+                org. nr. {hovedOrganisasjon.OrganizationNumber}
             </div>
         </div>
     );
