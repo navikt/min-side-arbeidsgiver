@@ -6,22 +6,16 @@
     height: 4rem;
     align-items: center;
     flex-wrap: nowrap;
-    padding: 0.7rem;
+    padding: 1rem;
     background-color: @navLysBlaLighten60;
     margin-bottom: 1px;
 
     &:hover {
-        background-color: @navBla;
         color: white;
+        background-color: @navBla;
 
-        .virksomhet__underenhet-hvit {
-            display: initial;
-            margin-left: 0.465rem;
-            margin-right: 1rem;
-        }
-
-        .virksomhet__underenhet-ikon {
-            display: none;
+        svg g {
+            stroke: white;
         }
     }
 
@@ -31,20 +25,9 @@
         z-index: 15;
     }
 
-    &__hvitt-ikon {
-        display: none;
-    }
-
-    &__underenhet-hvit {
-        display: none;
-    }
-
-    &__bedrifts-ikon {
-        display: none;
-    }
-
-    &__underenhet-ikon {
-        margin-left: 0.465rem;
+    svg {
+        flex-shrink: 0;
+        margin-left: 0.5rem;
         margin-right: 1rem;
     }
 
@@ -59,38 +42,8 @@
     &--juridiskEnhet {
         background-color: #e7e9e9;
 
-        &:hover {
-            .virksomhet {
-                &__underenhet-hvit {
-                    display: none;
-                }
-
-                &__bedrifts-ikon {
-                    display: none;
-                }
-
-                &__hvitt-ikon {
-                    display: block;
-                }
-            }
-        }
-
-        .virksomhet {
-            &__bedrifts-ikon {
-                display: unset;
-            }
-
-            &__hvitt-ikon {
-                display: none;
-            }
-
-            &__underenhet-ikon {
-                display: none;
-            }
-
-            &__underenhet-hvit {
-                display: none;
-            }
+        svg {
+            margin: unset;
         }
     }
 }
