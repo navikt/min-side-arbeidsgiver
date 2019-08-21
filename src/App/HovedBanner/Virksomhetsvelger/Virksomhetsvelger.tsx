@@ -59,14 +59,14 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
             return (
                 <JuridiskEnhetMedUnderenheter
                     organisasjon={organisasjon}
-                    className={'forste-meny-objekt'}
+                    className={'forste-menyobjekt'}
                 />
             );
         } else {
             return (
                 <JuridiskEnhetMedUnderenheter
                     organisasjon={organisasjon}
-                    className={'meny-objekt'}
+                    className={'ikke-forste-menyobjekt'}
                 />
             );
         }
