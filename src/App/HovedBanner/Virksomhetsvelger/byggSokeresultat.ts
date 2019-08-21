@@ -1,5 +1,5 @@
 import fuzzysort from 'fuzzysort';
-import { Organisasjon, OverenhetOrganisasjon } from '../../../Objekter/organisasjon';
+import { Organisasjon, JuridiskEnhetMedUnderEnheter } from '../../../Objekter/organisasjon';
 
 const fuzzysortConfig = {
     key: 'Name',
@@ -8,10 +8,10 @@ const fuzzysortConfig = {
 };
 
 export function byggSokeresultat(
-    organisasjonstre: OverenhetOrganisasjon[],
+    organisasjonstre: JuridiskEnhetMedUnderEnheter[],
     organisasjoner: Organisasjon[],
     inputTekst: string
-): OverenhetOrganisasjon[] {
+): JuridiskEnhetMedUnderEnheter[] {
     const sokeresultat = finnUnderEnheterMedSok(organisasjoner, inputTekst);
 
     return matchResultatMedJuridiskEnhet(organisasjonstre, sokeresultat);
@@ -23,20 +23,20 @@ const finnUnderEnheterMedSok = (organisasjoner: Organisasjon[], inputTekst: stri
         .map((underenhet: any) => underenhet.obj);
 
 const matchResultatMedJuridiskEnhet = (
-    organisasjonstre: OverenhetOrganisasjon[],
+    organisasjonstre: JuridiskEnhetMedUnderEnheter[],
     sokeresultat: Organisasjon[]
-): OverenhetOrganisasjon[] => {
-    let sokeResultatListe: OverenhetOrganisasjon[] = [];
+): JuridiskEnhetMedUnderEnheter[] => {
+    let sokeResultatListe: JuridiskEnhetMedUnderEnheter[] = [];
 
     organisasjonstre.forEach(juridiskEnhet => {
-        let listeMedUnderEnheterFraSokeResultat = juridiskEnhet.UnderOrganisasjoner.filter(
-            underenhet => sokeresultat.includes(underenhet)
+        let listeMedUnderEnheterFraSokeResultat = juridiskEnhet.Underenheter.filter(underenhet =>
+            sokeresultat.includes(underenhet)
         );
 
         if (listeMedUnderEnheterFraSokeResultat.length > 0) {
             sokeResultatListe.push({
-                overordnetOrg: juridiskEnhet.overordnetOrg,
-                UnderOrganisasjoner: listeMedUnderEnheterFraSokeResultat,
+                JuridiskEnhet: juridiskEnhet.JuridiskEnhet,
+                Underenheter: listeMedUnderEnheterFraSokeResultat,
             });
         }
     });

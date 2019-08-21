@@ -3,10 +3,10 @@ import { Element } from 'nav-frontend-typografi';
 
 import './JuridiskEnhet.less';
 import { ReactComponent as JuridiskEnhetsikon } from './juridiskEnhet.svg';
-import { OverenhetOrganisasjon } from '../../../../../Objekter/organisasjon';
+import { JuridiskEnhetMedUnderEnheter } from '../../../../../Objekter/organisasjon';
 
 interface Props {
-    organisasjon: OverenhetOrganisasjon;
+    organisasjon: JuridiskEnhetMedUnderEnheter;
 }
 
 const JuridiskEnhet: FunctionComponent<Props> = props => {
@@ -14,8 +14,8 @@ const JuridiskEnhet: FunctionComponent<Props> = props => {
         <div className="juridisk-enhet">
             <JuridiskEnhetsikon />
             <div className="juridisk-enhet__tekst">
-                <Element>{props.organisasjon.overordnetOrg.Name}</Element>
-                org. nr. {props.organisasjon.overordnetOrg.OrganizationNumber}
+                <Element>{props.organisasjon.JuridiskEnhet.Name}</Element>
+                org. nr. {props.organisasjon.JuridiskEnhet.OrganizationNumber}
             </div>
         </div>
     );

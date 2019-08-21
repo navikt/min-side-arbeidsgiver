@@ -1,19 +1,19 @@
 import React, { FunctionComponent } from 'react';
 
-import { Organisasjon, OverenhetOrganisasjon } from '../../../Objekter/organisasjon';
+import { Organisasjon, JuridiskEnhetMedUnderEnheter } from '../../../Objekter/organisasjon';
 import Underenhet from './JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
 import './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
 import JuridiskEnhet from './JuridiskEnhetMedUnderenheter/JuridiskEnhet/JuridiskEnhet';
 
 export interface Props {
-    ListeMedObjektFraSok: OverenhetOrganisasjon[];
+    ListeMedObjektFraSok: JuridiskEnhetMedUnderEnheter[];
 }
 
 const Sokeresultat: FunctionComponent<Props> = props => {
     const menyKomponenter = props.ListeMedObjektFraSok.map(function(
-        juridiskEnhet: OverenhetOrganisasjon
+        juridiskEnhet: JuridiskEnhetMedUnderEnheter
     ) {
-        const UnderOrganisasjonsMenyKomponenter = juridiskEnhet.UnderOrganisasjoner.map(function(
+        const UnderOrganisasjonsMenyKomponenter = juridiskEnhet.Underenheter.map(function(
             org: Organisasjon
         ) {
             return <Underenhet underEnhet={org} />;

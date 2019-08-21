@@ -1,6 +1,6 @@
 import {
     Organisasjon,
-    OverenhetOrganisasjon,
+    JuridiskEnhetMedUnderEnheter,
     tomAltinnOrganisasjon,
 } from '../Objekter/organisasjon';
 import { SyfoKallObjekt } from '../syfoKallObjekt';
@@ -42,13 +42,11 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
-): Promise<OverenhetOrganisasjon[]> {
+): Promise<JuridiskEnhetMedUnderEnheter[]> {
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
     let utenTilgangTilJuridiskEnhetBedrifter = organisasjoner;
-    logInfo('juridiske enheter: ' + juridiskeEnheter);
-
     let organisasjonsliste = juridiskeEnheter.map(juridiskEnhet => {
         const underenheter = organisasjoner.filter(underenhet => {
             if (underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber) {
@@ -87,8 +85,6 @@ export async function byggOrganisasjonstre(
             });
         }
     });
-
-    console.log(organisasjonsliste);
 
     return organisasjonsliste;
 }

@@ -4,13 +4,13 @@ import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
 
-import { Organisasjon, OverenhetOrganisasjon } from '../../../../../Objekter/organisasjon';
+import { Organisasjon, JuridiskEnhetMedUnderEnheter } from '../../../../../Objekter/organisasjon';
 import Underenhet from './Underenhet/Underenhet';
 import './Underenhetsvelger.less';
 
 interface Props {
     className?: string;
-    hovedOrganisasjon: OverenhetOrganisasjon;
+    hovedOrganisasjon: JuridiskEnhetMedUnderEnheter;
 }
 
 const Underenhetsvelger: FunctionComponent<
@@ -22,7 +22,7 @@ const Underenhetsvelger: FunctionComponent<
 
     const [erApen, setErApen] = useState(false);
 
-    const OrganisasjonsMenyKomponenter = props.hovedOrganisasjon.UnderOrganisasjoner.map(function(
+    const OrganisasjonsMenyKomponenter = props.hovedOrganisasjon.Underenheter.map(function(
         organisasjon: Organisasjon
     ) {
         return <Underenhet underEnhet={organisasjon} />;
@@ -36,8 +36,8 @@ const Underenhetsvelger: FunctionComponent<
                 closeOnSelection={false}
                 onMenuToggle={(erApen: WrapperState) => {
                     setErApen(erApen.isOpen);
-                    if (props.hovedOrganisasjon.overordnetOrg.Type !== 'Enterprise') {
-                        settUrl(props.hovedOrganisasjon.overordnetOrg.OrganizationNumber);
+                    if (props.hovedOrganisasjon.JuridiskEnhet.Type !== 'Enterprise') {
+                        settUrl(props.hovedOrganisasjon.JuridiskEnhet.OrganizationNumber);
                     }
                 }}
             >
@@ -45,13 +45,13 @@ const Underenhetsvelger: FunctionComponent<
                     {!erApen && (
                         <>
                             <NedChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
-                            Vis {props.hovedOrganisasjon.UnderOrganisasjoner.length} underenheter
+                            Vis {props.hovedOrganisasjon.Underenheter.length} underenheter
                         </>
                     )}
                     {erApen && (
                         <>
                             <OppChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
-                            Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length} underenheter
+                            Skjul {props.hovedOrganisasjon.Underenheter.length} underenheter
                         </>
                     )}
                 </Button>

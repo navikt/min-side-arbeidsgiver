@@ -8,7 +8,10 @@ import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
 import { byggSokeresultat } from './byggSokeresultat';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { OverenhetOrganisasjon, tomAltinnOrganisasjon } from '../../../Objekter/organisasjon';
+import {
+    JuridiskEnhetMedUnderEnheter,
+    tomAltinnOrganisasjon,
+} from '../../../Objekter/organisasjon';
 import bedriftsikon from './underenhet-ikon.svg';
 import hvittbedriftsikon from './hvit-underenhet.svg';
 import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
@@ -38,9 +41,9 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
         );
     };
 
-    const setOrganisasjonHvisUnderEnhet = (org: OverenhetOrganisasjon) => {
-        if (org.overordnetOrg.Type !== 'Enterprise') {
-            props.history.push('/' + org.overordnetOrg.OrganizationNumber);
+    const setOrganisasjonHvisUnderEnhet = (org: JuridiskEnhetMedUnderEnheter) => {
+        if (org.JuridiskEnhet.Type !== 'Enterprise') {
+            props.history.push('/' + org.JuridiskEnhet.OrganizationNumber);
             setErApen(false);
         }
     };
@@ -67,7 +70,9 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                     setErApen(erApen.isOpen);
                 }}
                 closeOnSelection={false}
-                onSelection={(value: OverenhetOrganisasjon) => setOrganisasjonHvisUnderEnhet(value)}
+                onSelection={(value: JuridiskEnhetMedUnderEnheter) =>
+                    setOrganisasjonHvisUnderEnhet(value)
+                }
             >
                 {valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <Button className="organisasjons-meny__button">

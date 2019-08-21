@@ -1,22 +1,22 @@
 export interface Organisasjon {
-  Name: string;
-  Type: string;
-  OrganizationNumber: string;
-  OrganizationForm: string;
-  Status: string;
-  ParentOrganizationNumber: string;
+    Name: string;
+    Type: string;
+    OrganizationNumber: string;
+    OrganizationForm: string;
+    Status: string;
+    ParentOrganizationNumber: string;
 }
 
-export interface OverenhetOrganisasjon {
-  overordnetOrg: Organisasjon;
-  UnderOrganisasjoner: Array<Organisasjon>;
+export interface JuridiskEnhetMedUnderEnheter {
+    JuridiskEnhet: Organisasjon;
+    Underenheter: Array<Organisasjon>;
 }
 
 export const tomAltinnOrganisasjon: Organisasjon = {
-  Name: "",
-  Type: "",
-  OrganizationNumber: "",
-  OrganizationForm: "",
-  Status: "",
-  ParentOrganizationNumber: ""
+    Name: '',
+    Type: '',
+    OrganizationNumber: '',
+    OrganizationForm: '',
+    Status: '',
+    ParentOrganizationNumber: '',
 };

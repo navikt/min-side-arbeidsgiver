@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Organisasjon, OverenhetOrganisasjon } from './Objekter/organisasjon';
+import { Organisasjon, JuridiskEnhetMedUnderEnheter } from './Objekter/organisasjon';
 import { hentOrganisasjoner, byggOrganisasjonstre } from './api/dnaApi';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
-    organisasjonstre: Array<OverenhetOrganisasjon>;
+    organisasjonstre: Array<JuridiskEnhetMedUnderEnheter>;
 };
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
@@ -12,7 +12,7 @@ export { OrganisasjonsListeContext };
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
-    const [organisasjonstre, setorganisasjonstre] = useState(Array<OverenhetOrganisasjon>());
+    const [organisasjonstre, setorganisasjonstre] = useState(Array<JuridiskEnhetMedUnderEnheter>());
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -23,7 +23,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
-            const toDim: Array<OverenhetOrganisasjon> = await byggOrganisasjonstre(organisasjoner);
+            const toDim: Array<JuridiskEnhetMedUnderEnheter> = await byggOrganisasjonstre(
+                organisasjoner
+            );
             setorganisasjonstre(toDim);
         };
         getOrganisasjoner();
