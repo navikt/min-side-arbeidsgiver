@@ -18,31 +18,14 @@ const Sokeresultat: FunctionComponent<Props> = props => {
         ) {
             return <Underenhet underEnhet={org} />;
         });
-        if (juridiskEnhet === props.ListeMedObjektFraSok[0]) {
-            return (
-                <div className={'forste-menyobjekt'}>
-                    <div>
-                        <Virksomhet
-                            erJuridiskEnhet
-                            hovedOrganisasjon={juridiskEnhet.overordnetOrg}
-                        />
-                    </div>
-                    {UnderOrganisasjonsMenyKomponenter}
+        return (
+            <>
+                <div>
+                    <Virksomhet erJuridiskEnhet hovedOrganisasjon={juridiskEnhet.overordnetOrg} />
                 </div>
-            );
-        } else {
-            return (
-                <div className={'ikke-forst'}>
-                    <div>
-                        <Virksomhet
-                            erJuridiskEnhet
-                            hovedOrganisasjon={juridiskEnhet.overordnetOrg}
-                        />
-                    </div>
-                    {UnderOrganisasjonsMenyKomponenter}
-                </div>
-            );
-        }
+                {UnderOrganisasjonsMenyKomponenter}
+            </>
+        );
     });
 
     return <>{menyKomponenter}</>;

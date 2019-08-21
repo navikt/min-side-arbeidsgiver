@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-
 import { OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
 import { Element } from 'nav-frontend-typografi';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
+
 import './JuridiskEnhetMedUnderenheter.less';
 import { ReactComponent as JuridiskEnhetsikon } from '../Virksomhet/juridiskEnhet.svg';
 

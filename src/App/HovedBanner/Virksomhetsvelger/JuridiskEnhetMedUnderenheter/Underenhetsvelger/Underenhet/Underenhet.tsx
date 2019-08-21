@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { MenuItem } from 'react-aria-menubutton';
+import { Element } from 'nav-frontend-typografi';
 
 import { Organisasjon } from '../../../../../../Objekter/organisasjon';
-import Virksomhet from '../../../Virksomhet/Virksomhet';
+import { ReactComponent as Underenhetsikon } from './underenhet-ikon.svg';
 import './Underenhet.less';
 
 interface Props {
@@ -17,9 +18,13 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
             value={underEnhet.OrganizationNumber}
             text={underEnhet.Name}
             tag="button"
-            className={'underenhet-meny-valg'}
+            className={'underenhet'}
         >
-            <Virksomhet hovedOrganisasjon={underEnhet} />
+            <Underenhetsikon />
+            <div className="underenhet__tekst">
+                <Element>{underEnhet.Name}</Element>
+                org. nr. {underEnhet.OrganizationNumber}
+            </div>
         </MenuItem>
     );
 };
