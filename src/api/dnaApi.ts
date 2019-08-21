@@ -46,7 +46,7 @@ export function lagToDimensjonalArray(
   ) {
     return organisasjon.Type === "Enterprise";
   });
-  logInfo("juridiske enheter: " + juridiskeEnheter);
+  logInfo("juridiske enheter: " + juridiskeEnheter.length);
 
   return juridiskeEnheter.map(juridiskEnhet => {
     const underenheter = organisasjoner.filter(
