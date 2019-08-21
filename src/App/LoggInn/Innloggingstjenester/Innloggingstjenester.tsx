@@ -15,7 +15,7 @@ export const Innloggingstjenester: FunctionComponent = () => {
           alt={""}
           className={"innloggingsside-tjenester__tjeneste-ikon"}
         />
-        <Element>Sykefraværsoppfølging </Element>
+        <Element>Dine sykemeldte </Element>
       </div>
       <div className={"innloggingsside-tjenester__tjeneste"}>
         <img
