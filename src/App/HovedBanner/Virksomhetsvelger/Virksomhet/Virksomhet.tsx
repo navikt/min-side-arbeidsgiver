@@ -2,10 +2,8 @@ import React, { FunctionComponent } from 'react';
 import { Element } from 'nav-frontend-typografi';
 
 import { Organisasjon } from '../../../../Objekter/organisasjon';
-import bedriftsikon from './bedriftsikon.svg';
-import hvittbedriftsikon from './hvit-bedrift.svg';
-import underenhethvit from './hvit-underenhet.svg';
-import underenhetikon from './underenhet-ikon.svg';
+import { ReactComponent as JuridiskEnhetsikon } from './juridiskEnhet.svg';
+import { ReactComponent as Virksomhetsikon } from './virksomhet.svg';
 import './Virksomhet.less';
 
 interface Props {
@@ -18,22 +16,7 @@ const Virksomhet: FunctionComponent<Props> = ({ erJuridiskEnhet, hovedOrganisasj
 
     return (
         <div className={className}>
-            <img
-                alt={'ikon for bedrift'}
-                className="virksomhet__bedrifts-ikon"
-                src={bedriftsikon}
-            />
-            <img
-                alt={'ikon for underenhet'}
-                className="virksomhet__underenhet-ikon"
-                src={underenhetikon}
-            />
-            <img
-                alt={'ikon for underenhet'}
-                className="virksomhet__underenhet-hvit"
-                src={underenhethvit}
-            />
-            <img alt={'hvitt ikon'} className="virksomhet__hvitt-ikon" src={hvittbedriftsikon} />
+            {erJuridiskEnhet ? <JuridiskEnhetsikon /> : <Virksomhetsikon />}
             <div className="virksomhet__tekst">
                 <Element>{hovedOrganisasjon.Name}</Element>
                 org. nr. {hovedOrganisasjon.OrganizationNumber}
