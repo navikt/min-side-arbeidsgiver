@@ -40,7 +40,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     }
 }
 
-export async function lagToDimensjonalArray(
+export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
 ): Promise<OverenhetOrganisasjon[]> {
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
