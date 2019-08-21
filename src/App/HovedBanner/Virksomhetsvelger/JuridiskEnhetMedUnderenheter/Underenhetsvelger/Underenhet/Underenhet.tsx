@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { MenuItem } from 'react-aria-menubutton';
 
 import { Organisasjon } from '../../../../../../Objekter/organisasjon';
-import OrganisasjonsVisning from '../../../OrganisasjonsVisning/OrganisasjonsVisning';
+import Virksomhet from '../../../Virksomhet/Virksomhet';
 import './Underenhet.less';
 
 interface Props {
@@ -19,7 +19,7 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
             tabIndex={0}
             className={'underenhet-meny-valg'}
         >
-            <OrganisasjonsVisning hovedOrganisasjon={underEnhet} className={'underenhet'} />
+            <Virksomhet hovedOrganisasjon={underEnhet} className={'underenhet'} />
         </MenuItem>
     );
 };

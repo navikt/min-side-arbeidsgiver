@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import { Organisasjon, OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
-import OrganisasjonsVisning from '../OrganisasjonsVisning/OrganisasjonsVisning';
+import Virksomhet from '../Virksomhet/Virksomhet';
 import Underenhet from '../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
 import '../JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
 
@@ -9,7 +9,7 @@ export interface Props {
     ListeMedObjektFraSok: OverenhetOrganisasjon[];
 }
 
-const MenyEtterSok: FunctionComponent<Props> = props => {
+const Sokeresultat: FunctionComponent<Props> = props => {
     const menyKomponenter = props.ListeMedObjektFraSok.map(function(
         juridiskEnhet: OverenhetOrganisasjon
     ) {
@@ -22,9 +22,9 @@ const MenyEtterSok: FunctionComponent<Props> = props => {
         return (
             <div className={'meny-objekt__objekt-etter-sok'}>
                 <div className={'meny-objekt__juridisk-enhet  etter-sok'}>
-                    <OrganisasjonsVisning
+                    <Virksomhet
                         hovedOrganisasjon={juridiskEnhet.overordnetOrg}
-                        className={'meny-objekt__juridisk-enhet'}
+                        className={'meny-objekt juridisk-enhet'}
                     />
                 </div>
                 {UnderOrganisasjonsMenyKomponenter}
@@ -35,4 +35,4 @@ const MenyEtterSok: FunctionComponent<Props> = props => {
     return <>{menyKomponenter}</>;
 };
 
-export default MenyEtterSok;
+export default Sokeresultat;

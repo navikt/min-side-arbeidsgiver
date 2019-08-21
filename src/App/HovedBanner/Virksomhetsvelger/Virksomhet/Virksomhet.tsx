@@ -6,14 +6,14 @@ import bedriftsikon from './bedriftsikon.svg';
 import hvittbedriftsikon from './hvit-bedrift.svg';
 import underenhethvit from './hvit-underenhet.svg';
 import underenhetikon from './underenhet-ikon.svg';
-import './Organisasjonsvisning.less';
+import './Virksomhet.less';
 
 interface Props {
     className: string;
     hovedOrganisasjon: Organisasjon;
 }
 
-const OrganisasjonsVisning: FunctionComponent<Props> = props => {
+const Virksomhet: FunctionComponent<Props> = props => {
     return (
         <div className={props.className}>
             <img
@@ -44,4 +44,4 @@ const OrganisasjonsVisning: FunctionComponent<Props> = props => {
     );
 };
 
-export default OrganisasjonsVisning;
+export default Virksomhet;
