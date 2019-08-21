@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { MenuItem } from 'react-aria-menubutton';
 
 import { OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
-import OrganisasjonsVisning from '../OrganisasjonsVisning/OrganisasjonsVisning';
+import Virksomhet from '../Virksomhet/Virksomhet';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import './JuridiskEnhetMedUnderenheter.less';
 
@@ -14,7 +14,7 @@ interface Props {
 const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
     return (
         <div className={props.className}>
-            <OrganisasjonsVisning
+            <Virksomhet
                 hovedOrganisasjon={props.organisasjon.overordnetOrg}
                 className={'juridisk-enhet'}
             />

@@ -9,11 +9,11 @@ import { byggSokeresultat } from './byggSokeresultat';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { OverenhetOrganisasjon, tomAltinnOrganisasjon } from '../../../Objekter/organisasjon';
-import bedriftsikon from './OrganisasjonsVisning/underenhet-ikon.svg';
-import hvittbedriftsikon from './OrganisasjonsVisning/hvit-underenhet.svg';
+import bedriftsikon from './Virksomhet/underenhet-ikon.svg';
+import hvittbedriftsikon from './Virksomhet/hvit-underenhet.svg';
 import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
 import kryss from './kryss.svg';
-import MenyEtterSok from './MenyEtterSok/MenyEtterSok';
+import Sokeresultat from './Sokeresultat/Sokeresultat';
 import sok from './forstorrelsesglass.svg';
 import './Virksomhetsvelger.less';
 
@@ -21,7 +21,7 @@ interface Props {
     className?: string;
 }
 
-const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = props => {
+const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props => {
     const { organisasjonstre, organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [erApen, setErApen] = useState(false);
@@ -145,7 +145,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
                                 {inputTekst.length === 0 && OrganisasjonsMenyKomponenter}
                                 {inputTekst.length > 0 && (
                                     <>
-                                        <MenyEtterSok
+                                        <Sokeresultat
                                             ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
                                         />
                                     </>
@@ -159,4 +159,4 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
     );
 };
 
-export default withRouter(VirksomhetsVelgerNiva1);
+export default withRouter(Virksomhetsvelger);
