@@ -43,7 +43,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
   return (
     <div className={"arbeidstreningboks " + props.className}>
       <TjenesteBoksBanner
-        tittel={"Arbeidstrening"}
+        tittel={"Avtaler"}
         imgsource={arbeidstreningikon}
         altTekst={""}
       />
