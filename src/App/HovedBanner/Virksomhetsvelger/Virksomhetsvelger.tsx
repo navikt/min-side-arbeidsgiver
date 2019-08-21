@@ -3,21 +3,20 @@ import { Collapse } from 'react-collapse';
 import { Input } from 'nav-frontend-skjema';
 import { Undertittel, Element } from 'nav-frontend-typografi';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
+import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import { byggSokeresultat } from './byggSokeresultat';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import {
     JuridiskEnhetMedUnderEnheter,
     tomAltinnOrganisasjon,
 } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import bedriftsikon from './underenhet-ikon.svg';
-import hvittbedriftsikon from './hvit-underenhet.svg';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { ReactComponent as Virksomhetsikon } from './Virksomhet/virksomhet.svg';
 import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
 import kryss from './kryss.svg';
-import Sokeresultat from './MenyFraSokeresultat';
 import sok from './forstorrelsesglass.svg';
+import Sokeresultat from './MenyFraSokeresultat';
 import './Virksomhetsvelger.less';
 
 interface Props {
@@ -28,16 +27,19 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
     const { organisasjonstre, organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [erApen, setErApen] = useState(false);
-    const [valgtOrgNavn, setValgtOrgNavn] = useState(' ');
-    const [inputTekst, setInputTekst] = useState('');
+    const [søketekst, setSøketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
 
-    const HentTekstOgSettState = (event: any) => {
-        setInputTekst(event.currentTarget.value);
+    useEffect(() => {
+        setErApen(false);
+    }, [valgtOrganisasjon]);
+
+    const brukSøketekst = (event: any) => {
+        setSøketekst(event.currentTarget.value);
         setlisteMedOrganisasjonerFraSok(
-            byggSokeresultat(organisasjonstre, organisasjoner, inputTekst)
+            byggSokeresultat(organisasjonstre, organisasjoner, søketekst)
         );
     };
 
@@ -48,26 +50,16 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
         }
     };
 
-    useEffect(() => {
-        setErApen(false);
-        if (valgtOrganisasjon.Name.length > 23) {
-            setValgtOrgNavn(valgtOrganisasjon.Name.substring(0, 22) + '...');
-        } else {
-            setValgtOrgNavn(valgtOrganisasjon.Name);
-        }
-    }, [valgtOrganisasjon]);
-
-    const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(organisasjon) {
+    const organisasjonsMenyKomponenter = organisasjonstre.map(function(organisasjon) {
         return <JuridiskEnhetMedUnderenheter organisasjon={organisasjon} />;
     });
 
     return (
-        <div className={'organisasjons-meny ' + props.className}>
+        <div className={'virksomhetsvelger ' + props.className}>
             <Wrapper
-                className="organisasjons-meny__wrapper"
-                style={{ marginTop: 20 }}
-                onMenuToggle={(erApen: WrapperState) => {
-                    setErApen(erApen.isOpen);
+                className="virksomhetsvelger__wrapper"
+                onMenuToggle={({ isOpen }) => {
+                    setErApen(isOpen);
                 }}
                 closeOnSelection={false}
                 onSelection={(value: JuridiskEnhetMedUnderEnheter) =>
@@ -75,67 +67,52 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                 }
             >
                 {valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                    <Button className="organisasjons-meny__button">
-                        <img
-                            alt={'ikon for bedrift'}
-                            className={'organisasjons-meny__button__bedrifts-ikon'}
-                            src={bedriftsikon}
-                        />
-                        <img
-                            alt={'ikon for bedrift'}
-                            className={'organisasjons-meny__button__hvitt-ikon'}
-                            src={hvittbedriftsikon}
-                        />
-                        <div className="organisasjons-meny__button-tekst">
-                            <Element>{valgtOrgNavn}</Element>
+                    <Button className="virksomhetsvelger__button">
+                        <Virksomhetsikon />
+                        <div className="virksomhetsvelger__button-tekst">
+                            <Element>{valgtOrganisasjon.Name}</Element>
                             org. nr. {valgtOrganisasjon.OrganizationNumber}
                         </div>
                     </Button>
                 )}
-                <div
-                    className={
-                        erApen
-                            ? 'organisasjons-meny__wrapper-apen'
-                            : 'organisasjons-meny__wrapper-lukket'
-                    }
-                >
-                    <Collapse isOpened={true || false}>
-                        <Menu className={'organisasjons-meny'}>
-                            <div className={'organisasjons-meny__vis-valgt-bedrift'}>
-                                <img alt={'ikon for bedrift'} src={bedriftsikon} />
-                                <div className="organisasjons-meny__vis-valgt-bedrift-tekst">
+                <div className={`virksomhetsvelger__wrapper-${erApen ? 'apen' : 'lukket'}`}>
+                    <Collapse isOpened>
+                        <Menu className={'virksomhetsvelger'}>
+                            <div className={'virksomhetsvelger__vis-valgt-bedrift'}>
+                                <Virksomhetsikon />
+                                <div className="virksomhetsvelger__vis-valgt-bedrift-tekst">
                                     <Undertittel>{valgtOrganisasjon.Name}</Undertittel>
                                     org. nr. {valgtOrganisasjon.OrganizationNumber}
                                 </div>
                             </div>
-                            <Undertittel className={'organisasjons-meny__dine-aktorer-tekst'}>
+                            <Undertittel className={'virksomhetsvelger__dine-aktorer-tekst'}>
                                 Dine aktører{' '}
                             </Undertittel>
                             <Input
                                 type="search"
                                 label={''}
-                                value={inputTekst}
-                                onChange={HentTekstOgSettState}
+                                value={søketekst}
+                                onChange={brukSøketekst}
                                 placeholder="Søk etter underenheter"
                             />
-                            {inputTekst.length === 0 && (
+                            {søketekst.length === 0 && (
                                 <img
                                     alt={''}
-                                    className={'organisasjons-meny__input-sok'}
+                                    className={'virksomhetsvelger__input-sok'}
                                     src={sok}
                                 />
                             )}
-                            {inputTekst.length > 0 && (
+                            {søketekst.length > 0 && (
                                 <img
                                     alt={''}
-                                    className={'organisasjons-meny__input-kryss'}
+                                    className={'virksomhetsvelger__input-kryss'}
                                     src={kryss}
-                                    onClick={() => setInputTekst('')}
+                                    onClick={() => setSøketekst('')}
                                 />
                             )}
-                            <div className={'organisasjons-meny__meny-komponenter-container'}>
-                                {inputTekst.length === 0 && OrganisasjonsMenyKomponenter}
-                                {inputTekst.length > 0 && (
+                            <div className={'virksomhetsvelger__meny-komponenter-container'}>
+                                {søketekst.length === 0 && organisasjonsMenyKomponenter}
+                                {søketekst.length > 0 && (
                                     <>
                                         <Sokeresultat
                                             ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
