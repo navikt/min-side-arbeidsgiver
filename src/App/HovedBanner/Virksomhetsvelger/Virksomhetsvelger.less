@@ -1,6 +1,6 @@
 @import '../../../../node_modules/nav-frontend-core/less/_variabler';
 
-.organisasjons-meny {
+.virksomhetsvelger {
     position: relative;
     z-index: 10;
     display: flex;
@@ -9,6 +9,7 @@
     width: 26rem;
 
     &__wrapper {
+        margin-top: 20px;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -115,13 +116,15 @@
         border: 2px solid @navBlaLighten60;
         margin-bottom: 1.8rem;
 
-        &__hvitt-ikon {
-            display: none;
+        svg {
+            margin-left: 0.5rem;
+            margin-right: 1rem;
         }
 
-        &__bedrifts-ikon {
-            margin-left: 0.465rem;
-            margin-right: 1rem;
+        &:hover {
+            svg g {
+                stroke: white;
+            }
         }
     }
 
@@ -136,7 +139,14 @@
     }
 
     &__button-tekst {
-        margin-left: 0.5rem;
+        overflow: hidden;
+        margin: 0 0.5rem;
+
+        .typo-element {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
     }
 
     &__button:hover {
