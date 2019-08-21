@@ -68,6 +68,8 @@ export async function lagToDimensjonalArray(
         );
         return underenhet;
       }
+
+      return false;
     });
     return {
       overordnetOrg: juridiskEnhet,
