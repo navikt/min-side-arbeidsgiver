@@ -1,6 +1,9 @@
 import React, { FunctionComponent } from 'react';
 
-import { Organisasjon, JuridiskEnhetMedUnderEnheter } from '../../../Objekter/organisasjon';
+import {
+    Organisasjon,
+    JuridiskEnhetMedUnderEnheter,
+} from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import Underenhet from './JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
 import './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
 import JuridiskEnhet from './JuridiskEnhetMedUnderenheter/JuridiskEnhet/JuridiskEnhet';

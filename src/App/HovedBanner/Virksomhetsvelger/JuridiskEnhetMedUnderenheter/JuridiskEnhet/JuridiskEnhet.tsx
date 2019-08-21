@@ -3,7 +3,7 @@ import { Element } from 'nav-frontend-typografi';
 
 import './JuridiskEnhet.less';
 import { ReactComponent as JuridiskEnhetsikon } from './juridiskEnhet.svg';
-import { JuridiskEnhetMedUnderEnheter } from '../../../../../Objekter/organisasjon';
+import { JuridiskEnhetMedUnderEnheter } from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 interface Props {
     organisasjon: JuridiskEnhetMedUnderEnheter;

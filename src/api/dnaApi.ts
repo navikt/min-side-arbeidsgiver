@@ -2,10 +2,10 @@ import {
     Organisasjon,
     JuridiskEnhetMedUnderEnheter,
     tomAltinnOrganisasjon,
-} from '../Objekter/organisasjon';
+} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
-import { EnhetsregisteretOrg } from '../Objekter/enhetsregisteretOrg';
+import { OrganisasjonFraEnhetsregisteret } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { logInfo } from '../utils/metricsUtils';
 import { hentOverordnetEnhet } from './enhetsregisteretApi';
 
@@ -61,14 +61,14 @@ export async function byggOrganisasjonstre(
             return false;
         });
         return {
-            overordnetOrg: juridiskEnhet,
-            UnderOrganisasjoner: underenheter,
+            JuridiskEnhet: juridiskEnhet,
+            Underenheter: underenheter,
         };
     });
 
     utenTilgangTilJuridiskEnhetBedrifter.forEach(async organisasjon => {
         if (organisasjon.OrganizationForm === 'BEDR') {
-            const overordnetEnhetEReg: EnhetsregisteretOrg = await hentOverordnetEnhet(
+            const overordnetEnhetEReg: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
                 organisasjon.OrganizationNumber
             );
             let overordnetAltinnOrg: Organisasjon = tomAltinnOrganisasjon;
@@ -80,8 +80,8 @@ export async function byggOrganisasjonstre(
             }
             overordnetAltinnOrg.Type = 'Enterprise';
             organisasjonsliste.push({
-                overordnetOrg: overordnetAltinnOrg,
-                UnderOrganisasjoner: [organisasjon],
+                JuridiskEnhet: overordnetAltinnOrg,
+                Underenheter: [organisasjon],
             });
         }
     });

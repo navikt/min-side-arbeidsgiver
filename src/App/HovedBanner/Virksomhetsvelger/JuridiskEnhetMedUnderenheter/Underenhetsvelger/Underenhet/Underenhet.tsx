@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { MenuItem } from 'react-aria-menubutton';
 import { Element } from 'nav-frontend-typografi';
 
-import { Organisasjon } from '../../../../../../Objekter/organisasjon';
+import { Organisasjon } from '../../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { ReactComponent as Underenhetsikon } from './underenhet-ikon.svg';
 import './Underenhet.less';
 

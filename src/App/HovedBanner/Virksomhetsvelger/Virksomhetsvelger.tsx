@@ -11,7 +11,7 @@ import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import {
     JuridiskEnhetMedUnderEnheter,
     tomAltinnOrganisasjon,
-} from '../../../Objekter/organisasjon';
+} from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import bedriftsikon from './underenhet-ikon.svg';
 import hvittbedriftsikon from './hvit-underenhet.svg';
 import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';

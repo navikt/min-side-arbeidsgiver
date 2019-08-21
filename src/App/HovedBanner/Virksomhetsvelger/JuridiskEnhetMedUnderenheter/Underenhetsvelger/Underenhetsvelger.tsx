@@ -4,7 +4,10 @@ import { NedChevron, OppChevron } from 'nav-frontend-chevron';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
 
-import { Organisasjon, JuridiskEnhetMedUnderEnheter } from '../../../../../Objekter/organisasjon';
+import {
+    Organisasjon,
+    JuridiskEnhetMedUnderEnheter,
+} from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import Underenhet from './Underenhet/Underenhet';
 import './Underenhetsvelger.less';
 

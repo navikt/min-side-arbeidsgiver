@@ -1,5 +1,8 @@
 import fuzzysort from 'fuzzysort';
-import { Organisasjon, JuridiskEnhetMedUnderEnheter } from '../../../Objekter/organisasjon';
+import {
+    Organisasjon,
+    JuridiskEnhetMedUnderEnheter,
+} from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 const fuzzysortConfig = {
     key: 'Name',
