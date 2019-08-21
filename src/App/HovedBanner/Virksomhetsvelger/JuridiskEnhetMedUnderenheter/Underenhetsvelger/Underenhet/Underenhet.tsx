@@ -19,7 +19,7 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
             tabIndex={0}
             className={'underenhet-meny-valg'}
         >
-            <Virksomhet hovedOrganisasjon={underEnhet} className={'underenhet'} />
+            <Virksomhet hovedOrganisasjon={underEnhet} />
         </MenuItem>
     );
 };

@@ -14,10 +14,7 @@ interface Props {
 const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
     return (
         <div className={props.className}>
-            <Virksomhet
-                hovedOrganisasjon={props.organisasjon.overordnetOrg}
-                className={'juridisk-enhet'}
-            />
+            <Virksomhet erJuridiskEnhet hovedOrganisasjon={props.organisasjon.overordnetOrg} />
             <MenuItem value={props.organisasjon} />
             <Underenhetsvelger hovedOrganisasjon={props.organisasjon} />
         </div>
