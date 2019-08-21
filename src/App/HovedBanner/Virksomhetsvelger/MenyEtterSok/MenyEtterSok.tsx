@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
 import { Organisasjon, OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
-import Underenhet from '../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
 import OrganisasjonsVisning from '../OrganisasjonsVisning/OrganisasjonsVisning';
+import Underenhet from '../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
 import '../JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
 
 export interface Props {

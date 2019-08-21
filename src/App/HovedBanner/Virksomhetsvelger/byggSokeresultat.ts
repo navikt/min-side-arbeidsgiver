@@ -1,5 +1,5 @@
-import { Organisasjon, OverenhetOrganisasjon } from '../../../Objekter/organisasjon';
 import fuzzysort from 'fuzzysort';
+import { Organisasjon, OverenhetOrganisasjon } from '../../../Objekter/organisasjon';
 
 const fuzzysortConfig = {
     key: 'Name',

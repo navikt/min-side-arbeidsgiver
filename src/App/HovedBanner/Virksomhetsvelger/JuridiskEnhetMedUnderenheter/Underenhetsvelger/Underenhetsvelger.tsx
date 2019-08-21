@@ -1,13 +1,12 @@
 import React, { FunctionComponent, useState } from 'react';
-import './Underenhetsvelger.less';
 import { Collapse } from 'react-collapse';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { NedChevron, OppChevron } from 'nav-frontend-chevron';
-import { WrapperState } from 'react-aria-menubutton';
-import Underenhet from './Underenhet/Underenhet';
-import { Organisasjon, OverenhetOrganisasjon } from '../../../../../Objekter/organisasjon';
+import { withRouter, RouteComponentProps } from 'react-router';
+import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
 
-const AriaMenuButton = require('react-aria-menubutton');
+import { Organisasjon, OverenhetOrganisasjon } from '../../../../../Objekter/organisasjon';
+import Underenhet from './Underenhet/Underenhet';
+import './Underenhetsvelger.less';
 
 interface Props {
     className?: string;
@@ -31,7 +30,7 @@ const Underenhetsvelger: FunctionComponent<
 
     return (
         <div className="virksomhets-velger-niva-2">
-            <AriaMenuButton.Wrapper
+            <Wrapper
                 className="virksomhets-velger-niva-2__wrapper"
                 onSelection={(value: string) => settUrl(value)}
                 closeOnSelection={false}
@@ -42,7 +41,7 @@ const Underenhetsvelger: FunctionComponent<
                     }
                 }}
             >
-                <AriaMenuButton.Button className={'virksomhets-velger-niva-2__nedre-button'}>
+                <Button className={'virksomhets-velger-niva-2__nedre-button'}>
                     {!erApen && (
                         <>
                             <NedChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
@@ -55,16 +54,16 @@ const Underenhetsvelger: FunctionComponent<
                             Skjul {props.hovedOrganisasjon.UnderOrganisasjoner.length} underenheter
                         </>
                     )}
-                </AriaMenuButton.Button>
+                </Button>
 
                 <div className="virksomhets-velger-niva-2__meny-wrapper">
                     <Collapse isOpened={true || false}>
-                        <AriaMenuButton.Menu className={'virksomhets-velger-niva-2__meny'}>
+                        <Menu className={'virksomhets-velger-niva-2__meny'}>
                             {OrganisasjonsMenyKomponenter}
-                        </AriaMenuButton.Menu>
+                        </Menu>
                     </Collapse>
                 </div>
-            </AriaMenuButton.Wrapper>
+            </Wrapper>
         </div>
     );
 };

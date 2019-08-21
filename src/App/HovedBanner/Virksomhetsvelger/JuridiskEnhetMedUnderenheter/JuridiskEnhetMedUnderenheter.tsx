@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
+import { MenuItem } from 'react-aria-menubutton';
+
 import { OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
-import './JuridiskEnhetMedUnderenheter.less';
 import OrganisasjonsVisning from '../OrganisasjonsVisning/OrganisasjonsVisning';
 import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
-
-const AriaMenuButton = require('react-aria-menubutton');
+import './JuridiskEnhetMedUnderenheter.less';
 
 interface Props {
     className: string;
@@ -18,7 +18,7 @@ const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
                 hovedOrganisasjon={props.organisasjon.overordnetOrg}
                 className={'juridisk-enhet'}
             />
-            <AriaMenuButton.MenuItem value={props.organisasjon} />
+            <MenuItem value={props.organisasjon} />
             <Underenhetsvelger hovedOrganisasjon={props.organisasjon} />
         </div>
     );

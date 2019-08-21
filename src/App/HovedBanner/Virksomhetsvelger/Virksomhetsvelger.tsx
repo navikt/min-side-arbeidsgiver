@@ -1,26 +1,21 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
-
 import { Collapse } from 'react-collapse';
-import { withRouter, RouteComponentProps } from 'react-router';
 import { Input } from 'nav-frontend-skjema';
-
-import './Virksomhetsvelger.less';
-
 import { Undertittel, Element } from 'nav-frontend-typografi';
+import { withRouter, RouteComponentProps } from 'react-router';
+import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
+
+import { byggSokeresultat } from './byggSokeresultat';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { OverenhetOrganisasjon, tomAltinnOrganisasjon } from '../../../Objekter/organisasjon';
 import bedriftsikon from './OrganisasjonsVisning/underenhet-ikon.svg';
 import hvittbedriftsikon from './OrganisasjonsVisning/hvit-underenhet.svg';
-import { WrapperState } from 'react-aria-menubutton';
 import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
-
-import sok from './forstorrelsesglass.svg';
 import kryss from './kryss.svg';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { byggSokeresultat } from './byggSokeresultat';
-import { OverenhetOrganisasjon, tomAltinnOrganisasjon } from '../../../Objekter/organisasjon';
 import MenyEtterSok from './MenyEtterSok/MenyEtterSok';
-
-const AriaMenuButton = require('react-aria-menubutton');
+import sok from './forstorrelsesglass.svg';
+import './Virksomhetsvelger.less';
 
 interface Props {
     className?: string;
@@ -79,7 +74,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
 
     return (
         <div className={'organisasjons-meny ' + props.className}>
-            <AriaMenuButton.Wrapper
+            <Wrapper
                 className="organisasjons-meny__wrapper"
                 style={{ marginTop: 20 }}
                 onMenuToggle={(erApen: WrapperState) => {
@@ -89,7 +84,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
                 onSelection={(value: OverenhetOrganisasjon) => setOrganisasjonHvisUnderEnhet(value)}
             >
                 {valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                    <AriaMenuButton.Button className="organisasjons-meny__button">
+                    <Button className="organisasjons-meny__button">
                         <img
                             alt={'ikon for bedrift'}
                             className={'organisasjons-meny__button__bedrifts-ikon'}
@@ -104,7 +99,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
                             <Element>{valgtOrgNavn}</Element>
                             org. nr. {valgtOrganisasjon.OrganizationNumber}
                         </div>
-                    </AriaMenuButton.Button>
+                    </Button>
                 )}
                 <div
                     className={
@@ -114,7 +109,7 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
                     }
                 >
                     <Collapse isOpened={true || false}>
-                        <AriaMenuButton.Menu className={'organisasjons-meny'}>
+                        <Menu className={'organisasjons-meny'}>
                             <div className={'organisasjons-meny__vis-valgt-bedrift'}>
                                 <img alt={'ikon for bedrift'} src={bedriftsikon} />
                                 <div className="organisasjons-meny__vis-valgt-bedrift-tekst">
@@ -156,10 +151,10 @@ const VirksomhetsVelgerNiva1: FunctionComponent<Props & RouteComponentProps> = p
                                     </>
                                 )}
                             </div>
-                        </AriaMenuButton.Menu>
+                        </Menu>
                     </Collapse>
                 </div>
-            </AriaMenuButton.Wrapper>
+            </Wrapper>
         </div>
     );
 };

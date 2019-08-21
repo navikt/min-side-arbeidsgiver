@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
+import { MenuItem } from 'react-aria-menubutton';
+
 import { Organisasjon } from '../../../../../../Objekter/organisasjon';
 import OrganisasjonsVisning from '../../../OrganisasjonsVisning/OrganisasjonsVisning';
 import './Underenhet.less';
-
-const AriaMenuButton = require('react-aria-menubutton');
 
 interface Props {
     className?: string;
@@ -12,7 +12,7 @@ interface Props {
 
 const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
     return (
-        <AriaMenuButton.MenuItem
+        <MenuItem
             key={underEnhet.OrganizationNumber}
             value={underEnhet.OrganizationNumber}
             text={underEnhet.Name}
@@ -20,7 +20,7 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
             className={'underenhet-meny-valg'}
         >
             <OrganisasjonsVisning hovedOrganisasjon={underEnhet} className={'underenhet'} />
-        </AriaMenuButton.MenuItem>
+        </MenuItem>
     );
 };
 
