@@ -1,10 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
-import { Element } from 'nav-frontend-typografi';
-import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 
+import { OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
+import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 import './JuridiskEnhetMedUnderenheter.less';
-import { ReactComponent as JuridiskEnhetsikon } from '../Virksomhet/juridiskEnhet.svg';
+import JuridiskEnhet from './JuridiskEnhet/JuridiskEnhet';
 
 interface Props {
     organisasjon: OverenhetOrganisasjon;
@@ -13,13 +12,7 @@ interface Props {
 const JuridiskEnhetMedUnderenheter: FunctionComponent<Props> = props => {
     return (
         <>
-            <div className="juridisk-enhet">
-                <JuridiskEnhetsikon />
-                <div className="juridisk-enhet__tekst">
-                    <Element>{props.organisasjon.overordnetOrg.Name}</Element>
-                    org. nr. {props.organisasjon.overordnetOrg.OrganizationNumber}
-                </div>
-            </div>
+            <JuridiskEnhet organisasjon={props.organisasjon} />
             <Underenhetsvelger hovedOrganisasjon={props.organisasjon} />
         </>
     );
