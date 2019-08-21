@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 
-import { Organisasjon, OverenhetOrganisasjon } from '../../../../Objekter/organisasjon';
-import Virksomhet from '../Virksomhet/Virksomhet';
-import Underenhet from '../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
-import '../JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
+import { Organisasjon, OverenhetOrganisasjon } from '../../../Objekter/organisasjon';
+import Virksomhet from './Virksomhet/Virksomhet';
+import Underenhet from './JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
+import './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
 
 export interface Props {
     ListeMedObjektFraSok: OverenhetOrganisasjon[];

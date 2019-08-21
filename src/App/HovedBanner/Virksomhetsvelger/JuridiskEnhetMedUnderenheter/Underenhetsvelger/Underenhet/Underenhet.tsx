@@ -16,7 +16,7 @@ const Underenhet: FunctionComponent<Props> = ({ underEnhet }) => {
             key={underEnhet.OrganizationNumber}
             value={underEnhet.OrganizationNumber}
             text={underEnhet.Name}
-            tabIndex={0}
+            tag="button"
             className={'underenhet-meny-valg'}
         >
             <Virksomhet hovedOrganisasjon={underEnhet} />

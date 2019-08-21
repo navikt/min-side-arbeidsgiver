@@ -13,7 +13,7 @@ import bedriftsikon from './Virksomhet/underenhet-ikon.svg';
 import hvittbedriftsikon from './Virksomhet/hvit-underenhet.svg';
 import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
 import kryss from './kryss.svg';
-import Sokeresultat from './Sokeresultat/Sokeresultat';
+import Sokeresultat from './MenyFraSokeresultat';
 import sok from './forstorrelsesglass.svg';
 import './Virksomhetsvelger.less';
 
@@ -55,21 +55,7 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
     }, [valgtOrganisasjon]);
 
     const OrganisasjonsMenyKomponenter = organisasjonstre.map(function(organisasjon) {
-        if (organisasjon === organisasjonstre[0]) {
-            return (
-                <JuridiskEnhetMedUnderenheter
-                    organisasjon={organisasjon}
-                    className={'forste-menyobjekt'}
-                />
-            );
-        } else {
-            return (
-                <JuridiskEnhetMedUnderenheter
-                    organisasjon={organisasjon}
-                    className={'ikke-forste-menyobjekt'}
-                />
-            );
-        }
+        return <JuridiskEnhetMedUnderenheter organisasjon={organisasjon} />;
     });
 
     return (
@@ -121,6 +107,7 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                                 Dine aktører{' '}
                             </Undertittel>
                             <Input
+                                type="search"
                                 label={''}
                                 value={inputTekst}
                                 onChange={HentTekstOgSettState}

@@ -15,13 +15,13 @@ const Virksomhet: FunctionComponent<Props> = ({ erJuridiskEnhet, hovedOrganisasj
     const className = 'virksomhet' + (erJuridiskEnhet ? ' virksomhet--juridiskEnhet' : '');
 
     return (
-        <div className={className}>
+        <>
             {erJuridiskEnhet ? <JuridiskEnhetsikon /> : <Virksomhetsikon />}
             <div className="virksomhet__tekst">
                 <Element>{hovedOrganisasjon.Name}</Element>
                 org. nr. {hovedOrganisasjon.OrganizationNumber}
             </div>
-        </div>
+        </>
     );
 };
 
