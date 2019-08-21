@@ -1,3 +1,3 @@
 export interface SyfoKallObjekt {
-  tilgang: boolean;
+    tilgang: boolean;
 }

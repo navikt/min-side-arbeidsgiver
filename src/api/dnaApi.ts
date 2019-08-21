@@ -3,7 +3,7 @@ import {
     JuridiskEnhetMedUnderEnheter,
     tomAltinnOrganisasjon,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { SyfoKallObjekt } from '../syfoKallObjekt';
+import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
 import { OrganisasjonFraEnhetsregisteret } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { logInfo } from '../utils/metricsUtils';
