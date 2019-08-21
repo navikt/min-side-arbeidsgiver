@@ -1,7 +1,7 @@
 import fuzzysort from 'fuzzysort';
 import {
     Organisasjon,
-    JuridiskEnhetMedUnderEnheter,
+    JuridiskEnhetMedUnderEnheterArray,
 } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 const fuzzysortConfig = {
@@ -11,10 +11,10 @@ const fuzzysortConfig = {
 };
 
 export function byggSokeresultat(
-    organisasjonstre: JuridiskEnhetMedUnderEnheter[],
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
     organisasjoner: Organisasjon[],
     inputTekst: string
-): JuridiskEnhetMedUnderEnheter[] {
+): JuridiskEnhetMedUnderEnheterArray[] {
     const sokeresultat = finnUnderEnheterMedSok(organisasjoner, inputTekst);
 
     return matchResultatMedJuridiskEnhet(organisasjonstre, sokeresultat);
@@ -26,10 +26,10 @@ const finnUnderEnheterMedSok = (organisasjoner: Organisasjon[], inputTekst: stri
         .map((underenhet: any) => underenhet.obj);
 
 const matchResultatMedJuridiskEnhet = (
-    organisasjonstre: JuridiskEnhetMedUnderEnheter[],
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[],
     sokeresultat: Organisasjon[]
-): JuridiskEnhetMedUnderEnheter[] => {
-    let sokeResultatListe: JuridiskEnhetMedUnderEnheter[] = [];
+): JuridiskEnhetMedUnderEnheterArray[] => {
+    let sokeResultatListe: JuridiskEnhetMedUnderEnheterArray[] = [];
 
     organisasjonstre.forEach(juridiskEnhet => {
         let listeMedUnderEnheterFraSokeResultat = juridiskEnhet.Underenheter.filter(underenhet =>

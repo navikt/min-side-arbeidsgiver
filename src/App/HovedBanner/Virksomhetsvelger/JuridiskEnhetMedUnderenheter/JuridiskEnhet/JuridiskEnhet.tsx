@@ -3,10 +3,10 @@ import { Element } from 'nav-frontend-typografi';
 
 import './JuridiskEnhet.less';
 import { ReactComponent as JuridiskEnhetsikon } from './juridiskEnhet.svg';
-import { JuridiskEnhetMedUnderEnheter } from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { JuridiskEnhetMedUnderEnheterArray } from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 interface Props {
-    organisasjon: JuridiskEnhetMedUnderEnheter;
+    organisasjon: JuridiskEnhetMedUnderEnheterArray;
 }
 
 const JuridiskEnhet: FunctionComponent<Props> = props => {

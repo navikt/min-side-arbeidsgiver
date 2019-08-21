@@ -1,6 +1,6 @@
 import {
     Organisasjon,
-    JuridiskEnhetMedUnderEnheter,
+    JuridiskEnhetMedUnderEnheterArray,
     tomAltinnOrganisasjon,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
@@ -42,7 +42,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
-): Promise<JuridiskEnhetMedUnderEnheter[]> {
+): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });

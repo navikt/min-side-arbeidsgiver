@@ -6,14 +6,14 @@ import { WrapperState, Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import {
     Organisasjon,
-    JuridiskEnhetMedUnderEnheter,
+    JuridiskEnhetMedUnderEnheterArray,
 } from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import Underenhet from './Underenhet/Underenhet';
 import './Underenhetsvelger.less';
 
 interface Props {
     className?: string;
-    hovedOrganisasjon: JuridiskEnhetMedUnderEnheter;
+    hovedOrganisasjon: JuridiskEnhetMedUnderEnheterArray;
 }
 
 const Underenhetsvelger: FunctionComponent<

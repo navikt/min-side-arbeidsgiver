@@ -7,17 +7,17 @@ import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
 import { byggSokeresultat } from './byggSokeresultat';
 import {
-    JuridiskEnhetMedUnderEnheter,
+    JuridiskEnhetMedUnderEnheterArray,
     tomAltinnOrganisasjon,
 } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { ReactComponent as Virksomhetsikon } from './Virksomhet/virksomhet.svg';
-import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
+import { ReactComponent as Virksomhetsikon } from './virksomhet.svg';
 import kryss from './kryss.svg';
 import sok from './forstorrelsesglass.svg';
-import Sokeresultat from './MenyFraSokeresultat';
 import './Virksomhetsvelger.less';
+import DefaultMeny from './MenyValg/DefaultMeny';
+import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
 
 interface Props {
     className?: string;
@@ -43,16 +43,12 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
         );
     };
 
-    const setOrganisasjonHvisUnderEnhet = (org: JuridiskEnhetMedUnderEnheter) => {
+    const setOrganisasjonHvisUnderEnhet = (org: JuridiskEnhetMedUnderEnheterArray) => {
         if (org.JuridiskEnhet.Type !== 'Enterprise') {
             props.history.push('/' + org.JuridiskEnhet.OrganizationNumber);
             setErApen(false);
         }
     };
-
-    const organisasjonsMenyKomponenter = organisasjonstre.map(function(organisasjon) {
-        return <JuridiskEnhetMedUnderenheter organisasjon={organisasjon} />;
-    });
 
     return (
         <div className={'virksomhetsvelger ' + props.className}>
@@ -62,7 +58,7 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                     setErApen(isOpen);
                 }}
                 closeOnSelection={false}
-                onSelection={(value: JuridiskEnhetMedUnderEnheter) =>
+                onSelection={(value: JuridiskEnhetMedUnderEnheterArray) =>
                     setOrganisasjonHvisUnderEnhet(value)
                 }
             >
@@ -111,13 +107,13 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                                 />
                             )}
                             <div className={'virksomhetsvelger__meny-komponenter-container'}>
-                                {søketekst.length === 0 && organisasjonsMenyKomponenter}
+                                {søketekst.length === 0 && (
+                                    <DefaultMeny menyKomponenter={organisasjonstre} />
+                                )}
                                 {søketekst.length > 0 && (
-                                    <>
-                                        <Sokeresultat
-                                            ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
-                                        />
-                                    </>
+                                    <MenyFraSokeresultat
+                                        ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
+                                    />
                                 )}
                             </div>
                         </Menu>

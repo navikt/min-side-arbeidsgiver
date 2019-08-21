@@ -7,7 +7,7 @@ export interface Organisasjon {
     ParentOrganizationNumber: string;
 }
 
-export interface JuridiskEnhetMedUnderEnheter {
+export interface JuridiskEnhetMedUnderEnheterArray {
     JuridiskEnhet: Organisasjon;
     Underenheter: Array<Organisasjon>;
 }

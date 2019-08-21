@@ -2,19 +2,19 @@ import React, { FunctionComponent } from 'react';
 
 import {
     Organisasjon,
-    JuridiskEnhetMedUnderEnheter,
-} from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import Underenhet from './JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
-import './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
-import JuridiskEnhet from './JuridiskEnhetMedUnderenheter/JuridiskEnhet/JuridiskEnhet';
+    JuridiskEnhetMedUnderEnheterArray,
+} from '../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import Underenhet from '../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
+import '../JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter.less';
+import JuridiskEnhet from '../JuridiskEnhetMedUnderenheter/JuridiskEnhet/JuridiskEnhet';
 
 export interface Props {
-    ListeMedObjektFraSok: JuridiskEnhetMedUnderEnheter[];
+    ListeMedObjektFraSok: JuridiskEnhetMedUnderEnheterArray[];
 }
 
-const Sokeresultat: FunctionComponent<Props> = props => {
+const MenyFraSokeresultat: FunctionComponent<Props> = props => {
     const menyKomponenter = props.ListeMedObjektFraSok.map(function(
-        juridiskEnhet: JuridiskEnhetMedUnderEnheter
+        juridiskEnhet: JuridiskEnhetMedUnderEnheterArray
     ) {
         const UnderOrganisasjonsMenyKomponenter = juridiskEnhet.Underenheter.map(function(
             org: Organisasjon
@@ -34,4 +34,4 @@ const Sokeresultat: FunctionComponent<Props> = props => {
     return <>{menyKomponenter}</>;
 };
 
-export default Sokeresultat;
+export default MenyFraSokeresultat;
