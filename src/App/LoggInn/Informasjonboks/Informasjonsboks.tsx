@@ -9,11 +9,7 @@ import { basename } from "../../../paths";
 export const Informasjonsboks: FunctionComponent = () => {
   return (
     <div className={"informasjonsboks"}>
-      <img
-        src={alertikon}
-        alt={"ikon for å vise at det kommer informasjon om tilgangsstyring"}
-        className={"informasjonsboks__ikon"}
-      />
+      <img src={alertikon} alt={""} className={"informasjonsboks__ikon"} />
       <div className={"informasjonsboks__tekst"}>
         <Element className={"informasjonsboks__overskrift"}>
           Tjenestene er tilgangsstyrt gjennom Altinn{" "}
