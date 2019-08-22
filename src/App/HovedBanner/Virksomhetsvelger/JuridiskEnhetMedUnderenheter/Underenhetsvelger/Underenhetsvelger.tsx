@@ -25,9 +25,9 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
     const [visUnderenheter, setVisUnderenheter] = useState(false);
 
     return (
-        <div className="virksomhets-velger-niva-2">
+        <div className="underenhetsvelger">
             <Wrapper
-                className="virksomhets-velger-niva-2__wrapper"
+                className="underenhetsvelger__wrapper"
                 onSelection={(value: string) => settUrl(value)}
                 closeOnSelection={false}
                 onMenuToggle={({ isOpen }) => {
@@ -37,29 +37,27 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                     }
                 }}
             >
-                <Button className={'virksomhets-velger-niva-2__nedre-button'}>
+                <Button className={'underenhetsvelger__button'}>
                     {visUnderenheter ? (
                         <>
-                            <OppChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
+                            <OppChevron className="underenhetsvelger__button__chevron" />
                             Skjul {hovedOrganisasjon.Underenheter.length} underenheter
                         </>
                     ) : (
                         <>
-                            <NedChevron className="virksomhets-velger-niva-2__nedre-button-chevron" />
+                            <NedChevron className="underenhetsvelger__button__chevron" />
                             Vis {hovedOrganisasjon.Underenheter.length} underenheter
                         </>
                     )}
                 </Button>
 
-                <div className="virksomhets-velger-niva-2__meny-wrapper">
-                    <Collapse isOpened>
-                        <Menu className={'virksomhets-velger-niva-2__meny'}>
-                            {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
-                                <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
-                            ))}
-                        </Menu>
-                    </Collapse>
-                </div>
+                <Collapse isOpened>
+                    <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
+                        {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
+                            <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
+                        ))}
+                    </Menu>
+                </Collapse>
             </Wrapper>
         </div>
     );
