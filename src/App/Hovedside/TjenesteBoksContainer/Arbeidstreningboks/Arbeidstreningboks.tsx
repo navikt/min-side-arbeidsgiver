@@ -34,16 +34,16 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     if (antall === 0) {
       return "";
     } else if (antall === 1) {
-      return "1 arbeidsavtale " + typeTekst;
+      return "1 avtale " + typeTekst;
     } else {
-      return antall + " arbeidsavtaler " + typeTekst;
+      return antall + " avtaler " + typeTekst;
     }
   };
 
   return (
     <div className={"arbeidstreningboks " + props.className}>
       <TjenesteBoksBanner
-        tittel={"Avtaler"}
+        tittel={"Arbeidstrening"}
         imgsource={arbeidstreningikon}
         altTekst={""}
       />
@@ -54,13 +54,13 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         tittelProps={"normaltekst"}
         linkCreator={(props: any) => <a {...props}>{props.children}</a>}
       >
-        {lagTekstBasertPaAntall(antallPabegynt, "påbegynt")}
+        {lagTekstBasertPaAntall(antallPabegynt, "er påbegynt")}
         <br />
         {lagTekstBasertPaAntall(antallTilGodkjenning, "mangler godkjenning")}
         <br />
         {lagTekstBasertPaAntall(
           antallKlareStillingsannonser,
-          "klare for oppstart"
+          "er godkjent"
         )}
         <br />
       </Lenkepanel>
