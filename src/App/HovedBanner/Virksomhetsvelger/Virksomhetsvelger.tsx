@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
 import { Collapse } from 'react-collapse';
-import { Input } from 'nav-frontend-skjema';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 import { withRouter, RouteComponentProps } from 'react-router';
 import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 
@@ -12,12 +11,11 @@ import {
 } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { ReactComponent as Virksomhetsikon } from './virksomhet.svg';
-import kryss from './kryss.svg';
-import sok from './forstorrelsesglass.svg';
 import './Virksomhetsvelger.less';
 import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
+import Sokefelt from './Sokefelt/Sokefelt';
+import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 
 interface Props {
     className?: string;
@@ -36,8 +34,8 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
         setErApen(false);
     }, [valgtOrganisasjon]);
 
-    const bruksoketekst = (event: any) => {
-        setSoketekst(event.currentTarget.value);
+    const brukSoketekst = (soketekst: string) => {
+        setSoketekst(soketekst);
         setlisteMedOrganisasjonerFraSok(
             byggSokeresultat(organisasjonstre, organisasjoner, soketekst)
         );
@@ -64,53 +62,30 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
             >
                 {valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <Button className="virksomhetsvelger__button">
-                        <Virksomhetsikon />
-                        <div className="virksomhetsvelger__button-tekst">
-                            <Element>{valgtOrganisasjon.Name}</Element>
-                            org. nr. {valgtOrganisasjon.OrganizationNumber}
-                        </div>
+                        <Organisasjonsbeskrivelse
+                            navn={valgtOrganisasjon.Name}
+                            orgnummer={valgtOrganisasjon.OrganizationNumber}
+                        />
                     </Button>
                 )}
                 <div className={`virksomhetsvelger__wrapper-${erApen ? 'apen' : 'lukket'}`}>
                     <Collapse isOpened>
                         <Menu className={'virksomhetsvelger'}>
-                            <div className={'virksomhetsvelger__vis-valgt-bedrift'}>
-                                <Virksomhetsikon />
-                                <div className="virksomhetsvelger__vis-valgt-bedrift-tekst">
-                                    <Undertittel>{valgtOrganisasjon.Name}</Undertittel>
-                                    org. nr. {valgtOrganisasjon.OrganizationNumber}
-                                </div>
+                            <div className="virksomhetsvelger__valgtVirksomhet">
+                                <Organisasjonsbeskrivelse
+                                    brukOverskrift
+                                    navn={valgtOrganisasjon.Name}
+                                    orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                />
                             </div>
                             <Undertittel className={'virksomhetsvelger__dine-aktorer-tekst'}>
-                                Dine aktører{' '}
+                                Dine aktører
                             </Undertittel>
-                            <Input
-                                type="search"
-                                label={''}
-                                value={soketekst}
-                                onChange={bruksoketekst}
-                                placeholder="Søk etter underenheter"
-                            />
-                            {soketekst.length === 0 && (
-                                <img
-                                    alt={''}
-                                    className={'virksomhetsvelger__input-sok'}
-                                    src={sok}
-                                />
-                            )}
-                            {soketekst.length > 0 && (
-                                <img
-                                    alt={''}
-                                    className={'virksomhetsvelger__input-kryss'}
-                                    src={kryss}
-                                    onClick={() => setSoketekst('')}
-                                />
-                            )}
+                            <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                             <div className={'virksomhetsvelger__meny-komponenter-container'}>
-                                {soketekst.length === 0 && (
+                                {soketekst.length === 0 ? (
                                     <DefaultMeny menyKomponenter={organisasjonstre} />
-                                )}
-                                {soketekst.length > 0 && (
+                                ) : (
                                     <MenyFraSokeresultat
                                         ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
                                     />
