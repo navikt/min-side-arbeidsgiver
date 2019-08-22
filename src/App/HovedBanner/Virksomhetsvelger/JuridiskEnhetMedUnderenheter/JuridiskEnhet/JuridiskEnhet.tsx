@@ -1,22 +1,23 @@
 import React, { FunctionComponent } from 'react';
-import { Element } from 'nav-frontend-typografi';
 
-import './JuridiskEnhet.less';
-import { ReactComponent as JuridiskEnhetsikon } from './juridiskEnhet.svg';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import Organisasjonsbeskrivelse from '../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import './JuridiskEnhet.less';
 
 interface Props {
     organisasjon: JuridiskEnhetMedUnderEnheterArray;
 }
 
 const JuridiskEnhet: FunctionComponent<Props> = props => {
+    const juridiskEnhet = props.organisasjon.JuridiskEnhet;
+
     return (
         <div className="juridisk-enhet">
-            <JuridiskEnhetsikon />
-            <div className="juridisk-enhet__tekst">
-                <Element>{props.organisasjon.JuridiskEnhet.Name}</Element>
-                org. nr. {props.organisasjon.JuridiskEnhet.OrganizationNumber}
-            </div>
+            <Organisasjonsbeskrivelse
+                erJuridiskEnhet
+                navn={juridiskEnhet.Name}
+                orgnummer={juridiskEnhet.OrganizationNumber}
+            />
         </div>
     );
 };
