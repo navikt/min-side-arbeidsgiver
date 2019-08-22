@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-    Organisasjon,
-    JuridiskEnhetMedUnderEnheterArray,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+
 import { hentOrganisasjoner, byggOrganisasjonstre } from './api/dnaApi';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -32,6 +33,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 organisasjoner
             );
             setorganisasjonstre(toDim);
+            console.log(toDim);
         };
         getOrganisasjoner();
     }, []);
