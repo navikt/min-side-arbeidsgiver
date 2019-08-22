@@ -30,6 +30,7 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
   useEffect(() => {
     const getSyfoTilganger = async () => {
       const tilgangSyfo = await hentSyfoTilgang();
+      setTilgangTilSyfoState(TilgangState.LASTER);
       if (tilgangSyfo) {
         setTilgangTilSyfoState(TilgangState.TILGANG);
         setSyfoOppgaverState(await hentSyfoOppgaver());

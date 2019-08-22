@@ -14,11 +14,15 @@ import ikon from "./infomation-circle-2.svg";
 import { SkjemaveilederContainer } from "./SkjemaveilederContainer/SkjemaveilederContainer";
 
 const Hovedside: FunctionComponent = () => {
-  const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
+  const { harNoenTilganger, tilgangTilPamState } = useContext(
+    OrganisasjonsDetaljerContext
+  );
   const { organisasjoner } = useContext(OrganisasjonsListeContext);
   const skalViseManglerTilgangBoks = !(
     organisasjoner.length > 0 || harNoenTilganger
   );
+
+  console.log("rendrer hovedside:", tilgangTilPamState);
 
   return (
     <div className="forside">

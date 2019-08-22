@@ -1,10 +1,10 @@
 import React, {
   FunctionComponent,
+  useContext,
   useEffect,
-  useState,
-  useContext
+  useState
 } from "react";
-import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
+import { Organisasjon, tomAltinnOrganisasjon } from "./organisasjon";
 import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
@@ -30,6 +30,7 @@ export type Context = {
   tilgangTilAltinnForInntektsmelding: TilgangState;
   arbeidsavtaler: Array<Arbeidsavtale>;
   harNoenTilganger: boolean;
+  tilgangArbeidsavtaler: TilgangState;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>(
@@ -51,6 +52,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tilgangTilAltinnForInntektsmelding,
     settilgangTilAltinnForInntektsmelding
   ] = useState(TilgangState.LASTER);
+  const [tilgangArbeidsavtaler, setTilgangArbeidsavtaler] = useState(
+    TilgangState.LASTER
+  );
   const [valgtOrganisasjon, setValgtOrganisasjon] = useState(
     tomAltinnOrganisasjon
   );
@@ -85,10 +89,13 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
       antallTilganger++;
     } else {
       settilgangTilPamState(TilgangState.IKKE_TILGANG);
-      setantallAnnonser(0);
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-
+    if (arbeidsavtaler.length > 0) {
+      setTilgangArbeidsavtaler(TilgangState.LASTER);
+    } else {
+      setTilgangArbeidsavtaler(TilgangState.IKKE_TILGANG);
+    }
     if (antallTilganger > 0 || tilgangTilSyfoState === TilgangState.TILGANG) {
       setHarNoenTilganger(true);
     }
@@ -101,6 +108,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     tilgangTilAltinnForInntektsmelding,
     tilgangTilAltinnForTreSkjemaState,
     tilgangTilPamState,
+    tilgangArbeidsavtaler,
     valgtOrganisasjon,
     arbeidsavtaler,
     harNoenTilganger
@@ -112,6 +120,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
         "besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber,
         valgtOrganisasjon.OrganizationNumber
       );
+      settilgangTilPamState(TilgangState.LASTER);
+      setTilgangArbeidsavtaler(TilgangState.LASTER);
     }
   }, [valgtOrganisasjon]);
 

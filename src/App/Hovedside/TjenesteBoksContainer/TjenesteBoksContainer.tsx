@@ -16,9 +16,16 @@ import Arbeidstreningboks from "./Arbeidstreningboks/Arbeidstreningboks";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
   const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-  const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
+  const { tilgangTilPamState, tilgangArbeidsavtaler } = useContext(
+    OrganisasjonsDetaljerContext
+  );
   const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
   const [typeAntall, settypeAntall] = useState("");
+
+  const ferdigLastet: any =
+    tilgangTilSyfoState && tilgangTilPamState && tilgangArbeidsavtaler;
+
+  console.log("ferdiglastet: ", ferdigLastet);
 
   useEffect(() => {
     const tellAntallTilganger = (): number => {
@@ -47,25 +54,27 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   }, [tilgangTilSyfoState, tilgangTilPamState, arbeidsavtaler]);
 
   return (
-    <div className={"tjenesteboks-container " + typeAntall}>
-      {tilgangTilSyfoState !== TilgangState.LASTER &&
-        tilgangTilSyfoState === TilgangState.TILGANG && (
-          <Innholdsboks className={"tjenesteboks innholdsboks"}>
-            <Syfoboks className={"syfoboks"} />
-          </Innholdsboks>
-        )}
-      {tilgangTilPamState !== TilgangState.LASTER &&
-        tilgangTilPamState === TilgangState.TILGANG && (
-          <div className={"tjenesteboks innholdsboks"}>
-            <Pamboks />
-          </div>
-        )}
-      {arbeidsavtaler.length > 0 && (
-        <div className={"tjenesteboks innholdsboks"}>
-          <Arbeidstreningboks />
+    <>
+      {ferdigLastet !== 0 && (
+        <div className={"tjenesteboks-container " + typeAntall}>
+          {tilgangTilSyfoState === TilgangState.TILGANG && (
+            <Innholdsboks className={"tjenesteboks innholdsboks"}>
+              <Syfoboks className={"syfoboks"} />
+            </Innholdsboks>
+          )}
+          {tilgangTilPamState === TilgangState.TILGANG && (
+            <div className={"tjenesteboks innholdsboks"}>
+              <Pamboks />
+            </div>
+          )}
+          {tilgangArbeidsavtaler === TilgangState.TILGANG && (
+            <div className={"tjenesteboks innholdsboks"}>
+              <Arbeidstreningboks />
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 };
 
