@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
 import { JuridiskEnhetMedUnderEnheterArray } from '../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
-import './JuridiskEnhetMedUnderenheter.less';
 import JuridiskEnhet from './JuridiskEnhet/JuridiskEnhet';
+import Underenhetsvelger from './Underenhetsvelger/Underenhetsvelger';
 
 interface Props {
     organisasjon: JuridiskEnhetMedUnderEnheterArray;
