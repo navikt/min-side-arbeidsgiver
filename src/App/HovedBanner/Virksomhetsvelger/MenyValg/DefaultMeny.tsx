@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { JuridiskEnhetMedUnderEnheterArray } from '../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import JuridiskEnhetMedUnderenheter from '../JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
+import JuridiskEnhetMedUnderenheter from './JuridiskEnhetMedUnderenheter/JuridiskEnhetMedUnderenheter';
 
 interface Props {
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[];

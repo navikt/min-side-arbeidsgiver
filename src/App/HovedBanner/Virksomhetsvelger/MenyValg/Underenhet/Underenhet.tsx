@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { MenuItem } from 'react-aria-menubutton';
 
-import { Organisasjon } from '../../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import Organisasjonsbeskrivelse from '../../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import { Organisasjon } from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import Organisasjonsbeskrivelse from '../../Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import './Underenhet.less';
 
 interface Props {

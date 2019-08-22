@@ -7,8 +7,8 @@ import { Wrapper, Button, Menu } from 'react-aria-menubutton';
 import {
     Organisasjon,
     JuridiskEnhetMedUnderEnheterArray,
-} from '../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import Underenhet from './Underenhet/Underenhet';
+} from '../../../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import Underenhet from '../../Underenhet/Underenhet';
 import './Underenhetsvelger.less';
 
 interface EgneProps {

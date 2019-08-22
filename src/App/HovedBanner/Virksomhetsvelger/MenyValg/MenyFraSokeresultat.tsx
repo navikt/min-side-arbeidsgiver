@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 
 import { JuridiskEnhetMedUnderEnheterArray } from '../../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import Underenhet from '../JuridiskEnhetMedUnderenheter/Underenhetsvelger/Underenhet/Underenhet';
-import JuridiskEnhet from '../JuridiskEnhetMedUnderenheter/JuridiskEnhet/JuridiskEnhet';
+import Underenhet from './Underenhet/Underenhet';
+import JuridiskEnhet from './JuridiskEnhet/JuridiskEnhet';
 
 export interface Props {
     ListeMedObjektFraSok: JuridiskEnhetMedUnderEnheterArray[];
