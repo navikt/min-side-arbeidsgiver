@@ -6,10 +6,15 @@ interface Props {
     menyKomponenter: JuridiskEnhetMedUnderEnheterArray[];
 }
 
-const DefaultMeny: FunctionComponent<Props> = props => {
-    const organisasjonsMenyKomponenter = props.menyKomponenter.map(function(organisasjon) {
-        return <JuridiskEnhetMedUnderenheter organisasjon={organisasjon} />;
-    });
-    return <>{organisasjonsMenyKomponenter}</>;
-};
+const DefaultMeny: FunctionComponent<Props> = ({ menyKomponenter }) => (
+    <>
+        {menyKomponenter.map(organisasjon => (
+            <JuridiskEnhetMedUnderenheter
+                key={organisasjon.JuridiskEnhet.Name}
+                organisasjon={organisasjon}
+            />
+        ))}
+    </>
+);
+
 export default DefaultMeny;

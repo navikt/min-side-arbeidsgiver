@@ -24,10 +24,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
 
     const [visUnderenheter, setVisUnderenheter] = useState(false);
 
-    const OrganisasjonsMenyKomponenter = hovedOrganisasjon.Underenheter.map(
-        (organisasjon: Organisasjon) => <Underenhet underEnhet={organisasjon} />
-    );
-
     return (
         <div className="virksomhets-velger-niva-2">
             <Wrapper
@@ -58,7 +54,9 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                 <div className="virksomhets-velger-niva-2__meny-wrapper">
                     <Collapse isOpened>
                         <Menu className={'virksomhets-velger-niva-2__meny'}>
-                            {OrganisasjonsMenyKomponenter}
+                            {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (
+                                <Underenhet key={organisasjon.Name} underEnhet={organisasjon} />
+                            ))}
                         </Menu>
                     </Collapse>
                 </div>
