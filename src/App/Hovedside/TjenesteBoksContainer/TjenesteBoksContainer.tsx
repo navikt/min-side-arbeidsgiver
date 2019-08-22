@@ -5,11 +5,8 @@ import React, {
   useState
 } from "react";
 
-import { SyfoTilgangContext, TilgangSyfo } from "../../../SyfoTilgangProvider";
-import {
-  OrganisasjonsDetaljerContext,
-  TilgangPam
-} from "../../../OrganisasjonDetaljerProvider";
+import { SyfoTilgangContext, TilgangState } from "../../../SyfoTilgangProvider";
+import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 import "./TjenesteBoksContainer.less";
 
 import Syfoboks from "./Syfoboks/Syfoboks";
@@ -26,10 +23,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
   useEffect(() => {
     const tellAntallTilganger = (): number => {
       let antallTilganger: number = 0;
-      if (tilgangTilPamState === TilgangPam.TILGANG) {
+      if (tilgangTilPamState === TilgangState.TILGANG) {
         antallTilganger++;
       }
-      if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
+      if (tilgangTilSyfoState === TilgangState.TILGANG) {
         antallTilganger++;
       }
       if (arbeidsavtaler.length) {
@@ -51,14 +48,14 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
   return (
     <div className={"tjenesteboks-container " + typeAntall}>
-      {tilgangTilSyfoState !== TilgangSyfo.LASTER &&
-        tilgangTilSyfoState === TilgangSyfo.TILGANG && (
+      {tilgangTilSyfoState !== TilgangState.LASTER &&
+        tilgangTilSyfoState === TilgangState.TILGANG && (
           <Innholdsboks className={"tjenesteboks innholdsboks"}>
             <Syfoboks className={"syfoboks"} />
           </Innholdsboks>
         )}
-      {tilgangTilPamState !== TilgangPam.LASTER &&
-        tilgangTilPamState === TilgangPam.TILGANG && (
+      {tilgangTilPamState !== TilgangState.LASTER &&
+        tilgangTilPamState === TilgangState.TILGANG && (
           <div className={"tjenesteboks innholdsboks"}>
             <Pamboks />
           </div>

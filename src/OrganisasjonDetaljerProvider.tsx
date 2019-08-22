@@ -15,19 +15,7 @@ import {
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
 import { logInfo } from "./utils/metricsUtils";
-import { SyfoTilgangContext, TilgangSyfo } from "./SyfoTilgangProvider";
-
-export enum TilgangPam {
-  LASTER,
-  IKKE_TILGANG,
-  TILGANG
-}
-
-export enum TilgangAltinn {
-  LASTER,
-  IKKE_TILGANG,
-  TILGANG
-}
+import { SyfoTilgangContext, TilgangState } from "./SyfoTilgangProvider";
 
 interface Props {
   children: React.ReactNode;
@@ -37,9 +25,9 @@ export type Context = {
   endreOrganisasjon: (org: Organisasjon) => void;
   valgtOrganisasjon: Organisasjon;
   antallAnnonser: number;
-  tilgangTilPamState: TilgangPam;
-  tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
-  tilgangTilAltinnForInntektsmelding: TilgangAltinn;
+  tilgangTilPamState: TilgangState;
+  tilgangTilAltinnForTreSkjemaState: TilgangState;
+  tilgangTilAltinnForInntektsmelding: TilgangState;
   arbeidsavtaler: Array<Arbeidsavtale>;
   harNoenTilganger: boolean;
 };
@@ -55,14 +43,14 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
   const [
     tilgangTilAltinnForTreSkjemaState,
     settilgangTilAltinnForTreSkjemaState
-  ] = useState(TilgangAltinn.LASTER);
+  ] = useState(TilgangState.LASTER);
   const [tilgangTilPamState, settilgangTilPamState] = useState(
-    TilgangPam.LASTER
+    TilgangState.LASTER
   );
   const [
     tilgangTilAltinnForInntektsmelding,
     settilgangTilAltinnForInntektsmelding
-  ] = useState(TilgangAltinn.LASTER);
+  ] = useState(TilgangState.LASTER);
   const [valgtOrganisasjon, setValgtOrganisasjon] = useState(
     tomAltinnOrganisasjon
   );
@@ -80,28 +68,28 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
 
     let roller = await hentRoller(org.OrganizationNumber);
     if (sjekkAltinnRolleForInntekstmelding(roller)) {
-      settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);
+      settilgangTilAltinnForInntektsmelding(TilgangState.TILGANG);
       antallTilganger++;
     } else {
-      settilgangTilAltinnForInntektsmelding(TilgangAltinn.IKKE_TILGANG);
+      settilgangTilAltinnForInntektsmelding(TilgangState.IKKE_TILGANG);
     }
     if (sjekkAltinnRolleHelseSosial(roller)) {
-      settilgangTilAltinnForTreSkjemaState(TilgangAltinn.TILGANG);
+      settilgangTilAltinnForTreSkjemaState(TilgangState.TILGANG);
       antallTilganger++;
     } else {
-      settilgangTilAltinnForTreSkjemaState(TilgangAltinn.IKKE_TILGANG);
+      settilgangTilAltinnForTreSkjemaState(TilgangState.IKKE_TILGANG);
     }
     if (harPamTilgang) {
-      settilgangTilPamState(TilgangPam.TILGANG);
+      settilgangTilPamState(TilgangState.TILGANG);
       setantallAnnonser(await hentAntallannonser());
       antallTilganger++;
     } else {
-      settilgangTilPamState(TilgangPam.IKKE_TILGANG);
+      settilgangTilPamState(TilgangState.IKKE_TILGANG);
       setantallAnnonser(0);
     }
     setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
 
-    if (antallTilganger > 0 || tilgangTilSyfoState === TilgangSyfo.TILGANG) {
+    if (antallTilganger > 0 || tilgangTilSyfoState === TilgangState.TILGANG) {
       setHarNoenTilganger(true);
     }
     console.log("antall tilganger: ", antallTilganger);

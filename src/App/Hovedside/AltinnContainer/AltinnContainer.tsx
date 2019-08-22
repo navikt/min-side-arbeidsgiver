@@ -5,10 +5,7 @@ import React, {
   useState
 } from "react";
 
-import {
-  OrganisasjonsDetaljerContext,
-  TilgangAltinn
-} from "../../../OrganisasjonDetaljerProvider";
+import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
 
 import "./AltinnContainer.less";
 import { Undertittel } from "nav-frontend-typografi";
@@ -20,6 +17,7 @@ import {
   soknadTilskuddTilMentor
 } from "../../../lenker";
 import AltinnLenke from "./AltinnLenke/AltinnLenke";
+import { TilgangState } from "../../../SyfoTilgangProvider";
 
 const AltinnContainer: FunctionComponent = () => {
   const [typeAntall, settypeAntall] = useState("");
@@ -32,18 +30,18 @@ const AltinnContainer: FunctionComponent = () => {
   useEffect(() => {
     setgenerellAltinnTilgang(true);
     if (
-      tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
-      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
+      tilgangTilAltinnForInntektsmelding === TilgangState.TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangState.TILGANG
     ) {
       settypeAntall("antall-skjema-partall");
     } else if (
-      tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
-      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.IKKE_TILGANG
+      tilgangTilAltinnForInntektsmelding === TilgangState.TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangState.IKKE_TILGANG
     ) {
       settypeAntall("antall-skjema-en");
     } else if (
-      tilgangTilAltinnForInntektsmelding === TilgangAltinn.IKKE_TILGANG &&
-      tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
+      tilgangTilAltinnForInntektsmelding === TilgangState.IKKE_TILGANG &&
+      tilgangTilAltinnForTreSkjemaState === TilgangState.TILGANG
     ) {
       settypeAntall("antall-skjema-tre");
     } else {
@@ -59,7 +57,7 @@ const AltinnContainer: FunctionComponent = () => {
         </Undertittel>
       )}
       <div className={"altinn-container__bokser"}>
-        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+        {tilgangTilAltinnForTreSkjemaState === TilgangState.TILGANG && (
           <AltinnLenke
             className={
               "altinn-container__" + typeAntall + " altinn-container__lenke"
@@ -68,7 +66,7 @@ const AltinnContainer: FunctionComponent = () => {
             tekst={"Søk om inkluderingstilskudd"}
           />
         )}
-        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+        {tilgangTilAltinnForTreSkjemaState === TilgangState.TILGANG && (
           <AltinnLenke
             className={
               "altinn-container__" + typeAntall + " altinn-container__lenke"
@@ -77,7 +75,7 @@ const AltinnContainer: FunctionComponent = () => {
             tekst={"Søk om lønnstilskudd"}
           />
         )}
-        {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+        {tilgangTilAltinnForTreSkjemaState === TilgangState.TILGANG && (
           <AltinnLenke
             className={
               "altinn-container__" + typeAntall + " altinn-container__lenke"
@@ -87,7 +85,7 @@ const AltinnContainer: FunctionComponent = () => {
           />
         )}
 
-        {tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG && (
+        {tilgangTilAltinnForInntektsmelding === TilgangState.TILGANG && (
           <AltinnLenke
             className={
               "altinn-container__" + typeAntall + " altinn-container__lenke"

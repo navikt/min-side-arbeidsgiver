@@ -26,7 +26,7 @@ const Hovedside: FunctionComponent = () => {
       <TjenesteBoksContainer />
       <NyttigForDegContainer />
       <AltinnContainer />
-      <SkjemaveilederContainer/>
+      <SkjemaveilederContainer />
       {!skalViseManglerTilgangBoks && (
         <div className={"forside__informasjonstekst"}>
           <img className={"forside__ikon"} src={ikon} alt="informasjonsikon" />
