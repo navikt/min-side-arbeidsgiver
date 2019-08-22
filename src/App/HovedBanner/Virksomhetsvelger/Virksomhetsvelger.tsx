@@ -27,7 +27,7 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
     const { organisasjonstre, organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [erApen, setErApen] = useState(false);
-    const [søketekst, setSøketekst] = useState('');
+    const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(
         organisasjonstre
     );
@@ -36,10 +36,10 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
         setErApen(false);
     }, [valgtOrganisasjon]);
 
-    const brukSøketekst = (event: any) => {
-        setSøketekst(event.currentTarget.value);
+    const bruksoketekst = (event: any) => {
+        setSoketekst(event.currentTarget.value);
         setlisteMedOrganisasjonerFraSok(
-            byggSokeresultat(organisasjonstre, organisasjoner, søketekst)
+            byggSokeresultat(organisasjonstre, organisasjoner, soketekst)
         );
     };
 
@@ -87,30 +87,30 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                             <Input
                                 type="search"
                                 label={''}
-                                value={søketekst}
-                                onChange={brukSøketekst}
+                                value={soketekst}
+                                onChange={bruksoketekst}
                                 placeholder="Søk etter underenheter"
                             />
-                            {søketekst.length === 0 && (
+                            {soketekst.length === 0 && (
                                 <img
                                     alt={''}
                                     className={'virksomhetsvelger__input-sok'}
                                     src={sok}
                                 />
                             )}
-                            {søketekst.length > 0 && (
+                            {soketekst.length > 0 && (
                                 <img
                                     alt={''}
                                     className={'virksomhetsvelger__input-kryss'}
                                     src={kryss}
-                                    onClick={() => setSøketekst('')}
+                                    onClick={() => setSoketekst('')}
                                 />
                             )}
                             <div className={'virksomhetsvelger__meny-komponenter-container'}>
-                                {søketekst.length === 0 && (
+                                {soketekst.length === 0 && (
                                     <DefaultMeny menyKomponenter={organisasjonstre} />
                                 )}
-                                {søketekst.length > 0 && (
+                                {soketekst.length > 0 && (
                                     <MenyFraSokeresultat
                                         ListeMedObjektFraSok={listeMedOrganisasjonerFraSok}
                                     />
