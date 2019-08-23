@@ -20,7 +20,9 @@ const Organisasjonsbeskrivelse: FunctionComponent<Props> = props => {
 
     return (
         <div className="organisasjonsbeskrivelse">
-            <Ikon className="organisasjonsbeskrivelse__ikon" />
+            <div className="organisasjonsbeskrivelse__ikon">
+                <Ikon />
+            </div>
             <div className="organisasjonsbeskrivelse__beskrivelse">
                 <Navn className="organisasjonsbeskrivelse__navn">{navn}</Navn>
                 org. nr. {orgnummer}

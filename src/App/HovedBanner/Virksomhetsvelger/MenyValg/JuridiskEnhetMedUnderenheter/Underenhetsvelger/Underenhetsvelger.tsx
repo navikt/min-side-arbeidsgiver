@@ -23,6 +23,11 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
     };
 
     const [visUnderenheter, setVisUnderenheter] = useState(false);
+    const label = `${visUnderenheter ? 'Skjul' : 'Vis'} ${
+        hovedOrganisasjon.Underenheter.length
+    } underenheter`;
+
+    const Chevron = visUnderenheter ? OppChevron : NedChevron;
 
     return (
         <div className="underenhetsvelger">
@@ -38,17 +43,10 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                 }}
             >
                 <Button className={'underenhetsvelger__button'}>
-                    {visUnderenheter ? (
-                        <>
-                            <OppChevron className="underenhetsvelger__button__chevron" />
-                            Skjul {hovedOrganisasjon.Underenheter.length} underenheter
-                        </>
-                    ) : (
-                        <>
-                            <NedChevron className="underenhetsvelger__button__chevron" />
-                            Vis {hovedOrganisasjon.Underenheter.length} underenheter
-                        </>
-                    )}
+                    <div className="underenhetsvelger__button__chevron">
+                        <Chevron />
+                    </div>
+                    {label}
                 </Button>
 
                 <Collapse isOpened>
