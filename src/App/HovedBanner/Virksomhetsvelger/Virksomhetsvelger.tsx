@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import { Collapse } from 'react-collapse';
 import { Undertittel } from 'nav-frontend-typografi';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -8,18 +8,24 @@ import { byggSokeresultat } from './byggSokeresultat';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     tomAltinnOrganisasjon,
+    Organisasjon,
 } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import Sokefelt from './Sokefelt/Sokefelt';
 import './Virksomhetsvelger.less';
 
-const Virksomhetsvelger: FunctionComponent<RouteComponentProps> = props => {
-    const { organisasjonstre, organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+interface EgneProps {
+    organisasjoner: Organisasjon[];
+    organisasjonstre: JuridiskEnhetMedUnderEnheterArray[];
+    valgtOrganisasjon: Organisasjon;
+}
+
+type Props = EgneProps & RouteComponentProps;
+
+const Virksomhetsvelger: FunctionComponent<Props> = props => {
+    const { organisasjoner, organisasjonstre, valgtOrganisasjon } = props;
     const [erApen, setErApen] = useState(false);
     const [soketekst, setSoketekst] = useState('');
     const [listeMedOrganisasjonerFraSok, setlisteMedOrganisasjonerFraSok] = useState(

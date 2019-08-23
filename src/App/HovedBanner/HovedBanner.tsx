@@ -29,7 +29,6 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
     );
 
     useEffect(() => {
-        console.log('useffect i banner kjører');
         const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
         let orgnrFraUrl = props.location.pathname.split('/')[1];
         const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;
@@ -58,7 +57,11 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
                 <div className={'banner__senter'}>
                     <Sidetittel className={'banner__sidetittel'}>Min Side Arbeidsgiver</Sidetittel>
                     <div className="banner__drop-down-container">
-                        <Virksomhetsvelger />
+                        <Virksomhetsvelger
+                            organisasjoner={organisasjoner}
+                            organisasjonstre={organisasjonstre}
+                            valgtOrganisasjon={valgtOrganisasjon}
+                        />
                     </div>
                 </div>
             )}
