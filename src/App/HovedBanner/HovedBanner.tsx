@@ -58,7 +58,7 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
                 <div className={'banner__senter'}>
                     <Sidetittel className={'banner__sidetittel'}>Min Side Arbeidsgiver</Sidetittel>
                     <div className="banner__drop-down-container">
-                        <Virksomhetsvelger className={'banner__organisasjoner'} />
+                        <Virksomhetsvelger />
                     </div>
                 </div>
             )}

@@ -1,4 +1,5 @@
 @import '../../../../node_modules/nav-frontend-core/less/_variabler';
+@import './pilOpp.less';
 
 .virksomhetsvelger {
     position: relative;
@@ -13,55 +14,15 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none; /* Safari */
-        -khtml-user-select: none; /* Konqueror HTML */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-        user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome and Opera */
-    }
+        user-select: none;
 
-    &__wrapper-apen {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        background-color: white;
-        outline: none;
-        border: solid 1px #78706a;
-    }
+        &--apen {
+            .pilOpp();
+        }
 
-    &__wrapper-apen:before,
-    &__wrapper-apen:after {
-        content: '\0020';
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: -19px;
-        left: 55%;
-        z-index: 2;
-        width: 0;
-        height: 0;
-        border: solid 20px transparent;
-        border-top: 0;
-        border-bottom-color: #fff;
-    }
-
-    &__wrapper-apen:before {
-        top: -21px;
-        z-index: 1;
-        border-bottom-color: #78706a;
-    }
-
-    &__wrapper-lukket {
-        position: relative;
-        background-color: white;
-        border: none;
-        outline: none;
-        display: none;
-
-        &:hover {
-            background-color: #ffffff;
+        &--lukket {
+            display: none;
+            position: relative;
         }
     }
 
@@ -71,14 +32,23 @@
         }
     }
 
-    &__dine-aktorer-tekst {
+    &__overskrift {
         margin-bottom: 1rem;
     }
 
-    &__meny-komponenter-container {
-        overflow: auto;
-        max-height: 20rem;
+    &__dropdown {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        width: 26rem;
         border-top: 4px solid white;
+    }
+
+    &__meny {
+        max-height: 25rem;
+        overflow: scroll;
     }
 
     &__button {

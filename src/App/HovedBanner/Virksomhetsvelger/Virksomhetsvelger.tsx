@@ -11,17 +11,13 @@ import {
 } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import './Virksomhetsvelger.less';
 import DefaultMeny from './MenyValg/DefaultMeny';
 import MenyFraSokeresultat from './MenyValg/MenyFraSokeresultat';
-import Sokefelt from './Sokefelt/Sokefelt';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import Sokefelt from './Sokefelt/Sokefelt';
+import './Virksomhetsvelger.less';
 
-interface Props {
-    className?: string;
-}
-
-const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props => {
+const Virksomhetsvelger: FunctionComponent<RouteComponentProps> = props => {
     const { organisasjonstre, organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [erApen, setErApen] = useState(false);
@@ -49,16 +45,14 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
     };
 
     return (
-        <div className={'virksomhetsvelger ' + props.className}>
+        <div className="virksomhetsvelger">
             <Wrapper
                 className="virksomhetsvelger__wrapper"
+                closeOnSelection={false}
+                onSelection={value => setOrganisasjonHvisUnderEnhet(value)}
                 onMenuToggle={({ isOpen }) => {
                     setErApen(isOpen);
                 }}
-                closeOnSelection={false}
-                onSelection={(value: JuridiskEnhetMedUnderEnheterArray) =>
-                    setOrganisasjonHvisUnderEnhet(value)
-                }
             >
                 {valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <Button className="virksomhetsvelger__button">
@@ -68,9 +62,10 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                         />
                     </Button>
                 )}
-                <div className={`virksomhetsvelger__wrapper-${erApen ? 'apen' : 'lukket'}`}>
-                    <Collapse isOpened>
-                        <Menu className={'virksomhetsvelger'}>
+
+                <div className={`virksomhetsvelger__wrapper--${erApen ? 'apen' : 'lukket'}`}>
+                    <Collapse isOpened={erApen}>
+                        <Menu className="virksomhetsvelger__dropdown">
                             <div className="virksomhetsvelger__valgtVirksomhet">
                                 <Organisasjonsbeskrivelse
                                     brukOverskrift
@@ -78,11 +73,11 @@ const Virksomhetsvelger: FunctionComponent<Props & RouteComponentProps> = props 
                                     orgnummer={valgtOrganisasjon.OrganizationNumber}
                                 />
                             </div>
-                            <Undertittel className={'virksomhetsvelger__dine-aktorer-tekst'}>
+                            <Undertittel className="virksomhetsvelger__overskrift">
                                 Dine aktører
                             </Undertittel>
                             <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
-                            <div className={'virksomhetsvelger__meny-komponenter-container'}>
+                            <div className="virksomhetsvelger__meny">
                                 {soketekst.length === 0 ? (
                                     <DefaultMeny menyKomponenter={organisasjonstre} />
                                 ) : (
