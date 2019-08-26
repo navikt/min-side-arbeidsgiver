@@ -16,11 +16,7 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
             linkCreator={(props: any) => <a {...props}>{props.children}</a>}
         >
             <div className={'bedriftsinfo-knapp__wrapper'}>
-                <img
-                    className={'bedriftsinfo-knapp__ikon'}
-                    src={bedriftinfoikon}
-                    alt="Bilde av stresskoffert"
-                />
+                <img className={'bedriftsinfo-knapp__ikon'} src={bedriftinfoikon} alt="" />
                 <Undertittel className={'bedriftsinfo-knapp__tekst'}>
                     Informasjon om din bedrift
                 </Undertittel>

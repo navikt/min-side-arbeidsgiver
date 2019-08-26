@@ -19,7 +19,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
             <TjenesteBoksBanner
                 tittel={'Sykemeldte'}
                 imgsource={syfoikon}
-                altTekst={'Bilde av medisin i form av piller'}
+                altTekst={''}
                 antallVarsler={syfoOppgaverState.length}
             />
 

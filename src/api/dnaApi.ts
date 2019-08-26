@@ -4,7 +4,7 @@ import {
     tomAltinnOrganisasjon,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
+import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
 import { OrganisasjonFraEnhetsregisteret } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { logInfo } from '../utils/metricsUtils';
 import { hentOverordnetEnhet } from './enhetsregisteretApi';
@@ -141,4 +141,13 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsav
         return avtaler;
     }
     return [];
+}
+
+export async function hentMenuToggle(toggleNavn: string): Promise<string> {
+    let respons = await fetch(linkTilUnleash + '?feature=' + toggleNavn);
+    if (respons.ok) {
+        const fodselNrSomSkalSeNyMeny: string = await respons.json();
+        return fodselNrSomSkalSeNyMeny;
+    }
+    return '';
 }

@@ -87,6 +87,12 @@ if(process.env.REACT_APP_MOCK){
 
 }else {
     getDecorator()
-        .then(renderApp, error => console.log('Kunne ikke hente dekoratør ', error))
-        .then(startServer, error => console.log('Kunne ikke rendre app ', error));
+        .then(renderApp, error => {
+            console.error('Kunne ikke hente dekoratør ', error);
+            process.exit(1);
+        })
+        .then(startServer, error => {
+            console.error('Kunne ikke rendre app ', error);
+            process.exit(1);
+        })
 }

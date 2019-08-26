@@ -12,11 +12,7 @@ interface Props {
 export const ManglerTilgangBoks: FunctionComponent<Props> = props => {
     return (
         <div className={'mangler-tilgang'}>
-            <img
-                src={alertikon}
-                alt={'ikon for å vise at det kommer informasjon om tilgangsstyring'}
-                className={'mangler-tilgang__ikon'}
-            />
+            <img src={alertikon} alt={''} className={'mangler-tilgang__ikon'} />
             <div className={'mangler-tilgang__tekst'}>
                 <Element className={'mangler-tilgang__overskrift'}>
                     Du mangler roller eller rettigheter i Altinn{' '}

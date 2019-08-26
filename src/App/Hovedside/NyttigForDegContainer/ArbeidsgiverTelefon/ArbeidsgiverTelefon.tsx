@@ -13,11 +13,7 @@ const ArbeidsgiverTelefon: FunctionComponent = () => {
             linkCreator={(props: any) => <a {...props}>{props.children}</a>}
         >
             <div className={'arbeidsgivertelefon__wrapper'}>
-                <img
-                    className={'arbeidsgivertelefon__icon'}
-                    src={iconTlf}
-                    alt="Bilde av en mobiltelefon"
-                />
+                <img className={'arbeidsgivertelefon__ikon'} src={iconTlf} alt="" />
                 <div className={'arbeidsgivertelefon__tekst'}>
                     <Element>{'Arbeidsgivertelefonen'}</Element>
                     <Element className={'arbeidsgivertelefon__nummer'}>55 55 33 36</Element>

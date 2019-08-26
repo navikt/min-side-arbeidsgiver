@@ -12,33 +12,25 @@ export const Innloggingstjenester: FunctionComponent = () => {
             <div className={'innloggingsside-tjenester__tjeneste'}>
                 <img
                     src={medisin}
-                    alt={'Bilde av piller for å illustrere sykefravær'}
+                    alt={''}
                     className={'innloggingsside-tjenester__tjeneste-ikon'}
                 />
-                <Element>Sykefraværsoppfølging </Element>
+                <Element>Dine sykemeldte </Element>
             </div>
             <div className={'innloggingsside-tjenester__tjeneste'}>
-                <img
-                    src={sok}
-                    alt={'Bilde av forstørrelsesglass for å illustrere rekrutteringstjenesten'}
-                    className={'innloggingsside-tjenester__tjeneste-ikon'}
-                />
+                <img src={sok} alt={''} className={'innloggingsside-tjenester__tjeneste-ikon'} />
                 <Element>Rekruttering </Element>
             </div>
             <div className={'innloggingsside-tjenester__tjeneste'}>
                 <img
-                    alt="{Bilde av en verktøykasse }"
+                    alt={''}
                     src={verktoy}
                     className={'innloggingsside-tjenester__tjeneste-ikon'}
                 />
                 <Element>Arbeidstrening </Element>
             </div>
             <div className={'innloggingsside-tjenester__tjeneste'}>
-                <img
-                    alt={'Bilde av skjemaer for å illustrere skjemaer på altinn'}
-                    src={skjema}
-                    className={'innloggingsside-tjenester__tjeneste-ikon'}
-                />
+                <img alt={''} src={skjema} className={'innloggingsside-tjenester__tjeneste-ikon'} />
                 <Element>Digitale skjemaer </Element>
             </div>
         </div>
