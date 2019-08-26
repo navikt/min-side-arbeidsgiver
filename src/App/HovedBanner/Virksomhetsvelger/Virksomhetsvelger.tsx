@@ -43,11 +43,9 @@ const Virksomhetsvelger: FunctionComponent<Props> = props => {
         );
     };
 
-    const setOrganisasjonHvisUnderEnhet = (org: JuridiskEnhetMedUnderEnheterArray) => {
-        if (org.JuridiskEnhet.Type !== 'Enterprise') {
-            props.history.push('/' + org.JuridiskEnhet.OrganizationNumber);
-            setErApen(false);
-        }
+    const setOrganisasjon = (orgnr: string) => {
+        props.history.push('/' + orgnr);
+        setErApen(false);
     };
 
     return (
@@ -55,7 +53,7 @@ const Virksomhetsvelger: FunctionComponent<Props> = props => {
             <Wrapper
                 className="virksomhetsvelger__wrapper"
                 closeOnSelection={false}
-                onSelection={value => setOrganisasjonHvisUnderEnhet(value)}
+                onSelection={(value: string) => setOrganisasjon(value)}
                 onMenuToggle={({ isOpen }) => {
                     setErApen(isOpen);
                 }}
