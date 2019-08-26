@@ -13,6 +13,7 @@ if (process.env.REACT_APP_MOCK) {
   require("./mock/syfoMock");
   require("./mock/arbeidstreningMock");
   require("./mock/altinnMock");
+  require("./mock/unleashMock");
   //require("./mock/veilarbMock");
 }
 

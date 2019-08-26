@@ -9,6 +9,7 @@ import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
 import hentAntallannonser from "./hent-stillingsannonser";
 import {
   Arbeidsavtale,
+  hentMenuToggle,
   hentRoller,
   hentTiltaksgjennomforingTilgang,
   sjekkAltinnRolleForInntekstmelding,
@@ -77,6 +78,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
+    const fodeslNrMenuToggle: string = await hentMenuToggle();
+    console.log(fodeslNrMenuToggle);
 
     let roller = await hentRoller(org.OrganizationNumber);
     if (sjekkAltinnRolleForInntekstmelding(roller)) {

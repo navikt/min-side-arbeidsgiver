@@ -58,10 +58,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         <br />
         {lagTekstBasertPaAntall(antallTilGodkjenning, "mangler godkjenning")}
         <br />
-        {lagTekstBasertPaAntall(
-          antallKlareStillingsannonser,
-          "er godkjent"
-        )}
+        {lagTekstBasertPaAntall(antallKlareStillingsannonser, "er godkjent")}
         <br />
       </Lenkepanel>
     </div>
