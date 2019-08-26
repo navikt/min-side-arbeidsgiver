@@ -31,6 +31,7 @@ const LoginBoundary: FunctionComponent = props => {
     }
     setEssoCookieLocally();
   }
+
 const settInnloggetState = (veilarbStatusRespons :VeilStatus)=>{
   if (
     veilarbStatusRespons.harGyldigOidcToken &&
@@ -55,7 +56,7 @@ const settInnloggetState = (veilarbStatusRespons :VeilStatus)=>{
     else{
       localLogin();
     }
-  }, [settInnloggetState]);
+  }, []);
 
   if (innlogget === Innlogget.INNLOGGET) {
     return <> {props.children} </>;
