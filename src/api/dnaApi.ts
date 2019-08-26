@@ -120,8 +120,8 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<
   return [];
 }
 
-export async function hentMenuToggle(): Promise<string> {
-  let respons = await fetch(linkTilUnleash);
+export async function hentMenuToggle(toggleNavn: string): Promise<string> {
+  let respons = await fetch(linkTilUnleash + "?feature=" + toggleNavn);
   if (respons.ok) {
     const fodselNrSomSkalSeNyMeny: string = await respons.json();
     return fodselNrSomSkalSeNyMeny;

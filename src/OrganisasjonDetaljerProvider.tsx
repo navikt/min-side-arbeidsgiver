@@ -78,7 +78,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
     let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
       org.OrganizationNumber
     );
-    const fodeslNrMenuToggle: string = await hentMenuToggle();
+    const fodeslNrMenuToggle: string = await hentMenuToggle(
+      "dna.bedriftsvelger.brukNyBedriftsvelger"
+    );
     console.log(fodeslNrMenuToggle);
 
     let roller = await hentRoller(org.OrganizationNumber);
