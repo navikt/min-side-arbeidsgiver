@@ -3,7 +3,7 @@ import { LoggInn } from "./LoggInn/LoggInn";
 
 import { veilarbStepup } from "../lenker";
 import environment from "../utils/environment";
-import hentVeilarbStatus from "../api/veilarbApi";
+import hentVeilarbStatus, { VeilStatus } from "../api/veilarbApi";
 
 export enum Innlogget {
   LASTER,
@@ -14,8 +14,7 @@ export enum Innlogget {
 function setEssoCookieLocally() {
   document.cookie = "nav-esso=0123456789..*; path=/; domain=localhost;";
 }
-async function getEssoToken() {
-  let veilarbStatusRespons = await hentVeilarbStatus();
+function getEssoToken(veilarbStatusRespons: VeilStatus) {
   if (!veilarbStatusRespons.erInnlogget) {
     window.location.href = veilarbStepup();
   }
@@ -32,27 +31,31 @@ const LoginBoundary: FunctionComponent = props => {
     }
     setEssoCookieLocally();
   }
-
+const settInnloggetState = (veilarbStatusRespons :VeilStatus)=>{
+  if (
+    veilarbStatusRespons.harGyldigOidcToken &&
+    veilarbStatusRespons.nivaOidc === 4
+  ) {
+    setInnlogget(Innlogget.INNLOGGET);
+    getEssoToken(veilarbStatusRespons);
+  } else if (!veilarbStatusRespons.harGyldigOidcToken) {
+    setInnlogget(Innlogget.IKKE_INNLOGGET);
+  }
+};
   useEffect(() => {
     setInnlogget(Innlogget.LASTER);
     const getLoginStatus = async () => {
-      if (environment.MILJO === "prod-sbs" || environment.MILJO === "dev-sbs") {
-        let veilarbStatusRespons = await hentVeilarbStatus();
-        if (
-          veilarbStatusRespons.harGyldigOidcToken &&
-          veilarbStatusRespons.nivaOidc === 4
-        ) {
-          setInnlogget(Innlogget.INNLOGGET);
-          await getEssoToken();
-        } else if (!veilarbStatusRespons.harGyldigOidcToken) {
-          setInnlogget(Innlogget.IKKE_INNLOGGET);
-        }
-      } else {
-        localLogin();
-      }
+        return await hentVeilarbStatus();
     };
-    getLoginStatus();
-  }, []);
+    if (environment.MILJO === "prod-sbs" || environment.MILJO === "dev-sbs") {
+      getLoginStatus().then(veilarbStatusRespons => {
+        settInnloggetState(veilarbStatusRespons);
+      })
+    }
+    else{
+      localLogin();
+    }
+  }, [settInnloggetState]);
 
   if (innlogget === Innlogget.INNLOGGET) {
     return <> {props.children} </>;
