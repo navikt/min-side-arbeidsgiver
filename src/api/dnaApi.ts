@@ -65,19 +65,16 @@ export async function byggOrganisasjonstre(
             Underenheter: underenheter,
         };
     });
+    console.log(utenTilgangTilJuridiskEnhetBedrifter);
 
     utenTilgangTilJuridiskEnhetBedrifter.forEach(async organisasjon => {
         if (organisasjon.OrganizationForm === 'BEDR') {
             const overordnetEnhetEReg: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
-                organisasjon.OrganizationNumber
+                organisasjon.ParentOrganizationNumber
             );
             let overordnetAltinnOrg: Organisasjon = tomAltinnOrganisasjon;
             overordnetAltinnOrg.OrganizationNumber = overordnetEnhetEReg.organisasjonsnummer;
             overordnetAltinnOrg.Name = overordnetEnhetEReg.navn;
-            if (overordnetEnhetEReg.navn === '' && overordnetEnhetEReg.organisasjonsnummer === '') {
-                overordnetAltinnOrg.Name = 'JURIDISK ENHET TEST';
-                overordnetAltinnOrg.OrganizationNumber = '999999999';
-            }
             overordnetAltinnOrg.Type = 'Enterprise';
             organisasjonsliste.push({
                 JuridiskEnhet: overordnetAltinnOrg,

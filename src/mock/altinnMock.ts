@@ -99,13 +99,6 @@ fetchMock
             Status: 'Active',
         },
         {
-            Name: 'RAMNES OG TYSSEDAL REGNSKAP',
-            Type: 'Business',
-            OrganizationNumber: '910804456',
-            OrganizationForm: 'BEDR',
-            Status: 'Active',
-        },
-        {
             Name: 'RODAL LOUIS',
             Type: 'Person',
             OrganizationNumber: null,
@@ -177,6 +170,14 @@ fetchMock
             Type: 'Business',
             OrganizationNumber: '910989642',
             ParentOrganizationNumber: '910820834',
+            OrganizationForm: 'BEDR',
+            Status: 'Active',
+        },
+        {
+            Name: 'IKEA AS VAREHUS SLEPENDEN',
+            Type: 'Business',
+            OrganizationNumber: '973080377',
+            ParentOrganizationNumber: '914787521',
             OrganizationForm: 'BEDR',
             Status: 'Active',
         },
