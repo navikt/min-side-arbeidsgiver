@@ -143,11 +143,11 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsav
     return [];
 }
 
-export async function hentMenuToggle(toggleNavn: string): Promise<string> {
+export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
     let respons = await fetch(linkTilUnleash + '?feature=' + toggleNavn);
     if (respons.ok) {
-        const fodselNrSomSkalSeNyMeny: string = await respons.json();
+        const fodselNrSomSkalSeNyMeny: boolean = await respons.json();
         return fodselNrSomSkalSeNyMeny;
     }
-    return '';
+    return false;
 }

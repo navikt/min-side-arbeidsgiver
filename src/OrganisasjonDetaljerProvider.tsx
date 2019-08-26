@@ -7,7 +7,6 @@ import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import {
     Arbeidsavtale,
-    hentMenuToggle,
     hentRoller,
     hentTiltaksgjennomforingTilgang,
     sjekkAltinnRolleForInntekstmelding,
@@ -64,11 +63,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         console.log('endre org kallt med: ', org.Name);
         await setValgtOrganisasjon(org);
         let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
-        const fodeslNrMenuToggle: string = await hentMenuToggle(
-            'dna.bedriftsvelger.brukNyBedriftsvelger'
-        );
-        console.log(fodeslNrMenuToggle);
-
         let roller = await hentRoller(org.OrganizationNumber);
         if (sjekkAltinnRolleForInntekstmelding(roller)) {
             settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);

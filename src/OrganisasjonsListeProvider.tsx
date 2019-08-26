@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import { hentOrganisasjoner, byggOrganisasjonstre } from './api/dnaApi';
+import { hentOrganisasjoner, byggOrganisasjonstre, hentMenuToggle } from './api/dnaApi';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
@@ -9,6 +9,7 @@ import {
 export type Context = {
     organisasjoner: Array<Organisasjon>;
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
+    visNyMeny: boolean;
 };
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
@@ -19,6 +20,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjonstre, setorganisasjonstre] = useState(
         Array<JuridiskEnhetMedUnderEnheterArray>()
     );
+    const [visNyMeny, setVisNyMeny] = useState(false);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -35,12 +37,21 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             setorganisasjonstre(toDim);
             console.log(toDim);
         };
+        const sjekkFodselsnr = async () => {
+            const skalViseMeny: boolean = await hentMenuToggle(
+                'dna.bedriftsvelger.brukNyBedriftsvelger'
+            );
+            setVisNyMeny(skalViseMeny);
+            console.log(skalViseMeny);
+        };
+        sjekkFodselsnr();
         getOrganisasjoner();
     }, []);
 
     let defaultContext: Context = {
         organisasjoner,
         organisasjonstre,
+        visNyMeny,
     };
 
     return (

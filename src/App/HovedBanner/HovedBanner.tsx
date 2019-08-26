@@ -9,13 +9,14 @@ import {
 } from '../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { withRouter, RouteComponentProps } from 'react-router';
 import Virksomhetsvelger from './Virksomhetsvelger/Virksomhetsvelger';
+import EnkelVirksomhetsvelger from './EnkelVirksomhetsvelger/EnkelVirksomhetsvelger';
 
 interface Props {
     tittel?: string;
 }
 
 const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string }>> = props => {
-    const { organisasjoner, organisasjonstre } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner, organisasjonstre, visNyMeny } = useContext(OrganisasjonsListeContext);
     const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const endreOrgCallback = useCallback(
@@ -57,11 +58,14 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
                 <div className={'banner__senter'}>
                     <Sidetittel className={'banner__sidetittel'}>Min Side Arbeidsgiver</Sidetittel>
                     <div className="banner__drop-down-container">
-                        <Virksomhetsvelger
-                            organisasjoner={organisasjoner}
-                            organisasjonstre={organisasjonstre}
-                            valgtOrganisasjon={valgtOrganisasjon}
-                        />
+                        {visNyMeny && (
+                            <Virksomhetsvelger
+                                organisasjoner={organisasjoner}
+                                organisasjonstre={organisasjonstre}
+                                valgtOrganisasjon={valgtOrganisasjon}
+                            />
+                        )}
+                        {!visNyMeny && <EnkelVirksomhetsvelger />}
                     </div>
                 </div>
             )}
