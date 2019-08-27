@@ -3,14 +3,27 @@ import { Organisasjon, tomAltinnOrganisasjon } from './organisasjon';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './hent-stillingsannonser';
 import {
-    Arbeidsavtale,
-    hentRoller,
-    hentTiltaksgjennomforingTilgang,
-    sjekkAltinnRolleForInntekstmelding,
-    sjekkAltinnRolleHelseSosial,
-} from './api/dnaApi';
-import { logInfo } from './utils/metricsUtils';
-import { SyfoTilgangContext, TilgangState } from './SyfoTilgangProvider';
+  Arbeidsavtale,
+  hentMenuToggle,
+  hentRoller,
+  hentTiltaksgjennomforingTilgang,
+  sjekkAltinnRolleForInntekstmelding,
+  sjekkAltinnRolleHelseSosial
+} from "./api/dnaApi";
+import { logInfo } from "./utils/metricsUtils";
+import { SyfoTilgangContext, TilgangSyfo,TilgangState } from "./SyfoTilgangProvider";
+
+export enum TilgangPam {
+  LASTER,
+  IKKE_TILGANG,
+  TILGANG
+}
+
+export enum TilgangAltinn {
+  LASTER,
+  IKKE_TILGANG,
+  TILGANG
+}
 
 interface Props {
     children: React.ReactNode;
@@ -45,11 +58,17 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
-    const endreOrganisasjon = async (org: Organisasjon) => {
-        let antallTilganger = 0;
-        console.log('endre org kallt med: ', org.Name);
-        await setValgtOrganisasjon(org);
-        let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
+  const endreOrganisasjon = async (org: Organisasjon) => {
+    let antallTilganger = 0;
+    console.log("endre org kallt med: ", org.Name);
+    await setValgtOrganisasjon(org);
+    let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
+      org.OrganizationNumber
+    );
+    const fodeslNrMenuToggle: string = await hentMenuToggle(
+      "dna.bedriftsvelger.brukNyBedriftsvelger"
+    );
+    console.log(fodeslNrMenuToggle);
 
         let roller = await hentRoller(org.OrganizationNumber);
         if (sjekkAltinnRolleForInntekstmelding(roller)) {

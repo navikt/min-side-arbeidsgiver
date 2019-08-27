@@ -105,3 +105,5 @@ export const arbeidsAvtaleLink = () => {
 export const hentArbeidsavtalerApiLink = () => {
   return "/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler";
 };
+
+export const linkTilUnleash = "/ditt-nav-arbeidsgiver/api/feature";

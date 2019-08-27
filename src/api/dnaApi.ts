@@ -2,7 +2,8 @@ import { Organisasjon, OverenhetOrganisasjon } from "../organisasjon";
 import { SyfoKallObjekt } from "../syfoKallObjekt";
 import {
   digiSyfoNarmesteLederLink,
-  hentArbeidsavtalerApiLink
+  hentArbeidsavtalerApiLink,
+  linkTilUnleash
 } from "../lenker";
 
 import { logInfo } from "../utils/metricsUtils";
@@ -117,4 +118,13 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<
     return avtaler;
   }
   return [];
+}
+
+export async function hentMenuToggle(toggleNavn: string): Promise<string> {
+  let respons = await fetch(linkTilUnleash + "?feature=" + toggleNavn);
+  if (respons.ok) {
+    const fodselNrSomSkalSeNyMeny: string = await respons.json();
+    return fodselNrSomSkalSeNyMeny;
+  }
+  return "";
 }
