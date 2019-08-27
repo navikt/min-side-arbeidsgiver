@@ -75,6 +75,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             setArbeidsavtaler(arbeidsavtalerRespons);
             if (arbeidsavtalerRespons.length > 0) {
                 setTilgangArbeidsavtaler(TilgangState.TILGANG);
+                antallTilganger++;
             } else {
                 setTilgangArbeidsavtaler(TilgangState.IKKE_TILGANG);
             }
