@@ -11,7 +11,7 @@ import {
   sjekkAltinnRolleHelseSosial
 } from "./api/dnaApi";
 import { logInfo } from "./utils/metricsUtils";
-import { SyfoTilgangContext, TilgangSyfo,TilgangState } from "./SyfoTilgangProvider";
+import { SyfoTilgangContext, TilgangState } from "./SyfoTilgangProvider";
 
 export enum TilgangPam {
   LASTER,
