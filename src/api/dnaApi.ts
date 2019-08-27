@@ -77,17 +77,21 @@ export async function byggOrganisasjonstre(
         juridiskeEnheterUtenTilgang.forEach(async juridiskeEnhetMedArray => {
             if (
                 organisasjon.ParentOrganizationNumber ===
-                juridiskeEnhetMedArray.JuridiskEnhet.OrganizationNumber
+                    juridiskeEnhetMedArray.JuridiskEnhet.OrganizationNumber &&
+                juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray)
             ) {
+                console.log(!juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray));
                 juridiskeEnhetMedArray.Underenheter.push(organisasjon);
             }
         });
-        if (
-            !juridiskeEnheterUtenTilgang.some(
-                jurEnhet =>
-                    jurEnhet.JuridiskEnhet.OrganizationNumber === organisasjon.OrganizationNumber
-            )
-        ) {
+        const telt: boolean =
+            juridiskeEnheterUtenTilgang.filter(jurenhet => {
+                return juridiskeEnheterUtenTilgang.includes(jurenhet);
+            }).length > 0;
+        console.log(telt);
+        console.log(juridiskeEnheterUtenTilgang);
+        if (!telt) {
+            console.log('in if med org: ', organisasjon);
             const jurEnhet: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
                 organisasjon.ParentOrganizationNumber
             );
@@ -103,7 +107,6 @@ export async function byggOrganisasjonstre(
         }
     });
     console.log(juridiskeEnheterUtenTilgang);
-
     return organisasjonsliste;
 }
 
