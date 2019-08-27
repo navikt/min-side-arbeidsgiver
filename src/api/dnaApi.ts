@@ -46,42 +46,63 @@ export async function byggOrganisasjonstre(
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
-    let utenTilgangTilJuridiskEnhetBedrifter = organisasjoner;
     let organisasjonsliste = juridiskeEnheter.map(juridiskEnhet => {
-        const underenheter = organisasjoner.filter(underenhet => {
-            if (underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber) {
-                utenTilgangTilJuridiskEnhetBedrifter = utenTilgangTilJuridiskEnhetBedrifter.filter(
-                    organisasjon => {
-                        return organisasjon.OrganizationNumber !== underenhet.OrganizationNumber;
-                    }
-                );
-                return underenhet;
-            }
-
-            return false;
-        });
+        const underenheter = organisasjoner.filter(
+            underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
+        );
         return {
             JuridiskEnhet: juridiskEnhet,
             Underenheter: underenheter,
         };
     });
-    console.log(utenTilgangTilJuridiskEnhetBedrifter);
-
-    utenTilgangTilJuridiskEnhetBedrifter.forEach(async organisasjon => {
-        if (organisasjon.OrganizationForm === 'BEDR') {
-            const overordnetEnhetEReg: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
+    let underenheterMedTilgangTilJuridiskEnhet: Organisasjon[] = [];
+    organisasjonsliste.forEach(juridiskenhet => {
+        underenheterMedTilgangTilJuridiskEnhet.push.apply(
+            underenheterMedTilgangTilJuridiskEnhet,
+            juridiskenhet.Underenheter
+        );
+    });
+    console.log('tilgang til jur: ', underenheterMedTilgangTilJuridiskEnhet);
+    let underEnheterUtenTilgangTilJuridiskEnhet: Organisasjon[] = organisasjoner.filter(
+        organisasjon => {
+            return (
+                !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
+                organisasjon.OrganizationForm === 'BEDR'
+            );
+        }
+    );
+    console.log('uten tilgang jur: ', underEnheterUtenTilgangTilJuridiskEnhet);
+    let juridiskeEnheterUtenTilgang: JuridiskEnhetMedUnderEnheterArray[] = [];
+    underEnheterUtenTilgangTilJuridiskEnhet.forEach(async organisasjon => {
+        juridiskeEnheterUtenTilgang.forEach(async juridiskeEnhetMedArray => {
+            if (
+                organisasjon.ParentOrganizationNumber ===
+                juridiskeEnhetMedArray.JuridiskEnhet.OrganizationNumber
+            ) {
+                juridiskeEnhetMedArray.Underenheter.push(organisasjon);
+            }
+        });
+        if (
+            !juridiskeEnheterUtenTilgang.some(
+                jurEnhet =>
+                    jurEnhet.JuridiskEnhet.OrganizationNumber === organisasjon.OrganizationNumber
+            )
+        ) {
+            const jurEnhet: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
                 organisasjon.ParentOrganizationNumber
             );
-            let overordnetAltinnOrg: Organisasjon = tomAltinnOrganisasjon;
-            overordnetAltinnOrg.OrganizationNumber = overordnetEnhetEReg.organisasjonsnummer;
-            overordnetAltinnOrg.Name = overordnetEnhetEReg.navn;
-            overordnetAltinnOrg.Type = 'Enterprise';
-            organisasjonsliste.push({
-                JuridiskEnhet: overordnetAltinnOrg,
-                Underenheter: [organisasjon],
-            });
+            let jurEnhetAltinn: Organisasjon = tomAltinnOrganisasjon;
+            jurEnhetAltinn.Name = jurEnhet.navn;
+            jurEnhetAltinn.OrganizationNumber = jurEnhet.organisasjonsnummer;
+            let jurEnhetMedListe: JuridiskEnhetMedUnderEnheterArray = {
+                JuridiskEnhet: jurEnhetAltinn,
+                Underenheter: [],
+            };
+            jurEnhetMedListe.Underenheter.push(organisasjon);
+            juridiskeEnheterUtenTilgang.push(jurEnhetMedListe);
         }
     });
+    console.log(juridiskeEnheterUtenTilgang);
 
     return organisasjonsliste;
 }

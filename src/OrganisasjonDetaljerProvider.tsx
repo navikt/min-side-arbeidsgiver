@@ -60,7 +60,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const endreOrganisasjon = async (org: Organisasjon) => {
         let antallTilganger = 0;
-        console.log('endre org kallt med: ', org.Name);
         await setValgtOrganisasjon(org);
         let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
         let roller = await hentRoller(org.OrganizationNumber);

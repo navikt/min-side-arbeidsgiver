@@ -31,11 +31,12 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
-            const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                organisasjoner
-            );
-            setorganisasjonstre(toDim);
-            console.log(toDim);
+            if (visNyMeny) {
+                const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
+                    organisasjoner
+                );
+                setorganisasjonstre(toDim);
+            }
         };
         const sjekkFodselsnr = async () => {
             const skalViseMeny: boolean = await hentMenuToggle(
@@ -46,7 +47,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         };
         sjekkFodselsnr();
         getOrganisasjoner();
-    }, []);
+    }, [visNyMeny]);
 
     let defaultContext: Context = {
         organisasjoner,
