@@ -20,7 +20,7 @@ function getEssoToken(veilarbStatusRespons: VeilStatus) {
     }
 }
 const LoginBoundary: FunctionComponent = props => {
-    const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
+    const [innlogget, setInnlogget] = useState(Innlogget.LASTER);
 
     function localLogin() {
         console.log('local login');
