@@ -1,13 +1,11 @@
 import {
     Organisasjon,
     JuridiskEnhetMedUnderEnheterArray,
-    tomAltinnOrganisasjon,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
-import { OrganisasjonFraEnhetsregisteret } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { logInfo } from '../utils/metricsUtils';
-import { hentAlleJuridiskeEnheter, hentOverordnetEnhet } from './enhetsregisteretApi';
+import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 
 export interface Rolle {
     RoleType: string;
@@ -87,14 +85,15 @@ export async function byggOrganisasjonstre(
             if (
                 !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
                 organisasjon.OrganizationForm === 'BEDR'
-            )
+            ) {
                 return (
                     !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
                     organisasjon.OrganizationForm === 'BEDR'
                 );
+            }
+            return null;
         }
     );
-    console.log('underenheterutentilgang, ', underEnheterUtenTilgangTilJuridiskEnhet);
     const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
         underEnheterUtenTilgangTilJuridiskEnhet.map(org => org.ParentOrganizationNumber)
     );

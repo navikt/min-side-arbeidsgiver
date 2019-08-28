@@ -43,11 +43,9 @@ export async function hentAlleJuridiskeEnheter(
             url += ',' + orgnr;
         }
     });
-    console.log('url: ', url);
     let respons = await fetch(url);
     if (respons.ok) {
         const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
-        console.log('forste log', distinkteJuridiskeEnheterFraEreg);
         let distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
             orgFraEereg => {
                 //console.log('jurorg i map er', orgFraEereg);
@@ -56,11 +54,9 @@ export async function hentAlleJuridiskeEnheter(
                     Name: orgFraEereg.navn,
                     OrganizationNumber: orgFraEereg.organisasjonsnummer,
                 };
-                console.log('jurorg:', jurOrg);
                 return jurOrg;
             }
         );
-        console.log('etter map ', distinkteJuridiskeEnheter);
         return distinkteJuridiskeEnheter;
     }
 

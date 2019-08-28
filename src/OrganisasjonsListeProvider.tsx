@@ -43,7 +43,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 'dna.bedriftsvelger.brukNyBedriftsvelger'
             );
             setVisNyMeny(skalViseMeny);
-            console.log(skalViseMeny);
         };
         sjekkFodselsnr();
         getOrganisasjoner();
