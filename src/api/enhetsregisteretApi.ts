@@ -1,9 +1,13 @@
 import {
     tomEnhetsregOrg,
     OrganisasjonFraEnhetsregisteret,
+    ListeMedJuridiskeEnheter,
 } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { hentOverordnetEnhetApiLink, hentUnderenhetApiLink } from '../lenker';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {
+    Organisasjon,
+    tomAltinnOrganisasjon,
+} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
     let respons = await fetch(hentUnderenhetApiLink(orgnr));
@@ -25,7 +29,9 @@ export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFr
     return tomEnhetsregOrg;
 }
 
-export async function hentAlleJuridiskeEnheter(listeMedJuridiskeOrgNr: string[]): Promise<string> {
+export async function hentAlleJuridiskeEnheter(
+    listeMedJuridiskeOrgNr: string[]
+): Promise<Organisasjon[]> {
     let url: string = 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=';
     const distinkteJuridiskeEnhetsnr: string[] = listeMedJuridiskeOrgNr.filter(
         (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index
@@ -38,6 +44,20 @@ export async function hentAlleJuridiskeEnheter(listeMedJuridiskeOrgNr: string[])
         }
     });
     console.log('url: ', url);
+    let respons = await fetch(url);
+    console.log(respons);
+    if (respons.ok) {
+        const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
+        let distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
+            orgFraEereg => {
+                let jurOrg: Organisasjon = tomAltinnOrganisasjon;
+                jurOrg.Name = orgFraEereg.navn;
+                jurOrg.OrganizationNumber = orgFraEereg.organisasjonsnummer;
+                return jurOrg;
+            }
+        );
+        return distinkteJuridiskeEnheter;
+    }
 
-    return '';
+    return [tomAltinnOrganisasjon];
 }
