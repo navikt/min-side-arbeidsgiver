@@ -40,6 +40,27 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     }
 }
 
+export function settSammenJuridiskEnhetMedUnderOrganisasjoner(
+    juridiskeEnheter: Organisasjon[],
+    underEnheter: Organisasjon[]
+): JuridiskEnhetMedUnderEnheterArray[] {
+    const organisasjonsTre: JuridiskEnhetMedUnderEnheterArray[] = juridiskeEnheter.map(
+        juridiskEnhet => {
+            const underenheter = underEnheter.filter(
+                underenhet =>
+                    underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
+            );
+
+            const resultat = {
+                JuridiskEnhet: juridiskEnhet,
+                Underenheter: underenheter,
+            };
+            return resultat;
+        }
+    );
+    return organisasjonsTre;
+}
+
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
 ): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
