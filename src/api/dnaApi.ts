@@ -64,18 +64,17 @@ export function settSammenJuridiskEnhetMedUnderOrganisasjoner(
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]
 ): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
-    let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
+    const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
-    let organisasjonsliste = juridiskeEnheter.map(juridiskEnhet => {
-        const underenheter = organisasjoner.filter(
-            underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
-        );
-        return {
-            JuridiskEnhet: juridiskEnhet,
-            Underenheter: underenheter,
-        };
+    const undernheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
+        return organisasjon.OrganizationForm === 'BEDR';
     });
+
+    let organisasjonsliste = settSammenJuridiskEnhetMedUnderOrganisasjoner(
+        juridiskeEnheter,
+        undernheter
+    );
     let underenheterMedTilgangTilJuridiskEnhet: Organisasjon[] = [];
     organisasjonsliste.forEach(juridiskenhet => {
         underenheterMedTilgangTilJuridiskEnhet.push.apply(
@@ -85,48 +84,24 @@ export async function byggOrganisasjonstre(
     });
     let underEnheterUtenTilgangTilJuridiskEnhet: Organisasjon[] = organisasjoner.filter(
         organisasjon => {
-            return (
+            if (
                 !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
                 organisasjon.OrganizationForm === 'BEDR'
-            );
+            )
+                return (
+                    !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
+                    organisasjon.OrganizationForm === 'BEDR'
+                );
         }
     );
-    let juridiskeEnheterUtenTilgang: JuridiskEnhetMedUnderEnheterArray[] = [];
-    underEnheterUtenTilgangTilJuridiskEnhet.forEach(async organisasjon => {
-        juridiskeEnheterUtenTilgang.forEach(async juridiskeEnhetMedArray => {
-            if (
-                organisasjon.ParentOrganizationNumber ===
-                    juridiskeEnhetMedArray.JuridiskEnhet.OrganizationNumber &&
-                juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray)
-            ) {
-                console.log(!juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray));
-                juridiskeEnhetMedArray.Underenheter.push(organisasjon);
-            }
-        });
-        const telt: boolean = juridiskeEnheterUtenTilgang.some(
-            jurorg =>
-                jurorg.JuridiskEnhet.OrganizationNumber === organisasjon.ParentOrganizationNumber
-        );
-        if (!telt) {
-            const jurEnhet: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
-                organisasjon.ParentOrganizationNumber
-            );
-            let jurEnhetAltinn: Organisasjon = tomAltinnOrganisasjon;
-            jurEnhetAltinn.Name = jurEnhet.navn;
-            jurEnhetAltinn.OrganizationNumber = jurEnhet.organisasjonsnummer;
-            let jurEnhetMedListe: JuridiskEnhetMedUnderEnheterArray = {
-                JuridiskEnhet: jurEnhetAltinn,
-                Underenheter: [],
-            };
-            jurEnhetMedListe.Underenheter.push(organisasjon);
-            juridiskeEnheterUtenTilgang.push(jurEnhetMedListe);
-        }
-    });
-    console.log(
-        'alle distinkte jurenheter: ',
-        hentAlleJuridiskeEnheter(['914787521', '914787521', '975959171'])
+    const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
+        underEnheterUtenTilgangTilJuridiskEnhet.map(org => org.OrganizationNumber)
     );
-    console.log(juridiskeEnheterUtenTilgang);
+    let organisasjonsListeUtenTilgangJuridisk = settSammenJuridiskEnhetMedUnderOrganisasjoner(
+        juridiskeEnheterUtenTilgang,
+        underEnheterUtenTilgangTilJuridiskEnhet
+    );
+    organisasjonsliste.push.apply(organisasjonsListeUtenTilgangJuridisk);
     return organisasjonsliste;
 }
 
