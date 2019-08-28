@@ -189,6 +189,22 @@ fetchMock
             OrganizationForm: 'BEDR',
             Status: 'Active',
         },
+        {
+            Name: 'BOLIGSAMEIET KIWI TAU',
+            Type: '990972087',
+            OrganizationNumber: '980368742',
+            ParentOrganizationNumber: '975959171',
+            OrganizationForm: 'BEDR',
+            Status: 'Active',
+        },
+        {
+            Name: 'KIWI BUTIKKDRIFT AS ',
+            Type: 'Business',
+            OrganizationNumber: '995971275',
+            ParentOrganizationNumber: '975959171',
+            OrganizationForm: 'BEDR',
+            Status: 'Active',
+        },
     ])
     .spy();
 
