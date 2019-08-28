@@ -78,7 +78,7 @@ const Virksomhetsvelger: FunctionComponent<Props> = props => {
                                 />
                             </div>
                             <Undertittel className="virksomhetsvelger__overskrift">
-                                Dine aktører
+                                Dine virksomheter
                             </Undertittel>
                             <Sokefelt soketekst={soketekst} onChange={brukSoketekst} />
                             <div className="virksomhetsvelger__meny">
