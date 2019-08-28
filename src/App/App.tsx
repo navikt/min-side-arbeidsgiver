@@ -9,7 +9,7 @@ import { OrganisasjonsListeProvider } from '../OrganisasjonsListeProvider';
 import { OrganisasjonsDetaljerProvider } from '../OrganisasjonDetaljerProvider';
 import { SyfoTilgangProvider } from '../SyfoTilgangProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
-import { LoggInn } from './LoggInn/LoggInn';
+import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 
 const App: FunctionComponent = () => {
     return (
@@ -38,7 +38,7 @@ const App: FunctionComponent = () => {
                                                 <Route
                                                     path="/:orgnummer/bedriftsinformasjon"
                                                     exact={true}
-                                                    component={LoggInn}
+                                                    component={InformasjonOmBedrift}
                                                 />
                                                 <Route
                                                     path="/"
