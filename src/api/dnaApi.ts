@@ -7,7 +7,7 @@ import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
 import { OrganisasjonFraEnhetsregisteret } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { logInfo } from '../utils/metricsUtils';
-import { hentOverordnetEnhet } from './enhetsregisteretApi';
+import { hentAlleJuridiskeEnheter, hentOverordnetEnhet } from './enhetsregisteretApi';
 
 export interface Rolle {
     RoleType: string;
@@ -46,6 +46,7 @@ export async function byggOrganisasjonstre(
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
+    console.log('byggorgtre kallt');
     let organisasjonsliste = juridiskeEnheter.map(juridiskEnhet => {
         const underenheter = organisasjoner.filter(
             underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
@@ -62,7 +63,6 @@ export async function byggOrganisasjonstre(
             juridiskenhet.Underenheter
         );
     });
-    console.log('tilgang til jur: ', underenheterMedTilgangTilJuridiskEnhet);
     let underEnheterUtenTilgangTilJuridiskEnhet: Organisasjon[] = organisasjoner.filter(
         organisasjon => {
             return (
@@ -71,8 +71,10 @@ export async function byggOrganisasjonstre(
             );
         }
     );
-    console.log('uten tilgang jur: ', underEnheterUtenTilgangTilJuridiskEnhet);
+    console.log('orgtre: ', organisasjonsliste);
+    console.log('underenheter uten tilgang jur: ', underEnheterUtenTilgangTilJuridiskEnhet);
     let juridiskeEnheterUtenTilgang: JuridiskEnhetMedUnderEnheterArray[] = [];
+    console.log('jurenheter uten tilgang: ', juridiskeEnheterUtenTilgang);
     underEnheterUtenTilgangTilJuridiskEnhet.forEach(async organisasjon => {
         juridiskeEnheterUtenTilgang.forEach(async juridiskeEnhetMedArray => {
             if (
@@ -80,14 +82,25 @@ export async function byggOrganisasjonstre(
                     juridiskeEnhetMedArray.JuridiskEnhet.OrganizationNumber &&
                 juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray)
             ) {
+                console.log(
+                    'i if setning for jurenheter som allerede er telt med org: ',
+                    organisasjon
+                );
                 console.log(!juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray));
                 juridiskeEnhetMedArray.Underenheter.push(organisasjon);
             }
         });
-        const telt: boolean =
-            juridiskeEnheterUtenTilgang.filter(jurenhet => {
-                return juridiskeEnheterUtenTilgang.includes(jurenhet);
-            }).length > 0;
+        const telt: boolean = juridiskeEnheterUtenTilgang.some(
+            jurorg =>
+                jurorg.JuridiskEnhet.OrganizationNumber === organisasjon.ParentOrganizationNumber
+        );
+        console.log(
+            juridiskeEnheterUtenTilgang.some(
+                jurorg =>
+                    jurorg.JuridiskEnhet.OrganizationNumber ===
+                    organisasjon.ParentOrganizationNumber
+            )
+        );
         console.log(telt);
         console.log(juridiskeEnheterUtenTilgang);
         if (!telt) {
@@ -106,6 +119,10 @@ export async function byggOrganisasjonstre(
             juridiskeEnheterUtenTilgang.push(jurEnhetMedListe);
         }
     });
+    console.log(
+        'alle distinkte jurenheter: ',
+        hentAlleJuridiskeEnheter(['914787521', '914787521', '975959171'])
+    );
     console.log(juridiskeEnheterUtenTilgang);
     return organisasjonsliste;
 }
