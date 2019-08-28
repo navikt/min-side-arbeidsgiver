@@ -1,17 +1,17 @@
 export interface ListeMedJuridiskeEnheter {
     _embedded: {
         enheter: OrganisasjonFraEnhetsregisteret[];
-        links: {
-            self: {
-                href: string;
-            };
+    };
+    _links: {
+        self: {
+            href: string;
         };
-        page: {
-            size: number;
-            totalElements: number;
-            totalPages: number;
-            number: 0;
-        };
+    };
+    page: {
+        size: number;
+        totalElements: number;
+        totalPages: number;
+        number: 0;
     };
 }
 

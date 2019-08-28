@@ -46,7 +46,6 @@ export async function byggOrganisasjonstre(
     let juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
-    console.log('byggorgtre kallt');
     let organisasjonsliste = juridiskeEnheter.map(juridiskEnhet => {
         const underenheter = organisasjoner.filter(
             underenhet => underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
@@ -71,10 +70,7 @@ export async function byggOrganisasjonstre(
             );
         }
     );
-    console.log('orgtre: ', organisasjonsliste);
-    console.log('underenheter uten tilgang jur: ', underEnheterUtenTilgangTilJuridiskEnhet);
     let juridiskeEnheterUtenTilgang: JuridiskEnhetMedUnderEnheterArray[] = [];
-    console.log('jurenheter uten tilgang: ', juridiskeEnheterUtenTilgang);
     underEnheterUtenTilgangTilJuridiskEnhet.forEach(async organisasjon => {
         juridiskeEnheterUtenTilgang.forEach(async juridiskeEnhetMedArray => {
             if (
@@ -82,10 +78,6 @@ export async function byggOrganisasjonstre(
                     juridiskeEnhetMedArray.JuridiskEnhet.OrganizationNumber &&
                 juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray)
             ) {
-                console.log(
-                    'i if setning for jurenheter som allerede er telt med org: ',
-                    organisasjon
-                );
                 console.log(!juridiskeEnheterUtenTilgang.includes(juridiskeEnhetMedArray));
                 juridiskeEnhetMedArray.Underenheter.push(organisasjon);
             }
@@ -94,17 +86,7 @@ export async function byggOrganisasjonstre(
             jurorg =>
                 jurorg.JuridiskEnhet.OrganizationNumber === organisasjon.ParentOrganizationNumber
         );
-        console.log(
-            juridiskeEnheterUtenTilgang.some(
-                jurorg =>
-                    jurorg.JuridiskEnhet.OrganizationNumber ===
-                    organisasjon.ParentOrganizationNumber
-            )
-        );
-        console.log(telt);
-        console.log(juridiskeEnheterUtenTilgang);
         if (!telt) {
-            console.log('in if med org: ', organisasjon);
             const jurEnhet: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
                 organisasjon.ParentOrganizationNumber
             );
