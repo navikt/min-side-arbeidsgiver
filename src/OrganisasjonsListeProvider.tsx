@@ -1,47 +1,62 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { Organisasjon, OverenhetOrganisasjon } from "./organisasjon";
-import { hentOrganisasjoner, lagToDimensjonalArray } from "./api/dnaApi";
+import React, { FunctionComponent, useEffect, useState } from 'react';
+
+import { hentOrganisasjoner, byggOrganisasjonstre, hentMenuToggle } from './api/dnaApi';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export type Context = {
-  organisasjoner: Array<Organisasjon>;
-  organisasjonstre: Array<OverenhetOrganisasjon>;
+    organisasjoner: Array<Organisasjon>;
+    organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
+    visNyMeny: boolean;
 };
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
-  const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
-  const [organisasjonstre, setorganisasjonstre] = useState(
-    Array<OverenhetOrganisasjon>()
-  );
+    const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
+    const [organisasjonstre, setorganisasjonstre] = useState(
+        Array<JuridiskEnhetMedUnderEnheterArray>()
+    );
+    const [visNyMeny, setVisNyMeny] = useState(false);
 
-  useEffect(() => {
-    const getOrganisasjoner = async () => {
-      let organisasjoner = await hentOrganisasjoner();
+    useEffect(() => {
+        const getOrganisasjoner = async () => {
+            let organisasjoner = await hentOrganisasjoner();
 
-      setOrganisasjoner(
-        organisasjoner.filter((organisasjon: Organisasjon) => {
-          return organisasjon.OrganizationForm === "BEDR";
-        })
-      );
-      const toDim: Array<OverenhetOrganisasjon> = lagToDimensjonalArray(
-        organisasjoner
-      );
-      setorganisasjonstre(toDim);
-      console.log(toDim);
+            setOrganisasjoner(
+                organisasjoner.filter((organisasjon: Organisasjon) => {
+                    return organisasjon.OrganizationForm === 'BEDR';
+                })
+            );
+            if (visNyMeny) {
+                const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
+                    organisasjoner
+                );
+                setorganisasjonstre(toDim);
+            }
+        };
+        const sjekkFodselsnr = async () => {
+            const skalViseMeny: boolean = await hentMenuToggle(
+                'dna.bedriftsvelger.brukNyBedriftsvelger'
+            );
+            setVisNyMeny(skalViseMeny);
+        };
+        sjekkFodselsnr();
+        getOrganisasjoner();
+    }, [visNyMeny]);
+
+    let defaultContext: Context = {
+        organisasjoner,
+        organisasjonstre,
+        visNyMeny,
     };
-    getOrganisasjoner();
-  }, []);
 
-  let defaultContext: Context = {
-    organisasjoner,
-    organisasjonstre
-  };
-
-  return (
-    <OrganisasjonsListeContext.Provider value={defaultContext}>
-      {props.children}
-    </OrganisasjonsListeContext.Provider>
-  );
+    return (
+        <OrganisasjonsListeContext.Provider value={defaultContext}>
+            {props.children}
+        </OrganisasjonsListeContext.Provider>
+    );
 };
