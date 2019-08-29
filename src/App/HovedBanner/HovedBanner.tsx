@@ -30,6 +30,7 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
     );
 
     useEffect(() => {
+        console.log('skal vise ny meny', visNyMeny);
         const forrigeOrganisasjon: Organisasjon = valgtOrganisasjon;
         let orgnrFraUrl = props.location.pathname.split('/')[1];
         const orgnrErSattIUrl = orgnrFraUrl && orgnrFraUrl.length > 0;

@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:549
+  image: navikt/ditt-nav-arbeidsgiver:730
   team: teamtag
   port: 3000
   ingresses:
@@ -15,7 +15,7 @@ spec:
     path: /ditt-nav-arbeidsgiver/internal/isAlive
     initialDelay: 20
   readiness:
-    path: /ditt-nav-arbeidsgiver/internal/isReady
+    path: /ditt-nav-arbeidsgiver/internal/
     initialDelay: 20
   vault:
     enabled: true
