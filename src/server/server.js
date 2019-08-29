@@ -1,7 +1,7 @@
 
 const path = require('path');
 const express = require('express');
-const BASE_PATH='/ditt-nav-arbeidsgiver';
+const BASE_PATH='/min-side-arbeidsgiver';
 const server = express();
 const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
