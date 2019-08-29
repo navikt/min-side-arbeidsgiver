@@ -20,7 +20,11 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
-            {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
+            {skalViseManglerTilgangBoks && (
+                <div className="hovedside__mangler-tilgang-container">
+                    <ManglerTilgangBoks />
+                </div>
+            )}
             <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />

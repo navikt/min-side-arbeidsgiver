@@ -156,7 +156,7 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsav
 export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
     let respons = await fetch(linkTilUnleash + '?feature=' + toggleNavn);
     if (respons.ok) {
-        const unleashRespons:UnleashRespons = await respons.json();
+        const unleashRespons: UnleashRespons = await respons.json();
         return unleashRespons.tilgang;
     }
     return false;
