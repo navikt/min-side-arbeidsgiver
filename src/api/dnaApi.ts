@@ -94,6 +94,10 @@ export async function byggOrganisasjonstre(
             return null;
         }
     );
+    underEnheterUtenTilgangTilJuridiskEnhet = underEnheterUtenTilgangTilJuridiskEnhet.filter(
+        org => org.OrganizationNumber === 'BEDR'
+    );
+    console.log(underEnheterUtenTilgangTilJuridiskEnhet);
     if (underEnheterUtenTilgangTilJuridiskEnhet.length > 0) {
         console.log('skal ikke kalles');
         const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
