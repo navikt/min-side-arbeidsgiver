@@ -54,11 +54,9 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
 
     return (
         <div className={'banner'}>
-            {organisasjoner.length !== 0 && (
-                <div className={'banner__senter'}>
-                    <Sidetittel className={'banner__sidetittel'}>
-                        Min side - Arbeidsgiver
-                    </Sidetittel>
+            <div className={'banner__senter'}>
+                <Sidetittel className={'banner__sidetittel'}>Min side - Arbeidsgiver</Sidetittel>
+                {organisasjoner.length !== 0 && (
                     <div className="banner__drop-down-container">
                         {visNyMeny && (
                             <Virksomhetsvelger
@@ -69,8 +67,8 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
                         )}
                         {!visNyMeny && <EnkelVirksomhetsvelger />}
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 };
