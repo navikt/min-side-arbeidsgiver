@@ -54,7 +54,7 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
 
     return (
         <div className={'banner'}>
-            {organisasjonstre.length !== 0 && (
+            {organisasjoner.length !== 0 && (
                 <div className={'banner__senter'}>
                     <Sidetittel className={'banner__sidetittel'}>
                         Min side - Arbeidsgiver

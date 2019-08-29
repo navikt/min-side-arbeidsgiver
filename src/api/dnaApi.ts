@@ -28,6 +28,9 @@ enum AltinnKode {
 export interface Arbeidsavtale {
     status: string;
 }
+export interface UnleashRespons {
+    tilgang: boolean;
+}
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     let respons = await fetch('/ditt-nav-arbeidsgiver/api/organisasjoner');
@@ -153,8 +156,8 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsav
 export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
     let respons = await fetch(linkTilUnleash + '?feature=' + toggleNavn);
     if (respons.ok) {
-        const fodselNrSomSkalSeNyMeny: boolean = await respons.json();
-        return fodselNrSomSkalSeNyMeny;
+        const unleashRespons:UnleashRespons = await respons.json();
+        return unleashRespons.tilgang;
     }
     return false;
 }
