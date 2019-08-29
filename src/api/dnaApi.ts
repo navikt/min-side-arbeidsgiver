@@ -65,13 +65,10 @@ export async function byggOrganisasjonstre(
     const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
-    const undernheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
-        return organisasjon.OrganizationForm === 'BEDR';
-    });
-
+    const underenheter = organisasjoner.filter(org => org.OrganizationForm === 'BEDR');
     let organisasjonsliste = settSammenJuridiskEnhetMedUnderOrganisasjoner(
         juridiskeEnheter,
-        undernheter
+        underenheter
     );
     let underenheterMedTilgangTilJuridiskEnhet: Organisasjon[] = [];
     organisasjonsliste.forEach(juridiskenhet => {
@@ -80,26 +77,11 @@ export async function byggOrganisasjonstre(
             juridiskenhet.Underenheter
         );
     });
-    let underEnheterUtenTilgangTilJuridiskEnhet: Organisasjon[] = organisasjoner.filter(
-        organisasjon => {
-            if (
-                !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
-                organisasjon.OrganizationForm === 'BEDR'
-            ) {
-                return (
-                    !underenheterMedTilgangTilJuridiskEnhet.includes(organisasjon) &&
-                    organisasjon.OrganizationForm === 'BEDR'
-                );
-            }
-            return null;
-        }
+    let underEnheterUtenTilgangTilJuridiskEnhet: Organisasjon[] = underenheter.filter(
+        underenhet => !underenheterMedTilgangTilJuridiskEnhet.includes(underenhet)
     );
-    underEnheterUtenTilgangTilJuridiskEnhet = underEnheterUtenTilgangTilJuridiskEnhet.filter(
-        org => org.OrganizationNumber === 'BEDR'
-    );
-    console.log(underEnheterUtenTilgangTilJuridiskEnhet);
+
     if (underEnheterUtenTilgangTilJuridiskEnhet.length > 0) {
-        console.log('skal ikke kalles');
         const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
             underEnheterUtenTilgangTilJuridiskEnhet.map(org => org.ParentOrganizationNumber)
         );
@@ -108,10 +90,7 @@ export async function byggOrganisasjonstre(
             underEnheterUtenTilgangTilJuridiskEnhet
         );
         organisasjonsliste = organisasjonsliste.concat(organisasjonsListeUtenTilgangJuridisk);
-        console.log('orgliste', organisasjonsliste);
     }
-    console.log('orgliste', organisasjonsliste);
-
     return organisasjonsliste.sort((a, b) =>
         a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name)
     );
