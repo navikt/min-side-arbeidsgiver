@@ -94,17 +94,19 @@ export async function byggOrganisasjonstre(
             return null;
         }
     );
-    const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
-        underEnheterUtenTilgangTilJuridiskEnhet.map(org => org.ParentOrganizationNumber)
+    if (underEnheterUtenTilgangTilJuridiskEnhet.length > 0) {
+        const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
+            underEnheterUtenTilgangTilJuridiskEnhet.map(org => org.ParentOrganizationNumber)
+        );
+        let organisasjonsListeUtenTilgangJuridisk: JuridiskEnhetMedUnderEnheterArray[] = settSammenJuridiskEnhetMedUnderOrganisasjoner(
+            juridiskeEnheterUtenTilgang,
+            underEnheterUtenTilgangTilJuridiskEnhet
+        );
+        organisasjonsliste = organisasjonsliste.concat(organisasjonsListeUtenTilgangJuridisk);
+    }
+    return organisasjonsliste.sort((a, b) =>
+        a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name)
     );
-    let organisasjonsListeUtenTilgangJuridisk: JuridiskEnhetMedUnderEnheterArray[] = settSammenJuridiskEnhetMedUnderOrganisasjoner(
-        juridiskeEnheterUtenTilgang,
-        underEnheterUtenTilgangTilJuridiskEnhet
-    );
-
-    return organisasjonsliste
-        .concat(organisasjonsListeUtenTilgangJuridisk)
-        .sort((a, b) => a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name));
 }
 
 export async function hentRoller(orgnr: string): Promise<Rolle[]> {
