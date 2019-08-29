@@ -1,11 +1,43 @@
 import fetchMock from 'fetch-mock';
 
 fetchMock
-    .get('ditt-nav-arbeidsgiver/api/organisasjoner', [{"Name":"NAV ENGERDAL","Type":"Business","ParentOrganizationNumber":"874652202","OrganizationNumber":"991378642","OrganizationForm":"BEDR","Status":"Active"}])
+    .get('min-side-arbeidsgiver/api/organisasjoner', [
+      {
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '811076732',
+        ParentOrganizationNumber: '811076112',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+      },
+      {
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '811076112',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+      },
+      {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Enterprise',
+        OrganizationNumber: '822565212',
+        ParentOrganizationNumber: null,
+        OrganizationForm: 'AS',
+        Status: 'Active',
+      },
+      {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Business',
+        OrganizationNumber: '922658986',
+        ParentOrganizationNumber: '822565212',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+      },
+    ])
     .spy();
 
 fetchMock
-    .get('express:/ditt-nav-arbeidsgiver/api/roller/:id', [
+    .get('express:/min-side-arbeidsgiver/api/roller/:id', [
         {
             RoleType: 'Altinn',
             RoleDefinitionId: 4,

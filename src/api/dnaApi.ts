@@ -100,7 +100,7 @@ export async function byggOrganisasjonstre(
 }
 
 export async function hentRoller(orgnr: string): Promise<Rolle[]> {
-    let respons = await fetch('/ditt-nav-arbeidsgiver/api/roller/' + orgnr);
+    let respons = await fetch('/min-side-arbeidsgiver/api/roller/' + orgnr);
     if (respons.ok) {
         return await respons.json();
     } else {

@@ -9,8 +9,8 @@ module.exports = {
             }
         },
         before: (app) => {
-            app.get('/min-side-arbeidsgiver//redirect-til-login', (req, res) => {
-                const loginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver';
+            app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
+                const loginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
                 res.redirect(loginUrl);
             });
         }

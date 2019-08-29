@@ -1,6 +1,6 @@
 import fetchMock from "fetch-mock";
 
-fetchMock.get("/ditt-nav-arbeidsgiver/veilarbstepup/status", {
+fetchMock.get("/min-side-arbeidsgiver/veilarbstepup/status", {
   erInnlogget: false,
   harGyldigOidcToken: false,
   brukerId: null,

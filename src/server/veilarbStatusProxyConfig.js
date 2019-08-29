@@ -14,7 +14,7 @@ const veilarbStatusProxyConfig = {
     changeOrigin: true,
     target: veilarbStatus(),
         pathRewrite: {
-    '^/ditt-nav-arbeidsgiver': '',
+    '^/min-side-arbeidsgiver': '',
 },
     secure: true,
     xfwd: true

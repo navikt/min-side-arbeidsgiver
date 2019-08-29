@@ -5,7 +5,7 @@ import { digisyfoSykemeldteLenke } from '../lenker';
 
 export async function hentSykemeldinger(): Promise<Array<Sykemelding>> {
     let responsBody = {} as Array<Sykemelding>;
-    const respons = await fetch('/ditt-nav-arbeidsgiver/api/sykemeldinger', {
+    const respons = await fetch('/min-side-arbeidsgiver/api/sykemeldinger', {
         method: 'GET',
         credentials: 'include',
     });
@@ -17,7 +17,7 @@ export async function hentSykemeldinger(): Promise<Array<Sykemelding>> {
 
 export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
     let responsBody = {} as Array<SyfoOppgave>;
-    const respons = await fetch('/ditt-nav-arbeidsgiver/api/syfooppgaver', {
+    const respons = await fetch('/min-side-arbeidsgiver/api/syfooppgaver', {
         method: 'GET',
         credentials: 'include',
     });

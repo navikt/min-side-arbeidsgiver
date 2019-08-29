@@ -38,9 +38,9 @@ export const syfoLink = () => {
 
 export const veilarbStepup = () => {
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://tjenester.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver.nav.no/ditt-nav-arbeidsgiver/';
+        return 'https://tjenester.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver.nav.no/min-side-arbeidsgiver/';
     } else {
-        return 'https://tjenester-q1.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver-q.nav.no/ditt-nav-arbeidsgiver/';
+        return 'https://tjenester-q1.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver/';
     }
 };
 
@@ -76,7 +76,7 @@ export const digisyfoSykemeldteLenke = () => {
     }
 };
 
-export const digiSyfoNarmesteLederLink = '/ditt-nav-arbeidsgiver/api/narmesteleder';
+export const digiSyfoNarmesteLederLink = '/min-side-arbeidsgiver/api/narmesteleder';
 
 export const LenkeTilInfoOmNarmesteLeder =
     'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-n%C3%A6rmeste-leder-for-en-sykmeldt';
@@ -101,7 +101,7 @@ export const arbeidsAvtaleLink = () => {
 };
 
 export const hentArbeidsavtalerApiLink = () => {
-    return '/ditt-nav-arbeidsgiver/tiltaksgjennomforing-api/avtaler';
+    return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler';
 };
 
-export const linkTilUnleash = '/ditt-nav-arbeidsgiver/api/feature';
+export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
