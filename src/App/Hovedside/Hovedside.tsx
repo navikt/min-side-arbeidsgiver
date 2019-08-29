@@ -11,6 +11,7 @@ import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { basename } from '../../paths';
 import Lenke from 'nav-frontend-lenker';
 import ikon from './infomation-circle-2.svg';
+import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 
 const Hovedside: FunctionComponent = () => {
     const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
@@ -23,6 +24,7 @@ const Hovedside: FunctionComponent = () => {
             <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
+            <SkjemaveilederContainer />
             {!skalViseManglerTilgangBoks && (
                 <div className={'hovedside__informasjonstekst'}>
                     <img className={'hovedside__ikon'} src={ikon} alt="informasjonsikon" />
