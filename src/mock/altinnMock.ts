@@ -3,21 +3,6 @@ import fetchMock from 'fetch-mock';
 fetchMock
     .get('ditt-nav-arbeidsgiver/api/organisasjoner', [
         {
-            Name: 'BALLSTAD OG HAMARØY',
-            Type: 'Business',
-            OrganizationNumber: '811076732',
-            ParentOrganizationNumber: '811076112',
-            OrganizationForm: 'BEDR',
-            Status: 'Active',
-        },
-        {
-            Name: 'BALLSTAD OG HORTEN',
-            Type: 'Enterprise',
-            OrganizationNumber: '811076112',
-            OrganizationForm: 'AS',
-            Status: 'Active',
-        },
-        {
             Name: 'DIGITAL JUNKIES AS ',
             Type: 'Enterprise',
             OrganizationNumber: '822565212',
