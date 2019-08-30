@@ -3,7 +3,7 @@
   "proxy": "http://localhost:8080",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/ditt-nav-arbeidsgiver",
+  "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
     "@craco/craco": "^3.4.1",
     "@navikt/arbeidsforhold": "^1.0.4",

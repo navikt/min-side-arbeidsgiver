@@ -1,7 +1,7 @@
 
 const path = require('path');
 const express = require('express');
-const BASE_PATH='/ditt-nav-arbeidsgiver';
+const BASE_PATH='/min-side-arbeidsgiver';
 const server = express();
 const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
@@ -26,7 +26,7 @@ createEnvSettingsFile(path.resolve(`${buildPath}/static/js/settings.js`));
 
 server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     const loginUrl = process.env.LOGIN_URL ||
-        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver';
+        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
     res.redirect(loginUrl);
 });
 

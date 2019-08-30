@@ -9,7 +9,7 @@ const tiltakSonekrysningConfig = {
     changeOrigin: true,
     target: envProperties.API_GATEWAY,
     pathRewrite: {
-        '^/ditt-nav-arbeidsgiver': '',
+        '^/min-side-arbeidsgiver': '',
     },
     secure: true,
     xfwd: true

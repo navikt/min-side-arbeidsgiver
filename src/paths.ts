@@ -1,2 +1,2 @@
-export const basename = "/ditt-nav-arbeidsgiver";
+export const basename = "/min-side-arbeidsgiver";
 export const pathTilLoggInn = "/login";
