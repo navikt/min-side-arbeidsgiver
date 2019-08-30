@@ -12,4 +12,4 @@ fetchMock.get(pamHentStillingsannonserLenke(), {
   PUBLISERT: 0
 });
 
-fetchMock.get("begin:" + pamSettBedriftLenke(""), 401).spy();
+fetchMock.get("begin:" + pamSettBedriftLenke(""), 200).spy();

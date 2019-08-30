@@ -1,10 +1,12 @@
 import fetchMock from "fetch-mock";
 import { digiSyfoNarmesteLederLink, digisyfoSykemeldteLenke } from "../lenker";
 
+const delay = new Promise(res => setTimeout(res, 1500));
+
 fetchMock
-  .get(digiSyfoNarmesteLederLink, {
+  .get(digiSyfoNarmesteLederLink, delay.then(() => {return {
     tilgang: true
-  })
+  }}))
   .spy();
 
 fetchMock
