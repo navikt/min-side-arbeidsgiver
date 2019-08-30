@@ -40,6 +40,7 @@ export type Context = {
     tilgangTilAltinnForInntektsmelding: TilgangAltinn;
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
+    tilgangTilSyfoState: TilgangSyfo;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -99,6 +100,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         valgtOrganisasjon,
         arbeidsavtaler,
         harNoenTilganger,
+        tilgangTilSyfoState
     };
 
     useEffect(() => {
