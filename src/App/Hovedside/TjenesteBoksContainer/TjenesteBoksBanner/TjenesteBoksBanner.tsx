@@ -16,7 +16,7 @@ const tooltip: FunctionComponent<Props> = props => {
   console.log("tooltip props",props);
     return (
         <div>
-            <ReactTooltip id="helloworld" aria-haspopup="true">
+            <ReactTooltip id="tooltip" aria-haspopup="true">
               {props.toolTipext&&props.toolTipext(props)}
             </ReactTooltip>
         </div>
@@ -36,7 +36,7 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
                 <span className={'tjeneste-boks-banner__varselsirkel'}>
                     <Element
                         data-tip
-                        data-for="helloworld"
+                        data-for="tooltip"
                         className={'tjeneste-boks-banner__varsel'}
                     >
                         {props.antallVarsler}
