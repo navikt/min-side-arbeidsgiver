@@ -57,7 +57,7 @@ const OrganisasjonerResponse = [
     OrganizationNumber: '990229023',
     OrganizationForm: 'BEDR',
     Status: 'Active',
-  },
+  }
   ];
 
 fetchMock
