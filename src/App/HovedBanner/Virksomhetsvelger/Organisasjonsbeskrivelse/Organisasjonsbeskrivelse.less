@@ -1,0 +1,26 @@
+.organisasjonsbeskrivelse {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+
+    &__ikon {
+        height: 2rem;
+        width: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    &__beskrivelse {
+        overflow: hidden;
+        text-align: left;
+    }
+
+    &__navn {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}

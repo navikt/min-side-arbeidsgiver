@@ -1,0 +1,117 @@
+@import '../../../../node_modules/nav-frontend-core/less/_variabler';
+@import './pilOpp.less';
+
+.virksomhetsvelger {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    width: 26rem;
+
+    &__wrapper {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        user-select: none;
+
+        &--apen {
+            .pilOpp();
+        }
+
+        &--lukket {
+            display: none;
+            position: relative;
+        }
+    }
+
+    &__valgtVirksomhet {
+        .organisasjonsbeskrivelse {
+            margin: 1rem 0;
+        }
+    }
+
+    &__overskrift {
+        margin-bottom: 1rem;
+    }
+
+    &__dropdown {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
+        width: 26rem;
+        border-top: 4px solid white;
+    }
+
+    &__meny {
+        max-height: 25rem;
+        overflow: scroll;
+    }
+
+    &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 17.5rem;
+        height: 3.75rem;
+        background-color: white;
+        border-radius: 4px;
+        border: 2px solid @navBlaLighten60;
+        margin-bottom: 2rem;
+
+        .organisasjonsbeskrivelse {
+            width: 100%;
+            margin: 0 1rem;
+        }
+
+        &:hover {
+            background-color: @navBla;
+        }
+
+        &:active {
+            background-color: @navBlaDarken40;
+        }
+
+        &:active,
+        &:hover {
+            color: white;
+
+            svg g {
+                stroke: white;
+            }
+        }
+
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px @fokusFarge;
+        }
+    }
+
+    .juridisk-enhet:not(:first-child) {
+        margin-top: 0.5rem;
+    }
+
+    @media (max-width: @screen-sm-min) {
+        width: 19rem;
+    }
+
+    @media (max-width: @screen-md-min) {
+        &__button {
+            margin-bottom: 2.5rem;
+        }
+
+        &__wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        &__wrapper-apen:before,
+        &__wrapper-apen:after {
+            left: 44%;
+        }
+    }
+}

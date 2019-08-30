@@ -34,7 +34,7 @@ fetchMock
   .spy();
 
 fetchMock
-  .get("/ditt-nav-arbeidsgiver/api/syfooppgaver", [
+  .get("/min-side-arbeidsgiver/api/syfooppgaver", [
     {
       oppgaveUuid: "234212",
       ident: "12345645613",

@@ -8,8 +8,8 @@ import { SyfoTilgangContext } from "../../../../SyfoTilgangProvider";
 import { SyfoOppgave } from "../../../../syfoOppgaver";
 
 interface Props {
-  varseltekst?: string;
-  className?: string;
+    varseltekst?: string;
+    className?: string;
 }
 
 const tellTypeOppgaver = (oppgaveArray:SyfoOppgave[], oppgaveType:string):number => {

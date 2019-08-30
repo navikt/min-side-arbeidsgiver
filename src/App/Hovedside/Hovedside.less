@@ -1,6 +1,6 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.forside {
+.hovedside {
   display: flex;
   flex-direction: column;
   background-color: @navLysGra;
@@ -25,7 +25,13 @@
     margin-top: 0.5rem;
   }
 
+  &__mangler-tilgang-container {
+    padding: 0 1rem 2rem 1rem;
+    width: 100%;
+  }
+
 }
+
 
 @media (min-width: @screen-md-min) {
   .forside {
@@ -33,6 +39,13 @@
 
     .lenkepanel {
       padding: 1.5rem;
+    }
+  }
+
+  .hovedside {
+    &__mangler-tilgang-container {
+      padding: 0 1rem 2rem 1rem;
+      width: 62rem;
     }
   }
 
