@@ -6,7 +6,7 @@ import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer
 import AltinnContainer from './AltinnContainer/AltinnContainer';
 import ManglerTilgangBoks from './ManglerTilgangBoks/ManglerTilgangBoks';
 
-import { OrganisasjonsDetaljerContext, TilgangAltinn, TilgangPam } from "../../OrganisasjonDetaljerProvider";
+import { OrganisasjonsDetaljerContext, TilgangPam } from "../../OrganisasjonDetaljerProvider";
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { basename } from '../../paths';
 import Lenke from 'nav-frontend-lenker';
@@ -15,11 +15,11 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import { TilgangSyfo } from "../../SyfoTilgangProvider";
 
 const Hovedside: FunctionComponent = () => {
-    const { harNoenTilganger,tilgangTilAltinnForTreSkjemaState,tilgangTilPamState,tilgangTilSyfoState } = useContext(OrganisasjonsDetaljerContext);
+    const { harNoenTilganger,tilgangTilPamState,tilgangTilSyfoState } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || harNoenTilganger);
 
-    if(tilgangTilAltinnForTreSkjemaState===TilgangAltinn.LASTER || tilgangTilPamState === TilgangPam.LASTER || tilgangTilSyfoState === TilgangSyfo.LASTER ){
+    if(tilgangTilPamState === TilgangPam.LASTER || tilgangTilSyfoState === TilgangSyfo.LASTER ){
       return null;
     }
 
