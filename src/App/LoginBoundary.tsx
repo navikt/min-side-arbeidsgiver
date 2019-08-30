@@ -21,7 +21,7 @@ async function getEssoToken() {
     }
 }
 const LoginBoundary: FunctionComponent = props => {
-    const [innlogget, setInnlogget] = useState(Innlogget.IKKE_INNLOGGET);
+    const [innlogget, setInnlogget] = useState(Innlogget.LASTER);
 
     function localLogin() {
         if (document.cookie.includes('selvbetjening-idtoken')) {
