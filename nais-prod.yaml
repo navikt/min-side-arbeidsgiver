@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:endre-url_744
+  image: navikt/ditt-nav-arbeidsgiver:744
   team: teamtag
   port: 3000
   ingresses:

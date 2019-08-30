@@ -19,10 +19,6 @@ const Hovedside: FunctionComponent = () => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || harNoenTilganger);
 
-    if(tilgangTilPamState === TilgangPam.LASTER || tilgangTilSyfoState === TilgangSyfo.LASTER ){
-      return null;
-    }
-
     return (
         <div className="hovedside">
             {skalViseManglerTilgangBoks && (
