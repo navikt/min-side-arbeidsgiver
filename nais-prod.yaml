@@ -12,7 +12,7 @@ spec:
   ingresses:
     - https://arbeidsgiver.nav.no/min-side-arbeidsgiver/
   liveness:
-    path: /min-side-arbeidsgiver//internal/isAlive
+    path: /min-side-arbeidsgiver/internal/isAlive
     initialDelay: 20
   readiness:
     path: /min-side-arbeidsgiver/internal/
