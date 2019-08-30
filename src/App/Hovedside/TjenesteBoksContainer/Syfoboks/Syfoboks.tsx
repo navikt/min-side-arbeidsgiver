@@ -17,11 +17,24 @@ const tellTypeOppgaver = (oppgaveArray:SyfoOppgave[], oppgaveType:string):number
     return oppgave.oppgavetype===  oppgaveType}).length;
 };
 
-const leggTilErHvisFlertall = (antall:number, substantiv:string):string=>{
-  if(antall === 1 ){
-    return substantiv;
+const LagSykepengesoknadVarselTekst = (antall:number):string=>{
+  if(antall===1){
+    return antall + " sykepenegsøknad som er ulest eller ikke sendt inn"
   }
-  return substantiv + "er";
+  if(antall > 1){
+    return antall + " sykepengesøknader som er uleste eller ikke sendt inn"
+  }
+  return "";
+};
+
+const LagSykemeldingsVarselTekst = (antall:number):string=>{
+  if(antall===1){
+    return antall + " ulest sykemelding"
+  }
+  if(antall > 1){
+    return antall + " uleste sykemeldinger"
+  }
+  return "";
 };
 
 
@@ -34,8 +47,8 @@ const Syfoboks: FunctionComponent<Props> = props => {
     const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState,"Sykepengesøknad");
 
     return<div>
-      <div>{antallSykemeldingsvarsler} uleste {leggTilErHvisFlertall(antallSykemeldingsvarsler,"sykmelding")}.</div>
-      <div>{antallSoknadsVarsler} {leggTilErHvisFlertall(antallSoknadsVarsler,"sykepengesøknad")} som ikke er lest, eller sendt inn.</div>
+      <div>{LagSykemeldingsVarselTekst(antallSykemeldingsvarsler)}</div>
+      <div>{LagSykepengesoknadVarselTekst(antallSoknadsVarsler)}</div>
     </div>
   };
 
