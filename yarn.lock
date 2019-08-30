@@ -1413,6 +1413,13 @@
     "@types/history" "*"
     "@types/react" "*"
 
+"@types/react-tooltip@^3.9.3":
+  version "3.9.3"
+  resolved "https://registry.yarnpkg.com/@types/react-tooltip/-/react-tooltip-3.9.3.tgz#2eb1e08e128bb691197c5c7f9063fda9ffd5ea42"
+  integrity sha512-X9xuVWlZTLUQadIIrf5MnMPo/FE8izJPRo6c6f+XUs8eIaQ2vj+5Qw4Ttw9bMUPrqImmsJp7o7FY4t1qHLFf4g==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*":
   version "16.8.18"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.18.tgz#fe66fb748b0b6ca9709d38b87b2d1356d960a511"
@@ -2675,7 +2682,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.6:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -6822,10 +6829,10 @@ nav-frontend-chevron@^1.0.9:
   resolved "https://registry.yarnpkg.com/nav-frontend-chevron/-/nav-frontend-chevron-1.0.9.tgz#d4d81f38f1ce6a55494f9f26dd84ab164a9b6be9"
   integrity sha512-G/Rjx7e5MYdsqAI8qGakJV+F92BEXIrm3Hx7+lXLoz4GoFCJJR0G2+Q+Uy7Iqu9FbdJOBGgapZXEIbiIEbKdmQ==
 
-nav-frontend-core@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/nav-frontend-core/-/nav-frontend-core-4.0.9.tgz#27a49de6f434f64989785938cfa809915d101fd9"
-  integrity sha512-dCc2jFSA+LJXtfIP1n4eiEfCGIrirgEt88UMVwRCgT3wOz3kky387e6gFBHhUX8knEczV4ujOp428uip6sEuJw==
+nav-frontend-core@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/nav-frontend-core/-/nav-frontend-core-4.0.10.tgz#efb05bdc9c5cf20d41d4b3a13e764be7df915392"
+  integrity sha512-bMdl7PB2GrqcliWkv4Sz6iZGBJbWuJ8ZhLBRfnu/6cESytW71x/py9ZTQ8sKT9Vh7M+cugW80Q89I+G7pUNk2w==
 
 nav-frontend-ekspanderbartpanel-style@^0.3.20:
   version "0.3.20"
@@ -6847,10 +6854,20 @@ nav-frontend-etiketter@^1.0.23:
   resolved "https://registry.yarnpkg.com/nav-frontend-etiketter/-/nav-frontend-etiketter-1.0.23.tgz#cbcbf5fb300e333ae74dab4ae851307711553bd7"
   integrity sha512-UPI965ANBnE/j8qYcbUthtN0f2KNn1RrMxtOqBn8XBquniOUZerptK+qtugXwZ8dLG1/tfc9rxxcUqUTvFtO/g==
 
-nav-frontend-ikoner-assets@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/nav-frontend-ikoner-assets/-/nav-frontend-ikoner-assets-1.0.1.tgz#13d7e33b7404bdb258d709ae3c99a4c493201ca8"
-  integrity sha512-+115YXOYtF5+tOc7zeDQz+X/ZYjdPJJ+coxzeBMDuGkg+Zf+yIzrZUv9Wc0B0gBoAQEDt0NbB1Eza6R2gFEamA==
+nav-frontend-hjelpetekst-style@^0.3.30:
+  version "0.3.30"
+  resolved "https://registry.yarnpkg.com/nav-frontend-hjelpetekst-style/-/nav-frontend-hjelpetekst-style-0.3.30.tgz#aea2cf039d4f62fa3274046a99e0484bade10d2a"
+  integrity sha512-OuFYQ8bputLdpyF3vuH16o9mpqmWr1hAQVWfWKU7zmC+FAkrAJNnFmYjNWIPihQNpUEpwcl2CWawQuFutkPLJQ==
+
+nav-frontend-hjelpetekst@^1.0.40:
+  version "1.0.40"
+  resolved "https://registry.yarnpkg.com/nav-frontend-hjelpetekst/-/nav-frontend-hjelpetekst-1.0.40.tgz#6bcaf4b269353ee9f126a1d5587f1b59abbf2251"
+  integrity sha512-hBDJXPVXj7HCKaCZOhh+jOKNxUoOlMOGMPJRrTHeMCJoDs65Nym/u5cRWmvEvNz5dxXOTdWxa/oO/StcAVk1BA==
+
+nav-frontend-ikoner-assets@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/nav-frontend-ikoner-assets/-/nav-frontend-ikoner-assets-1.0.2.tgz#003773b22c31730faa9fe4bcaade44fb1491dc7a"
+  integrity sha512-LXRmV+SR/qy6Aa5tQPL9GPIJU6QgQnKnSE6OoFNx9FwLuyFyctpVMNfv+g1+DTb55QQyqGeI4erLTg5lfJv0pQ==
 
 nav-frontend-js-utils@^1.0.7:
   version "1.0.7"
@@ -6932,17 +6949,17 @@ nav-frontend-tekstomrade@^2.0.24:
   resolved "https://registry.yarnpkg.com/nav-frontend-tekstomrade/-/nav-frontend-tekstomrade-2.0.29.tgz#eff15ed01296a30c13f4babec0b8c94b49e1b5ea"
   integrity sha512-oubvZlt0vOh/Fv/pSt9MFaRfHuoPyBVL4gWCCq8AJhbHcyX6N0jdXtBwynMH2rVmj4gCs3B/O6roYZQeEvUPeA==
 
-nav-frontend-typografi-style@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/nav-frontend-typografi-style/-/nav-frontend-typografi-style-1.0.13.tgz#dcb9629fccb1ed2c4fab0929ef2ed21ca0633a01"
-  integrity sha512-/jGp1jm0cjjjWYWf9m5JOkMBF/iHrSFbPjWj56jLxwinTJPFCTAj59i/yQP7VtBLVVpAlKfE8pMgYuhdYV2MEw==
+nav-frontend-typografi-style@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/nav-frontend-typografi-style/-/nav-frontend-typografi-style-1.0.14.tgz#65c767dd499b5a42f599c51ac308eefedc9ffca6"
+  integrity sha512-Ckf9ybsdsvDMlj2FI6FoJQ32mSjAZmbmbEfXsTzZiZsEWUEMIaO12ezCbVXCJStYECxmSZSbkmri/wpiTvBRvw==
   dependencies:
-    nav-frontend-core "^4.0.9"
+    nav-frontend-core "^4.0.10"
 
-nav-frontend-typografi@^2.0.12:
-  version "2.0.12"
-  resolved "https://registry.yarnpkg.com/nav-frontend-typografi/-/nav-frontend-typografi-2.0.12.tgz#0a947e19f50c5a96552aef6944d0415f03039a16"
-  integrity sha512-rj+K3JcDmIYb2uklMudwjXsMTPEX3xeFxWGy+itjbX9Ulr62S/V2q22afEfFZxD20IVAsSZToFG+SiufLYA1iA==
+nav-frontend-typografi@^2.0.13:
+  version "2.0.13"
+  resolved "https://registry.yarnpkg.com/nav-frontend-typografi/-/nav-frontend-typografi-2.0.13.tgz#17ba01488111555586cb2e4e349a02b615011e16"
+  integrity sha512-eAyk4hIzdNfCWSoIXd2ULPqrafcoBVaMDw8d4NG+zwdfYsquzMrKPrmhdJ1ZIi2AVPH4jlOGxLnNxzFZhKwmcA==
 
 nav-frontend-veileder-style@^2.0.6:
   version "2.0.8"
@@ -8796,15 +8813,22 @@ react-scripts@^3.1.1:
   optionalDependencies:
     fsevents "2.0.7"
 
-react@^16.8.6:
-  version "16.8.6"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
-  integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==
+react-tooltip@^3.10.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/react-tooltip/-/react-tooltip-3.11.0.tgz#32d365b1bf8b5d563c24eee511f92e8d8e1d3f50"
+  integrity sha512-crzW/Ad7vXXil2AubksJC5dZym5Y635F+VYPGERV9yI9T4erX5cLz5ow3hmCBkS4oCMyJjW+ETmmxpfl8SDN4w==
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+
+react@^16.9.0:
+  version "16.9.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
+  integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     prop-types "^15.6.2"
-    scheduler "^0.13.6"
 
 read-pkg-up@^2.0.0:
   version "2.0.0"

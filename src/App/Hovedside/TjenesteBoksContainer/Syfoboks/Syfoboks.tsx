@@ -5,7 +5,7 @@ import "./Syfoboks.less";
 import TjenesteBoksBanner from "../TjenesteBoksBanner/TjenesteBoksBanner";
 import { syfoLink } from "../../../../lenker";
 import { SyfoTilgangContext } from "../../../../SyfoTilgangProvider";
-import { SyfoOppgave } from "../../../../syfoOppgaver";
+import { SyfoOppgave } from "../../../../Objekter/syfoOppgaver";
 
 interface Props {
     varseltekst?: string;
