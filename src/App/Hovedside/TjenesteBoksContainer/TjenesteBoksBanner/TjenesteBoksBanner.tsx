@@ -9,15 +9,14 @@ interface Props {
     tittel: string;
     altTekst: string;
     antallVarsler?: number;
-    toolTipext?:FunctionComponent;
+    toolTipext?: FunctionComponent;
 }
 
 const tooltip: FunctionComponent<Props> = props => {
-  console.log("tooltip props",props);
     return (
         <div>
             <ReactTooltip id="tooltip" aria-haspopup="true">
-              {props.toolTipext&&props.toolTipext(props)}
+                {props.toolTipext && props.toolTipext(props)}
             </ReactTooltip>
         </div>
     );
@@ -34,18 +33,12 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
             <Undertittel className={'tjeneste-boks-banner__tittel'}>{props.tittel}</Undertittel>
             {props.antallVarsler! > 0 && (
                 <span className={'tjeneste-boks-banner__varselsirkel'}>
-                    <Element
-                        data-tip
-                        data-for="tooltip"
-                        className={'tjeneste-boks-banner__varsel'}
-                    >
+                    <Element data-tip data-for="tooltip" className={'tjeneste-boks-banner__varsel'}>
                         {props.antallVarsler}
                     </Element>
-                  {tooltip(props)}
+                    {tooltip(props)}
                 </span>
-
             )}
-
         </div>
     );
 };
