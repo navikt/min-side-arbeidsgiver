@@ -36,7 +36,7 @@ export type Context = {
     valgtOrganisasjon: Organisasjon;
     antallAnnonser: number;
     tilgangTilPamState: TilgangPam;
-    tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
+    tilgangTilAltinnForFireSkjemaState: TilgangAltinn;
     tilgangTilAltinnForInntektsmelding: TilgangAltinn;
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
@@ -47,7 +47,7 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const [antallAnnonser, setantallAnnonser] = useState<number>(0);
-    const [tilgangTilAltinnForTreSkjemaState, settilgangTilAltinnForTreSkjemaState] = useState(
+    const [tilgangTilAltinnForFireSkjemaState, settilgangTilAltinnForFireSkjemaState] = useState(
         TilgangAltinn.LASTER
     );
     const [tilgangTilPamState, settilgangTilPamState] = useState(TilgangPam.LASTER);
@@ -71,10 +71,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             settilgangTilAltinnForInntektsmelding(TilgangAltinn.IKKE_TILGANG);
         }
         if (sjekkAltinnRolleHelseSosial(roller)) {
-            settilgangTilAltinnForTreSkjemaState(TilgangAltinn.TILGANG);
+            settilgangTilAltinnForFireSkjemaState(TilgangAltinn.TILGANG);
             antallTilganger++;
         } else {
-            settilgangTilAltinnForTreSkjemaState(TilgangAltinn.IKKE_TILGANG);
+            settilgangTilAltinnForFireSkjemaState(TilgangAltinn.IKKE_TILGANG);
         }
         if (harPamTilgang) {
             settilgangTilPamState(TilgangPam.TILGANG);
@@ -95,7 +95,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         antallAnnonser,
         endreOrganisasjon,
         tilgangTilAltinnForInntektsmelding,
-        tilgangTilAltinnForTreSkjemaState,
+        tilgangTilAltinnForFireSkjemaState,
         tilgangTilPamState,
         valgtOrganisasjon,
         arbeidsavtaler,
