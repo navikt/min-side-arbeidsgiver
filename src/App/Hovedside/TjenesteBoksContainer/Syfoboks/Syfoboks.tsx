@@ -43,8 +43,8 @@ const Syfoboks: FunctionComponent<Props> = props => {
     const { syfoAnsatteState } = useContext(SyfoTilgangContext);
 
     const tooltipText: FunctionComponent<Props> = () => {
-        const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykmelding');
-        const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykpengesøknad');
+        const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykemelding');
+        const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
 
         return (
             <div>
