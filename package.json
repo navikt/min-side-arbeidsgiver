@@ -81,7 +81,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "mock": "set REACT_APP_MOCK=true && yarn start",
+    "mock": "REACT_APP_MOCK=true yarn start",
     "server": "yarn build && node src/server/server.js",
     "build": "craco build",
     "test": "craco test",
