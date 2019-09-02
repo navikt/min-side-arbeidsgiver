@@ -100,7 +100,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         valgtOrganisasjon,
         arbeidsavtaler,
         harNoenTilganger,
-        tilgangTilSyfoState
+        tilgangTilSyfoState,
     };
 
     useEffect(() => {

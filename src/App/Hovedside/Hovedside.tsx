@@ -6,7 +6,7 @@ import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer
 import AltinnContainer from './AltinnContainer/AltinnContainer';
 import ManglerTilgangBoks from './ManglerTilgangBoks/ManglerTilgangBoks';
 
-import { OrganisasjonsDetaljerContext} from "../../OrganisasjonDetaljerProvider";
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { basename } from '../../paths';
 import Lenke from 'nav-frontend-lenker';
