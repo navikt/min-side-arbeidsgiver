@@ -14,6 +14,14 @@ export interface Rolle {
     RoleDescription: string;
 }
 
+export interface Rettighet {
+    ServiceCode: number;
+    RightType: string;
+    RightID: number;
+    RoleName: string;
+    RoleDescription: string;
+}
+
 enum AltinnKode {
     HelseSosialOgVelferdstjenester = 131,
     AnsvarligRevisor = 5602,
