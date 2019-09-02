@@ -51,7 +51,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </ul>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykemeldte" border>
-                        Tilgang til digitale sykemeldinger krever at du er registrert som Nærmeste
+                        Tilgang til digitale sykmeldinger krever at du er registrert som Nærmeste
                         leder for én eller flere ansatte i din virksomhet.
                         <br />
                         <br />

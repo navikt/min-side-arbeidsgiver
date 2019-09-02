@@ -20,20 +20,20 @@ const tellTypeOppgaver = (oppgaveArray: SyfoOppgave[], oppgaveType: string): num
 
 const LagSykepengesoknadVarselTekst = (antall: number): string => {
     if (antall === 1) {
-        return antall + ' sykepenegsøknad som er ulest eller ikke sendt inn';
+        return antall + ' sykpengesøknad som er ulest eller ikke sendt inn';
     }
     if (antall > 1) {
-        return antall + ' sykepengesøknader som er uleste eller ikke sendt inn';
+        return antall + ' sykpengesøknader som er uleste eller ikke sendt inn';
     }
     return '';
 };
 
 const LagSykemeldingsVarselTekst = (antall: number): string => {
     if (antall === 1) {
-        return antall + ' ulest sykemelding';
+        return antall + ' ulest sykmelding';
     }
     if (antall > 1) {
-        return antall + ' uleste sykemeldinger';
+        return antall + ' uleste sykmeldinger';
     }
     return '';
 };
@@ -43,8 +43,8 @@ const Syfoboks: FunctionComponent<Props> = props => {
     const { syfoAnsatteState } = useContext(SyfoTilgangContext);
 
     const tooltipText: FunctionComponent<Props> = () => {
-        const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykemelding');
-        const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
+        const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykmelding');
+        const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykpengesøknad');
 
         return (
             <div>
@@ -57,7 +57,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
     return (
         <div className={'syfoboks ' + props.className}>
             <TjenesteBoksBanner
-                tittel={'Sykemeldte'}
+                tittel={'Sykmeldte'}
                 imgsource={syfoikon}
                 altTekst={''}
                 antallVarsler={syfoOppgaverState.length}
