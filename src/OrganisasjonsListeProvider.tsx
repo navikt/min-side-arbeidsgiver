@@ -1,6 +1,11 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import { hentOrganisasjoner, byggOrganisasjonstre, hentMenuToggle } from './api/dnaApi';
+import {
+    hentOrganisasjoner,
+    byggOrganisasjonstre,
+    hentMenuToggle,
+    SkjemaMedOrganisasjonerMedTilgang,
+} from './api/dnaApi';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
@@ -10,7 +15,16 @@ export type Context = {
     organisasjoner: Array<Organisasjon>;
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     visNyMeny: boolean;
+    listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
 };
+
+enum ServiceKoder {
+    Ekspertbistand = 5384,
+    InkluderingsTilskudd = 5212,
+    Lønnstilskudd = 5159,
+    Mentortilskudd = 5216,
+    Inntektsmelding = 4936,
+}
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
@@ -21,6 +35,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         Array<JuridiskEnhetMedUnderEnheterArray>()
     );
     const [visNyMeny, setVisNyMeny] = useState(false);
+    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState([]);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -53,6 +68,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjoner,
         organisasjonstre,
         visNyMeny,
+        listeMedSkjemaOgTilganger,
     };
 
     return (

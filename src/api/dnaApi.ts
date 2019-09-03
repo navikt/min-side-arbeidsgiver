@@ -14,14 +14,6 @@ export interface Rolle {
     RoleDescription: string;
 }
 
-enum ServiceKoder {
-    Ekspertbistand = 5384,
-    InkluderingsTilskudd = 5212,
-    Lønnstilskudd = 5159,
-    Mentortilskudd = 5216,
-    Inntektsmelding = 4936,
-}
-
 enum AltinnKode {
     HelseSosialOgVelferdstjenester = 131,
     AnsvarligRevisor = 5602,
@@ -62,6 +54,19 @@ export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
         OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(serviceKode),
     };
     return listeMedOrganisasjoner;
+}
+
+export async function hentTilgangForAlleAtinnskjema(
+    serviceKoder: string[]
+): Promise<SkjemaMedOrganisasjonerMedTilgang[]> {
+    let returnObjekt: SkjemaMedOrganisasjonerMedTilgang[] = [];
+    serviceKoder.forEach(async serviceKode => {
+        let listeObjekt: SkjemaMedOrganisasjonerMedTilgang = await lagListeMedOrganisasjonerMedTilgangTilSkjema(
+            serviceKode
+        );
+        returnObjekt.push(listeObjekt);
+    });
+    return returnObjekt;
 }
 
 export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
