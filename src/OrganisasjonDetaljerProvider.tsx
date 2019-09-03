@@ -91,7 +91,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             setHarNoenTilganger(true);
         }
         const ListeMedOrg: Organisasjon[] = await hentOrganisasjonerMedTilgangTilAltinntjeneste(
-            '5212'
+            '5384'
         );
         console.log('antall organisasjoner: ', ListeMedOrg);
     };
