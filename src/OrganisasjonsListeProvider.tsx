@@ -5,7 +5,6 @@ import {
     byggOrganisasjonstre,
     hentMenuToggle,
     SkjemaMedOrganisasjonerMedTilgang,
-    lagListeMedOrganisasjonerMedTilgangTilSkjema,
     hentTilgangForAlleAtinnskjema,
 } from './api/dnaApi';
 import {
@@ -20,18 +19,36 @@ export type Context = {
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
 };
 
-enum ServiceKoder {
-    Ekspertbistand = 5384,
-    InkluderingsTilskudd = 5212,
-    Lønnstilskudd = 5159,
-    Mentortilskudd = 5216,
-    Inntektsmelding = 4936,
-}
-
-export const ListeMedServicekoder: string[] = ['5384', '5212', '5159', '5216', '4936'];
+export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
+    {
+        navn: 'Ekspertbistand',
+        kode: '5384',
+    },
+    {
+        navn: 'InkluderingsTilskudd',
+        kode: '5212',
+    },
+    {
+        navn: 'Lønnstilskudd',
+        kode: '5159',
+    },
+    {
+        navn: 'Mentortilskudd',
+        kode: '5216',
+    },
+    {
+        navn: 'Inntektsmelding',
+        kode: '4936',
+    },
+];
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
+
+export interface AltinnSkjema {
+    navn: string;
+    kode: string;
+}
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
@@ -60,8 +77,8 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
         };
-        const finnTilgangerTilSkjema = async (koder: string[]) => {
-            const liste = await hentTilgangForAlleAtinnskjema(koder);
+        const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
+            const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
             setListeMedSkjemaOgTilganger(liste);
         };
 
@@ -73,6 +90,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         };
         sjekkFodselsnr();
         getOrganisasjoner();
+        finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
     }, [visNyMeny]);
 
     let defaultContext: Context = {

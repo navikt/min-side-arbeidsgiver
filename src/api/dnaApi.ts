@@ -6,6 +6,7 @@ import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
 import { logInfo } from '../utils/metricsUtils';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
+import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 
 export interface Rolle {
     RoleType: string;
@@ -42,27 +43,27 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 }
 
 export interface SkjemaMedOrganisasjonerMedTilgang {
-    ServiceKode: string;
+    Skjema: AltinnSkjema;
     OrganisasjonerMedTilgang: Organisasjon[];
 }
 
 export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
-    serviceKode: string
+    skjema: AltinnSkjema
 ): Promise<SkjemaMedOrganisasjonerMedTilgang> {
     let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
-        ServiceKode: serviceKode,
-        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(serviceKode),
+        Skjema: skjema,
+        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(skjema.kode),
     };
     return listeMedOrganisasjoner;
 }
 
 export async function hentTilgangForAlleAtinnskjema(
-    serviceKoder: string[]
+    altinnSkjemaer: AltinnSkjema[]
 ): Promise<SkjemaMedOrganisasjonerMedTilgang[]> {
     let returnObjekt: SkjemaMedOrganisasjonerMedTilgang[] = [];
-    serviceKoder.forEach(async serviceKode => {
+    altinnSkjemaer.forEach(async skjema => {
         let listeObjekt: SkjemaMedOrganisasjonerMedTilgang = await lagListeMedOrganisasjonerMedTilgangTilSkjema(
-            serviceKode
+            skjema
         );
         returnObjekt.push(listeObjekt);
     });
