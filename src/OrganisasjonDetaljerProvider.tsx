@@ -93,6 +93,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         const ListeMedOrg: Organisasjon[] = await hentOrganisasjonerMedTilgangTilAltinntjeneste(
             '5212'
         );
+        console.log('antall organisasjoner: ', ListeMedOrg);
     };
 
     let defaultContext: Context = {
