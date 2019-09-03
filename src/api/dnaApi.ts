@@ -49,6 +49,21 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     }
 }
 
+export interface SkjemaMedOrganisasjonerMedTilgang {
+    ServiceKode: string;
+    OrganisasjonerMedTilgang: Organisasjon[];
+}
+
+export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
+    serviceKode: string
+): Promise<SkjemaMedOrganisasjonerMedTilgang> {
+    let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
+        ServiceKode: serviceKode,
+        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(serviceKode),
+    };
+    return listeMedOrganisasjoner;
+}
+
 export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     serviceKode: string
 ): Promise<Organisasjon[]> {
