@@ -20,6 +20,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "classnames": "^2.2.6",
+    "core-js": "^3.2.1",
     "craco-less": "^1.12.0",
     "express": "^4.16.4",
     "fetch-mock": "^7.3.1",
@@ -66,6 +67,7 @@
     "nav-frontend-veilederpanel-style": "0.0.14",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
+    "react-app-polyfill": "^1.0.2",
     "react-aria-menubutton": "^6.1.0",
     "react-collapse": "^4.0.3",
     "react-dom": "^16.8.1",
@@ -73,7 +75,8 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.1.1",
     "react-tooltip": "^3.10.0",
-    "typescript": "3.3.3"
+    "typescript": "3.3.3",
+    "unorm": "^1.6.0"
   },
   "devDependencies": {
     "fs-extra": "^7.0.1",
@@ -81,7 +84,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "mock": "REACT_APP_MOCK=true yarn start",
+    "mock": "set REACT_APP_MOCK=true && yarn start",
     "server": "yarn build && node src/server/server.js",
     "build": "craco build",
     "test": "craco test",
