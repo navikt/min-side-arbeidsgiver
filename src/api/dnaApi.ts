@@ -14,14 +14,6 @@ export interface Rolle {
     RoleDescription: string;
 }
 
-export interface Rettighet {
-    ServiceCode: number;
-    RightType: string;
-    RightID: number;
-    RoleName: string;
-    RoleDescription: string;
-}
-
 enum AltinnKode {
     HelseSosialOgVelferdstjenester = 131,
     AnsvarligRevisor = 5602,
@@ -42,6 +34,17 @@ export interface UnleashRespons {
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     let respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
+    if (respons.ok) {
+        return await respons.json();
+    } else {
+        return [];
+    }
+}
+
+export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
+    serviceKode: string
+): Promise<Organisasjon[]> {
+    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/' + serviceKode);
     if (respons.ok) {
         return await respons.json();
     } else {
