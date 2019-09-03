@@ -8,6 +8,7 @@ metadata:
 spec:
 
   image: navikt/ditt-nav-arbeidsgiver:TAG-800-taImotRettigheterFraAtinnViaBackenden_756
+
   team: teamtag
   port: 3000
   ingresses:
