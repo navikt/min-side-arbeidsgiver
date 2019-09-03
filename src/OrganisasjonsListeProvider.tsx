@@ -25,6 +25,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     useEffect(() => {
         const getOrganisasjoner = async () => {
             let organisasjoner = await hentOrganisasjoner();
+            console.log(organisasjoner);
 
             setOrganisasjoner(
                 organisasjoner.filter((organisasjon: Organisasjon) => {
