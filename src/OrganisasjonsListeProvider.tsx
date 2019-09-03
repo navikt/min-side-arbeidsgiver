@@ -5,6 +5,8 @@ import {
     byggOrganisasjonstre,
     hentMenuToggle,
     SkjemaMedOrganisasjonerMedTilgang,
+    lagListeMedOrganisasjonerMedTilgangTilSkjema,
+    hentTilgangForAlleAtinnskjema,
 } from './api/dnaApi';
 import {
     JuridiskEnhetMedUnderEnheterArray,
@@ -26,6 +28,8 @@ enum ServiceKoder {
     Inntektsmelding = 4936,
 }
 
+export const ListeMedServicekoder: string[] = ['5384', '5212', '5159', '5216', '4936'];
+
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
 
@@ -35,7 +39,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         Array<JuridiskEnhetMedUnderEnheterArray>()
     );
     const [visNyMeny, setVisNyMeny] = useState(false);
-    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState([]);
+    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
+        Array<SkjemaMedOrganisasjonerMedTilgang>()
+    );
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -54,6 +60,11 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
         };
+        const finnTilgangerTilSkjema = async (koder: string[]) => {
+            const liste = await hentTilgangForAlleAtinnskjema(koder);
+            setListeMedSkjemaOgTilganger(liste);
+        };
+
         const sjekkFodselsnr = async () => {
             const skalViseMeny: boolean = await hentMenuToggle(
                 'dna.bedriftsvelger.brukNyBedriftsvelger'
