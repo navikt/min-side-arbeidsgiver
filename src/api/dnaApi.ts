@@ -14,6 +14,14 @@ export interface Rolle {
     RoleDescription: string;
 }
 
+enum ServiceKoder {
+    Ekspertbistand = 5384,
+    InkluderingsTilskudd = 5212,
+    Lønnstilskudd = 5159,
+    Mentortilskudd = 5216,
+    Inntektsmelding = 4936,
+}
+
 enum AltinnKode {
     HelseSosialOgVelferdstjenester = 131,
     AnsvarligRevisor = 5602,
