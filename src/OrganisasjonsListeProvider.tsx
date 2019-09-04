@@ -10,7 +10,6 @@ import {
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
-    tomAltinnOrganisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { TilgangAltinn } from './OrganisasjonDetaljerProvider';
 
@@ -95,6 +94,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
             const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
             setListeMedSkjemaOgTilganger(liste);
+            console.log('lista som viser alle skjema og tilganger', listeMedSkjemaOgTilganger);
         };
 
         const sjekkFodselsnr = async () => {

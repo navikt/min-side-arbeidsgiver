@@ -79,9 +79,12 @@ const AltinnContainer: FunctionComponent = () => {
         };
 
         listeMedSkjemaOgTilganger.forEach(skjemaMedOrganisasjoner => {
-            sjekkOmTilgangTilSkjemaForValgtOrganisasjon(skjemaMedOrganisasjoner);
+            if (listeMedSkjemaOgTilganger.length === 5) {
+                sjekkOmTilgangTilSkjemaForValgtOrganisasjon(skjemaMedOrganisasjoner);
+            }
         });
-    }, [listeMedSkjemaOgTilganger]);
+        console.log('tilgang alle skjema for org', tilgangAlleSkjemaForOrganisasjon);
+    }, [listeMedSkjemaOgTilganger, valgtOrganisasjon]);
 
     useEffect(() => {
         const finnTilgang = () => {
