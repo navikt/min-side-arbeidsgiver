@@ -53,6 +53,7 @@ const AltinnContainer: FunctionComponent = () => {
                 kopiAvTilganger[indexTilAltinnSkjema].tilstand = TilgangAltinn.IKKE_TILGANG;
             }
             setTilgangAlleSkjemaForOrganisasjon(kopiAvTilganger);
+            console.log('kopi av lista: ', kopiAvTilganger);
         };
 
         listeMedSkjemaOgTilganger.forEach(skjemaMedOrganisasjoner => {
