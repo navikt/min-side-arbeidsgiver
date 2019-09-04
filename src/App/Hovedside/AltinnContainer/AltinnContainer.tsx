@@ -54,65 +54,41 @@ const AltinnContainer: FunctionComponent = () => {
     const [tilgangAlleSkjemaForOrganisasjon, setTilgangAlleSkjemaForOrganisasjon] = useState(
         ListeMedAltinnSkjemaKoder
     );
-    const [tilgangEkspertBistand, setTilgangEkspertbistand] = useState(false);
-    const [tilgangLønnsTilskudd, setTilgangLønnsTilskudd] = useState(false);
-    const [tilgangMentortilskudd, setTilgangMentortilskudd] = useState(false);
-    const [tilgangInntektsMelding, setilgangInntektsMelding] = useState(false);
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
     const { tilgangTilAltinnForInntektsmelding, valgtOrganisasjon } = useContext(
         OrganisasjonsDetaljerContext
     );
-    const { listeMedSkjemaOgTilganger, setLasteStatusPaSkjema } = useContext(
-        OrganisasjonsListeContext
-    );
+    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
-    const sjekkOmSkjemaErHentetOgReturnerIndex = (
-        skjema: SkjemaMedOrganisasjonerMedTilgang,
-        listeMedAlleSkjema: SkjemaMedOrganisasjonerMedTilgang[]
-    ): number => {
-        return listeMedAlleSkjema.indexOf(skjema);
-    };
+    useEffect(() => {
+        const sjekkOmTilgangTilSkjemaForValgtOrganisasjon = (
+            altinnSkjema: AltinnSkjema,
+            indexTilSkjemaMedOrganisasjoner: number
+        ) => {
+            let kopiAvTilganger: AltinnSkjema[] = ListeMedAltinnSkjemaKoder;
 
-    const sjekkOmTilgangTilSkjemaForValgtOrganisasjon = (
-        org: Organisasjon,
-        skjema: SkjemaMedOrganisasjonerMedTilgang,
-        index: number
-    ) => {
-        let kopiAvTilganger: AltinnSkjema[] = tilgangAlleSkjemaForOrganisasjon;
-        if (skjema.OrganisasjonerMedTilgang.includes(org)) {
-            kopiAvTilganger[index].tilstand = TilgangAltinn.TILGANG;
-        } else {
-            kopiAvTilganger[index].tilstand = TilgangAltinn.IKKE_TILGANG;
-        }
-        setTilgangAlleSkjemaForOrganisasjon(kopiAvTilganger);
-    };
+            const indexTilAltinnSkjema = kopiAvTilganger.indexOf(altinnSkjema);
+            if (
+                listeMedSkjemaOgTilganger[
+                    indexTilSkjemaMedOrganisasjoner
+                ].OrganisasjonerMedTilgang.includes(valgtOrganisasjon)
+            ) {
+                kopiAvTilganger[indexTilAltinnSkjema].tilstand === TilgangAltinn.TILGANG;
+            } else {
+                kopiAvTilganger[indexTilAltinnSkjema].tilstand === TilgangAltinn.IKKE_TILGANG;
+            }
+        };
+
+        listeMedSkjemaOgTilganger.forEach(skjemaMedOrganisasjoner => {});
+    }, []);
 
     useEffect(() => {
         setgenerellAltinnTilgang(true);
         const tellAntallSkjema = () => {
             let antallTilganger: number = 0;
-            if (tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG) {
-                antallTilganger++;
-            }
-            if (tilgangTilAltinnForFireSkjemaState === TilgangAltinn.TILGANG) {
-                antallTilganger += 4;
-            }
-            if (antallTilganger % 2 === 0) {
-                settypeAntall('antall-skjema-partall');
-            }
-            if (antallTilganger % 2 !== 0 && antallTilganger !== 1) {
-                settypeAntall('antall-skjema-oddetall');
-            }
-            if (antallTilganger === 1) {
-                settypeAntall('antall-skjema-en');
-            }
-            if (antallTilganger === 5) {
-                seterFem('fem');
-            }
-            if (antallTilganger > 0) {
-                setgenerellAltinnTilgang(true);
-            }
+
+            tilgangAlleSkjemaForOrganisasjon.forEach();
         };
         tellAntallSkjema();
     }, [tilgangTilAltinnForFireSkjemaState, tilgangTilAltinnForInntektsmelding]);
