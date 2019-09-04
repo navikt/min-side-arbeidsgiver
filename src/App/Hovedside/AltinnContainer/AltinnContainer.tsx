@@ -83,7 +83,6 @@ const AltinnContainer: FunctionComponent = () => {
                 sjekkOmTilgangTilSkjemaForValgtOrganisasjon(skjemaMedOrganisasjoner);
             }
         });
-        console.log('tilgang alle skjema for org', tilgangAlleSkjemaForOrganisasjon);
     }, [listeMedSkjemaOgTilganger, valgtOrganisasjon]);
 
     useEffect(() => {
@@ -133,6 +132,7 @@ const AltinnContainer: FunctionComponent = () => {
                 }
             });
         };
+        console.log('tilgang alle skjema for org', tilgangAlleSkjemaForOrganisasjon);
         finnTilgang();
     }, [tilgangAlleSkjemaForOrganisasjon]);
 

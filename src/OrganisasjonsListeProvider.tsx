@@ -106,7 +106,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         sjekkFodselsnr();
         getOrganisasjoner();
         finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
-    }, [visNyMeny]);
+    }, [visNyMeny, listeMedSkjemaOgTilganger]);
 
     let defaultContext: Context = {
         organisasjoner,
