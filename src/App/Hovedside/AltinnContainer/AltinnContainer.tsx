@@ -57,9 +57,7 @@ const AltinnContainer: FunctionComponent = () => {
     );
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { tilgangTilAltinnForInntektsmelding, valgtOrganisasjon } = useContext(
-        OrganisasjonsDetaljerContext
-    );
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
@@ -127,6 +125,9 @@ const AltinnContainer: FunctionComponent = () => {
                 if (tellTilganger === 1) {
                     settypeAntall('antall-skjema-en');
                 }
+                if (tellTilganger > 0) {
+                    setgenerellAltinnTilgang(true);
+                }
             });
         };
         finnTilgang();
@@ -167,7 +168,7 @@ const AltinnContainer: FunctionComponent = () => {
                     />
                 )}
 
-                {tilgangInkluderingstilskudd && (
+                {tilgangInntektsmelding && (
                     <AltinnLenke
                         className={'altinn-container__' + typeAntall + erFem}
                         href={inntekstmelding}
