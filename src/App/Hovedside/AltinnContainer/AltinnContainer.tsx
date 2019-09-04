@@ -62,6 +62,17 @@ const AltinnContainer: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     listeMedSkjemaOgTilganger;
 
+    const sjekkOmSkjemaErHentet = (
+        skjema: SkjemaMedOrganisasjonerMedTilgang,
+        listeMedAlleSkjema: SkjemaMedOrganisasjonerMedTilgang[]
+    ): boolean => {
+        const indexFunnetSkjema = listeMedAlleSkjema.indexOf(skjema);
+        if (indexFunnetSkjema !== -1) {
+            return true;
+        }
+        return false;
+    };
+
     const finnOrganisasjonForTilgang = (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
         if (listeMedSkjemaOgTilganger.includes(skjema)){
             if (skjema.OrganisasjonerMedTilgang.includes(valgtOrganisasjon)) {

@@ -10,6 +10,7 @@ import {
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
+    tomAltinnOrganisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { TilgangAltinn } from './OrganisasjonDetaljerProvider';
 
@@ -77,6 +78,12 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             return true;
         }
         return false;
+    };
+
+    const setLasteStatusPaSkjema = (index: number) => {
+        let kopiListeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[] = listeMedSkjemaOgTilganger;
+        kopiListeMedSkjemaOgTilganger[index].Skjema.tilstand = TilgangAltinn.TILGANG;
+        setListeMedSkjemaOgTilganger(kopiListeMedSkjemaOgTilganger);
     };
 
     useEffect(() => {
