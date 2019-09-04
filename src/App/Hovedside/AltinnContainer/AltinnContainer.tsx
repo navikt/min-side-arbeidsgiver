@@ -37,6 +37,7 @@ const AltinnContainer: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
+        console.log(listeMedSkjemaOgTilganger);
         const sjekkOmTilgangTilSkjemaForValgtOrganisasjon = (
             altinnSkjemaMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang
         ) => {
@@ -62,6 +63,7 @@ const AltinnContainer: FunctionComponent = () => {
     }, [listeMedSkjemaOgTilganger, valgtOrganisasjon]);
 
     useEffect(() => {
+        console.log(tilgangAlleSkjemaForOrganisasjon);
         const finnTilgang = () => {
             let tellTilganger: number = 0;
             tilgangAlleSkjemaForOrganisasjon.forEach(skjema => {
