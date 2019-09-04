@@ -4,6 +4,7 @@ import {
     byggOrganisasjonstre,
     hentMenuToggle,
     hentOrganisasjoner,
+    hentOrganisasjonerIAweb,
     hentTilgangForAlleAtinnskjema,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
@@ -18,6 +19,7 @@ export type Context = {
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
+    organisasjonerMedIAWEB: Organisasjon[];
     setLasteStatusPaSkjema: (index: number) => void;
 };
 
@@ -63,6 +65,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjonstre, setorganisasjonstre] = useState(
         Array<JuridiskEnhetMedUnderEnheterArray>()
     );
+    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState(Array<Organisasjon>());
     const [visNyMeny, setVisNyMeny] = useState(false);
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         Array<SkjemaMedOrganisasjonerMedTilgang>()
@@ -91,6 +94,16 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
         };
+        const getOrganisasjonerTilIAweb = async () => {
+            let organisasjoner = await hentOrganisasjonerIAweb();
+            console.log(organisasjoner);
+
+            setOrganisasjonerMedIAWEB(
+                organisasjoner.filter((organisasjon: Organisasjon) => {
+                    return organisasjon.OrganizationForm === 'BEDR';
+                })
+            );
+        };
         const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
             const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
             setListeMedSkjemaOgTilganger(liste);
@@ -105,6 +118,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         sjekkFodselsnr();
         getOrganisasjoner();
         finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
+        getOrganisasjonerTilIAweb();
     }, [visNyMeny]);
 
     let defaultContext: Context = {
@@ -113,6 +127,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         visNyMeny,
         listeMedSkjemaOgTilganger,
         setLasteStatusPaSkjema,
+        organisasjonerMedIAWEB,
     };
 
     return (

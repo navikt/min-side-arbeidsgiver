@@ -9,12 +9,15 @@ import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilPamState, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
+    const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
     const [typeAntall, settypeAntall] = useState('');
+    const [visIA, setVisIA] = useState(false);
 
     useEffect(() => {
         const tellAntallTilganger = (): number => {
@@ -28,7 +31,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (arbeidsavtaler.length) {
                 antallTilganger++;
             }
-            antallTilganger++;
+            if (organisasjonerMedIAWEB.includes(valgtOrganisasjon)) {
+                setVisIA(true);
+                antallTilganger++;
+            }
 
             return antallTilganger;
         };
@@ -41,7 +47,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         } else {
             settypeAntall('antall-oddetall');
         }
-    }, [tilgangTilSyfoState, tilgangTilPamState, arbeidsavtaler]);
+    }, [
+        tilgangTilSyfoState,
+        tilgangTilPamState,
+        arbeidsavtaler,
+        valgtOrganisasjon,
+        organisasjonerMedIAWEB,
+    ]);
 
     return (
         <div className={'tjenesteboks-container ' + typeAntall}>
@@ -61,9 +73,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                     <Arbeidstreningboks />
                 </div>
             )}
-            <div className={'tjenesteboks innholdsboks'}>
-                <IAwebboks />
-            </div>
+            {visIA && (
+                <div className={'tjenesteboks innholdsboks'}>
+                    <IAwebboks />
+                </div>
+            )}
         </div>
     );
 };

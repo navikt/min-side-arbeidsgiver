@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import './IAwebboks.less';
 
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
-import { arbeidsAvtaleLink } from '../../../../lenker';
 import arbeidstreningikon from './arbeidstreningikon.svg';
+import { lenkeIAweb } from '../../../../lenker';
 
 interface Props {
     varseltekst?: string;
@@ -23,7 +23,7 @@ const IAwebboks: FunctionComponent<Props> = props => {
 
             <Lenkepanel
                 className={'IA-web-boks__info'}
-                href={arbeidsAvtaleLink()}
+                href={lenkeIAweb}
                 tittelProps={'normaltekst'}
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

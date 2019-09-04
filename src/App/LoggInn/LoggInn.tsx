@@ -32,17 +32,18 @@ export const LoggInn: FunctionComponent = () => {
                     className={'innloggingsside__ikon'}
                 />
                 <Sidetittel className={'innloggingsside__sidetittel'}>
-                    Arbeidsgivertjenester fra NAV på ett sted
+                    Tjenester for arbeidsgivere samlet på ett sted
                 </Sidetittel>
                 <div className={'innloggingsside__tekst'}>
                     En felles inngang til tjenestene gjør det enklere for deg å samarbeide med oss.
-                    Her vil du finne tjenester og oppgaver relatert til:
+                    Du finner tjenester og oppgaver på disse områdene:
                 </div>
                 <Innloggingstjenester />
-                <TilgangsStyringInfoTekst />
                 <Hovedknapp className={'innloggingsside__loginKnapp'} onClick={redirectTilLogin}>
                     Logg inn
                 </Hovedknapp>
+                <TilgangsStyringInfoTekst />
+
                 <div className="innloggingsside__besok-ditt-nav">
                     Ønsker du å se dine tjenester som privatperson?{' '}
                     <Lenke href={'https://www.nav.no/person/dittnav/'}>Logg inn på Ditt NAV</Lenke>

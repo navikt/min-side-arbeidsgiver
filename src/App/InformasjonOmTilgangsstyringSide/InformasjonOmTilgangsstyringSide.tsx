@@ -44,7 +44,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>Utfyller/innsender</li>
                         </ul>
                         <Element className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
-                            Eller denne rettigheten:{' '}
+                            Eller rettigheten:{' '}
                         </Element>
                         <ul>
                             <li>Rekruttering</li>
@@ -78,10 +78,10 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </ul>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
-                        Mangler du tilgang til tjenester du mener du burde ha sett?
+                        Er det tjenester du mangler tilgang til??
                         <br />
                         <Lenke href={LenkeTilInfoOmAltinnRoller}>
-                            Her kan du lese om Altinnroller og hvordan de tildeles.
+                            Her kan du lese om Altinn-roller og hvordan de tildeles.
                         </Lenke>
                     </div>
                 </div>
