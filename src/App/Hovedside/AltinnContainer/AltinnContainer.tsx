@@ -12,36 +12,12 @@ import {
     soknadTilskuddTilMentor,
 } from '../../../lenker';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
-import { AltinnSkjema, OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import {
+    AltinnSkjema,
+    ListeMedAltinnSkjemaKoder,
+    OrganisasjonsListeContext,
+} from '../../../OrganisasjonsListeProvider';
 import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
-
-export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
-    {
-        navn: 'Ekspertbistand',
-        kode: '5384',
-        tilstand: TilgangAltinn.LASTER,
-    },
-    {
-        navn: 'InkluderingsTilskudd',
-        kode: '5212',
-        tilstand: TilgangAltinn.LASTER,
-    },
-    {
-        navn: 'Lønnstilskudd',
-        kode: '5159',
-        tilstand: TilgangAltinn.LASTER,
-    },
-    {
-        navn: 'Mentortilskudd',
-        kode: '5216',
-        tilstand: TilgangAltinn.LASTER,
-    },
-    {
-        navn: 'Inntektsmelding',
-        kode: '4936',
-        tilstand: TilgangAltinn.LASTER,
-    },
-];
 
 const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');

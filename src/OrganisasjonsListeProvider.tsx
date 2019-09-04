@@ -33,7 +33,7 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         tilstand: TilgangAltinn.LASTER,
     },
     {
-        navn: 'Lønnstilskudd',
+        navn: 'Lonnstilskudd',
         kode: '5159',
         tilstand: TilgangAltinn.LASTER,
     },
@@ -94,7 +94,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
             const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
             setListeMedSkjemaOgTilganger(liste);
-            console.log('lista som viser alle skjema og tilganger', listeMedSkjemaOgTilganger);
         };
 
         const sjekkFodselsnr = async () => {
@@ -106,7 +105,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         sjekkFodselsnr();
         getOrganisasjoner();
         finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
-    }, [visNyMeny, listeMedSkjemaOgTilganger]);
+    }, [visNyMeny]);
 
     let defaultContext: Context = {
         organisasjoner,
