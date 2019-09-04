@@ -15,26 +15,33 @@ import AltinnLenke from './AltinnLenke/AltinnLenke';
 import { AltinnSkjema, OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 
-const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
+
+
+export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
         navn: 'Ekspertbistand',
         kode: '5384',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'InkluderingsTilskudd',
         kode: '5212',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'Lønnstilskudd',
         kode: '5159',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'Mentortilskudd',
         kode: '5216',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'Inntektsmelding',
         kode: '4936',
+        tilstand: TilgangAltinn.LASTER,
     },
 ];
 
@@ -45,18 +52,25 @@ const AltinnContainer: FunctionComponent = () => {
     const [tilgangInkluderingstilskudd, setTilgangInkluderingstilskudd] = useState(
         TilgangAltinn.LASTER
     );
-    const [tilgangEkspertBistand, setTilgangEkspertbistand] = useState(TilgangAltinn.LASTER);
+    const [tilgangEkspertBistand, setTilgangEkspertbistand] = useState(AltinnSkjema: null);
     const [tilgangLønnsTilskudd, setTilgangLønnsTilskudd] = useState(TilgangAltinn.LASTER);
     const [tilgangMentortilskudd, setTilgangMentortilskudd] = useState(TilgangAltinn.LASTER);
     const [tilgangInntektsMelding, setilgangInntektsMelding] = useState(TilgangAltinn.LASTER);
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { tilgangTilAltinnForInntektsmelding } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilAltinnForInntektsmelding, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     listeMedSkjemaOgTilganger;
 
     const finnOrganisasjonForTilgang = (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
-        if (listeMedSkjemaOgTilganger.includes(skjema)) {
+        if (listeMedSkjemaOgTilganger.includes(skjema)){
+            if (skjema.OrganisasjonerMedTilgang.includes(valgtOrganisasjon)) {
+
+            }
+
+
+
+
         }
     };
 

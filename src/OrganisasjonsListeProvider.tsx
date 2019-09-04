@@ -18,6 +18,7 @@ export type Context = {
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
+    setInnlastingsstatusForSkjema: (org: Organisasjon) => void;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -67,6 +68,17 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         Array<SkjemaMedOrganisasjonerMedTilgang>()
     );
 
+    const sjekkOmSkjemaErHentet = (
+        skjema: SkjemaMedOrganisasjonerMedTilgang,
+        listeMedAlleSkjema: SkjemaMedOrganisasjonerMedTilgang[]
+    ): boolean => {
+        const indexFunnetSkjema = listeMedAlleSkjema.indexOf(skjema);
+        if (indexFunnetSkjema !== -1) {
+            return true;
+        }
+        return false;
+    };
+
     useEffect(() => {
         const getOrganisasjoner = async () => {
             let organisasjoner = await hentOrganisasjoner();
@@ -105,6 +117,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonstre,
         visNyMeny,
         listeMedSkjemaOgTilganger,
+        setInnlastingsstatusForSkjema,
     };
 
     return (
