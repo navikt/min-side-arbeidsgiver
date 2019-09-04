@@ -7,7 +7,7 @@ metadata:
     team: teamtag
 spec:
 
-  image: navikt/ditt-nav-arbeidsgiver:TAG-800-taImotRettigheterFraAtinnViaBackenden_776
+  image: navikt/ditt-nav-arbeidsgiver:faInnIAWEB_782
 
   team: teamtag
   port: 3000

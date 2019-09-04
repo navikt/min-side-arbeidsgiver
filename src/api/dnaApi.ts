@@ -43,7 +43,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 }
 
 export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
-    let respons = await fetch('/api/rettigheter-til-skjema/3403');
+    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/3403');
     if (respons.ok) {
         return await respons.json();
     } else {
