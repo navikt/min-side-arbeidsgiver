@@ -1,16 +1,17 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import {
-    hentOrganisasjoner,
     byggOrganisasjonstre,
     hentMenuToggle,
-    SkjemaMedOrganisasjonerMedTilgang,
+    hentOrganisasjoner,
     hentTilgangForAlleAtinnskjema,
+    SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { TilgangAltinn } from './OrganisasjonDetaljerProvider';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -23,22 +24,27 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
         navn: 'Ekspertbistand',
         kode: '5384',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'InkluderingsTilskudd',
         kode: '5212',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'Lønnstilskudd',
         kode: '5159',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'Mentortilskudd',
         kode: '5216',
+        tilstand: TilgangAltinn.LASTER,
     },
     {
         navn: 'Inntektsmelding',
         kode: '4936',
+        tilstand: TilgangAltinn.LASTER,
     },
 ];
 
@@ -48,6 +54,7 @@ export { OrganisasjonsListeContext };
 export interface AltinnSkjema {
     navn: string;
     kode: string;
+    tilstand: TilgangAltinn;
 }
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {

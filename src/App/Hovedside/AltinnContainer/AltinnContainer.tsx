@@ -12,15 +12,53 @@ import {
     soknadTilskuddTilMentor,
 } from '../../../lenker';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
+import { AltinnSkjema, OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
+
+const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
+    {
+        navn: 'Ekspertbistand',
+        kode: '5384',
+    },
+    {
+        navn: 'InkluderingsTilskudd',
+        kode: '5212',
+    },
+    {
+        navn: 'Lønnstilskudd',
+        kode: '5159',
+    },
+    {
+        navn: 'Mentortilskudd',
+        kode: '5216',
+    },
+    {
+        navn: 'Inntektsmelding',
+        kode: '4936',
+    },
+];
 
 const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
 
     const [erFem, seterFem] = useState('');
-    const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { tilgangTilAltinnForInntektsmelding, tilgangTilAltinnForFireSkjemaState } = useContext(
-        OrganisasjonsDetaljerContext
+    const [tilgangInkluderingstilskudd, setTilgangInkluderingstilskudd] = useState(
+        TilgangAltinn.LASTER
     );
+    const [tilgangEkspertBistand, setTilgangEkspertbistand] = useState(TilgangAltinn.LASTER);
+    const [tilgangLønnsTilskudd, setTilgangLønnsTilskudd] = useState(TilgangAltinn.LASTER);
+    const [tilgangMentortilskudd, setTilgangMentortilskudd] = useState(TilgangAltinn.LASTER);
+    const [tilgangInntektsMelding, setilgangInntektsMelding] = useState(TilgangAltinn.LASTER);
+
+    const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
+    const { tilgangTilAltinnForInntektsmelding } = useContext(OrganisasjonsDetaljerContext);
+    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
+    listeMedSkjemaOgTilganger;
+
+    const finnOrganisasjonForTilgang = (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
+        if (listeMedSkjemaOgTilganger.includes(skjema)) {
+        }
+    };
 
     useEffect(() => {
         setgenerellAltinnTilgang(true);
