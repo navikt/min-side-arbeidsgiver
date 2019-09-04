@@ -87,6 +87,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
+            console.log(organisasjoner);
             if (visNyMeny) {
                 const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
                     organisasjoner
@@ -95,11 +96,11 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             }
         };
         const getOrganisasjonerTilIAweb = async () => {
-            let organisasjoner = await hentOrganisasjonerIAweb();
-            console.log(organisasjoner);
+            let organisasjonerIAWEB = await hentOrganisasjonerIAweb();
+            console.log(organisasjonerIAWEB);
 
             setOrganisasjonerMedIAWEB(
-                organisasjoner.filter((organisasjon: Organisasjon) => {
+                organisasjonerIAWEB.filter((organisasjon: Organisasjon) => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
