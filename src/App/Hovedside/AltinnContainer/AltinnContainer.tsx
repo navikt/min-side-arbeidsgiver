@@ -14,7 +14,6 @@ import {
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import { AltinnSkjema, OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
-import { Organisasjon } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
@@ -63,35 +62,30 @@ const AltinnContainer: FunctionComponent = () => {
 
     useEffect(() => {
         const sjekkOmTilgangTilSkjemaForValgtOrganisasjon = (
-            altinnSkjema: AltinnSkjema,
-            indexTilSkjemaMedOrganisasjoner: number
+            altinnSkjemaMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang
         ) => {
             let kopiAvTilganger: AltinnSkjema[] = ListeMedAltinnSkjemaKoder;
-
-            const indexTilAltinnSkjema = kopiAvTilganger.indexOf(altinnSkjema);
+            const indexTilAltinnSkjema: number = kopiAvTilganger.indexOf(
+                altinnSkjemaMedOrganisasjoner.Skjema
+            );
             if (
-                listeMedSkjemaOgTilganger[
-                    indexTilSkjemaMedOrganisasjoner
-                ].OrganisasjonerMedTilgang.includes(valgtOrganisasjon)
+                altinnSkjemaMedOrganisasjoner.OrganisasjonerMedTilgang.includes(valgtOrganisasjon)
             ) {
                 kopiAvTilganger[indexTilAltinnSkjema].tilstand === TilgangAltinn.TILGANG;
             } else {
                 kopiAvTilganger[indexTilAltinnSkjema].tilstand === TilgangAltinn.IKKE_TILGANG;
             }
+            setTilgangAlleSkjemaForOrganisasjon(kopiAvTilganger);
         };
 
-        listeMedSkjemaOgTilganger.forEach(skjemaMedOrganisasjoner => {});
-    }, []);
+        listeMedSkjemaOgTilganger.forEach(skjemaMedOrganisasjoner => {
+            sjekkOmTilgangTilSkjemaForValgtOrganisasjon(skjemaMedOrganisasjoner);
+        });
+    }, [listeMedSkjemaOgTilganger]);
 
     useEffect(() => {
-        setgenerellAltinnTilgang(true);
-        const tellAntallSkjema = () => {
-            let antallTilganger: number = 0;
 
-            tilgangAlleSkjemaForOrganisasjon.forEach();
-        };
-        tellAntallSkjema();
-    }, [tilgangTilAltinnForFireSkjemaState, tilgangTilAltinnForInntektsmelding]);
+    },
 
     return (
         <div className={'altinn-container'}>
