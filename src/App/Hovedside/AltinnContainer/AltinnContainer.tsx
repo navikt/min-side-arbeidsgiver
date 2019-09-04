@@ -14,8 +14,7 @@ import {
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import { AltinnSkjema, OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
-
-
+import { Organisasjon } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
@@ -52,37 +51,41 @@ const AltinnContainer: FunctionComponent = () => {
     const [tilgangInkluderingstilskudd, setTilgangInkluderingstilskudd] = useState(
         TilgangAltinn.LASTER
     );
-    const [tilgangEkspertBistand, setTilgangEkspertbistand] = useState(AltinnSkjema: null);
-    const [tilgangLønnsTilskudd, setTilgangLønnsTilskudd] = useState(TilgangAltinn.LASTER);
-    const [tilgangMentortilskudd, setTilgangMentortilskudd] = useState(TilgangAltinn.LASTER);
-    const [tilgangInntektsMelding, setilgangInntektsMelding] = useState(TilgangAltinn.LASTER);
+    const [tilgangAlleSkjemaForOrganisasjon, setTilgangAlleSkjemaForOrganisasjon] = useState(
+        ListeMedAltinnSkjemaKoder
+    );
+    const [tilgangEkspertBistand, setTilgangEkspertbistand] = useState(false);
+    const [tilgangLønnsTilskudd, setTilgangLønnsTilskudd] = useState(false);
+    const [tilgangMentortilskudd, setTilgangMentortilskudd] = useState(false);
+    const [tilgangInntektsMelding, setilgangInntektsMelding] = useState(false);
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { tilgangTilAltinnForInntektsmelding, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
-    listeMedSkjemaOgTilganger;
+    const { tilgangTilAltinnForInntektsmelding, valgtOrganisasjon } = useContext(
+        OrganisasjonsDetaljerContext
+    );
+    const { listeMedSkjemaOgTilganger, setLasteStatusPaSkjema } = useContext(
+        OrganisasjonsListeContext
+    );
 
-    const sjekkOmSkjemaErHentet = (
+    const sjekkOmSkjemaErHentetOgReturnerIndex = (
         skjema: SkjemaMedOrganisasjonerMedTilgang,
         listeMedAlleSkjema: SkjemaMedOrganisasjonerMedTilgang[]
-    ): boolean => {
-        const indexFunnetSkjema = listeMedAlleSkjema.indexOf(skjema);
-        if (indexFunnetSkjema !== -1) {
-            return true;
-        }
-        return false;
+    ): number => {
+        return listeMedAlleSkjema.indexOf(skjema);
     };
 
-    const finnOrganisasjonForTilgang = (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
-        if (listeMedSkjemaOgTilganger.includes(skjema)){
-            if (skjema.OrganisasjonerMedTilgang.includes(valgtOrganisasjon)) {
-
-            }
-
-
-
-
+    const sjekkOmTilgangTilSkjemaForValgtOrganisasjon = (
+        org: Organisasjon,
+        skjema: SkjemaMedOrganisasjonerMedTilgang,
+        index: number
+    ) => {
+        let kopiAvTilganger: AltinnSkjema[] = tilgangAlleSkjemaForOrganisasjon;
+        if (skjema.OrganisasjonerMedTilgang.includes(org)) {
+            kopiAvTilganger[index].tilstand = TilgangAltinn.TILGANG;
+        } else {
+            kopiAvTilganger[index].tilstand = TilgangAltinn.IKKE_TILGANG;
         }
+        setTilgangAlleSkjemaForOrganisasjon(kopiAvTilganger);
     };
 
     useEffect(() => {

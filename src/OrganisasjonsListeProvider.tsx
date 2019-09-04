@@ -19,7 +19,7 @@ export type Context = {
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
-    setInnlastingsstatusForSkjema: (org: Organisasjon) => void;
+    setLasteStatusPaSkjema: (index: number) => void;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -69,17 +69,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         Array<SkjemaMedOrganisasjonerMedTilgang>()
     );
 
-    const sjekkOmSkjemaErHentet = (
-        skjema: SkjemaMedOrganisasjonerMedTilgang,
-        listeMedAlleSkjema: SkjemaMedOrganisasjonerMedTilgang[]
-    ): boolean => {
-        const indexFunnetSkjema = listeMedAlleSkjema.indexOf(skjema);
-        if (indexFunnetSkjema !== -1) {
-            return true;
-        }
-        return false;
-    };
-
     const setLasteStatusPaSkjema = (index: number) => {
         let kopiListeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[] = listeMedSkjemaOgTilganger;
         kopiListeMedSkjemaOgTilganger[index].Skjema.tilstand = TilgangAltinn.TILGANG;
@@ -124,7 +113,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonstre,
         visNyMeny,
         listeMedSkjemaOgTilganger,
-        setInnlastingsstatusForSkjema,
+        setLasteStatusPaSkjema,
     };
 
     return (
