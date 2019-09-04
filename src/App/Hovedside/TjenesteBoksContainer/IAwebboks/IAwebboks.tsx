@@ -16,7 +16,7 @@ const IAwebboks: FunctionComponent<Props> = props => {
     return (
         <div className={'IA-web-boks ' + props.className}>
             <TjenesteBoksBanner
-                tittel={'Arbeidstrening'}
+                tittel={'Sykefravær'}
                 imgsource={arbeidstreningikon}
                 altTekst={''}
             />
@@ -27,7 +27,9 @@ const IAwebboks: FunctionComponent<Props> = props => {
                 tittelProps={'normaltekst'}
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >
-                Ga hit
+                <div className="IA-web-boks__tekst">
+                    Oversikt over sykefraværet i din virksomhet og virksomheter i din bransje
+                </div>
             </Lenkepanel>
         </div>
     );

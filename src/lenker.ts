@@ -108,3 +108,6 @@ export const hentArbeidsavtalerApiLink = () => {
 };
 
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
+
+export const lenkeIAweb =
+    'https://www.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=2&ServiceCode=3403&Oselect=true&M=SP';
