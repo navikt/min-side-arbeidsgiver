@@ -71,6 +71,7 @@ const AltinnContainer: FunctionComponent = () => {
                 if (skjema.navn === 'Mentortilskudd' && skjema.tilstand === TilgangAltinn.TILGANG) {
                     setTilMentortilskudd(true);
                     tellTilganger++;
+                    console.log('in if');
                 }
                 if (
                     skjema.navn === 'Inkluderingstilskudd' &&
