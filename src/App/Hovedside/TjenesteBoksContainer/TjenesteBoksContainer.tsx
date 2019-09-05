@@ -31,7 +31,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (arbeidsavtaler.length) {
                 antallTilganger++;
             }
-            let orgNrIAweb: string = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
+            let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
             console.log('org med iaweb', organisasjonerMedIAWEB);
             console.log(
                 orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber),
