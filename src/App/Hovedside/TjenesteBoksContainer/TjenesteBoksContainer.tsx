@@ -32,12 +32,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 antallTilganger++;
             }
             let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
-            console.log('org med iaweb', organisasjonerMedIAWEB);
-            console.log(
-                orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber),
-                organisasjonerMedIAWEB,
-                valgtOrganisasjon
-            );
             if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
                 setVisIA(true);
                 antallTilganger++;

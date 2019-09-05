@@ -7,7 +7,6 @@ import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import {
     Arbeidsavtale,
-    hentOrganisasjonerMedTilgangTilAltinntjeneste,
     hentRoller,
     hentTiltaksgjennomforingTilgang,
     sjekkAltinnRolleForInntekstmelding,
@@ -90,10 +89,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         if (antallTilganger > 0 || tilgangTilSyfoState === TilgangSyfo.TILGANG) {
             setHarNoenTilganger(true);
         }
-        const ListeMedOrg: Organisasjon[] = await hentOrganisasjonerMedTilgangTilAltinntjeneste(
-            '5384'
-        );
-        console.log('antall organisasjoner: ', ListeMedOrg);
     };
 
     let defaultContext: Context = {

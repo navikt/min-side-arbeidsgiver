@@ -29,8 +29,14 @@ export const AltinnContainer: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
-        console.log(listeMedSkjemaOgTilganger);
         const finnTilgang = () => {
+            console.log('finn tilgang kallt');
+            console.log(
+                'lista som sjekkes er:',
+                listeMedSkjemaOgTilganger,
+                'med lengde: ',
+                listeMedSkjemaOgTilganger.length
+            );
             let tellTilganger: number = 0;
             listeMedSkjemaOgTilganger.forEach(skjema => {
                 let orgnrMedTilgang: string[] = skjema.OrganisasjonerMedTilgang.map(
