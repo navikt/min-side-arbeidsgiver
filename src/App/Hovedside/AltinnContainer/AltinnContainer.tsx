@@ -30,6 +30,7 @@ export const AltinnContainer: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
+        seterFem('');
         const sjekkOgSettTilgang = (
             skjema: SkjemaMedOrganisasjonerMedTilgang,
             skjemaNavn: string,
@@ -115,7 +116,7 @@ export const AltinnContainer: FunctionComponent = () => {
                         setTilgangInntektsmelding,
                         orgnrMedTilgangTilSkjema
                     );
-
+                console.log('tell tilganger', tellTilganger);
                 if (tellTilganger % 2 === 0) {
                     settypeAntall('antall-skjema-partall');
                 }
@@ -128,17 +129,19 @@ export const AltinnContainer: FunctionComponent = () => {
                 if (tellTilganger === 1) {
                     settypeAntall('antall-skjema-en');
                 }
+                console.log('tell tilganger', tellTilganger);
+                console.log('typetall ', typeAntall);
                 if (tellTilganger > 0) {
                     setgenerellAltinnTilgang(true);
                 }
             });
         };
-        if (listeMedSkjemaOgTilganger.length === 5) {
-            console.log(listeMedSkjemaOgTilganger);
+        if (listeMedSkjemaOgTilganger.length > 0) {
+            finnTilgang();
         }
 
         finnTilgang();
-    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
+    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger, typeAntall]);
 
     return (
         <div className={'altinn-container'}>
