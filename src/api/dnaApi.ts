@@ -70,12 +70,12 @@ export async function hentTilgangForAlleAtinnskjema(
     altinnSkjemaer: AltinnSkjema[]
 ): Promise<SkjemaMedOrganisasjonerMedTilgang[]> {
     let returnObjekt: SkjemaMedOrganisasjonerMedTilgang[] = [];
-    altinnSkjemaer.forEach(async skjema => {
+    await Promise.all(altinnSkjemaer.map(async skjema => {
         let listeObjekt: SkjemaMedOrganisasjonerMedTilgang = await lagListeMedOrganisasjonerMedTilgangTilSkjema(
             skjema
         );
         returnObjekt.push(listeObjekt);
-    });
+    }));
     return returnObjekt;
 }
 
