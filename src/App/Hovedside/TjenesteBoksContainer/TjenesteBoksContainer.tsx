@@ -31,13 +31,14 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (arbeidsavtaler.length) {
                 antallTilganger++;
             }
+            let orgNrIAweb: string = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
             console.log('org med iaweb', organisasjonerMedIAWEB);
             console.log(
-                organisasjonerMedIAWEB.includes(valgtOrganisasjon),
+                orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber),
                 organisasjonerMedIAWEB,
                 valgtOrganisasjon
             );
-            if (organisasjonerMedIAWEB.includes(valgtOrganisasjon)) {
+            if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
                 setVisIA(true);
                 antallTilganger++;
             }
