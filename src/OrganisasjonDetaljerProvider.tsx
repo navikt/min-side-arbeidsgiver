@@ -5,23 +5,11 @@ import {
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import {
-    Arbeidsavtale,
-    hentRoller,
-    hentTiltaksgjennomforingTilgang,
-    sjekkAltinnRolleForInntekstmelding,
-    sjekkAltinnRolleHelseSosial,
-} from './api/dnaApi';
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
 
 export enum TilgangPam {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
-
-export enum TilgangAltinn {
     LASTER,
     IKKE_TILGANG,
     TILGANG,
@@ -36,8 +24,7 @@ export type Context = {
     valgtOrganisasjon: Organisasjon;
     antallAnnonser: number;
     tilgangTilPamState: TilgangPam;
-    tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
-    tilgangTilAltinnForInntektsmelding: TilgangAltinn;
+
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
     tilgangTilSyfoState: TilgangSyfo;
@@ -47,13 +34,8 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const [antallAnnonser, setantallAnnonser] = useState<number>(0);
-    const [tilgangTilAltinnForTreSkjemaState, settilgangTilAltinnForTreSkjemaState] = useState(
-        TilgangAltinn.LASTER
-    );
     const [tilgangTilPamState, settilgangTilPamState] = useState(TilgangPam.LASTER);
-    const [tilgangTilAltinnForInntektsmelding, settilgangTilAltinnForInntektsmelding] = useState(
-        TilgangAltinn.LASTER
-    );
+
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [harNoenTilganger, setHarNoenTilganger] = useState(false);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
@@ -63,19 +45,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         let antallTilganger = 0;
         await setValgtOrganisasjon(org);
         let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
-        let roller = await hentRoller(org.OrganizationNumber);
-        if (sjekkAltinnRolleForInntekstmelding(roller)) {
-            settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);
-            antallTilganger++;
-        } else {
-            settilgangTilAltinnForInntektsmelding(TilgangAltinn.IKKE_TILGANG);
-        }
-        if (sjekkAltinnRolleHelseSosial(roller)) {
-            settilgangTilAltinnForTreSkjemaState(TilgangAltinn.TILGANG);
-            antallTilganger++;
-        } else {
-            settilgangTilAltinnForTreSkjemaState(TilgangAltinn.IKKE_TILGANG);
-        }
         if (harPamTilgang) {
             settilgangTilPamState(TilgangPam.TILGANG);
             setantallAnnonser(await hentAntallannonser());
@@ -94,8 +63,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     let defaultContext: Context = {
         antallAnnonser,
         endreOrganisasjon,
-        tilgangTilAltinnForInntektsmelding,
-        tilgangTilAltinnForTreSkjemaState,
         tilgangTilPamState,
         valgtOrganisasjon,
         arbeidsavtaler,
