@@ -13,6 +13,7 @@ import {
 } from '../../../lenker';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
@@ -29,6 +30,22 @@ export const AltinnContainer: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
+        const sjekkOgSettTilgang = (
+            skjema: SkjemaMedOrganisasjonerMedTilgang,
+            skjemaNavn: string,
+            setTilgangFunksjon: (tilgang: boolean) => void,
+            orgnrMedTilgang: string[]
+        ) => {
+            if (
+                skjema.Skjema.navn === skjemaNavn &&
+                orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
+            ) {
+                setTilgangFunksjon(true);
+                //tellTilganger++;
+                console.log('in if');
+            }
+        };
+
         const finnTilgang = () => {
             console.log('finn tilgang kallt');
             console.log(
@@ -43,6 +60,8 @@ export const AltinnContainer: FunctionComponent = () => {
                     org => org.OrganizationNumber
                 );
                 console.log(orgnrMedTilgang);
+                //sjekkOgSettTilgang(skjema, 'Mentortilskudd', setTilMentortilskudd, orgnrMedTilgang);
+
                 if (
                     skjema.Skjema.navn === 'Mentortilskudd' &&
                     orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)

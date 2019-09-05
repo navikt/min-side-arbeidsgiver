@@ -1,4 +1,5 @@
 import fetchMock from 'fetch-mock';
+import { TilgangAltinn } from '../OrganisasjonDetaljerProvider';
 
 const delay = new Promise(res => setTimeout(res, 500));
 
@@ -26,6 +27,90 @@ const OrganisasjonerResponse = [
         OrganizationForm: 'AS',
         Status: 'Active',
     },
+    {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Enterprise',
+        OrganizationNumber: '822565212',
+        ParentOrganizationNumber: null,
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Business',
+        OrganizationNumber: '922658986',
+        ParentOrganizationNumber: '822565212',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'NAV ENGERDAL',
+        Type: 'Business',
+        ParentOrganizationNumber: '874652202',
+        OrganizationNumber: '991378642',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'NAV HAMAR',
+        Type: 'Business',
+        ParentOrganizationNumber: '874652202',
+        OrganizationNumber: '990229023',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+];
+fetchMock
+    .get(
+        'express:/min-side-arbeidsgiver/api/rettigheter-til-skjema/5216',
+        delay.then(() => {
+            return mentortilskuddskjemaResponse;
+        })
+    )
+    .spy();
+fetchMock
+    .get(
+        'express:/min-side-arbeidsgiver/api/rettigheter-til-skjema/:id',
+        delay.then(() => {
+            return ekspertBistandSkjemaResponse;
+        })
+    )
+    .spy();
+
+const ekspertBistandSkjemaResponse = [
+    {
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '811076732',
+        ParentOrganizationNumber: '811076112',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '811076112',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Enterprise',
+        OrganizationNumber: '822565212',
+        ParentOrganizationNumber: null,
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'DIGITAL JUNKIES AS ',
+        Type: 'Business',
+        OrganizationNumber: '922658986',
+        ParentOrganizationNumber: '822565212',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+];
+const mentortilskuddskjemaResponse = [
     {
         Name: 'DIGITAL JUNKIES AS ',
         Type: 'Enterprise',
