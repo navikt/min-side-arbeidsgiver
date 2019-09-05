@@ -48,19 +48,20 @@ export const AltinnContainer: FunctionComponent = () => {
 
         const finnTilgang = () => {
             console.log('finn tilgang kallt');
+            console.log('valg Organisasjon er: ', valgtOrganisasjon);
             console.log(
-                'lista som sjekkes er:',
+                'lista med alle tilganger og organisasjone er:',
                 listeMedSkjemaOgTilganger,
                 'med lengde: ',
                 listeMedSkjemaOgTilganger.length
             );
             let tellTilganger: number = 0;
             listeMedSkjemaOgTilganger.forEach(skjema => {
+                console.log('skjema er: ', skjema, skjema.Skjema.navn);
                 let orgnrMedTilgang: string[] = skjema.OrganisasjonerMedTilgang.map(
                     org => org.OrganizationNumber
                 );
                 console.log(orgnrMedTilgang);
-                //sjekkOgSettTilgang(skjema, 'Mentortilskudd', setTilMentortilskudd, orgnrMedTilgang);
 
                 if (
                     skjema.Skjema.navn === 'Mentortilskudd' &&
@@ -97,6 +98,8 @@ export const AltinnContainer: FunctionComponent = () => {
                 ) {
                     setTilgangInntektsmelding(true);
                     tellTilganger++;
+                } else {
+                    setTilgangInntektsmelding(false);
                 }
                 if (tellTilganger % 2 === 0) {
                     settypeAntall('antall-skjema-partall');

@@ -29,7 +29,7 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         tilstand: TilgangAltinn.LASTER,
     },
     {
-        navn: 'InkluderingsTilskudd',
+        navn: 'Inkluderingstilskudd',
         kode: '5212',
         tilstand: TilgangAltinn.LASTER,
     },
