@@ -35,15 +35,17 @@ export const AltinnContainer: FunctionComponent = () => {
             skjemaNavn: string,
             setTilgangFunksjon: (tilgang: boolean) => void,
             orgnrMedTilgang: string[]
-        ) => {
+        ): number => {
             if (
                 skjema.Skjema.navn === skjemaNavn &&
                 orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
             ) {
                 setTilgangFunksjon(true);
-                //tellTilganger++;
                 console.log('in if');
+                return 1;
             }
+            setTilgangFunksjon(false);
+            return 0;
         };
 
         const finnTilgang = () => {
@@ -57,50 +59,50 @@ export const AltinnContainer: FunctionComponent = () => {
             );
             let tellTilganger: number = 0;
             listeMedSkjemaOgTilganger.forEach(skjema => {
-                console.log('skjema er: ', skjema, skjema.Skjema.navn);
-                let orgnrMedTilgang: string[] = skjema.OrganisasjonerMedTilgang.map(
+                let orgnrMedTilgangTilSkjema: string[] = skjema.OrganisasjonerMedTilgang.map(
                     org => org.OrganizationNumber
                 );
-                console.log(orgnrMedTilgang);
+                tellTilganger =
+                    tellTilganger +
+                    sjekkOgSettTilgang(
+                        skjema,
+                        'Mentortilskudd',
+                        setTilMentortilskudd,
+                        orgnrMedTilgangTilSkjema
+                    );
+                tellTilganger =
+                    tellTilganger +
+                    sjekkOgSettTilgang(
+                        skjema,
+                        'Inkluderingstilskudd',
+                        setTilgangInkluderingstilskudd,
+                        orgnrMedTilgangTilSkjema
+                    );
+                tellTilganger =
+                    tellTilganger +
+                    sjekkOgSettTilgang(
+                        skjema,
+                        'Ekspertbistand',
+                        setTilgangEkspertbistand,
+                        orgnrMedTilgangTilSkjema
+                    );
+                tellTilganger =
+                    tellTilganger +
+                    sjekkOgSettTilgang(
+                        skjema,
+                        'Lonnstilskudd',
+                        setTilgangLonnstilskudd,
+                        orgnrMedTilgangTilSkjema
+                    );
+                tellTilganger =
+                    tellTilganger +
+                    sjekkOgSettTilgang(
+                        skjema,
+                        'Inntektsmelding',
+                        setTilgangInntektsmelding,
+                        orgnrMedTilgangTilSkjema
+                    );
 
-                if (
-                    skjema.Skjema.navn === 'Mentortilskudd' &&
-                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-                ) {
-                    setTilMentortilskudd(true);
-                    tellTilganger++;
-                    console.log('in if');
-                }
-                if (
-                    skjema.Skjema.navn === 'Inkluderingstilskudd' &&
-                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-                ) {
-                    setTilgangInkluderingstilskudd(true);
-                    tellTilganger++;
-                }
-                if (
-                    skjema.Skjema.navn === 'Ekspertbistand' &&
-                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-                ) {
-                    setTilgangEkspertbistand(true);
-                    tellTilganger++;
-                }
-                if (
-                    skjema.Skjema.navn === 'Lonnstilskudd' &&
-                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-                ) {
-                    setTilgangLonnstilskudd(true);
-                    tellTilganger++;
-                }
-                if (
-                    skjema.Skjema.navn === 'Inntektsmelding' &&
-                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-                ) {
-                    setTilgangInntektsmelding(true);
-                    tellTilganger++;
-                } else {
-                    setTilgangInntektsmelding(false);
-                }
                 if (tellTilganger % 2 === 0) {
                     settypeAntall('antall-skjema-partall');
                 }

@@ -1,5 +1,4 @@
 import fetchMock from 'fetch-mock';
-import { TilgangAltinn } from '../OrganisasjonDetaljerProvider';
 
 const delay = new Promise(res => setTimeout(res, 500));
 
