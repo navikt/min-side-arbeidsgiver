@@ -31,6 +31,7 @@ export const AltinnContainer: FunctionComponent = () => {
 
     useEffect(() => {
         seterFem('');
+        console.log('lengde ', listeMedSkjemaOgTilganger.length);
         const sjekkOgSettTilgang = (
             skjema: SkjemaMedOrganisasjonerMedTilgang,
             skjemaNavn: string,
@@ -61,7 +62,7 @@ export const AltinnContainer: FunctionComponent = () => {
             console.log('valg Organisasjon er: ', valgtOrganisasjon);
             console.log(
                 'lista med alle tilganger og organisasjone er:',
-                listeMedSkjemaOgTilganger,
+                JSON.stringify(listeMedSkjemaOgTilganger),
                 'med lengde: ',
                 listeMedSkjemaOgTilganger.length
             );
@@ -136,7 +137,7 @@ export const AltinnContainer: FunctionComponent = () => {
                 }
             });
         };
-        if (listeMedSkjemaOgTilganger.length > 0) {
+        if (listeMedSkjemaOgTilganger.length === 5) {
             finnTilgang();
         }
 

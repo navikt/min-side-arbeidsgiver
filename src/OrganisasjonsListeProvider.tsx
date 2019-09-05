@@ -60,7 +60,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState(Array<Organisasjon>());
     const [visNyMeny, setVisNyMeny] = useState(false);
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
-        Array<SkjemaMedOrganisasjonerMedTilgang>()
+        [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
 
     useEffect(() => {
