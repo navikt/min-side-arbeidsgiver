@@ -19,7 +19,7 @@ import {
 } from '../../../OrganisasjonsListeProvider';
 import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 
-const AltinnContainer: FunctionComponent = () => {
+export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
 
     const [erFem, seterFem] = useState('');
@@ -163,5 +163,3 @@ const AltinnContainer: FunctionComponent = () => {
         </div>
     );
 };
-
-export default AltinnContainer;
