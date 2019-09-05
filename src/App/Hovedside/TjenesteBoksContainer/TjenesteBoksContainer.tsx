@@ -35,6 +35,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
                 setVisIA(true);
                 antallTilganger++;
+            } else {
+                setVisIA(false);
             }
             return antallTilganger;
         };
