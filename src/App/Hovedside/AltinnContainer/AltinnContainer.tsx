@@ -44,7 +44,14 @@ export const AltinnContainer: FunctionComponent = () => {
                 console.log('in if');
                 return 1;
             }
-            setTilgangFunksjon(false);
+
+            if (
+                skjema.Skjema.navn === skjemaNavn &&
+                !orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
+            ) {
+                setTilgangFunksjon(false);
+            }
+
             return 0;
         };
 
@@ -61,6 +68,12 @@ export const AltinnContainer: FunctionComponent = () => {
             listeMedSkjemaOgTilganger.forEach(skjema => {
                 let orgnrMedTilgangTilSkjema: string[] = skjema.OrganisasjonerMedTilgang.map(
                     org => org.OrganizationNumber
+                );
+                console.log(
+                    'skjema i foreach er: ',
+                    skjema.Skjema.navn,
+                    ' disse organisasjonene har tilgang: ',
+                    skjema.OrganisasjonerMedTilgang
                 );
                 tellTilganger =
                     tellTilganger +
