@@ -20,7 +20,6 @@ export type Context = {
     visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
-    setLasteStatusPaSkjema: (index: number) => void;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -70,12 +69,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         Array<SkjemaMedOrganisasjonerMedTilgang>()
     );
-
-    const setLasteStatusPaSkjema = (index: number) => {
-        let kopiListeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[] = listeMedSkjemaOgTilganger;
-        kopiListeMedSkjemaOgTilganger[index].Skjema.tilstand = TilgangAltinn.TILGANG;
-        setListeMedSkjemaOgTilganger(kopiListeMedSkjemaOgTilganger);
-    };
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -127,7 +120,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonstre,
         visNyMeny,
         listeMedSkjemaOgTilganger,
-        setLasteStatusPaSkjema,
         organisasjonerMedIAWEB,
     };
 
