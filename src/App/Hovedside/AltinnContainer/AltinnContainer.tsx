@@ -12,12 +12,7 @@ import {
     soknadTilskuddTilMentor,
 } from '../../../lenker';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
-import {
-    AltinnSkjema,
-    ListeMedAltinnSkjemaKoder,
-    OrganisasjonsListeContext,
-} from '../../../OrganisasjonsListeProvider';
-import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
@@ -28,9 +23,6 @@ export const AltinnContainer: FunctionComponent = () => {
     const [tilgangMentortilskudd, setTilMentortilskudd] = useState(false);
     const [tilgangLonnstilskudd, setTilgangLonnstilskudd] = useState(false);
     const [tilgangInntektsmelding, setTilgangInntektsmelding] = useState(false);
-    const [tilgangAlleSkjemaForOrganisasjon, setTilgangAlleSkjemaForOrganisasjon] = useState(
-        ListeMedAltinnSkjemaKoder
-    );
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -38,60 +30,45 @@ export const AltinnContainer: FunctionComponent = () => {
 
     useEffect(() => {
         console.log(listeMedSkjemaOgTilganger);
-        const sjekkOmTilgangTilSkjemaForValgtOrganisasjon = (
-            altinnSkjemaMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang
-        ) => {
-            let kopiAvTilganger: AltinnSkjema[] = ListeMedAltinnSkjemaKoder;
-            const indexTilAltinnSkjema: number = kopiAvTilganger.indexOf(
-                altinnSkjemaMedOrganisasjoner.Skjema
-            );
-            let orgNrTilOrgMedTilgang: string[] = altinnSkjemaMedOrganisasjoner.OrganisasjonerMedTilgang.map(
-                org => org.OrganizationNumber
-            );
-            if (orgNrTilOrgMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
-                kopiAvTilganger[indexTilAltinnSkjema].tilstand = TilgangAltinn.TILGANG;
-            } else {
-                kopiAvTilganger[indexTilAltinnSkjema].tilstand = TilgangAltinn.IKKE_TILGANG;
-            }
-            setTilgangAlleSkjemaForOrganisasjon(kopiAvTilganger);
-            console.log('kopi av lista: ', kopiAvTilganger);
-        };
-
-        listeMedSkjemaOgTilganger.forEach(skjemaMedOrganisasjoner => {
-            if (listeMedSkjemaOgTilganger.length === 5) {
-                sjekkOmTilgangTilSkjemaForValgtOrganisasjon(skjemaMedOrganisasjoner);
-            }
-        });
-    }, [listeMedSkjemaOgTilganger, valgtOrganisasjon]);
-
-    useEffect(() => {
-        console.log(tilgangAlleSkjemaForOrganisasjon);
         const finnTilgang = () => {
             let tellTilganger: number = 0;
-            tilgangAlleSkjemaForOrganisasjon.forEach(skjema => {
-                if (skjema.navn === 'Mentortilskudd' && skjema.tilstand === TilgangAltinn.TILGANG) {
+            listeMedSkjemaOgTilganger.forEach(skjema => {
+                let orgnrMedTilgang: string[] = skjema.OrganisasjonerMedTilgang.map(
+                    org => org.OrganizationNumber
+                );
+                console.log(orgnrMedTilgang);
+                if (
+                    skjema.Skjema.navn === 'Mentortilskudd' &&
+                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
+                ) {
                     setTilMentortilskudd(true);
                     tellTilganger++;
                     console.log('in if');
                 }
                 if (
-                    skjema.navn === 'Inkluderingstilskudd' &&
-                    skjema.tilstand === TilgangAltinn.TILGANG
+                    skjema.Skjema.navn === 'Inkluderingstilskudd' &&
+                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
                 ) {
                     setTilgangInkluderingstilskudd(true);
                     tellTilganger++;
                 }
-                if (skjema.navn === 'Ekspertbistand' && skjema.tilstand === TilgangAltinn.TILGANG) {
+                if (
+                    skjema.Skjema.navn === 'Ekspertbistand' &&
+                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
+                ) {
                     setTilgangEkspertbistand(true);
                     tellTilganger++;
                 }
-                if (skjema.navn === 'Lonnstilskudd' && skjema.tilstand === TilgangAltinn.TILGANG) {
+                if (
+                    skjema.Skjema.navn === 'Lonnstilskudd' &&
+                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
+                ) {
                     setTilgangLonnstilskudd(true);
                     tellTilganger++;
                 }
                 if (
-                    skjema.navn === 'Inntektsmelding' &&
-                    skjema.tilstand === TilgangAltinn.TILGANG
+                    skjema.Skjema.navn === 'Inntektsmelding' &&
+                    orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
                 ) {
                     setTilgangInntektsmelding(true);
                     tellTilganger++;
@@ -113,9 +90,12 @@ export const AltinnContainer: FunctionComponent = () => {
                 }
             });
         };
-        console.log('tilgang alle skjema for org', tilgangAlleSkjemaForOrganisasjon);
+        if (listeMedSkjemaOgTilganger.length === 5) {
+            console.log(listeMedSkjemaOgTilganger);
+        }
+
         finnTilgang();
-    }, [tilgangAlleSkjemaForOrganisasjon]);
+    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
 
     return (
         <div className={'altinn-container'}>

@@ -7,7 +7,7 @@ metadata:
     team: teamtag
 spec:
 
-  image: navikt/ditt-nav-arbeidsgiver:faInnIAWEB_785
+  image: navikt/ditt-nav-arbeidsgiver:faInnIAWEB_789
 
   team: teamtag
   port: 3000
