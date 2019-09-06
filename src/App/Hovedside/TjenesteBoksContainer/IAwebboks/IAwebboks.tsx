@@ -24,7 +24,7 @@ const IAwebboks: FunctionComponent<Props> = props => {
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >
                 <div className="IA-web-boks__tekst">
-                    Oversikt over sykefraværet i din virksomhet og virksomheter i din bransje
+                    Oversikt over sykefraværet i din virksomhet og bransje
                 </div>
             </Lenkepanel>
         </div>
