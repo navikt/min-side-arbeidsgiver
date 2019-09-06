@@ -4,7 +4,7 @@ import Lenkepanel from 'nav-frontend-lenkepanel';
 import './IAwebboks.less';
 
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
-import arbeidstreningikon from './arbeidstreningikon.svg';
+import IAwebikon from './soylediagram.svg';
 import { lenkeIAweb } from '../../../../lenker';
 
 interface Props {
@@ -15,11 +15,7 @@ interface Props {
 const IAwebboks: FunctionComponent<Props> = props => {
     return (
         <div className={'IA-web-boks ' + props.className}>
-            <TjenesteBoksBanner
-                tittel={'Sykefravær'}
-                imgsource={arbeidstreningikon}
-                altTekst={''}
-            />
+            <TjenesteBoksBanner tittel={'Sykefravær'} imgsource={IAwebikon} altTekst={''} />
 
             <Lenkepanel
                 className={'IA-web-boks__info'}
