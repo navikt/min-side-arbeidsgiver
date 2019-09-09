@@ -31,12 +31,7 @@ const App: FunctionComponent = () => {
                                         <div className="bakgrunnsside">
                                             <Switch>
                                                 <Route
-                                                    path="/:orgnummer"
-                                                    exact={true}
-                                                    component={Hovedside}
-                                                />
-                                                <Route
-                                                    path="/:orgnummer/bedriftsinformasjon"
+                                                    path="/bedriftsinformasjon"
                                                     exact={true}
                                                     component={InformasjonOmBedrift}
                                                 />
