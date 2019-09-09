@@ -1,15 +1,18 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Normaltekst, Systemtittel, Ingress } from 'nav-frontend-typografi';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
-import {
-    tomEnhetsregOrg,
-    OrganisasjonFraEnhetsregisteret,
-} from '../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
-import './InformasjonOmBedrift.less';
+
+import './InformasjonOmBedriftOgAnsatte.less';
 import Lenke from 'nav-frontend-lenker';
-import Tekstboks from './Tekstboks/Tekstboks';
-import { basename } from '../../paths';
+
+import Tabs from 'nav-frontend-tabs';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import {
+    OrganisasjonFraEnhetsregisteret,
+    tomEnhetsregOrg,
+} from '../../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
+import { hentOverordnetEnhet, hentUnderenhet } from '../../../api/enhetsregisteretApi';
+import { basename } from '../../../paths';
+import Tekstboks from '../Tekstboks/Tekstboks';
 
 const InformasjonOmBedrift: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -18,6 +21,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         tomEnhetsregOrg
     );
     const orgnr = valgtOrganisasjon.OrganizationNumber;
+
     useEffect(() => {
         const setEnheter = async () => {
             if (orgnr !== '') {
@@ -27,15 +31,17 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         };
         setEnheter();
     }, [orgnr, underenhet.overordnetEnhet]);
+    const setStateForVisning = (index: number) => {
+        if (index === 0) {
+            setVisInfoEllerAnsatte('informasjon');
+        }
+        if (index === 1) {
+            setVisInfoEllerAnsatte('ansatte');
+        }
+    };
 
     return (
         <>
-            <Lenke
-                className={'tilbake-til-forsiden'}
-                href={basename + '/' + valgtOrganisasjon.OrganizationNumber + '/'}
-            >
-                Tilbake til forsiden
-            </Lenke>
             <div className="informasjon-om-bedrift">
                 {underenhet !== tomEnhetsregOrg && (
                     <div className={'informasjon-om-bedrift__tekstomrade'}>

@@ -6634,6 +6634,16 @@ nav-frontend-spinner@^1.0.18:
   resolved "https://registry.yarnpkg.com/nav-frontend-spinner/-/nav-frontend-spinner-1.0.19.tgz#78a2574c20c193bb5a11374d42eea3f406e8f2f9"
   integrity sha512-XqB4Jyg9/hfmR599aFYwbAtH5DsI3L1LzE7VQvREZ7mrNg4mEXzlvNIzIHE0kHPaB9Eoycy8i083P2YPrk3k/Q==
 
+nav-frontend-tabs-style@^0.0.19:
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/nav-frontend-tabs-style/-/nav-frontend-tabs-style-0.0.19.tgz#5fca5fc4305f863811bae61ec121f15640b954e0"
+  integrity sha512-5KHg9fT/pL/ijl0i7rtupiDJr5aLee5/KMA/kp1nCjWb2L+8TPI5S1yVwfxg+EOtT3VEPwRJ2I/FbcttruPrzA==
+
+nav-frontend-tabs@^0.0.33:
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/nav-frontend-tabs/-/nav-frontend-tabs-0.0.33.tgz#b87723d1c8d2f4a01207b5d255e0254a0edfb3eb"
+  integrity sha512-0S0BA0JGc33FADOTrWsRRGMdlbovq9K3Zr5f90Cu/Zns/Rp/UJnwD6A5GUSgo1EY34BzfJVkpTLSbuPFdVvHyA==
+
 nav-frontend-tekstomrade@^2.0.24:
   version "2.0.30"
   resolved "https://registry.yarnpkg.com/nav-frontend-tekstomrade/-/nav-frontend-tekstomrade-2.0.30.tgz#f9d4b51a8f4aa095a67d400d4e952bf19b82b198"
