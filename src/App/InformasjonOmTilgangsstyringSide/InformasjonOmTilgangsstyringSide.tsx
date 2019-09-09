@@ -43,7 +43,11 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>Lønn og personalmedarbeider</li>
                             <li>Utfyller/innsender</li>
                         </ul>
-                        <div className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
+                        <div
+                            className={
+                                'informasjon-om-tilgangsstyring__informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel'
+                            }
+                        >
                             Du kan også ha rettigheten &nbsp;<Element> Rekruttering</Element>{' '}
                         </div>
                     </Ekspanderbartpanel>
@@ -77,7 +81,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </ul>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
-                        Mangler du tilgang til tjenester
+                        Mangler du tilgang til tjenester? &nbsp;
                         <br />
                         <Lenke href={LenkeTilInfoOmAltinnRoller}>Les om roller i Altinn.</Lenke>
                     </div>

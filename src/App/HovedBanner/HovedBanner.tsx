@@ -55,7 +55,7 @@ const Banner: FunctionComponent<Props & RouteComponentProps<{ orgnummer: string 
     return (
         <div className={'banner'}>
             <div className={'banner__senter'}>
-                <Sidetittel className={'banner__sidetittel'}>Min side - Arbeidsgiver</Sidetittel>
+                <Sidetittel className={'banner__sidetittel'}>Min side arbeidsgiver</Sidetittel>
                 {organisasjoner.length !== 0 && (
                     <div className="banner__drop-down-container">
                         {visNyMeny && (
