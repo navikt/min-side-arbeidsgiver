@@ -23,7 +23,7 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
 
     return visNyMeny ? (
         <Bedriftsmeny
-            sidetittel="Min side – arbeidsgiver"
+            sidetittel="Min side arbeidsgiver"
             organisasjonstre={organisasjonstre}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
