@@ -11,29 +11,17 @@ const TabellMineAnsatte: FunctionComponent<Props> = props => {
 
     const rader = mineAnsatte.map(arbeidsforhold => (
         <tr className={'tr'} tabIndex={0}>
-            <td className={'td'} tabIndex={0}>
-                Kjell Magne
-            </td>
-            <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.arbeidstaker.offentligIdent}
-            </td>
-            <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.arbeidsavtaler[0].yrke}
-            </td>
-            <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.ansettelsesperiode.periode.fom}
-            </td>
-            <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.ansettelsesperiode.periode.tom}
-            </td>
-            <td className={'td'} tabIndex={0}>
-                varslinger
-            </td>
+            <td className={'td'}>Kjell Magne</td>
+            <td className={'td'}>{arbeidsforhold.arbeidstaker.offentligIdent}</td>
+            <td className={'td'}>{arbeidsforhold.arbeidsavtaler[0].yrke}</td>
+            <td className={'td'}>{arbeidsforhold.ansettelsesperiode.periode.fom}</td>
+            <td className={'td'}>{arbeidsforhold.ansettelsesperiode.periode.tom}</td>
+            <td className={'td'}>varslinger</td>
         </tr>
     ));
 
     return (
-        <table id="arbeidsforholdTable" className={props.className} tabIndex={0}>
+        <table id="arbeidsforholdTable" className={props.className}>
             <thead className="thead" tabIndex={0}>
                 <tr>
                     <th className={'th'} tabIndex={0}>
