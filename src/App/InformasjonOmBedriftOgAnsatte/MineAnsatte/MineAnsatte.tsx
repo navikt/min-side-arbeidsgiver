@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import './MineAnsatte.less';
 import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
-import { Innholdstittel, Systemtittel } from 'nav-frontend-typografi';
+import { Undertittel } from 'nav-frontend-typografi';
 
 interface Props {
     className?: string;
@@ -10,13 +10,10 @@ interface Props {
 const MineAnsatte: FunctionComponent<Props> = props => {
     return (
         <div className={'hovedside-mine-ansatte'}>
-            <Innholdstittel className={'hovedside-mine-ansatte__innholdstittel'}>
-                Bedriftsprofil og ansatte
-            </Innholdstittel>
             <div className={'hovedside-mine-ansatte__innhold'}>
-                <Systemtittel className={'hovedside-mine-ansatte__systemtittel'}>
+                <Undertittel className={'hovedside-mine-ansatte__systemtittel'}>
                     Opplysninger fra Aa-registeret
-                </Systemtittel>
+                </Undertittel>
                 <TabellMineAnsatte className={'arbeidsforhold-table'} />
             </div>
         </div>
