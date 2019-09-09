@@ -15,7 +15,7 @@ import {
 } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
-import { enkelArbeidsforhold } from './Ansatte';
+import { enkelArbeidsforhold } from './Objekter/Ansatte';
 
 export enum TilgangPam {
     LASTER,

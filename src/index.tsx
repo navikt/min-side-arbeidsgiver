@@ -11,6 +11,7 @@ if (process.env.REACT_APP_MOCK) {
     console.log('===DETTE SKAL DU IKKE SE I PRODUKSJON===');
     console.log('========================================');
     require('./mock/pamMock');
+    require('./mock/AAregisteretMock');
     require('./mock/syfoMock');
     require('./mock/arbeidstreningMock');
     require('./mock/altinnMock');

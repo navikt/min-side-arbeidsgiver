@@ -1,20 +1,18 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Normaltekst, Systemtittel, Ingress } from 'nav-frontend-typografi';
 
-import './InformasjonOmBedriftOgAnsatte.less';
+import './Informasjon.less';
 import Lenke from 'nav-frontend-lenker';
 
-import Tabs from 'nav-frontend-tabs';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import {
     OrganisasjonFraEnhetsregisteret,
     tomEnhetsregOrg,
 } from '../../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { hentOverordnetEnhet, hentUnderenhet } from '../../../api/enhetsregisteretApi';
-import { basename } from '../../../paths';
 import Tekstboks from '../Tekstboks/Tekstboks';
 
-const InformasjonOmBedrift: FunctionComponent = () => {
+const Informasjon: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [underenhet, setUnderenhet] = useState<OrganisasjonFraEnhetsregisteret>(tomEnhetsregOrg);
     const [overordnetEnhet, setOverordnetEnhet] = useState<OrganisasjonFraEnhetsregisteret>(
@@ -31,14 +29,6 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         };
         setEnheter();
     }, [orgnr, underenhet.overordnetEnhet]);
-    const setStateForVisning = (index: number) => {
-        if (index === 0) {
-            setVisInfoEllerAnsatte('informasjon');
-        }
-        if (index === 1) {
-            setVisInfoEllerAnsatte('ansatte');
-        }
-    };
 
     return (
         <>
@@ -135,4 +125,4 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     );
 };
 
-export default InformasjonOmBedrift;
+export default Informasjon;

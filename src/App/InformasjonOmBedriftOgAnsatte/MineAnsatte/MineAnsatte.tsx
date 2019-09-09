@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import './MineAnsatte.less';
 import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
 import { Innholdstittel, Systemtittel } from 'nav-frontend-typografi';

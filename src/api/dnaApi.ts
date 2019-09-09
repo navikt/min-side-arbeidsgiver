@@ -1,7 +1,7 @@
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
 import { logInfo } from '../utils/metricsUtils';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
-import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../Ansatte';
+import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../Objekter/Ansatte';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
