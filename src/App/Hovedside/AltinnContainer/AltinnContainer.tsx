@@ -29,95 +29,66 @@ export const AltinnContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
+const SetStateFunksjonmedSkjemaNavn=(skjemaNavn:string, tilgang:boolean) =>{
+    switch(skjemaNavn){
+        case "Mentortilskudd": {
+            setTilMentortilskudd(tilgang);
+            break
+        }
+        case "Inkluderingstilskudd": {
+            setTilgangInkluderingstilskudd(tilgang);
+            break
+        }
+        case "Ekspertbistand": {
+            setTilgangEkspertbistand(tilgang);
+            break
+        }
+        case "Lonnstilskudd":{
+            setTilgangLonnstilskudd(tilgang);
+            break
+        }
+        case "Inntektsmelding":{
+            setTilgangInntektsmelding(tilgang);
+
+        }
+    }
+};
     useEffect(() => {
         seterFem('');
         console.log('lengde ', listeMedSkjemaOgTilganger.length);
         const sjekkOgSettTilgang = (
             skjema: SkjemaMedOrganisasjonerMedTilgang,
             skjemaNavn: string,
-            setTilgangFunksjon: (tilgang: boolean) => void,
             orgnrMedTilgang: string[]
         ): number => {
             if (
-                skjema.Skjema.navn === skjemaNavn &&
                 orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
             ) {
-                setTilgangFunksjon(true);
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn,true);
                 console.log('in if');
                 return 1;
             }
 
             if (
-                skjema.Skjema.navn === skjemaNavn &&
                 !orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
             ) {
-                setTilgangFunksjon(false);
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn,false);
             }
 
             return 0;
         };
 
         const finnTilgang = () => {
-            console.log('finn tilgang kallt');
-            console.log('valg Organisasjon er: ', valgtOrganisasjon);
-            console.log(
-                'lista med alle tilganger og organisasjone er:',
-                JSON.stringify(listeMedSkjemaOgTilganger),
-                'med lengde: ',
-                listeMedSkjemaOgTilganger.length
-            );
             let tellTilganger: number = 0;
             listeMedSkjemaOgTilganger.forEach(skjema => {
                 let orgnrMedTilgangTilSkjema: string[] = skjema.OrganisasjonerMedTilgang.map(
                     org => org.OrganizationNumber
                 );
-                console.log(
-                    'skjema i foreach er: ',
-                    skjema.Skjema.navn,
-                    ' disse organisasjonene har tilgang: ',
-                    skjema.OrganisasjonerMedTilgang
-                );
-                tellTilganger =
-                    tellTilganger +
-                    sjekkOgSettTilgang(
+                tellTilganger += sjekkOgSettTilgang(
                         skjema,
-                        'Mentortilskudd',
-                        setTilMentortilskudd,
+                        skjema.Skjema.navn,
                         orgnrMedTilgangTilSkjema
                     );
-                tellTilganger =
-                    tellTilganger +
-                    sjekkOgSettTilgang(
-                        skjema,
-                        'Inkluderingstilskudd',
-                        setTilgangInkluderingstilskudd,
-                        orgnrMedTilgangTilSkjema
-                    );
-                tellTilganger =
-                    tellTilganger +
-                    sjekkOgSettTilgang(
-                        skjema,
-                        'Ekspertbistand',
-                        setTilgangEkspertbistand,
-                        orgnrMedTilgangTilSkjema
-                    );
-                tellTilganger =
-                    tellTilganger +
-                    sjekkOgSettTilgang(
-                        skjema,
-                        'Lonnstilskudd',
-                        setTilgangLonnstilskudd,
-                        orgnrMedTilgangTilSkjema
-                    );
-                tellTilganger =
-                    tellTilganger +
-                    sjekkOgSettTilgang(
-                        skjema,
-                        'Inntektsmelding',
-                        setTilgangInntektsmelding,
-                        orgnrMedTilgangTilSkjema
-                    );
-                console.log('tell tilganger', tellTilganger);
                 if (tellTilganger % 2 === 0) {
                     settypeAntall('antall-skjema-partall');
                 }
@@ -130,8 +101,6 @@ export const AltinnContainer: FunctionComponent = () => {
                 if (tellTilganger === 1) {
                     settypeAntall('antall-skjema-en');
                 }
-                console.log('tell tilganger', tellTilganger);
-                console.log('typetall ', typeAntall);
                 if (tellTilganger > 0) {
                     setgenerellAltinnTilgang(true);
                 }
