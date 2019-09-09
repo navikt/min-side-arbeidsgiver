@@ -1,0 +1,68 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.banner {
+  display: flex;
+  background-color: @navBlaLighten80;
+  border-bottom: 4px solid @navBlaLighten60;
+  height: 8rem;
+  justify-content: center;
+  position: relative;
+
+
+  &__senter {
+    width: 60rem;
+    display: flex;
+    flex-direction: row-reverse;
+    padding-top: 1.5rem;
+    position: relative;
+  }
+  &__drop-down-container {
+    position: relative;
+    right: -1rem;
+    bottom: 1.5rem;
+  }
+
+  &__sidetittel {
+    position: absolute;
+    top: 2.5rem;
+    left: 0rem;
+  }
+}
+
+
+@media (max-width: @screen-md-min) {
+  .banner {
+    height: 10rem;
+
+    &__senter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &__drop-down-container {
+      position: relative;
+      right: 0rem;
+      bottom: 1.5rem;
+    }
+
+    &__sidetittel {
+      position: static;
+      display: flex;
+      align-self: center;
+
+    }
+
+  }
+
+}
+
+
+
+
+
+
+
+
+
+

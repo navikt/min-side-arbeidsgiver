@@ -2,17 +2,20 @@
 
 .tjenesteboks-container {
     display: flex;
-    width: 20rem;
+    width: 100%;
     flex-direction: column;
     align-items: center;
-    margin-top: 1rem;
+    padding: 0rem 1rem 0rem 1rem;
 
     .tjenesteboks {
         display: flex;
-        height: 11rem;
-        width: 20rem;
-        margin: 1rem;
+        width: 100%;
         background-color: white;
+        margin-bottom: 2rem;
+
+        .lenkepanel {
+            margin-bottom: 0;
+        }
     }
 
 }
@@ -21,13 +24,14 @@
     .tjenesteboks-container {
         display: flex;
         flex-direction: row;
-        width: 66rem;
+        width: 60rem;
         flex-wrap: wrap;
-        margin-top: 1rem;
+        justify-content: space-between;
+        padding: 0rem;
 
         &.antall-partall {
             .tjenesteboks {
-                width: 31rem;
+                width: 29.5rem;
             }
         }
 
@@ -39,7 +43,7 @@
 
         &.antall-oddetall {
             .tjenesteboks {
-                width: 20rem;
+                width: 19.3rem;
             }
         }
     }

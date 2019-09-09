@@ -1,123 +1,120 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
-import { tomAltinnOrganisasjon, Organisasjon } from "./organisasjon";
-import { settBedriftIPamOgReturnerTilgang } from "./api/pamApi";
-import hentAntallannonser from "./hent-stillingsannonser";
+import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
 import {
-  Arbeidsavtale,
-  hentArbeidsforhold,
-  hentRoller,
-  hentTiltaksgjennomforingTilgang,
-  sjekkAltinnRolleForInntekstmelding,
-  sjekkAltinnRolleHelseSosial
-} from "./api/dnaApi";
-import { logInfo } from "./utils/metricsUtils";
-import { enkelArbeidsforhold } from "./Ansatte";
+    tomAltinnOrganisasjon,
+    Organisasjon,
+} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
+import hentAntallannonser from './api/hent-stillingsannonser';
+import {
+    Arbeidsavtale,
+    hentRoller,
+    hentTiltaksgjennomforingTilgang,
+    sjekkAltinnRolleForInntekstmelding,
+    sjekkAltinnRolleHelseSosial,
+} from './api/dnaApi';
+import { logInfo } from './utils/metricsUtils';
+import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
 
 export enum TilgangPam {
-  LASTER,
-  IKKE_TILGANG,
-  TILGANG
+    LASTER,
+    IKKE_TILGANG,
+    TILGANG,
 }
 
 export enum TilgangAltinn {
-  LASTER,
-  IKKE_TILGANG,
-  TILGANG
+    LASTER,
+    IKKE_TILGANG,
+    TILGANG,
 }
 
 interface Props {
-  children: React.ReactNode;
+    children: React.ReactNode;
 }
 
 export type Context = {
-  endreOrganisasjon: (org: Organisasjon) => void;
-  valgtOrganisasjon: Organisasjon;
-  antallAnnonser: number;
-  tilgangTilPamState: TilgangPam;
-  tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
-  tilgangTilAltinnForInntektsmelding: TilgangAltinn;
-  arbeidsavtaler: Array<Arbeidsavtale>;
-  mineAnsatte: Array<enkelArbeidsforhold>;
+    endreOrganisasjon: (org: Organisasjon) => void;
+    valgtOrganisasjon: Organisasjon;
+    antallAnnonser: number;
+    tilgangTilPamState: TilgangPam;
+    tilgangTilAltinnForTreSkjemaState: TilgangAltinn;
+    tilgangTilAltinnForInntektsmelding: TilgangAltinn;
+    arbeidsavtaler: Array<Arbeidsavtale>;
+    harNoenTilganger: boolean;
+    tilgangTilSyfoState: TilgangSyfo;
 };
 
-export const OrganisasjonsDetaljerContext = React.createContext<Context>(
-  {} as Context
-);
+export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
-export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({
-  children
-}: Props) => {
-  const [antallAnnonser, setantallAnnonser] = useState<number>(0);
-  const [
-    tilgangTilAltinnForTreSkjemaState,
-    settilgangTilAltinnForTreSkjemaState
-  ] = useState(TilgangAltinn.LASTER);
-  const [tilgangTilPamState, settilgangTilPamState] = useState(
-    TilgangPam.LASTER
-  );
-  const [
-    tilgangTilAltinnForInntektsmelding,
-    settilgangTilAltinnForInntektsmelding
-  ] = useState(TilgangAltinn.LASTER);
-  const [valgtOrganisasjon, setValgtOrganisasjon] = useState(
-    tomAltinnOrganisasjon
-  );
-  const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
-  const [mineAnsatte, setmineAnsatte] = useState(Array<enkelArbeidsforhold>());
-
-  const endreOrganisasjon = async (org: Organisasjon) => {
-    console.log("endre org kallt med: ", org.Name);
-    setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-    setmineAnsatte(await hentArbeidsforhold());
-    console.log("mine ansatte: ", mineAnsatte);
-    await setValgtOrganisasjon(org);
-    let harPamTilgang = await settBedriftIPamOgReturnerTilgang(
-      org.OrganizationNumber
+export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
+    const [antallAnnonser, setantallAnnonser] = useState<number>(0);
+    const [tilgangTilAltinnForTreSkjemaState, settilgangTilAltinnForTreSkjemaState] = useState(
+        TilgangAltinn.LASTER
     );
+    const [tilgangTilPamState, settilgangTilPamState] = useState(TilgangPam.LASTER);
+    const [tilgangTilAltinnForInntektsmelding, settilgangTilAltinnForInntektsmelding] = useState(
+        TilgangAltinn.LASTER
+    );
+    const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
+    const [harNoenTilganger, setHarNoenTilganger] = useState(false);
+    const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
+    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
-    let roller = await hentRoller(org.OrganizationNumber);
-    if (sjekkAltinnRolleForInntekstmelding(roller)) {
-      settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);
-    } else {
-      settilgangTilAltinnForInntektsmelding(TilgangAltinn.IKKE_TILGANG);
-    }
-    if (sjekkAltinnRolleHelseSosial(roller)) {
-      settilgangTilAltinnForTreSkjemaState(TilgangAltinn.TILGANG);
-    } else {
-      settilgangTilAltinnForTreSkjemaState(TilgangAltinn.IKKE_TILGANG);
-    }
-    if (harPamTilgang) {
-      settilgangTilPamState(TilgangPam.TILGANG);
-      setantallAnnonser(await hentAntallannonser());
-    } else {
-      settilgangTilPamState(TilgangPam.IKKE_TILGANG);
-      setantallAnnonser(0);
-    }
-  };
+    const endreOrganisasjon = async (org: Organisasjon) => {
+        let antallTilganger = 0;
+        await setValgtOrganisasjon(org);
+        let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
+        let roller = await hentRoller(org.OrganizationNumber);
+        if (sjekkAltinnRolleForInntekstmelding(roller)) {
+            settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);
+            antallTilganger++;
+        } else {
+            settilgangTilAltinnForInntektsmelding(TilgangAltinn.IKKE_TILGANG);
+        }
+        if (sjekkAltinnRolleHelseSosial(roller)) {
+            settilgangTilAltinnForTreSkjemaState(TilgangAltinn.TILGANG);
+            antallTilganger++;
+        } else {
+            settilgangTilAltinnForTreSkjemaState(TilgangAltinn.IKKE_TILGANG);
+        }
+        if (harPamTilgang) {
+            settilgangTilPamState(TilgangPam.TILGANG);
+            setantallAnnonser(await hentAntallannonser());
+            antallTilganger++;
+        } else {
+            settilgangTilPamState(TilgangPam.IKKE_TILGANG);
+            setantallAnnonser(0);
+        }
+        setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
 
-  let defaultContext: Context = {
-    antallAnnonser,
-    endreOrganisasjon,
-    tilgangTilAltinnForInntektsmelding,
-    tilgangTilAltinnForTreSkjemaState,
-    tilgangTilPamState,
-    valgtOrganisasjon,
-    arbeidsavtaler,
-    mineAnsatte
-  };
+        if (antallTilganger > 0 || tilgangTilSyfoState === TilgangSyfo.TILGANG) {
+            setHarNoenTilganger(true);
+        }
+    };
 
-  useEffect(() => {
-    if (valgtOrganisasjon.OrganizationNumber) {
-      logInfo(
-        "besok fra organisasjon: " + valgtOrganisasjon.OrganizationNumber,
-        valgtOrganisasjon.OrganizationNumber
-      );
-    }
-  }, [valgtOrganisasjon]);
+    let defaultContext: Context = {
+        antallAnnonser,
+        endreOrganisasjon,
+        tilgangTilAltinnForInntektsmelding,
+        tilgangTilAltinnForTreSkjemaState,
+        tilgangTilPamState,
+        valgtOrganisasjon,
+        arbeidsavtaler,
+        harNoenTilganger,
+        tilgangTilSyfoState,
+    };
 
-  return (
-    <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
-      {children}
-    </OrganisasjonsDetaljerContext.Provider>
-  );
+    useEffect(() => {
+        if (valgtOrganisasjon.OrganizationNumber) {
+            logInfo(
+                'besok fra organisasjon: ' + valgtOrganisasjon.OrganizationNumber,
+                valgtOrganisasjon.OrganizationNumber
+            );
+        }
+    }, [valgtOrganisasjon]);
+
+    return (
+        <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
+            {children}
+        </OrganisasjonsDetaljerContext.Provider>
+    );
 };

@@ -1,56 +1,43 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .innloggingsside {
   flex-direction: column;
   display: flex;
-  background-color: @navLysGra;
-  height: 55rem;
+  width: 100%;
+  min-height: 100vh;
+  background-color: white;
 
-
-  &__tekst {
-    flex-direction: column;
-    width: 17rem;
-    display: flex;
-    background-color: @navLysGra;
-    height: 55rem;
-    align-self: center;
-    margin: 2rem;
+  &__ikon {
+    margin: 3rem;
   }
 
-  &__overtekst {
-    margin-bottom: 1rem;
+  &__innhold {
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    max-width: 40rem;
+    align-self: center;
+  }
+
+  &__sidetittel {
+    margin: 0rem 1rem  3rem 1rem;
+
   }
 
   &__loginKnapp {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    align-self: center;
+    margin: 2rem;
   }
+
   &__besok-ditt-nav{
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex-wrap: wrap;
     text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  &__tekst {
+    margin: 0rem 1rem 0rem 1rem;
   }
 }
 
-.forside {
-  display: flex;
-  flex-direction: colmn;
-  background-color: @navLysGra;
-  align-items: center;
-  align-self: center;
-  width:20rem;
 
-}
-
-@media (min-width: @screen-sm) {
-  .innloggingsside {
-    &__tekst {
-      width: 35rem;
-    }
-
-  }
-
-}

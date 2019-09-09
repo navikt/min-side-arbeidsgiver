@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import "./AltinnLenke.less";
 import Lenkepanel from "nav-frontend-lenkepanel";
-import nyfane from "./external-link.svg";
+import nyfane from "./nyfane.svg";
 
 interface Props {
   className?: string;

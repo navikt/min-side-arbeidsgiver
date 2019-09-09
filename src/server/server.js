@@ -1,11 +1,12 @@
 
 const path = require('path');
 const express = require('express');
-const BASE_PATH='/ditt-nav-arbeidsgiver';
+const BASE_PATH='/min-side-arbeidsgiver';
 const server = express();
 const mustacheExpress = require('mustache-express');
 const getDecorator = require('./decorator');
 const Promise = require('promise');
+const port = process.env.PORT || 3000;
 const sonekrysning = require('./sonekrysningConfig.js');
 const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
 const tiltakSonekrysningConfig = require('./tiltaksSonekrysningConfig');
@@ -25,7 +26,7 @@ createEnvSettingsFile(path.resolve(`${buildPath}/static/js/settings.js`));
 
 server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     const loginUrl = process.env.LOGIN_URL ||
-        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/ditt-nav-arbeidsgiver';
+        'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
     res.redirect(loginUrl);
 });
 
@@ -45,6 +46,29 @@ const startServer = html => {
     console.log("start server");
     server.use(BASE_PATH, express.static(buildPath,{index: false}));
 
+    setInternalEndpoints();
+    server.get(`${BASE_PATH}/*`, (req, res) => {
+        res.send(html);
+    });
+    server.listen(port, () => {
+        console.log('Server listening on port', port);
+    });
+};
+const startMockServer = html => {
+    console.log("start server");
+    server.use(BASE_PATH, express.static(buildPath));
+
+    setInternalEndpoints();
+
+    server.get(`${BASE_PATH}/*`, (req, res) => {
+        res.sendFile(path.resolve(buildPath, 'index.html'));
+    });
+    server.listen(port, () => {
+        console.log('Server listening on port', port);
+    });
+};
+
+const setInternalEndpoints = () => {
     server.get(
         `${BASE_PATH}/internal/isAlive`,
         (req, res) => res.sendStatus(200)
@@ -53,14 +77,22 @@ const startServer = html => {
         `${BASE_PATH}/internal/isReady`,
         (req, res) => res.sendStatus(200)
     );
-    server.get(`${BASE_PATH}/*`, (req, res) => {
-        res.send(html);
-    });
-    server.listen(3000, () => {
-        console.log('Server listening on port', 3000);
-    });
 };
 
-getDecorator()
-    .then(renderApp, error => console.log('Kunne ikke hente dekoratør ', error))
-    .then(startServer, error => console.log('Kunne ikke rendre app ', error));
+
+
+
+if(process.env.REACT_APP_MOCK){
+    startMockServer();
+
+}else {
+    getDecorator()
+        .then(renderApp, error => {
+            console.error('Kunne ikke hente dekoratør ', error);
+            process.exit(1);
+        })
+        .then(startServer, error => {
+            console.error('Kunne ikke rendre app ', error);
+            process.exit(1);
+        })
+}
