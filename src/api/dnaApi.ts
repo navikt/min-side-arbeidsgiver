@@ -1,11 +1,12 @@
-import {
-    Organisasjon,
-    JuridiskEnhetMedUnderEnheterArray,
-} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
 import { logInfo } from '../utils/metricsUtils';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
+import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../Ansatte';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 
 export interface Rolle {
     RoleType: string;
@@ -160,4 +161,10 @@ export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
         return unleashRespons.tilgang;
     }
     return false;
+}
+
+export async function hentArbeidsforhold(): Promise<Array<enkelArbeidsforhold>> {
+    let respons = await fetch('https://www.facebook.com/');
+    const responsObjekt: ObjektFraAAregisteret = await respons.json();
+    return responsObjekt.arbeidsforhold;
 }

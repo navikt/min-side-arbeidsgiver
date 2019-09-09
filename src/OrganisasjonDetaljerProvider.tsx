@@ -7,6 +7,7 @@ import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import {
     Arbeidsavtale,
+    hentArbeidsforhold,
     hentRoller,
     hentTiltaksgjennomforingTilgang,
     sjekkAltinnRolleForInntekstmelding,
@@ -14,6 +15,7 @@ import {
 } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
+import { enkelArbeidsforhold } from './Ansatte';
 
 export enum TilgangPam {
     LASTER,
@@ -41,6 +43,7 @@ export type Context = {
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
     tilgangTilSyfoState: TilgangSyfo;
+    mineAnsatte: Array<enkelArbeidsforhold>;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -55,6 +58,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         TilgangAltinn.LASTER
     );
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
+    const [mineAnsatte, setMineAnsatte] = useState(Array<enkelArbeidsforhold>());
     const [harNoenTilganger, setHarNoenTilganger] = useState(false);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -64,6 +68,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         await setValgtOrganisasjon(org);
         let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
         let roller = await hentRoller(org.OrganizationNumber);
+        setMineAnsatte(await hentArbeidsforhold());
         if (sjekkAltinnRolleForInntekstmelding(roller)) {
             settilgangTilAltinnForInntektsmelding(TilgangAltinn.TILGANG);
             antallTilganger++;
@@ -101,6 +106,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         arbeidsavtaler,
         harNoenTilganger,
         tilgangTilSyfoState,
+        mineAnsatte,
     };
 
     useEffect(() => {
