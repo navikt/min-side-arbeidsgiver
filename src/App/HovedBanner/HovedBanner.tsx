@@ -21,16 +21,18 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
         }
     };
 
-    return visNyMeny ? (
-        <Bedriftsmeny
+        return visNyMeny ? (
+          <Bedriftsmeny
             sidetittel="Min side arbeidsgiver"
             organisasjonstre={organisasjonstre}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
-        />
-    ) : (
-        <EnkelVirksomhetsvelger />
-    );
+          />
+        ) : (
+          <EnkelVirksomhetsvelger/>
+        );
+
+
 };
 
 export default withRouter(Banner);

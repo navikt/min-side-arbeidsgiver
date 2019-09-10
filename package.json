@@ -7,7 +7,7 @@
   "dependencies": {
     "@craco/craco": "^3.4.1",
     "@navikt/arbeidsforhold": "^1.0.4",
-    "@navikt/bedriftsmeny": "1.0.6",
+    "@navikt/bedriftsmeny": "^1.0.8",
     "@types/classnames": "^2.2.7",
     "@types/fetch-mock": "^7.2.3",
     "@types/jest": "24.0.1",
@@ -85,7 +85,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "mock": "REACT_APP_MOCK=true yarn start",
+    "mock": "set REACT_APP_MOCK=true && yarn start",
     "server": "yarn build && node src/server/server.js",
     "build": "craco build",
     "test": "craco test",
