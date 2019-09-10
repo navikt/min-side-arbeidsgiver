@@ -3,7 +3,6 @@ import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
 import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
-import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 
 const NyttigForDegContainer: FunctionComponent = () => {
