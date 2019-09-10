@@ -18,7 +18,6 @@ const NyttigForDegContainer: FunctionComponent = () => {
 
     return (
         <div className={'nyttig-for-deg'}>
-            <Undertittel className={'nyttig-for-deg__tekst'}>Nyttig for deg</Undertittel>
             <div className={'nyttig-for-deg__bokser'}>
                 {organisasjoner.length > 0 && (
                     <div className={'nyttig-for-deg__boks-' + antallBokser}>
