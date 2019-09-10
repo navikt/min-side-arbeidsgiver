@@ -29,50 +29,43 @@ export const AltinnContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
-const SetStateFunksjonmedSkjemaNavn=(skjemaNavn:string, tilgang:boolean) =>{
-    switch(skjemaNavn){
-        case "Mentortilskudd": {
-            setTilMentortilskudd(tilgang);
-            break
+    const SetStateFunksjonmedSkjemaNavn = (skjemaNavn: string, tilgang: boolean) => {
+        switch (skjemaNavn) {
+            case 'Mentortilskudd': {
+                setTilMentortilskudd(tilgang);
+                break;
+            }
+            case 'Inkluderingstilskudd': {
+                setTilgangInkluderingstilskudd(tilgang);
+                break;
+            }
+            case 'Ekspertbistand': {
+                setTilgangEkspertbistand(tilgang);
+                break;
+            }
+            case 'Lonnstilskudd': {
+                setTilgangLonnstilskudd(tilgang);
+                break;
+            }
+            case 'Inntektsmelding': {
+                setTilgangInntektsmelding(tilgang);
+            }
         }
-        case "Inkluderingstilskudd": {
-            setTilgangInkluderingstilskudd(tilgang);
-            break
-        }
-        case "Ekspertbistand": {
-            setTilgangEkspertbistand(tilgang);
-            break
-        }
-        case "Lonnstilskudd":{
-            setTilgangLonnstilskudd(tilgang);
-            break
-        }
-        case "Inntektsmelding":{
-            setTilgangInntektsmelding(tilgang);
-
-        }
-    }
-};
+    };
     useEffect(() => {
         seterFem('');
-        console.log('lengde ', listeMedSkjemaOgTilganger.length);
         const sjekkOgSettTilgang = (
             skjema: SkjemaMedOrganisasjonerMedTilgang,
             skjemaNavn: string,
             orgnrMedTilgang: string[]
         ): number => {
-            if (
-                orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-            ) {
-                SetStateFunksjonmedSkjemaNavn(skjemaNavn,true);
-                console.log('in if');
+            if (orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn, true);
                 return 1;
             }
 
-            if (
-                !orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)
-            ) {
-                SetStateFunksjonmedSkjemaNavn(skjemaNavn,false);
+            if (!orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn, false);
             }
 
             return 0;
@@ -85,10 +78,10 @@ const SetStateFunksjonmedSkjemaNavn=(skjemaNavn:string, tilgang:boolean) =>{
                     org => org.OrganizationNumber
                 );
                 tellTilganger += sjekkOgSettTilgang(
-                        skjema,
-                        skjema.Skjema.navn,
-                        orgnrMedTilgangTilSkjema
-                    );
+                    skjema,
+                    skjema.Skjema.navn,
+                    orgnrMedTilgangTilSkjema
+                );
                 if (tellTilganger % 2 === 0) {
                     settypeAntall('antall-skjema-partall');
                 }
