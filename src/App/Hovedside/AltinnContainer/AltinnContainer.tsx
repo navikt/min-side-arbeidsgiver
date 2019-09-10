@@ -46,7 +46,7 @@ const AltinnContainer: FunctionComponent = () => {
         <div className={'altinn-container'}>
             {generellAltinnTilgang && (
                 <Undertittel className={'altinn-container__tekst'}>
-                    SSøknader og skjemaer på Altinn
+                    Søknader og skjemaer på Altinn
                 </Undertittel>
             )}
             <div className={'altinn-container__bokser'}>
