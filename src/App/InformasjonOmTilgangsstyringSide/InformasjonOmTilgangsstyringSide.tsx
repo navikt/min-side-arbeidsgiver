@@ -45,7 +45,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </ul>
                         <div
                             className={
-                                'informasjon-om-tilgangsstyring__informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel'
+                                'informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel'
                             }
                         >
                             Du kan også ha rettigheten &nbsp;<Element> Rekruttering</Element>{' '}
