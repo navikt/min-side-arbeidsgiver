@@ -3,7 +3,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import './Hovedside.less';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
-import AltinnContainer from './AltinnContainer/AltinnContainer';
+import { AltinnContainer } from './AltinnContainer/AltinnContainer';
 import ManglerTilgangBoks from './ManglerTilgangBoks/ManglerTilgangBoks';
 
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';

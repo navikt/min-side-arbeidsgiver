@@ -26,6 +26,9 @@ export const soknadTilskuddTilMentor = () => {
 export const inntekstmelding =
     'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/';
 
+export const ekspertbistand =
+    'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-ekspertbistand/';
+
 export const skjemaForArbeidsgivere = 'https://www.nav.no/no/bedrift/skjemaer-for-arbeidsgivere';
 
 export const syfoLink = () => {
@@ -105,3 +108,6 @@ export const hentArbeidsavtalerApiLink = () => {
 };
 
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
+
+export const lenkeIAweb =
+    'https://www.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=2&ServiceCode=3403&Oselect=true&M=SP';

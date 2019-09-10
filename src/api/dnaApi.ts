@@ -6,6 +6,7 @@ import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
 import { logInfo } from '../utils/metricsUtils';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
+import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 
 export interface Rolle {
     RoleType: string;
@@ -34,6 +35,56 @@ export interface UnleashRespons {
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     let respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
+    if (respons.ok) {
+        return await respons.json();
+    } else {
+        return [];
+    }
+}
+
+export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
+    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/3403');
+    if (respons.ok) {
+        return await respons.json();
+    } else {
+        return [];
+    }
+}
+
+export interface SkjemaMedOrganisasjonerMedTilgang {
+    Skjema: AltinnSkjema;
+    OrganisasjonerMedTilgang: Organisasjon[];
+}
+
+export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
+    skjema: AltinnSkjema
+): Promise<SkjemaMedOrganisasjonerMedTilgang> {
+    let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
+        Skjema: skjema,
+        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(skjema.kode),
+    };
+    return listeMedOrganisasjoner;
+}
+
+export async function hentTilgangForAlleAtinnskjema(
+    altinnSkjemaer: AltinnSkjema[]
+): Promise<SkjemaMedOrganisasjonerMedTilgang[]> {
+    let returnObjekt: SkjemaMedOrganisasjonerMedTilgang[] = [];
+    await Promise.all(
+        altinnSkjemaer.map(async skjema => {
+            let listeObjekt: SkjemaMedOrganisasjonerMedTilgang = await lagListeMedOrganisasjonerMedTilgangTilSkjema(
+                skjema
+            );
+            returnObjekt.push(listeObjekt);
+        })
+    );
+    return returnObjekt;
+}
+
+export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
+    serviceKode: string
+): Promise<Organisasjon[]> {
+    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/' + serviceKode);
     if (respons.ok) {
         return await respons.json();
     } else {
