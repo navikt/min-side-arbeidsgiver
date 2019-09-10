@@ -16,17 +16,17 @@ export const TilgangsStyringInfoTekst: FunctionComponent = () => {
             />
             <div className={'informasjonsboks__tekst'}>
                 <Element className={'informasjonsboks__overskrift'}>
-                    Tjenestene er tilgangsstyrt gjennom Altinn{' '}
+                    Tildeling av roller foregår i Altinn{' '}
                 </Element>
-                Tjenesten er tilgangsstyrt og baserer seg på roller registrert av din virksomhet i
-                Altinn. Ulike roller gir tilgang til ulike tjenester.
+                Virksomheten registrerer roller i Altinn. Rollene bestemmer hva du ser og kan gjøre
+                på denne siden.
                 <br />
                 <br />
                 <Lenke
                     className={'informasjonsboks__lenke'}
                     href={basename + '/informasjon-om-tilgangsstyring'}
                 >
-                    Les mer om hvordan du får tilgang.
+                    Les mer om roller og tilganger.
                 </Lenke>
             </div>
         </div>

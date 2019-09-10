@@ -3,7 +3,6 @@ import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
 import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
-import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 
 const NyttigForDegContainer: FunctionComponent = () => {
@@ -18,7 +17,6 @@ const NyttigForDegContainer: FunctionComponent = () => {
 
     return (
         <div className={'nyttig-for-deg'}>
-            <Undertittel className={'nyttig-for-deg__tekst'}>Nyttig for deg</Undertittel>
             <div className={'nyttig-for-deg__bokser'}>
                 {organisasjoner.length > 0 && (
                     <div className={'nyttig-for-deg__boks-' + antallBokser}>
