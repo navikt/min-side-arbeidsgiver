@@ -120,7 +120,7 @@ export async function byggOrganisasjonstre(
     const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
-    const underenheter = organisasjoner.filter(org => org.OrganizationForm === 'BEDR');
+    const underenheter = organisasjoner.filter(org => org.OrganizationForm === 'BEDR' && org.ParentOrganizationNumber);
     let organisasjonsliste = settSammenJuridiskEnhetMedUnderOrganisasjoner(
         juridiskeEnheter,
         underenheter
@@ -146,7 +146,8 @@ export async function byggOrganisasjonstre(
         );
         organisasjonsliste = organisasjonsliste.concat(organisasjonsListeUtenTilgangJuridisk);
     }
-    return organisasjonsliste.sort((a, b) =>
+    const juridiskeenheterMedUnderenheter = organisasjonsliste.filter(jur => jur.Underenheter.length>0);
+    return juridiskeenheterMedUnderenheter.sort((a, b) =>
         a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name)
     );
 }
