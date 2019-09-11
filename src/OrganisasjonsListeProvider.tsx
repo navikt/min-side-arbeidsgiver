@@ -1,6 +1,13 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import { hentOrganisasjoner, byggOrganisasjonstre, hentMenuToggle } from './api/dnaApi';
+import {
+    byggOrganisasjonstre,
+    hentMenuToggle,
+    hentOrganisasjoner,
+    hentOrganisasjonerIAweb,
+    hentTilgangForAlleAtinnskjema,
+    SkjemaMedOrganisasjonerMedTilgang,
+} from './api/dnaApi';
 import {
     JuridiskEnhetMedUnderEnheterArray,
     Organisasjon,
@@ -10,17 +17,57 @@ export type Context = {
     organisasjoner: Array<Organisasjon>;
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     visNyMeny: boolean;
+    listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
+    organisasjonerMedIAWEB: Organisasjon[];
 };
+
+export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
+    {
+        navn: 'Ekspertbistand',
+        kode: '5384',
+        versjon: '1',
+    },
+    {
+        navn: 'Inkluderingstilskudd',
+        kode: '5212',
+        versjon: '1',
+    },
+    {
+        navn: 'Lonnstilskudd',
+        kode: '5159',
+        versjon: '1',
+    },
+    {
+        navn: 'Mentortilskudd',
+        kode: '5216',
+        versjon: '1',
+    },
+    {
+        navn: 'Inntektsmelding',
+        kode: '4936',
+        versjon: '1',
+    },
+];
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
+
+export interface AltinnSkjema {
+    navn: string;
+    kode: string;
+    versjon: string;
+}
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
     const [organisasjonstre, setorganisasjonstre] = useState(
         Array<JuridiskEnhetMedUnderEnheterArray>()
     );
+    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState(Array<Organisasjon>());
     const [visNyMeny, setVisNyMeny] = useState(false);
+    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
+        [] as SkjemaMedOrganisasjonerMedTilgang[]
+    );
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -38,6 +85,19 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
         };
+        const getOrganisasjonerTilIAweb = async () => {
+            let organisasjonerIAWEB = await hentOrganisasjonerIAweb();
+            setOrganisasjonerMedIAWEB(
+                organisasjonerIAWEB.filter((organisasjon: Organisasjon) => {
+                    return organisasjon.OrganizationForm === 'BEDR';
+                })
+            );
+        };
+        const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
+            const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
+            setListeMedSkjemaOgTilganger(liste);
+        };
+
         const sjekkFodselsnr = async () => {
             const skalViseMeny: boolean = await hentMenuToggle(
                 'dna.bedriftsvelger.brukNyBedriftsvelger'
@@ -46,12 +106,16 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         };
         sjekkFodselsnr();
         getOrganisasjoner();
+        finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
+        getOrganisasjonerTilIAweb();
     }, [visNyMeny]);
 
     let defaultContext: Context = {
         organisasjoner,
         organisasjonstre,
         visNyMeny,
+        listeMedSkjemaOgTilganger,
+        organisasjonerMedIAWEB,
     };
 
     return (

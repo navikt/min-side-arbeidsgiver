@@ -8,12 +8,16 @@ import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
+import IAwebboks from './IAwebboks/IAwebboks';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const { tilgangTilPamState } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilPamState, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
+    const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
     const [typeAntall, settypeAntall] = useState('');
+    const [visIA, setVisIA] = useState(false);
 
     useEffect(() => {
         const tellAntallTilganger = (): number => {
@@ -27,7 +31,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (arbeidsavtaler.length) {
                 antallTilganger++;
             }
-
+            let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
+            if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
+                setVisIA(true);
+                antallTilganger++;
+            } else {
+                setVisIA(false);
+            }
             return antallTilganger;
         };
 
@@ -39,7 +49,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         } else {
             settypeAntall('antall-oddetall');
         }
-    }, [tilgangTilSyfoState, tilgangTilPamState, arbeidsavtaler]);
+    }, [
+        tilgangTilSyfoState,
+        tilgangTilPamState,
+        arbeidsavtaler,
+        valgtOrganisasjon,
+        organisasjonerMedIAWEB,
+    ]);
 
     return (
         <div className={'tjenesteboks-container ' + typeAntall}>
@@ -57,6 +73,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             {arbeidsavtaler.length > 0 && (
                 <div className={'tjenesteboks innholdsboks'}>
                     <Arbeidstreningboks />
+                </div>
+            )}
+            {visIA && (
+                <div className={'tjenesteboks innholdsboks'}>
+                    <IAwebboks />
                 </div>
             )}
         </div>

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { OrganisasjonsDetaljerContext, TilgangAltinn } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 import './AltinnContainer.less';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -12,69 +12,140 @@ import {
     soknadTilskuddTilMentor,
 } from '../../../lenker';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 
-const AltinnContainer: FunctionComponent = () => {
+export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
-    const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { tilgangTilAltinnForInntektsmelding, tilgangTilAltinnForTreSkjemaState } = useContext(
-        OrganisasjonsDetaljerContext
-    );
 
-    useEffect(() => {
-        setgenerellAltinnTilgang(true);
-        if (
-            tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
-            tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
-        ) {
-            settypeAntall('antall-skjema-partall');
-        } else if (
-            tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG &&
-            tilgangTilAltinnForTreSkjemaState === TilgangAltinn.IKKE_TILGANG
-        ) {
-            settypeAntall('antall-skjema-en');
-        } else if (
-            tilgangTilAltinnForInntektsmelding === TilgangAltinn.IKKE_TILGANG &&
-            tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG
-        ) {
-            settypeAntall('antall-skjema-tre');
-        } else {
-            setgenerellAltinnTilgang(false);
+    const [erFem, seterFem] = useState('');
+    const [tilgangInkluderingstilskudd, setTilgangInkluderingstilskudd] = useState(false);
+    const [tilgangEkspertbistand, setTilgangEkspertbistand] = useState(false);
+    const [tilgangMentortilskudd, setTilMentortilskudd] = useState(false);
+    const [tilgangLonnstilskudd, setTilgangLonnstilskudd] = useState(false);
+    const [tilgangInntektsmelding, setTilgangInntektsmelding] = useState(false);
+
+    const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
+
+    const SetStateFunksjonmedSkjemaNavn = (skjemaNavn: string, tilgang: boolean) => {
+        switch (skjemaNavn) {
+            case 'Mentortilskudd': {
+                setTilMentortilskudd(tilgang);
+                break;
+            }
+            case 'Inkluderingstilskudd': {
+                setTilgangInkluderingstilskudd(tilgang);
+                break;
+            }
+            case 'Ekspertbistand': {
+                setTilgangEkspertbistand(tilgang);
+                break;
+            }
+            case 'Lonnstilskudd': {
+                setTilgangLonnstilskudd(tilgang);
+                break;
+            }
+            case 'Inntektsmelding': {
+                setTilgangInntektsmelding(tilgang);
+            }
         }
-    }, [tilgangTilAltinnForTreSkjemaState, tilgangTilAltinnForInntektsmelding]);
+    };
+    useEffect(() => {
+        seterFem('');
+        const sjekkOgSettTilgang = (
+            skjema: SkjemaMedOrganisasjonerMedTilgang,
+            skjemaNavn: string,
+            orgnrMedTilgang: string[]
+        ): number => {
+            if (orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn, true);
+                return 1;
+            }
+
+            if (!orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn, false);
+            }
+
+            return 0;
+        };
+
+        const finnTilgang = () => {
+            let tellTilganger: number = 0;
+            listeMedSkjemaOgTilganger.forEach(skjema => {
+                let orgnrMedTilgangTilSkjema: string[] = skjema.OrganisasjonerMedTilgang.map(
+                    org => org.OrganizationNumber
+                );
+                tellTilganger += sjekkOgSettTilgang(
+                    skjema,
+                    skjema.Skjema.navn,
+                    orgnrMedTilgangTilSkjema
+                );
+                if (tellTilganger % 2 === 0) {
+                    settypeAntall('antall-skjema-partall');
+                }
+                if (tellTilganger % 2 !== 0) {
+                    settypeAntall('antall-skjema-oddetall');
+                    if (tellTilganger === 5) {
+                        seterFem('fem');
+                    }
+                }
+                if (tellTilganger === 1) {
+                    settypeAntall('antall-skjema-en');
+                }
+                if (tellTilganger > 0) {
+                    setgenerellAltinnTilgang(true);
+                }
+            });
+        };
+        if (listeMedSkjemaOgTilganger.length === 5) {
+            finnTilgang();
+        }
+
+        finnTilgang();
+    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger, typeAntall]);
 
     return (
         <div className={'altinn-container'}>
             {generellAltinnTilgang && (
                 <Undertittel className={'altinn-container__tekst'}>
-                    SSøknader og skjemaer på Altinn
+                    Søknader og skjemaer på Altinn
                 </Undertittel>
             )}
-            <div className={'altinn-container__bokser'}>
-                {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+            <div className={'altinn-container__bokser' + erFem}>
+                {tilgangInkluderingstilskudd && (
                     <AltinnLenke
-                        className={'altinn-container__' + typeAntall + ' altinn-container__lenke'}
+                        className={'altinn-container__' + typeAntall + erFem}
                         href={soknadskjemaInkluderingstilskudd()}
-                        tekst={'Søk om inkluderingstilskudd'}
+                        tekst={'Inkluderingstilskudd'}
                     />
                 )}
-                {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+                {tilgangLonnstilskudd && (
                     <AltinnLenke
-                        className={'altinn-container__' + typeAntall + ' altinn-container__lenke'}
+                        className={'altinn-container__' + typeAntall + erFem}
                         href={soknadsskjemaLonnstilskudd()}
-                        tekst={'Søk om lønnstilskudd'}
+                        tekst={'Lønnstilskudd'}
                     />
                 )}
-                {tilgangTilAltinnForTreSkjemaState === TilgangAltinn.TILGANG && (
+                {tilgangMentortilskudd && (
                     <AltinnLenke
-                        className={'altinn-container__' + typeAntall + ' altinn-container__lenke'}
+                        className={'altinn-container__' + typeAntall + erFem + erFem}
                         href={soknadTilskuddTilMentor()}
-                        tekst={'Søk om tilskudd til mentor'}
+                        tekst={'Tilskudd til mentor'}
+                    />
+                )}
+                {tilgangEkspertbistand && (
+                    <AltinnLenke
+                        className={'altinn-container__' + typeAntall + erFem}
+                        href={inntekstmelding}
+                        tekst={'Tilskudd til ekspertbistand'}
                     />
                 )}
 
-                {tilgangTilAltinnForInntektsmelding === TilgangAltinn.TILGANG && (
+                {tilgangInntektsmelding && (
                     <AltinnLenke
-                        className={'altinn-container__' + typeAntall + ' altinn-container__lenke'}
+                        className={'altinn-container__' + typeAntall + erFem}
                         href={inntekstmelding}
                         tekst={'Inntektsmelding'}
                     />
@@ -83,5 +154,3 @@ const AltinnContainer: FunctionComponent = () => {
         </div>
     );
 };
-
-export default AltinnContainer;
