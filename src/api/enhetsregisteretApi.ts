@@ -46,6 +46,7 @@ export async function hentAlleJuridiskeEnheter(
     let respons = await fetch(url);
     if (respons.ok) {
         const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
+        if(distinkteJuridiskeEnheterFraEreg._embedded){
         let distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
             orgFraEereg => {
                 const jurOrg: Organisasjon = {
@@ -58,6 +59,6 @@ export async function hentAlleJuridiskeEnheter(
         );
         return distinkteJuridiskeEnheter;
     }
-
+    }
     return [];
 }

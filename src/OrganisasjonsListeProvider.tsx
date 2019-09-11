@@ -72,10 +72,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     useEffect(() => {
         const getOrganisasjoner = async () => {
             let organisasjoner = await hentOrganisasjoner();
-
             setOrganisasjoner(
                 organisasjoner.filter((organisasjon: Organisasjon) => {
-                    return organisasjon.OrganizationForm === 'BEDR';
+                    return organisasjon.OrganizationForm === 'BEDR' && organisasjon.ParentOrganizationNumber;
                 })
             );
             if (visNyMeny) {

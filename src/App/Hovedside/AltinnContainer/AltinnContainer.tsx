@@ -109,9 +109,11 @@ export const AltinnContainer: FunctionComponent = () => {
     return (
         <div className={'altinn-container'}>
             {generellAltinnTilgang && (
-                <Undertittel className={'altinn-container__tekst'}>
+              <div className={'altinn-container__tekst'} >
+                <Undertittel>
                     Søknader og skjemaer på Altinn
                 </Undertittel>
+              </div>
             )}
             <div className={'altinn-container__bokser' + erFem}>
                 {tilgangInkluderingstilskudd && (
