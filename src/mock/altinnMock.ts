@@ -15,7 +15,7 @@ const OrganisasjonerResponse = [
         Name: 'BALLSTAD OG HAMARØY',
         Type: 'Business',
         OrganizationNumber: '811076732',
-        ParentOrganizationNumber: '811076112',
+        ParentOrganizationNumber: '811076113',
         OrganizationForm: 'BEDR',
         Status: 'Active',
     },
