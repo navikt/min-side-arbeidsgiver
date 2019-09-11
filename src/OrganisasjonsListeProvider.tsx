@@ -25,22 +25,27 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
         navn: 'Ekspertbistand',
         kode: '5384',
+        versjon: '1'
     },
     {
         navn: 'Inkluderingstilskudd',
         kode: '5212',
+        versjon: '1'
     },
     {
         navn: 'Lonnstilskudd',
         kode: '5159',
+        versjon: '1'
     },
     {
         navn: 'Mentortilskudd',
         kode: '5216',
+        versjon: '1'
     },
     {
         navn: 'Inntektsmelding',
         kode: '4936',
+        versjon: '1'
     },
 ];
 
@@ -50,6 +55,7 @@ export { OrganisasjonsListeContext };
 export interface AltinnSkjema {
     navn: string;
     kode: string;
+    versjon: string;
 }
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
