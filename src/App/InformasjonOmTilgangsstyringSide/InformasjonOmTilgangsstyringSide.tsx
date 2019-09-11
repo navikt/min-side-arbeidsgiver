@@ -22,51 +22,54 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         Tilganger i Altinn{' '}
                     </Innholdstittel>
                     <Normaltekst className={'informasjon-om-tilgangsstyring__ingress'}>
-                        Navs tjenester for arbeidsgivere krever at du er registrert med bestemte
+                        NAVs tjenester for arbeidsgivere krever at du er registrert med bestemte
                         roller i Altinn. Her får du en oversikt over hvilke roller de forskjellige
                         tjenestene krever.
                     </Normaltekst>
                     <Undertittel className={'informasjon-om-tilgangsstyring__systemtittel'}>
                         Slik får du tilgang til tjenestene
                     </Undertittel>
-                    <Ekspanderbartpanel tittel="Rekruttering" border>
+                    <Ekspanderbartpanel tittel="Rekruttere" border>
                         <Normaltekst
                             className={'informasjon-om-tilgangsstyring__arbeidsplassen-tekst'}
                         >
                             På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke>{' '}
-                            kan du finne kandidater og opprette stillingsannonser.
+                            kan du finne kandidater og lage stillingsannonser.
                         </Normaltekst>
                         <Element className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
-                            Du må ha en av disse rollene:{' '}
+                            Du må ha en av rollene:{' '}
                         </Element>
                         <ul>
                             <li>Lønn og personalmedarbeider</li>
                             <li>Utfyller/innsender</li>
                         </ul>
-                        <Element className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
-                            Eller rettigheten:{' '}
-                        </Element>
-                        <ul>
-                            <li>Rekruttering</li>
-                        </ul>
+                        <div
+                            className={
+                                'informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel'
+                            }
+                        >
+                            Du kan også ha rettigheten &nbsp;<Element> Rekruttering</Element>{' '}
+                        </div>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykmeldte" border>
-                        Tilgang til digitale sykmeldinger krever at du er registrert som Nærmeste
-                        leder for én eller flere ansatte i din virksomhet.
-                        <br />
+                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
+                            Tilgang til digitale sykmeldinger krever at du har rollen &nbsp;{' '}
+                            <Element>nærmeste leder &nbsp;</Element>for en eller flere ansatte i din
+                            virksomhet.
+                        </div>
                         <br />
                         <Lenke href={LenkeTilInfoOmNarmesteLeder}>
                             Les mer om registrering av Nærmeste leder.
                         </Lenke>
                     </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Tilskudd til mentor, lønn- og inkludering" border>
-                        Tilgang til disse skjemaene i Altinn krever rollen:
-                        <ul>
-                            <li>Helse-, sosial og velferdstjenester</li>
-                        </ul>
+                    <Ekspanderbartpanel tittel="Tilskudd til mentor, lønn og inkludering" border>
+                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
+                            Tilgang til disse søknadene krever at du har rollen &nbsp;{' '}
+                            <Element>Helse-, sosial og velferdstjenester &nbsp;</Element>
+                        </div>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
-                        Tilgang til dette skjemaet i Altinn krever en av rollene:
+                        Tilgang til digital inntektsmelding krever en av rollene &nbsp;{' '}
                         <ul>
                             <li>Ansvarlig revisor</li>
                             <li>Lønn og personalmedarbeider</li>
@@ -78,11 +81,9 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </ul>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
-                        Er det tjenester du mangler tilgang til??
+                        Mangler du tilgang til tjenester? &nbsp;
                         <br />
-                        <Lenke href={LenkeTilInfoOmAltinnRoller}>
-                            Her kan du lese om Altinn-roller og hvordan de tildeles.
-                        </Lenke>
+                        <Lenke href={LenkeTilInfoOmAltinnRoller}>Les om roller i Altinn.</Lenke>
                     </div>
                 </div>
             </div>

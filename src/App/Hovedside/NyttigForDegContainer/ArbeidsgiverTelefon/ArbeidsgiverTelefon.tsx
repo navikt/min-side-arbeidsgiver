@@ -17,7 +17,7 @@ const ArbeidsgiverTelefon: FunctionComponent = () => {
                 <div className={'arbeidsgivertelefon__tekst'}>
                     <Element>{'Arbeidsgivertelefonen'}</Element>
                     <Element className={'arbeidsgivertelefon__nummer'}>55 55 33 36</Element>
-                    <Normaltekst>Kl 08.00 - 15.30 (hverdager)</Normaltekst>
+                    <Normaltekst>Kl. 08.00-15.30 (hverdager)</Normaltekst>
                 </div>
             </div>
         </Lenkepanel>

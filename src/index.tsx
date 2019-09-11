@@ -1,5 +1,5 @@
-import 'core-js'
-import 'unorm/lib/unorm'
+import 'core-js';
+import 'unorm/lib/unorm';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.less';

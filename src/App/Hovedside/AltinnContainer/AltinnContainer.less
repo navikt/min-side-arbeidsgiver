@@ -29,7 +29,7 @@
     height: 4rem;  
   }
 
-  &__antall-skjema-tre {
+  &__antall-skjema-oddetall {
     width: 100%;
     padding: 1rem;
     height: 4rem;  
@@ -47,9 +47,10 @@
 
 @media (min-width: @screen-md-min) {
 
+
   .altinn-container {
-    width: 60rem;
-    padding: 0rem;
+      width: 60rem;
+      padding: 0;
 
     &__bokser {
       display: flex;
@@ -58,6 +59,15 @@
       flex-direction: row;
       margin-left: 0;
       justify-content: space-between;
+    }
+
+    &__bokserfem  {
+      display: flex;
+      width: 60rem;
+      flex-wrap: wrap;
+      flex-direction: row;
+      margin-left: 0;
+
     }
 
     &__tekst {
@@ -73,9 +83,19 @@
       flex-grow: 1;
     }
 
-    &__antall-skjema-tre {
-      width: 19.3rem
+    &__antall-skjema-oddetall {
+      width: 19.3rem;
     }
+
+    &__antall-skjema-oddetallfem {
+      width: 19.3rem;
+      margin-right: 1rem;
+    }
+
+    &__antall-skjema-oddetallfemfem {
+      width: 19.3rem;
+    }
+
 
     &__ikon {
       margin-left: 1rem;

@@ -19,7 +19,7 @@ export const Innloggingstjenester: FunctionComponent = () => {
             </div>
             <div className={'innloggingsside-tjenester__tjeneste'}>
                 <img src={sok} alt={''} className={'innloggingsside-tjenester__tjeneste-ikon'} />
-                <Element>Rekruttering </Element>
+                <Element>Rekruttere </Element>
             </div>
             <div className={'innloggingsside-tjenester__tjeneste'}>
                 <img
