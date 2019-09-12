@@ -26,6 +26,10 @@
 
 }
 
+.usynlig-kolonnerad {
+  display: none;
+}
+
 @media (max-width: @screen-md) {
   td{
     display: block;
@@ -33,9 +37,17 @@
 
   }
 
+  .usynlig-kolonnerad {
+    display: inline;
+  }
+
   .arbeidsforhold-table {
     width: 100%;
     margin: 0rem;
+  }
+
+  .synlig-kolonnerad {
+    display: none;
   }
 
 

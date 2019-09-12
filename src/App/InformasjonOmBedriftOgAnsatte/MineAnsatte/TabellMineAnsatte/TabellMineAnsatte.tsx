@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './TabellMineAnsatte.less';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
+import KolonnerFullSkjerm from './Kolonner/KollonerFullSkjerm';
+import SkjulteKolonner from './Kolonner/SkjulteKolonnerForMobil';
 
 interface Props {
     className?: string;
@@ -23,26 +25,8 @@ const TabellMineAnsatte: FunctionComponent<Props> = props => {
     return (
         <table id="arbeidsforholdTable" className={props.className}>
             <thead className="thead" tabIndex={0}>
-                <tr>
-                    <th className={'th'} tabIndex={0}>
-                        Navn
-                    </th>
-                    <th className={'th'} tabIndex={0}>
-                        Fødselsnummer
-                    </th>
-                    <th className={'th'} tabIndex={0}>
-                        Yrke
-                    </th>
-                    <th className={'th'} tabIndex={0}>
-                        Startdato
-                    </th>
-                    <th className={'th'} tabIndex={0}>
-                        Sluttdato
-                    </th>
-                    <th className={'th'} tabIndex={0}>
-                        Varsel
-                    </th>
-                </tr>
+                <KolonnerFullSkjerm />
+                <SkjulteKolonner />
             </thead>
             {rader}
         </table>
