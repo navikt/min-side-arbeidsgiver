@@ -10,10 +10,24 @@ interface Props {
 
 const Ansatt: FunctionComponent<Props> = props => {
     return (
-        <li>
-            {' '}
-            id="arbeidsforholdTable" ><div className="arbeidsforhold" />
-        </li>
+        <div className="arbeidsforhold">
+            <li>
+                <ul>
+                    <li className="arbeidsforhold__attributt">
+                        {props.arbeidsforhold.arbeidstaker.offentligIdent}
+                    </li>
+                    <li className="arbeidsforhold__attributt">
+                        {props.arbeidsforhold.arbeidsavtaler[0].yrke}
+                    </li>
+                    <li className="arbeidsforhold__attributt">
+                        {props.arbeidsforhold.ansettelsesperiode.periode.fom}
+                    </li>
+                    <li className="arbeidsforhold__attributt">
+                        {props.arbeidsforhold.ansettelsesperiode.periode.fom}
+                    </li>
+                </ul>
+            </li>
+        </div>
     );
 };
 
