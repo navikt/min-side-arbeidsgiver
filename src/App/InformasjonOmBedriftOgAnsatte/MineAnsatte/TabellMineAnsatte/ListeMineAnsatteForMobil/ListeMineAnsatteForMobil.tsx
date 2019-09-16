@@ -1,26 +1,16 @@
-import React, { FunctionComponent, useContext } from 'react';
-import './TabellMineAnsatte.less';
-import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
-
+import React, { FunctionComponent } from 'react';
+import './ListeMineAnsatteForMobil.less';
+import { enkelArbeidsforhold } from '../../../../../Objekter/Ansatte';
+import Ansatt from './Ansatt/Ansatt';
 interface Props {
     className?: string;
+    listeMedArbeidsForhold: enkelArbeidsforhold[];
 }
 
 const ListeMedAnsatteForMobil: FunctionComponent<Props> = props => {
-    const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
+    const rader = props.listeMedArbeidsForhold.map(forhold => <Ansatt arbeidsforhold={forhold} />);
 
-    const rader = mineAnsatte.map(arbeidsforhold => (
-        <tr className={'tr'} tabIndex={0}>
-            <td className={'td'}>Kjell Magne</td>
-            <td className={'td'}>{arbeidsforhold.arbeidstaker.offentligIdent}</td>
-            <td className={'td'}>{arbeidsforhold.arbeidsavtaler[0].yrke}</td>
-            <td className={'td'}>{arbeidsforhold.ansettelsesperiode.periode.fom}</td>
-            <td className={'td'}>{arbeidsforhold.ansettelsesperiode.periode.tom}</td>
-            <td className={'td'}>varslinger</td>
-        </tr>
-    ));
-
-    return <table id="arbeidsforholdTable" className={props.className} />;
+    return <ul> {rader} </ul>;
 };
 
 export default ListeMedAnsatteForMobil;

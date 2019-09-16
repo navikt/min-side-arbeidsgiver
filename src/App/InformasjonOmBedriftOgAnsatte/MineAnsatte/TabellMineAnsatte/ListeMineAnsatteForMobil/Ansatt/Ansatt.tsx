@@ -11,10 +11,11 @@ interface Props {
 const Ansatt: FunctionComponent<Props> = props => {
     return (
         <div className="arbeidsforhold">
-            <li>
+            <li className="arbeidsforhold">
                 <ul>
                     <li className="arbeidsforhold__attributt">
-                        {props.arbeidsforhold.arbeidstaker.offentligIdent}
+                        <> Offentlig Ident</>
+                        <>{props.arbeidsforhold.arbeidstaker.offentligIdent}</>
                     </li>
                     <li className="arbeidsforhold__attributt">
                         {props.arbeidsforhold.arbeidsavtaler[0].yrke}
