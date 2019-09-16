@@ -12,7 +12,7 @@ interface Props {
 const MineAnsatte: FunctionComponent<Props> = props => {
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     return (
-        <div className={'hovedside-mine-ansatte__innhold'}>
+        <>
             <Undertittel className={'hovedside-mine-ansatte__systemtittel'} tabIndex={0}>
                 Opplysninger fra Aa-registeret
             </Undertittel>
@@ -21,7 +21,7 @@ const MineAnsatte: FunctionComponent<Props> = props => {
                 listeMedArbeidsForhold={mineAnsatte}
                 className={'arbeidsforhold-liste'}
             />
-        </div>
+        </>
     );
 };
 
