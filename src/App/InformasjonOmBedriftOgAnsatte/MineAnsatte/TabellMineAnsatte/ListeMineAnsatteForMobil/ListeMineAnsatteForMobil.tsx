@@ -10,7 +10,7 @@ interface Props {
 const ListeMedAnsatteForMobil: FunctionComponent<Props> = props => {
     const rader = props.listeMedArbeidsForhold.map(forhold => <Ansatt arbeidsforhold={forhold} />);
 
-    return <ul> {rader} </ul>;
+    return <ul className={props.className}> {rader} </ul>;
 };
 
 export default ListeMedAnsatteForMobil;
