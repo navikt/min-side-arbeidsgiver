@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import './Ansatt.less';
 
-import { enkelArbeidsforhold } from '../../../../../../Objekter/Ansatte';
 import AttributtVisning from './AttributtVisning/AttributtVisning';
+import { enkelArbeidsforhold } from '../../../../../Objekter/Ansatte';
 
 interface Props {
     className?: string;

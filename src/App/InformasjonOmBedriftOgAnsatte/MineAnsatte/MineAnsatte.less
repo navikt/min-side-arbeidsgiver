@@ -1,22 +1,36 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.arbeidsforhold-table {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
+.mine-ansatte {
   background-color: white;
-  color: @navGra80;
-  width: 90%;
-  border-collapse: collapse;
-  justify-self: center;
-  margin-left: 2rem;
-  margin-top: 1rem;
-}
+
+  &__systemtittel {
+    margin: 2rem;
+
+  }
+
+  &__antall {
+    margin: 0 0 1rem 2rem;
+  }
+
+  &__table {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: white;
+    color: @navGra80;
+    width: 90%;
+    border-collapse: collapse;
+    justify-self: center;
+    margin-left: 2rem;
+    margin-top: 1rem;
+  }
 
 
 
-.arbeidsforhold-liste {
-  display: none;
+  &__liste {
+    display: none;
+  }
+
 }
 
 .tr {
@@ -37,15 +51,16 @@
 }
 
 @media (max-width: @screen-md) {
+  .mine-ansatte {
 
-  .arbeidsforhold-table {
-    display:none;
+    &__table {
+      display:none;
+    }
+
+    &__liste {
+      display:initial;
+    }
+
   }
-
-  .arbeidsforhold-liste {
-    display:initial;
-  }
-
-
 
 }

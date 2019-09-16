@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import './MineAnsatte.less';
 import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
 import { Undertittel } from 'nav-frontend-typografi';
-import ListeMedAnsatteForMobil from './TabellMineAnsatte/ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
+import ListeMedAnsatteForMobil from './ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 interface Props {
@@ -12,16 +12,19 @@ interface Props {
 const MineAnsatte: FunctionComponent<Props> = props => {
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     return (
-        <>
-            <Undertittel className={'hovedside-mine-ansatte__systemtittel'} tabIndex={0}>
+        <div className={'mine-ansatte'}>
+            <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
                 Opplysninger fra Aa-registeret
             </Undertittel>
-            <TabellMineAnsatte className={'arbeidsforhold-table'} />
+            <div tabIndex={0} className={'mine-ansatte__antall'}>
+                {mineAnsatte.length} arbeidsforhold
+            </div>
+            <TabellMineAnsatte className={'mine-ansatte__table'} />
             <ListeMedAnsatteForMobil
                 listeMedArbeidsForhold={mineAnsatte}
-                className={'arbeidsforhold-liste'}
+                className={'mine-ansatte__liste'}
             />
-        </>
+        </div>
     );
 };
 

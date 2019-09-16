@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 
 const KolonnerFullSkjerm: FunctionComponent = () => {
     return (
-        <tr className="synlig-kolonnerad">
+        <tr>
             <th className={'th'} tabIndex={0}>
                 Navn
             </th>
