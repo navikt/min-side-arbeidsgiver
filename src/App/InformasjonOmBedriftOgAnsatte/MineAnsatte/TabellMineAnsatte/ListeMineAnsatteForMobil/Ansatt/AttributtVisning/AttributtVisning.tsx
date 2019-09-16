@@ -9,9 +9,9 @@ interface Props {
 
 const AttributtVisning: FunctionComponent<Props> = props => {
     return (
-        <li className="arbeidsforhold__attributt">
-            <div className={'arbeidsforhold__attributt__navn'}> {props.attributt}</div>
-            <div className={'arbeidsforhold__attributt__verdi'}>{props.attributtVerdi}</div>
+        <li className="attributt">
+            <div className={'attributt__navn'}> {props.attributt}</div>
+            <div className={'attributt__verdi'}>{props.attributtVerdi}</div>
         </li>
     );
 };
