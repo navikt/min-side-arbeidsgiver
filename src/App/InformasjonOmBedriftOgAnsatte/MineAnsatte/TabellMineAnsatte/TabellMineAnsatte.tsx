@@ -2,15 +2,15 @@ import React, { FunctionComponent, useContext } from 'react';
 import './TabellMineAnsatte.less';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import KolonnerFullSkjerm from './Kolonner/KollonerFullSkjerm';
+import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
 
 interface Props {
     className?: string;
+    listeMedArbeidsForhold: enkelArbeidsforhold[];
 }
 
 const TabellMineAnsatte: FunctionComponent<Props> = props => {
-    const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
-
-    const rader = mineAnsatte.map(arbeidsforhold => (
+    const rader = props.listeMedArbeidsForhold.map(arbeidsforhold => (
         <tr>
             <td className={'td'} tabIndex={0}>
                 Kjell Magne

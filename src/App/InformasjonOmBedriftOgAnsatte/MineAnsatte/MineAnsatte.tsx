@@ -19,7 +19,10 @@ const MineAnsatte: FunctionComponent<Props> = props => {
             <div tabIndex={0} className={'mine-ansatte__antall'}>
                 {mineAnsatte.length} arbeidsforhold
             </div>
-            <TabellMineAnsatte className={'mine-ansatte__table'} />
+            <TabellMineAnsatte
+                className={'mine-ansatte__table'}
+                listeMedArbeidsForhold={mineAnsatte}
+            />
             <ListeMedAnsatteForMobil
                 listeMedArbeidsForhold={mineAnsatte}
                 className={'mine-ansatte__liste'}
