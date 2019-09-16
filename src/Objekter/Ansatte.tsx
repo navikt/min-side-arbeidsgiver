@@ -7,12 +7,12 @@ export interface enkelArbeidsforhold {
 
 export interface arbeidstaker {
     aktoerId: number;
-    offentligIdent: number;
+    offentligIdent: string;
 }
 
 export interface enkelArbeidsavtale {
     stillingsprosent: number;
-    yrke: number;
+    yrke: string;
     antallTimerPrUke: number;
 }
 

@@ -2,6 +2,7 @@ import React, { FunctionComponent } from 'react';
 import './Ansatt.less';
 
 import { enkelArbeidsforhold } from '../../../../../../Objekter/Ansatte';
+import AttributtVisning from './AttributtVisning/AttributtVisning';
 
 interface Props {
     className?: string;
@@ -12,19 +13,22 @@ const Ansatt: FunctionComponent<Props> = props => {
     return (
         <li className="arbeidsforhold">
             <ul className="arbeidsforhold__liste">
-                <li className="arbeidsforhold__attributt">
-                    <> Offentlig Ident</>
-                    <>{props.arbeidsforhold.arbeidstaker.offentligIdent}</>
-                </li>
-                <li className="arbeidsforhold__attributt">
-                    {props.arbeidsforhold.arbeidsavtaler[0].yrke}
-                </li>
-                <li className="arbeidsforhold__attributt">
-                    {props.arbeidsforhold.ansettelsesperiode.periode.fom}
-                </li>
-                <li className="arbeidsforhold__attributt">
-                    {props.arbeidsforhold.ansettelsesperiode.periode.fom}
-                </li>
+                <AttributtVisning
+                    attributt="Offentlig Ident"
+                    attributtVerdi={props.arbeidsforhold.arbeidstaker.offentligIdent}
+                />
+                <AttributtVisning
+                    attributt="Yrke"
+                    attributtVerdi={props.arbeidsforhold.arbeidsavtaler[0].yrke}
+                />
+                <AttributtVisning
+                    attributt="Startet"
+                    attributtVerdi={props.arbeidsforhold.ansettelsesperiode.periode.fom}
+                />
+                <AttributtVisning
+                    attributt="Slutter"
+                    attributtVerdi={props.arbeidsforhold.ansettelsesperiode.periode.tom}
+                />
             </ul>
         </li>
     );
