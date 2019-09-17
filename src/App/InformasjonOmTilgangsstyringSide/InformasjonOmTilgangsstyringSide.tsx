@@ -62,7 +62,10 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             Les mer om registrering av Nærmeste leder.
                         </Lenke>
                     </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Tilskudd til mentor, lønn, inkludering og ekspertbistand" border>
+                    <Ekspanderbartpanel
+                        tittel="Tilskudd til mentor, lønn, inkludering og ekspertbistand"
+                        border
+                    >
                         <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
                             Tilgang til disse søknadene krever at du har rollen &nbsp;{' '}
                             <Element>Helse-, sosial og velferdstjenester &nbsp;</Element>
@@ -81,12 +84,13 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </ul>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        Tilgang til legemeldt sykefraværsstatistikk og tjenester mottatt fra NAV Arbeidslivssenter
-                        krever rollen &nbsp;{' '}
+                        Tilgang til legemeldt sykefraværsstatistikk og tjenester mottatt fra NAV
+                        Arbeidslivssenter krever rollen &nbsp;{' '}
                         <ul>
                             <li>Helse-, sosial- og velferdstjeneste</li>
                         </ul>
-                        Du kan også ha enkeltrettigheten <b>Sykefraværsstatistikk for IA-virksomheter</b>
+                        Du kan også ha enkeltrettigheten{' '}
+                        <b>Sykefraværsstatistikk for IA-virksomheter</b>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         Mangler du tilgang til tjenester? &nbsp;

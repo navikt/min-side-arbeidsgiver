@@ -61,10 +61,11 @@ const OrganisasjonerResponse = [
     },
 ];
 fetchMock
-    .get(        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
+    .get(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
         delay.then(() => {
             return mentortilskuddskjemaResponse;
-        }),
+        })
     )
     .spy();
 fetchMock

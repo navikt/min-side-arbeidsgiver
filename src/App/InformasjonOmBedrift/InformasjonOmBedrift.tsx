@@ -9,7 +9,7 @@ import {
 import './InformasjonOmBedrift.less';
 import Lenke from 'nav-frontend-lenker';
 import Tekstboks from './Tekstboks/Tekstboks';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import 'nav-frontend-lenker-style/src/lenker-style.less';
 
 const InformasjonOmBedrift: FunctionComponent = () => {
@@ -33,7 +33,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         <>
             <Link
                 className={'tilbake-til-forsiden lenke'}
-                to={'/?bedrift='+valgtOrganisasjon.OrganizationNumber}
+                to={'/?bedrift=' + valgtOrganisasjon.OrganizationNumber}
             >
                 Tilbake til forsiden
             </Link>

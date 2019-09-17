@@ -4,7 +4,7 @@ import bedriftinfoikon from './infoombedriftikon.svg';
 import './Bedriftsinfoknapp.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -13,7 +13,14 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
             href={'/bedriftsinformasjon'}
             className={'bedriftsinfo-knapp'}
             tittelProps={'undertittel'}
-            linkCreator={(props: any) => <Link to={props.href + '?bedrift='+ valgtOrganisasjon.OrganizationNumber} {...props} >{props.children}</Link>}
+            linkCreator={(props: any) => (
+                <Link
+                    to={props.href + '?bedrift=' + valgtOrganisasjon.OrganizationNumber}
+                    {...props}
+                >
+                    {props.children}
+                </Link>
+            )}
         >
             <div className={'bedriftsinfo-knapp__wrapper'}>
                 <img className={'bedriftsinfo-knapp__ikon'} src={bedriftinfoikon} alt="" />
