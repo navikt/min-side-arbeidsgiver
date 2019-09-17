@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './BlaIAnsatte.less';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
-import { Element } from 'nav-frontend-typografi';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
@@ -36,7 +35,17 @@ interface Props {
 }
 
 const SideBytter: FunctionComponent<Props> = props => {
-    return <GraSirkelMedNr sidetall={2} />;
+    return (
+        <div className="sidebytter">
+            <GraSirkelMedNr sidetall={1} />
+            ...
+            <GraSirkelMedNr sidetall={8} />
+            <GraSirkelMedNr sidetall={9} />
+            <GraSirkelMedNr sidetall={10} />
+            ...
+            <GraSirkelMedNr sidetall={28} />
+        </div>
+    );
 };
 
 export default SideBytter;
