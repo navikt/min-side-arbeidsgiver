@@ -4,6 +4,7 @@ import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
 import { Undertittel } from 'nav-frontend-typografi';
 import ListeMedAnsatteForMobil from './ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import SideBytter from './BlaIAnsatte/BlaIAnsatte';
 
 interface Props {
     className?: string;
@@ -16,6 +17,7 @@ const MineAnsatte: FunctionComponent<Props> = props => {
             <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
                 Opplysninger fra Aa-registeret
             </Undertittel>
+            <SideBytter listeMedArbeidsForhold={mineAnsatte} />
             <div tabIndex={0} className={'mine-ansatte__antall'}>
                 {mineAnsatte.length} arbeidsforhold
             </div>

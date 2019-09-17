@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react';
-import './TabellMineAnsatte.less';
+import './BlaIAnsatte.less';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
-import KolonnerFullSkjerm from '../TabellMineAnsatte/TabellMineAnsatte';
+import { Element } from 'nav-frontend-typografi';
+
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
     let antallSider: number = Math.floor(liste.length / antallForhold);
     if (liste.length % antallForhold !== 0) {
@@ -34,7 +35,11 @@ interface Props {
 }
 
 const SideBytter: FunctionComponent<Props> = props => {
-    return <div className={props.className} />;
+    return (
+        <span className={'gra-sirkel'}>
+            <Element className={'gra-sirkel__sidetall'}>Helloo</Element>
+        </span>
+    );
 };
 
 export default SideBytter;
