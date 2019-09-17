@@ -15,3 +15,13 @@ export const genererListe = (
 ) => {
     return liste.slice(indeks, indeks + antallForhold + 1);
 };
+
+export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide) => {
+    let tekst: string;
+    if (antallSider === 3 && naVarendeSide > 4) {
+        tekst = '123';
+    }
+    if (antallSider > 3 && naVarendeSide > antallSider - 3) {
+        tekst = toString();
+    }
+};
