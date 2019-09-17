@@ -65,6 +65,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                         <Syfoboks className={'syfoboks'} />
                     </Innholdsboks>
                 )}
+            {visIA && (
+                <div className={'tjenesteboks innholdsboks'}>
+                    <IAwebboks />
+                </div>
+            )}
             {tilgangTilPamState !== TilgangPam.LASTER && tilgangTilPamState === TilgangPam.TILGANG && (
                 <div className={'tjenesteboks innholdsboks'}>
                     <Pamboks />
@@ -73,11 +78,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             {arbeidsavtaler.length > 0 && (
                 <div className={'tjenesteboks innholdsboks'}>
                     <Arbeidstreningboks />
-                </div>
-            )}
-            {visIA && (
-                <div className={'tjenesteboks innholdsboks'}>
-                    <IAwebboks />
                 </div>
             )}
         </div>

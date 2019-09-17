@@ -43,7 +43,9 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 }
 
 export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=3403&serviceEdition=2');
+    let respons = await fetch(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=3403&serviceEdition=2'
+    );
     if (respons.ok) {
         return await respons.json();
     } else {
@@ -61,7 +63,10 @@ export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
 ): Promise<SkjemaMedOrganisasjonerMedTilgang> {
     let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
         Skjema: skjema,
-        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(skjema.kode,skjema.versjon),
+        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(
+            skjema.kode,
+            skjema.versjon
+        ),
     };
     return listeMedOrganisasjoner;
 }
@@ -85,7 +90,12 @@ export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     serviceKode: string,
     serviceEdition: string
 ): Promise<Organisasjon[]> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' + serviceKode +'&serviceEdition='+serviceEdition);
+    let respons = await fetch(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            serviceKode +
+            '&serviceEdition=' +
+            serviceEdition
+    );
     if (respons.ok) {
         return await respons.json();
     } else {
