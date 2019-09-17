@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './TabellMineAnsatte.less';
-import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import KolonnerFullSkjerm from './Kolonner/KollonerFullSkjerm';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
 
