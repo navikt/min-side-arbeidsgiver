@@ -16,12 +16,12 @@ export const genererListe = (
     return liste.slice(indeks, indeks + antallForhold + 1);
 };
 
-export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide) => {
-    let tekst: string;
+export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide: number): string => {
     if (antallSider === 3 && naVarendeSide > 4) {
-        tekst = '123';
+        return 'tre-sider';
     }
     if (antallSider > 3 && naVarendeSide > antallSider - 3) {
-        tekst = toString();
+        return 'siste-tre-sider';
     }
+    return 'standard-visning';
 };
