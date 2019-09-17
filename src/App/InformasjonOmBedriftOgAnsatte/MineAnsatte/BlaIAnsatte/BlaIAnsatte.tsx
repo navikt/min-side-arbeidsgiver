@@ -37,7 +37,7 @@ interface Props {
 const SideBytter: FunctionComponent<Props> = props => {
     return (
         <span className={'gra-sirkel'}>
-            <Element className={'gra-sirkel__sidetall'}>Helloo</Element>
+            <Element className={'gra-sirkel__sidetall'}>1</Element>
         </span>
     );
 };
