@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import './BlaIAnsatte.less';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
@@ -36,18 +36,6 @@ interface Props {
 
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
-
-    const skiftIndekser = (indeks: number) => {
-        if (indeks === 0) {
-            setnaVarendeIndex(1);
-        }
-        if (indeks > 1) {
-            setnaVarendeIndex(72);
-        } else if (indeks === 1 || indeks === -1) {
-            setnaVarendeIndex(naVarendeIndex + indeks);
-        }
-        console.log(naVarendeIndex);
-    };
 
     return (
         <div className="sidebytter">
