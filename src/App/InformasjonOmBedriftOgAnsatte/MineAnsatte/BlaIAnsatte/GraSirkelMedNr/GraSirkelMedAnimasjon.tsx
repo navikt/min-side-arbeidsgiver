@@ -6,14 +6,14 @@ interface Props {
     sidetall: number;
 }
 
-const GraSirkelMedNr: FunctionComponent<Props> = props => {
+const GraSirkelMedAnimasjon: FunctionComponent<Props> = props => {
     return (
-        <>
-            <div className={'gra-sirkel-uten'}>
+        <div>
+            <span className="gra-sirkel">
                 <Element className={'gra-sirkel__sidetall'}>{props.sidetall.toString()}</Element>
-            </div>
-        </>
+            </span>
+        </div>
     );
 };
 
-export default GraSirkelMedNr;
+export default GraSirkelMedAnimasjon;
