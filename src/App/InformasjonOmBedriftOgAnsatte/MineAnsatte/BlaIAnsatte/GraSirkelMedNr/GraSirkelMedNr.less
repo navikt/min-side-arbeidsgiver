@@ -11,7 +11,7 @@
   background-color: @navLysGra;
   color: black;
   align-self: center;
-  margin: 0 0.5rem 0 0.5rem ;
+  margin: 0 0.5rem 0 0.5rem;
 
   &__sidetall {
     font-size: 14px;
@@ -19,3 +19,59 @@
   }
 
 }
+
+.container {
+  display: flex;
+}
+
+
+
+@keyframes move-eye-skew {
+  0% {
+    transform: none;
+  }
+  20% {
+    transform: translateX(-68px) translateY(30px) skewX(15deg) skewY(-10deg) scale(0.95);
+  }
+  25%, 44% {
+    transform: none;
+  }
+  50%, 50% {
+    transform: translateX(68px) translateY(-40px) skewX(5deg) skewY(2deg) scaleX(0.95);
+  }
+  66%, 100% {
+    transform: none;
+  }
+}
+
+
+
+.gra-sirkel {
+  background: radial-gradient(circle at 50% 50%, 0%,  30%,  100%);
+  transform: translateX(68px) translateY(-60px) skewX(15deg) skewY(2deg);
+  position: absolute;
+  animation: move-eye-skew 5s ease-out infinite;
+  margin: 0 0.5rem 0 0.5rem;
+}
+.gra-sirkel:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 37.5%;
+  height: 37.5%;
+  border-radius: 50%;
+  top: 31.25%;
+  left: 31.25%;
+}
+.gra-sirkel:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 31.25%;
+  height: 31.25%;
+  border-radius: 50%;
+  top: 18.75%;
+  left: 50%;
+
+}
+

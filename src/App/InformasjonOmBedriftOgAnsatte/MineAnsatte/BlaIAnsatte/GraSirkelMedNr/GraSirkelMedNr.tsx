@@ -8,9 +8,14 @@ interface Props {
 
 const GraSirkelMedNr: FunctionComponent<Props> = props => {
     return (
-        <span className={'gra-sirkel'}>
-            <Element className={'gra-sirkel__sidetall'}>{props.sidetall.toString()}</Element>
-        </span>
+        <>
+            <span className={'gra-sirkel'}>
+                <Element className={'gra-sirkel__sidetall'}>{props.sidetall.toString()}</Element>
+            </span>
+            <div>
+                <span className="gra-sirkel" />
+            </div>
+        </>
     );
 };
 
