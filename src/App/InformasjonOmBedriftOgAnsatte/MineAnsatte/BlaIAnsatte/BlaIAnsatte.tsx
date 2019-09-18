@@ -37,6 +37,18 @@ interface Props {
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
 
+    const skiftIndekser = (indeks: number) => {
+        if (indeks === 0) {
+            setnaVarendeIndex(1);
+        }
+        if (indeks > 1) {
+            setnaVarendeIndex(72);
+        } else if (indeks === 1 || indeks === -1) {
+            setnaVarendeIndex(naVarendeIndex + indeks);
+        }
+        console.log(naVarendeIndex);
+    };
+
     return (
         <div className="sidebytter">
             <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(1)}>
@@ -45,21 +57,18 @@ const SideBytter: FunctionComponent<Props> = props => {
             ...
             <button
                 className="sidebytter__valg"
+                onClick={() => setnaVarendeIndex(naVarendeIndex - 1)}
+            >
+                <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
+            </button>
+            <button className="sidebytter__valg">
+                <GraSirkelMedNr sidetall={naVarendeIndex} />
+            </button>
+            <button
+                className="sidebytter__valg"
                 onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
             >
                 <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
-            </button>
-            <button
-                className="sidebytter__valg"
-                onClick={() => setnaVarendeIndex(naVarendeIndex + 2)}
-            >
-                <GraSirkelMedNr sidetall={naVarendeIndex + 2} />
-            </button>
-            <button
-                className="sidebytter__valg"
-                onClick={() => setnaVarendeIndex(naVarendeIndex + 3)}
-            >
-                <GraSirkelMedNr sidetall={naVarendeIndex + 3} />
             </button>
             ...
             <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(72)}>
