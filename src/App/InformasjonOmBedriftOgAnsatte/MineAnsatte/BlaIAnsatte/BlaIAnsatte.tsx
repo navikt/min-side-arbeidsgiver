@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import './BlaIAnsatte.less';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
@@ -35,15 +35,36 @@ interface Props {
 }
 
 const SideBytter: FunctionComponent<Props> = props => {
+    const [naVarendeIndex, setnaVarendeIndex] = useState(1);
+
     return (
         <div className="sidebytter">
-            <GraSirkelMedNr sidetall={1} />
+            <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(1)}>
+                <GraSirkelMedNr sidetall={1} />
+            </button>
             ...
-            <GraSirkelMedNr sidetall={8} />
-            <GraSirkelMedNr sidetall={9} />
-            <GraSirkelMedNr sidetall={10} />
+            <button
+                className="sidebytter__valg"
+                onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
+            >
+                <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
+            </button>
+            <button
+                className="sidebytter__valg"
+                onClick={() => setnaVarendeIndex(naVarendeIndex + 2)}
+            >
+                <GraSirkelMedNr sidetall={naVarendeIndex + 2} />
+            </button>
+            <button
+                className="sidebytter__valg"
+                onClick={() => setnaVarendeIndex(naVarendeIndex + 3)}
+            >
+                <GraSirkelMedNr sidetall={naVarendeIndex + 3} />
+            </button>
             ...
-            <GraSirkelMedNr sidetall={28} />
+            <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(72)}>
+                <GraSirkelMedNr sidetall={72} />
+            </button>
         </div>
     );
 };

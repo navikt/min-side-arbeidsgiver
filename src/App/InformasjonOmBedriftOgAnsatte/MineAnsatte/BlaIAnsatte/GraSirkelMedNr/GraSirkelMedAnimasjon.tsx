@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import './GraSirkelMedNr.less';
 import { Element } from 'nav-frontend-typografi';
 
