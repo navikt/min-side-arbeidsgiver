@@ -50,7 +50,7 @@ const SideBytter: FunctionComponent<Props> = props => {
                 <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
             </button>
             <button className="sidebytter__valg">
-                <GraSirkelMedNr sidetall={naVarendeIndex} />
+                <GraSirkelMedNr sidetall={naVarendeIndex} erValgt={' ' + 'erValgt'} />
             </button>
             <button
                 className="sidebytter__valg"
