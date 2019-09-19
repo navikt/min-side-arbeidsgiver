@@ -1,30 +1,30 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './TabellMineAnsatte.less';
 import KolonnerFullSkjerm from './Kolonner/KollonerFullSkjerm';
-import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
+import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../../../../Objekter/Ansatte';
 
 interface Props {
     className?: string;
-    listeMedArbeidsForhold: enkelArbeidsforhold[];
+    listeMedArbeidsForhold: ObjektFraAAregisteret;
 }
 
 const TabellMineAnsatte: FunctionComponent<Props> = props => {
-    const rader = props.listeMedArbeidsForhold.map(arbeidsforhold => (
+    const rader = props.listeMedArbeidsForhold.arbeidsforholdoversikter.map(arbeidsforhold => (
         <tr>
             <td className={'td'} tabIndex={0}>
-                Kjell Magne
+                {arbeidsforhold.navn}
             </td>
             <td className={'td'} tabIndex={0}>
                 {arbeidsforhold.arbeidstaker.offentligIdent}
             </td>
             <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.arbeidsavtaler[0].yrke}
+                {arbeidsforhold.yrke}
             </td>
             <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.ansettelsesperiode.periode.fom}
+                {arbeidsforhold.ansattFom}
             </td>
             <td className={'td'} tabIndex={0}>
-                {arbeidsforhold.ansettelsesperiode.periode.tom}
+                {arbeidsforhold.ansattTom}
             </td>
             <td className={'td'} tabIndex={0}>
                 varslinger
@@ -35,7 +35,6 @@ const TabellMineAnsatte: FunctionComponent<Props> = props => {
     return (
         <table id="arbeidsforholdTable" className={props.className}>
             <KolonnerFullSkjerm />
-
             {rader}
         </table>
     );

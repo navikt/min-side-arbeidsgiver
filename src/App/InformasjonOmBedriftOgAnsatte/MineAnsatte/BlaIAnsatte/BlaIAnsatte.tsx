@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useState, useContext } from 'react';
 import './BlaIAnsatte.less';
-import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
+import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 import ListeMedAnsatteForMobil from '../ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
@@ -18,10 +17,10 @@ export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: nu
 
 export const genererListe = (
     indeks: number,
-    liste: enkelArbeidsforhold[],
+    liste: ObjektFraAAregisteret,
     antallForhold: number
 ) => {
-    return liste.slice(indeks, indeks + antallForhold + 1);
+    return liste.arbeidsforholdoversikter.slice(indeks, indeks + antallForhold + 1);
 };
 
 export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide: number): string => {

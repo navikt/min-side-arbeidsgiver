@@ -8,7 +8,7 @@ import hentAntallannonser from './api/hent-stillingsannonser';
 import { Arbeidsavtale, hentArbeidsforhold, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
-import { enkelArbeidsforhold } from './Objekter/Ansatte';
+import { Mocksrespons, ObjektFraAAregisteret } from './Objekter/Ansatte';
 
 export enum TilgangPam {
     LASTER,
@@ -28,7 +28,7 @@ export type Context = {
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
     tilgangTilSyfoState: TilgangSyfo;
-    mineAnsatte: Array<enkelArbeidsforhold>;
+    mineAnsatte: ObjektFraAAregisteret;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -37,7 +37,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [antallAnnonser, setantallAnnonser] = useState<number>(0);
     const [tilgangTilPamState, settilgangTilPamState] = useState(TilgangPam.LASTER);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
-    const [mineAnsatte, setMineAnsatte] = useState(Array<enkelArbeidsforhold>());
+    const [mineAnsatte, setMineAnsatte] = useState(Mocksrespons);
     const [harNoenTilganger, setHarNoenTilganger] = useState(false);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);

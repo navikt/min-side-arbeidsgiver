@@ -225,8 +225,7 @@ export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
     return false;
 }
 
-export async function hentArbeidsforhold(): Promise<Array<enkelArbeidsforhold>> {
+export async function hentArbeidsforhold(): Promise<ObjektFraAAregisteret> {
     let respons = await fetch('https://www.facebook.com/');
-    const responsObjekt: ObjektFraAAregisteret = await respons.json();
-    return responsObjekt.arbeidsforhold;
+    return await respons.json();
 }

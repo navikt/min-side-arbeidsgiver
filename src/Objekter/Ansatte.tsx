@@ -26,10 +26,10 @@ export interface periode {
 }
 
 export interface ObjektFraAAregisteret {
-    navn: string;
     antall: string;
     arbeidsforholdoversikter: [
         {
+            navn: string;
             ansattFom: string;
             ansattTom: string;
             arbeidsgiver: {
@@ -57,11 +57,11 @@ export interface ObjektFraAAregisteret {
     totalAntall: string;
 }
 
-const test: ObjektFraAAregisteret = {
-    navn: 'Gøril',
+export const Mocksrespons: ObjektFraAAregisteret = {
     antall: '50',
     arbeidsforholdoversikter: [
         {
+            navn: 'Gøril',
             ansattFom: '12/04/1814',
             ansattTom: '12/04/1913',
             arbeidsgiver: {
