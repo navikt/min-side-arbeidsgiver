@@ -17,18 +17,10 @@ const MineAnsatte: FunctionComponent<Props> = props => {
             <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
                 Opplysninger fra Aa-registeret
             </Undertittel>
-            <SideBytter listeMedArbeidsForhold={mineAnsatte} />
+            <SideBytter listeMedArbeidsForhold={mineAnsatte} className={'sidebytter'} />
             <div tabIndex={0} className={'mine-ansatte__antall'}>
                 {mineAnsatte.length} arbeidsforhold
             </div>
-            <TabellMineAnsatte
-                className={'mine-ansatte__table'}
-                listeMedArbeidsForhold={mineAnsatte}
-            />
-            <ListeMedAnsatteForMobil
-                listeMedArbeidsForhold={mineAnsatte}
-                className={'mine-ansatte__liste'}
-            />
         </div>
     );
 };

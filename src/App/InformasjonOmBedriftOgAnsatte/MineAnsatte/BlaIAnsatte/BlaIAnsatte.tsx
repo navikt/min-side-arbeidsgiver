@@ -1,8 +1,12 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FunctionComponent, useState, useContext } from 'react';
 import './BlaIAnsatte.less';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+
+import ListeMedAnsatteForMobil from '../ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
+import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
+import TabellMineAnsatte from '../TabellMineAnsatte/TabellMineAnsatte';
 
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
     let antallSider: number = Math.floor(liste.length / antallForhold);
@@ -37,41 +41,48 @@ interface Props {
 
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
+    const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
 
     return (
-        <ReactCSSTransitionGroup
-            transitionName="sidebytter"
-            transitionAppear={true}
-            transitionAppearTimeout={600}
-            transitionEnter={false}
-            transitionLeave={false}
-        >
-            <div className="sidebytter">
-                <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(1)}>
+        <>
+            <div className={props.className}>
+                <button className={props.className + '__valg'} onClick={() => setnaVarendeIndex(1)}>
                     <GraSirkelMedNr sidetall={1} />
                 </button>
                 ...
                 <button
-                    className="sidebytter__valg"
+                    className={props.className + '__valg'}
                     onClick={() => setnaVarendeIndex(naVarendeIndex - 1)}
                 >
                     <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
                 </button>
-                <button className="sidebytter__valg">
+                <button className={props.className + '__valg'}>
                     <GraSirkelMedNr sidetall={naVarendeIndex} erValgt={+' ' + 'erValgt'} />
                 </button>
                 <button
-                    className="sidebytter__valg"
+                    className={props.className + '__valg'}
                     onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
                 >
                     <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
                 </button>
                 ...
-                <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(72)}>
+                <button
+                    className={props.className + '__valg'}
+                    onClick={() => setnaVarendeIndex(72)}
+                >
                     <GraSirkelMedNr sidetall={72} />
                 </button>
             </div>
-        </ReactCSSTransitionGroup>
+
+            <TabellMineAnsatte
+                className={'mine-ansatte__table'}
+                listeMedArbeidsForhold={mineAnsatte}
+            />
+            <ListeMedAnsatteForMobil
+                listeMedArbeidsForhold={mineAnsatte}
+                className={'mine-ansatte__liste'}
+            />
+        </>
     );
 };
 

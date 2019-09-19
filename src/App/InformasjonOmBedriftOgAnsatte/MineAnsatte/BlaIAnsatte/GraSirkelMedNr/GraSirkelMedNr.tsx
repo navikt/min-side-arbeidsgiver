@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import './GraSirkelMedNr.less';
 import { Element } from 'nav-frontend-typografi';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 interface Props {
     sidetall: number;
@@ -8,9 +9,23 @@ interface Props {
 }
 
 const GraSirkelMedNr: FunctionComponent<Props> = props => {
+    const [index, setIndex] = useState('');
+
+    useEffect(() => {
+        setIndex(props.sidetall.toString());
+    }, [index, props.sidetall]);
+
     return (
-        <div className={'gra-sirkel-uten' + props.erValgt}>
-            <Element className={'gra-sirkel__sidetall'}>{props.sidetall.toString()}</Element>
+        <div className={'gra-sirkel-uten' + props.erValgt} key={index}>
+            <ReactCSSTransitionGroup
+                transitionName="gra-sirkel-uten"
+                transitionAppear={true}
+                transitionAppearTimeout={5000}
+                transitionEnter={false}
+                transitionLeave={false}
+            >
+                <Element className={'gra-sirkel__sidetall'}>{index.toString()}</Element>
+            </ReactCSSTransitionGroup>
         </div>
     );
 };
