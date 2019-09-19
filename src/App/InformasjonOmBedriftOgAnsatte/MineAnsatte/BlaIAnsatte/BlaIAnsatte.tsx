@@ -35,7 +35,7 @@ export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide: n
 
 interface Props {
     className?: string;
-    listeMedArbeidsForhold: enkelArbeidsforhold[];
+    listeMedArbeidsForhold: ObjektFraAAregisteret;
 }
 
 const SideBytter: FunctionComponent<Props> = props => {

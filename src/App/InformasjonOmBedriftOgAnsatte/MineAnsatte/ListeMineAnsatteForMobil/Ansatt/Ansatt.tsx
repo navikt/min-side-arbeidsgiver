@@ -6,29 +6,23 @@ import { enkelArbeidsforhold } from '../../../../../Objekter/Ansatte';
 
 interface Props {
     className?: string;
-    arbeidsforhold: enkelArbeidsforhold;
+    navn: string;
+    offentligID: string;
+    yrke: string;
+    fom: string;
+    tom: string;
 }
 
 const Ansatt: FunctionComponent<Props> = props => {
     return (
         <li className="arbeidsforhold">
             <ul className="arbeidsforhold__liste">
-                <AttributtVisning
-                    attributt="Offentlig Ident"
-                    attributtVerdi={props.arbeidsforhold.arbeidstaker.offentligIdent}
-                />
-                <AttributtVisning
-                    attributt="Yrke"
-                    attributtVerdi={props.arbeidsforhold.arbeidsavtaler[0].yrke}
-                />
-                <AttributtVisning
-                    attributt="Startet"
-                    attributtVerdi={props.arbeidsforhold.ansettelsesperiode.periode.fom}
-                />
-                <AttributtVisning
-                    attributt="Slutter"
-                    attributtVerdi={props.arbeidsforhold.ansettelsesperiode.periode.tom}
-                />
+                <AttributtVisning attributt="Navn" attributtVerdi={props.navn} />
+                <AttributtVisning attributt="Offentlig Ident" attributtVerdi={props.offentligID} />
+                <AttributtVisning attributt="Yrke" attributtVerdi={props.yrke} />
+                <AttributtVisning attributt="Startet" attributtVerdi={props.fom} />
+                <AttributtVisning attributt="Slutter" attributtVerdi={props.tom} />
+                <AttributtVisning attributt="Varsling" attributtVerdi="9" />
             </ul>
         </li>
     );

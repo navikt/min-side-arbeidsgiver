@@ -19,7 +19,7 @@ const MineAnsatte: FunctionComponent<Props> = props => {
             </Undertittel>
             <SideBytter listeMedArbeidsForhold={mineAnsatte} className={'sidebytter'} />
             <div tabIndex={0} className={'mine-ansatte__antall'}>
-                {mineAnsatte.length} arbeidsforhold
+                {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
             </div>
         </div>
     );
