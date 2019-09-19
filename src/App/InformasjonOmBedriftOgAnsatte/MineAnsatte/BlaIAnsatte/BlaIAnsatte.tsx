@@ -1,6 +1,10 @@
-import React, { FunctionComponent, useState, useContext } from 'react';
+import React, { FunctionComponent, useState, useContext, useEffect } from 'react';
 import './BlaIAnsatte.less';
-import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../../../../Objekter/Ansatte';
+import {
+    enkelArbeidsforhold,
+    Mocksrespons,
+    ObjektFraAAregisteret,
+} from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 
 import ListeMedAnsatteForMobil from '../ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
@@ -20,7 +24,8 @@ export const genererListe = (
     liste: ObjektFraAAregisteret,
     antallForhold: number
 ) => {
-    return liste.arbeidsforholdoversikter.slice(indeks, indeks + antallForhold + 1);
+    let forsteElement: number = antallForhold * indeks;
+    return liste.arbeidsforholdoversikter.slice(forsteElement, indeks + antallForhold + 1);
 };
 
 export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide: number): string => {
@@ -41,6 +46,26 @@ interface Props {
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
+    const [ListenSomSkalVises, setListenSomSkalVises] = useState(
+        mineAnsatte.arbeidsforholdoversikter
+    );
+
+    useEffect(() => {
+        const genererListe = (indeks: number, antallForholdPerSide: number): any => {
+            let forsteElement: number = antallForholdPerSide * indeks;
+            mineAnsatte.arbeidsforholdoversikter.slice(
+                forsteElement,
+                indeks + antallForholdPerSide + 1
+            );
+            const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
+                forsteElement,
+                indeks + antallForholdPerSide + 1
+            );
+            return vise;
+        };
+        setListenSomSkalVises(genererListe(naVarendeIndex, 25));
+        console.log(ListenSomSkalVises, 'håper på det beste');
+    }, [ListenSomSkalVises, naVarendeIndex, mineAnsatte]);
 
     return (
         <>
