@@ -5,7 +5,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 interface Props {
     sidetall: number;
-    erValgt?: string;
 }
 
 const GraSirkelMedNr: FunctionComponent<Props> = props => {
@@ -16,15 +15,13 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
     }, [index, props.sidetall]);
 
     return (
-        <div className={'gra-sirkel-uten' + props.erValgt} key={index}>
+        <div className={'indeks-valg'} key={index}>
             <ReactCSSTransitionGroup
-                transitionName="gra-sirkel-uten"
+                transitionName="indeks-valg"
                 transitionAppear={true}
-                transitionAppearTimeout={5000}
-                transitionEnter={false}
-                transitionLeave={false}
+                transitionAppearTimeout={500}
             >
-                <Element className={'gra-sirkel__sidetall'}>{index.toString()}</Element>
+                <Element className={'indeks-valg__sidetall'}>{index.toString()}</Element>
             </ReactCSSTransitionGroup>
         </div>
     );

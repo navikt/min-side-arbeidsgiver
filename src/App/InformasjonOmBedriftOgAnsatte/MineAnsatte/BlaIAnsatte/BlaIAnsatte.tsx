@@ -45,31 +45,28 @@ const SideBytter: FunctionComponent<Props> = props => {
 
     return (
         <>
-            <div className={props.className}>
-                <button className={props.className + '__valg'} onClick={() => setnaVarendeIndex(1)}>
+            <div className={'sidebytter'}>
+                <button className={'sidebytter__valg'} onClick={() => setnaVarendeIndex(1)}>
                     <GraSirkelMedNr sidetall={1} />
                 </button>
                 ...
                 <button
-                    className={props.className + '__valg'}
+                    className={'sidebytter__valg'}
                     onClick={() => setnaVarendeIndex(naVarendeIndex - 1)}
                 >
                     <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
                 </button>
-                <button className={props.className + '__valg'}>
-                    <GraSirkelMedNr sidetall={naVarendeIndex} erValgt={+' ' + 'erValgt'} />
+                <button className="sidebytter__valg erValgt">
+                    <GraSirkelMedNr sidetall={naVarendeIndex} />
                 </button>
                 <button
-                    className={props.className + '__valg'}
+                    className={'sidebytter__valg'}
                     onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
                 >
                     <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
                 </button>
                 ...
-                <button
-                    className={props.className + '__valg'}
-                    onClick={() => setnaVarendeIndex(72)}
-                >
+                <button className={'sidebytter__valg'} onClick={() => setnaVarendeIndex(72)}>
                     <GraSirkelMedNr sidetall={72} />
                 </button>
             </div>
