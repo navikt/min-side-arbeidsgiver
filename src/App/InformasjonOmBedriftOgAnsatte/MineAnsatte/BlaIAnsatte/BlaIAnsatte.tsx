@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState, useEffect } from 'react';
 import './BlaIAnsatte.less';
 import { enkelArbeidsforhold } from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
     let antallSider: number = Math.floor(liste.length / antallForhold);
@@ -38,31 +39,39 @@ const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
 
     return (
-        <div className="sidebytter">
-            <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(1)}>
-                <GraSirkelMedNr sidetall={1} />
-            </button>
-            ...
-            <button
-                className="sidebytter__valg"
-                onClick={() => setnaVarendeIndex(naVarendeIndex - 1)}
-            >
-                <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
-            </button>
-            <button className="sidebytter__valg">
-                <GraSirkelMedNr sidetall={naVarendeIndex} erValgt={' ' + 'erValgt'} />
-            </button>
-            <button
-                className="sidebytter__valg"
-                onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
-            >
-                <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
-            </button>
-            ...
-            <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(72)}>
-                <GraSirkelMedNr sidetall={72} />
-            </button>
-        </div>
+        <ReactCSSTransitionGroup
+            transitionName="sidebytter"
+            transitionAppear={true}
+            transitionAppearTimeout={600}
+            transitionEnter={false}
+            transitionLeave={false}
+        >
+            <div className="sidebytter">
+                <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(1)}>
+                    <GraSirkelMedNr sidetall={1} />
+                </button>
+                ...
+                <button
+                    className="sidebytter__valg"
+                    onClick={() => setnaVarendeIndex(naVarendeIndex - 1)}
+                >
+                    <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
+                </button>
+                <button className="sidebytter__valg">
+                    <GraSirkelMedNr sidetall={naVarendeIndex} erValgt={+' ' + 'erValgt'} />
+                </button>
+                <button
+                    className="sidebytter__valg"
+                    onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
+                >
+                    <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
+                </button>
+                ...
+                <button className="sidebytter__valg" onClick={() => setnaVarendeIndex(72)}>
+                    <GraSirkelMedNr sidetall={72} />
+                </button>
+            </div>
+        </ReactCSSTransitionGroup>
     );
 };
 
