@@ -13,9 +13,10 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
     const [index, setIndex] = useState('');
 
     useEffect(() => {
-        if (props.naVarendeIndeks > props.siderTilsammen - 1) {
-            setIndex((props.sidetall - 1).toString());
-        } else {
+        if (
+            props.sidetall <= props.siderTilsammen &&
+            props.naVarendeIndeks !== props.siderTilsammen
+        ) {
             setIndex(props.sidetall.toString());
         }
     }, [index, props.sidetall, props.siderTilsammen]);
