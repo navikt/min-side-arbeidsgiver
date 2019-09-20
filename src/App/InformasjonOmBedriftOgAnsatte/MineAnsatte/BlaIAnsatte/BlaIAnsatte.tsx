@@ -46,17 +46,20 @@ interface Props {
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
-    const [ListenSomSkalVises, setListenSomSkalVises] = useState(
+    const [listenSomSkalVises, setListenSomSkalVises] = useState(
         mineAnsatte.arbeidsforholdoversikter
     );
 
-    const setIndexOgGenererListe = (indeks: number) => {
+    const setIndeksOgGenererListe = (indeks: number) => {
+        console.log('vis sliced liste', listenSomSkalVises);
         setnaVarendeIndex(indeks);
-        let forsteElement: number = 25 * indeks;
-        mineAnsatte.arbeidsforholdoversikter.slice(forsteElement, indeks + 25 + 1);
+        let forsteElement: number = 25 * indeks - 24;
+        console.log(
+            mineAnsatte.arbeidsforholdoversikter.slice(forsteElement - 1, forsteElement + 24)
+        );
         const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
-            forsteElement,
-            indeks + 25 + 1
+            forsteElement - 1,
+            forsteElement + 24
         );
         setListenSomSkalVises(vise);
     };
@@ -64,7 +67,7 @@ const SideBytter: FunctionComponent<Props> = props => {
     return (
         <>
             <div className={'sidebytter'}>
-                <button className={'sidebytter__valg'} onClick={() => setIndexOgGenererListe(1)}>
+                <button className={'sidebytter__valg'} onClick={() => setIndeksOgGenererListe(1)}>
                     <GraSirkelMedNr sidetall={1} />
                 </button>
                 ...
