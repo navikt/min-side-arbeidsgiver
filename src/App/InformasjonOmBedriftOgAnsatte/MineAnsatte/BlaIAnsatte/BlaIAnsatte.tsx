@@ -6,6 +6,8 @@ import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 import ListeMedAnsatteForMobil from '../ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import TabellMineAnsatte from '../TabellMineAnsatte/TabellMineAnsatte';
+import VisningAvSideBytter from './TreEllerMindre';
+import GenerellVisning from './GenerellVisning';
 
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
     let antallSider: number = Math.floor(liste.length / antallForhold);
@@ -37,15 +39,16 @@ const SideBytter: FunctionComponent<Props> = props => {
 
     const setIndeksOgGenererListe = (indeks: number) => {
         setnaVarendeIndex(indeks);
-        const forsteElement: number = 25 * indeks - 24;
+    };
+
+    useEffect(() => {
+        console.log('useeg´´fect');
+        const forsteElement: number = 25 * naVarendeIndex - 24;
         const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
             forsteElement - 1,
             forsteElement + 24
         );
         setListenSomSkalVises(vise);
-    };
-
-    useEffect(() => {
         let antallSider: number = Math.floor(mineAnsatte.arbeidsforholdoversikter.length / 25);
         if (mineAnsatte.arbeidsforholdoversikter.length % 25 !== 0) {
             antallSider++;
@@ -55,35 +58,11 @@ const SideBytter: FunctionComponent<Props> = props => {
         }
         if (naVarendeIndex > antallSider - 1) {
         }
-    }, []);
+    }, [mineAnsatte.arbeidsforholdoversikter, naVarendeIndex]);
 
     return (
         <>
-            <div className={'sidebytter'}>
-                <button className={'sidebytter__valg'} onClick={() => setIndeksOgGenererListe(1)}>
-                    <GraSirkelMedNr sidetall={1} />
-                </button>
-                ...
-                <button
-                    className={'sidebytter__valg'}
-                    onClick={() => setIndeksOgGenererListe(naVarendeIndex - 1)}
-                >
-                    <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
-                </button>
-                <button className="sidebytter__valg erValgt">
-                    <GraSirkelMedNr sidetall={naVarendeIndex} />
-                </button>
-                <button
-                    className={'sidebytter__valg'}
-                    onClick={() => setIndeksOgGenererListe(naVarendeIndex + 1)}
-                >
-                    <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
-                </button>
-                ...
-                <button className={'sidebytter__valg'} onClick={() => setIndeksOgGenererListe(72)}>
-                    <GraSirkelMedNr sidetall={72} />
-                </button>
-            </div>
+            <GenerellVisning naVarendeIndeks={naVarendeIndex} byttSide={setIndeksOgGenererListe} />
 
             <TabellMineAnsatte
                 className={'mine-ansatte__table'}
