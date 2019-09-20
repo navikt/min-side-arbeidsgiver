@@ -50,33 +50,27 @@ const SideBytter: FunctionComponent<Props> = props => {
         mineAnsatte.arbeidsforholdoversikter
     );
 
-    useEffect(() => {
-        const genererListe = (indeks: number, antallForholdPerSide: number): any => {
-            let forsteElement: number = antallForholdPerSide * indeks;
-            mineAnsatte.arbeidsforholdoversikter.slice(
-                forsteElement,
-                indeks + antallForholdPerSide + 1
-            );
-            const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
-                forsteElement,
-                indeks + antallForholdPerSide + 1
-            );
-            return vise;
-        };
-        setListenSomSkalVises(genererListe(naVarendeIndex, 25));
-        console.log(ListenSomSkalVises, 'håper på det beste');
-    }, [ListenSomSkalVises, naVarendeIndex, mineAnsatte]);
+    const setIndexOgGenererListe = (indeks: number) => {
+        setnaVarendeIndex(indeks);
+        let forsteElement: number = 25 * indeks;
+        mineAnsatte.arbeidsforholdoversikter.slice(forsteElement, indeks + 25 + 1);
+        const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
+            forsteElement,
+            indeks + 25 + 1
+        );
+        setListenSomSkalVises(vise);
+    };
 
     return (
         <>
             <div className={'sidebytter'}>
-                <button className={'sidebytter__valg'} onClick={() => setnaVarendeIndex(1)}>
+                <button className={'sidebytter__valg'} onClick={() => setIndexOgGenererListe(1)}>
                     <GraSirkelMedNr sidetall={1} />
                 </button>
                 ...
                 <button
                     className={'sidebytter__valg'}
-                    onClick={() => setnaVarendeIndex(naVarendeIndex - 1)}
+                    onClick={() => setIndeksOgGenererListe(naVarendeIndex - 1)}
                 >
                     <GraSirkelMedNr sidetall={naVarendeIndex - 1} />
                 </button>
@@ -85,12 +79,12 @@ const SideBytter: FunctionComponent<Props> = props => {
                 </button>
                 <button
                     className={'sidebytter__valg'}
-                    onClick={() => setnaVarendeIndex(naVarendeIndex + 1)}
+                    onClick={() => setIndeksOgGenererListe(naVarendeIndex + 1)}
                 >
                     <GraSirkelMedNr sidetall={naVarendeIndex + 1} />
                 </button>
                 ...
-                <button className={'sidebytter__valg'} onClick={() => setnaVarendeIndex(72)}>
+                <button className={'sidebytter__valg'} onClick={() => setIndeksOgGenererListe(72)}>
                     <GraSirkelMedNr sidetall={72} />
                 </button>
             </div>
