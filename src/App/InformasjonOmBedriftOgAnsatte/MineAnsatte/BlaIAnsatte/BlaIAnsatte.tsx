@@ -94,7 +94,7 @@ const SideBytter: FunctionComponent<Props> = props => {
                 listeMedArbeidsForhold={listenSomSkalVises}
             />
             <ListeMedAnsatteForMobil
-                listeMedArbeidsForhold={mineAnsatte}
+                listeMedArbeidsForhold={listenSomSkalVises}
                 className={'mine-ansatte__liste'}
             />
         </>

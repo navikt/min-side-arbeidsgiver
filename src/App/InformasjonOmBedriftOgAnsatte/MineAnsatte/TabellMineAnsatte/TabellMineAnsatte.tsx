@@ -1,16 +1,20 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './TabellMineAnsatte.less';
 import KolonnerFullSkjerm from './Kolonner/KollonerFullSkjerm';
-import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../../../../Objekter/Ansatte';
+import {
+    arbeidsforhold,
+    enkelArbeidsforhold,
+    ObjektFraAAregisteret,
+} from '../../../../Objekter/Ansatte';
 
 interface Props {
     className?: string;
-    listeMedArbeidsForhold: ObjektFraAAregisteret;
+    listeMedArbeidsForhold: arbeidsforhold[];
 }
 
 const TabellMineAnsatte: FunctionComponent<Props> = props => {
     let index: number = 0;
-    const rader = props.listeMedArbeidsForhold.arbeidsforholdoversikter.map(arbeidsforhold => {
+    const rader = props.listeMedArbeidsForhold.map(arbeidsforhold => {
         index++;
         return (
             <tr>
