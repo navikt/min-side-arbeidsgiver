@@ -17,12 +17,23 @@ const TreEllerMindre: FunctionComponent<Props> = props => {
                 <button className={'tre-case__valg'} onClick={() => byttSide(1)}>
                     <GraSirkelMedNr sidetall={1} />
                 </button>
+
                 <button className="tre-case__valg" onClick={() => byttSide(2)}>
                     <GraSirkelMedNr sidetall={2} />
                 </button>
-                <button className={'tre-case__valg'} onClick={() => byttSide(3)}>
-                    <GraSirkelMedNr sidetall={3} />
-                </button>
+                {props.siderTilsammen > 2 && (
+                    <button className={'tre-case__valg'} onClick={() => byttSide(3)}>
+                        <GraSirkelMedNr sidetall={3} />
+                    </button>
+                )}
+                {props.siderTilsammen > 3 && (
+                    <>
+                        ...
+                        <button className={'tre-case__valg'} onClick={() => byttSide(3)}>
+                            <GraSirkelMedNr sidetall={props.siderTilsammen} />
+                        </button>
+                    </>
+                )}
             </div>
         </>
     );

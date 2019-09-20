@@ -5,6 +5,7 @@ interface Props {
     className?: string;
     byttSide: (indeks: number) => void;
     naVarendeIndeks: number;
+    siderTilsammen: number;
 }
 
 const GenerellVisning: FunctionComponent<Props> = props => {
@@ -32,8 +33,8 @@ const GenerellVisning: FunctionComponent<Props> = props => {
                 <GraSirkelMedNr sidetall={props.naVarendeIndeks + 1} />
             </button>
             ...
-            <button className={'sidebytter__valg'} onClick={() => byttSide(72)}>
-                <GraSirkelMedNr sidetall={72} />
+            <button className={'sidebytter__valg'} onClick={() => byttSide(props.siderTilsammen)}>
+                <GraSirkelMedNr sidetall={props.siderTilsammen} />
             </button>
         </div>
     );

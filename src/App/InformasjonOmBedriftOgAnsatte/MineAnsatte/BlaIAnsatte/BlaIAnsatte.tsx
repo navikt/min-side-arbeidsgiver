@@ -59,13 +59,18 @@ const SideBytter: FunctionComponent<Props> = props => {
 
     return (
         <>
-            {antallSider < 4 && (
-                <TreEllerMindre byttSide={setIndeksOgGenererListe} siderTilsammen={antallSider} />
-            )}
-            {antallSider > 3 && (
+            {antallSider < 4 ||
+                (naVarendeIndex < 3 && (
+                    <TreEllerMindre
+                        byttSide={setIndeksOgGenererListe}
+                        siderTilsammen={antallSider}
+                    />
+                ))}
+            {antallSider > 3 && naVarendeIndex > 2 && (
                 <GenerellVisning
                     naVarendeIndeks={naVarendeIndex}
                     byttSide={setIndeksOgGenererListe}
+                    siderTilsammen={antallSider}
                 />
             )}
             <TabellMineAnsatte
