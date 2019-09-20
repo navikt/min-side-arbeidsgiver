@@ -8,6 +8,7 @@ import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerPr
 import TabellMineAnsatte from '../TabellMineAnsatte/TabellMineAnsatte';
 import VisningAvSideBytter from './TreEllerMindre';
 import GenerellVisning from './GenerellVisning';
+import TreEllerMindre from './TreEllerMindre';
 
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
     let antallSider: number = Math.floor(liste.length / antallForhold);
@@ -35,14 +36,14 @@ const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     const [listenSomSkalVises, setListenSomSkalVises] = useState([]);
-    const [antallSiderCase, setantallSiderCase] = useState('<4');
+    const [antallSider, setAntallSider] = useState(0);
 
     const setIndeksOgGenererListe = (indeks: number) => {
         setnaVarendeIndex(indeks);
     };
 
     useEffect(() => {
-        console.log('useeg´´fect');
+        console.log(mineAnsatte.arbeidsforholdoversikter.length);
         const forsteElement: number = 25 * naVarendeIndex - 24;
         const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
             forsteElement - 1,
@@ -53,17 +54,20 @@ const SideBytter: FunctionComponent<Props> = props => {
         if (mineAnsatte.arbeidsforholdoversikter.length % 25 !== 0) {
             antallSider++;
         }
-        if (antallSider > 4) {
-            setantallSiderCase('<4');
-        }
-        if (naVarendeIndex > antallSider - 1) {
-        }
+        setAntallSider(antallSider);
     }, [mineAnsatte.arbeidsforholdoversikter, naVarendeIndex]);
 
     return (
         <>
-            <GenerellVisning naVarendeIndeks={naVarendeIndex} byttSide={setIndeksOgGenererListe} />
-
+            {antallSider < 4 && (
+                <TreEllerMindre byttSide={setIndeksOgGenererListe} siderTilsammen={antallSider} />
+            )}
+            {antallSider > 3 && (
+                <GenerellVisning
+                    naVarendeIndeks={naVarendeIndex}
+                    byttSide={setIndeksOgGenererListe}
+                />
+            )}
             <TabellMineAnsatte
                 className={'mine-ansatte__table'}
                 listeMedArbeidsForhold={listenSomSkalVises}

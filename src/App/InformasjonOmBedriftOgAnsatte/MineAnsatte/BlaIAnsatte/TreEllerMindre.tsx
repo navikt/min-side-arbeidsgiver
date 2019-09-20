@@ -5,9 +5,10 @@ import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 interface Props {
     className?: string;
     byttSide: (indeks: number) => void;
+    siderTilsammen: number;
 }
 
-const VisningAvSideBytter: FunctionComponent<Props> = props => {
+const TreEllerMindre: FunctionComponent<Props> = props => {
     const { byttSide } = props;
 
     return (
@@ -27,4 +28,4 @@ const VisningAvSideBytter: FunctionComponent<Props> = props => {
     );
 };
 
-export default VisningAvSideBytter;
+export default TreEllerMindre;
