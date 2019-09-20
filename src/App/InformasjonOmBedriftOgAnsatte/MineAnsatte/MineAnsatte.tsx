@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './MineAnsatte.less';
-import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
 import { Undertittel } from 'nav-frontend-typografi';
-import ListeMedAnsatteForMobil from './ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import SideBytter from './BlaIAnsatte/BlaIAnsatte';
 

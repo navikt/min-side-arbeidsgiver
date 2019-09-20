@@ -1,10 +1,6 @@
 import React, { FunctionComponent, useState, useContext, useEffect } from 'react';
 import './BlaIAnsatte.less';
-import {
-    enkelArbeidsforhold,
-    Mocksrespons,
-    ObjektFraAAregisteret,
-} from '../../../../Objekter/Ansatte';
+import { enkelArbeidsforhold, ObjektFraAAregisteret } from '../../../../Objekter/Ansatte';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 
 import ListeMedAnsatteForMobil from '../ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';

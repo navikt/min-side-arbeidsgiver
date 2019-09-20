@@ -88,3 +88,78 @@ export const Mocksrespons: ObjektFraAAregisteret = {
     startrad: 'JA',
     totalAntall: 'JA',
 };
+
+export const eksempel1: arbeidsforhold = {
+    navn: 'Gøril',
+    ansattFom: '12/04/1814',
+    ansattTom: '12/04/1913',
+    arbeidsgiver: {
+        type: 'IKEA',
+    },
+    arbeidstaker: {
+        type: 'Selger',
+        aktoerId: '444',
+        offentligIdent: '666',
+    },
+    innrapportertEtterAOrdningen: 'JA',
+    navArbeidsforholdId: '666',
+    opplysningspliktig: {
+        type: 'Sjef',
+    },
+    permisjonPermitteringsprosent: '49%',
+    sistBekreftet: '1999',
+    stillingsprosent: '21%',
+    type: 'hardt arbeid',
+    varslingskode: '787',
+    yrke: 'vasker',
+};
+
+export const eksempel2: arbeidsforhold = {
+    navn: 'Fabian',
+    ansattFom: '12/04/1814',
+    ansattTom: '12/04/1913',
+    arbeidsgiver: {
+        type: 'IKEA',
+    },
+    arbeidstaker: {
+        type: 'Selger',
+        aktoerId: '444',
+        offentligIdent: '666',
+    },
+    innrapportertEtterAOrdningen: 'JA',
+    navArbeidsforholdId: '666',
+    opplysningspliktig: {
+        type: 'Sjef',
+    },
+    permisjonPermitteringsprosent: '49%',
+    sistBekreftet: '1999',
+    stillingsprosent: '21%',
+    type: 'hardt arbeid',
+    varslingskode: '787',
+    yrke: 'vasker',
+};
+
+export const eksempel3: arbeidsforhold = {
+    navn: 'LeoNardo',
+    ansattFom: '12/04/1814',
+    ansattTom: '12/04/1913',
+    arbeidsgiver: {
+        type: 'IKEA',
+    },
+    arbeidstaker: {
+        type: 'Selger',
+        aktoerId: '444',
+        offentligIdent: '666',
+    },
+    innrapportertEtterAOrdningen: 'JA',
+    navArbeidsforholdId: '666',
+    opplysningspliktig: {
+        type: 'Sjef',
+    },
+    permisjonPermitteringsprosent: '49%',
+    sistBekreftet: '1999',
+    stillingsprosent: '21%',
+    type: 'hardt arbeid',
+    varslingskode: '787',
+    yrke: 'vasker',
+};
