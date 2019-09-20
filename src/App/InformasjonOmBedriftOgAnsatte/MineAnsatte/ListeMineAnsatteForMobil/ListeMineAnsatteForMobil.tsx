@@ -1,11 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import './ListeMineAnsatteForMobil.less';
 import Ansatt from './Ansatt/Ansatt';
-import {
-    arbeidsforhold,
-    enkelArbeidsforhold,
-    ObjektFraAAregisteret,
-} from '../../../../Objekter/Ansatte';
+import { arbeidsforhold } from '../../../../Objekter/Ansatte';
 
 interface Props {
     className?: string;
