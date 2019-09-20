@@ -5,14 +5,20 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 interface Props {
     sidetall: number;
+    siderTilsammen: number;
+    naVarendeIndeks: number;
 }
 
 const GraSirkelMedNr: FunctionComponent<Props> = props => {
     const [index, setIndex] = useState('');
 
     useEffect(() => {
-        setIndex(props.sidetall.toString());
-    }, [index, props.sidetall]);
+        if (props.naVarendeIndeks > props.siderTilsammen - 1) {
+            setIndex((props.sidetall - 1).toString());
+        } else {
+            setIndex(props.sidetall.toString());
+        }
+    }, [index, props.sidetall, props.siderTilsammen]);
 
     return (
         <div className={'indeks-valg'} key={index}>

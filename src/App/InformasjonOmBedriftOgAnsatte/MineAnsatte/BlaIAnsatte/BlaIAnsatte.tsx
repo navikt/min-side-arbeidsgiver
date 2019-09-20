@@ -64,6 +64,7 @@ const SideBytter: FunctionComponent<Props> = props => {
                     <TreEllerMindre
                         byttSide={setIndeksOgGenererListe}
                         siderTilsammen={antallSider}
+                        naVarendeIndeks={naVarendeIndex}
                     />
                 ))}
             {antallSider > 3 && naVarendeIndex > 2 && (
