@@ -15,15 +15,6 @@ export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: nu
     return antallSider;
 };
 
-export const genererListe = (
-    indeks: number,
-    liste: ObjektFraAAregisteret,
-    antallForhold: number
-) => {
-    let forsteElement: number = antallForhold * indeks;
-    return liste.arbeidsforholdoversikter.slice(forsteElement, indeks + antallForhold + 1);
-};
-
 export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide: number): string => {
     if (antallSider === 3 && naVarendeSide > 4) {
         return 'tre-sider';
@@ -36,26 +27,35 @@ export const finnVisningAvSideVisninger = (antallSider: number, naVarendeSide: n
 
 interface Props {
     className?: string;
-    listeMedArbeidsForhold: ObjektFraAAregisteret;
 }
 
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     const [listenSomSkalVises, setListenSomSkalVises] = useState([]);
+    const [antallSiderCase, setantallSiderCase] = useState('<4');
 
     const setIndeksOgGenererListe = (indeks: number) => {
         setnaVarendeIndex(indeks);
-        let forsteElement: number = 25 * indeks - 24;
-        console.log(
-            mineAnsatte.arbeidsforholdoversikter.slice(forsteElement - 1, forsteElement + 24)
-        );
+        const forsteElement: number = 25 * indeks - 24;
         const vise: any = mineAnsatte.arbeidsforholdoversikter.slice(
             forsteElement - 1,
             forsteElement + 24
         );
         setListenSomSkalVises(vise);
     };
+
+    useEffect(() => {
+        let antallSider: number = Math.floor(mineAnsatte.arbeidsforholdoversikter.length / 25);
+        if (mineAnsatte.arbeidsforholdoversikter.length % 25 !== 0) {
+            antallSider++;
+        }
+        if (antallSider > 4) {
+            setantallSiderCase('<4');
+        }
+        if (naVarendeIndex > antallSider - 1) {
+        }
+    }, []);
 
     return (
         <>
