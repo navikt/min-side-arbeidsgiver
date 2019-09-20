@@ -46,12 +46,9 @@ interface Props {
 const SideBytter: FunctionComponent<Props> = props => {
     const [naVarendeIndex, setnaVarendeIndex] = useState(1);
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
-    const [listenSomSkalVises, setListenSomSkalVises] = useState(
-        mineAnsatte.arbeidsforholdoversikter
-    );
+    const [listenSomSkalVises, setListenSomSkalVises] = useState([]);
 
     const setIndeksOgGenererListe = (indeks: number) => {
-        console.log('vis sliced liste', listenSomSkalVises);
         setnaVarendeIndex(indeks);
         let forsteElement: number = 25 * indeks - 24;
         console.log(
@@ -94,7 +91,7 @@ const SideBytter: FunctionComponent<Props> = props => {
 
             <TabellMineAnsatte
                 className={'mine-ansatte__table'}
-                listeMedArbeidsForhold={mineAnsatte}
+                listeMedArbeidsForhold={listenSomSkalVises}
             />
             <ListeMedAnsatteForMobil
                 listeMedArbeidsForhold={mineAnsatte}
