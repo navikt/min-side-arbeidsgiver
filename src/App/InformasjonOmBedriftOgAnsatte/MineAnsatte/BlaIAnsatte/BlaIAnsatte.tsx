@@ -60,6 +60,9 @@ const SideBytter: FunctionComponent<Props> = props => {
 
     return (
         <>
+            <div tabIndex={0} className={'antall-forhold'}>
+                {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
+            </div>
             <div className="sidebytter">
                 {antallSider < 4 ||
                     (naVarendeIndex < 3 && (

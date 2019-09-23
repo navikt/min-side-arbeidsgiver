@@ -9,17 +9,12 @@ interface Props {
 }
 
 const MineAnsatte: FunctionComponent<Props> = props => {
-    const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     return (
         <div className={'mine-ansatte'}>
             <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
                 Opplysninger fra Aa-registeret
             </Undertittel>
-
             <SideBytter className={'sidebytter'} />
-            <div tabIndex={0} className={'mine-ansatte__antall'}>
-                {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
-            </div>
         </div>
     );
 };
