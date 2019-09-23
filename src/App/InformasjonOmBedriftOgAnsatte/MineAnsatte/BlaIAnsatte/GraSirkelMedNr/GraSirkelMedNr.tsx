@@ -13,6 +13,8 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
     const [index, setIndex] = useState('');
 
     useEffect(() => {
+        console.log('navarende index,', props.naVarendeIndeks);
+        console.log('sidetall: ', props.sidetall);
         setIndex(props.sidetall.toString());
     }, [props.sidetall]);
 

@@ -41,6 +41,7 @@ const SideBytter: FunctionComponent<Props> = props => {
 
     const setIndeksOgGenererListe = (indeks: number) => {
         setnaVarendeIndex(indeks);
+        console.log('indeks som settes: ', indeks);
     };
 
     useEffect(() => {

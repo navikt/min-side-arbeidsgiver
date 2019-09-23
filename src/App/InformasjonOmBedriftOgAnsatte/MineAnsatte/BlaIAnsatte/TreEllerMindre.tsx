@@ -42,7 +42,10 @@ const TreEllerMindre: FunctionComponent<Props> = props => {
                 {props.siderTilsammen > 3 && (
                     <>
                         ...
-                        <button className={'tre-case__valg'} onClick={() => byttSide(3)}>
+                        <button
+                            className={'tre-case__valg'}
+                            onClick={() => byttSide(props.siderTilsammen)}
+                        >
                             <GraSirkelMedNr
                                 sidetall={props.siderTilsammen}
                                 siderTilsammen={props.siderTilsammen}
