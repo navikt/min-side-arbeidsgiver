@@ -12,7 +12,7 @@ const GenerellVisning: FunctionComponent<Props> = props => {
     const { byttSide } = props;
 
     return (
-        <div className={'sidebytter'}>
+        <>
             <button className={'sidebytter__valg'} onClick={() => byttSide(1)}>
                 <GraSirkelMedNr
                     naVarendeIndeks={props.naVarendeIndeks}
@@ -63,7 +63,7 @@ const GenerellVisning: FunctionComponent<Props> = props => {
                     </button>
                 </>
             )}
-        </div>
+        </>
     );
 };
 

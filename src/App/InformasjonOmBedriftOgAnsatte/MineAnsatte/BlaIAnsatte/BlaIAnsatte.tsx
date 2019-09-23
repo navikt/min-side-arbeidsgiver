@@ -6,7 +6,6 @@ import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 import ListeMedAnsatteForMobil from '../ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import TabellMineAnsatte from '../TabellMineAnsatte/TabellMineAnsatte';
-import VisningAvSideBytter from './TreEllerMindre';
 import GenerellVisning from './GenerellVisning';
 import TreEllerMindre from './TreEllerMindre';
 import TreSiste from './TreSiste';
@@ -61,28 +60,30 @@ const SideBytter: FunctionComponent<Props> = props => {
 
     return (
         <>
-            {antallSider < 4 ||
-                (naVarendeIndex < 3 && (
-                    <TreEllerMindre
+            <div className="sidebytter">
+                {antallSider < 4 ||
+                    (naVarendeIndex < 3 && (
+                        <TreEllerMindre
+                            byttSide={setIndeksOgGenererListe}
+                            siderTilsammen={antallSider}
+                            naVarendeIndeks={naVarendeIndex}
+                        />
+                    ))}
+                {antallSider > 3 && naVarendeIndex > 2 && naVarendeIndex < antallSider - 1 && (
+                    <GenerellVisning
+                        naVarendeIndeks={naVarendeIndex}
                         byttSide={setIndeksOgGenererListe}
                         siderTilsammen={antallSider}
-                        naVarendeIndeks={naVarendeIndex}
                     />
-                ))}
-            {antallSider > 3 && naVarendeIndex > 2 && naVarendeIndex < antallSider - 1 && (
-                <GenerellVisning
-                    naVarendeIndeks={naVarendeIndex}
-                    byttSide={setIndeksOgGenererListe}
-                    siderTilsammen={antallSider}
-                />
-            )}
-            {antallSider > 3 && naVarendeIndex >= antallSider - 1 && (
-                <TreSiste
-                    naVarendeIndeks={naVarendeIndex}
-                    byttSide={setIndeksOgGenererListe}
-                    siderTilsammen={antallSider}
-                />
-            )}
+                )}
+                {antallSider > 3 && naVarendeIndex >= antallSider - 1 && (
+                    <TreSiste
+                        naVarendeIndeks={naVarendeIndex}
+                        byttSide={setIndeksOgGenererListe}
+                        siderTilsammen={antallSider}
+                    />
+                )}
+            </div>
             <TabellMineAnsatte
                 className={'mine-ansatte__table'}
                 listeMedArbeidsForhold={listenSomSkalVises}
