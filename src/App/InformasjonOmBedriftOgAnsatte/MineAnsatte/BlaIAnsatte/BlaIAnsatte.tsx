@@ -9,6 +9,7 @@ import TabellMineAnsatte from '../TabellMineAnsatte/TabellMineAnsatte';
 import VisningAvSideBytter from './TreEllerMindre';
 import GenerellVisning from './GenerellVisning';
 import TreEllerMindre from './TreEllerMindre';
+import TreSiste from './TreSiste';
 
 export const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
     let antallSider: number = Math.floor(liste.length / antallForhold);
@@ -67,8 +68,15 @@ const SideBytter: FunctionComponent<Props> = props => {
                         naVarendeIndeks={naVarendeIndex}
                     />
                 ))}
-            {antallSider > 3 && naVarendeIndex > 2 && (
+            {antallSider > 3 && naVarendeIndex > 2 && naVarendeIndex < antallSider - 1 && (
                 <GenerellVisning
+                    naVarendeIndeks={naVarendeIndex}
+                    byttSide={setIndeksOgGenererListe}
+                    siderTilsammen={antallSider}
+                />
+            )}
+            {antallSider > 3 && naVarendeIndex >= antallSider - 1 && (
+                <TreSiste
                     naVarendeIndeks={naVarendeIndex}
                     byttSide={setIndeksOgGenererListe}
                     siderTilsammen={antallSider}

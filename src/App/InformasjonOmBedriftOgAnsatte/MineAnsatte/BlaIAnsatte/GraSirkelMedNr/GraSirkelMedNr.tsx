@@ -13,13 +13,8 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
     const [index, setIndex] = useState('');
 
     useEffect(() => {
-        if (
-            props.sidetall <= props.siderTilsammen &&
-            props.naVarendeIndeks !== props.siderTilsammen
-        ) {
-            setIndex(props.sidetall.toString());
-        }
-    }, [index, props.sidetall, props.siderTilsammen]);
+        setIndex(props.sidetall.toString());
+    }, [props.sidetall]);
 
     return (
         <div className={'indeks-valg'} key={index}>
