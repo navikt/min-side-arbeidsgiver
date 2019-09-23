@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState, useEffect } from 'react';
 import './BlaIAnsatte.less';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
 interface Props {
@@ -10,12 +10,17 @@ interface Props {
 
 const TreEllerMindre: FunctionComponent<Props> = props => {
     const { byttSide } = props;
+    const [naVarendeIndeks, setNaVarendeIndeks] = useState(props.naVarendeIndeks);
+
+    useEffect(() => {
+        setNaVarendeIndeks(props.naVarendeIndeks);
+    }, [props.naVarendeIndeks]);
 
     return (
         <>
             <button className={'sidebytter__valg'} onClick={() => byttSide(1)}>
                 <GraSirkelMedNr
-                    naVarendeIndeks={props.naVarendeIndeks}
+                    naVarendeIndeks={naVarendeIndeks}
                     sidetall={1}
                     siderTilsammen={props.siderTilsammen}
                 />
@@ -25,7 +30,7 @@ const TreEllerMindre: FunctionComponent<Props> = props => {
                 <GraSirkelMedNr
                     sidetall={2}
                     siderTilsammen={props.siderTilsammen}
-                    naVarendeIndeks={props.naVarendeIndeks}
+                    naVarendeIndeks={naVarendeIndeks}
                 />
             </button>
             {props.siderTilsammen > 2 && (
@@ -33,7 +38,7 @@ const TreEllerMindre: FunctionComponent<Props> = props => {
                     <GraSirkelMedNr
                         sidetall={3}
                         siderTilsammen={props.siderTilsammen}
-                        naVarendeIndeks={props.naVarendeIndeks}
+                        naVarendeIndeks={naVarendeIndeks}
                     />
                 </button>
             )}

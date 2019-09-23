@@ -31,7 +31,7 @@ const GenerellVisning: FunctionComponent<Props> = props => {
                     sidetall={props.naVarendeIndeks - 1}
                 />
             </button>
-            <button className="sidebytter__valg erValgt">
+            <button className="sidebytter__valg">
                 <GraSirkelMedNr
                     naVarendeIndeks={props.naVarendeIndeks}
                     siderTilsammen={props.siderTilsammen}

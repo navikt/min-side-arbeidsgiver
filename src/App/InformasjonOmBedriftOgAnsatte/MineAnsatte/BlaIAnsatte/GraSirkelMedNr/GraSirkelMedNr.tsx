@@ -11,15 +11,24 @@ interface Props {
 
 const GraSirkelMedNr: FunctionComponent<Props> = props => {
     const [index, setIndex] = useState('');
+    const [erValgt, setErvalgt] = useState('ikke-valgt');
 
     useEffect(() => {
+        console.log('useeffect grå sirkel', index);
+        setErvalgt('0');
+        if (props.naVarendeIndeks === props.sidetall) {
+            setErvalgt('valgt');
+        } else {
+            setErvalgt('ikke-valgt');
+        }
+
         console.log('navarende index,', props.naVarendeIndeks);
         console.log('sidetall: ', props.sidetall);
         setIndex(props.sidetall.toString());
-    }, [props.sidetall]);
+    }, [props.sidetall, props.naVarendeIndeks, index]);
 
     return (
-        <div className={'indeks-valg'} key={index}>
+        <div className={'indeks-valg' + ' ' + erValgt} key={props.sidetall}>
             <ReactCSSTransitionGroup
                 transitionName="indeks-valg"
                 transitionAppear={true}
