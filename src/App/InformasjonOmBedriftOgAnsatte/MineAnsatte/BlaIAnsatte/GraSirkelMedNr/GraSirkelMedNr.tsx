@@ -17,7 +17,7 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
         console.log('useeffect grå sirkel', index);
         setErvalgt('0');
         if (props.naVarendeIndeks === props.sidetall) {
-            setErvalgt('valgt');
+            setErvalgt('sidebytter__valg__valgt');
         } else {
             setErvalgt('ikke-valgt');
         }
@@ -28,7 +28,7 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
     }, [props.sidetall, props.naVarendeIndeks, index]);
 
     return (
-        <div className={'indeks-valg' + ' ' + erValgt} key={props.sidetall}>
+        <div key={props.sidetall} className={erValgt}>
             <ReactCSSTransitionGroup
                 transitionName="indeks-valg"
                 transitionAppear={true}
