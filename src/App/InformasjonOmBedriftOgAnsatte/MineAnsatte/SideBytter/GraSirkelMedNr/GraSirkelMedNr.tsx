@@ -24,7 +24,7 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
             onClick={() => props.byttSide(props.sidetall)}
         >
             <ReactCSSTransitionGroup
-                transitionName="valgt"
+                transitionName="valg"
                 transitionAppear={true}
                 transitionAppearTimeout={500}
             >

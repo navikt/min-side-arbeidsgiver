@@ -32,8 +32,8 @@ const MineAnsatte: FunctionComponent = () => {
         setAntallSider(antallSider);
     }, [mineAnsatte.arbeidsforholdoversikter, naVarendeIndex]);
     return (
-        <>
-            <div className={'mine-ansatte'}>
+        <div className={'mine-ansatte'}>
+            <div className={'mine-ansatte__topp'}>
                 <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
                     Opplysninger fra Aa-registeret
                 </Undertittel>
@@ -44,9 +44,6 @@ const MineAnsatte: FunctionComponent = () => {
                     antallSider={antallSider}
                     naVarendeIndeks={naVarendeIndex}
                 />
-                <div tabIndex={0} className={'antall-forhold'}>
-                    {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
-                </div>
             </div>
 
             <TabellMineAnsatte
@@ -57,7 +54,7 @@ const MineAnsatte: FunctionComponent = () => {
                 listeMedArbeidsForhold={listenSomSkalVises}
                 className={'mine-ansatte__liste'}
             />
-        </>
+        </div>
     );
 };
 
