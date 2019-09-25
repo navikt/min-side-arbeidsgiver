@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import './BlaIAnsatte.less';
 import GraSirkelMedNr from './GraSirkelMedNr/GraSirkelMedNr';
+import './GraSirkelMedNr/GraSirkelMedNr.less';
 interface Props {
     className?: string;
     byttSide: (indeks: number) => void;
@@ -18,43 +18,37 @@ const TreEllerMindre: FunctionComponent<Props> = props => {
 
     return (
         <>
-            <button className={'sidebytter__valg'} onClick={() => byttSide(1)}>
-                <GraSirkelMedNr
-                    naVarendeIndeks={naVarendeIndeks}
-                    sidetall={1}
-                    siderTilsammen={props.siderTilsammen}
-                />
-            </button>
+            <GraSirkelMedNr
+                naVarendeIndeks={naVarendeIndeks}
+                sidetall={1}
+                siderTilsammen={props.siderTilsammen}
+                byttSide={props.byttSide}
+            />
 
-            <button className="sidebytter__valg" onClick={() => byttSide(2)}>
+            <GraSirkelMedNr
+                sidetall={2}
+                siderTilsammen={props.siderTilsammen}
+                naVarendeIndeks={naVarendeIndeks}
+                byttSide={props.byttSide}
+            />
+
+            {props.siderTilsammen > 2 && (
                 <GraSirkelMedNr
-                    sidetall={2}
+                    sidetall={3}
                     siderTilsammen={props.siderTilsammen}
                     naVarendeIndeks={naVarendeIndeks}
+                    byttSide={props.byttSide}
                 />
-            </button>
-            {props.siderTilsammen > 2 && (
-                <button className={'sidebytter__valg'} onClick={() => byttSide(3)}>
-                    <GraSirkelMedNr
-                        sidetall={3}
-                        siderTilsammen={props.siderTilsammen}
-                        naVarendeIndeks={naVarendeIndeks}
-                    />
-                </button>
             )}
             {props.siderTilsammen > 3 && (
                 <>
                     ...
-                    <button
-                        className={'sidebytter__valg'}
-                        onClick={() => byttSide(props.siderTilsammen)}
-                    >
-                        <GraSirkelMedNr
-                            sidetall={props.siderTilsammen}
-                            siderTilsammen={props.siderTilsammen}
-                            naVarendeIndeks={props.naVarendeIndeks}
-                        />
-                    </button>
+                    <GraSirkelMedNr
+                        sidetall={props.siderTilsammen}
+                        siderTilsammen={props.siderTilsammen}
+                        naVarendeIndeks={props.naVarendeIndeks}
+                        byttSide={props.byttSide}
+                    />
                 </>
             )}
         </>

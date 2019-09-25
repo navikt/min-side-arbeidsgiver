@@ -3,6 +3,8 @@ import './MineAnsatte.less';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import SideBytter from './SideBytter/SideBytter';
+import ListeMedAnsatteForMobil from './ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
+import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
 
 const MineAnsatte: FunctionComponent = () => {
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);

@@ -1,31 +1,32 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.sidebytter {
-  &__valg {
-    background-color: white;
-    border: none;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    text-align: center;
-    color: black;
-    align-self: center;
-    margin: 0 0.1rem 0 0.1rem;
+.valg {
+  background-color: white;
+  border: none;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 10px;
+  text-align: center;
+  color: black;
+  align-self: center;
+  margin: 0 0.1rem 0 0.1rem;
 
-    &__valgt {
-      background-color: @navBlaLighten80;
-      border-radius: 40px;
-      width: 25px;
-      height: 25px;
-      padding-top: 1px;
-      z-index: 16;
-    }
-
-    &:focus {
-      outline: none;
-      z-index: 16;
-    }
+  &:focus {
+    z-index: 16;
+    background-color: @navBlaLighten80;
+    outline: none;
+    box-shadow: 0 0 0 3px @fokusFarge;
   }
+
+  &__sidetall {
+    font-size: 14px;
+
+  }
+}
+
+&:focus {
+  z-index: 16;
+  background-color: @navBlaLighten80;
 }
 
 .indeks-valg {
@@ -35,14 +36,16 @@
   }
 }
 
-.indeks-valg-appear {
+.valg-appear {
   opacity: 0.01;
 }
 
-.indeks-valg-appear.indeks-valg-appear-active {
+.valg-appear.valg-appear-active {
   opacity: 1;
   transition: opacity .5s ease-in;
 }
+
+
 
 
 
