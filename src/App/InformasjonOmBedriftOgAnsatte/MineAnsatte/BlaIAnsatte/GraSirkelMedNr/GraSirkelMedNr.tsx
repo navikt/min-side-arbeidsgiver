@@ -17,7 +17,7 @@ const GraSirkelMedNr: FunctionComponent<Props> = props => {
         console.log('useeffect grå sirkel', index);
         setErvalgt('0');
         if (props.naVarendeIndeks === props.sidetall) {
-            setErvalgt('sidebytter__valg__valgt');
+            setErvalgt('sidebytter__valgt');
         } else {
             setErvalgt('ikke-valgt');
         }
