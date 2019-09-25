@@ -2,16 +2,9 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import './MineAnsatte.less';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import SideBytter from './BlaIAnsatte/BlaIAnsatte';
-import TabellMineAnsatte from './TabellMineAnsatte/TabellMineAnsatte';
-import ListeMedAnsatteForMobil from './ListeMineAnsatteForMobil/ListeMineAnsatteForMobil';
-import { enkelArbeidsforhold } from '../../../Objekter/Ansatte';
+import SideBytter from './SideBytter/SideBytter';
 
-interface Props {
-    className?: string;
-}
-
-const MineAnsatte: FunctionComponent<Props> = props => {
+const MineAnsatte: FunctionComponent = () => {
     const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     const [listenSomSkalVises, setListenSomSkalVises] = useState([]);
     const [antallSider, setAntallSider] = useState(0);
@@ -20,14 +13,6 @@ const MineAnsatte: FunctionComponent<Props> = props => {
     const setIndeksOgGenererListe = (indeks: number) => {
         setnaVarendeIndex(indeks);
         console.log('indeks som settes: ', indeks);
-    };
-
-    const sjekkAntallSider = (liste: enkelArbeidsforhold[], antallForhold: number) => {
-        let antallSider: number = Math.floor(liste.length / antallForhold);
-        if (liste.length % antallForhold !== 0) {
-            antallSider++;
-        }
-        return antallSider;
     };
 
     useEffect(() => {
@@ -55,6 +40,7 @@ const MineAnsatte: FunctionComponent<Props> = props => {
                     byttSide={setIndeksOgGenererListe}
                     arbeidsforhold={mineAnsatte}
                     antallSider={antallSider}
+                    naVarendeIndeks={naVarendeIndex}
                 />
                 <div tabIndex={0} className={'antall-forhold'}>
                     {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
