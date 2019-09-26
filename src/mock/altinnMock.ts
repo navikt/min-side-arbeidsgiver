@@ -2,10 +2,8 @@ import fetchMock from 'fetch-mock';
 
 const delay = new Promise(res => setTimeout(res, 500));
 
-fetchMock
-    .get(
-        'min-side-arbeidsgiver/api/organisasjoner',
-        delay.then(() => {
+fetchMock.get('min-side-arbeidsgiver/api/organisasjoner', 503);
+/*delay.then(() => {
             return OrganisasjonerResponse;
         })
     )
@@ -59,7 +57,7 @@ const OrganisasjonerResponse = [
         OrganizationForm: 'BEDR',
         Status: 'Active',
     },
-];
+];*/
 fetchMock
     .get(
         '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',

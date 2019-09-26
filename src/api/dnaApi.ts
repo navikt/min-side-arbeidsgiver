@@ -42,6 +42,15 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     }
 }
 
+export async function sjekkOmAltinnErNede(): Promise<boolean> {
+    let respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
+    if (respons.ok) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
     let respons = await fetch(
         '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=3403&serviceEdition=2'

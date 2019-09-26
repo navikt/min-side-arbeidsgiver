@@ -6,6 +6,7 @@ import {
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAtinnskjema,
+    sjekkOmAltinnErNede,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
 import {
@@ -19,6 +20,7 @@ export type Context = {
     visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
+    altinnNede: boolean;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -68,6 +70,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
+    const [altinnNede, setAltinnNede] = useState(false);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -87,6 +90,11 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
         };
+        const SjekkerAltinnNede = async () => {
+            let nede: boolean = await sjekkOmAltinnErNede();
+            setAltinnNede(nede);
+        };
+        SjekkerAltinnNede();
         const getOrganisasjonerTilIAweb = async () => {
             let organisasjonerIAWEB = await hentOrganisasjonerIAweb();
             setOrganisasjonerMedIAWEB(
@@ -118,6 +126,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         visNyMeny,
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
+        altinnNede,
     };
 
     return (
