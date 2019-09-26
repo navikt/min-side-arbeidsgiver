@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useState, useContext } from 'react';
+import { HoyreChevron, VenstreChevron } from 'nav-frontend-chevron';
 import { ObjektFraAAregisteret } from '../../../../Objekter/Ansatte';
-import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
+import './SideBytter.less';
+
 import TreEllerMindre from './TreEllerMindre';
 import TreSiste from './TreSiste';
 import GenerellVisning from './GenerellVisning';
@@ -14,15 +16,19 @@ interface Props {
 }
 
 const SideBytter: FunctionComponent<Props> = props => {
-    const { mineAnsatte } = useContext(OrganisasjonsDetaljerContext);
     const { byttSide } = props;
 
     return (
         <>
-            <div tabIndex={0} className={'antall-forhold'}>
-                {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
-            </div>
             <div className="sidebytter">
+                {props.naVarendeIndeks !== 1 && (
+                    <button
+                        className="sidebytter__chevron"
+                        onClick={() => props.byttSide(props.naVarendeIndeks - 1)}
+                    >
+                        <VenstreChevron type={'venstre'} />
+                    </button>
+                )}
                 {props.antallSider < 4 ||
                     (props.naVarendeIndeks < 3 && (
                         <TreEllerMindre
@@ -47,6 +53,13 @@ const SideBytter: FunctionComponent<Props> = props => {
                         siderTilsammen={props.antallSider}
                     />
                 )}
+
+                <button
+                    className="sidebytter__chevron"
+                    onClick={() => props.byttSide(props.naVarendeIndeks + 1)}
+                >
+                    <HoyreChevron />
+                </button>
             </div>
         </>
     );

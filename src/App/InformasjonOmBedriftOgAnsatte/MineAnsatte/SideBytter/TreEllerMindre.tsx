@@ -9,11 +9,11 @@ interface Props {
 }
 
 const TreEllerMindre: FunctionComponent<Props> = props => {
-    const { byttSide } = props;
     const [naVarendeIndeks, setNaVarendeIndeks] = useState(props.naVarendeIndeks);
 
     useEffect(() => {
         setNaVarendeIndeks(props.naVarendeIndeks);
+        console.log(naVarendeIndeks);
     }, [props.naVarendeIndeks]);
 
     return (

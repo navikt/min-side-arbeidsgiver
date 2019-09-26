@@ -48,7 +48,6 @@ const Underenhetsvelger: FunctionComponent<Props> = ({ history, hovedOrganisasjo
                     </div>
                     {label}
                 </Button>
-
                 <Collapse isOpened>
                     <Menu className={'underenhetsvelger__menyvalg-wrapper'}>
                         {hovedOrganisasjon.Underenheter.map((organisasjon: Organisasjon) => (

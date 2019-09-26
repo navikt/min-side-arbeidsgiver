@@ -2,10 +2,22 @@
 
 .mine-ansatte {
   background-color: white;
+  margin: 0rem 5rem 0rem 5rem;
+  border-radius: 4px;
 
   &__systemtittel {
-    margin: 2rem;
+    margin: 1rem 0 1rem 2.2rem;
+  }
 
+  &__topp {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2.2rem 0 2.2rem;
+    margin-bottom: 1rem;
+  }
+
+  &__antall-forhold {
+    margin: 0;
   }
 
   &__table {
@@ -34,7 +46,7 @@
 
 @media (max-width: @screen-md) {
   .mine-ansatte {
-    background-color: white;
+    margin: 3rem;
 
     &__table {
       display:none;
@@ -42,6 +54,28 @@
 
     &__liste {
       display:initial;
+    }
+
+  }
+
+}
+
+@media (max-width: @screen-sm) {
+  .mine-ansatte {
+    margin: 0;
+
+    &__topp {
+      flex-direction: column;
+      padding-left: 1.2rem;
+    }
+
+    &__antall-forhold {
+      margin: 0 0.6rem 1rem 0.5rem;
+
+    }
+
+    &__systemtittel {
+      margin-left: 1.8rem;
     }
 
   }

@@ -33,10 +33,13 @@ const MineAnsatte: FunctionComponent = () => {
     }, [mineAnsatte.arbeidsforholdoversikter, naVarendeIndex]);
     return (
         <div className={'mine-ansatte'}>
+            <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
+                Opplysninger fra Aa-registeret
+            </Undertittel>
             <div className={'mine-ansatte__topp'}>
-                <Undertittel className={'mine-ansatte__systemtittel'} tabIndex={0}>
-                    Opplysninger fra Aa-registeret
-                </Undertittel>
+                <div tabIndex={0} className={'mine-ansatte__antall-forhold'}>
+                    {mineAnsatte.arbeidsforholdoversikter.length} arbeidsforhold
+                </div>
                 <SideBytter
                     className={'sidebytter'}
                     byttSide={setIndeksOgGenererListe}
