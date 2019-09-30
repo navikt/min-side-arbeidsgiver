@@ -804,14 +804,14 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@craco/craco@^3.4.1":
-  version "3.6.0"
-  resolved "https://registry.yarnpkg.com/@craco/craco/-/craco-3.6.0.tgz#4b4ce7dacda8ac64731c18b1542f70127cd3eb8e"
-  integrity sha512-01hBd0kefkDmfOsiXq5lAnSISVPgLqT1Qrr8Y062XRboeIlz9GQvOjJxhIxoqgVFYdeKURW6xza2qOEj5Til4w==
+"@craco/craco@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@craco/craco/-/craco-5.5.0.tgz#081b25522d866fbc14b80fe61517f2f10e3e4499"
+  integrity sha512-VN4pkBku4OmB8DHT/COGfmk4DKIyBDqM8KeGX6jGqsqxhxIf8OI1ULKNtenwvdKTx3XrYMEr0ya4n3VBu8CXew==
   dependencies:
-    cross-spawn "6.0.5"
-    lodash.mergewith "4.6.1"
-    webpack-merge "4.1.4"
+    cross-spawn "^6.0.5"
+    lodash.mergewith "^4.6.2"
+    webpack-merge "^4.2.1"
 
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
@@ -6095,12 +6095,7 @@ lodash.memoize@^4.1.2:
   resolved "https://registry.yarnpkg.com/lodash.memoize/-/lodash.memoize-4.1.2.tgz#bcc6c49a42a2840ed997f323eada5ecd182e0bfe"
   integrity sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=
 
-lodash.mergewith@4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.1.tgz#639057e726c3afbdb3e7d42741caa8d6e4335927"
-  integrity sha512-eWw5r+PYICtEBgrBE5hhlT6aAa75f411bgDz/ZL2KZqYV03USvucsxcHUIlGTDTECs1eunpI7HOV7U+WLDvNdQ==
-
-lodash.mergewith@4.6.2:
+lodash.mergewith@4.6.2, lodash.mergewith@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
@@ -6666,25 +6661,25 @@ nav-frontend-spinner@^1.0.18:
   resolved "https://registry.yarnpkg.com/nav-frontend-spinner/-/nav-frontend-spinner-1.0.19.tgz#78a2574c20c193bb5a11374d42eea3f406e8f2f9"
   integrity sha512-XqB4Jyg9/hfmR599aFYwbAtH5DsI3L1LzE7VQvREZ7mrNg4mEXzlvNIzIHE0kHPaB9Eoycy8i083P2YPrk3k/Q==
 
-nav-frontend-tabs-style@^0.0.19:
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/nav-frontend-tabs-style/-/nav-frontend-tabs-style-0.0.19.tgz#5fca5fc4305f863811bae61ec121f15640b954e0"
-  integrity sha512-5KHg9fT/pL/ijl0i7rtupiDJr5aLee5/KMA/kp1nCjWb2L+8TPI5S1yVwfxg+EOtT3VEPwRJ2I/FbcttruPrzA==
+nav-frontend-tabs-style@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/nav-frontend-tabs-style/-/nav-frontend-tabs-style-0.0.20.tgz#a271b85a09b4a54f77b6df3cdb0b8bfc11a7ce6a"
+  integrity sha512-uiFSPufaeXp5F2WOGmrR8Y0m4+hUmtf2T3CaKmR7X7zHlw6WQAzrnCFe3uKtVEfwUUB7rPYR6gTKRO7jK2QEeg==
 
-nav-frontend-tabs@^0.0.33:
-  version "0.0.33"
-  resolved "https://registry.yarnpkg.com/nav-frontend-tabs/-/nav-frontend-tabs-0.0.33.tgz#b87723d1c8d2f4a01207b5d255e0254a0edfb3eb"
-  integrity sha512-0S0BA0JGc33FADOTrWsRRGMdlbovq9K3Zr5f90Cu/Zns/Rp/UJnwD6A5GUSgo1EY34BzfJVkpTLSbuPFdVvHyA==
+nav-frontend-tabs@^0.0.34:
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/nav-frontend-tabs/-/nav-frontend-tabs-0.0.34.tgz#26b7a2c0caf9422f3a94bfbbb4c2a7a442d330b5"
+  integrity sha512-utCOYVRQ95Tt7kbvE+7O4PoWp7IH3bDcEit7KxENC+Y2yxOxj8bZ+HITtOVqJqk1G3MB+R3atDSD8k/6UcKIpQ==
 
 nav-frontend-tekstomrade@^2.0.24:
   version "2.0.30"
   resolved "https://registry.yarnpkg.com/nav-frontend-tekstomrade/-/nav-frontend-tekstomrade-2.0.30.tgz#f9d4b51a8f4aa095a67d400d4e952bf19b82b198"
   integrity sha512-qmsFMN8PnzVO5Pz2psOaKoeQvidgTos6mj0DOkdPFaIihjeG4t/NP+4YnarnxuMjS2jb0chFOo/lGc3Bg1jupw==
 
-nav-frontend-typografi-style@^1.0.14:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/nav-frontend-typografi-style/-/nav-frontend-typografi-style-1.0.14.tgz#65c767dd499b5a42f599c51ac308eefedc9ffca6"
-  integrity sha512-Ckf9ybsdsvDMlj2FI6FoJQ32mSjAZmbmbEfXsTzZiZsEWUEMIaO12ezCbVXCJStYECxmSZSbkmri/wpiTvBRvw==
+nav-frontend-typografi-style@^1.0.15:
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/nav-frontend-typografi-style/-/nav-frontend-typografi-style-1.0.15.tgz#58a8c034bcd0b648c696416463114929e89b0284"
+  integrity sha512-euGvnnzFvj+NqlUbnyftLM162EEMr43UZaM3Ux2HBH6298Fh5Op/FjlFsF54aGSIOOnzYflFkOpLIXisNhO+9w==
   dependencies:
     nav-frontend-core "^4.0.10"
 
@@ -8560,10 +8555,10 @@ react-transition-group@^1.2.0:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
-react@^16.9.0:
-  version "16.9.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
-  integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==
+react@^16.10.1:
+  version "16.10.1"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.10.1.tgz#967c1e71a2767dfa699e6ba702a00483e3b0573f"
+  integrity sha512-2bisHwMhxQ3XQz4LiJJwG3360pY965pTl/MRrZYxIBKVj4fOHoDs5aZAkYXGxDRO1Li+SyjTAilQEbOmtQJHzA==
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
@@ -10272,12 +10267,12 @@ webpack-manifest-plugin@2.0.4:
     lodash ">=3.5 <5"
     tapable "^1.0.0"
 
-webpack-merge@4.1.4:
-  version "4.1.4"
-  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.1.4.tgz#0fde38eabf2d5fd85251c24a5a8c48f8a3f4eb7b"
-  integrity sha512-TmSe1HZKeOPey3oy1Ov2iS3guIZjWvMT2BBJDzzT5jScHTjVC3mpjJofgueEzaEd6ibhxRDD6MIblDr8tzh8iQ==
+webpack-merge@^4.2.1:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-4.2.2.tgz#a27c52ea783d1398afd2087f547d7b9d2f43634d"
+  integrity sha512-TUE1UGoTX2Cd42j3krGYqObZbOD+xF7u28WB7tfUordytSjbWTIjK/8V0amkBfTYN4/pB/GIDlJZZ657BGG19g==
   dependencies:
-    lodash "^4.17.5"
+    lodash "^4.17.15"
 
 webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1:
   version "1.4.3"
