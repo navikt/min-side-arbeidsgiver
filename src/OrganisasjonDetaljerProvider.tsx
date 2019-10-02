@@ -5,11 +5,9 @@ import {
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, tomAvtale } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, Tilgang } from './SyfoTilgangProvider';
-import { pamSettBedriftLenke } from './lenker';
-
 interface Props {
     children: React.ReactNode;
 }
@@ -28,7 +26,7 @@ export type Context = {
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const [antallAnnonser, setantallAnnonser] = useState<number>(0);
+    const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
@@ -38,7 +36,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         settilgangTilPamState(Tilgang.LASTER);
-
+        setantallAnnonser(-1);
+        setArbeidsavtaler([tomAvtale]);
         if (org) {
             let antallTilganger = 0;
             await setValgtOrganisasjon(org);

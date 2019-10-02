@@ -24,6 +24,7 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
     const [syfoAnsatteState, setSyfoAnsatteState] = useState(0);
 
     useEffect(() => {
+        setTilgangTilSyfoState(Tilgang.LASTER);
         const getSyfoTilganger = async () => {
             const tilgangSyfo = await hentSyfoTilgang();
             if (tilgangSyfo) {

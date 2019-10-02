@@ -26,9 +26,14 @@ enum AltinnKode {
     KontaktPersonNUF = 188,
 }
 
+export const tomAvtale = {
+    status: 'tom avtale',
+};
+
 export interface Arbeidsavtale {
     status: string;
 }
+
 export interface UnleashRespons {
     tilgang: boolean;
 }

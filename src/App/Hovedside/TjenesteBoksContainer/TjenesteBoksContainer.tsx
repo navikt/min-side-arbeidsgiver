@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { SyfoTilgangContext, TilgangSyfo } from '../../../SyfoTilgangProvider';
-import { OrganisasjonsDetaljerContext, TilgangPam } from '../../../OrganisasjonDetaljerProvider';
+import { SyfoTilgangContext, Tilgang } from '../../../SyfoTilgangProvider';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './TjenesteBoksContainer.less';
 
 import Syfoboks from './Syfoboks/Syfoboks';
@@ -18,14 +18,16 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
     const [typeAntall, settypeAntall] = useState('');
     const [visIA, setVisIA] = useState(false);
+    const [ferdigLastet, setFerdigLastet] = useState(false);
 
     useEffect(() => {
+        setFerdigLastet(false);
         const tellAntallTilganger = (): number => {
             let antallTilganger: number = 0;
-            if (tilgangTilPamState === TilgangPam.TILGANG) {
+            if (tilgangTilPamState === Tilgang.TILGANG) {
                 antallTilganger++;
             }
-            if (tilgangTilSyfoState === TilgangSyfo.TILGANG) {
+            if (tilgangTilSyfoState === Tilgang.TILGANG) {
                 antallTilganger++;
             }
             if (arbeidsavtaler.length) {
@@ -49,38 +51,53 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         } else {
             settypeAntall('antall-oddetall');
         }
+
+        if (
+            tilgangTilPamState !== Tilgang.LASTER &&
+            tilgangTilSyfoState !== Tilgang.LASTER &&
+            arbeidsavtaler[0].status !== 'tom avtale'
+        ) {
+            setFerdigLastet(true);
+        }
     }, [
         tilgangTilSyfoState,
         tilgangTilPamState,
         arbeidsavtaler,
         valgtOrganisasjon,
         organisasjonerMedIAWEB,
+        ferdigLastet,
     ]);
 
     return (
-        <div className={'tjenesteboks-container ' + typeAntall}>
-            {tilgangTilSyfoState !== TilgangSyfo.LASTER &&
-                tilgangTilSyfoState === TilgangSyfo.TILGANG && (
-                    <Innholdsboks className={'tjenesteboks innholdsboks'}>
-                        <Syfoboks className={'syfoboks'} />
-                    </Innholdsboks>
-                )}
-            {visIA && (
-                <div className={'tjenesteboks innholdsboks'}>
-                    <IAwebboks />
+        <>
+            {' '}
+            {ferdigLastet && (
+                <div className={'tjenesteboks-container ' + typeAntall}>
+                    {tilgangTilSyfoState !== Tilgang.LASTER &&
+                        tilgangTilSyfoState === Tilgang.TILGANG && (
+                            <Innholdsboks className={'tjenesteboks innholdsboks'}>
+                                <Syfoboks className={'syfoboks'} />
+                            </Innholdsboks>
+                        )}
+                    {visIA && (
+                        <div className={'tjenesteboks innholdsboks'}>
+                            <IAwebboks />
+                        </div>
+                    )}
+                    {tilgangTilPamState !== Tilgang.LASTER &&
+                        tilgangTilPamState === Tilgang.TILGANG && (
+                            <div className={'tjenesteboks innholdsboks'}>
+                                <Pamboks />
+                            </div>
+                        )}
+                    {arbeidsavtaler.length > 0 && (
+                        <div className={'tjenesteboks innholdsboks'}>
+                            <Arbeidstreningboks />
+                        </div>
+                    )}
                 </div>
             )}
-            {tilgangTilPamState !== TilgangPam.LASTER && tilgangTilPamState === TilgangPam.TILGANG && (
-                <div className={'tjenesteboks innholdsboks'}>
-                    <Pamboks />
-                </div>
-            )}
-            {arbeidsavtaler.length > 0 && (
-                <div className={'tjenesteboks innholdsboks'}>
-                    <Arbeidstreningboks />
-                </div>
-            )}
-        </div>
+        </>
     );
 };
 
