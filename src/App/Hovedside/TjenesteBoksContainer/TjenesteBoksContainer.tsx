@@ -11,12 +11,16 @@ import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
+import ManglerTilgangBoks from '../ManglerTilgangBoks/ManglerTilgangBoks';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
     const { tilgangTilPamState, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
+    const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
+    const { organisasjoner } = useContext(OrganisasjonsListeContext);
+    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || harNoenTilganger);
     const [typeAntall, settypeAntall] = useState('');
     const [visIA, setVisIA] = useState(false);
     const [ferdigLastet, setFerdigLastet] = useState(false);
@@ -73,30 +77,32 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         <>
             {!ferdigLastet && <LasterBoks />}{' '}
             {ferdigLastet && (
-                <div className={'tjenesteboks-container ' + typeAntall}>
-                    {tilgangTilSyfoState !== Tilgang.LASTER &&
-                        tilgangTilSyfoState === Tilgang.TILGANG && (
+                <>
+                    {' '}
+                    {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
+                    <div className={'tjenesteboks-container ' + typeAntall}>
+                        {tilgangTilSyfoState === Tilgang.TILGANG && (
                             <Innholdsboks className={'tjenesteboks innholdsboks'}>
                                 <Syfoboks className={'syfoboks'} />
                             </Innholdsboks>
                         )}
-                    {visIA && (
-                        <div className={'tjenesteboks innholdsboks'}>
-                            <IAwebboks />
-                        </div>
-                    )}
-                    {tilgangTilPamState !== Tilgang.LASTER &&
-                        tilgangTilPamState === Tilgang.TILGANG && (
+                        {visIA && (
+                            <div className={'tjenesteboks innholdsboks'}>
+                                <IAwebboks />
+                            </div>
+                        )}
+                        {tilgangTilPamState === Tilgang.TILGANG && (
                             <div className={'tjenesteboks innholdsboks'}>
                                 <Pamboks />
                             </div>
                         )}
-                    {arbeidsavtaler.length > 0 && (
-                        <div className={'tjenesteboks innholdsboks'}>
-                            <Arbeidstreningboks />
-                        </div>
-                    )}
-                </div>
+                        {arbeidsavtaler.length > 0 && (
+                            <div className={'tjenesteboks innholdsboks'}>
+                                <Arbeidstreningboks />
+                            </div>
+                        )}
+                    </div>
+                </>
             )}
         </>
     );

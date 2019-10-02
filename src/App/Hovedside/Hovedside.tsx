@@ -26,11 +26,6 @@ const Hovedside: FunctionComponent = () => {
                     <ManglerTilgangBoks />
                 </div>
             )}
-            {skalViseManglerTilgangBoks && (
-                <div className="hovedside__mangler-tilgang-container">
-                    <ManglerTilgangBoks />
-                </div>
-            )}
             <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
