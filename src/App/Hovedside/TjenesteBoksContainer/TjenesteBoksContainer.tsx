@@ -10,6 +10,7 @@ import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -70,7 +71,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
     return (
         <>
-            {' '}
+            {!ferdigLastet && <LasterBoks />}{' '}
             {ferdigLastet && (
                 <div className={'tjenesteboks-container ' + typeAntall}>
                     {tilgangTilSyfoState !== Tilgang.LASTER &&
