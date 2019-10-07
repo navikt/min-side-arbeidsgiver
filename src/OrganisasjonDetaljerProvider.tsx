@@ -8,6 +8,8 @@ import hentAntallannonser from './api/hent-stillingsannonser';
 import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
+import { OrganisasjonFraEnhetsregisteret } from './Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
+import { hentUnderenhet } from './api/enhetsregisteretApi';
 
 export enum TilgangPam {
     LASTER,
@@ -76,6 +78,25 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 'besok fra organisasjon: ' + valgtOrganisasjon.OrganizationNumber,
                 valgtOrganisasjon.OrganizationNumber
             );
+        }
+        const hentInfoOmOrg = async () => {
+            const informasjon: OrganisasjonFraEnhetsregisteret = await hentUnderenhet(
+                valgtOrganisasjon.OrganizationNumber
+            );
+            logInfo(
+                'besok fra organisasjon: ' +
+                    valgtOrganisasjon.OrganizationNumber +
+                    ' med ' +
+                    informasjon.antallAnsatte,
+                ' antall ansatte'
+            );
+        };
+        if (valgtOrganisasjon.OrganizationNumber) {
+            logInfo(
+                'besok fra organisasjon: ' + valgtOrganisasjon.OrganizationNumber,
+                valgtOrganisasjon.OrganizationNumber
+            );
+            hentInfoOmOrg();
         }
     }, [valgtOrganisasjon]);
 
