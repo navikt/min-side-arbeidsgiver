@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
 import './GraSirkelMedNr.less';
 import { Element } from 'nav-frontend-typografi';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 interface Props {
     sidetall: number;
