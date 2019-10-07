@@ -29,7 +29,7 @@ export const inntekstmelding =
 export const ekspertbistand =
     'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-ekspertbistand/';
 
-export const skjemaForArbeidsgivere = 'https://www.nav.no/no/bedrift/skjemaer-for-arbeidsgivere';
+export const skjemaForArbeidsgivere = 'https://www.nav.no/soknader/nb/bedrift';
 
 export const syfoLink = () => {
     if (environment.MILJO === 'prod-sbs') {
