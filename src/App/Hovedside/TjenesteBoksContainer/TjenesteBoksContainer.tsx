@@ -3,7 +3,6 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { SyfoTilgangContext, Tilgang } from '../../../SyfoTilgangProvider';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './TjenesteBoksContainer.less';
-
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
@@ -75,12 +74,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
     return (
         <>
-            {!ferdigLastet && <LasterBoks />}{' '}
-            {ferdigLastet && (
-                <>
-                    {' '}
-                    {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
-                    <div className={'tjenesteboks-container ' + typeAntall}>
+            {' '}
+            <div className={'tjenesteboks-container ' + typeAntall}>
+                {!ferdigLastet && <LasterBoks />}
+                {ferdigLastet && (
+                    <>
+                        {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
+
                         {tilgangTilSyfoState === Tilgang.TILGANG && (
                             <Innholdsboks className={'tjenesteboks innholdsboks'}>
                                 <Syfoboks className={'syfoboks'} />
@@ -101,9 +101,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                                 <Arbeidstreningboks />
                             </div>
                         )}
-                    </div>
-                </>
-            )}
+                    </>
+                )}
+            </div>
         </>
     );
 };
