@@ -6,6 +6,7 @@ import './AltinnContainer.less';
 import { Undertittel } from 'nav-frontend-typografi';
 
 import {
+    ekspertbistand,
     inntekstmelding,
     soknadskjemaInkluderingstilskudd,
     soknadsskjemaLonnstilskudd,
@@ -138,7 +139,7 @@ export const AltinnContainer: FunctionComponent = () => {
                 {tilgangEkspertbistand && (
                     <AltinnLenke
                         className={'altinn-container__' + typeAntall + erFem}
-                        href={inntekstmelding}
+                        href={ekspertbistand}
                         tekst={'Tilskudd til ekspertbistand'}
                     />
                 )}
