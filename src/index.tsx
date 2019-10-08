@@ -15,6 +15,7 @@ if (process.env.REACT_APP_MOCK) {
     require('./mock/arbeidstreningMock');
     require('./mock/altinnMock');
     require('./mock/unleashMock');
+    require('./mock/enhetsRegisteretMock');
     //require("./mock/veilarbMock");
 }
 
