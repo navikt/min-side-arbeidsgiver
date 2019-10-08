@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
+import React, { FunctionComponent, useState, useContext } from 'react';
 import {
     tomAltinnOrganisasjon,
     Organisasjon,
@@ -6,10 +6,8 @@ import {
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
-import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
-import { OrganisasjonFraEnhetsregisteret } from './Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
-import { hentUnderenhet } from './api/enhetsregisteretApi';
+import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
 
 export enum TilgangPam {
     LASTER,
@@ -60,6 +58,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         if (antallTilganger > 0 || tilgangTilSyfoState === TilgangSyfo.TILGANG) {
             setHarNoenTilganger(true);
         }
+        hentInfoOgLoggInformasjon(org);
     };
 
     let defaultContext: Context = {
@@ -71,34 +70,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         harNoenTilganger,
         tilgangTilSyfoState,
     };
-
-    useEffect(() => {
-        if (valgtOrganisasjon.OrganizationNumber) {
-            logInfo(
-                'besok fra organisasjon: ' + valgtOrganisasjon.OrganizationNumber,
-                valgtOrganisasjon.OrganizationNumber
-            );
-        }
-        const hentInfoOmOrg = async () => {
-            const informasjon: OrganisasjonFraEnhetsregisteret = await hentUnderenhet(
-                valgtOrganisasjon.OrganizationNumber
-            );
-            logInfo(
-                'besok fra organisasjon: ' +
-                    valgtOrganisasjon.OrganizationNumber +
-                    ' med ' +
-                    informasjon.antallAnsatte,
-                ' antall ansatte'
-            );
-        };
-        if (valgtOrganisasjon.OrganizationNumber) {
-            logInfo(
-                'besok fra organisasjon: ' + valgtOrganisasjon.OrganizationNumber,
-                valgtOrganisasjon.OrganizationNumber
-            );
-            hentInfoOmOrg();
-        }
-    }, [valgtOrganisasjon]);
 
     return (
         <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
