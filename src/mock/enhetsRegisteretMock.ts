@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock';
 
 fetchMock
     .get(
-        'begin:/https://data.brreg.no/enhetsregisteret/api/underenheter/',
+        'begin:https://data.brreg.no/enhetsregisteret/api/underenheter',
 
         {
             organisasjonsnummer: '66666666',
@@ -49,7 +49,7 @@ fetchMock
     .spy();
 
 fetchMock
-    .get('begin:/https://data.brreg.no/enhetsregisteret/api/enheter/', {
+    .get('begin:https://data.brreg.no/enhetsregisteret/api/enheter', {
         organisasjonsnummer: '7777777',
         navn: 'EnhetFraMock',
         organisasjonsform: {
