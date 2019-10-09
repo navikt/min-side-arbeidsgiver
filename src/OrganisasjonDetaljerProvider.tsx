@@ -7,7 +7,8 @@ import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, tomAvtale } from './api/dnaApi';
 import { logInfo } from './utils/metricsUtils';
-import { SyfoTilgangContext, Tilgang } from './SyfoTilgangProvider';
+import { SyfoTilgangContext } from './SyfoTilgangProvider';
+import { Tilgang } from './App/LoginBoundary';
 interface Props {
     children: React.ReactNode;
 }

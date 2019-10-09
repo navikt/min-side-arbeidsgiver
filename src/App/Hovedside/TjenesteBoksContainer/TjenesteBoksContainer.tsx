@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 
-import { SyfoTilgangContext, Tilgang } from '../../../SyfoTilgangProvider';
+import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './TjenesteBoksContainer.less';
 import Syfoboks from './Syfoboks/Syfoboks';
@@ -11,6 +11,7 @@ import IAwebboks from './IAwebboks/IAwebboks';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
 import ManglerTilgangBoks from '../ManglerTilgangBoks/ManglerTilgangBoks';
+import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);

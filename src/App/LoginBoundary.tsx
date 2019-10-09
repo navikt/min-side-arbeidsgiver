@@ -5,10 +5,10 @@ import { veilarbStepup } from '../lenker';
 import environment from '../utils/environment';
 import hentVeilarbStatus from '../api/veilarbApi';
 
-export enum Innlogget {
+export enum Tilgang {
     LASTER,
-    IKKE_INNLOGGET,
-    INNLOGGET,
+    IKKE_TILGANG,
+    TILGANG,
 }
 
 function setEssoCookieLocally() {
@@ -21,19 +21,19 @@ async function getEssoToken() {
     }
 }
 const LoginBoundary: FunctionComponent = props => {
-    const [innlogget, setInnlogget] = useState(Innlogget.LASTER);
+    const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
     function localLogin() {
         if (document.cookie.includes('selvbetjening-idtoken')) {
-            setInnlogget(Innlogget.INNLOGGET);
+            setInnlogget(Tilgang.TILGANG);
         } else {
-            setInnlogget(Innlogget.IKKE_INNLOGGET);
+            setInnlogget(Tilgang.IKKE_TILGANG);
         }
         setEssoCookieLocally();
     }
 
     useEffect(() => {
-        setInnlogget(Innlogget.LASTER);
+        setInnlogget(Tilgang.LASTER);
         const getLoginStatus = async () => {
             if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
                 let veilarbStatusRespons = await hentVeilarbStatus();
@@ -41,10 +41,10 @@ const LoginBoundary: FunctionComponent = props => {
                     veilarbStatusRespons.harGyldigOidcToken &&
                     veilarbStatusRespons.nivaOidc === 4
                 ) {
-                    setInnlogget(Innlogget.INNLOGGET);
+                    setInnlogget(Tilgang.TILGANG);
                     await getEssoToken();
                 } else if (!veilarbStatusRespons.harGyldigOidcToken) {
-                    setInnlogget(Innlogget.IKKE_INNLOGGET);
+                    setInnlogget(Tilgang.IKKE_TILGANG);
                 }
             } else {
                 localLogin();
@@ -53,10 +53,10 @@ const LoginBoundary: FunctionComponent = props => {
         getLoginStatus();
     }, []);
 
-    if (innlogget === Innlogget.INNLOGGET) {
+    if (innlogget === Tilgang.TILGANG) {
         return <> {props.children} </>;
     }
-    if (innlogget === Innlogget.IKKE_INNLOGGET) {
+    if (innlogget === Tilgang.IKKE_TILGANG) {
         return <LoggInn />;
     } else {
         return null;

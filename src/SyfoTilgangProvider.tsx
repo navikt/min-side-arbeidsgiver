@@ -2,12 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { hentSyfoTilgang } from './api/dnaApi';
 import { hentNarmesteAnsate, hentSyfoOppgaver } from './api/digisyfoApi';
 import { SyfoOppgave } from './Objekter/syfoOppgaver';
-
-export enum Tilgang {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
+import { Tilgang } from './App/LoginBoundary';
 
 export interface Context {
     tilgangTilSyfoState: Tilgang;
