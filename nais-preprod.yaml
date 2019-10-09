@@ -6,8 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-
-  image: navikt/ditt-nav-arbeidsgiver:825
+  image: navikt/ditt-nav-arbeidsgiver:TAG-848-fiks-loginn-knapp-css_837
   team: teamtag
   port: 3000
   ingresses:
