@@ -90,7 +90,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>Helse-, sosial- og velferdstjeneste</li>
                         </ul>
                         Du kan også ha enkeltrettigheten{' '}
-                        <b>Sykefraværsstatistikk for IA-virksomheter</b>
+                        <b>Sykefraværsstatistikk for virksomheter</b>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         Mangler du tilgang til tjenester? &nbsp;
