@@ -4,7 +4,6 @@ import './Hovedside.less';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import { AltinnContainer } from './AltinnContainer/AltinnContainer';
-import ManglerTilgangBoks from './ManglerTilgangBoks/ManglerTilgangBoks';
 
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
@@ -20,11 +19,6 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
-            {skalViseManglerTilgangBoks && (
-                <div className="hovedside__mangler-tilgang-container">
-                    <ManglerTilgangBoks />
-                </div>
-            )}
             <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
