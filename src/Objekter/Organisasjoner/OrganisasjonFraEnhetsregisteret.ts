@@ -26,6 +26,7 @@ export interface OrganisasjonFraEnhetsregisteret {
     forretningsadresse: forretningsadresse;
     hjemmeside: string;
     overordnetEnhet: string;
+    antallAnsatte: string;
 }
 
 export interface organisasjonsform {
@@ -76,6 +77,7 @@ export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
         beskrivelse: '',
     },
     overordnetEnhet: '',
+    antallAnsatte: '',
     hjemmeside: '',
     postadresse: {
         land: '',

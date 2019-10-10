@@ -6,8 +6,9 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:TAG-848-fiks-loginn-knapp-css_837
-  team: teamtag
+
+image: navikt/ditt-nav-arbeidsgiver:TAG-814-leggetillogging-om-bedrift_834
+team: teamtag
   port: 3000
   ingresses:
     - https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver/
