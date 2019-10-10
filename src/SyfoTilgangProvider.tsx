@@ -2,15 +2,10 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { hentSyfoTilgang } from './api/dnaApi';
 import { hentNarmesteAnsate, hentSyfoOppgaver } from './api/digisyfoApi';
 import { SyfoOppgave } from './Objekter/syfoOppgaver';
-
-export enum TilgangSyfo {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
+import { Tilgang } from './App/LoginBoundary';
 
 export interface Context {
-    tilgangTilSyfoState: TilgangSyfo;
+    tilgangTilSyfoState: Tilgang;
     syfoOppgaverState: Array<SyfoOppgave>;
     syfoAnsatteState: number;
 }
@@ -19,20 +14,21 @@ const SyfoTilgangContext = React.createContext<Context>({} as Context);
 export { SyfoTilgangContext };
 
 export const SyfoTilgangProvider: FunctionComponent = props => {
-    const [tilgangTilSyfoState, setTilgangTilSyfoState] = useState(TilgangSyfo.LASTER);
+    const [tilgangTilSyfoState, setTilgangTilSyfoState] = useState(Tilgang.LASTER);
     const [syfoOppgaverState, setSyfoOppgaverState] = useState(Array<SyfoOppgave>());
     const [syfoAnsatteState, setSyfoAnsatteState] = useState(0);
 
     useEffect(() => {
+        setTilgangTilSyfoState(Tilgang.LASTER);
         const getSyfoTilganger = async () => {
             const tilgangSyfo = await hentSyfoTilgang();
             if (tilgangSyfo) {
-                setTilgangTilSyfoState(TilgangSyfo.TILGANG);
+                setTilgangTilSyfoState(Tilgang.TILGANG);
                 setSyfoOppgaverState(await hentSyfoOppgaver());
                 const syfoAnsatteArray = await hentNarmesteAnsate();
                 setSyfoAnsatteState(syfoAnsatteArray.length);
             } else {
-                setTilgangTilSyfoState(TilgangSyfo.IKKE_TILGANG);
+                setTilgangTilSyfoState(Tilgang.IKKE_TILGANG);
             }
         };
         getSyfoTilganger();

@@ -5,15 +5,10 @@ import {
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
-import { SyfoTilgangContext, TilgangSyfo } from './SyfoTilgangProvider';
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, tomAvtale } from './api/dnaApi';
+import { SyfoTilgangContext } from './SyfoTilgangProvider';
+import { Tilgang } from './App/LoginBoundary';
 import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
-
-export enum TilgangPam {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
 
 interface Props {
     children: React.ReactNode;
@@ -23,40 +18,45 @@ export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
     valgtOrganisasjon: Organisasjon;
     antallAnnonser: number;
-    tilgangTilPamState: TilgangPam;
+    tilgangTilPamState: Tilgang;
 
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
-    tilgangTilSyfoState: TilgangSyfo;
+    tilgangTilSyfoState: Tilgang;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const [antallAnnonser, setantallAnnonser] = useState<number>(0);
-    const [tilgangTilPamState, settilgangTilPamState] = useState(TilgangPam.LASTER);
+    const [antallAnnonser, setantallAnnonser] = useState(-1);
+    const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [harNoenTilganger, setHarNoenTilganger] = useState(false);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
-    const endreOrganisasjon = async (org: Organisasjon) => {
-        let antallTilganger = 0;
-        await setValgtOrganisasjon(org);
-        let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
-        if (harPamTilgang) {
-            settilgangTilPamState(TilgangPam.TILGANG);
-            setantallAnnonser(await hentAntallannonser());
-            antallTilganger++;
-        } else {
-            settilgangTilPamState(TilgangPam.IKKE_TILGANG);
-            setantallAnnonser(0);
-        }
-        setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
+    const endreOrganisasjon = async (org?: Organisasjon) => {
+        settilgangTilPamState(Tilgang.LASTER);
+        setantallAnnonser(-1);
+        setArbeidsavtaler([tomAvtale]);
+        if (org) {
+            let antallTilganger = 0;
+            await setValgtOrganisasjon(org);
+            let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
+            if (harPamTilgang) {
+                settilgangTilPamState(Tilgang.TILGANG);
+                setantallAnnonser(await hentAntallannonser());
+                antallTilganger++;
+            } else {
+                settilgangTilPamState(Tilgang.IKKE_TILGANG);
+                setantallAnnonser(0);
+            }
+            setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
 
-        if (antallTilganger > 0 || tilgangTilSyfoState === TilgangSyfo.TILGANG) {
-            setHarNoenTilganger(true);
+            if (antallTilganger > 0 || tilgangTilSyfoState === Tilgang.TILGANG) {
+                setHarNoenTilganger(true);
+            }
         }
         hentInfoOgLoggInformasjon(org);
     };
