@@ -8,7 +8,7 @@ export const SkjemaveilederContainer: FunctionComponent = () => {
     return (
         <div className={'skjemaveilerderContainer'}>
             <div className={'skjemaveilerderContainer__tekst'}>
-                <Undertittel>PDF-skjemaer</Undertittel>
+                <Undertittel>Alle søknader og skjemaer</Undertittel>
             </div>
             <Lenkepanel
                 href={skjemaForArbeidsgivere}

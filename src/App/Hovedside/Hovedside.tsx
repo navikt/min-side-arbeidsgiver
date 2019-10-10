@@ -16,12 +16,11 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 const Hovedside: FunctionComponent = () => {
     const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { altinnNede } = useContext(OrganisasjonsListeContext);
     const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || harNoenTilganger);
 
     return (
         <div className="hovedside">
-            {altinnNede === true && (
+            {skalViseManglerTilgangBoks && (
                 <div className="hovedside__mangler-tilgang-container">
                     <ManglerTilgangBoks />
                 </div>

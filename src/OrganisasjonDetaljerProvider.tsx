@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState, useContext } from 'react';
+import React, { FunctionComponent, useState, useContext } from 'react';
 import {
     tomAltinnOrganisasjon,
     Organisasjon,
@@ -9,6 +9,7 @@ import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, tomAvtale } from './api
 import { logInfo } from './utils/metricsUtils';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
+
 interface Props {
     children: React.ReactNode;
 }
@@ -57,6 +58,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 setHarNoenTilganger(true);
             }
         }
+        hentInfoOgLoggInformasjon(org);
     };
 
     let defaultContext: Context = {
@@ -68,15 +70,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         harNoenTilganger,
         tilgangTilSyfoState,
     };
-
-    useEffect(() => {
-        if (valgtOrganisasjon.OrganizationNumber) {
-            logInfo(
-                'besok fra organisasjon: ' + valgtOrganisasjon.OrganizationNumber,
-                valgtOrganisasjon.OrganizationNumber
-            );
-        }
-    }, [valgtOrganisasjon]);
 
     return (
         <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
