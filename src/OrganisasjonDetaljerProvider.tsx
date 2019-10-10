@@ -33,7 +33,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [harNoenTilganger, setHarNoenTilganger] = useState(false);
-    const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
+    const [arbeidsavtaler, setArbeidsavtaler] = useState([tomAvtale]);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
