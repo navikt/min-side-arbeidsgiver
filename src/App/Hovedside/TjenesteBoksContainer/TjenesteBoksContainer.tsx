@@ -27,6 +27,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
     useEffect(() => {
         setFerdigLastet(false);
+        console.log(arbeidsavtaler);
         const tellAntallTilganger = (): number => {
             let antallTilganger: number = 0;
             if (tilgangTilPamState === Tilgang.TILGANG) {
@@ -60,10 +61,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         if (
             tilgangTilPamState !== Tilgang.LASTER &&
             tilgangTilSyfoState !== Tilgang.LASTER &&
-            arbeidsavtaler[0].status !== 'tom avtale'
+            !(arbeidsavtaler.length && arbeidsavtaler[0].status !== 'tom avtale')
         ) {
             setFerdigLastet(true);
         }
+        console.log(arbeidsavtaler);
     }, [
         tilgangTilSyfoState,
         tilgangTilPamState,
@@ -97,7 +99,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                                 <Pamboks />
                             </div>
                         )}
-                        {arbeidsavtaler.length > 0 && (
+                        {arbeidsavtaler.length > 0 && arbeidsavtaler[0].status !== 'tom avtale' && (
                             <div className={'tjenesteboks innholdsboks'}>
                                 <Arbeidstreningboks />
                             </div>
