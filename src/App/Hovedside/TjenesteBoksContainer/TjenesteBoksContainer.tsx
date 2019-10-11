@@ -35,7 +35,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (tilgangTilSyfoState === Tilgang.TILGANG) {
                 antallTilganger++;
             }
-            if (arbeidsavtaler.length) {
+            if (arbeidsavtaler.length && arbeidsavtaler[0].status !== 'tom avtale') {
                 antallTilganger++;
             }
             let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
