@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useState, useContext } from 'react';
+import React, { FunctionComponent, useContext, useState } from 'react';
 import {
-    tomAltinnOrganisasjon,
     Organisasjon,
+    tomAltinnOrganisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, tomAvtale } from './api/dnaApi';
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
@@ -19,6 +19,7 @@ export type Context = {
     valgtOrganisasjon: Organisasjon;
     antallAnnonser: number;
     tilgangTilPamState: Tilgang;
+    tilgangTilArbeidsavtaler: Tilgang;
 
     arbeidsavtaler: Array<Arbeidsavtale>;
     harNoenTilganger: boolean;
@@ -30,16 +31,16 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
+    const [tilgangTilArbeidsavtaler, setTilgangTilArbeidsavtaler] = useState(Tilgang.LASTER);
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [harNoenTilganger, setHarNoenTilganger] = useState(false);
-    const [arbeidsavtaler, setArbeidsavtaler] = useState([tomAvtale]);
+    const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         settilgangTilPamState(Tilgang.LASTER);
-        setantallAnnonser(-1);
-        setArbeidsavtaler([tomAvtale]);
+        setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         if (org) {
             let antallTilganger = 0;
             await setValgtOrganisasjon(org);
@@ -53,6 +54,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 setantallAnnonser(0);
             }
             setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
+            if (arbeidsavtaler.length > 0) {
+                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+            } else {
+                setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+            }
 
             if (antallTilganger > 0 || tilgangTilSyfoState === Tilgang.TILGANG) {
                 setHarNoenTilganger(true);
@@ -65,6 +71,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         antallAnnonser,
         endreOrganisasjon,
         tilgangTilPamState,
+        tilgangTilArbeidsavtaler,
         valgtOrganisasjon,
         arbeidsavtaler,
         harNoenTilganger,

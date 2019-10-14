@@ -1016,14 +1016,16 @@
   resolved "https://registry.yarnpkg.com/@navikt/arbeidsforhold/-/arbeidsforhold-1.1.7.tgz#01edb638485538bea5bcd8219a6081e6ea7b42c9"
   integrity sha512-bvE8ezvNVw0n9COo5KQwmt7JJ/LWK9DJTvI+9hDpTBSeznPruslFrLo8TCEVbQfhkLX5xbU0lXdsEpof+jnqVg==
 
-"@navikt/bedriftsmeny@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-1.0.11.tgz#8fb235ebd5d244f46fa93268fc20e960877b6581"
-  integrity sha512-dqHk7YwuJWXTJ+f7cK2s/m43NVYFjk8nuTEHUeIe+iy9NIteBCxZ2Tt7CmCt8Rgs6TKhO/gsMBZmwUin9hdZkQ==
+"@navikt/bedriftsmeny@^1.0.13":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-1.0.13.tgz#4f451ef6fbb7cb8c685a98d02cd2dc98d9d86cc1"
+  integrity sha512-onq1jU4Pg17/XLGMAZpJ0swJhXz0M9jwNDFeOF/aN1+23snIGYl9K2LP0hoahOXzpzxKN6AnDOS/e0pvxRWM5g==
   dependencies:
     classnames "^2.2.6"
     fuzzysort "^1.1.4"
     lodash.throttle "^4.1.1"
+    postcss-loader "^3.0.0"
+    postcss-prefix-selector "^1.7.2"
     react-aria-menubutton "^6.1.0"
     react-collapse "^4.0.3"
     react-motion "^0.5.2"
@@ -8706,7 +8708,7 @@ postcss-load-config@^2.0.0:
     cosmiconfig "^5.0.0"
     import-cwd "^2.0.0"
 
-postcss-loader@3.0.0:
+postcss-loader@3.0.0, postcss-loader@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-3.0.0.tgz#6b97943e47c72d845fa9e03f273773d4e8dd6c2d"
   integrity sha512-cLWoDEY5OwHcAjDnkyRQzAXfs2jrKjXpO/HQFcc5b5u/r7aa471wdmChmwfnv7x2u840iat/wi0lQ5nbRgSkUA==
@@ -8952,6 +8954,13 @@ postcss-place@^4.0.1:
   dependencies:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
+
+postcss-prefix-selector@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/postcss-prefix-selector/-/postcss-prefix-selector-1.7.2.tgz#3adeed903985734298f19d8f5e0b657f9d90d43c"
+  integrity sha512-ddmzjWNmGs7E/nyolJ021/Gk6oBLRQLyyXKGV4Mu+Y0gquo+XlXSDP0/Y2J8C/cad/GLyftf2H0XtuDFQZxN3w==
+  dependencies:
+    postcss "^7.0.0"
 
 postcss-preset-env@6.7.0:
   version "6.7.0"

@@ -1,8 +1,8 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import Bedriftsmeny from '@navikt/bedriftsmeny';
 import EnkelVirksomhetsvelger from './EnkelVirksomhetsvelger/EnkelVirksomhetsvelger';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import './HovedBanner.less';

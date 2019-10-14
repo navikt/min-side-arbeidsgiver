@@ -15,7 +15,9 @@ import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const { tilgangTilPamState, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilPamState, valgtOrganisasjon, tilgangTilArbeidsavtaler } = useContext(
+        OrganisasjonsDetaljerContext
+    );
     const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
     const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
@@ -60,13 +62,14 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         if (
             tilgangTilPamState !== Tilgang.LASTER &&
             tilgangTilSyfoState !== Tilgang.LASTER &&
-            (arbeidsavtaler.length === 0 || arbeidsavtaler[0].status !== 'tom avtale')
+            tilgangTilArbeidsavtaler !== Tilgang.LASTER
         ) {
             setFerdigLastet(true);
         }
     }, [
         tilgangTilSyfoState,
         tilgangTilPamState,
+        tilgangTilArbeidsavtaler,
         arbeidsavtaler,
         valgtOrganisasjon,
         organisasjonerMedIAWEB,
