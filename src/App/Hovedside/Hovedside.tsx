@@ -5,7 +5,6 @@ import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import { AltinnContainer } from './AltinnContainer/AltinnContainer';
 
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { basename } from '../../paths';
 import Lenke from 'nav-frontend-lenker';
@@ -14,8 +13,8 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { antallTilganger } = useContext(OrganisasjonsDetaljerContext);
-    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || antallTilganger > 0);
+
+    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0);
 
     return (
         <div className="hovedside">
