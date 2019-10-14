@@ -10,11 +10,16 @@ import { basename } from '../../paths';
 import Lenke from 'nav-frontend-lenker';
 import ikon from './infomation-circle-2.svg';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
+import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
+import { Tilgang } from '../LoginBoundary';
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
-    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0);
+    const skalViseManglerTilgangBoks = !(
+        organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
+    );
 
     return (
         <div className="hovedside">

@@ -22,7 +22,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjonerMedIAWEB, organisasjoner } = useContext(OrganisasjonsListeContext);
-    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0);
+    const skalViseManglerTilgangBoks = !(
+        organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
+    );
     const [typeAntall, settypeAntall] = useState('');
     const [antallTjenester, setAntallTjenester] = useState(0);
     const [ferdigLastet, setFerdigLastet] = useState(false);
