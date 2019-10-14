@@ -15,7 +15,7 @@ export const hentInfoOgLoggInformasjon = async (organisasjon?: Organisasjon) => 
                 'antall ansatte: ' +
                     infoFraEreg.antallAnsatte +
                     'kommune: ' +
-                    infoFraEreg.forretningsadresse.kommune
+                    infoFraEreg.beliggenhetsadresse.kommune
             );
             const parent: OrganisasjonFraEnhetsregisteret = await hentOverordnetEnhet(
                 organisasjon.ParentOrganizationNumber
