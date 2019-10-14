@@ -15,45 +15,22 @@ import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const { tilgangTilPamState, valgtOrganisasjon, tilgangTilArbeidsavtaler } = useContext(
+    const { tilgangTilPamState, valgtOrganisasjon, tilgangTilArbeidsavtaler, visIA } = useContext(
         OrganisasjonsDetaljerContext
     );
-    const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
+    const { arbeidsavtaler, antallTilganger } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
-    const { harNoenTilganger } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || harNoenTilganger);
+    const skalViseManglerTilgangBoks = !(organisasjoner.length > 0 || antallTilganger > 0);
     const [typeAntall, settypeAntall] = useState('');
-    const [visIA, setVisIA] = useState(false);
     const [ferdigLastet, setFerdigLastet] = useState(false);
 
     useEffect(() => {
         setFerdigLastet(false);
-        const tellAntallTilganger = (): number => {
-            let antallTilganger: number = 0;
-            if (tilgangTilPamState === Tilgang.TILGANG) {
-                antallTilganger++;
-            }
-            if (tilgangTilSyfoState === Tilgang.TILGANG) {
-                antallTilganger++;
-            }
-            if (arbeidsavtaler.length && arbeidsavtaler[0].status !== 'tom avtale') {
-                antallTilganger++;
-            }
-            let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
-            if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
-                setVisIA(true);
-                antallTilganger++;
-            } else {
-                setVisIA(false);
-            }
-            return antallTilganger;
-        };
 
-        let antallTjenesteTilganger = tellAntallTilganger();
-        if (antallTjenesteTilganger % 2 === 0) {
+        if (antallTilganger % 2 === 0) {
             settypeAntall('antall-partall');
-        } else if (antallTjenesteTilganger === 1) {
+        } else if (antallTilganger === 1) {
             settypeAntall('antall-en');
         } else {
             settypeAntall('antall-oddetall');
@@ -74,6 +51,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         valgtOrganisasjon,
         organisasjonerMedIAWEB,
         ferdigLastet,
+        antallTilganger,
     ]);
 
     return (
@@ -100,7 +78,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                                 <Pamboks />
                             </div>
                         )}
-                        {arbeidsavtaler.length > 0 && arbeidsavtaler[0].status !== 'tom avtale' && (
+                        {arbeidsavtaler.length > 0 && tilgangTilArbeidsavtaler === Tilgang.TILGANG && (
                             <div className={'tjenesteboks innholdsboks'}>
                                 <Arbeidstreningboks />
                             </div>

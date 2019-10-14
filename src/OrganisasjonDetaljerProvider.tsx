@@ -9,6 +9,7 @@ import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
+import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 
 interface Props {
     children: React.ReactNode;
@@ -20,10 +21,10 @@ export type Context = {
     antallAnnonser: number;
     tilgangTilPamState: Tilgang;
     tilgangTilArbeidsavtaler: Tilgang;
-
+    antallTilganger: number;
     arbeidsavtaler: Array<Arbeidsavtale>;
-    harNoenTilganger: boolean;
     tilgangTilSyfoState: Tilgang;
+    visIA: boolean;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -31,24 +32,30 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
+    const [antallTilganger, setAntallTilganger] = useState(0);
     const [tilgangTilArbeidsavtaler, setTilgangTilArbeidsavtaler] = useState(Tilgang.LASTER);
+    const { organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
+    const [visIA, setVisIA] = useState(false);
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
-    const [harNoenTilganger, setHarNoenTilganger] = useState(false);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         settilgangTilPamState(Tilgang.LASTER);
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
+        setAntallTilganger(0);
+        let tilganger: number = 0;
+        if (tilgangTilSyfoState === Tilgang.TILGANG) {
+            tilganger++;
+        }
         if (org) {
-            let antallTilganger = 0;
             await setValgtOrganisasjon(org);
             let harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
             if (harPamTilgang) {
                 settilgangTilPamState(Tilgang.TILGANG);
                 setantallAnnonser(await hentAntallannonser());
-                antallTilganger++;
+                tilganger++;
             } else {
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
@@ -56,13 +63,19 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
             if (arbeidsavtaler.length > 0) {
                 setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                tilganger++;
             } else {
                 setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
             }
 
-            if (antallTilganger > 0 || tilgangTilSyfoState === Tilgang.TILGANG) {
-                setHarNoenTilganger(true);
+            let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
+            if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
+                setVisIA(true);
+                tilganger++;
+            } else {
+                setVisIA(false);
             }
+            setAntallTilganger(tilganger);
         }
         hentInfoOgLoggInformasjon(org);
     };
@@ -74,8 +87,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         tilgangTilArbeidsavtaler,
         valgtOrganisasjon,
         arbeidsavtaler,
-        harNoenTilganger,
         tilgangTilSyfoState,
+        antallTilganger,
+        visIA,
     };
 
     return (
