@@ -23,6 +23,10 @@ fetchMock
                 kommune: '',
                 kommunenummer: '',
             },
+            beliggenhetsadresse: {
+                kommune: 'MOLDE',
+            },
+
             forretningsadresse: {
                 land: '',
                 landkode: '',
