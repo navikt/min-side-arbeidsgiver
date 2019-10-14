@@ -1,5 +1,16 @@
 import fetchMock from 'fetch-mock';
 import { hentArbeidsavtalerApiLink } from '../lenker';
+//const delay = new Promise(res => setTimeout(res, 500));
+
+/*fetchMock
+    .get(
+        hentArbeidsavtalerApiLink(),
+        delay.then(() => {
+            return 500;
+        })
+    )
+    .spy();
+    */
 
 fetchMock.get(hentArbeidsavtalerApiLink(), [
     {

@@ -9,7 +9,8 @@ import {
 import './InformasjonOmBedrift.less';
 import Lenke from 'nav-frontend-lenker';
 import Tekstboks from './Tekstboks/Tekstboks';
-import { basename } from '../../paths';
+import { Link } from 'react-router-dom';
+import 'nav-frontend-lenker-style/src/lenker-style.less';
 
 const InformasjonOmBedrift: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -30,12 +31,12 @@ const InformasjonOmBedrift: FunctionComponent = () => {
 
     return (
         <>
-            <Lenke
-                className={'tilbake-til-forsiden'}
-                href={basename + '/' + valgtOrganisasjon.OrganizationNumber + '/'}
+            <Link
+                className={'tilbake-til-forsiden lenke'}
+                to={'/?bedrift=' + valgtOrganisasjon.OrganizationNumber}
             >
                 Tilbake til forsiden
-            </Lenke>
+            </Link>
             <div className="informasjon-om-bedrift">
                 {underenhet !== tomEnhetsregOrg && (
                     <div className={'informasjon-om-bedrift__tekstomrade'}>

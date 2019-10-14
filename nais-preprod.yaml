@@ -6,8 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-
-  image: navikt/ditt-nav-arbeidsgiver:faInnIAWEB_806
+  image: navikt/ditt-nav-arbeidsgiver:856
   team: teamtag
   port: 3000
   ingresses:

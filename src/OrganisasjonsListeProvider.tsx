@@ -6,6 +6,7 @@ import {
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAtinnskjema,
+    sjekkOmAltinnErNede,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
 import {
@@ -19,33 +20,34 @@ export type Context = {
     visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
+    altinnNede: boolean;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
         navn: 'Ekspertbistand',
         kode: '5384',
-        versjon: '1'
+        versjon: '1',
     },
     {
         navn: 'Inkluderingstilskudd',
         kode: '5212',
-        versjon: '1'
+        versjon: '1',
     },
     {
         navn: 'Lonnstilskudd',
         kode: '5159',
-        versjon: '1'
+        versjon: '1',
     },
     {
         navn: 'Mentortilskudd',
         kode: '5216',
-        versjon: '1'
+        versjon: '1',
     },
     {
         navn: 'Inntektsmelding',
         kode: '4936',
-        versjon: '1'
+        versjon: '1',
     },
 ];
 
@@ -68,14 +70,17 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
+    const [altinnNede, setAltinnNede] = useState(false);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
             let organisasjoner = await hentOrganisasjoner();
-
             setOrganisasjoner(
                 organisasjoner.filter((organisasjon: Organisasjon) => {
-                    return organisasjon.OrganizationForm === 'BEDR';
+                    return (
+                        organisasjon.OrganizationForm === 'BEDR' &&
+                        organisasjon.ParentOrganizationNumber
+                    );
                 })
             );
             if (visNyMeny) {
@@ -85,6 +90,11 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
         };
+        const SjekkerAltinnNede = async () => {
+            let nede: boolean = await sjekkOmAltinnErNede();
+            setAltinnNede(nede);
+        };
+        SjekkerAltinnNede();
         const getOrganisasjonerTilIAweb = async () => {
             let organisasjonerIAWEB = await hentOrganisasjonerIAweb();
             setOrganisasjonerMedIAWEB(
@@ -116,6 +126,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         visNyMeny,
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
+        altinnNede,
     };
 
     return (

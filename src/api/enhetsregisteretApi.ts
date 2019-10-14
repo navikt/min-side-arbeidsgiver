@@ -46,18 +46,19 @@ export async function hentAlleJuridiskeEnheter(
     let respons = await fetch(url);
     if (respons.ok) {
         const distinkteJuridiskeEnheterFraEreg: ListeMedJuridiskeEnheter = await respons.json();
-        let distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
-            orgFraEereg => {
-                const jurOrg: Organisasjon = {
-                    ...tomAltinnOrganisasjon,
-                    Name: orgFraEereg.navn,
-                    OrganizationNumber: orgFraEereg.organisasjonsnummer,
-                };
-                return jurOrg;
-            }
-        );
-        return distinkteJuridiskeEnheter;
+        if (distinkteJuridiskeEnheterFraEreg._embedded) {
+            let distinkteJuridiskeEnheter: Organisasjon[] = distinkteJuridiskeEnheterFraEreg._embedded.enheter.map(
+                orgFraEereg => {
+                    const jurOrg: Organisasjon = {
+                        ...tomAltinnOrganisasjon,
+                        Name: orgFraEereg.navn,
+                        OrganizationNumber: orgFraEereg.organisasjonsnummer,
+                    };
+                    return jurOrg;
+                }
+            );
+            return distinkteJuridiskeEnheter;
+        }
     }
-
     return [];
 }

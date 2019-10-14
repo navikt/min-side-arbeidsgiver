@@ -7,7 +7,9 @@ import { skjemaForArbeidsgivere } from '../../../lenker';
 export const SkjemaveilederContainer: FunctionComponent = () => {
     return (
         <div className={'skjemaveilerderContainer'}>
-            <Undertittel className={'skjemaveilerderContainer__tekst'}>PDF-skjemaer</Undertittel>
+            <div className={'skjemaveilerderContainer__tekst'}>
+                <Undertittel>Alle søknader og skjemaer</Undertittel>
+            </div>
             <Lenkepanel
                 href={skjemaForArbeidsgivere}
                 tittelProps={'element'}

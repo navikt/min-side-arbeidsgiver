@@ -1,5 +1,4 @@
 import fetchMock from 'fetch-mock';
-
 const delay = new Promise(res => setTimeout(res, 500));
 
 fetchMock
@@ -22,6 +21,7 @@ const OrganisasjonerResponse = [
     {
         Name: 'BALLSTAD OG HORTEN',
         Type: 'Enterprise',
+        ParentOrganizationNumber: null,
         OrganizationNumber: '811076112',
         OrganizationForm: 'AS',
         Status: 'Active',
@@ -61,7 +61,7 @@ const OrganisasjonerResponse = [
 ];
 fetchMock
     .get(
-        'express:/min-side-arbeidsgiver/api/rettigheter-til-skjema/5216',
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
         delay.then(() => {
             return mentortilskuddskjemaResponse;
         })
@@ -69,7 +69,7 @@ fetchMock
     .spy();
 fetchMock
     .get(
-        'express:/min-side-arbeidsgiver/api/rettigheter-til-skjema/:id',
+        'begin:/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
         delay.then(() => {
             return ekspertBistandSkjemaResponse;
         })

@@ -29,6 +29,7 @@ enum AltinnKode {
 export interface Arbeidsavtale {
     status: string;
 }
+
 export interface UnleashRespons {
     tilgang: boolean;
 }
@@ -42,8 +43,19 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     }
 }
 
+export async function sjekkOmAltinnErNede(): Promise<boolean> {
+    let respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
+    if (respons.ok) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
 export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=3403&serviceEdition=2');
+    let respons = await fetch(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=3403&serviceEdition=2'
+    );
     if (respons.ok) {
         return await respons.json();
     } else {
@@ -61,7 +73,10 @@ export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
 ): Promise<SkjemaMedOrganisasjonerMedTilgang> {
     let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
         Skjema: skjema,
-        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(skjema.kode,skjema.versjon),
+        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(
+            skjema.kode,
+            skjema.versjon
+        ),
     };
     return listeMedOrganisasjoner;
 }
@@ -85,7 +100,12 @@ export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     serviceKode: string,
     serviceEdition: string
 ): Promise<Organisasjon[]> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' + serviceKode +'&serviceEdition='+serviceEdition);
+    let respons = await fetch(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            serviceKode +
+            '&serviceEdition=' +
+            serviceEdition
+    );
     if (respons.ok) {
         return await respons.json();
     } else {
@@ -120,7 +140,9 @@ export async function byggOrganisasjonstre(
     const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
         return organisasjon.Type === 'Enterprise';
     });
-    const underenheter = organisasjoner.filter(org => org.OrganizationForm === 'BEDR');
+    const underenheter = organisasjoner.filter(
+        org => org.OrganizationForm === 'BEDR' && org.ParentOrganizationNumber
+    );
     let organisasjonsliste = settSammenJuridiskEnhetMedUnderOrganisasjoner(
         juridiskeEnheter,
         underenheter
@@ -146,7 +168,10 @@ export async function byggOrganisasjonstre(
         );
         organisasjonsliste = organisasjonsliste.concat(organisasjonsListeUtenTilgangJuridisk);
     }
-    return organisasjonsliste.sort((a, b) =>
+    const juridiskeenheterMedUnderenheter = organisasjonsliste.filter(
+        jur => jur.Underenheter.length > 0
+    );
+    return juridiskeenheterMedUnderenheter.sort((a, b) =>
         a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name)
     );
 }
