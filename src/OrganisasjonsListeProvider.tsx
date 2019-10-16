@@ -1,15 +1,17 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import {
     byggOrganisasjonstre,
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAtinnskjema,
-    SkjemaMedOrganisasjonerMedTilgang
-} from "./api/dnaApi";
-import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from "./Objekter/Organisasjoner/OrganisasjonerFraAltinn";
-import { Tilgang } from "./App/LoginBoundary";
-
+    SkjemaMedOrganisasjonerMedTilgang,
+} from './api/dnaApi';
+import {
+    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon,
+} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { Tilgang } from './App/LoginBoundary';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -18,8 +20,6 @@ export type Context = {
     organisasjonerMedIAWEB: Organisasjon[];
     orgListeFerdigLastet: Tilgang;
 };
-
-
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
@@ -67,28 +67,27 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
-    const [orgListeFerdigLastet,setOrgListeFerdigLastet]=useState(Tilgang.LASTER);
+    const [orgListeFerdigLastet, setOrgListeFerdigLastet] = useState(Tilgang.LASTER);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
             setOrgListeFerdigLastet(Tilgang.LASTER);
             let organisasjoner = await hentOrganisasjoner();
-            if(organisasjoner.length>0) {
+            if (organisasjoner.length > 0) {
                 setOrganisasjoner(
-                  organisasjoner.filter((organisasjon: Organisasjon) => {
-                      return (
-                        organisasjon.OrganizationForm === 'BEDR' &&
-                        organisasjon.ParentOrganizationNumber
-                      );
-                  })
+                    organisasjoner.filter((organisasjon: Organisasjon) => {
+                        return (
+                            organisasjon.OrganizationForm === 'BEDR' &&
+                            organisasjon.ParentOrganizationNumber
+                        );
+                    })
                 );
                 const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                  organisasjoner
+                    organisasjoner
                 );
                 setOrgListeFerdigLastet(Tilgang.TILGANG);
                 setorganisasjonstre(toDim);
-            }
-            else{
+            } else {
                 setOrgListeFerdigLastet(Tilgang.IKKE_TILGANG);
             }
         };
@@ -115,7 +114,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonstre,
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
-        orgListeFerdigLastet
+        orgListeFerdigLastet,
     };
 
     return (
