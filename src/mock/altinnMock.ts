@@ -9,6 +9,8 @@ fetchMock
         })
     )
     .spy();
+
+//const tomOrganisasjonerResponse = [{}];
 const OrganisasjonerResponse = [
     {
         Name: 'BALLSTAD OG HAMARØY',

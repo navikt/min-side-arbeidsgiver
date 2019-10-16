@@ -21,7 +21,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangTilArbeidsavtaler,
         arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
-    const { organisasjonerMedIAWEB, organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, organisasjoner, orgListeFerdigLastet } = useContext(
+        OrganisasjonsListeContext
+    );
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
@@ -70,9 +72,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         }
 
         if (
-            tilgangTilPamState !== Tilgang.LASTER &&
-            tilgangTilSyfoState !== Tilgang.LASTER &&
-            tilgangTilArbeidsavtaler !== Tilgang.LASTER
+            (tilgangTilPamState !== Tilgang.LASTER &&
+                tilgangTilSyfoState !== Tilgang.LASTER &&
+                tilgangTilArbeidsavtaler !== Tilgang.LASTER) ||
+            (orgListeFerdigLastet !== Tilgang.LASTER && tilgangTilSyfoState !== Tilgang.LASTER)
         ) {
             setFerdigLastet(true);
         }
@@ -88,6 +91,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         antallTjenester,
         typeAntall,
         arbeidsavtaler,
+        orgListeFerdigLastet,
     ]);
 
     return (
