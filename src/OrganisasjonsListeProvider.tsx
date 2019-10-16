@@ -74,7 +74,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             setOrgListeFerdigLastet(Tilgang.LASTER);
             let organisasjoner = await hentOrganisasjoner();
             if(organisasjoner.length>0) {
-                console.log("organisasjoner har lengde");
                 setOrganisasjoner(
                   organisasjoner.filter((organisasjon: Organisasjon) => {
                       return (
@@ -90,7 +89,6 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setorganisasjonstre(toDim);
             }
             else{
-                console.log("!!organisasjoner har ikke lengde!!");
                 setOrgListeFerdigLastet(Tilgang.IKKE_TILGANG);
             }
         };

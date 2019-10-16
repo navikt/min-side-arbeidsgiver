@@ -36,7 +36,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
-        console.log("endre organisasjon:", org);
         settilgangTilPamState(Tilgang.LASTER);
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         if (org) {
