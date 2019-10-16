@@ -1,27 +1,25 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 import {
     byggOrganisasjonstre,
-    hentMenuToggle,
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAtinnskjema,
-    sjekkOmAltinnErNede,
-    SkjemaMedOrganisasjonerMedTilgang,
-} from './api/dnaApi';
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+    SkjemaMedOrganisasjonerMedTilgang
+} from "./api/dnaApi";
+import { JuridiskEnhetMedUnderEnheterArray, Organisasjon } from "./Objekter/Organisasjoner/OrganisasjonerFraAltinn";
+import { Tilgang } from "./App/LoginBoundary";
+
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
-    visNyMeny: boolean;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
-    altinnNede: boolean;
+    orgListeFerdigLastet: Tilgang;
 };
+
+
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
@@ -66,35 +64,36 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         Array<JuridiskEnhetMedUnderEnheterArray>()
     );
     const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState(Array<Organisasjon>());
-    const [visNyMeny, setVisNyMeny] = useState(false);
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
-    const [altinnNede, setAltinnNede] = useState(false);
+    const [orgListeFerdigLastet,setOrgListeFerdigLastet]=useState(Tilgang.LASTER);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
+            setOrgListeFerdigLastet(Tilgang.LASTER);
             let organisasjoner = await hentOrganisasjoner();
-            setOrganisasjoner(
-                organisasjoner.filter((organisasjon: Organisasjon) => {
-                    return (
+            if(organisasjoner.length>0) {
+                console.log("organisasjoner har lengde");
+                setOrganisasjoner(
+                  organisasjoner.filter((organisasjon: Organisasjon) => {
+                      return (
                         organisasjon.OrganizationForm === 'BEDR' &&
                         organisasjon.ParentOrganizationNumber
-                    );
-                })
-            );
-            if (visNyMeny) {
-                const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                    organisasjoner
+                      );
+                  })
                 );
+                const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
+                  organisasjoner
+                );
+                setOrgListeFerdigLastet(Tilgang.TILGANG);
                 setorganisasjonstre(toDim);
             }
+            else{
+                console.log("!!organisasjoner har ikke lengde!!");
+                setOrgListeFerdigLastet(Tilgang.IKKE_TILGANG);
+            }
         };
-        const SjekkerAltinnNede = async () => {
-            let nede: boolean = await sjekkOmAltinnErNede();
-            setAltinnNede(nede);
-        };
-        SjekkerAltinnNede();
         const getOrganisasjonerTilIAweb = async () => {
             let organisasjonerIAWEB = await hentOrganisasjonerIAweb();
             setOrganisasjonerMedIAWEB(
@@ -108,25 +107,17 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             setListeMedSkjemaOgTilganger(liste);
         };
 
-        const sjekkFodselsnr = async () => {
-            const skalViseMeny: boolean = await hentMenuToggle(
-                'dna.bedriftsvelger.brukNyBedriftsvelger'
-            );
-            setVisNyMeny(skalViseMeny);
-        };
-        sjekkFodselsnr();
         getOrganisasjoner();
         finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
         getOrganisasjonerTilIAweb();
-    }, [visNyMeny]);
+    }, []);
 
     let defaultContext: Context = {
         organisasjoner,
         organisasjonstre,
-        visNyMeny,
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
-        altinnNede,
+        orgListeFerdigLastet
     };
 
     return (

@@ -3,7 +3,6 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
-import EnkelVirksomhetsvelger from './EnkelVirksomhetsvelger/EnkelVirksomhetsvelger';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import './HovedBanner.less';
 import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
@@ -11,7 +10,7 @@ import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAlt
 const Banner: FunctionComponent<RouteComponentProps> = props => {
     const { history } = props;
 
-    const { organisasjonstre, visNyMeny } = useContext(OrganisasjonsListeContext);
+    const { organisasjonstre } = useContext(OrganisasjonsListeContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
@@ -20,16 +19,13 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
         }
     };
 
-    return visNyMeny ? (
+    return (
         <Bedriftsmeny
             sidetittel="Min side - arbeidsgiver"
             organisasjonstre={organisasjonstre}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
-        />
-    ) : (
-        <EnkelVirksomhetsvelger />
-    );
+        />)
 };
 
 export default withRouter(Banner);

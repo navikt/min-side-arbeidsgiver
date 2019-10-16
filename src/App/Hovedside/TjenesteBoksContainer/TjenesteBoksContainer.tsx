@@ -1,17 +1,17 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from "react";
 
-import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import './TjenesteBoksContainer.less';
-import Syfoboks from './Syfoboks/Syfoboks';
-import Pamboks from './Pamboks/Pamboks';
-import Innholdsboks from '../Innholdsboks/Innholdsboks';
-import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
-import IAwebboks from './IAwebboks/IAwebboks';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
-import ManglerTilgangBoks from '../ManglerTilgangBoks/ManglerTilgangBoks';
-import { Tilgang } from '../../LoginBoundary';
+import { SyfoTilgangContext } from "../../../SyfoTilgangProvider";
+import { OrganisasjonsDetaljerContext } from "../../../OrganisasjonDetaljerProvider";
+import "./TjenesteBoksContainer.less";
+import Syfoboks from "./Syfoboks/Syfoboks";
+import Pamboks from "./Pamboks/Pamboks";
+import Innholdsboks from "../Innholdsboks/Innholdsboks";
+import Arbeidstreningboks from "./Arbeidstreningboks/Arbeidstreningboks";
+import IAwebboks from "./IAwebboks/IAwebboks";
+import { OrganisasjonsListeContext } from "../../../OrganisasjonsListeProvider";
+import LasterBoks from "../AltinnContainer/LasterBoks/LasterBoks";
+import ManglerTilgangBoks from "../ManglerTilgangBoks/ManglerTilgangBoks";
+import { Tilgang } from "../../LoginBoundary";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -21,7 +21,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangTilArbeidsavtaler,
         arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
-    const { organisasjonerMedIAWEB, organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, organisasjoner, orgListeFerdigLastet } = useContext(OrganisasjonsListeContext);
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
@@ -70,9 +70,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         }
 
         if (
-            tilgangTilPamState !== Tilgang.LASTER &&
+          (tilgangTilPamState !== Tilgang.LASTER &&
             tilgangTilSyfoState !== Tilgang.LASTER &&
             tilgangTilArbeidsavtaler !== Tilgang.LASTER
+          ) ||  (orgListeFerdigLastet !== Tilgang.LASTER && tilgangTilSyfoState !== Tilgang.LASTER)
         ) {
             setFerdigLastet(true);
         }
@@ -88,6 +89,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         antallTjenester,
         typeAntall,
         arbeidsavtaler,
+        orgListeFerdigLastet
     ]);
 
     return (
