@@ -6,7 +6,30 @@
   align-items: center;
   background-color: @navBlaLighten80;
   border-bottom: 4px solid @navBlaLighten60;
-  height: 3.5rem;
+  height: 9rem;
   margin-bottom: 1rem;
   text-align: center;
+
+  &__tittel-og-tekst {
+    margin: 1.5rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 5rem;
+    justify-content: space-between;
+  }
+
+}
+
+@media (min-width: @screen-sm) {
+  .logg-inn-banner {
+
+    &__tittel-og-tekst {
+      width: 60rem;
+      margin-left: 4rem;
+
+    }
+
+
+  }
 }
