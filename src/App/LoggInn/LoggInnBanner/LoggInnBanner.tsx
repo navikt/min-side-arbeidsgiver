@@ -10,16 +10,16 @@ const LoggInnBanner: FunctionComponent = () => {
             <div className={'logg-inn-banner__container'}>
                 <div className={'logg-inn-banner__tittel-og-tekst'}>
                     <Sidetittel className={'logg-inn-banner__tittel'}>
-                        Min side - arbeidsgiver{' '}
+                        Min side – arbeidsgiver{' '}
                     </Sidetittel>
                     <Ingress className={'logg-inn-banner__ingress'}>
-                        Innloggede tjenester for arbeidsgivere{' '}
+                        Innloggede tjenester for arbeidsgiver{' '}
                     </Ingress>
                 </div>
                 <div className={'logg-inn-banner__bilder'}>
-                    <img src={medhjelm} alt={'Bilde av koffert for å illustrere arbeidsgivere'} />
-                    <img src={telefon} alt={'Bilde av koffert for å illustrere arbeidsgivere'} />
-                    <img src={telefon} alt={'Bilde av koffert for å illustrere arbeidsgivere'} />
+                    <img src={medhjelm} alt={''} />
+                    <img src={telefon} alt={''} />
+                    <img src={telefon} alt={''} />
                 </div>
             </div>
         </div>
