@@ -5,7 +5,7 @@ import { logInfo } from '../../utils/metricsUtils';
 import koffert from '../Hovedside/group.svg';
 import Lenke from 'nav-frontend-lenker';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
-import { Sidetittel } from 'nav-frontend-typografi';
+import { Systemtittel, Innholdstittel } from 'nav-frontend-typografi';
 import { Innloggingstjenester } from './Innloggingstjenester/Innloggingstjenester';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
@@ -26,23 +26,19 @@ export const LoggInn: FunctionComponent = () => {
         <div className="innloggingsside">
             <LoggInnBanner />
             <div className={'innloggingsside__innhold'}>
-                <img
-                    src={koffert}
-                    alt={'Bilde av koffert for å illustrere arbeidsgivere'}
-                    className={'innloggingsside__ikon'}
-                />
-                <Sidetittel className={'innloggingsside__sidetittel'}>
-                    Tjenester for arbeidsgivere
-                </Sidetittel>
-                <div className={'innloggingsside__tekst'}>
-                    Her finner du våre digitale tjenester og oppgaver samlet. Nå blir det enklere
-                    for deg å samarbeide med NAV på disse områdene:
-                </div>
-                <Innloggingstjenester />
+                <Systemtittel className={'innloggingsside__sidetittel'}>
+                    På min side – arbeidsgiver kan du:
+                </Systemtittel>
+                <ul className="innloggingsside__punktliste">
+                    <li> få oversikt over dine sykmeldte</li>
+                    <li>se sykfraværsstatistikk for din virksomhet</li>
+                    <li>rekruttere nye medarbeidere</li>
+                    <li>sende inn digitale skjemaer</li>
+                </ul>
+                <TilgangsStyringInfoTekst />
                 <Hovedknapp className={'innloggingsside__loginKnapp'} onClick={redirectTilLogin}>
                     Logg inn
                 </Hovedknapp>
-                <TilgangsStyringInfoTekst />
 
                 <div className="innloggingsside__besok-ditt-nav">
                     Ønsker du å se dine tjenester som privatperson?{' '}

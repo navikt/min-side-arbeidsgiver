@@ -18,10 +18,6 @@ export const TilgangsStyringInfoTekst: FunctionComponent = () => {
                 <Element className={'informasjonsboks__overskrift'}>
                     Tildeling av roller foregår i Altinn{' '}
                 </Element>
-                Virksomheten registrerer roller i Altinn. Rollene bestemmer hva du ser og kan gjøre
-                på denne siden.
-                <br />
-                <br />
                 <Lenke
                     className={'informasjonsboks__lenke'}
                     href={basename + '/informasjon-om-tilgangsstyring'}
