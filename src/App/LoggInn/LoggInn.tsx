@@ -25,7 +25,7 @@ export const LoggInn: FunctionComponent = () => {
             <LoggInnBanner />
             <div className={'innloggingsside__innhold'}>
                 <Systemtittel className={'innloggingsside__sidetittel'}>
-                    På min side – arbeidsgiver kan du:
+                    På Min side – arbeidsgiver kan du:
                 </Systemtittel>
                 <ul className="innloggingsside__punktliste">
                     <li className={'innloggingsside__punkt'}> få oversikt over dine sykmeldte</li>

@@ -3,6 +3,7 @@ import './LoggInnBanner.less';
 import { Sidetittel, Ingress } from 'nav-frontend-typografi';
 import medhjelm from './med-hjelm.svg';
 import telefon from './telefon-person.svg';
+import kokk from './kokk.png';
 
 const LoggInnBanner: FunctionComponent = () => {
     return (
@@ -19,7 +20,7 @@ const LoggInnBanner: FunctionComponent = () => {
                 <div className={'logg-inn-banner__bilder'}>
                     <img src={medhjelm} alt={''} />
                     <img src={telefon} alt={''} />
-                    <img src={telefon} alt={''} />
+                    <img src={kokk} alt={''} />
                 </div>
             </div>
         </div>

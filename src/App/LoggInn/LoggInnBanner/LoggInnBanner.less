@@ -5,12 +5,20 @@
   flex-direction: row;
   background-color: @navBlaLighten80;
   border-bottom: 4px solid @navBlaLighten60;
-  height: 9rem;
+  height: 12rem;
   margin-bottom: 1rem;
   justify-content: space-around;
 
+  &__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 60rem;
+  }
+
   &__tittel-og-tekst {
-    margin: 2.5rem 0 2rem 0;
+    margin: 2rem 0 0rem 0;
 
   }
 
@@ -35,18 +43,13 @@
 
     &__bilder {
       display: initial;
-      padding-bottom: 0.7rem;
+      align-self: flex-end;
 
     }
 
     &__container {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      text-align: center;
       justify-content: space-around;
       width: 60rem;
-
     }
 
 
