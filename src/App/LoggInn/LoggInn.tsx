@@ -7,8 +7,13 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
+import { Tilgang } from '../LoginBoundary';
 
-export const LoggInn: FunctionComponent = () => {
+interface Props {
+    loggetInn: Tilgang;
+}
+
+export const LoggInn: FunctionComponent<Props> = props => {
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
             logInfo('klikk på login');
@@ -21,30 +26,46 @@ export const LoggInn: FunctionComponent = () => {
     };
 
     return (
-        <div className="innloggingsside">
-            <LoggInnBanner />
-            <div className={'innloggingsside__innhold'}>
-                <Systemtittel className={'innloggingsside__sidetittel'}>
-                    På Min side – arbeidsgiver kan du:
-                </Systemtittel>
-                <ul className="innloggingsside__punktliste">
-                    <li className={'innloggingsside__punkt'}> få oversikt over dine sykmeldte</li>
-                    <li className={'innloggingsside__punkt'}>
-                        se sykfraværsstatistikk for din virksomhet
-                    </li>
-                    <li className={'innloggingsside__punkt'}>rekruttere nye medarbeidere</li>
-                    <li className={'innloggingsside__punkt'}>sende inn digitale skjemaer</li>
-                </ul>
-                <TilgangsStyringInfoTekst />
-                <Hovedknapp className={'innloggingsside__loginKnapp'} onClick={redirectTilLogin}>
-                    Logg inn
-                </Hovedknapp>
+        <>
+            {props.loggetInn !== Tilgang.TILGANG && (
+                <div className="innloggingsside">
+                    <LoggInnBanner />
+                    <div className={'innloggingsside__innhold'}>
+                        <Systemtittel className={'innloggingsside__sidetittel'}>
+                            På Min side – arbeidsgiver kan du:
+                        </Systemtittel>
+                        <ul className="innloggingsside__punktliste">
+                            <li className={'innloggingsside__punkt'}>
+                                {' '}
+                                få oversikt over dine sykmeldte
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
+                                se sykfraværsstatistikk for din virksomhet
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
+                                rekruttere nye medarbeidere
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
+                                sende inn digitale skjemaer
+                            </li>
+                        </ul>
+                        <TilgangsStyringInfoTekst />
+                        <Hovedknapp
+                            className={'innloggingsside__loginKnapp'}
+                            onClick={redirectTilLogin}
+                        >
+                            Logg inn
+                        </Hovedknapp>
 
-                <div className="innloggingsside__besok-ditt-nav">
-                    Ønsker du å se dine tjenester som privatperson? <br />
-                    <Lenke href={'https://www.nav.no/person/dittnav/'}>Logg inn på Ditt NAV</Lenke>
+                        <div className="innloggingsside__besok-ditt-nav">
+                            Ønsker du å se dine tjenester som privatperson? <br />
+                            <Lenke href={'https://www.nav.no/person/dittnav/'}>
+                                Logg inn på Ditt NAV
+                            </Lenke>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            )}
+        </>
     );
 };

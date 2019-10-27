@@ -41,8 +41,8 @@ const LoginBoundary: FunctionComponent = props => {
                     veilarbStatusRespons.harGyldigOidcToken &&
                     veilarbStatusRespons.nivaOidc === 4
                 ) {
-                    setInnlogget(Tilgang.TILGANG);
                     await getEssoToken();
+                    setInnlogget(Tilgang.TILGANG);
                 } else if (!veilarbStatusRespons.harGyldigOidcToken) {
                     setInnlogget(Tilgang.IKKE_TILGANG);
                 }
@@ -57,7 +57,7 @@ const LoginBoundary: FunctionComponent = props => {
         return <> {props.children} </>;
     }
     if (innlogget === Tilgang.IKKE_TILGANG) {
-        return <LoggInn />;
+        return <LoggInn loggetInn={innlogget} />;
     } else {
         return null;
     }
