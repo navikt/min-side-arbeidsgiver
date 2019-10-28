@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:862
+  image: navikt/ditt-nav-arbeidsgiver:TAG-883-oppdatere-landingssiden_876
   team: teamtag
   port: 3000
   ingresses:

@@ -27,7 +27,7 @@ export const LoggInn: FunctionComponent<Props> = props => {
 
     return (
         <>
-            {props.loggetInn !== Tilgang.TILGANG && (
+            {props.loggetInn === Tilgang.IKKE_TILGANG && (
                 <div className="innloggingsside">
                     <LoggInnBanner />
                     <div className={'innloggingsside__innhold'}>
