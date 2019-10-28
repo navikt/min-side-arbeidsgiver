@@ -14,7 +14,7 @@ export enum Tilgang {
 function setEssoCookieLocally() {
     document.cookie = 'nav-esso=0123456789..*; path=/; domain=localhost;';
 }
-async function getEssoToken(veilarbStatusRespons: VeilStatus) {
+function getEssoToken(veilarbStatusRespons: VeilStatus) {
     if (!veilarbStatusRespons.erInnlogget) {
         window.location.href = veilarbStepup();
     }
@@ -40,7 +40,7 @@ const LoginBoundary: FunctionComponent = props => {
                     veilarbStatusRespons.harGyldigOidcToken &&
                     veilarbStatusRespons.nivaOidc === 4
                 ) {
-                    await getEssoToken(veilarbStatusRespons);
+                    getEssoToken(veilarbStatusRespons);
                     setInnlogget(Tilgang.TILGANG);
                 } else if (!veilarbStatusRespons.harGyldigOidcToken) {
                     setInnlogget(Tilgang.IKKE_TILGANG);
