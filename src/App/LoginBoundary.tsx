@@ -20,7 +20,7 @@ function getEssoToken(veilarbStatusRespons: VeilStatus) {
     }
 }
 const LoginBoundary: FunctionComponent = props => {
-    const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
+    const [innlogget, setInnlogget] = useState(Tilgang.IKKE_TILGANG);
 
     function localLogin() {
         if (document.cookie.includes('selvbetjening-idtoken')) {

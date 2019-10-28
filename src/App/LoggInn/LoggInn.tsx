@@ -27,7 +27,7 @@ export const LoggInn: FunctionComponent<Props> = props => {
 
     return (
         <>
-            {props.loggetInn === Tilgang.IKKE_TILGANG && (
+            {
                 <div className="innloggingsside">
                     <LoggInnBanner />
                     <div className={'innloggingsside__innhold'}>
@@ -65,7 +65,7 @@ export const LoggInn: FunctionComponent<Props> = props => {
                         </div>
                     </div>
                 </div>
-            )}
+            }
         </>
     );
 };
