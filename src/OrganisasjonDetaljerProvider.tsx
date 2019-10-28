@@ -69,8 +69,12 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     };
 
     return (
-        <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
-            {children}
-        </OrganisasjonsDetaljerContext.Provider>
+        <>
+            {tilgangTilSyfoState !== Tilgang.LASTER && (
+                <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
+                    {children}
+                </OrganisasjonsDetaljerContext.Provider>
+            )}
+        </>
     );
 };
