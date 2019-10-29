@@ -56,13 +56,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             tjenester++;
         }
         setAntallTjenester(tjenester);
-        console.log(
-            tjenester,
-            tilgangTilSyfoState,
-            tilgangTilPamState,
-            organisasjonerMedIAWEB,
-            arbeidsavtaler
-        );
 
         if (
             (tilgangTilPamState !== Tilgang.LASTER &&
@@ -86,7 +79,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 setFerdigLastet('ferdig');
             }, 300);
         }
-        console.log(JSON.stringify(tilgangTilSyfoState), 'syfostate i tjenesteboksC');
     }, [
         tilgangTilSyfoState,
         tilgangTilPamState,
