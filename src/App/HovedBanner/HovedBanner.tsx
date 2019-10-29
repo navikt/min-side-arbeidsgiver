@@ -25,7 +25,8 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
             organisasjonstre={organisasjonstre}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
-        />)
+        />
+    );
 };
 
 export default withRouter(Banner);
