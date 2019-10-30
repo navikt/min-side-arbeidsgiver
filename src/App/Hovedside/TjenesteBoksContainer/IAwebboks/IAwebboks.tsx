@@ -15,7 +15,11 @@ interface Props {
 const IAwebboks: FunctionComponent<Props> = props => {
     return (
         <div className={'IA-web-boks ' + props.className}>
-            <TjenesteBoksBanner tittel={'Sykefraværsstatistikk'} imgsource={IAwebikon} altTekst={''} />
+            <TjenesteBoksBanner
+                tittel={'Sykefraværsstatistikk'}
+                imgsource={IAwebikon}
+                altTekst={''}
+            />
 
             <Lenkepanel
                 className={'IA-web-boks__info'}

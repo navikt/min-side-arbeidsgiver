@@ -2,11 +2,56 @@
 
 .logg-inn-banner {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
   background-color: @navBlaLighten80;
   border-bottom: 4px solid @navBlaLighten60;
-  height: 3.5rem;
+  height: 12rem;
   margin-bottom: 1rem;
-  text-align: center;
+  justify-content: space-around;
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 60rem;
+  }
+
+  &__tittel-og-tekst {
+    margin: 2rem 0 0rem 0;
+
+  }
+
+  &__bilder {
+    display: none;
+
+  }
+
+}
+
+@media (min-width: @screen-sm) {
+  .logg-inn-banner {
+
+    &__tittel-og-tekst {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 1.5rem;
+      height: 5rem;
+      justify-content: space-between;
+    }
+
+    &__bilder {
+      display: initial;
+      align-self: flex-end;
+
+    }
+
+    &__container {
+      justify-content: space-around;
+      width: 60rem;
+    }
+
+
+  }
 }

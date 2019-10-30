@@ -2,11 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import './Logginn.less';
 import { logInfo } from '../../utils/metricsUtils';
-import koffert from '../Hovedside/group.svg';
 import Lenke from 'nav-frontend-lenker';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
-import { Sidetittel } from 'nav-frontend-typografi';
-import { Innloggingstjenester } from './Innloggingstjenester/Innloggingstjenester';
+import { Systemtittel } from 'nav-frontend-typografi';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
 
@@ -23,32 +21,46 @@ export const LoggInn: FunctionComponent = () => {
     };
 
     return (
-        <div className="innloggingsside">
-            <LoggInnBanner />
-            <div className={'innloggingsside__innhold'}>
-                <img
-                    src={koffert}
-                    alt={'Bilde av koffert for å illustrere arbeidsgivere'}
-                    className={'innloggingsside__ikon'}
-                />
-                <Sidetittel className={'innloggingsside__sidetittel'}>
-                    Tjenester for arbeidsgivere
-                </Sidetittel>
-                <div className={'innloggingsside__tekst'}>
-                    Her finner du våre digitale tjenester og oppgaver samlet. Nå blir det enklere
-                    for deg å samarbeide med NAV på disse områdene:
-                </div>
-                <Innloggingstjenester />
-                <Hovedknapp className={'innloggingsside__loginKnapp'} onClick={redirectTilLogin}>
-                    Logg inn
-                </Hovedknapp>
-                <TilgangsStyringInfoTekst />
+        <>
+            {
+                <div className="innloggingsside">
+                    <LoggInnBanner />
+                    <div className={'innloggingsside__innhold'}>
+                        <Systemtittel className={'innloggingsside__sidetittel'}>
+                            På Min side – arbeidsgiver kan du:
+                        </Systemtittel>
+                        <ul className="innloggingsside__punktliste">
+                            <li className={'innloggingsside__punkt'}>
+                                {' '}
+                                få oversikt over dine sykmeldte
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
+                                se sykfraværsstatistikk for din virksomhet
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
+                                rekruttere nye medarbeidere
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
+                                sende inn digitale skjemaer
+                            </li>
+                        </ul>
+                        <TilgangsStyringInfoTekst />
+                        <Hovedknapp
+                            className={'innloggingsside__loginKnapp'}
+                            onClick={redirectTilLogin}
+                        >
+                            Logg inn
+                        </Hovedknapp>
 
-                <div className="innloggingsside__besok-ditt-nav">
-                    Ønsker du å se dine tjenester som privatperson?{' '}
-                    <Lenke href={'https://www.nav.no/person/dittnav/'}>Logg inn på Ditt NAV</Lenke>
+                        <div className="innloggingsside__besok-ditt-nav">
+                            Ønsker du å se dine tjenester som privatperson? <br />
+                            <Lenke href={'https://www.nav.no/person/dittnav/'}>
+                                Logg inn på Ditt NAV
+                            </Lenke>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            }
+        </>
     );
 };

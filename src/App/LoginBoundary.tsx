@@ -3,7 +3,7 @@ import { LoggInn } from './LoggInn/LoggInn';
 
 import { veilarbStepup } from '../lenker';
 import environment from '../utils/environment';
-import hentVeilarbStatus from '../api/veilarbApi';
+import hentVeilarbStatus, { VeilStatus } from '../api/veilarbApi';
 
 export enum Tilgang {
     LASTER,
@@ -14,8 +14,7 @@ export enum Tilgang {
 function setEssoCookieLocally() {
     document.cookie = 'nav-esso=0123456789..*; path=/; domain=localhost;';
 }
-async function getEssoToken() {
-    let veilarbStatusRespons = await hentVeilarbStatus();
+function getEssoToken(veilarbStatusRespons: VeilStatus) {
     if (!veilarbStatusRespons.erInnlogget) {
         window.location.href = veilarbStepup();
     }
@@ -41,8 +40,8 @@ const LoginBoundary: FunctionComponent = props => {
                     veilarbStatusRespons.harGyldigOidcToken &&
                     veilarbStatusRespons.nivaOidc === 4
                 ) {
+                    getEssoToken(veilarbStatusRespons);
                     setInnlogget(Tilgang.TILGANG);
-                    await getEssoToken();
                 } else if (!veilarbStatusRespons.harGyldigOidcToken) {
                     setInnlogget(Tilgang.IKKE_TILGANG);
                 }

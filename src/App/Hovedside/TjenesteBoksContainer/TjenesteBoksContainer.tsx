@@ -21,15 +21,18 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangTilArbeidsavtaler,
         arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
-    const { organisasjonerMedIAWEB, organisasjoner, orgListeFerdigLastet } = useContext(
-        OrganisasjonsListeContext
-    );
+    const {
+        organisasjonerMedIAWEB,
+        organisasjoner,
+        orgListeFerdigLastet,
+        orgMedIAFerdigLastet,
+    } = useContext(OrganisasjonsListeContext);
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
     const [typeAntall, settypeAntall] = useState('');
     const [antallTjenester, setAntallTjenester] = useState(0);
-    const [ferdigLastet, setFerdigLastet] = useState(false);
+    const [ferdigLastet, setFerdigLastet] = useState('laster');
     const [visIA, setVisIA] = useState(false);
 
     useEffect(() => {
@@ -53,33 +56,29 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             tjenester++;
         }
         setAntallTjenester(tjenester);
-        setFerdigLastet(false);
-        console.log(
-            tjenester,
-            tilgangTilSyfoState,
-            tilgangTilPamState,
-            organisasjonerMedIAWEB,
-            arbeidsavtaler
-        );
-        if (antallTjenester % 2 === 0) {
-            settypeAntall('antall-partall');
-        }
-        if (antallTjenester % 2 !== 0) {
-            settypeAntall('antall-oddetall');
-            if (antallTjenester === 1) {
-                settypeAntall('antall-en');
-            }
-        }
 
         if (
             (tilgangTilPamState !== Tilgang.LASTER &&
                 tilgangTilSyfoState !== Tilgang.LASTER &&
-                tilgangTilArbeidsavtaler !== Tilgang.LASTER) ||
-            (orgListeFerdigLastet !== Tilgang.LASTER && tilgangTilSyfoState !== Tilgang.LASTER)
+                tilgangTilArbeidsavtaler !== Tilgang.LASTER &&
+                orgMedIAFerdigLastet !== Tilgang.LASTER) ||
+            (orgListeFerdigLastet !== Tilgang.LASTER &&
+                tilgangTilSyfoState !== Tilgang.LASTER &&
+                orgMedIAFerdigLastet !== Tilgang.LASTER)
         ) {
-            setFerdigLastet(true);
+            if (antallTjenester % 2 === 0) {
+                settypeAntall('antall-partall');
+            }
+            if (antallTjenester % 2 !== 0 && antallTjenester !== 1) {
+                settypeAntall('antall-oddetall');
+            }
+            if (antallTjenester === 1) {
+                settypeAntall('antall-en');
+            }
+            setTimeout(function() {
+                setFerdigLastet('ferdig');
+            }, 300);
         }
-        console.log(typeAntall);
     }, [
         tilgangTilSyfoState,
         tilgangTilPamState,
@@ -92,14 +91,15 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         typeAntall,
         arbeidsavtaler,
         orgListeFerdigLastet,
+        orgMedIAFerdigLastet,
     ]);
 
     return (
         <>
             {' '}
             <div className={'tjenesteboks-container ' + typeAntall}>
-                {!ferdigLastet && <LasterBoks />}
-                {ferdigLastet && (
+                {ferdigLastet === 'laster' && <LasterBoks />}
+                {ferdigLastet === 'ferdig' && (
                     <>
                         {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
 

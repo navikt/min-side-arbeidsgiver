@@ -19,6 +19,7 @@ export type Context = {
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
     orgListeFerdigLastet: Tilgang;
+    orgMedIAFerdigLastet: Tilgang;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -68,6 +69,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
     const [orgListeFerdigLastet, setOrgListeFerdigLastet] = useState(Tilgang.LASTER);
+    const [orgMedIAFerdigLastet, setOrgMedIAFerdigLastet] = useState(Tilgang.LASTER);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
@@ -98,6 +100,11 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
+            if ((organisasjonerIAWEB.length = 0)) {
+                setOrgMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
+            } else {
+                setOrgMedIAFerdigLastet(Tilgang.TILGANG);
+            }
         };
         const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
             const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
@@ -115,6 +122,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
         orgListeFerdigLastet,
+        orgMedIAFerdigLastet,
     };
 
     return (
