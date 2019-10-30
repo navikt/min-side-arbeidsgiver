@@ -7,13 +7,8 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
-import { Tilgang } from '../LoginBoundary';
 
-interface Props {
-    loggetInn: Tilgang;
-}
-
-export const LoggInn: FunctionComponent<Props> = props => {
+export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
             logInfo('klikk på login');

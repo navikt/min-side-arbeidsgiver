@@ -56,7 +56,7 @@ const LoginBoundary: FunctionComponent = props => {
         return <> {props.children} </>;
     }
     if (innlogget === Tilgang.IKKE_TILGANG) {
-        return <LoggInn loggetInn={innlogget} />;
+        return <LoggInn />;
     } else {
         return null;
     }
