@@ -81,9 +81,8 @@ export const digisyfoSykemeldteLenke = () => {
 
 export const digiSyfoNarmesteLederLink = '/min-side-arbeidsgiver/api/narmesteleder';
 
-export const LenkeTilInfoOmNarmesteLeder =
-    'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-n%C3%A6rmeste-leder-for-en-sykmeldt';
-
+export const LenkeTilInfoOmRettigheterTilSykmelding =
+    'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/om-tilganger-i-altinn';
 export const LenkeTilInfoOmAltinnRoller =
     'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
 
@@ -111,3 +110,9 @@ export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
 
 export const lenkeIAweb =
     'https://www.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=2&ServiceCode=3403&Oselect=true&M=SP';
+
+export const lenkeTilInfoOmDigitaleSoknader =
+    'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/relatert-informasjon/s%C3%B8knader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
+
+export const lenkeTilInforOmInntekstmelding =
+    'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/NAV-+og+Altinn-tjenester/inntektsmelding';

@@ -3,10 +3,15 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import './InformasjonOmTilgangsstyringSide.less';
 import Lenke from 'nav-frontend-lenker';
 
-import { Innholdstittel, Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
+import { Innholdstittel, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { basename } from '../../paths';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
-import { LenkeTilInfoOmAltinnRoller, LenkeTilInfoOmNarmesteLeder } from '../../lenker';
+import {
+    LenkeTilInfoOmAltinnRoller,
+    lenkeTilInfoOmDigitaleSoknader,
+    LenkeTilInfoOmRettigheterTilSykmelding,
+    lenkeTilInforOmInntekstmelding,
+} from '../../lenker';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
     return (
@@ -22,75 +27,82 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         Tilganger i Altinn{' '}
                     </Innholdstittel>
                     <Normaltekst className={'informasjon-om-tilgangsstyring__ingress'}>
-                        NAVs tjenester for arbeidsgivere krever at du er registrert med bestemte
-                        roller i Altinn. Her får du en oversikt over hvilke roller de forskjellige
-                        tjenestene krever.
+                        For å få tilgang til arbeidsgivertjenester hos NAV må du ha en bestemt rolle
+                        eller enkeltrettighet i Altinn.
                     </Normaltekst>
+                    Se oversikt over roller og enkeltrettigheter
+                    <br />
                     <Undertittel className={'informasjon-om-tilgangsstyring__systemtittel'}>
                         Slik får du tilgang til tjenestene
                     </Undertittel>
-                    <Ekspanderbartpanel tittel="Rekruttere" border>
-                        <Normaltekst
-                            className={'informasjon-om-tilgangsstyring__arbeidsplassen-tekst'}
-                        >
-                            På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke>{' '}
-                            kan du finne kandidater og lage stillingsannonser.
-                        </Normaltekst>
-                        <Element className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
-                            Du må ha en av rollene:{' '}
-                        </Element>
+                    <Ekspanderbartpanel tittel="Avtaler/søknader om NAV-tiltak" border>
+                        Vi tilbyr digitale avtaler/søknader om
                         <ul>
-                            <li>Lønn og personalmedarbeider</li>
-                            <li>Utfyller/innsender</li>
+                            <li>lønnstilskudd </li>
+                            <li> inkluderingstilskudd </li>
+                            <li>tilskudd til mentor </li>
+                            <li>tilskudd til ekspertbistand </li>
                         </ul>
-                        <div
-                            className={
-                                'informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel'
-                            }
-                        >
-                            Du kan også ha rettigheten &nbsp;<Element> Rekruttering</Element>{' '}
-                        </div>
-                    </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Sykmeldte" border>
-                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
-                            Tilgang til digitale sykmeldinger krever at du har rollen &nbsp;{' '}
-                            <Element>nærmeste leder &nbsp;</Element>for en eller flere ansatte i din
-                            virksomhet.
-                        </div>
-                        <br />
-                        <Lenke href={LenkeTilInfoOmNarmesteLeder}>
-                            Les mer om registrering av Nærmeste leder.
+                        For å få tilgang til alle må du ha rollen
+                        <ul>
+                            <li>helse-, sosial og velferdstjenester </li>
+                        </ul>
+                        Du kan også ha en enkeltrettighet, som gir tilgang til en av søknadene
+                        <ul>
+                            <li>lønnstilskudd </li>
+                            <li> inkluderingstilskudd </li>
+                            <li>tilskudd til mentor </li>
+                            <li>tilskudd til ekspertbistand </li>
+                        </ul>
+                        <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
+                            Les om digitale tiltakssøknader
                         </Lenke>
                     </Ekspanderbartpanel>
-                    <Ekspanderbartpanel
-                        tittel="Tilskudd til mentor, lønn, inkludering og ekspertbistand"
-                        border
-                    >
-                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
-                            Tilgang til disse søknadene krever at du har rollen &nbsp;{' '}
-                            <Element>Helse-, sosial og velferdstjenester &nbsp;</Element>
-                        </div>
-                    </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
-                        Tilgang til digital inntektsmelding krever en av rollene &nbsp;{' '}
+                        For å få tilgang til digital inntektsmelding må du ha en av Altinn-rollene
                         <ul>
-                            <li>Ansvarlig revisor</li>
-                            <li>Lønn og personalmedarbeider</li>
-                            <li>Regnskapsfører lønn</li>
-                            <li>Regnskapsfører med signeringsrettighet</li>
-                            <li>Regnskapsfører uten signeringsrettighet</li>
-                            <li>Revisormedarbeider</li>
-                            <li>Kontaktperson NUF</li>
+                            <li>ansvarlig revisor</li>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>regnskapsfører lønn</li>
+                            <li>regnskapsfører med signeringsrettighet</li>
+                            <li>regnskapsfører uten signeringsrettighet</li>
+                            <li>revisormedarbeider</li>
+                            <li>kontaktperson NUF</li>
                         </ul>
+                        <div>
+                            Du kan også ha rettigheten <b> inntekstmelding</b>{' '}
+                        </div>
+                        <Lenke href={lenkeTilInforOmInntekstmelding}>
+                            Les om digitale inntekstmelding
+                        </Lenke>
+                    </Ekspanderbartpanel>
+                    <Ekspanderbartpanel tittel="Rekruttering" border>
+                        På Arbeidsplassen kan du finne kandidater og lage stillingsannonser. For å
+                        få tilgang må du ha en av rollene{' '}
+                        <ul>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>utfyller/innsender</li>
+                        </ul>
+                        <div>
+                            Du kan også ha enkeltrettigheten <b> rekruttering</b>{' '}
+                        </div>
+                        <Lenke href={'https://arbeidsplassen.nav.no/'}>Gå til Arbeidsplassen</Lenke>{' '}
+                    </Ekspanderbartpanel>
+                    <Ekspanderbartpanel tittel="Sykmelding/sykefraværsoppfølging" border>
+                        Daglig leder i virksomheten må tildele tilgang til fire tjenester i Altinn.
+                        <br />
+                        <Lenke href={LenkeTilInfoOmRettigheterTilSykmelding}>
+                            Les om tjenestene i Altinn
+                        </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        Tilgang til legemeldt sykefraværsstatistikk og tjenester mottatt fra NAV
-                        Arbeidslivssenter krever rollen &nbsp;{' '}
+                        For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra NAV
+                        Arbeidslivssenter må du ha rollen
                         <ul>
-                            <li>Helse-, sosial- og velferdstjeneste</li>
+                            <li>helse-, sosial- og velferdstjeneste</li>
                         </ul>
-                        Du kan også ha enkeltrettigheten{' '}
-                        <b>Sykefraværsstatistikk for virksomheter</b>
+                        Alternativt kan du ha enkeltrettigheten{' '}
+                        <b>sykefraværsstatistikk for virksomheter</b>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         Mangler du tilgang til tjenester? &nbsp;
