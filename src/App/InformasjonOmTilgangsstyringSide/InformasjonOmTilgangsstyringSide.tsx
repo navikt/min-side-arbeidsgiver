@@ -9,7 +9,7 @@ import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
 import {
     LenkeTilInfoOmAltinnRoller,
     lenkeTilInfoOmDigitaleSoknader,
-    LenkeTilInfoOmNarmesteLeder,
+    LenkeTilInfoOmRettigheterTilSykmelding,
     lenkeTilInforOmInntekstmelding,
 } from '../../lenker';
 
@@ -69,8 +69,8 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>revisormedarbeider</li>
                             <li>kontaktperson NUF</li>
                         </ul>
-                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
-                            Du kan også ha rettigheten &nbsp;<Element> inntekstmelding</Element>{' '}
+                        <div>
+                            Du kan også ha rettigheten <b> inntekstmelding</b>{' '}
                         </div>
                         <Lenke href={lenkeTilInforOmInntekstmelding}>
                             Les om digitale inntekstmelding
@@ -80,8 +80,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <Normaltekst
                             className={'informasjon-om-tilgangsstyring__arbeidsplassen-tekst'}
                         >
-                            På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke>{' '}
-                            kan du finne kandidater og lage stillingsannonser.
+                            På Arbeidsplassen kan du finne kandidater og lage stillingsannonser.
                         </Normaltekst>
                         <Element className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
                             Du må ha en av rollene:{' '}
@@ -90,32 +89,25 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>Lønn og personalmedarbeider</li>
                             <li>Utfyller/innsender</li>
                         </ul>
-                        <div
-                            className={
-                                'informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel'
-                            }
-                        >
-                            Du kan også ha rettigheten &nbsp;<Element> Rekruttering</Element>{' '}
+                        <div>
+                            Du kan også ha rettigheten <b> rekruttering</b>{' '}
                         </div>
+                        <Lenke href={'https://arbeidsplassen.nav.no/'}>Gå til Arbeidsplassen</Lenke>{' '}
                     </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Sykmeldte" border>
-                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
-                            Tilgang til digitale sykmeldinger krever at du har rollen &nbsp;{' '}
-                            <Element>nærmeste leder &nbsp;</Element>for en eller flere ansatte i din
-                            virksomhet.
-                        </div>
+                    <Ekspanderbartpanel tittel="Sykmelding/sykefraværsoppfølging" border>
+                        Daglig leder i virksomheten må tildele tilgang til fire tjenester i Altinn.
                         <br />
-                        <Lenke href={LenkeTilInfoOmNarmesteLeder}>
-                            Les mer om registrering av Nærmeste leder.
+                        <Lenke href={LenkeTilInfoOmRettigheterTilSykmelding}>
+                            Les om tjenestene i Altinn
                         </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        Tilgang til legemeldt sykefraværsstatistikk og tjenester mottatt fra NAV
-                        Arbeidslivssenter krever rollen &nbsp;{' '}
+                        For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra NAV
+                        Arbeidslivssenter må du ha rollen
                         <ul>
                             <li>Helse-, sosial- og velferdstjeneste</li>
                         </ul>
-                        Du kan også ha enkeltrettigheten{' '}
+                        Alternativt kan du ha enkeltrettigheten{' '}
                         <b>Sykefraværsstatistikk for virksomheter</b>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
