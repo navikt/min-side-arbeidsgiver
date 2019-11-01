@@ -3,7 +3,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import './InformasjonOmTilgangsstyringSide.less';
 import Lenke from 'nav-frontend-lenker';
 
-import { Innholdstittel, Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
+import { Innholdstittel, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { basename } from '../../paths';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
 import {
@@ -76,21 +76,15 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             Les om digitale inntekstmelding
                         </Lenke>
                     </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Rekruttere" border>
-                        <Normaltekst
-                            className={'informasjon-om-tilgangsstyring__arbeidsplassen-tekst'}
-                        >
-                            På Arbeidsplassen kan du finne kandidater og lage stillingsannonser.
-                        </Normaltekst>
-                        <Element className={'informasjon-om-tilgangsstyring__rolle-overskrift'}>
-                            Du må ha en av rollene:{' '}
-                        </Element>
+                    <Ekspanderbartpanel tittel="Rekruttering" border>
+                        På Arbeidsplassen kan du finne kandidater og lage stillingsannonser. For å
+                        få tilgang må du ha en av rollene{' '}
                         <ul>
-                            <li>Lønn og personalmedarbeider</li>
-                            <li>Utfyller/innsender</li>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>utfyller/innsender</li>
                         </ul>
                         <div>
-                            Du kan også ha rettigheten <b> rekruttering</b>{' '}
+                            Du kan også ha enkeltrettigheten <b> rekruttering</b>{' '}
                         </div>
                         <Lenke href={'https://arbeidsplassen.nav.no/'}>Gå til Arbeidsplassen</Lenke>{' '}
                     </Ekspanderbartpanel>
@@ -105,10 +99,10 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra NAV
                         Arbeidslivssenter må du ha rollen
                         <ul>
-                            <li>Helse-, sosial- og velferdstjeneste</li>
+                            <li>helse-, sosial- og velferdstjeneste</li>
                         </ul>
                         Alternativt kan du ha enkeltrettigheten{' '}
-                        <b>Sykefraværsstatistikk for virksomheter</b>
+                        <b>sykefraværsstatistikk for virksomheter</b>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         Mangler du tilgang til tjenester? &nbsp;
