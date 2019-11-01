@@ -6,7 +6,11 @@ import Lenke from 'nav-frontend-lenker';
 import { Innholdstittel, Normaltekst, Element, Undertittel } from 'nav-frontend-typografi';
 import { basename } from '../../paths';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
-import { LenkeTilInfoOmAltinnRoller, LenkeTilInfoOmNarmesteLeder } from '../../lenker';
+import {
+    LenkeTilInfoOmAltinnRoller,
+    lenkeTilInfoOmDigitaleSoknader,
+    LenkeTilInfoOmNarmesteLeder,
+} from '../../lenker';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
     return (
@@ -38,9 +42,20 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>tilskudd til mentor </li>
                             <li>tilskudd til ekspertbistand </li>
                         </ul>
-                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
-                            V &nbsp; <Element>Helse-, sosial og velferdstjenester &nbsp;</Element>
-                        </div>
+                        For å få tilgang til alle må du ha rollen
+                        <ul>
+                            <li>helse-, sosial og velferdstjenester </li>
+                        </ul>
+                        Du kan også ha en enkeltrettighet, som gir tilgang til en av søknadene
+                        <ul>
+                            <li>lønnstilskudd </li>
+                            <li> inkluderingstilskudd </li>
+                            <li>tilskudd til mentor </li>
+                            <li>tilskudd til ekspertbistand </li>
+                        </ul>
+                        <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
+                            Les om digitale tiltakssøknader
+                        </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Rekruttere" border>
                         <Normaltekst
