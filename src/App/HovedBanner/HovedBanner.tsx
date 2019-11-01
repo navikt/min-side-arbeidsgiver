@@ -4,6 +4,7 @@ import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+
 import './HovedBanner.less';
 import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 

@@ -22,13 +22,26 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         Tilganger i Altinn{' '}
                     </Innholdstittel>
                     <Normaltekst className={'informasjon-om-tilgangsstyring__ingress'}>
-                        NAVs tjenester for arbeidsgivere krever at du er registrert med bestemte
-                        roller i Altinn. Her får du en oversikt over hvilke roller de forskjellige
-                        tjenestene krever.
+                        For å få tilgang til arbeidsgivertjenester hos NAV må du ha en bestemt rolle
+                        eller enkeltrettighet i Altinn.
                     </Normaltekst>
+                    Se oversikt over roller og enkeltrettigheter
+                    <br />
                     <Undertittel className={'informasjon-om-tilgangsstyring__systemtittel'}>
                         Slik får du tilgang til tjenestene
                     </Undertittel>
+                    <Ekspanderbartpanel tittel="Avtaler/søknader om NAV-tiltak" border>
+                        Vi tilbyr digitale avtaler/søknader om
+                        <ul>
+                            <li>lønnstilskudd </li>
+                            <li> inkluderingstilskudd </li>
+                            <li>tilskudd til mentor </li>
+                            <li>tilskudd til ekspertbistand </li>
+                        </ul>
+                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
+                            V &nbsp; <Element>Helse-, sosial og velferdstjenester &nbsp;</Element>
+                        </div>
+                    </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Rekruttere" border>
                         <Normaltekst
                             className={'informasjon-om-tilgangsstyring__arbeidsplassen-tekst'}
@@ -61,15 +74,6 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <Lenke href={LenkeTilInfoOmNarmesteLeder}>
                             Les mer om registrering av Nærmeste leder.
                         </Lenke>
-                    </Ekspanderbartpanel>
-                    <Ekspanderbartpanel
-                        tittel="Tilskudd til mentor, lønn, inkludering og ekspertbistand"
-                        border
-                    >
-                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
-                            Tilgang til disse søknadene krever at du har rollen &nbsp;{' '}
-                            <Element>Helse-, sosial og velferdstjenester &nbsp;</Element>
-                        </div>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
                         Tilgang til digital inntektsmelding krever en av rollene &nbsp;{' '}
