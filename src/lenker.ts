@@ -114,3 +114,6 @@ export const lenkeIAweb =
 
 export const lenkeTilInfoOmDigitaleSoknader =
     'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/relatert-informasjon/s%C3%B8knader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
+
+export const lenkeTilInforOmInntekstmelding =
+    'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/NAV-+og+Altinn-tjenester/inntektsmelding';

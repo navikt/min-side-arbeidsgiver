@@ -10,6 +10,7 @@ import {
     LenkeTilInfoOmAltinnRoller,
     lenkeTilInfoOmDigitaleSoknader,
     LenkeTilInfoOmNarmesteLeder,
+    lenkeTilInforOmInntekstmelding,
 } from '../../lenker';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
@@ -57,6 +58,24 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             Les om digitale tiltakssøknader
                         </Lenke>
                     </Ekspanderbartpanel>
+                    <Ekspanderbartpanel tittel="Inntektsmelding" border>
+                        For å få tilgang til digital inntektsmelding må du ha en av Altinn-rollene
+                        <ul>
+                            <li>ansvarlig revisor</li>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>regnskapsfører lønn</li>
+                            <li>regnskapsfører med signeringsrettighet</li>
+                            <li>regnskapsfører uten signeringsrettighet</li>
+                            <li>revisormedarbeider</li>
+                            <li>kontaktperson NUF</li>
+                        </ul>
+                        <div className="informasjon-om-tilgangsstyring__tekst-i-ekspanderbart-panel">
+                            Du kan også ha rettigheten &nbsp;<Element> inntekstmelding</Element>{' '}
+                        </div>
+                        <Lenke href={lenkeTilInforOmInntekstmelding}>
+                            Les om digitale inntekstmelding
+                        </Lenke>
+                    </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Rekruttere" border>
                         <Normaltekst
                             className={'informasjon-om-tilgangsstyring__arbeidsplassen-tekst'}
@@ -89,18 +108,6 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <Lenke href={LenkeTilInfoOmNarmesteLeder}>
                             Les mer om registrering av Nærmeste leder.
                         </Lenke>
-                    </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Inntektsmelding" border>
-                        Tilgang til digital inntektsmelding krever en av rollene &nbsp;{' '}
-                        <ul>
-                            <li>Ansvarlig revisor</li>
-                            <li>Lønn og personalmedarbeider</li>
-                            <li>Regnskapsfører lønn</li>
-                            <li>Regnskapsfører med signeringsrettighet</li>
-                            <li>Regnskapsfører uten signeringsrettighet</li>
-                            <li>Revisormedarbeider</li>
-                            <li>Kontaktperson NUF</li>
-                        </ul>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
                         Tilgang til legemeldt sykefraværsstatistikk og tjenester mottatt fra NAV
