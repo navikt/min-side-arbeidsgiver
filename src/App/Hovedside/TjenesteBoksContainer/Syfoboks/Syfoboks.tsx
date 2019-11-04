@@ -6,6 +6,7 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { syfoLink } from '../../../../lenker';
 import { SyfoTilgangContext } from '../../../../SyfoTilgangProvider';
 import { SyfoOppgave } from '../../../../Objekter/syfoOppgaver';
+import { loggAtKlikketPa } from '../TjenesteBoksContainer';
 
 interface Props {
     varseltekst?: string;
@@ -42,12 +43,16 @@ const Syfoboks: FunctionComponent<Props> = props => {
     const { syfoOppgaverState } = useContext(SyfoTilgangContext);
     const { syfoAnsatteState } = useContext(SyfoTilgangContext);
 
+    const loggAtKlikketPaSyfo = () => {
+        loggAtKlikketPa('Syfo');
+    };
+
     const tooltipText: FunctionComponent<Props> = () => {
         const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykemelding');
         const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
 
         return (
-            <div>
+            <div onClick={loggAtKlikketPaSyfo}>
                 <div>{LagSykemeldingsVarselTekst(antallSykemeldingsvarsler)}</div>
                 <div>{LagSykepengesoknadVarselTekst(antallSoknadsVarsler)}</div>
             </div>

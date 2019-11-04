@@ -6,6 +6,7 @@ import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerPr
 import { linkTilArbeidsplassen } from '../../../../lenker';
 import pamikon from './search.svg';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import { loggAtKlikketPa } from '../TjenesteBoksContainer';
 
 interface Props {
     className?: string;
@@ -21,8 +22,12 @@ const Pamboks: FunctionComponent<Props> = props => {
         }
     }, [antallAnnonser]);
 
+    const loggAtKlikketPaArbeidstrening = () => {
+        loggAtKlikketPa('Pam');
+    };
+
     return (
-        <div className={'pamboks ' + props.className}>
+        <div onClick={loggAtKlikketPaArbeidstrening} className={'pamboks ' + props.className}>
             <TjenesteBoksBanner tittel={'Rekruttere'} imgsource={pamikon} altTekst={''} />
             <Lenkepanel
                 className={'pamboks__lenke'}
