@@ -13,6 +13,10 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 
+export const loggAtKlikketPa = (tjeneste: String) => {
+    console.log(tjeneste + ' klikket på');
+};
+
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);

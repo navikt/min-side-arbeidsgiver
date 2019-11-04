@@ -3,14 +3,20 @@ import { Undertittel } from 'nav-frontend-typografi';
 import iconKontaktNav from './kontaktossikon.svg';
 import './KontaktOss.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
+import { loggAtKlikketPa } from '../../Hovedside';
 
 const KontaktOss: FunctionComponent = () => {
+    const loggAtKlikketPaKontaktskjema = () => {
+        loggAtKlikketPa('kontaktskjema');
+    };
+
     return (
         <Lenkepanel
             className={'kontakt-oss'}
             href={'https://arbeidsgiver.nav.no/kontakt-oss/'}
             tittelProps={'undertittel'}
             linkCreator={(props: any) => <a {...props}>{props.children}</a>}
+            onClick={loggAtKlikketPaKontaktskjema}
         >
             <div className={'kontakt-oss__wrapper'}>
                 <img className={'kontakt-oss__ikon'} src={iconKontaktNav} alt="" />

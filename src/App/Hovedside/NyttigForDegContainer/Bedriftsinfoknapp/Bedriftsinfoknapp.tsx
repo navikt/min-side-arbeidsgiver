@@ -5,14 +5,21 @@ import './Bedriftsinfoknapp.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import { Link } from 'react-router-dom';
+import { loggAtKlikketPa } from '../../Hovedside';
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+
+    const loggAtKlikketPaBedriftInfo = () => {
+        loggAtKlikketPa('bedrifsinfo');
+    };
+
     return (
         <Lenkepanel
             href={'/bedriftsinformasjon'}
             className={'bedriftsinfo-knapp'}
             tittelProps={'undertittel'}
+            onClick={loggAtKlikketPaBedriftInfo}
             linkCreator={(props: any) => (
                 <Link
                     to={props.href + '?bedrift=' + valgtOrganisasjon.OrganizationNumber}

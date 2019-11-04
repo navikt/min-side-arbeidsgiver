@@ -6,7 +6,7 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { syfoLink } from '../../../../lenker';
 import { SyfoTilgangContext } from '../../../../SyfoTilgangProvider';
 import { SyfoOppgave } from '../../../../Objekter/syfoOppgaver';
-import { loggAtKlikketPa } from '../TjenesteBoksContainer';
+import { loggAtKlikketPa } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;

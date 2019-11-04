@@ -6,7 +6,7 @@ import './Arbeidstreningboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
-import { loggAtKlikketPa } from '../TjenesteBoksContainer';
+import { loggAtKlikketPa } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;

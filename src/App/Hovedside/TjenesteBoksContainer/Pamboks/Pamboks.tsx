@@ -6,7 +6,7 @@ import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerPr
 import { linkTilArbeidsplassen } from '../../../../lenker';
 import pamikon from './search.svg';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
-import { loggAtKlikketPa } from '../TjenesteBoksContainer';
+import { loggAtKlikketPa } from '../../Hovedside';
 
 interface Props {
     className?: string;

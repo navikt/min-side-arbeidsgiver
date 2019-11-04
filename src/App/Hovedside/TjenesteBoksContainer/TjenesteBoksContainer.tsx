@@ -13,10 +13,6 @@ import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
 import ManglerTilgangBoks from '../ManglerTilgangBoks/ManglerTilgangBoks';
 import { Tilgang } from '../../LoginBoundary';
 
-export const loggAtKlikketPa = (tjeneste: String) => {
-    console.log(tjeneste + ' klikket på');
-};
-
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
     const {

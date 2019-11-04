@@ -6,7 +6,7 @@ import './IAwebboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './soylediagram.svg';
 import { lenkeIAweb } from '../../../../lenker';
-import { loggAtKlikketPa } from '../TjenesteBoksContainer';
+import { loggAtKlikketPa } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;
