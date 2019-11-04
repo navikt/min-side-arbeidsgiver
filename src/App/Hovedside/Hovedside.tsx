@@ -12,8 +12,10 @@ import ikon from './infomation-circle-2.svg';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
+import { logInfo } from '../../utils/metricsUtils';
 
 export const loggAtKlikketPa = (tjeneste: String) => {
+    logInfo(tjeneste + ' klikket på');
     console.log(tjeneste + ' klikket på');
 };
 
