@@ -3,11 +3,11 @@ import { Undertittel } from 'nav-frontend-typografi';
 import iconKontaktNav from './kontaktossikon.svg';
 import './KontaktOss.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { loggAtKlikketPa } from '../../Hovedside';
+import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 const KontaktOss: FunctionComponent = () => {
     const loggAtKlikketPaKontaktskjema = () => {
-        loggAtKlikketPa('kontaktskjema');
+        loggNavigasjonTilTjeneste('kontaktskjema');
     };
 
     return (

@@ -6,7 +6,7 @@ import './Arbeidstreningboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
-import { loggAtKlikketPa } from '../../Hovedside';
+import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;
@@ -34,7 +34,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     };
 
     const loggAtKlikketPaArbeidstrening = () => {
-        loggAtKlikketPa('Arbeidstrening');
+        loggNavigasjonTilTjeneste('Arbeidstrening');
     };
 
     return (

@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import './AltinnLenke.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import nyfane from './nyfane.svg';
-import { loggAtKlikketPa } from '../../Hovedside';
+import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     className?: string;
@@ -12,7 +12,7 @@ interface Props {
 
 const AltinnLenke: FunctionComponent<Props> = props => {
     const loggAtKlikketPaAltinn = () => {
-        loggAtKlikketPa(props.tekst);
+        loggNavigasjonTilTjeneste(props.tekst);
     };
 
     return (
