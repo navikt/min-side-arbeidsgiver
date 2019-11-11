@@ -6,15 +6,20 @@ import './IAwebboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './soylediagram.svg';
 import { lenkeIAweb } from '../../../../lenker';
+import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;
     className?: string;
 }
 
+const loggAtKlikketPaIAeb = () => {
+    loggNavigasjonTilTjeneste('IA-web');
+};
+
 const IAwebboks: FunctionComponent<Props> = props => {
     return (
-        <div className={'IA-web-boks ' + props.className}>
+        <div className={'IA-web-boks ' + props.className} onClick={loggAtKlikketPaIAeb}>
             <TjenesteBoksBanner
                 tittel={'Sykefraværsstatistikk'}
                 imgsource={IAwebikon}
