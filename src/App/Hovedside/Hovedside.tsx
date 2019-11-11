@@ -17,6 +17,7 @@ import { logInfo } from '../../utils/metricsUtils';
 export const loggAtKlikketPa = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
     console.log(tjeneste + ' klikket på');
+    setTimeout(() => {}, 50000);
 };
 
 const Hovedside: FunctionComponent = () => {

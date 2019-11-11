@@ -52,7 +52,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
         const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
 
         return (
-            <div onClick={loggAtKlikketPaSyfo}>
+            <div>
                 <div>{LagSykemeldingsVarselTekst(antallSykemeldingsvarsler)}</div>
                 <div>{LagSykepengesoknadVarselTekst(antallSoknadsVarsler)}</div>
             </div>
@@ -60,7 +60,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
     };
 
     return (
-        <div className={'syfoboks ' + props.className}>
+        <div className={'syfoboks ' + props.className} onClick={loggAtKlikketPaSyfo}>
             <TjenesteBoksBanner
                 tittel={'Sykmeldte'}
                 imgsource={syfoikon}

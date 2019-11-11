@@ -16,25 +16,26 @@ const AltinnLenke: FunctionComponent<Props> = props => {
     };
 
     return (
-        <Lenkepanel
-            onClick={loggAtKlikketPaAltinn}
-            className={props.className}
-            href={props.href}
-            tittelProps={'element'}
-            border={false}
-            linkCreator={(props: any) => (
-                <a target="_blank" {...props}>
-                    {props.children}
-                </a>
-            )}
-        >
-            {props.tekst}
-            <img
-                className={'altinn-container__ikon'}
-                src={nyfane}
-                alt="ikon for å beskrive at lenken åpnes i en ny fane"
-            />
-        </Lenkepanel>
+        <div onClick={loggAtKlikketPaAltinn}>
+            <Lenkepanel
+                className={props.className}
+                href={props.href}
+                tittelProps={'element'}
+                border={false}
+                linkCreator={(props: any) => (
+                    <a target="_blank" {...props}>
+                        {props.children}
+                    </a>
+                )}
+            >
+                {props.tekst}
+                <img
+                    className={'altinn-container__ikon'}
+                    src={nyfane}
+                    alt="ikon for å beskrive at lenken åpnes i en ny fane"
+                />
+            </Lenkepanel>
+        </div>
     );
 };
 
