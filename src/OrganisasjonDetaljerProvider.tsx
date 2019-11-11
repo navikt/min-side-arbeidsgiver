@@ -41,10 +41,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const endreOrganisasjon = async (org?: Organisasjon) => {
         const loggTilganger = (org: Organisasjon) => {
             logInfo('tilgang til PAM: ' + tilgangTilPamState.toString());
-            logInfo('tilgang til syfo: ' + tilgangTilSyfoState.toString());
-            logInfo('tilgang til arbeidsavtaler: ' + tilgangTilArbeidsavtaler.toString());
+            logInfo('tilgang til Syfo: ' + tilgangTilSyfoState.toString());
+            logInfo('tilgang til Arbeidsavtaler: ' + tilgangTilArbeidsavtaler.toString());
             if (organisasjonerMedIAWEB.includes(org)) {
-                logInfo('Har tilgang til IA-web');
+                logInfo('tilgang til IA-web: 2');
             }
         };
         settilgangTilPamState(Tilgang.LASTER);
