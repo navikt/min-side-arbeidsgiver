@@ -29,10 +29,11 @@ const Hovedside: FunctionComponent = () => {
     return (
         <div className="hovedside">
             <TjenesteBoksContainer />
+            {!skalViseManglerTilgangBoks && (
+                <>
             <NyttigForDegContainer />
             <AltinnContainer />
             <SkjemaveilederContainer />
-            {!skalViseManglerTilgangBoks && (
                 <div className={'hovedside__informasjonstekst'}>
                     <img className={'hovedside__ikon'} src={ikon} alt="informasjonsikon" />
                     Forventet du å se flere tjenester?
@@ -43,7 +44,7 @@ const Hovedside: FunctionComponent = () => {
                         Les mer om hvordan du får tilgang
                     </Lenke>{' '}
                 </div>
-            )}
+            </>)}
         </div>
     );
 };

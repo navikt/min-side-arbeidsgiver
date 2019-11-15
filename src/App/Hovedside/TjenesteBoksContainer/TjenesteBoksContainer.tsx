@@ -10,8 +10,8 @@ import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
-import ManglerTilgangBoks from '../ManglerTilgangBoks/ManglerTilgangBoks';
 import { Tilgang } from '../../LoginBoundary';
+import {ManglerTilgangContainer} from "../ManglerTilgangContainer/ManglerTilgangContainer";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -101,7 +101,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 {ferdigLastet === 'laster' && <LasterBoks />}
                 {ferdigLastet === 'ferdig' && (
                     <>
-                        {skalViseManglerTilgangBoks && <ManglerTilgangBoks />}
+                        {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
 
                         {tilgangTilSyfoState === Tilgang.TILGANG && (
                             <Innholdsboks className={'tjenesteboks innholdsboks'}>
