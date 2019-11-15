@@ -2,6 +2,7 @@ import React, {FunctionComponent} from "react";
 import { LenkepanelBase } from 'nav-frontend-lenkepanel';
 import {Innholdstittel, Systemtittel} from "nav-frontend-typografi";
 import './ManglerTilgangContainer.less'
+
 interface CustomLenkepanel{
     tittel:string
     infoTekst:string

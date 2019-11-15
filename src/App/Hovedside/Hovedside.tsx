@@ -13,7 +13,7 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import { logInfo } from '../../utils/metricsUtils';
-
+import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
 };
@@ -28,6 +28,7 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
+            <AlertStripeFeil >Vi opplever ustabilitet med Altinn.  Hvis du mener at du har roller i Altinn kan du prøve å <a href={"https://arbeidsgiver.nav.no/min-side-arbeidsgiver/"}>laste siden på nytt</a>.</AlertStripeFeil>
             <TjenesteBoksContainer />
             {!skalViseManglerTilgangBoks && (
                 <>
