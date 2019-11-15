@@ -19,7 +19,7 @@ export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
 };
 
 const Hovedside: FunctionComponent = () => {
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner,visFeilmelding } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
     const skalViseManglerTilgangBoks = !(
@@ -28,7 +28,10 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
-            <AlertStripeFeil >Vi opplever ustabilitet med Altinn.  Hvis du mener at du har roller i Altinn kan du prøve å <a href={"https://arbeidsgiver.nav.no/min-side-arbeidsgiver/"}>laste siden på nytt</a>.</AlertStripeFeil>
+            {visFeilmelding &&(
+                <AlertStripeFeil >Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan du prøve å <a href={"https://arbeidsgiver.nav.no/min-side-arbeidsgiver/"}>laste siden på nytt</a>.</AlertStripeFeil>
+            )}
+
             <TjenesteBoksContainer />
             {!skalViseManglerTilgangBoks && (
                 <>

@@ -5,12 +5,12 @@ fetchMock
     .get(
         'min-side-arbeidsgiver/api/organisasjoner',
         delay.then(() => {
-            return OrganisasjonerResponse;
+            return 500;
         })
     )
     .spy();
 
-//const tomOrganisasjonerResponse = [{}];
+const tomOrganisasjonerResponse = [{}];
 const OrganisasjonerResponse = [
     {
         Name: 'BALLSTAD OG HAMARØY',
