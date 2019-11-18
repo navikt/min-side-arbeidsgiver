@@ -76,16 +76,17 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     useEffect(() => {
         const getOrganisasjoner = async () => {
             setOrgListeFerdigLastet(Tilgang.LASTER);
+            let organisasjonerRespons:Organisasjon[] =[];
             try {
-                let organisasjoner = await hentOrganisasjoner();
+                organisasjonerRespons = await hentOrganisasjoner();
             }
-            catch(e){
-                let organisasjoner = [];
-                setVisFeilmelding(true);
-            }
-            if (organisasjoner.length > 0) {
+    catch(e){
+            organisasjonerRespons = [];
+            setVisFeilmelding(true);
+        }
+            if (organisasjonerRespons.length > 0) {
                 setOrganisasjoner(
-                    organisasjoner.filter((organisasjon: Organisasjon) => {
+                    organisasjonerRespons.filter((organisasjon: Organisasjon) => {
                         return (
                             organisasjon.OrganizationForm === 'BEDR' &&
                             organisasjon.ParentOrganizationNumber
@@ -93,7 +94,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     })
                 );
                 const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                    organisasjoner
+                    organisasjonerRespons
                 );
                 setOrgListeFerdigLastet(Tilgang.TILGANG);
                 setorganisasjonstre(toDim);
