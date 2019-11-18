@@ -219,8 +219,9 @@ export async function hentSyfoTilgang(): Promise<boolean> {
             logInfo('har syfotilgang');
             return true;
         }
+        return false
     }
-    return false;
+    throw new Error('Feil ved kontakt mot baksystem.');
 }
 
 export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsavtale>> {
