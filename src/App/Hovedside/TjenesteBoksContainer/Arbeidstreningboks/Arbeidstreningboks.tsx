@@ -6,6 +6,7 @@ import './Arbeidstreningboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
+import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;
@@ -32,8 +33,15 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
         }
     };
 
+    const loggAtKlikketPaArbeidstrening = () => {
+        loggNavigasjonTilTjeneste('Arbeidstrening');
+    };
+
     return (
-        <div className={'arbeidstreningboks ' + props.className}>
+        <div
+            onClick={loggAtKlikketPaArbeidstrening}
+            className={'arbeidstreningboks ' + props.className}
+        >
             <TjenesteBoksBanner
                 tittel={'Arbeidstrening'}
                 imgsource={arbeidstreningikon}

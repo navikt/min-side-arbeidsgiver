@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import './SkjemaveilederContainer.less';
-import Lenkepanel from 'nav-frontend-lenkepanel/lib';
 import { skjemaForArbeidsgivere } from '../../../lenker';
+import AltinnLenke from '../AltinnContainer/AltinnLenke/AltinnLenke';
 
 export const SkjemaveilederContainer: FunctionComponent = () => {
     return (
@@ -10,13 +10,13 @@ export const SkjemaveilederContainer: FunctionComponent = () => {
             <div className={'skjemaveilerderContainer__tekst'}>
                 <Undertittel>Alle søknader og skjemaer</Undertittel>
             </div>
-            <Lenkepanel
+            <AltinnLenke
                 href={skjemaForArbeidsgivere}
-                tittelProps={'element'}
+                tekst={'Sende skjema eller ettersende dokumenter'}
                 className={'skjemaveilerderContainer__lenkepanel'}
             >
                 Sende skjema eller ettersende dokumenter
-            </Lenkepanel>
+            </AltinnLenke>
         </div>
     );
 };

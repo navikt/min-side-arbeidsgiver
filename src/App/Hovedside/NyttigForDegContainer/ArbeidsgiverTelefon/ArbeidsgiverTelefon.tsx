@@ -3,13 +3,19 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import './ArbeidsgiverTelefon.less';
 import iconTlf from './mobil.svg';
 import Lenkepanel from 'nav-frontend-lenkepanel';
+import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 const ArbeidsgiverTelefon: FunctionComponent = () => {
+    const loggAtKlikketPaArbeidsgiverTlf = () => {
+        loggNavigasjonTilTjeneste('Arbeidsgivertelefon');
+    };
+
     return (
         <Lenkepanel
             className={'arbeidsgivertelefon'}
             href={'tel:55-55-33-36'}
             tittelProps={'undertittel'}
+            onClick={loggAtKlikketPaArbeidsgiverTlf}
             linkCreator={(props: any) => <a {...props}>{props.children}</a>}
         >
             <div className={'arbeidsgivertelefon__wrapper'}>
