@@ -1,5 +1,3 @@
-import environment from "../utils/environment";
-
 const proxy = require('http-proxy-middleware');
 
 const sykemeldteTarget = () => {
