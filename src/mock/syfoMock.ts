@@ -7,7 +7,9 @@ fetchMock
     .get(
         digiSyfoNarmesteLederLink,
         delay.then(() => {
-            return 500
+            return {
+                tilgang: true,
+            };
         })
     )
     .spy();
@@ -38,23 +40,28 @@ fetchMock
     ])
     .spy();
 
+const oppgaverespons = [
+    {
+        oppgaveUuid: '234212',
+        ident: '12345645613',
+        opprettetDato: '2019-02-07T13:51:02',
+        oppgavetype: 'Sykemelding',
+        ressursId: '12355321,',
+        ressurseier: '123521',
+    },
+    {
+        oppgaveUuid: '334212',
+        ident: '3225645613',
+        opprettetDato: '2019-02-07T13:51:02',
+        oppgavetype: 'Sykepengesøknad',
+        ressursId: '12355321,',
+        ressurseier: '123521',
+    }
+];
+
 fetchMock
-    .get('/min-side-arbeidsgiver/api/syfooppgaver', [
-        {
-            oppgaveUuid: '234212',
-            ident: '12345645613',
-            opprettetDato: '2019-02-07T13:51:02',
-            oppgavetype: 'Sykemelding',
-            ressursId: '12355321,',
-            ressurseier: '123521',
-        },
-        {
-            oppgaveUuid: '334212',
-            ident: '3225645613',
-            opprettetDato: '2019-02-07T13:51:02',
-            oppgavetype: 'Sykepengesøknad',
-            ressursId: '12355321,',
-            ressurseier: '123521',
-        },
-    ])
+    .get('/min-side-arbeidsgiver/api/syfooppgaver', delay.then(() => {
+        return oppgaverespons;
+    }))
     .spy();
+

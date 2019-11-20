@@ -41,7 +41,7 @@ const LagSykemeldingsVarselTekst = (antall: number): string => {
 
 const Syfoboks: FunctionComponent<Props> = props => {
     const { syfoOppgaverState } = useContext(SyfoTilgangContext);
-    const { syfoAnsatteState } = useContext(SyfoTilgangContext);
+    const { syfoAnsatteState,visSyfoOppgaveFeilmelding } = useContext(SyfoTilgangContext);
 
     const loggAtKlikketPaSyfo = () => {
         loggNavigasjonTilTjeneste('Syfo');
@@ -50,7 +50,11 @@ const Syfoboks: FunctionComponent<Props> = props => {
     const tooltipText: FunctionComponent<Props> = () => {
         const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykemelding');
         const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
-
+        if(visSyfoOppgaveFeilmelding){
+            return (
+            <div>
+                Vi kan ikke hente oppgaver relatert til Dine sykemeldte. Vi jobber med løse dette.
+            </div>)}
         return (
             <div>
                 <div>{LagSykemeldingsVarselTekst(antallSykemeldingsvarsler)}</div>
@@ -67,6 +71,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
                 altTekst={''}
                 antallVarsler={syfoOppgaverState.length}
                 toolTipext={tooltipText}
+                VisOppgaveFeilmelding={visSyfoOppgaveFeilmelding}
             />
             <Lenkepanel
                 className={'syfoboks__sykemeldte'}
