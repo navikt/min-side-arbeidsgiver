@@ -39,9 +39,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     if (respons.ok) {
         return await respons.json();
     } else {
-        console.log("feil ved hemnting fra altinn");
         throw new Error('Feil ved kontakt mot baksystem.');
-        //return [];
     }
 }
 
