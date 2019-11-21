@@ -1,6 +1,5 @@
 import React, {FunctionComponent} from "react";
-import { LenkepanelBase } from 'nav-frontend-lenkepanel';
-import {Innholdstittel, Systemtittel} from "nav-frontend-typografi";
+import {Innholdstittel} from "nav-frontend-typografi";
 import './ManglerTilgangContainer.less'
 import {ManglerTilgangLenkePanel} from "./ManglerTilgangLenkePanel/ManglerTilgangLenkePanel";
 import {lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo} from "../../../lenker";
