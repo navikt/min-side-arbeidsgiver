@@ -21,15 +21,14 @@ export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner,visFeilmelding } = useContext(OrganisasjonsListeContext);
-    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-
+    const { tilgangTilSyfoState,visSyfoFeilmelding } = useContext(SyfoTilgangContext);
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
 
     return (
         <div className="hovedside">
-            <FeilmeldingContainer visFeilmelding={visFeilmelding}/>
+            <FeilmeldingContainer visFeilmelding={visFeilmelding} visSyfoFeilmelding = {visSyfoFeilmelding}/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
