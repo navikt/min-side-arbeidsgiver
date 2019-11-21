@@ -14,13 +14,13 @@ import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import { logInfo } from '../../utils/metricsUtils';
 import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
-
+import {FeilmeldingContainer} from "./FeilmeldingContainer/FeilmeldingContainer";
 export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
 };
 
 const Hovedside: FunctionComponent = () => {
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner,visFeilmelding } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
     const skalViseManglerTilgangBoks = !(
@@ -29,10 +29,11 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
+            <FeilmeldingContainer visFeilmelding={visFeilmelding}/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
-                    <TjenesteBoksContainer />
+                <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
             <SkjemaveilederContainer />

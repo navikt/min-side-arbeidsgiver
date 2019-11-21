@@ -20,6 +20,7 @@ export type Context = {
     organisasjonerMedIAWEB: Organisasjon[];
     orgListeFerdigLastet: Tilgang;
     orgMedIAFerdigLastet: Tilgang;
+    visFeilmelding:boolean;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -70,14 +71,22 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     );
     const [orgListeFerdigLastet, setOrgListeFerdigLastet] = useState(Tilgang.LASTER);
     const [orgMedIAFerdigLastet, setOrgMedIAFerdigLastet] = useState(Tilgang.LASTER);
+    const [visFeilmelding, setVisFeilmelding] = useState(false);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
             setOrgListeFerdigLastet(Tilgang.LASTER);
-            let organisasjoner = await hentOrganisasjoner();
-            if (organisasjoner.length > 0) {
+            let organisasjonerRespons:Organisasjon[] =[];
+            try {
+                organisasjonerRespons = await hentOrganisasjoner();
+            }
+    catch(e){
+            organisasjonerRespons = [];
+            setVisFeilmelding(true);
+        }
+            if (organisasjonerRespons.length > 0) {
                 setOrganisasjoner(
-                    organisasjoner.filter((organisasjon: Organisasjon) => {
+                    organisasjonerRespons.filter((organisasjon: Organisasjon) => {
                         return (
                             organisasjon.OrganizationForm === 'BEDR' &&
                             organisasjon.ParentOrganizationNumber
@@ -85,7 +94,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     })
                 );
                 const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                    organisasjoner
+                    organisasjonerRespons
                 );
                 setOrgListeFerdigLastet(Tilgang.TILGANG);
                 setorganisasjonstre(toDim);
@@ -123,6 +132,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonerMedIAWEB,
         orgListeFerdigLastet,
         orgMedIAFerdigLastet,
+        visFeilmelding
     };
 
     return (
