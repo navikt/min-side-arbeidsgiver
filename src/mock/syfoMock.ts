@@ -8,7 +8,7 @@ fetchMock
         digiSyfoNarmesteLederLink,
         delay.then(() => {
             return {
-                tilgang: true,
+                tilgang: false,
             };
         })
     )
