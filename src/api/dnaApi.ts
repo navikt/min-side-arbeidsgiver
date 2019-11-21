@@ -39,7 +39,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     if (respons.ok) {
         return await respons.json();
     } else {
-        return [];
+        throw new Error('Feil ved kontakt mot baksystem.');
     }
 }
 
@@ -217,8 +217,9 @@ export async function hentSyfoTilgang(): Promise<boolean> {
             logInfo('har syfotilgang');
             return true;
         }
+        return false
     }
-    return false;
+    throw new Error('Feil ved kontakt mot baksystem.');
 }
 
 export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsavtale>> {

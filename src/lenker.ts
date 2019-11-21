@@ -49,9 +49,9 @@ export const veilarbStepup = () => {
 
 export const linkTilArbeidsplassen = () => {
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsplassen.nav.no/stillingsregistrering';
+        return 'https://arbeidsplassen.nav.no/bedrift';
     } else {
-        return 'https://arbeidsplassen-q.nav.no/stillingsregistrering';
+        return 'https://arbeidsplassen-q.nav.no/bedrift';
     }
 };
 
@@ -105,6 +105,9 @@ export const arbeidsAvtaleLink = () => {
 export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler';
 };
+
+export const lenkeTilDittNavPerson='https://www.nav.no/person/dittnav/';
+export const lenkeTilTilgangsstyringsInfo='https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
 
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
 

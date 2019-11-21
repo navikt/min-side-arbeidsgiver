@@ -1,0 +1,21 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.mangler-tilgang-container{
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.mangler-tilgang-lenkepanel{
+  width: 100%;
+}
+@media (min-width: @screen-md-min) {
+  .mangler-tilgang-container{
+    flex-direction: row;
+    width: 60rem;
+  }
+  .mangler-tilgang-lenkepanel{
+    flex-grow: 1;
+    margin-right: 2%;
+  }
+}

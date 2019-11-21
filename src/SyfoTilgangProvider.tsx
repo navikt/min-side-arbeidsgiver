@@ -8,6 +8,8 @@ export interface Context {
     tilgangTilSyfoState: Tilgang;
     syfoOppgaverState: Array<SyfoOppgave>;
     syfoAnsatteState: number;
+    visSyfoFeilmelding:boolean;
+    visSyfoOppgaveFeilmelding:boolean;
 }
 
 const SyfoTilgangContext = React.createContext<Context>({} as Context);
@@ -17,14 +19,26 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
     const [tilgangTilSyfoState, setTilgangTilSyfoState] = useState(Tilgang.LASTER);
     const [syfoOppgaverState, setSyfoOppgaverState] = useState(Array<SyfoOppgave>());
     const [syfoAnsatteState, setSyfoAnsatteState] = useState(0);
-
+    const [visSyfoFeilmelding,setVisSyfoFeilmelding] = useState(false);
+    const [visSyfoOppgaveFeilmelding, setVisSyfoOppgaveFeilmelding] = useState(false);
     useEffect(() => {
         setTilgangTilSyfoState(Tilgang.LASTER);
+        let tilgangSyfoRespons = false;
         const getSyfoTilganger = async () => {
-            const tilgangSyfo = await hentSyfoTilgang();
-            if (tilgangSyfo) {
+            try{
+             tilgangSyfoRespons = await hentSyfoTilgang();
+            }catch(e){
+                setVisSyfoFeilmelding(true);
+                tilgangSyfoRespons=false;
+            }
+            if (tilgangSyfoRespons) {
                 setTilgangTilSyfoState(Tilgang.TILGANG);
-                setSyfoOppgaverState(await hentSyfoOppgaver());
+                try {
+                    setSyfoOppgaverState(await hentSyfoOppgaver());
+                }
+                catch(e){
+                    setVisSyfoOppgaveFeilmelding(true);
+                }
                 const syfoAnsatteArray = await hentNarmesteAnsate();
                 setSyfoAnsatteState(syfoAnsatteArray.length);
             } else {
@@ -38,6 +52,8 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
         tilgangTilSyfoState,
         syfoOppgaverState,
         syfoAnsatteState,
+        visSyfoFeilmelding,
+        visSyfoOppgaveFeilmelding
     };
 
     return (
