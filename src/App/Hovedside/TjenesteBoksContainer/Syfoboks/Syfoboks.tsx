@@ -52,9 +52,12 @@ const Syfoboks: FunctionComponent<Props> = props => {
         const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
         if(visSyfoOppgaveFeilmelding){
             return (
+                <>
             <div>
-                Vi kan ikke hente oppgaver relatert til Dine sykemeldte. Vi jobber med løse dette.
-            </div>)}
+               Kan ikke hente oppgaver fra Dine sykemeldte. Vi jobber med å løse problemet.
+            </div>
+            <div>Dersom du vet du har oppgaver som må utføres, kan du fortsatt gå inn på Dine sykemeldte</div>
+                    </>)}
         return (
             <div>
                 <div>{LagSykemeldingsVarselTekst(antallSykemeldingsvarsler)}</div>
