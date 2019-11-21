@@ -14,6 +14,8 @@ import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import { logInfo } from '../../utils/metricsUtils';
 import {FeilmeldingContainer} from "./FeilmeldingContainer/FeilmeldingContainer";
+import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
+
 export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
 };
@@ -27,9 +29,10 @@ const Hovedside: FunctionComponent = () => {
     return (
         <div className="hovedside">
             <FeilmeldingContainer visFeilmelding={visFeilmelding} visSyfoFeilmelding = {visSyfoFeilmelding}/>
-            <TjenesteBoksContainer />
+            {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
+                    <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
             <SkjemaveilederContainer />
