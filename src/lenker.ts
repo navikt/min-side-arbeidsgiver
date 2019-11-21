@@ -106,6 +106,9 @@ export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler';
 };
 
+export const lenkeTilDittNavPerson='https://www.nav.no/person/dittnav/';
+export const lenkeTilTilgangsstyringsInfo='https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
+
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
 
 export const lenkeIAweb =

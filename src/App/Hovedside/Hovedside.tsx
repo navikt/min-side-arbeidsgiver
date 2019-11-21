@@ -13,6 +13,7 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import { logInfo } from '../../utils/metricsUtils';
+import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
 
 export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
@@ -28,11 +29,13 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
-            <TjenesteBoksContainer />
+            {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
+            {!skalViseManglerTilgangBoks && (
+                <>
+                    <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
             <SkjemaveilederContainer />
-            {!skalViseManglerTilgangBoks && (
                 <div className={'hovedside__informasjonstekst'}>
                     <img className={'hovedside__ikon'} src={ikon} alt="informasjonsikon" />
                     Forventet du å se flere tjenester?
@@ -43,7 +46,7 @@ const Hovedside: FunctionComponent = () => {
                         Les mer om hvordan du får tilgang
                     </Lenke>{' '}
                 </div>
-            )}
+            </>)}
         </div>
     );
 };
