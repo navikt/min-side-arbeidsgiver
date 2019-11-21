@@ -7,7 +7,9 @@ fetchMock
     .get(
         digiSyfoNarmesteLederLink,
         delay.then(() => {
-            return 500
+            return {
+                tilgang: true,
+            };
         })
     )
     .spy();
