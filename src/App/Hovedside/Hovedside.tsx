@@ -13,9 +13,8 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import { logInfo } from '../../utils/metricsUtils';
-import {FeilmeldingContainer} from "./FeilmeldingContainer/FeilmeldingContainer";
 import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
-
+import {FeilmeldingContainer} from "./FeilmeldingContainer/FeilmeldingContainer";
 export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
 };
@@ -26,13 +25,14 @@ const Hovedside: FunctionComponent = () => {
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
+
     return (
         <div className="hovedside">
             <FeilmeldingContainer visFeilmelding={visFeilmelding} visSyfoFeilmelding = {visSyfoFeilmelding}/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
-                    <TjenesteBoksContainer />
+                <TjenesteBoksContainer />
             <NyttigForDegContainer />
             <AltinnContainer />
             <SkjemaveilederContainer />
