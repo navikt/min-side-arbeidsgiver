@@ -28,3 +28,6 @@ spec:
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
       value: https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver/
+
+
+
