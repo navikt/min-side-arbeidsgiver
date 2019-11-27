@@ -5,8 +5,8 @@ import './IAwebboks.less';
 
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './soylediagram.svg';
-import { lenkeIAweb } from '../../../../lenker';
 import { loggNavigasjonTilTjeneste } from '../../Hovedside';
+import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
 
 interface Props {
     varseltekst?: string;
@@ -28,7 +28,7 @@ const IAwebboks: FunctionComponent<Props> = props => {
 
             <Lenkepanel
                 className={'IA-web-boks__info'}
-                href={lenkeIAweb}
+                href={lenkeTilSykefravarsstatistikk}
                 tittelProps={'normaltekst'}
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >
