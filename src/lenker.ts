@@ -114,7 +114,7 @@ export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
 export const lenkeIAweb =
     'https://www.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=2&ServiceCode=3403&Oselect=true&M=SP';
 
-export const lenkeTilSykefravarsstatistikk = '/sykefravarsstatistikk';
+export const lenkeTilSykefravarsstatistikk = '/sykefravarsstatistikk/';
 
 export const lenkeTilInfoOmDigitaleSoknader =
     'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/relatert-informasjon/s%C3%B8knader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
