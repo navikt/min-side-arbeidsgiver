@@ -34,6 +34,7 @@ export async function hentNarmesteAnsate(): Promise<Array<AnsattSyfo>> {
     const response = await fetch(digisyfoSykemeldteLenke(), { method: 'GET', credentials: 'include' });
     if (response.ok) {
         responseBody = await response.json();
+        return responseBody
     }
-    return responseBody;
-}
+    throw new Error("Feil ved henting av nærmeste ansatte" );
+   }

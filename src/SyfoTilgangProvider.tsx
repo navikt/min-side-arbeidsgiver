@@ -3,6 +3,7 @@ import { hentSyfoTilgang } from './api/dnaApi';
 import { hentNarmesteAnsate, hentSyfoOppgaver } from './api/digisyfoApi';
 import { SyfoOppgave } from './Objekter/syfoOppgaver';
 import { Tilgang } from './App/LoginBoundary';
+import {logError, logInfo} from "./utils/metricsUtils";
 
 export interface Context {
     tilgangTilSyfoState: Tilgang;
@@ -28,6 +29,7 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
             try{
              tilgangSyfoRespons = await hentSyfoTilgang();
             }catch(e){
+                logError("Feil ved tilgangssjekk til Digisyfo");
                 setVisSyfoFeilmelding(true);
                 tilgangSyfoRespons=false;
             }
@@ -37,10 +39,15 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
                     setSyfoOppgaverState(await hentSyfoOppgaver());
                 }
                 catch(e){
+                    logError("Feil ved henting av syfooppgaver");
                     setVisSyfoOppgaveFeilmelding(true);
                 }
-                const syfoAnsatteArray = await hentNarmesteAnsate();
-                setSyfoAnsatteState(syfoAnsatteArray.length);
+                try {
+                    const syfoAnsatteArray = await hentNarmesteAnsate();
+                    setSyfoAnsatteState(syfoAnsatteArray.length);
+                }catch(e){
+                    logError("Feil ved henting av syfooppgaver");
+                }
             } else {
                 setTilgangTilSyfoState(Tilgang.IKKE_TILGANG);
             }

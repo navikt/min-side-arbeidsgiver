@@ -20,3 +20,9 @@ export const logInfo = (message: string, orgnr?: string) => {
     }
   }
 };
+export const logError = (message: string) => {
+  const logger: Logger = (window as any).frontendlogger;
+  if (logger) {
+      logger.error(message);
+    }
+};
