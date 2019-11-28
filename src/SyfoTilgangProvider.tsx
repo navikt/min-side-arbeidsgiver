@@ -3,7 +3,7 @@ import { hentSyfoTilgang } from './api/dnaApi';
 import { hentNarmesteAnsate, hentSyfoOppgaver } from './api/digisyfoApi';
 import { SyfoOppgave } from './Objekter/syfoOppgaver';
 import { Tilgang } from './App/LoginBoundary';
-import {logError, logInfo} from "./utils/metricsUtils";
+import {logError} from "./utils/metricsUtils";
 
 export interface Context {
     tilgangTilSyfoState: Tilgang;
