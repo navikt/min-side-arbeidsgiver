@@ -39,7 +39,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     if (respons.ok) {
         return await respons.json();
     } else {
-        throw new Error('Feil ved kontakt mot baksystem.');
+        throw new Error('Feil fra altinn, STATUS: ' + respons.status);
     }
 }
 
@@ -219,7 +219,7 @@ export async function hentSyfoTilgang(): Promise<boolean> {
         }
         return false
     }
-    throw new Error('Feil ved kontakt mot baksystem.');
+    throw new Error('Feil ved ved henting av digisyfotilgang status:' + respons.status);
 }
 
 export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsavtale>> {
@@ -228,7 +228,7 @@ export async function hentTiltaksgjennomforingTilgang(): Promise<Array<Arbeidsav
         const avtaler: Array<Arbeidsavtale> = await respons.json();
         return avtaler;
     }
-    return [];
+    throw new Error('Feil ved ved henting av tiltakstilgang status:' + respons.status);
 }
 
 export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {

@@ -25,7 +25,7 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
         responsBody = await respons.json();
         return responsBody;
     }
-    throw new Error('Feil ved kontakt med digisyfo oppgave api');
+    throw new Error('Feil ved kontakt med digisyfo oppgave api, status:' + respons.status);
 
 }
 
@@ -36,5 +36,5 @@ export async function hentNarmesteAnsate(): Promise<Array<AnsattSyfo>> {
         responseBody = await response.json();
         return responseBody
     }
-    throw new Error("Feil ved henting av nærmeste ansatte" );
+    throw new Error("Feil ved henting av nærmeste ansatte fra digisyfo status:" + response.status);
    }

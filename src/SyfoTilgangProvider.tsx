@@ -39,14 +39,14 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
                     setSyfoOppgaverState(await hentSyfoOppgaver());
                 }
                 catch(e){
-                    logError("Feil ved henting av syfooppgaver");
+                    logError(e);
                     setVisSyfoOppgaveFeilmelding(true);
                 }
                 try {
                     const syfoAnsatteArray = await hentNarmesteAnsate();
                     setSyfoAnsatteState(syfoAnsatteArray.length);
                 }catch(e){
-                    logError("Feil ved henting av syfooppgaver");
+                    logError(e);
                 }
             } else {
                 setTilgangTilSyfoState(Tilgang.IKKE_TILGANG);

@@ -12,6 +12,7 @@ import {
     Organisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { Tilgang } from './App/LoginBoundary';
+import {logError} from "./utils/metricsUtils";
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -83,6 +84,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     catch(e){
             organisasjonerRespons = [];
             setVisFeilmelding(true);
+            logError(e);
         }
             if (organisasjonerRespons.length > 0) {
                 setOrganisasjoner(
