@@ -29,7 +29,7 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
             try{
              tilgangSyfoRespons = await hentSyfoTilgang();
             }catch(e){
-                logError("Feil ved tilgangssjekk til Digisyfo");
+                logError(e);
                 setVisSyfoFeilmelding(true);
                 tilgangSyfoRespons=false;
             }
