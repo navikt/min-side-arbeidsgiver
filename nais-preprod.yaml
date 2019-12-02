@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:feillogging-frontend_915
+  image: navikt/ditt-nav-arbeidsgiver:feillogging-frontend_916
   team: teamtag
   port: 3000
   ingresses:

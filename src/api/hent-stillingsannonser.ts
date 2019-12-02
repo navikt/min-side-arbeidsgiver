@@ -1,5 +1,5 @@
 import { pamHentStillingsannonserLenke } from '../lenker';
-import { logInfo } from '../utils/metricsUtils';
+import {logError, logInfo} from '../utils/metricsUtils';
 
 export interface PamStatusAnnonser {
     TIL_GODKJENNING: number;
@@ -11,8 +11,6 @@ export interface PamStatusAnnonser {
     PUBLISERT: number;
 }
 
-//TODO TAG-378: finne ut hvilke annonser som regner som "aktive"
-
 const hentAntallannonser = async (): Promise<number> => {
     logInfo('hent annonser');
     const respons = await fetch(pamHentStillingsannonserLenke(), {
@@ -23,7 +21,7 @@ const hentAntallannonser = async (): Promise<number> => {
         const responsBody: PamStatusAnnonser = await respons.json();
         return responsBody.PUBLISERT;
     }
-    // TODO TAG-378 Hvordan burde vi håndtere denne feilen? Snakke med resten av teamet
+    logError("Kunne ikke hente annonser fra PAM. STATUS: " + respons.status);
     return 0;
 };
 

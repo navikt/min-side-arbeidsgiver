@@ -9,7 +9,7 @@ import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
-import { logInfo } from './utils/metricsUtils';
+import {logError, logInfo} from './utils/metricsUtils';
 import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 
 interface Props {
@@ -59,7 +59,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
-            setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
+            try {
+                setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
+            }catch(e){
+                logError(e);
+            }
             if (arbeidsavtaler.length > 0) {
                 setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
             } else {

@@ -4,7 +4,7 @@ import {
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
-import { logInfo } from '../utils/metricsUtils';
+import {logError, logInfo} from '../utils/metricsUtils';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 
@@ -59,6 +59,7 @@ export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
     if (respons.ok) {
         return await respons.json();
     } else {
+        logError('Feil ved kontakt med altinn reportees api, status:' + respons.status);
         return [];
     }
 }
@@ -109,6 +110,7 @@ export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     if (respons.ok) {
         return await respons.json();
     } else {
+        logError('Feil ved kontakt med altinn reportees api, status:' + respons.status);
         return [];
     }
 }
