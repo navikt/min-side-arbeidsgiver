@@ -69,7 +69,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             } else {
                 setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
             }
-
             if (
                 tilgangTilArbeidsavtaler !== Tilgang.LASTER &&
                 tilgangTilSyfoState !== Tilgang.LASTER &&
