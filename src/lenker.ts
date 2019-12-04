@@ -103,7 +103,7 @@ export const arbeidsAvtaleLink = () => {
 };
 
 export const hentArbeidsavtalerApiLink = () => {
-    return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler';
+    return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
 };
 
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
