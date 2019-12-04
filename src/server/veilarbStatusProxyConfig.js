@@ -1,4 +1,3 @@
-
 const proxy = require('http-proxy-middleware');
 
 const veilarbStatus = () => {

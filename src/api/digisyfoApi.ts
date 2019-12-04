@@ -23,13 +23,15 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
     });
     if (respons.ok) {
         responsBody = await respons.json();
+        return responsBody;
     }
-    return responsBody;
+    throw new Error('Feil ved kontakt med digisyfo oppgave api');
+
 }
 
 export async function hentNarmesteAnsate(): Promise<Array<AnsattSyfo>> {
     let responseBody = {} as Array<AnsattSyfo>;
-    const response = await fetch(digisyfoSykemeldteLenke(), { method: 'GET' });
+    const response = await fetch(digisyfoSykemeldteLenke(), { method: 'GET', credentials: 'include' });
     if (response.ok) {
         responseBody = await response.json();
     }

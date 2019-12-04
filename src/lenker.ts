@@ -73,9 +73,9 @@ export const pamHentStillingsannonserLenke = () => {
 
 export const digisyfoSykemeldteLenke = () => {
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://tjenester.nav.no/syforest/arbeidsgiver/sykmeldte';
+        return 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/syforest/arbeidsgiver/sykmeldte';
     } else {
-        return 'https://tjenester-q1.nav.no/syforest/arbeidsgiver/sykmeldte';
+        return 'https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver/syforest/arbeidsgiver/sykmeldte';
     }
 };
 
@@ -106,10 +106,15 @@ export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
 };
 
+export const lenkeTilDittNavPerson='https://www.nav.no/person/dittnav/';
+export const lenkeTilTilgangsstyringsInfo='https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
+
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
 
 export const lenkeIAweb =
     'https://www.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=2&ServiceCode=3403&Oselect=true&M=SP';
+
+export const lenkeTilSykefravarsstatistikk = '/sykefravarsstatistikk/';
 
 export const lenkeTilInfoOmDigitaleSoknader =
     'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/relatert-informasjon/s%C3%B8knader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';

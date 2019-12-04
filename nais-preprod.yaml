@@ -6,7 +6,7 @@ metadata:
   labels:
     team: teamtag
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:TAG-921-logge-antall-klikk_901
+  image: navikt/ditt-nav-arbeidsgiver:TAG-953-feilmelding-v-digisyfofeil_909
   team: teamtag
   port: 3000
   ingresses:
