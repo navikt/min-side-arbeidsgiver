@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {
     Organisasjon,
     tomAltinnOrganisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
+import {Arbeidsavtale, hentTiltaksgjennomforingTilgang} from './api/dnaApi';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
@@ -38,6 +38,21 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const { orgMedIAFerdigLastet, organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
+    useEffect(() => {
+        setTilgangTilArbeidsavtaler(Tilgang.LASTER);
+        const hentArbeidsavtaler = async () => {
+            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang();
+            setArbeidsavtaler(avtaler);
+            if (avtaler.length > 0) {
+                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+            } else {
+                setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+            }
+        };
+        hentArbeidsavtaler()
+
+    }, []);
+
     const endreOrganisasjon = async (org?: Organisasjon) => {
         const loggTilganger = (org: Organisasjon) => {
             logInfo('tilgang til PAM: ' + tilgangTilPamState.toString());
@@ -48,7 +63,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             }
         };
         settilgangTilPamState(Tilgang.LASTER);
-        setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         if (org) {
             await setValgtOrganisasjon(org);
             const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
@@ -59,13 +73,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
-            setArbeidsavtaler(await hentTiltaksgjennomforingTilgang());
-            if (arbeidsavtaler.length > 0) {
-                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-            } else {
-                setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-            }
-
             if (
                 tilgangTilArbeidsavtaler !== Tilgang.LASTER &&
                 tilgangTilSyfoState !== Tilgang.LASTER &&
@@ -75,7 +82,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 loggTilganger(org);
             }
         }
-
         hentInfoOgLoggInformasjon(org);
     };
 
