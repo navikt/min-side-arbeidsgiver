@@ -6,7 +6,6 @@
   "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
     "@craco/craco": "^3.4.1",
-    "@navikt/arbeidsforhold": "^1.0.4",
     "@navikt/bedriftsmeny": "^1.0.13",
     "@types/classnames": "^2.2.7",
     "@types/fetch-mock": "^7.2.3",
