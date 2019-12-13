@@ -22,7 +22,6 @@ const App: FunctionComponent = () => {
                             exact={true}
                             component={InformasjonOmTilgangsstyringSide}
                         />
-
                         <LoginBoundary>
                             <OrganisasjonsListeProvider>
                                 <SyfoTilgangProvider>
