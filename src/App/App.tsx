@@ -38,7 +38,7 @@ const App: FunctionComponent = () => {
                                                 <Route
                                                     path="/"
                                                     exact={true}
-                                                    component={Hovedside}
+                                                    component={InformasjonOmBedrift}
                                                 />
                                             </Switch>
                                         </div>
