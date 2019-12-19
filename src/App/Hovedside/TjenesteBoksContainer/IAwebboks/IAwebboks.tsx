@@ -4,7 +4,7 @@ import Lenkepanel from 'nav-frontend-lenkepanel';
 import './IAwebboks.less';
 
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
-import IAwebikon from './soylediagram.svg';
+import IAwebikon from './IawebIkon.svg';
 import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
 
