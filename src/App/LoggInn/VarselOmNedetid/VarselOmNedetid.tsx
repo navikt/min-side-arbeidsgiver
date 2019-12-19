@@ -13,11 +13,6 @@ type VarselOmNedetidProps =
 
 export const VarselOmNedetid: FunctionComponent<VarselOmNedetidProps> = props => {
     const dagensDato: Date = new Date();
-    console.log('dagensDato', dagensDato);
-    if (props.visVarselOmNedeTid) {
-        console.log('visFraDato', props.visFraDato);
-        console.log('visTilDato', props.visTilDato);
-    }
     if (
         !props.visVarselOmNedeTid ||
         dagensDato > props.visTilDato || dagensDato < props.visFraDato
