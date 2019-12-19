@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import arbeidstreningikon from './arbeidstreningikon.svg';
+import arbeidstreningikon from './koffert-tiltak.svg';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import './Arbeidstreningboks.less';
 
