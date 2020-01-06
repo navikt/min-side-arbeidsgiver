@@ -4,10 +4,10 @@ metadata:
   name: ditt-nav-arbeidsgiver
   namespace: default
   labels:
-    team: teamtag
+    team: {{team}}
 spec:
-  image: navikt/ditt-nav-arbeidsgiver:oppgrader-pakker_926
-  team: teamtag
+  image: {{version}}
+  team: {{team}}
   port: 3000
   ingresses:
     - https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver/

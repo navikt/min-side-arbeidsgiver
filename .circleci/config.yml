@@ -1,4 +1,7 @@
-version: 2
+version: 2.1
+orbs:
+  nais: navikt/nais-deployment@dev:master
+
 jobs:
   build:
     docker:
@@ -21,21 +24,84 @@ jobs:
       - run:
           name: Bygg produksjonsversjon av React app
           command: yarn build
-      - setup_remote_docker
+      - nais/docker:
+          image: navikt/ditt-nav-arbeidsgiver
+
+  deploy-til-dev:
+    docker:
+      - image: navikt/deployment-cli:0.4.2
+    steps:
+      - checkout
       - run:
-          name: Setter miljøvariabler
-          command: |
-              echo 'export RELEASE_VERSION="$(git rev-list --count $CIRCLE_SHA1)"' >> $BASH_ENV
-              echo 'export BRANCH_NAME="$(git rev-parse --abbrev-ref HEAD)"' >> $BASH_ENV
-              echo 'export BRANCH_PREFIX=`[ $BRANCH_NAME == "master" ] && echo "" || echo $BRANCH_NAME\_`' >> $BASH_ENV
-              echo 'export DOCKER_IMAGE_VERSIONED="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME:$BRANCH_PREFIX$RELEASE_VERSION"' >> $BASH_ENV
-              echo 'export DOCKER_IMAGE_UNVERSIONED="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"' >> $BASH_ENV
+          name: Unpack Private Key
+          command: echo $GITHUB_PRIVATE_KEY | base64 -d > .circleci/github.key.pem
+      - nais/deploy-with-gh-app:
+          repo: navikt/ditt-nav-arbeidsgiver
+          image: navikt/ditt-nav-arbeidsgiver
+          github-app-id: 43789
+          nais-template: nais-preprod.yaml
+          environment: dev-sbs
+          team: teamtag
+
+  deploy-til-prod:
+    docker:
+      - image: navikt/deployment-cli:0.4.2
+    steps:
+      - checkout
       - run:
-          name: Bygger Docker image
-          command: docker build -t "$DOCKER_IMAGE_VERSIONED" -t "$DOCKER_IMAGE_UNVERSIONED" .
-      - run:
-          name: Pusher Docker image
-          command: |
-            docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker push "$DOCKER_IMAGE_VERSIONED"
-            docker push "$DOCKER_IMAGE_UNVERSIONED"
+          name: Unpack Private Key
+          command: echo $GITHUB_PRIVATE_KEY | base64 -d > .circleci/github.key.pem
+      - nais/deploy-with-gh-app:
+          repo: navikt/ditt-nav-arbeidsgiver
+          image: navikt/ditt-nav-arbeidsgiver
+          github-app-id: 43789
+          nais-template: nais-prod.yaml
+          environment: prod-sbs
+          team: teamtag
+
+workflows:
+  version: 2.1
+  bygg_og_deploy:
+    jobs:
+      - build:
+          context: NAIS deployment
+      - deploy-til-dev:
+          context: tag-ci
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+      - godkjenn-til-dev:
+          type: approval
+          requires:
+            - build
+          filters:
+            branches:
+              ignore:
+                - master
+      - deploy-til-dev:
+          context: tag-ci
+          requires:
+            - godkjenn-til-dev
+          filters:
+            branches:
+              ignore:
+                - master
+      - godkjenn-til-prod:
+          type: approval
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-til-prod:
+          context: tag-ci
+          requires:
+            - godkjenn-til-prod
+          filters:
+            branches:
+              only:
+                - master

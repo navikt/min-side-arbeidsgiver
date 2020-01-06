@@ -15,7 +15,8 @@ export const VarselOmNedetid: FunctionComponent<VarselOmNedetidProps> = props =>
     const dagensDato: Date = new Date();
     if (
         !props.visVarselOmNedeTid ||
-        dagensDato > props.visTilDato || dagensDato < props.visFraDato
+        dagensDato > props.visTilDato ||
+        dagensDato < props.visFraDato
     ) {
         return null;
     }
