@@ -86,6 +86,9 @@ export const LenkeTilInfoOmRettigheterTilSykmelding =
 export const LenkeTilInfoOmAltinnRoller =
     'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
 
+export const lenkeTilInfoOmSykefravarsstatistikk =
+    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/fa-oversikt-over-sykefravaeret';
+
 export const hentUnderenhetApiLink = (orgnr: string) => {
     return `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`;
 };
@@ -106,8 +109,9 @@ export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
 };
 
-export const lenkeTilDittNavPerson='https://www.nav.no/person/dittnav/';
-export const lenkeTilTilgangsstyringsInfo='https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
+export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
+export const lenkeTilTilgangsstyringsInfo =
+    'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
 
 export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
 
