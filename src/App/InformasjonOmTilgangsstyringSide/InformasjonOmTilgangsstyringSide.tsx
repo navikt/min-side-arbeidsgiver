@@ -11,7 +11,7 @@ import {
     lenkeTilInfoOmDigitaleSoknader,
     LenkeTilInfoOmRettigheterTilSykmelding,
     lenkeTilInforOmInntekstmelding,
-    lenkeTilInfoOmSykefravarsstatistikk
+    lenkeTilInfoOmSykefravarsstatistikk,
 } from '../../lenker';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
@@ -55,16 +55,17 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>søknad om tilskudd til ekspertbistand </li>
                         </ul>
                         <Normaltekst>
-                        <b>Rolle i Altinn:</b> For å få tilgang til <u>alle</u> de nevnte tjenestene
-                        over må du ha rollen «Helse-, sosial og velferdstjenester» i Altinn.
+                            <b>Rolle i Altinn:</b> For å få tilgang til <u>alle</u> de nevnte
+                            tjenestene over må du ha rollen «Helse-, sosial og velferdstjenester» i
+                            Altinn.
                         </Normaltekst>
-                        <br/>
+                        <br />
                         <Normaltekst>
-                        <b>Enkeltrettighet i Altinn:</b> Trenger du kun tilgang til en av de nevnte
-                        tjenestene ovenfor kan du klare deg med en enkeltrettighet. Navn på
-                        enkeltrettighetene er det samme som navnet på tjenesten.
-                    </Normaltekst>
-                        <br/>
+                            <b>Enkeltrettighet i Altinn:</b> Trenger du kun tilgang til en av de
+                            nevnte tjenestene ovenfor kan du klare deg med en enkeltrettighet. Navn
+                            på enkeltrettighetene er det samme som navnet på tjenesten.
+                        </Normaltekst>
+                        <br />
                         <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
                             Les om digitale tiltakssøknader
                         </Lenke>
@@ -88,8 +89,9 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Rekruttering" border>
-                        På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke>{' '} kan du finne kandidater og lage stillingsannonser. For å
-                        få tilgang må du ha en av rollene{' '}
+                        På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke> kan
+                        du finne kandidater og lage stillingsannonser. For å få tilgang må du ha en
+                        av rollene{' '}
                         <ul>
                             <li>lønn og personalmedarbeider</li>
                             <li>utfyller/innsender</li>
@@ -97,25 +99,36 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <div>
                             Du kan også ha enkeltrettigheten <b> rekruttering</b>{' '}
                         </div>
-
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykmelding/sykefraværsoppfølging" border>
-                        HR og lønn trenger følgende fire enkeltrettigheter:
-                        Sykmelding – oppgi leder, Sykmelding, Søknad om sykepenger og Digital oppfølgingsplan for sykmeldte
-                    <br/>
-                        Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut skjemaet «Sykmelding – oppgi nærmeste leder».
-
+                        <Normaltekst>
+                            HR og lønn trenger følgende fire enkeltrettigheter: Sykmelding – oppgi
+                            leder, Sykmelding, Søknad om sykepenger og Digital oppfølgingsplan for
+                            sykmeldte
+                        </Normaltekst>
+                        <br />
+                        <Normaltekst>
+                            Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
+                            skjemaet «Sykmelding – oppgi nærmeste leder».
+                        </Normaltekst>
                         <br />
                         <Lenke href={LenkeTilInfoOmRettigheterTilSykmelding}>
                             Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
                         </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra NAV
-                        Arbeidslivssenter må du ha
-                        <br/>
-                        <b>Rolle i Altinn:</b> helse-, sosial- og velferdstjenester
-                        <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
+                        <Normaltekst>
+                            For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra
+                            NAV Arbeidslivssenter må du ha
+                        </Normaltekst>
+                        <br />
+                        <Normaltekst>
+                            <b>Rolle i Altinn:</b> helse-, sosial- og velferdstjenester
+                        </Normaltekst>
+                        <Normaltekst>
+                            <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
+                        </Normaltekst>
+                        <br />
                         <Lenke href={lenkeTilInfoOmSykefravarsstatistikk}>
                             Les mer om tjenesten sykefraværsstatistikk på nav.no
                         </Lenke>
