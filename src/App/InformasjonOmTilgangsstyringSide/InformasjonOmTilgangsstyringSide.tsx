@@ -11,6 +11,7 @@ import {
     lenkeTilInfoOmDigitaleSoknader,
     LenkeTilInfoOmRettigheterTilSykmelding,
     lenkeTilInforOmInntekstmelding,
+    lenkeTilInfoOmSykefravarsstatistikk,
 } from '../../lenker';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
@@ -27,33 +28,44 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         Tilganger i Altinn{' '}
                     </Innholdstittel>
                     <Normaltekst className={'informasjon-om-tilgangsstyring__ingress'}>
-                        For å få tilgang til arbeidsgivertjenester hos NAV må du ha en bestemt rolle
-                        eller enkeltrettighet i Altinn.
+                        For å få tilgang til NAVs tjenester til arbeidsgiver må du ha blitt tildelt
+                        nødvendige Altinn-rettigheter av din arbeidsgiver. Administrator for Altinn
+                        i virksomheten er ofte daglig leder, men det kan også være andre.
                     </Normaltekst>
-                    Se oversikt over roller og enkeltrettigheter
+                    <ul>
+                        <li>
+                            En <b>Altinn-rolle</b> gir som regel tilgang til <u>flere</u> tjenester,
+                            også fra andre enn NAV. Vi sier at en rolle gir såkalt «vide tilganger».{' '}
+                        </li>
+                        <li>
+                            En <b>enkeltrettighet</b> gir tilgang til <u>en</u> enkelt tjeneste.
+                        </li>
+                    </ul>
                     <br />
                     <Undertittel className={'informasjon-om-tilgangsstyring__systemtittel'}>
-                        Slik får du tilgang til tjenestene
+                        Slik får du tilgang til de digitale tjenestene
                     </Undertittel>
                     <Ekspanderbartpanel tittel="Avtaler/søknader om NAV-tiltak" border>
-                        Vi tilbyr digitale avtaler/søknader om
+                        Vi tilbyr følgende digitale tjenester om NAV-tiltak:
                         <ul>
-                            <li>lønnstilskudd </li>
-                            <li> inkluderingstilskudd </li>
-                            <li>tilskudd til mentor </li>
-                            <li>tilskudd til ekspertbistand </li>
+                            <li>avtale om arbeidstrening </li>
+                            <li>søknad om lønnstilskudd</li>
+                            <li>søknad om inkluderingstilskudd</li>
+                            <li>søknad om tilskudd til mentor</li>
+                            <li>søknad om tilskudd til ekspertbistand </li>
                         </ul>
-                        For å få tilgang til alle må du ha rollen
-                        <ul>
-                            <li>helse-, sosial og velferdstjenester </li>
-                        </ul>
-                        Du kan også ha en enkeltrettighet, som gir tilgang til en av søknadene
-                        <ul>
-                            <li>lønnstilskudd </li>
-                            <li> inkluderingstilskudd </li>
-                            <li>tilskudd til mentor </li>
-                            <li>tilskudd til ekspertbistand </li>
-                        </ul>
+                        <Normaltekst>
+                            <b>Rolle i Altinn:</b> For å få tilgang til <u>alle</u> de nevnte
+                            tjenestene over må du ha rollen «Helse-, sosial og velferdstjenester» i
+                            Altinn.
+                        </Normaltekst>
+                        <br />
+                        <Normaltekst>
+                            <b>Enkeltrettighet i Altinn:</b> Trenger du kun tilgang til en av de
+                            nevnte tjenestene ovenfor kan du klare deg med en enkeltrettighet. Navn
+                            på enkeltrettighetene er det samme som navnet på tjenesten.
+                        </Normaltekst>
+                        <br />
                         <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
                             Les om digitale tiltakssøknader
                         </Lenke>
@@ -77,8 +89,9 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Rekruttering" border>
-                        På Arbeidsplassen kan du finne kandidater og lage stillingsannonser. For å
-                        få tilgang må du ha en av rollene{' '}
+                        På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke> kan
+                        du finne kandidater og lage stillingsannonser. For å få tilgang må du ha en
+                        av rollene{' '}
                         <ul>
                             <li>lønn og personalmedarbeider</li>
                             <li>utfyller/innsender</li>
@@ -86,23 +99,39 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <div>
                             Du kan også ha enkeltrettigheten <b> rekruttering</b>{' '}
                         </div>
-                        <Lenke href={'https://arbeidsplassen.nav.no/'}>Gå til Arbeidsplassen</Lenke>{' '}
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykmelding/sykefraværsoppfølging" border>
-                        Daglig leder i virksomheten må tildele tilgang til fire tjenester i Altinn.
+                        <Normaltekst>
+                            HR og lønn trenger følgende fire enkeltrettigheter: Sykmelding – oppgi
+                            leder, Sykmelding, Søknad om sykepenger og Digital oppfølgingsplan for
+                            sykmeldte
+                        </Normaltekst>
+                        <br />
+                        <Normaltekst>
+                            Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
+                            skjemaet «Sykmelding – oppgi nærmeste leder».
+                        </Normaltekst>
                         <br />
                         <Lenke href={LenkeTilInfoOmRettigheterTilSykmelding}>
-                            Les om tjenestene i Altinn
+                            Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
                         </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra NAV
-                        Arbeidslivssenter må du ha rollen
-                        <ul>
-                            <li>helse-, sosial- og velferdstjeneste</li>
-                        </ul>
-                        Alternativt kan du ha enkeltrettigheten{' '}
-                        <b>sykefraværsstatistikk for virksomheter</b>
+                        <Normaltekst>
+                            For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra
+                            NAV Arbeidslivssenter må du ha
+                        </Normaltekst>
+                        <br />
+                        <Normaltekst>
+                            <b>Rolle i Altinn:</b> helse-, sosial- og velferdstjenester
+                        </Normaltekst>
+                        <Normaltekst>
+                            <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
+                        </Normaltekst>
+                        <br />
+                        <Lenke href={lenkeTilInfoOmSykefravarsstatistikk}>
+                            Les mer om tjenesten sykefraværsstatistikk på nav.no
+                        </Lenke>
                     </Ekspanderbartpanel>
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         Mangler du tilgang til tjenester? &nbsp;
