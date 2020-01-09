@@ -7,7 +7,6 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
-import { VarselOmNedetid } from './VarselOmNedetid/VarselOmNedetid';
 
 export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
@@ -20,20 +19,12 @@ export const LoggInn: FunctionComponent = () => {
             window.location.href = '/min-side-arbeidsgiver/';
         }
     };
-    const visFraDato: Date = new Date('2019-12-30 01:00:00');
-    const visTilDato: Date = new Date('2020-01-01 23:59:00');
     return (
         <>
             {
                 <div className="innloggingsside">
                     <LoggInnBanner />
                     <div className={'innloggingsside__innhold'}>
-                        <VarselOmNedetid
-                            visVarselOmNedeTid={true}
-                            visFraDato={visFraDato}
-                            visTilDato={visTilDato}
-                        />
-                        <br />
                         <Systemtittel className={'innloggingsside__sidetittel'}>
                             På Min side – arbeidsgiver kan du:
                         </Systemtittel>
