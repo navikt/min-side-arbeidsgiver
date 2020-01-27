@@ -7,7 +7,6 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
-import AlertStripe from "nav-frontend-alertstriper";
 
 export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
@@ -26,7 +25,6 @@ export const LoggInn: FunctionComponent = () => {
                 <div className="innloggingsside">
                     <LoggInnBanner />
                     <div className={'innloggingsside__innhold'}>
-                        <AlertStripe type={"feil"} className={"FeilStripe"}>Vi opplever for øyeblikket problemer med å laste inn innholdet til Min side – arbeidsgiver. Vi prøver å løse saken så raskt som mulig.</AlertStripe>
                         <Systemtittel className={'innloggingsside__sidetittel'}>
                             På Min side – arbeidsgiver kan du:
                         </Systemtittel>

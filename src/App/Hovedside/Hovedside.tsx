@@ -15,7 +15,6 @@ import { Tilgang } from '../LoginBoundary';
 import { logInfo } from '../../utils/metricsUtils';
 import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
 import {FeilmeldingContainer} from "./FeilmeldingContainer/FeilmeldingContainer";
-import AlertStripe from "nav-frontend-alertstriper";
 export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
     logInfo(tjeneste + ' klikket på');
 };
@@ -29,8 +28,7 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
-            <AlertStripe type={"feil"} className={"FeilStripe"}>Problemer med å laste inn siden. Vi prøver å løse saken så raskt som mulig.</AlertStripe>
-            <FeilmeldingContainer visFeilmelding={!visFeilmelding} visSyfoFeilmelding = {visSyfoFeilmelding}/>
+            <FeilmeldingContainer visFeilmelding={visFeilmelding} visSyfoFeilmelding = {visSyfoFeilmelding}/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
