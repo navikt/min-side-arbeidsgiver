@@ -29,7 +29,7 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div className="hovedside">
-            <AlertStripe type={"feil"} className={"FeilStripe"}>Problemer med å laste inn siden. Vi jobber med å løse saken så raskt som mulig.</AlertStripe>
+            <AlertStripe type={"feil"} className={"FeilStripe"}>Problemer med å laste inn siden. Vi prøver å løse saken så raskt som mulig.</AlertStripe>
             <FeilmeldingContainer visFeilmelding={!visFeilmelding} visSyfoFeilmelding = {visSyfoFeilmelding}/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
