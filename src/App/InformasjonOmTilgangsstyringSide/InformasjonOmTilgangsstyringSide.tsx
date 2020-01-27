@@ -69,6 +69,44 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
                             Les om digitale tiltakssøknader
                         </Lenke>
+                    </Ekspanderbartpanel>             
+                    <Ekspanderbartpanel tittel="Tilskuddsbrev for NAV-tiltak" border>
+                        <Normaltekst>
+                            For å få tilgang til digitale tilskuddsbrev om NAV-tiltak må du ha en av disse lederrollene i Altinn:
+                        </Normaltekst>
+                        <ul>
+                            <li>daglig leder/administrerende direktør</li>
+                            <li>styrets leder</li>
+                            <li>innehaver</li>
+                            <li>komplementar</li>
+                            <li>deltaker med delt ansvar</li>
+                            <li>deltaker med fullt ansvar</li>
+                            <li>bestyrende reder</li>
+                            <li>norsk representant for utenlandsk enhet</li>
+                            <li>bostyrer</li>
+                        </ul>
+                        <Normaltekst>
+                            Enkeltansatte får tilgang ved å bli tildelt enkeltrettigheten: <b>Tilskuddsbrev NAV-tiltak</b>
+                        </Normaltekst>
+                        <br />
+                        <Normaltekst>
+                            NAV sender digitale tilsagnsbrev for følgende tiltak:
+                        </Normaltekst>
+                        <ul>
+                            <li>Midlertidig lønnstilskudd</li>
+                            <li>Varig lønnstilskudd</li>
+                            <li>Tilskudd til mentor</li>
+                            <li>Inkluderingstilskudd</li>
+                            <li>Tilskudd til ekspertbistand</li>
+                            <li>Funksjonsassistanse</li>
+                            <li>Varig tilrettelagt arbeid i ordinær virksomhet</li>
+                            <li>Arbeidsforberedende trening</li>
+                            <li>Varig tilrettelagt arbeid i skjermet virksomhet</li>
+                            <li>Høyere utdanning</li>
+                            <li>Enkeltplass Fag og yrkesopplæring</li>
+                            <li>Gruppe Fag og yrkesopplæring</li>
+                            <li>Enkeltplass arbeidsmarkedsopplæring</li>
+                        </ul>             
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
                         For å få tilgang til digital inntektsmelding må du ha en av Altinn-rollene
