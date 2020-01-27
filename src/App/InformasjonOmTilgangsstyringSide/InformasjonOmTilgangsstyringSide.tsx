@@ -90,7 +90,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </Normaltekst>
                         <br />
                         <Normaltekst>
-                            NAV sender digitale tilsagnsbrev for følgende tiltak:
+                            NAV sender digitale tilskuddsbrev for følgende tiltak:
                         </Normaltekst>
                         <ul>
                             <li>Midlertidig lønnstilskudd</li>
