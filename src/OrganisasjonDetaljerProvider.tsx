@@ -41,7 +41,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         const hentArbeidsavtaler = async () => {
-            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang();
+            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(valgtOrganisasjon);
             setArbeidsavtaler(avtaler);
             if (avtaler.length > 0) {
                 setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
@@ -51,7 +51,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         };
         hentArbeidsavtaler()
 
-    }, []);
+    }, [valgtOrganisasjon]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         const loggTilganger = (org: Organisasjon) => {
