@@ -12,7 +12,7 @@ import { hentArbeidsavtalerApiLink } from '../lenker';
     .spy();
     */
 
-fetchMock.get(hentArbeidsavtalerApiLink(), [
+const gammelarbeidstreningsmock = [
     {
         deltakerFnr: '01093434109',
         bedriftNr: '111111111',
@@ -189,4 +189,7 @@ fetchMock.get(hentArbeidsavtalerApiLink(), [
         erLaast: false,
         status: 'Påbegynt',
     },
-]);
+];
+
+
+fetchMock.get("begin:"+hentArbeidsavtalerApiLink(), gammelarbeidstreningsmock);
