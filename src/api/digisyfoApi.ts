@@ -7,7 +7,7 @@ export async function hentSykemeldinger(): Promise<Array<Sykemelding>> {
     let responsBody = {} as Array<Sykemelding>;
     const respons = await fetch('/min-side-arbeidsgiver/api/sykemeldinger', {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'same-origin',
     });
     if (respons.ok) {
         responsBody = await respons.json();
@@ -19,7 +19,7 @@ export async function hentSyfoOppgaver(): Promise<Array<SyfoOppgave>> {
     let responsBody = {} as Array<SyfoOppgave>;
     const respons = await fetch('/min-side-arbeidsgiver/api/syfooppgaver', {
         method: 'GET',
-        credentials: 'include',
+        credentials: 'same-origin',
     });
     if (respons.ok) {
         responsBody = await respons.json();

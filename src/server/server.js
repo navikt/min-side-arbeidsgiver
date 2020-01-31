@@ -57,7 +57,7 @@ const startServer = html => {
     });
 };
 const startMockServer = html => {
-    console.log("start server");
+    console.log("start mock server");
     server.use(BASE_PATH, express.static(buildPath));
 
     setInternalEndpoints();
