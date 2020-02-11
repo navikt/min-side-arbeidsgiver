@@ -19,13 +19,13 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
         skalLogges +=" tilgang-IA"
     }
     else {
-        skalLogges +=" ikke-tilgang-tilgang-IA";
+        skalLogges +=" ikke-tilgang-IA";
     }
     if (tilgangsArray[3] === Tilgang.TILGANG) {
         skalLogges += " tilgang-Arbeidstrening"
     }
     else {
-        skalLogges +=" ikke-tilgang-arbeidstrening"
+        skalLogges +=" ikke-tilgang-Arbeidstrening"
     }
     amplitude.logEvent(skalLogges);
 };
