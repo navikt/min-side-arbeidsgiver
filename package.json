@@ -19,6 +19,7 @@
     "@types/react-dom": "16.8.0",
     "@types/react-router-dom": "^4.3.1",
     "@types/react-tooltip": "^3.9.3",
+    "amplitude-js": "^5.9.0",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
     "classnames": "^2.2.6",

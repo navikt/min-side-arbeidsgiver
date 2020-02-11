@@ -54,14 +54,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [valgtOrganisasjon]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
-        const loggTilganger = (org: Organisasjon) => {
-            logInfo('tilgang til PAM: ' + tilgangTilPamState.toString());
-            logInfo('tilgang til Syfo: ' + tilgangTilSyfoState.toString());
-            logInfo('tilgang til Arbeidsavtaler: ' + tilgangTilArbeidsavtaler.toString());
-            if (organisasjonerMedIAWEB.includes(org)) {
-                logInfo('tilgang til IA-web: 2');
-            }
-        };
         settilgangTilPamState(Tilgang.LASTER);
         if (org) {
             await setValgtOrganisasjon(org);
@@ -72,14 +64,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             } else {
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
-            }
-            if (
-                tilgangTilArbeidsavtaler !== Tilgang.LASTER &&
-                tilgangTilSyfoState !== Tilgang.LASTER &&
-                tilgangTilPamState !== Tilgang.LASTER &&
-                orgMedIAFerdigLastet !== Tilgang.LASTER
-            ) {
-                loggTilganger(org);
             }
         }
         hentInfoOgLoggInformasjon(org);

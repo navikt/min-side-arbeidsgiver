@@ -11,6 +11,7 @@ import IAwebboks from './IAwebboks/IAwebboks';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
 import { Tilgang } from '../../LoginBoundary';
+import {loggTilgangsKombinasjonAvTjenestebokser} from "../../../utils/funksjonerForAmplitudeLogging";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
@@ -70,6 +71,12 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (antallTjenester === 1) {
                 settypeAntall('antall-en');
             }
+            const tilgangsArray: Tilgang[] = [0,0,0,0];
+            tilgangsArray[0] = tilgangTilSyfoState;
+            tilgangsArray[1] = tilgangTilPamState;
+            tilgangsArray[2] = orgMedIAFerdigLastet;
+            tilgangsArray[3] = tilgangTilArbeidsavtaler;
+            loggTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
             setTimeout(function() {
                 setFerdigLastet('ferdig');
             }, 300);
