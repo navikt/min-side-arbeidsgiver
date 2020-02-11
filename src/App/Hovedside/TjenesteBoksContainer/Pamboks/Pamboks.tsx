@@ -6,7 +6,6 @@ import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerPr
 import { linkTilArbeidsplassen } from '../../../../lenker';
 import pamikon from './search.svg';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     className?: string;
@@ -23,7 +22,7 @@ const Pamboks: FunctionComponent<Props> = props => {
     }, [antallAnnonser]);
 
     const loggAtKlikketPaArbeidstrening = () => {
-        loggNavigasjonTilTjeneste('Pam');
+        //loggNavigasjonTilTjeneste('Pam');
     };
 
     return (

@@ -1,27 +1,25 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, {FunctionComponent, useContext} from 'react';
 
 import './Hovedside.less';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
-import { AltinnContainer } from './AltinnContainer/AltinnContainer';
+import {AltinnContainer} from './AltinnContainer/AltinnContainer';
 
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
-import { basename } from '../../paths';
+import {OrganisasjonsListeContext} from '../../OrganisasjonsListeProvider';
+import {basename} from '../../paths';
 import Lenke from 'nav-frontend-lenker';
 import ikon from './infomation-circle-2.svg';
-import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
-import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
-import { Tilgang } from '../LoginBoundary';
-import { logInfo } from '../../utils/metricsUtils';
+import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederContainer';
+import {SyfoTilgangContext} from '../../SyfoTilgangProvider';
+import {Tilgang} from '../LoginBoundary';
 import {ManglerTilgangContainer} from "./ManglerTilgangContainer/ManglerTilgangContainer";
 import {FeilmeldingContainer} from "./FeilmeldingContainer/FeilmeldingContainer";
-export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
-    logInfo(tjeneste + ' klikket på');
-};
+import {OrganisasjonsDetaljerContext} from "../../OrganisasjonDetaljerProvider";
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner,visFeilmelding } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState,visSyfoFeilmelding } = useContext(SyfoTilgangContext);
+    const { tilgangsArray } = useContext(OrganisasjonsDetaljerContext)
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
@@ -32,7 +30,7 @@ const Hovedside: FunctionComponent = () => {
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
-                <TjenesteBoksContainer />
+                    {!tilgangsArray.includes(Tilgang.LASTER) && <TjenesteBoksContainer />}
             <NyttigForDegContainer />
             <AltinnContainer />
             <SkjemaveilederContainer />

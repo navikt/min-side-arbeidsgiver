@@ -5,13 +5,12 @@ import './Bedriftsinfoknapp.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import { Link } from 'react-router-dom';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 const Bedriftsinfoknapp: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const loggAtKlikketPaBedriftInfo = () => {
-        loggNavigasjonTilTjeneste('bedrifsinfo');
+        //loggNavigasjonTilTjeneste('bedrifsinfo');
     };
 
     return (

@@ -1,24 +1,22 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 
-import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import {SyfoTilgangContext} from '../../../SyfoTilgangProvider';
+import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './TjenesteBoksContainer.less';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import {OrganisasjonsListeContext} from '../../../OrganisasjonsListeProvider';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
-import { Tilgang } from '../../LoginBoundary';
+import {Tilgang} from '../../LoginBoundary';
 import {loggTilgangsKombinasjonAvTjenestebokser} from "../../../utils/funksjonerForAmplitudeLogging";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const {
-        tilgangTilPamState,
+    const {tilgangsArray,
         valgtOrganisasjon,
-        tilgangTilArbeidsavtaler,
         arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
     const {
@@ -38,30 +36,26 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         } else {
             setVisIA(false);
         }
-        let tjenester: number = 0;
-        if (tilgangTilSyfoState === Tilgang.TILGANG) {
-            tjenester++;
-        }
-        if (tilgangTilPamState === Tilgang.TILGANG) {
-            tjenester++;
-        }
-        if (visIA === true) {
-            tjenester++;
-        }
-        if (arbeidsavtaler.length > 0) {
-            tjenester++;
+        let tjenester: number = tilgangsArray.filter(tilgang => Tilgang.TILGANG).length;
+        if (arbeidsavtaler.length === 0) {
+            tjenester--;
         }
         setAntallTjenester(tjenester);
+    },
+        [
+        valgtOrganisasjon,
+        arbeidsavtaler,
+            tilgangsArray,
+            organisasjonerMedIAWEB
+    ]);
 
+    useEffect(() => {
+        console.log(tilgangsArray);
         if (
-            (tilgangTilPamState !== Tilgang.LASTER &&
-                tilgangTilSyfoState !== Tilgang.LASTER &&
-                tilgangTilArbeidsavtaler !== Tilgang.LASTER &&
-                orgMedIAFerdigLastet !== Tilgang.LASTER) ||
-            (orgListeFerdigLastet !== Tilgang.LASTER &&
-                tilgangTilSyfoState !== Tilgang.LASTER &&
-                orgMedIAFerdigLastet !== Tilgang.LASTER)
-        ) {
+            !tilgangsArray.includes(Tilgang.LASTER) ||
+            ((!tilgangsArray.includes(Tilgang.LASTER)) && orgListeFerdigLastet !== Tilgang.LASTER &&
+                orgMedIAFerdigLastet !== Tilgang.LASTER))
+        {
             if (antallTjenester % 2 === 0) {
                 settypeAntall('antall-partall');
             }
@@ -71,30 +65,19 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (antallTjenester === 1) {
                 settypeAntall('antall-en');
             }
-            const tilgangsArray: Tilgang[] = [0,0,0,0];
-            tilgangsArray[0] = tilgangTilSyfoState;
-            tilgangsArray[1] = tilgangTilPamState;
-            tilgangsArray[2] = orgMedIAFerdigLastet;
-            tilgangsArray[3] = tilgangTilArbeidsavtaler;
             loggTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
             setTimeout(function() {
                 setFerdigLastet('ferdig');
             }, 300);
         }
     }, [
-        tilgangTilSyfoState,
-        tilgangTilPamState,
-        tilgangTilArbeidsavtaler,
-        valgtOrganisasjon,
-        organisasjonerMedIAWEB,
-        ferdigLastet,
-        visIA,
         antallTjenester,
-        typeAntall,
-        arbeidsavtaler,
         orgListeFerdigLastet,
         orgMedIAFerdigLastet,
+        tilgangsArray
     ]);
+
+
 
     return (
         <>
@@ -113,7 +96,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                                 <IAwebboks />
                             </div>
                         )}
-                        {tilgangTilPamState === Tilgang.TILGANG && (
+                        {tilgangsArray[1] === Tilgang.TILGANG && (
                             <div className={'tjenesteboks innholdsboks'}>
                                 <Pamboks />
                             </div>

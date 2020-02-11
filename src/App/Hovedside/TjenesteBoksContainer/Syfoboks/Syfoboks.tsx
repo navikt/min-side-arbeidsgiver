@@ -6,7 +6,6 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { syfoLink } from '../../../../lenker';
 import { SyfoTilgangContext } from '../../../../SyfoTilgangProvider';
 import { SyfoOppgave } from '../../../../Objekter/syfoOppgaver';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;
@@ -44,7 +43,7 @@ const Syfoboks: FunctionComponent<Props> = props => {
     const { syfoAnsatteState,visSyfoOppgaveFeilmelding } = useContext(SyfoTilgangContext);
 
     const loggAtKlikketPaSyfo = () => {
-        loggNavigasjonTilTjeneste('Syfo');
+        //loggNavigasjonTilTjeneste('Syfo');
     };
 
     const tooltipText: FunctionComponent<Props> = () => {

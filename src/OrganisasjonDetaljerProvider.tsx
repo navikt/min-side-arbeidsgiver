@@ -1,16 +1,11 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {
-    Organisasjon,
-    tomAltinnOrganisasjon,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
+import {Organisasjon, tomAltinnOrganisasjon,} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import {Arbeidsavtale, hentTiltaksgjennomforingTilgang} from './api/dnaApi';
-import { SyfoTilgangContext } from './SyfoTilgangProvider';
-import { Tilgang } from './App/LoginBoundary';
-import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
-import { logInfo } from './utils/metricsUtils';
-import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
+import {SyfoTilgangContext} from './SyfoTilgangProvider';
+import {Tilgang} from './App/LoginBoundary';
+import {OrganisasjonsListeContext} from "./OrganisasjonsListeProvider";
 
 interface Props {
     children: React.ReactNode;
@@ -20,10 +15,8 @@ export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
     valgtOrganisasjon: Organisasjon;
     antallAnnonser: number;
-    tilgangTilPamState: Tilgang;
-    tilgangTilArbeidsavtaler: Tilgang;
     arbeidsavtaler: Array<Arbeidsavtale>;
-    tilgangTilSyfoState: Tilgang;
+    tilgangsArray: Tilgang[];
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -35,8 +28,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
-    const { orgMedIAFerdigLastet, organisasjonerMedIAWEB } = useContext(OrganisasjonsListeContext);
+    const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
+    const { orgMedIAFerdigLastet} = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
@@ -65,18 +59,24 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
+            const tilgangsArray: Tilgang[] = [Tilgang.LASTER,Tilgang.LASTER,Tilgang.LASTER,Tilgang.LASTER];
+            setTilgangsArray(tilgangsArray);
         }
-        hentInfoOgLoggInformasjon(org);
+
     };
+
+    useEffect(() => {
+        const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,orgMedIAFerdigLastet,tilgangTilArbeidsavtaler];
+        setTilgangsArray(tilgangsArray);
+
+    }, [tilgangTilSyfoState,tilgangTilPamState,orgMedIAFerdigLastet,tilgangTilArbeidsavtaler]);
 
     let defaultContext: Context = {
         antallAnnonser,
         endreOrganisasjon,
-        tilgangTilPamState,
-        tilgangTilArbeidsavtaler,
         valgtOrganisasjon,
         arbeidsavtaler,
-        tilgangTilSyfoState,
+        tilgangsArray
     };
 
     return (
