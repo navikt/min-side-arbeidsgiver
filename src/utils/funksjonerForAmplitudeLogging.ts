@@ -27,6 +27,5 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
     else {
         skalLogges +=" ikke-tilgang-arbeidstrening"
     }
-    console.log(skalLogges);
     amplitude.logEvent(skalLogges);
 };

@@ -48,7 +48,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [valgtOrganisasjon]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
-        settilgangTilPamState(Tilgang.LASTER);
         if (org) {
             await setValgtOrganisasjon(org);
             const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
@@ -59,8 +58,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
-            const tilgangsArray: Tilgang[] = [Tilgang.LASTER,Tilgang.LASTER,Tilgang.LASTER,Tilgang.LASTER];
-            setTilgangsArray(tilgangsArray);
         }
 
     };

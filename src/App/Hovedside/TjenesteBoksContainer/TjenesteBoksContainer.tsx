@@ -1,20 +1,20 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 
-import {SyfoTilgangContext} from '../../../SyfoTilgangProvider';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
+import {OrganisasjonsListeContext} from '../../../OrganisasjonsListeProvider';
 import './TjenesteBoksContainer.less';
+
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
-import {OrganisasjonsListeContext} from '../../../OrganisasjonsListeProvider';
+
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
 import {Tilgang} from '../../LoginBoundary';
 import {loggTilgangsKombinasjonAvTjenestebokser} from "../../../utils/funksjonerForAmplitudeLogging";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
-    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
     const {tilgangsArray,
         valgtOrganisasjon,
         arbeidsavtaler,
@@ -27,7 +27,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
     const [antallTjenester, setAntallTjenester] = useState(0);
     const [ferdigLastet, setFerdigLastet] = useState('laster');
+
     const [visIA, setVisIA] = useState(false);
+    const [visArbeidstrening, setVisArbeidstrening] = useState(false);
+    const [visSyfo, setVisSyfo] = useState(false);
+    const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
         let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
@@ -37,9 +41,26 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             setVisIA(false);
         }
         let tjenester: number = tilgangsArray.filter(tilgang => Tilgang.TILGANG).length;
-        if (arbeidsavtaler.length === 0) {
-            tjenester--;
+        if (arbeidsavtaler.length > 0) {
+            setVisArbeidstrening(true);
         }
+        else {
+            tjenester--;
+            setVisArbeidstrening(false)
+        }
+        if (tilgangsArray[0] === Tilgang.TILGANG) {
+            setVisSyfo(true);
+        }
+        else {
+            setVisSyfo(false);
+        }
+        if (tilgangsArray[1] === Tilgang.TILGANG) {
+            setVisPam(true);
+        }
+        else {
+            setVisPam(false);
+        }
+
         setAntallTjenester(tjenester);
     },
         [
@@ -50,7 +71,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     ]);
 
     useEffect(() => {
-        console.log(tilgangsArray);
         if (
             !tilgangsArray.includes(Tilgang.LASTER) ||
             ((!tilgangsArray.includes(Tilgang.LASTER)) && orgListeFerdigLastet !== Tilgang.LASTER &&
@@ -77,8 +97,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangsArray
     ]);
 
-
-
     return (
         <>
             {' '}
@@ -86,7 +104,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 {ferdigLastet === 'laster' && <LasterBoks />}
                 {ferdigLastet === 'ferdig' && (
                     <>
-                        {tilgangTilSyfoState === Tilgang.TILGANG && (
+                        {visSyfo && (
                             <Innholdsboks className={'tjenesteboks innholdsboks'}>
                                 <Syfoboks className={'syfoboks'} />
                             </Innholdsboks>
@@ -96,12 +114,12 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                                 <IAwebboks />
                             </div>
                         )}
-                        {tilgangsArray[1] === Tilgang.TILGANG && (
+                        {visPAM && (
                             <div className={'tjenesteboks innholdsboks'}>
                                 <Pamboks />
                             </div>
                         )}
-                        {arbeidsavtaler.length > 0 && (
+                        {visArbeidstrening && (
                             <div className={'tjenesteboks innholdsboks'}>
                                 <Arbeidstreningboks />
                             </div>
