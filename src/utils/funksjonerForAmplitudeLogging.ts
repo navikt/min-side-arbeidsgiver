@@ -22,7 +22,7 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
         skalLogges +=" ikke-tilgang-tilgang-IA";
     }
     if (tilgangsArray[3] === Tilgang.TILGANG) {
-        skalLogges += " tilgang-Arbei/dstrening"
+        skalLogges += " tilgang-Arbeidstrening"
     }
     else {
         skalLogges +=" ikke-tilgang-arbeidstrening"
