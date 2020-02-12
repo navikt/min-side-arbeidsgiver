@@ -228,12 +228,3 @@ export async function hentTiltaksgjennomforingTilgang(valgtOrganisasjon:Organisa
     }
     return [];
 }
-
-export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
-    let respons = await fetch(linkTilUnleash + '?feature=' + toggleNavn);
-    if (respons.ok) {
-        const unleashRespons: UnleashRespons = await respons.json();
-        return unleashRespons.tilgang;
-    }
-    return false;
-}

@@ -83,8 +83,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             loggTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
             setTimeout(function() {
                 setFerdigLastet('ferdig');
-                console.log("ferdig lastet satt")
-                console.log("typetall: ",antallTjenester);
             }, 300);
         }
     }, [
@@ -92,8 +90,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         organisasjonerMedIAFerdigLastet,
         tilgangsArray
     ]);
-
-    console.log(tilgangsArray);
 
     return (
         <>

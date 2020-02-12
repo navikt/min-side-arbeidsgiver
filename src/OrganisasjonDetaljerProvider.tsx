@@ -36,17 +36,18 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
-        const hentArbeidsavtaler = async () => {
-            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(valgtOrganisasjon);
-            setArbeidsavtaler(avtaler);
-            if (avtaler.length > 0) {
-                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-            } else {
-                setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-            }
-        };
-        hentArbeidsavtaler()
-
+        if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
+            const hentArbeidsavtaler = async () => {
+                const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(valgtOrganisasjon);
+                setArbeidsavtaler(avtaler);
+                if (avtaler.length > 0) {
+                    setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                } else {
+                    setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+                }
+            };
+            hentArbeidsavtaler()
+        }
     }, [valgtOrganisasjon]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
@@ -65,12 +66,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
             if (orgNrIAweb.includes(org.OrganizationNumber)) {
                 setTilgangTilIAWeb(Tilgang.TILGANG);
-                console.log("IA_web tilgang settes her ")
             }
             else {
                 setTilgangTilIAWeb(Tilgang.IKKE_TILGANG)
             }
-            console.log(orgNrIAweb);
         }
     };
 
