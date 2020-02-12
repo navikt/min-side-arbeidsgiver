@@ -65,10 +65,12 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     ]);
 
     useEffect(() => {
+        const antallTjenester: number = tilgangsArray.filter(tilgang => {
+            return tilgang === Tilgang.TILGANG;
+        }).length;
         if (
             !tilgangsArray.includes(Tilgang.LASTER))
         {
-            const antallTjenester: number = tilgangsArray.filter(tilgang => Tilgang.TILGANG).length;
             if (antallTjenester % 2 === 0) {
                 settypeAntall('antall-partall');
             }
