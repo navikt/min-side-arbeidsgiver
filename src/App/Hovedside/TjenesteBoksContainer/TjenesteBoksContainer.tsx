@@ -21,6 +21,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const {
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
+        organisasjoner
     } = useContext(OrganisasjonsListeContext);
     const [typeAntall, settypeAntall] = useState('');
     const [ferdigLastet, setFerdigLastet] = useState('laster');
@@ -96,7 +97,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             {' '}
             <div className={'tjenesteboks-container ' + typeAntall}>
                 {ferdigLastet === 'laster' && <LasterBoks />}
-                {ferdigLastet === 'ferdig' && (
+                {(ferdigLastet === 'ferdig' || (organisasjonslisteFerdigLastet && organisasjoner.length === 0 && tilgangsArray[0] !== Tilgang.LASTER)) && (
                     <>
                         {visSyfo && (
                             <Innholdsboks className={'tjenesteboks innholdsboks'}>
