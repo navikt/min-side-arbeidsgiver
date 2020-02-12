@@ -18,8 +18,8 @@ export type Context = {
     organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
-    orgListeFerdigLastet: Tilgang;
-    orgMedIAFerdigLastet: Tilgang;
+    organisasjonslisteFerdigLastet: Tilgang;
+    organisasjonerMedIAFerdigLastet: Tilgang;
     visFeilmelding:boolean;
 };
 
@@ -69,13 +69,13 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
-    const [orgListeFerdigLastet, setOrgListeFerdigLastet] = useState(Tilgang.LASTER);
-    const [orgMedIAFerdigLastet, setOrgMedIAFerdigLastet] = useState(Tilgang.LASTER);
+    const [organisasjonslisteFerdigLastet, setOrganisasjonslisteFerdigLastet] = useState(Tilgang.LASTER);
+    const [organisasjonerMedIAFerdigLastet, setOrganisasjonerMedIAFerdigLastet] = useState(Tilgang.LASTER);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
-            setOrgListeFerdigLastet(Tilgang.LASTER);
+            setOrganisasjonerMedIAFerdigLastet(Tilgang.LASTER);
             let organisasjonerRespons:Organisasjon[] =[];
             try {
                 organisasjonerRespons = await hentOrganisasjoner();
@@ -96,10 +96,10 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
                     organisasjonerRespons
                 );
-                setOrgListeFerdigLastet(Tilgang.TILGANG);
+                setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);
                 setorganisasjonstre(toDim);
             } else {
-                setOrgListeFerdigLastet(Tilgang.IKKE_TILGANG);
+                setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
             }
         };
         const getOrganisasjonerTilIAweb = async () => {
@@ -109,10 +109,10 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
-            if ((organisasjonerIAWEB.length = 0)) {
-                setOrgMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
+            if ((organisasjonerIAWEB.length === 0)) {
+                setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
             } else {
-                setOrgMedIAFerdigLastet(Tilgang.TILGANG);
+                setOrganisasjonerMedIAFerdigLastet(Tilgang.TILGANG);
             }
         };
         const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
@@ -130,14 +130,16 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonstre,
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
-        orgListeFerdigLastet,
-        orgMedIAFerdigLastet,
+        organisasjonerMedIAFerdigLastet,
+        organisasjonslisteFerdigLastet,
         visFeilmelding
     };
 
     return (
+        <>{organisasjonerMedIAFerdigLastet !== Tilgang.LASTER && organisasjonslisteFerdigLastet &&
         <OrganisasjonsListeContext.Provider value={defaultContext}>
             {props.children}
-        </OrganisasjonsListeContext.Provider>
+        </OrganisasjonsListeContext.Provider>}
+            </>
     );
 };

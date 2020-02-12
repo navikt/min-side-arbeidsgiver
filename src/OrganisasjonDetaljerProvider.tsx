@@ -23,14 +23,16 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const [antallAnnonser, setantallAnnonser] = useState(-1);
+
     const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
     const [tilgangTilArbeidsavtaler, setTilgangTilArbeidsavtaler] = useState(Tilgang.LASTER);
-
+    const [tilgangTilIAWeb, setTilgangTilIAWeb] = useState(Tilgang.LASTER);
+    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
+
     const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
-    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const { orgMedIAFerdigLastet} = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, organisasjoner} = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
@@ -49,6 +51,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
+            settilgangTilPamState(Tilgang.LASTER);
+            setTilgangTilIAWeb(Tilgang.LASTER);
             await setValgtOrganisasjon(org);
             const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
             if (harPamTilgang) {
@@ -58,15 +62,26 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
+            const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
+            if (orgNrIAweb.includes(org.OrganizationNumber)) {
+                setTilgangTilIAWeb(Tilgang.TILGANG);
+                console.log("IA_web tilgang settes her ")
+            }
+            else {
+                setTilgangTilIAWeb(Tilgang.IKKE_TILGANG)
+            }
+            console.log(orgNrIAweb);
         }
-
     };
 
     useEffect(() => {
-        const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,orgMedIAFerdigLastet,tilgangTilArbeidsavtaler];
+        const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,tilgangTilIAWeb,tilgangTilArbeidsavtaler];
         setTilgangsArray(tilgangsArray);
+        if (organisasjoner.length === 0) {
+            setTilgangsArray([tilgangTilSyfoState, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG, tilgangTilArbeidsavtaler])
+        }
 
-    }, [tilgangTilSyfoState,tilgangTilPamState,orgMedIAFerdigLastet,tilgangTilArbeidsavtaler]);
+    }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, organisasjoner]);
 
     let defaultContext: Context = {
         antallAnnonser,

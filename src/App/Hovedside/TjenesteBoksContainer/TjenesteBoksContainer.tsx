@@ -17,12 +17,10 @@ import {loggTilgangsKombinasjonAvTjenestebokser} from "../../../utils/funksjoner
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {tilgangsArray,
         valgtOrganisasjon,
-        arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
     const {
-        organisasjonerMedIAWEB,
-        orgListeFerdigLastet,
-        orgMedIAFerdigLastet,
+        organisasjonslisteFerdigLastet,
+        organisasjonerMedIAFerdigLastet,
     } = useContext(OrganisasjonsListeContext);
     const [typeAntall, settypeAntall] = useState('');
     const [antallTjenester, setAntallTjenester] = useState(0);
@@ -34,20 +32,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
-        let orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
-        if (orgNrIAweb.includes(valgtOrganisasjon.OrganizationNumber)) {
-            setVisIA(true);
-        } else {
-            setVisIA(false);
-        }
         let tjenester: number = tilgangsArray.filter(tilgang => Tilgang.TILGANG).length;
-        if (arbeidsavtaler.length > 0) {
-            setVisArbeidstrening(true);
-        }
-        else {
-            tjenester--;
-            setVisArbeidstrening(false)
-        }
         if (tilgangsArray[0] === Tilgang.TILGANG) {
             setVisSyfo(true);
         }
@@ -60,21 +45,29 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         else {
             setVisPam(false);
         }
+        if (tilgangsArray[2] === Tilgang.TILGANG) {
+            setVisIA(true);
+        }
+        else {
+            setVisIA(false)
+        }
+        if (tilgangsArray[3] === Tilgang.TILGANG) {
+            setVisArbeidstrening(true);
+        }
+        else {
+                setVisArbeidstrening(false)
+        }
 
         setAntallTjenester(tjenester);
     },
         [
         valgtOrganisasjon,
-        arbeidsavtaler,
-            tilgangsArray,
-            organisasjonerMedIAWEB
+            tilgangsArray
     ]);
 
     useEffect(() => {
         if (
-            !tilgangsArray.includes(Tilgang.LASTER) ||
-            ((tilgangsArray[0] !==Tilgang.LASTER) && orgListeFerdigLastet !== Tilgang.LASTER &&
-                orgMedIAFerdigLastet !== Tilgang.LASTER))
+            !tilgangsArray.includes(Tilgang.LASTER))
         {
             if (antallTjenester % 2 === 0) {
                 settypeAntall('antall-partall');
@@ -88,14 +81,17 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             loggTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
             setTimeout(function() {
                 setFerdigLastet('ferdig');
+                console.log("ferdig lastet satt")
             }, 300);
         }
     }, [
         antallTjenester,
-        orgListeFerdigLastet,
-        orgMedIAFerdigLastet,
+        organisasjonslisteFerdigLastet,
+        organisasjonerMedIAFerdigLastet,
         tilgangsArray
     ]);
+
+    console.log(tilgangsArray);
 
     return (
         <>
