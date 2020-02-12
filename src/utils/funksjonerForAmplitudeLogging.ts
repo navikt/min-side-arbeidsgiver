@@ -2,30 +2,19 @@ import amplitude from "../utils/amplitude";
 import {Tilgang} from "../App/LoginBoundary";
 
 export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]) => {
-    let skalLogges = "#min-side-arbeidsgiver ";
+    let skalLogges = "#min-side-arbeidsgiver";
     if (tilgangsArray[0] === Tilgang.TILGANG) {
-        skalLogges +="tilgang-syfo"
-    }
-    else {
-        skalLogges +="ikke-tilgang-syfo";
+        skalLogges +=" Syfo"
     }
     if (tilgangsArray[1] === Tilgang.TILGANG) {
-        skalLogges +=" tilgang-PAM"
+        skalLogges +=" PAM"
     }
-    else {
-        skalLogges += " ikke-tilgang-PAM";
-    }
+
     if (tilgangsArray[2] === Tilgang.TILGANG) {
-        skalLogges +=" tilgang-IA"
-    }
-    else {
-        skalLogges +=" ikke-tilgang-IA";
+        skalLogges +=" IA"
     }
     if (tilgangsArray[3] === Tilgang.TILGANG) {
-        skalLogges += " tilgang-Arbeidstrening"
-    }
-    else {
-        skalLogges +=" ikke-tilgang-Arbeidstrening"
+        skalLogges += " Arbeidstrening"
     }
     amplitude.logEvent(skalLogges);
 };
