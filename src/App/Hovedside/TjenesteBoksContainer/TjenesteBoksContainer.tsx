@@ -23,7 +23,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         organisasjonerMedIAFerdigLastet,
     } = useContext(OrganisasjonsListeContext);
     const [typeAntall, settypeAntall] = useState('');
-    const [antallTjenester, setAntallTjenester] = useState(0);
     const [ferdigLastet, setFerdigLastet] = useState('laster');
 
     const [visIA, setVisIA] = useState(false);
@@ -32,33 +31,32 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
-        let tjenester: number = tilgangsArray.filter(tilgang => Tilgang.TILGANG).length;
-        if (tilgangsArray[0] === Tilgang.TILGANG) {
-            setVisSyfo(true);
-        }
-        else {
-            setVisSyfo(false);
-        }
-        if (tilgangsArray[1] === Tilgang.TILGANG) {
-            setVisPam(true);
-        }
-        else {
-            setVisPam(false);
-        }
-        if (tilgangsArray[2] === Tilgang.TILGANG) {
-            setVisIA(true);
-        }
-        else {
-            setVisIA(false)
-        }
-        if (tilgangsArray[3] === Tilgang.TILGANG) {
-            setVisArbeidstrening(true);
-        }
-        else {
+        if (!tilgangsArray.includes(Tilgang.LASTER)) {
+            if (tilgangsArray[0] === Tilgang.TILGANG) {
+                setVisSyfo(true);
+            }
+            else {
+                setVisSyfo(false);
+            }
+            if (tilgangsArray[1] === Tilgang.TILGANG) {
+                setVisPam(true);
+            }
+            else {
+                setVisPam(false);
+            }
+            if (tilgangsArray[2] === Tilgang.TILGANG) {
+                setVisIA(true);
+            }
+            else {
+                setVisIA(false)
+            }
+            if (tilgangsArray[3] === Tilgang.TILGANG) {
+                setVisArbeidstrening(true);
+            }
+            else {
                 setVisArbeidstrening(false)
+            }
         }
-
-        setAntallTjenester(tjenester);
     },
         [
         valgtOrganisasjon,
@@ -69,6 +67,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         if (
             !tilgangsArray.includes(Tilgang.LASTER))
         {
+            const antallTjenester: number = tilgangsArray.filter(tilgang => Tilgang.TILGANG).length;
             if (antallTjenester % 2 === 0) {
                 settypeAntall('antall-partall');
             }
@@ -82,10 +81,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             setTimeout(function() {
                 setFerdigLastet('ferdig');
                 console.log("ferdig lastet satt")
+                console.log("typetall: ",antallTjenester);
             }, 300);
         }
     }, [
-        antallTjenester,
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
         tilgangsArray
