@@ -77,7 +77,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,tilgangTilIAWeb,tilgangTilArbeidsavtaler];
         setTilgangsArray(tilgangsArray);
         if (organisasjoner.length === 0) {
-            setTilgangsArray([tilgangTilSyfoState, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG, tilgangTilArbeidsavtaler])
+            setTilgangsArray([tilgangTilSyfoState, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG])
         }
 
     }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, organisasjoner]);
