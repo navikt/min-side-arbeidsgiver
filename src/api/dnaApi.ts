@@ -217,13 +217,17 @@ export async function hentSyfoTilgang(): Promise<boolean> {
             logInfo('har syfotilgang');
             return true;
         }
-        return false
+        return false;
     }
     throw new Error('Feil ved kontakt mot baksystem.');
 }
 
-export async function hentTiltaksgjennomforingTilgang(valgtOrganisasjon:Organisasjon): Promise<Array<Arbeidsavtale>> {
-    let respons = await fetch(hentArbeidsavtalerApiLink()+"&bedriftNr="+valgtOrganisasjon.OrganizationNumber);
+export async function hentTiltaksgjennomforingTilgang(
+    valgtOrganisasjon: Organisasjon
+): Promise<Array<Arbeidsavtale>> {
+    let respons = await fetch(
+        hentArbeidsavtalerApiLink() + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber
+    );
     if (respons.ok) {
         const avtaler: Array<Arbeidsavtale> = await respons.json();
         return avtaler;

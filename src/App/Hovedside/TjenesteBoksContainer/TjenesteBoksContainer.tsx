@@ -20,11 +20,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangTilArbeidsavtaler,
         arbeidsavtaler,
     } = useContext(OrganisasjonsDetaljerContext);
-    const {
-        organisasjonerMedIAWEB,
-        orgListeFerdigLastet,
-        orgMedIAFerdigLastet,
-    } = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, orgListeFerdigLastet, orgMedIAFerdigLastet } = useContext(
+        OrganisasjonsListeContext
+    );
     const [typeAntall, settypeAntall] = useState('');
     const [antallTjenester, setAntallTjenester] = useState(0);
     const [ferdigLastet, setFerdigLastet] = useState('laster');

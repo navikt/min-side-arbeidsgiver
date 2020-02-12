@@ -1,11 +1,11 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import {
     Organisasjon,
     tomAltinnOrganisasjon,
 } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import {Arbeidsavtale, hentTiltaksgjennomforingTilgang} from './api/dnaApi';
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { hentInfoOgLoggInformasjon } from './funksjonerForLogging';
@@ -41,7 +41,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         const hentArbeidsavtaler = async () => {
-            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(valgtOrganisasjon);
+            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
+                valgtOrganisasjon
+            );
             setArbeidsavtaler(avtaler);
             if (avtaler.length > 0) {
                 setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
@@ -49,8 +51,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
             }
         };
-        hentArbeidsavtaler()
-
+        hentArbeidsavtaler();
     }, [valgtOrganisasjon]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {

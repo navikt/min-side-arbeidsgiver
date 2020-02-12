@@ -20,7 +20,7 @@ export type Context = {
     organisasjonerMedIAWEB: Organisasjon[];
     orgListeFerdigLastet: Tilgang;
     orgMedIAFerdigLastet: Tilgang;
-    visFeilmelding:boolean;
+    visFeilmelding: boolean;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -76,14 +76,13 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     useEffect(() => {
         const getOrganisasjoner = async () => {
             setOrgListeFerdigLastet(Tilgang.LASTER);
-            let organisasjonerRespons:Organisasjon[] =[];
+            let organisasjonerRespons: Organisasjon[] = [];
             try {
                 organisasjonerRespons = await hentOrganisasjoner();
+            } catch (e) {
+                organisasjonerRespons = [];
+                setVisFeilmelding(true);
             }
-    catch(e){
-            organisasjonerRespons = [];
-            setVisFeilmelding(true);
-        }
             if (organisasjonerRespons.length > 0) {
                 setOrganisasjoner(
                     organisasjonerRespons.filter((organisasjon: Organisasjon) => {
@@ -132,7 +131,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonerMedIAWEB,
         orgListeFerdigLastet,
         orgMedIAFerdigLastet,
-        visFeilmelding
+        visFeilmelding,
     };
 
     return (

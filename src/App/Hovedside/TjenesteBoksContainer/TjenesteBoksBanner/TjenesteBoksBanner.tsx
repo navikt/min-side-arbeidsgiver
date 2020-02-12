@@ -1,4 +1,4 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import './TjenesteBoksBanner.less';
 import ReactTooltip from 'react-tooltip';
@@ -10,13 +10,13 @@ interface Props {
     altTekst: string;
     antallVarsler?: number;
     toolTipext?: FunctionComponent;
-    VisOppgaveFeilmelding?:boolean;
+    VisOppgaveFeilmelding?: boolean;
 }
 interface VarselProps {
     className?: string;
     antallVarsler?: number;
     toolTipext?: FunctionComponent;
-    VisOppgaveFeilmelding?:boolean;
+    VisOppgaveFeilmelding?: boolean;
 }
 
 const tooltip: FunctionComponent<VarselProps> = props => {
@@ -29,25 +29,27 @@ const tooltip: FunctionComponent<VarselProps> = props => {
     );
 };
 
-const VarselSirkel:FunctionComponent<VarselProps> = props => {
+const VarselSirkel: FunctionComponent<VarselProps> = props => {
     return (
         <>
-        {props.antallVarsler! > 0 && (
-        <span className={'tjeneste-boks-banner__varselsirkel'}>
+            {props.antallVarsler! > 0 && (
+                <span className={'tjeneste-boks-banner__varselsirkel'}>
                     <Element data-tip data-for="tooltip" className={'tjeneste-boks-banner__varsel'}>
                         {props.antallVarsler}
                     </Element>
-            {tooltip(props)}
-        </span>
-        )}
-            {props.VisOppgaveFeilmelding &&(     <span className={'tjeneste-boks-banner__feil'}>
+                    {tooltip(props)}
+                </span>
+            )}
+            {props.VisOppgaveFeilmelding && (
+                <span className={'tjeneste-boks-banner__feil'}>
                     <Element data-tip data-for="tooltip" className={'tjeneste-boks-banner__varsel'}>
                         !
                     </Element>
-                {tooltip(props)}
-        </span>)}
+                    {tooltip(props)}
+                </span>
+            )}
         </>
-    )
+    );
 };
 
 const TjenesteBoksBanner: FunctionComponent<Props> = props => {
@@ -59,7 +61,12 @@ const TjenesteBoksBanner: FunctionComponent<Props> = props => {
                 alt={props.altTekst}
             />
             <Undertittel className={'tjeneste-boks-banner__tittel'}>{props.tittel}</Undertittel>
-            <VarselSirkel antallVarsler={props.antallVarsler} toolTipext={props.toolTipext} className={props.className} VisOppgaveFeilmelding={props.VisOppgaveFeilmelding}/>
+            <VarselSirkel
+                antallVarsler={props.antallVarsler}
+                toolTipext={props.toolTipext}
+                className={props.className}
+                VisOppgaveFeilmelding={props.VisOppgaveFeilmelding}
+            />
         </div>
     );
 };
