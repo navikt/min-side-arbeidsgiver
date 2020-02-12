@@ -3,7 +3,7 @@ import {
     JuridiskEnhetMedUnderEnheterArray,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
+import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink} from '../lenker';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 
