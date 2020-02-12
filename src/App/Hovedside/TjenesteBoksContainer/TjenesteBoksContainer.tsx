@@ -32,7 +32,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
-            setFerdigLastet('laster');
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
             if (tilgangsArray[0] === Tilgang.TILGANG) {
                 setVisSyfo(true);
@@ -66,6 +65,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     ]);
 
     useEffect(() => {
+        setFerdigLastet('laster');
+        console.log("obs loop");
         const antallTjenester: number = tilgangsArray.filter(tilgang => {
             return tilgang === Tilgang.TILGANG;
         }).length;
@@ -86,6 +87,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 setFerdigLastet('ferdig');
             }, 300);
         }
+        if ((organisasjonslisteFerdigLastet && organisasjoner.length === 0 && tilgangsArray[0] !== Tilgang.LASTER)) {
+            setFerdigLastet('ferdig');
+        }
     }, [
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
@@ -97,7 +101,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             {' '}
             <div className={'tjenesteboks-container ' + typeAntall}>
                 {ferdigLastet === 'laster' && <LasterBoks />}
-                {(ferdigLastet === 'ferdig' || (organisasjonslisteFerdigLastet && organisasjoner.length === 0 && tilgangsArray[0] !== Tilgang.LASTER)) && (
+                {(ferdigLastet === 'ferdig') && (
                     <>
                         {visSyfo && (
                             <Innholdsboks className={'tjenesteboks innholdsboks'}>
