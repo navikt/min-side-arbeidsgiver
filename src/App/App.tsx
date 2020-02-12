@@ -10,11 +10,11 @@ import { OrganisasjonsDetaljerProvider } from '../OrganisasjonDetaljerProvider';
 import { SyfoTilgangProvider } from '../SyfoTilgangProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
-import environment from "../utils/environment";
-import amplitude from "../utils/amplitude";
+import environment from '../utils/environment';
+import amplitude from '../utils/amplitude';
 
 const App: FunctionComponent = () => {
-    amplitude.logEvent(" #min-side-arbeidsgiver logget pa i " + environment.MILJO);
+    amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
 
     return (
         <div className="typo-normal">

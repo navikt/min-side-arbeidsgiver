@@ -20,7 +20,7 @@ export type Context = {
     organisasjonerMedIAWEB: Organisasjon[];
     organisasjonslisteFerdigLastet: Tilgang;
     organisasjonerMedIAFerdigLastet: Tilgang;
-    visFeilmelding:boolean;
+    visFeilmelding: boolean;
 };
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -69,21 +69,24 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
     );
-    const [organisasjonslisteFerdigLastet, setOrganisasjonslisteFerdigLastet] = useState(Tilgang.LASTER);
-    const [organisasjonerMedIAFerdigLastet, setOrganisasjonerMedIAFerdigLastet] = useState(Tilgang.LASTER);
+    const [organisasjonslisteFerdigLastet, setOrganisasjonslisteFerdigLastet] = useState(
+        Tilgang.LASTER
+    );
+    const [organisasjonerMedIAFerdigLastet, setOrganisasjonerMedIAFerdigLastet] = useState(
+        Tilgang.LASTER
+    );
     const [visFeilmelding, setVisFeilmelding] = useState(false);
 
     useEffect(() => {
         const getOrganisasjoner = async () => {
             setOrganisasjonerMedIAFerdigLastet(Tilgang.LASTER);
-            let organisasjonerRespons:Organisasjon[] =[];
+            let organisasjonerRespons: Organisasjon[] = [];
             try {
                 organisasjonerRespons = await hentOrganisasjoner();
+            } catch (e) {
+                organisasjonerRespons = [];
+                setVisFeilmelding(true);
             }
-    catch(e){
-            organisasjonerRespons = [];
-            setVisFeilmelding(true);
-        }
             if (organisasjonerRespons.length > 0) {
                 setOrganisasjoner(
                     organisasjonerRespons.filter((organisasjon: Organisasjon) => {
@@ -109,7 +112,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
-            if ((organisasjonerIAWEB.length === 0)) {
+            if (organisasjonerIAWEB.length === 0) {
                 setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
             } else {
                 setOrganisasjonerMedIAFerdigLastet(Tilgang.TILGANG);
@@ -132,14 +135,17 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonerMedIAWEB,
         organisasjonerMedIAFerdigLastet,
         organisasjonslisteFerdigLastet,
-        visFeilmelding
+        visFeilmelding,
     };
 
     return (
-        <>{organisasjonerMedIAFerdigLastet !== Tilgang.LASTER && organisasjonslisteFerdigLastet &&
-        <OrganisasjonsListeContext.Provider value={defaultContext}>
-            {props.children}
-        </OrganisasjonsListeContext.Provider>}
-            </>
+        <>
+            {organisasjonerMedIAFerdigLastet !== Tilgang.LASTER &&
+                organisasjonslisteFerdigLastet && (
+                    <OrganisasjonsListeContext.Provider value={defaultContext}>
+                        {props.children}
+                    </OrganisasjonsListeContext.Provider>
+                )}
+        </>
     );
 };

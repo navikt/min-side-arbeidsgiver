@@ -1,11 +1,14 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {Organisasjon, tomAltinnOrganisasjon,} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import {
+    Organisasjon,
+    tomAltinnOrganisasjon,
+} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import {Arbeidsavtale, hentTiltaksgjennomforingTilgang} from './api/dnaApi';
-import {SyfoTilgangContext} from './SyfoTilgangProvider';
-import {Tilgang} from './App/LoginBoundary';
-import {OrganisasjonsListeContext} from "./OrganisasjonsListeProvider";
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
+import { SyfoTilgangContext } from './SyfoTilgangProvider';
+import { Tilgang } from './App/LoginBoundary';
+import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 
 interface Props {
     children: React.ReactNode;
@@ -32,13 +35,15 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
 
     const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
-    const { organisasjonerMedIAWEB, organisasjoner} = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, organisasjoner } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
             const hentArbeidsavtaler = async () => {
-                const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(valgtOrganisasjon);
+                const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
+                    valgtOrganisasjon
+                );
                 setArbeidsavtaler(avtaler);
                 if (avtaler.length > 0) {
                     setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
@@ -46,7 +51,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                     setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
                 }
             };
-            hentArbeidsavtaler()
+            hentArbeidsavtaler();
         }
     }, [valgtOrganisasjon]);
 
@@ -66,28 +71,42 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
             if (orgNrIAweb.includes(org.OrganizationNumber)) {
                 setTilgangTilIAWeb(Tilgang.TILGANG);
-            }
-            else {
-                setTilgangTilIAWeb(Tilgang.IKKE_TILGANG)
+            } else {
+                setTilgangTilIAWeb(Tilgang.IKKE_TILGANG);
             }
         }
     };
 
     useEffect(() => {
-        const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,tilgangTilIAWeb,tilgangTilArbeidsavtaler];
+        const tilgangsArray: Tilgang[] = [
+            tilgangTilSyfoState,
+            tilgangTilPamState,
+            tilgangTilIAWeb,
+            tilgangTilArbeidsavtaler,
+        ];
         setTilgangsArray(tilgangsArray);
         if (organisasjoner.length === 0) {
-            setTilgangsArray([tilgangTilSyfoState, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG])
+            setTilgangsArray([
+                tilgangTilSyfoState,
+                Tilgang.IKKE_TILGANG,
+                Tilgang.IKKE_TILGANG,
+                Tilgang.IKKE_TILGANG,
+            ]);
         }
-
-    }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, organisasjoner]);
+    }, [
+        tilgangTilSyfoState,
+        tilgangTilPamState,
+        tilgangTilIAWeb,
+        tilgangTilArbeidsavtaler,
+        organisasjoner,
+    ]);
 
     let defaultContext: Context = {
         antallAnnonser,
         endreOrganisasjon,
         valgtOrganisasjon,
         arbeidsavtaler,
-        tilgangsArray
+        tilgangsArray,
     };
 
     return (

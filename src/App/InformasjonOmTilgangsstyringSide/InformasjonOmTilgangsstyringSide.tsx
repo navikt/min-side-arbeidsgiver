@@ -69,10 +69,11 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
                             Les om digitale tiltakssøknader
                         </Lenke>
-                    </Ekspanderbartpanel>             
+                    </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Tilskuddsbrev for NAV-tiltak" border>
                         <Normaltekst>
-                            For å få tilgang til digitale tilskuddsbrev om NAV-tiltak må du ha en av disse lederrollene i Altinn:
+                            For å få tilgang til digitale tilskuddsbrev om NAV-tiltak må du ha en av
+                            disse lederrollene i Altinn:
                         </Normaltekst>
                         <ul>
                             <li>daglig leder/administrerende direktør</li>
@@ -86,7 +87,8 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>bostyrer</li>
                         </ul>
                         <Normaltekst>
-                            Enkeltansatte får tilgang ved å bli tildelt enkeltrettigheten: <b>Tilskuddsbrev NAV-tiltak</b>
+                            Enkeltansatte får tilgang ved å bli tildelt enkeltrettigheten:{' '}
+                            <b>Tilskuddsbrev NAV-tiltak</b>
                         </Normaltekst>
                         <br />
                         <Normaltekst>
@@ -106,7 +108,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>Enkeltplass Fag og yrkesopplæring</li>
                             <li>Gruppe Fag og yrkesopplæring</li>
                             <li>Enkeltplass arbeidsmarkedsopplæring</li>
-                        </ul>             
+                        </ul>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
                         For å få tilgang til digital inntektsmelding må du ha en av Altinn-rollene
