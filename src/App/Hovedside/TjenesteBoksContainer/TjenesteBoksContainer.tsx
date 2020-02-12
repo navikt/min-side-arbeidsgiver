@@ -73,7 +73,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     useEffect(() => {
         if (
             !tilgangsArray.includes(Tilgang.LASTER) ||
-            ((!tilgangsArray.includes(Tilgang.LASTER)) && orgListeFerdigLastet !== Tilgang.LASTER &&
+            ((tilgangsArray[0] !==Tilgang.LASTER) && orgListeFerdigLastet !== Tilgang.LASTER &&
                 orgMedIAFerdigLastet !== Tilgang.LASTER))
         {
             if (antallTjenester % 2 === 0) {
