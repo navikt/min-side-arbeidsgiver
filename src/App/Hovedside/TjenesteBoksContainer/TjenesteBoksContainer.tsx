@@ -93,7 +93,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     }, [
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
-        tilgangsArray
+        tilgangsArray, organisasjoner
     ]);
 
     return (
