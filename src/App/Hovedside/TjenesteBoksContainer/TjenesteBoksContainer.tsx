@@ -31,6 +31,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
+            setFerdigLastet('laster');
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
             if (tilgangsArray[0] === Tilgang.TILGANG) {
                 setVisSyfo(true);
