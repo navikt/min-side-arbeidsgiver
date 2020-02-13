@@ -32,7 +32,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
-        console.log("andre useEffect");
+        console.log(" forste useEffect");
             setFerdigLastet('laster');
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
             if (tilgangsArray[0] === Tilgang.TILGANG) {
