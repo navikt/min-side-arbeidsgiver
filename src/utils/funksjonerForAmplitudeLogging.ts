@@ -17,5 +17,5 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
         skalLogges += " Arbeidstrening"
     }
     amplitude.logEvent(skalLogges);
-    console.log("amplitude - logging kallt");
+    console.log("amplitude - logging kallt", skalLogges);
 };

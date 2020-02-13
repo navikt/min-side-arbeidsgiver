@@ -88,18 +88,24 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setOrganisasjoner(
                     organisasjonerRespons.filter((organisasjon: Organisasjon) => {
                         return (
-                            organisasjon.OrganizationForm === 'BEDR' &&
-                            organisasjon.ParentOrganizationNumber
+                            ((organisasjon.OrganizationForm === 'BEDR' &&
+                            organisasjon.ParentOrganizationNumber) || organisasjon.Type === 'Enterprise')
                         );
                     })
                 );
                 const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                    organisasjonerRespons
+                    organisasjonerRespons.filter((organisasjon: Organisasjon) => {
+                        return (
+                            ((organisasjon.OrganizationForm === 'BEDR' &&
+                                organisasjon.ParentOrganizationNumber) || organisasjon.Type === 'Enterprise')
+                        );
+                    })
                 );
                 setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);
                 setorganisasjonstre(toDim);
             } else {
                 setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
+                setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
             }
         };
         const getOrganisasjonerTilIAweb = async () => {
@@ -123,6 +129,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         getOrganisasjoner();
         finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
         getOrganisasjonerTilIAweb();
+
     }, []);
 
     let defaultContext: Context = {

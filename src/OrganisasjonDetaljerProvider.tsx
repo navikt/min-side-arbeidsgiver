@@ -32,7 +32,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
 
     const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
-    const { organisasjonerMedIAWEB, organisasjoner} = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, organisasjoner, organisasjonslisteFerdigLastet, organisasjonerMedIAFerdigLastet} = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
@@ -63,12 +63,14 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
-            const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
-            if (orgNrIAweb.includes(org.OrganizationNumber)) {
-                setTilgangTilIAWeb(Tilgang.TILGANG);
-            }
-            else {
-                setTilgangTilIAWeb(Tilgang.IKKE_TILGANG)
+            if (organisasjonerMedIAFerdigLastet){
+                const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(org => org.OrganizationNumber);
+                if (orgNrIAweb.includes(org.OrganizationNumber)) {
+                    setTilgangTilIAWeb(Tilgang.TILGANG);
+                }
+                else {
+                    setTilgangTilIAWeb(Tilgang.IKKE_TILGANG)
+                }
             }
         }
     };
@@ -76,11 +78,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     useEffect(() => {
         const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,tilgangTilIAWeb,tilgangTilArbeidsavtaler];
         setTilgangsArray(tilgangsArray);
-        if (organisasjoner.length === 0) {
+        if (organisasjoner.length === 0 && organisasjonslisteFerdigLastet) {
             setTilgangsArray([tilgangTilSyfoState, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG])
         }
 
-    }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, organisasjoner]);
+    }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, organisasjoner, organisasjonslisteFerdigLastet]);
 
     let defaultContext: Context = {
         antallAnnonser,

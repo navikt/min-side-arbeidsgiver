@@ -87,15 +87,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 setFerdigLastet('ferdig');
             }, 300);
         }
-        console.log(tilgangsArray, organisasjoner, organisasjonslisteFerdigLastet);
-        if ((organisasjonslisteFerdigLastet && organisasjoner.length === 0 && tilgangsArray[0] !== Tilgang.LASTER)) {
-            setFerdigLastet('ferdig');
-        }
     }, [
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
         tilgangsArray, organisasjoner
     ]);
+
+    console.log(tilgangsArray)
 
     return (
         <>
