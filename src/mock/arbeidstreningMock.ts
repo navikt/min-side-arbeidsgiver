@@ -191,5 +191,4 @@ const gammelarbeidstreningsmock = [
     },
 ];
 
-
-fetchMock.get("begin:"+hentArbeidsavtalerApiLink(), gammelarbeidstreningsmock);
+fetchMock.get('begin:' + hentArbeidsavtalerApiLink(), gammelarbeidstreningsmock);

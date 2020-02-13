@@ -56,12 +56,14 @@ const oppgaverespons = [
         oppgavetype: 'Sykepengesøknad',
         ressursId: '12355321,',
         ressurseier: '123521',
-    }
+    },
 ];
 
 fetchMock
-    .get('/min-side-arbeidsgiver/api/syfooppgaver', delay.then(() => {
-        return oppgaverespons;
-    }))
+    .get(
+        '/min-side-arbeidsgiver/api/syfooppgaver',
+        delay.then(() => {
+            return oppgaverespons;
+        })
+    )
     .spy();
-
