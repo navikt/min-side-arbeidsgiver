@@ -6,6 +6,7 @@ import './IAwebboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
 import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
+import {loggTjenesteTrykketPa} from "../../../../utils/funksjonerForAmplitudeLogging";
 
 interface Props {
     varseltekst?: string;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 const loggAtKlikketPaIAeb = () => {
-    //loggNavigasjonTilTjeneste('IA-web');
+    loggTjenesteTrykketPa("IA");
 };
 
 const IAwebboks: FunctionComponent<Props> = props => {

@@ -19,3 +19,9 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
     amplitude.logEvent(skalLogges);
     console.log("amplitude - logging kallt", skalLogges);
 };
+
+export const loggTjenesteTrykketPa = (tjeneste: string) => {
+    const skalLogges = "#min-side-arbeidsgiver " + tjeneste + " trykket pa";
+    amplitude.logEvent(skalLogges);
+    console.log("amplitude - logging kallt", skalLogges);
+};
