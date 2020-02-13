@@ -4,9 +4,12 @@ import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
 import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import {OrganisasjonsDetaljerContext, OrganisasjonsDetaljerProvider} from "../../../OrganisasjonDetaljerProvider";
+import {tomAltinnOrganisasjon} from "../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn";
 
 const NyttigForDegContainer: FunctionComponent = () => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [antallBokser, setAntallBokser] = useState('to');
 
     useEffect(() => {
@@ -18,7 +21,7 @@ const NyttigForDegContainer: FunctionComponent = () => {
     return (
         <div className={'nyttig-for-deg'}>
             <div className={'nyttig-for-deg__bokser'}>
-                {organisasjoner.length > 0 && (
+                {valgtOrganisasjon !== tomAltinnOrganisasjon && (
                     <div className={'nyttig-for-deg__boks-' + antallBokser}>
                         <Bedriftsinfoknapp />
                     </div>
