@@ -8,8 +8,8 @@ export interface Context {
     tilgangTilSyfoState: Tilgang;
     syfoOppgaverState: Array<SyfoOppgave>;
     syfoAnsatteState: number;
-    visSyfoFeilmelding:boolean;
-    visSyfoOppgaveFeilmelding:boolean;
+    visSyfoFeilmelding: boolean;
+    visSyfoOppgaveFeilmelding: boolean;
 }
 
 const SyfoTilgangContext = React.createContext<Context>({} as Context);
@@ -19,24 +19,24 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
     const [tilgangTilSyfoState, setTilgangTilSyfoState] = useState(Tilgang.LASTER);
     const [syfoOppgaverState, setSyfoOppgaverState] = useState(Array<SyfoOppgave>());
     const [syfoAnsatteState, setSyfoAnsatteState] = useState(0);
-    const [visSyfoFeilmelding,setVisSyfoFeilmelding] = useState(false);
+    const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visSyfoOppgaveFeilmelding, setVisSyfoOppgaveFeilmelding] = useState(false);
     useEffect(() => {
         setTilgangTilSyfoState(Tilgang.LASTER);
         let tilgangSyfoRespons = false;
         const getSyfoTilganger = async () => {
-            try{
-             tilgangSyfoRespons = await hentSyfoTilgang();
-            }catch(e){
+            try {
+                tilgangSyfoRespons = await hentSyfoTilgang();
+            } catch (e) {
                 setVisSyfoFeilmelding(true);
-                tilgangSyfoRespons=false;
+                tilgangSyfoRespons = false;
+                setTilgangTilSyfoState(Tilgang.IKKE_TILGANG);
             }
             if (tilgangSyfoRespons) {
                 setTilgangTilSyfoState(Tilgang.TILGANG);
                 try {
                     setSyfoOppgaverState(await hentSyfoOppgaver());
-                }
-                catch(e){
+                } catch (e) {
                     setVisSyfoOppgaveFeilmelding(true);
                 }
                 const syfoAnsatteArray = await hentNarmesteAnsate();
@@ -53,7 +53,7 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
         syfoOppgaverState,
         syfoAnsatteState,
         visSyfoFeilmelding,
-        visSyfoOppgaveFeilmelding
+        visSyfoOppgaveFeilmelding,
     };
 
     return (

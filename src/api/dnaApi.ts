@@ -3,8 +3,7 @@ import {
     JuridiskEnhetMedUnderEnheterArray,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, linkTilUnleash } from '../lenker';
-import { logInfo } from '../utils/metricsUtils';
+import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 
@@ -214,28 +213,22 @@ export async function hentSyfoTilgang(): Promise<boolean> {
     if (respons.ok) {
         const syfoTilgang: SyfoKallObjekt = await respons.json();
         if (syfoTilgang.tilgang) {
-            logInfo('har syfotilgang');
             return true;
         }
-        return false
+        return false;
     }
     throw new Error('Feil ved kontakt mot baksystem.');
 }
 
-export async function hentTiltaksgjennomforingTilgang(valgtOrganisasjon:Organisasjon): Promise<Array<Arbeidsavtale>> {
-    let respons = await fetch(hentArbeidsavtalerApiLink()+"&bedriftNr="+valgtOrganisasjon.OrganizationNumber);
+export async function hentTiltaksgjennomforingTilgang(
+    valgtOrganisasjon: Organisasjon
+): Promise<Array<Arbeidsavtale>> {
+    let respons = await fetch(
+        hentArbeidsavtalerApiLink() + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber
+    );
     if (respons.ok) {
         const avtaler: Array<Arbeidsavtale> = await respons.json();
         return avtaler;
     }
     return [];
-}
-
-export async function hentMenuToggle(toggleNavn: string): Promise<boolean> {
-    let respons = await fetch(linkTilUnleash + '?feature=' + toggleNavn);
-    if (respons.ok) {
-        const unleashRespons: UnleashRespons = await respons.json();
-        return unleashRespons.tilgang;
-    }
-    return false;
 }

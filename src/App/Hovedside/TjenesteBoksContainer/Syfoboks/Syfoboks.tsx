@@ -6,7 +6,6 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { syfoLink } from '../../../../lenker';
 import { SyfoTilgangContext } from '../../../../SyfoTilgangProvider';
 import { SyfoOppgave } from '../../../../Objekter/syfoOppgaver';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 interface Props {
     varseltekst?: string;
@@ -41,23 +40,28 @@ const LagSykemeldingsVarselTekst = (antall: number): string => {
 
 const Syfoboks: FunctionComponent<Props> = props => {
     const { syfoOppgaverState } = useContext(SyfoTilgangContext);
-    const { syfoAnsatteState,visSyfoOppgaveFeilmelding } = useContext(SyfoTilgangContext);
+    const { syfoAnsatteState, visSyfoOppgaveFeilmelding } = useContext(SyfoTilgangContext);
 
     const loggAtKlikketPaSyfo = () => {
-        loggNavigasjonTilTjeneste('Syfo');
+        //loggNavigasjonTilTjeneste('Syfo');
     };
 
     const tooltipText: FunctionComponent<Props> = () => {
         const antallSykemeldingsvarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykemelding');
         const antallSoknadsVarsler = tellTypeOppgaver(syfoOppgaverState, 'Sykepengesøknad');
-        if(visSyfoOppgaveFeilmelding){
+        if (visSyfoOppgaveFeilmelding) {
             return (
                 <>
-            <div>
-               Kan ikke hente oppgaver fra Dine sykemeldte. Vi jobber med å løse problemet.
-            </div>
-            <div>Dersom du vet du har oppgaver som må utføres, kan du fortsatt gå inn på Dine sykemeldte</div>
-                    </>)}
+                    <div>
+                        Kan ikke hente oppgaver fra Dine sykemeldte. Vi jobber med å løse problemet.
+                    </div>
+                    <div>
+                        Dersom du vet du har oppgaver som må utføres, kan du fortsatt gå inn på Dine
+                        sykemeldte
+                    </div>
+                </>
+            );
+        }
         return (
             <div>
                 <div>{LagSykemeldingsVarselTekst(antallSykemeldingsvarsler)}</div>

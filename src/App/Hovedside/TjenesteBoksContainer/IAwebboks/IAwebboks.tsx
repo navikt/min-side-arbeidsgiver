@@ -5,7 +5,6 @@ import './IAwebboks.less';
 
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
 
 interface Props {
@@ -14,7 +13,7 @@ interface Props {
 }
 
 const loggAtKlikketPaIAeb = () => {
-    loggNavigasjonTilTjeneste('IA-web');
+    //loggNavigasjonTilTjeneste('IA-web');
 };
 
 const IAwebboks: FunctionComponent<Props> = props => {
