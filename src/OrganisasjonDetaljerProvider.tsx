@@ -32,7 +32,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
 
     const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
-    const { organisasjonerMedIAWEB, organisasjoner, organisasjonslisteFerdigLastet, organisasjonerMedIAFerdigLastet} = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, organisasjonslisteFerdigLastet, organisasjonerMedIAFerdigLastet} = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
@@ -78,11 +78,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     useEffect(() => {
         const tilgangsArray: Tilgang[] = [tilgangTilSyfoState,tilgangTilPamState,tilgangTilIAWeb,tilgangTilArbeidsavtaler];
         setTilgangsArray(tilgangsArray);
-        if (organisasjoner.length === 0 && organisasjonslisteFerdigLastet) {
+        if (valgtOrganisasjon === tomAltinnOrganisasjon && organisasjonslisteFerdigLastet) {
             setTilgangsArray([tilgangTilSyfoState, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG, Tilgang.IKKE_TILGANG])
         }
 
-    }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, organisasjoner, organisasjonslisteFerdigLastet]);
+    }, [tilgangTilSyfoState,tilgangTilPamState, tilgangTilIAWeb, tilgangTilArbeidsavtaler, valgtOrganisasjon, organisasjonslisteFerdigLastet]);
 
     let defaultContext: Context = {
         antallAnnonser,
