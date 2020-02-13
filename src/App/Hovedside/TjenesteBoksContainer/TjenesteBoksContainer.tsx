@@ -32,6 +32,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
+        console.log("andre useEffect");
+            setFerdigLastet('laster');
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
             if (tilgangsArray[0] === Tilgang.TILGANG) {
                 setVisSyfo(true);
@@ -65,8 +67,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     ]);
 
     useEffect(() => {
-        setFerdigLastet('laster');
-        console.log("obs loop");
+        console.log("andre useEffect");
         const antallTjenester: number = tilgangsArray.filter(tilgang => {
             return tilgang === Tilgang.TILGANG;
         }).length;
@@ -83,9 +84,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                 settypeAntall('antall-en');
             }
             loggTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
-            setTimeout(function() {
-                setFerdigLastet('ferdig');
-            }, 300);
+            setFerdigLastet('ferdig');
         }
     }, [
         organisasjonslisteFerdigLastet,
@@ -93,7 +92,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangsArray, organisasjoner
     ]);
 
-    console.log(tilgangsArray)
+    console.log(tilgangsArray);
 
     return (
         <>
