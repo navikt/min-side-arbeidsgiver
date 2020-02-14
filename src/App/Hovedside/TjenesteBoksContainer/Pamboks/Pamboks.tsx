@@ -23,7 +23,7 @@ const Pamboks: FunctionComponent<Props> = props => {
     }, [antallAnnonser]);
 
     const loggAtKlikketPaArbeidstrening = () => {
-        loggTjenesteTrykketPa("Arbeidstrening");
+        loggTjenesteTrykketPa("PAM");
     };
 
     return (
