@@ -3,20 +3,18 @@ import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
 import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 import {tomAltinnOrganisasjon} from "../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn";
 
 const NyttigForDegContainer: FunctionComponent = () => {
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [antallBokser, setAntallBokser] = useState('to');
 
     useEffect(() => {
-        if (organisasjoner.length > 0) {
+        if (valgtOrganisasjon !==  tomAltinnOrganisasjon) {
             setAntallBokser('tre');
         }
-    }, [organisasjoner]);
+    }, [valgtOrganisasjon]);
 
     return (
         <div className={'nyttig-for-deg'}>
