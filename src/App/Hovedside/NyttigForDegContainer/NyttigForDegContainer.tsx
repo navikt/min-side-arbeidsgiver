@@ -4,7 +4,7 @@ import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
 import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import {OrganisasjonsDetaljerContext, OrganisasjonsDetaljerProvider} from "../../../OrganisasjonDetaljerProvider";
+import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 import {tomAltinnOrganisasjon} from "../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn";
 
 const NyttigForDegContainer: FunctionComponent = () => {
