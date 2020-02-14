@@ -99,9 +99,9 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
 
 export const arbeidsAvtaleLink = () => {
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/';
+        return 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver';
     } else {
-        return 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/';
+        return 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver';
     }
 };
 
