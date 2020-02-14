@@ -32,7 +32,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
 
     useEffect(() => {
-        console.log(" forste useEffect");
             setFerdigLastet('laster');
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
             if (tilgangsArray[0] === Tilgang.TILGANG) {
@@ -67,7 +66,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     ]);
 
     useEffect(() => {
-        console.log("andre useEffect");
         const antallTjenester: number = tilgangsArray.filter(tilgang => {
             return tilgang === Tilgang.TILGANG;
         }).length;
@@ -91,8 +89,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         organisasjonerMedIAFerdigLastet,
         tilgangsArray, organisasjoner
     ]);
-
-    console.log(tilgangsArray);
 
     return (
         <>
