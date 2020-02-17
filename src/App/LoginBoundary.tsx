@@ -37,13 +37,12 @@ const LoginBoundary: FunctionComponent = props => {
             if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
                 let veilarbStatusRespons = await hentVeilarbStatus();
                 if (
-
                     veilarbStatusRespons.harGyldigOidcToken &&
                     veilarbStatusRespons.nivaOidc === 4
                 ) {
                     getEssoToken(veilarbStatusRespons);
                     setInnlogget(Tilgang.TILGANG);
-                } else if (!veilarbStatusRespons.harGyldigOidcToken) {
+                } else {
                     setInnlogget(Tilgang.IKKE_TILGANG);
                 }
             } else {
