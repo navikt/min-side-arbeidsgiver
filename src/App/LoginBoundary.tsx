@@ -37,7 +37,7 @@ const LoginBoundary: FunctionComponent = props => {
             if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
                 let veilarbStatusRespons = await hentVeilarbStatus();
                 if (
-                    veilarbStatusRespons.erInnlogget &&
+
                     veilarbStatusRespons.harGyldigOidcToken &&
                     veilarbStatusRespons.nivaOidc === 4
                 ) {
