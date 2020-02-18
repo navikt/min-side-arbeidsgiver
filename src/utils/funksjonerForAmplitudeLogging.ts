@@ -45,7 +45,29 @@ export const loggBedriftsInfo = (orgnr: string) => {
         else {
             amplitude.logEvent("#min-side-arbeidsgiver PRIVAT")
         }
-    }
-
-
+        const antallAnsatte = Number(infoFraEereg.antallAnsatte);
+        console.log(antallAnsatte);
+        switch(true) {
+            case antallAnsatte<20:
+                amplitude.logEvent("#min-side-arbeidsgiver under 20 ansatte");
+                break;
+            case antallAnsatte>3000:
+                amplitude.logEvent("#min-side-arbeidsgiver over 3000 ansatte");
+                break;
+            case antallAnsatte>1000:
+                amplitude.logEvent("#min-side-arbeidsgiver over 1000 ansatte");
+                break;
+            case antallAnsatte>500:
+                amplitude.logEvent("#min-side-arbeidsgiver over 500 ansatte");
+                break;
+            case antallAnsatte>100:
+                amplitude.logEvent("#min-side-arbeidsgiver over 100 ansatte");
+                break;
+            case antallAnsatte>20:
+                amplitude.logEvent("#min-side-arbeidsgiver over 20 ansatte");
+                break;
+                default:
+            break
+        }
+    };
 };
