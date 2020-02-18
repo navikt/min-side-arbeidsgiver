@@ -6,6 +6,7 @@ import {Arbeidsavtale, hentTiltaksgjennomforingTilgang} from './api/dnaApi';
 import {SyfoTilgangContext} from './SyfoTilgangProvider';
 import {Tilgang} from './App/LoginBoundary';
 import {OrganisasjonsListeContext} from "./OrganisasjonsListeProvider";
+import {loggBedriftsInfo} from "./utils/funksjonerForAmplitudeLogging";
 
 interface Props {
     children: React.ReactNode;
@@ -52,6 +53,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
+            loggBedriftsInfo(org.OrganizationNumber);
             settilgangTilPamState(Tilgang.LASTER);
             setTilgangTilIAWeb(Tilgang.LASTER);
             await setValgtOrganisasjon(org);
