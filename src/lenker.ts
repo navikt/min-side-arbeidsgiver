@@ -121,7 +121,7 @@ export const lenkeIAweb =
 export const lenkeTilSykefravarsstatistikk = '/sykefravarsstatistikk/';
 
 export const lenkeTilInfoOmDigitaleSoknader =
-    'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/relatert-informasjon/s%C3%B8knader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
+    'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/altinn-skjemaer-refusjoner-meldinger2/soknader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
 
 export const lenkeTilInforOmInntekstmelding =
-    'https://www.nav.no/no/Bedrift/Tjenester+og+skjemaer/NAV-+og+Altinn-tjenester/inntektsmelding';
+    'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
