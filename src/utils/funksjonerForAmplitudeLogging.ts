@@ -31,6 +31,7 @@ export const loggTjenesteTrykketPa = (tjeneste: string) => {
 
 export const loggBedriftsInfo = async (orgnr: string) => {
     amplitude.logEvent("#min-side-arbeidsgiver loggbedriftsinfo kallt");
+    console.log("logging kallt");
 
     let infoFraEereg: OrganisasjonFraEnhetsregisteret = tomEnhetsregOrg;
     await hentUnderenhet(orgnr).then(underenhet => {infoFraEereg = underenhet});
@@ -43,6 +44,9 @@ export const loggBedriftsInfo = async (orgnr: string) => {
             if (infoFraEereg.institusjonellSektorkode.kode === '6100') {
                 amplitude.logEvent("#min-side-arbeidsgiver Statsforvaltningen");
             }
+
+            amplitude.logEvent("#min-side-arbeidsgiver kode er: ", infoFraEereg.institusjonellSektorkode.kode);
+
         }
         else {
             amplitude.logEvent("#min-side-arbeidsgiver PRIVAT")
