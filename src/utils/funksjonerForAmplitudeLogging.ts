@@ -29,9 +29,11 @@ export const loggTjenesteTrykketPa = (tjeneste: string) => {
     amplitude.logEvent(skalLogges);
 };
 
-export const loggBedriftsInfo = (orgnr: string) => {
+export const loggBedriftsInfo = async (orgnr: string) => {
+    amplitude.logEvent("#min-side-arbeidsgiver loggbedriftsinfo kallt");
+
     let infoFraEereg: OrganisasjonFraEnhetsregisteret = tomEnhetsregOrg;
-    hentUnderenhet(orgnr).then(underenhet => {infoFraEereg = underenhet});
+    await hentUnderenhet(orgnr).then(underenhet => {infoFraEereg = underenhet});
     if (infoFraEereg !== tomEnhetsregOrg) {
         if (infoFraEereg.naeringskode1.kode.startsWith('84') ) {
             amplitude.logEvent("#min-side-arbeidsgiver OFFENTLIG");
