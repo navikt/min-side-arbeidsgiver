@@ -1,21 +1,16 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import {
-    byggOrganisasjonstre,
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAtinnskjema,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
-import {
-    JuridiskEnhetMedUnderEnheterArray,
-    Organisasjon,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { Organisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { Tilgang } from './App/LoginBoundary';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
-    organisasjonstre: Array<JuridiskEnhetMedUnderEnheterArray>;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
     organisasjonslisteFerdigLastet: Tilgang;
@@ -62,9 +57,6 @@ export interface AltinnSkjema {
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
-    const [organisasjonstre, setorganisasjonstre] = useState(
-        Array<JuridiskEnhetMedUnderEnheterArray>()
-    );
     const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState(Array<Organisasjon>());
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
         [] as SkjemaMedOrganisasjonerMedTilgang[]
@@ -88,24 +80,8 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 setVisFeilmelding(true);
             }
             if (organisasjonerRespons.length > 0) {
-                setOrganisasjoner(
-                    organisasjonerRespons.filter((organisasjon: Organisasjon) => {
-                        return (
-                            ((organisasjon.OrganizationForm === 'BEDR' &&
-                            organisasjon.ParentOrganizationNumber) || organisasjon.Type === 'Enterprise')
-                        );
-                    })
-                );
-                const toDim: Array<JuridiskEnhetMedUnderEnheterArray> = await byggOrganisasjonstre(
-                    organisasjonerRespons.filter((organisasjon: Organisasjon) => {
-                        return (
-                            ((organisasjon.OrganizationForm === 'BEDR' &&
-                                organisasjon.ParentOrganizationNumber) || organisasjon.Type === 'Enterprise')
-                        );
-                    })
-                );
+                setOrganisasjoner(organisasjonerRespons);
                 setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);
-                setorganisasjonstre(toDim);
             } else {
                 setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
                 setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
@@ -132,12 +108,10 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         getOrganisasjoner();
         finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
         getOrganisasjonerTilIAweb();
-
     }, []);
 
     let defaultContext: Context = {
         organisasjoner,
-        organisasjonstre,
         listeMedSkjemaOgTilganger,
         organisasjonerMedIAWEB,
         organisasjonerMedIAFerdigLastet,
