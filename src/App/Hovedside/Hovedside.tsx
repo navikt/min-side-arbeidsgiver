@@ -12,12 +12,8 @@ import ikon from './infomation-circle-2.svg';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
-import { logInfo } from '../../utils/metricsUtils';
 import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
-export const loggNavigasjonTilTjeneste = (tjeneste: String) => {
-    logInfo(tjeneste + ' klikket på');
-};
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);

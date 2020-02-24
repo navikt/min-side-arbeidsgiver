@@ -6,7 +6,7 @@ import './Arbeidstreningboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
+import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     varseltekst?: string;
@@ -34,7 +34,7 @@ const Arbeidstreningboks: FunctionComponent<Props> = props => {
     };
 
     const loggAtKlikketPaArbeidstrening = () => {
-        loggNavigasjonTilTjeneste('Arbeidstrening');
+        loggTjenesteTrykketPa('Arbeidstrening');
     };
 
     return (

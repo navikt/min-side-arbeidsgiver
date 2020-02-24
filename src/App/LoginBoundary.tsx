@@ -42,7 +42,7 @@ const LoginBoundary: FunctionComponent = props => {
                 ) {
                     getEssoToken(veilarbStatusRespons);
                     setInnlogget(Tilgang.TILGANG);
-                } else if (!veilarbStatusRespons.harGyldigOidcToken) {
+                } else {
                     setInnlogget(Tilgang.IKKE_TILGANG);
                 }
             } else {

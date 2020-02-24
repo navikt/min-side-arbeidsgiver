@@ -30,6 +30,7 @@ export const SyfoTilgangProvider: FunctionComponent = props => {
             } catch (e) {
                 setVisSyfoFeilmelding(true);
                 tilgangSyfoRespons = false;
+                setTilgangTilSyfoState(Tilgang.IKKE_TILGANG);
             }
             if (tilgangSyfoRespons) {
                 setTilgangTilSyfoState(Tilgang.TILGANG);

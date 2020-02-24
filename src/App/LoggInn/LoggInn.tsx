@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import './Logginn.less';
-import { logInfo } from '../../utils/metricsUtils';
 import Lenke from 'nav-frontend-lenker';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { Systemtittel } from 'nav-frontend-typografi';
@@ -11,7 +10,6 @@ import environment from '../../utils/environment';
 export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-            logInfo('klikk på login');
             window.location.href = '/min-side-arbeidsgiver/redirect-til-login';
         } else {
             document.cookie = 'nav-esso=0123456789..*; path=/;';

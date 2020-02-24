@@ -30,14 +30,6 @@ const OrganisasjonerResponse = [
     },
     {
         Name: 'DIGITAL JUNKIES AS ',
-        Type: 'Enterprise',
-        OrganizationNumber: '822565212',
-        ParentOrganizationNumber: null,
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'DIGITAL JUNKIES AS ',
         Type: 'Business',
         OrganizationNumber: '922658986',
         ParentOrganizationNumber: '822565212',

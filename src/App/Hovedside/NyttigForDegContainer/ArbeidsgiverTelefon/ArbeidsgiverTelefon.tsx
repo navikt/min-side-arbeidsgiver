@@ -3,11 +3,10 @@ import { Element, Normaltekst } from 'nav-frontend-typografi';
 import './ArbeidsgiverTelefon.less';
 import iconTlf from './mobil.svg';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { loggNavigasjonTilTjeneste } from '../../Hovedside';
 
 const ArbeidsgiverTelefon: FunctionComponent = () => {
     const loggAtKlikketPaArbeidsgiverTlf = () => {
-        loggNavigasjonTilTjeneste('Arbeidsgivertelefon');
+        //loggNavigasjonTilTjeneste('Arbeidsgivertelefon');
     };
 
     return (
