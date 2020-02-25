@@ -129,7 +129,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         </Lenke>
                     </Ekspanderbartpanel>
                     <Ekspanderbartpanel tittel="Rekruttering" border>
-                        På <Lenke href={'https://arbeidsplassen.nav.no/'}>Arbeidsplassen</Lenke> kan
+                        På <Lenke href={'https://arbeidsplassen.nav.no/bedrift'}>Arbeidsplassen</Lenke> kan
                         du finne kandidater og lage stillingsannonser. For å få tilgang må du ha en
                         av rollene{' '}
                         <ul>
