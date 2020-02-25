@@ -11,7 +11,7 @@ import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAlt
 const Banner: FunctionComponent<RouteComponentProps> = props => {
     const { history } = props;
 
-    const { organisasjonstre } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
@@ -20,10 +20,12 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
         }
     };
 
+    console.log(organisasjoner);
+
     return (
         <Bedriftsmeny
             sidetittel="Min side – arbeidsgiver"
-            organisasjonstre={organisasjonstre}
+            organisasjoner={organisasjoner}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
         />

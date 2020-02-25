@@ -6,7 +6,7 @@ import './Arbeidstreningboks.less';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
-import {loggTjenesteTrykketPa} from "../../../../utils/funksjonerForAmplitudeLogging";
+import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     varseltekst?: string;

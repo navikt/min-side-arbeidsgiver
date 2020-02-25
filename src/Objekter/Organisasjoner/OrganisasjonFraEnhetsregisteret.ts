@@ -78,7 +78,6 @@ export interface beliggenhetsadresse {
 export interface institusjonellSektorkode {
     kode: string;
     beskrivelse: string;
-
 }
 
 export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
@@ -127,6 +126,6 @@ export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
     },
     institusjonellSektorkode: {
         kode: '',
-        beskrivelse:''
-    }
+        beskrivelse: '',
+    },
 };

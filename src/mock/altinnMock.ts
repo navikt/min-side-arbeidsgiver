@@ -10,7 +10,6 @@ fetchMock
     )
     .spy();
 
-//const tomOrganisasjonerResponse = [{}];
 const OrganisasjonerResponse = [
     {
         Name: 'BALLSTAD OG HAMARØY',
@@ -53,6 +52,7 @@ const OrganisasjonerResponse = [
         Status: 'Active',
     },
 ];
+
 fetchMock
     .get(
         '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',

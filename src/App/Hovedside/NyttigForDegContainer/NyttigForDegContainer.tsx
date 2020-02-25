@@ -3,15 +3,15 @@ import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
 import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
-import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
-import {tomAltinnOrganisasjon} from "../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn";
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { tomAltinnOrganisasjon } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 const NyttigForDegContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [antallBokser, setAntallBokser] = useState('to');
 
     useEffect(() => {
-        if (valgtOrganisasjon !==  tomAltinnOrganisasjon) {
+        if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
             setAntallBokser('tre');
         }
     }, [valgtOrganisasjon]);
