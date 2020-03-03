@@ -5,7 +5,9 @@ import {AltinnSkjema} from "../../../OrganisasjonsListeProvider";
 
 
 const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang ) => {
+    console.log(skjema.OrganisasjonerMedTilgang);
     if (skjema.OrganisasjonerMedTilgang.filter(org => org.OrganizationNumber === orgnr).length>0) {
+        console.log("sjekket riktig");
         return true
     }
     return false;
@@ -54,7 +56,7 @@ export const genererTekstbokser = (tjenesteboksTilgangsArray: Tilgang[], altinnT
     }
 
     altinnTjenester.forEach(tjeneste => {
-        if (sjekkOmTilgangTilAltinnSkjema(valgtOrgNr,tjeneste)) {
+        if (!sjekkOmTilgangTilAltinnSkjema(valgtOrgNr,tjeneste)) {
             listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema));
         }
     })
