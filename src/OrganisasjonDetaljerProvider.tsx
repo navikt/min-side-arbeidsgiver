@@ -53,7 +53,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
-            loggBedriftsInfo(org.OrganizationNumber);
+            loggBedriftsInfo(org);
             settilgangTilPamState(Tilgang.LASTER);
             setTilgangTilIAWeb(Tilgang.LASTER);
             await setValgtOrganisasjon(org);
