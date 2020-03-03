@@ -19,11 +19,13 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     } = useContext(OrganisasjonsDetaljerContext);
 
     const tjenesteinfoBokser = genererTekstbokser(tilgangsArray,listeMedSkjemaOgTilganger, valgtOrganisasjon.OrganizationNumber).map( info => {
-        return <TjenesteInfo overskrift={info.overskrift} lenkeTilBeOmTjeneste={info.lenkeTilBeOmTjeneste} innholdstekst={info.innholdstekst} />
+        return <TjenesteInfo overskrift={info.overskrift} lenkeTilBeOmTjeneste={info.lenkeTilBeOmTjeneste} innholdstekst={info.innholdstekst}/>
     } );
 
+    const skalViseInnhold = tjenesteinfoBokser.length>0;
 
     return (
+        <> {skalViseInnhold &&
         <Ekspanderbartpanel className={"oversikt-over-manglende-tilganger"} tittel="Tjenester du ikke har tilgang til">
             <div className={"oversikt-over-manglende-tilganger__container"}>
                 <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
@@ -33,6 +35,8 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                 {tjenesteinfoBokser}
             </div>
         </Ekspanderbartpanel>
+        }
+        </>
 );
 };
 

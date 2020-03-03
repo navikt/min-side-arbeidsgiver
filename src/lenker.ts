@@ -109,6 +109,15 @@ export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
 };
 
+export const beOmTilgangIAltinnLink = (orgnr: string, serviceKode: string, serviceEditionKode: string ) => {
+    if (environment.MILJO === 'prod-sbs') {
+        return "https://altinn.no/ui/DelegationRequest?offeredBy=" + orgnr + "&resources=" +serviceKode+"_"+serviceEditionKode;
+    }
+    else {
+        return "https://tt02.altinn.no/ui/DelegationRequest?offeredBy=" + orgnr + "&resources=" + serviceKode + "_" + serviceEditionKode;
+    }
+};
+
 export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
 export const lenkeTilTilgangsstyringsInfo =
     'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
