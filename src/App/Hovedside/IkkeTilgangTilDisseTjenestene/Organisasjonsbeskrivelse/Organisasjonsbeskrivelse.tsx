@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Undertittel, Element } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';

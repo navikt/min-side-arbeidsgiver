@@ -6,15 +6,18 @@ import TjenesteInfo from "./TjenesteInfo/TjenesteInfo";
 import {AlertStripeInfo} from "nav-frontend-alertstriper";
 import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 import Organisasjonsbeskrivelse from "./Organisasjonsbeskrivelse/Organisasjonsbeskrivelse";
+import {OrganisasjonsListeContext} from "../../../OrganisasjonsListeProvider";
 
 
 
 
 const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
-
+    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     const {tilgangsArray,
         valgtOrganisasjon,
     } = useContext(OrganisasjonsDetaljerContext);
+
+
 
     return (
         <Ekspanderbartpanel className={"oversikt-over-manglende-tilganger"} tittel="Tjenester du ikke har tilgang til">
