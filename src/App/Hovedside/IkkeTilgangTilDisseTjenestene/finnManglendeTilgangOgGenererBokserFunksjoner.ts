@@ -1,6 +1,7 @@
 import {SkjemaMedOrganisasjonerMedTilgang} from "../../../api/dnaApi";
 import {Tilgang} from "../../LoginBoundary";
 import {TjenesteInfoProps} from "./TjenesteInfo/TjenesteInfo";
+import {AltinnSkjema} from "../../../OrganisasjonsListeProvider";
 
 
 const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang ) => {
@@ -10,7 +11,34 @@ const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisas
     return false;
 };
 
-const genererTekstbokser = (tjenesteboksTilgangsArray: Tilgang[], altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[]) => {
+const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema): TjenesteInfoProps => {
+    const tjenesteInnhold: TjenesteInfoProps = {overskrift:skjema.navn, lenkeTilBeOmTjeneste: skjema.kode, innholdstekst: ""}
+    switch (skjema.navn) {
+        case 'Mentortilskudd': {
+            tjenesteInnhold.innholdstekst = 'Søk om tilskudd til Mentor';
+            break
+        }
+        case 'Inkluderingstilskudd': {
+            tjenesteInnhold.innholdstekst = 'Søk om Inkluderingsstilskudd';
+            break;
+        }
+        case 'Ekspertbistand': {
+            tjenesteInnhold.innholdstekst = 'Søk om eksperbistand';
+            break;
+        }
+        case 'Lonnstilskudd': {
+            tjenesteInnhold.innholdstekst = 'Søk om Lønnstilskudd';
+            break;
+        }
+        case 'Inntektsmelding': {
+            tjenesteInnhold.innholdstekst = 'Send inntektsmelding';
+            break;
+        }
+    }
+    return tjenesteInnhold;
+};
+
+export const genererTekstbokser = (tjenesteboksTilgangsArray: Tilgang[], altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[], valgtOrgNr: string): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
     if (tjenesteboksTilgangsArray[0] === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({overskrift: 'Dine sykmeldte', innholdstekst: 'Gå til digitale sykmeldinger', lenkeTilBeOmTjeneste: 'syfo'})
@@ -24,5 +52,12 @@ const genererTekstbokser = (tjenesteboksTilgangsArray: Tilgang[], altinnTjeneste
     if (tjenesteboksTilgangsArray[3] === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({overskrift: 'Arbeidstrening', innholdstekst: 'Lag arbeidstreningsavtaler', lenkeTilBeOmTjeneste: 'Arbeidstrening'})
     }
+
+    altinnTjenester.forEach(tjeneste => {
+        if (sjekkOmTilgangTilAltinnSkjema(valgtOrgNr,tjeneste)) {
+            listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema));
+        }
+    })
+    return listeMedProps
 
 };

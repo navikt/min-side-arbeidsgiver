@@ -2,11 +2,12 @@ import React, {FunctionComponent, useContext} from 'react';
 import './IkkeTilgangTilDisseTjenestene.less';
 
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import TjenesteInfo from "./TjenesteInfo/TjenesteInfo";
 import {AlertStripeInfo} from "nav-frontend-alertstriper";
 import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 import Organisasjonsbeskrivelse from "./Organisasjonsbeskrivelse/Organisasjonsbeskrivelse";
 import {OrganisasjonsListeContext} from "../../../OrganisasjonsListeProvider";
+import {genererTekstbokser} from "./finnManglendeTilgangOgGenererBokserFunksjoner";
+import TjenesteInfo from "./TjenesteInfo/TjenesteInfo";
 
 
 
@@ -17,6 +18,9 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
         valgtOrganisasjon,
     } = useContext(OrganisasjonsDetaljerContext);
 
+    const tjenesteinfoBokser = genererTekstbokser(tilgangsArray,listeMedSkjemaOgTilganger, valgtOrganisasjon.OrganizationNumber).map( info => {
+        return <TjenesteInfo overskrift={info.overskrift} lenkeTilBeOmTjeneste={info.lenkeTilBeOmTjeneste} innholdstekst={info.innholdstekst} />
+    } );
 
 
     return (
@@ -26,8 +30,7 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                     Du har for øyeblikket ikke rettighetene som kreves for å bruke disse tjenestene.
                 </AlertStripeInfo>
                 <Organisasjonsbeskrivelse navn={valgtOrganisasjon.Name} orgnummer={valgtOrganisasjon.OrganizationNumber}/>
-                <TjenesteInfo overskrift={'Rekruttering'} innholdstekst={'Finn kandidater og legg ut stillingsannonser pa Arbeidsplassen.no'} lenkeTilBeOmTjeneste={'hei'}/>
-                <TjenesteInfo overskrift={'Rekruttering'} innholdstekst={'Finn kandidater og legg ut stillingsannonser pa Arbeidsplassen.no'} lenkeTilBeOmTjeneste={'hei'}/>
+                {tjenesteinfoBokser}
             </div>
         </Ekspanderbartpanel>
 );
