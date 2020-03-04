@@ -10,17 +10,17 @@ export const genererTekstbokser = (tjenesteboksTilgangsArray: Tilgang[], altinnT
         listeMedProps.push({overskrift: 'Dine sykmeldte', innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for', lenkeTilBeOmTjeneste: 'syfo'})
     }
     if (tjenesteboksTilgangsArray[1] === Tilgang.IKKE_TILGANG) {
-        listeMedProps.push({overskrift: 'Rekruttering', innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser', lenkeTilBeOmTjeneste: 'arbeidsplassen'})
+        listeMedProps.push({overskrift: 'Rekruttering', innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser', lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5078', '1')})
     }
     if (tjenesteboksTilgangsArray[2] === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({overskrift: 'Sykfraværsstatistikk', innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje', lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '3403', '2')})
     }
     if (tjenesteboksTilgangsArray[3] === Tilgang.IKKE_TILGANG) {
-        listeMedProps.push({overskrift: 'Arbeidstrening', innholdstekst: 'Lag arbeidstreningsavtaler', lenkeTilBeOmTjeneste: 'Arbeidstrening'})
+        listeMedProps.push({overskrift: 'Arbeidstrening', innholdstekst: 'Lag arbeidstreningsavtaler', lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5332', '2','1')})
     }
 
     altinnTjenester.forEach(tjeneste => {
-        const harTilgangTilTjeneste = !sjekkOmTilgangTilAltinnSkjema(valgtOrgNr,tjeneste);
+        const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr,tjeneste);
         if (!harTilgangTilTjeneste) {
             listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
         };
@@ -28,7 +28,6 @@ export const genererTekstbokser = (tjenesteboksTilgangsArray: Tilgang[], altinnT
     return listeMedProps
 
 };
-
 
 const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang ) => {
     console.log(skjema.OrganisasjonerMedTilgang);
@@ -43,7 +42,7 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
     const tjenesteInnhold: TjenesteInfoProps = {overskrift:skjema.navn, lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, skjema.kode, skjema.versjon), innholdstekst: ""}
     switch (skjema.navn) {
         case 'Mentortilskudd': {
-            tjenesteInnhold.innholdstekst = 'Søk om tilskudd til Mentor';
+            tjenesteInnhold.innholdstekst = 'Tilskudd til mentor for frikjøp av en ansatt. Tilskuddet er ment for å støtte ansatte som gjennomfører arbeidsmarkedstiltak eller for å gi ansatte med nedsatt arbeidsevne støtte til å få eller beholde jobb';
             break
         }
         case 'Inkluderingstilskudd': {
@@ -56,10 +55,11 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
         }
         case 'Lonnstilskudd': {
             tjenesteInnhold.innholdstekst = 'Søk om lønnstilskudd for arbeidstakere som har problemer med å få en jobb på ordinære lønns- og arbeidsvilkår eller som står i fare for å miste jobben din av helsemessige årsaker';
+            tjenesteInnhold.overskrift = 'Lønnstilskudd';
             break;
         }
         case 'Inntektsmelding': {
-            tjenesteInnhold.innholdstekst = 'Send inntektsmelding';
+            tjenesteInnhold.innholdstekst = 'Send digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger';
             break;
         }
     }

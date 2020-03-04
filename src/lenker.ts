@@ -109,7 +109,7 @@ export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
 };
 
-export const beOmTilgangIAltinnLink = (orgnr: string, serviceKode: string, serviceEditionKode: string ) => {
+export const beOmTilgangIAltinnLink = (orgnr: string, serviceKode: string, serviceEditionKode: string, serviceEditionKodeTest?: string) => {
     if (environment.MILJO === 'prod-sbs') {
         return "https://altinn.no/ui/DelegationRequest?offeredBy=" + orgnr + "&resources=" +serviceKode+"_"+serviceEditionKode;
     }
