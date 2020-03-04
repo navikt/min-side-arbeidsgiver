@@ -20,8 +20,6 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
         }
     };
 
-    console.log(organisasjoner);
-
     return (
         <Bedriftsmeny
             sidetittel="Min side – arbeidsgiver"

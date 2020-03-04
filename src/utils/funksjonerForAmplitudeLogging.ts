@@ -1,11 +1,11 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
-import {hentOverordnetEnhet, hentUnderenhet} from '../api/enhetsregisteretApi';
+import { hentOverordnetEnhet, hentUnderenhet } from '../api/enhetsregisteretApi';
 import {
     OrganisasjonFraEnhetsregisteret,
     tomEnhetsregOrg,
 } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
-import {Organisasjon} from "../Objekter/Organisasjoner/OrganisasjonerFraAltinn";
+import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]) => {
     let skalLogges = '#min-side-arbeidsgiver';
@@ -32,7 +32,6 @@ export const loggTjenesteTrykketPa = (tjeneste: string) => {
 
 export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
     amplitude.logEvent('#min-side-arbeidsgiver loggbedriftsinfo kallt');
-    console.log('logging kallt');
 
     let infoFraEereg: OrganisasjonFraEnhetsregisteret = tomEnhetsregOrg;
     await hentUnderenhet(organisasjon.OrganizationNumber).then(underenhet => {
@@ -116,8 +115,5 @@ export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
             default:
                 break;
         }
-
-
     }
-
 };

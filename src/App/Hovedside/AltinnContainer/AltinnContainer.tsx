@@ -54,8 +54,6 @@ export const AltinnContainer: FunctionComponent = () => {
         }
     };
 
-    console.log(listeMedSkjemaOgTilganger);
-
     useEffect(() => {
         seterFem('');
         const sjekkOgSettTilgang = (

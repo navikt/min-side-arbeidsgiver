@@ -81,6 +81,9 @@ export const digisyfoSykemeldteLenke = () => {
 
 export const digiSyfoNarmesteLederLink = '/min-side-arbeidsgiver/api/narmesteleder';
 
+export const LenkeTilInfoOmNarmesteLeder =
+    'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
+
 export const LenkeTilInfoOmRettigheterTilSykmelding =
     'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/om-tilganger-i-altinn';
 export const LenkeTilInfoOmAltinnRoller =
@@ -109,12 +112,30 @@ export const hentArbeidsavtalerApiLink = () => {
     return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
 };
 
-export const beOmTilgangIAltinnLink = (orgnr: string, serviceKode: string, serviceEditionKode: string, serviceEditionKodeTest?: string) => {
+export const beOmTilgangIAltinnLink = (
+    orgnr: string,
+    serviceKode: string,
+    serviceEditionKode: string,
+    serviceEditionKodeTest?: string
+) => {
     if (environment.MILJO === 'prod-sbs') {
-        return "https://altinn.no/ui/DelegationRequest?offeredBy=" + orgnr + "&resources=" +serviceKode+"_"+serviceEditionKode;
-    }
-    else {
-        return "https://tt02.altinn.no/ui/DelegationRequest?offeredBy=" + orgnr + "&resources=" + serviceKode + "_" + serviceEditionKode;
+        return (
+            'https://altinn.no/ui/DelegationRequest?offeredBy=' +
+            orgnr +
+            '&resources=' +
+            serviceKode +
+            '_' +
+            serviceEditionKode
+        );
+    } else {
+        return (
+            'https://tt02.altinn.no/ui/DelegationRequest?offeredBy=' +
+            orgnr +
+            '&resources=' +
+            serviceKode +
+            '_' +
+            serviceEditionKode
+        );
     }
 };
 

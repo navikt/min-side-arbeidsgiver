@@ -4,14 +4,12 @@ import { Element } from 'nav-frontend-typografi';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';
 
-
 interface Props {
     navn: string;
     orgnummer: string;
-
 }
 
-const Organisasjonsbeskrivelse: FunctionComponent<Props> = (props) => {
+const Organisasjonsbeskrivelse: FunctionComponent<Props> = props => {
     const { navn, orgnummer } = props;
 
     return (

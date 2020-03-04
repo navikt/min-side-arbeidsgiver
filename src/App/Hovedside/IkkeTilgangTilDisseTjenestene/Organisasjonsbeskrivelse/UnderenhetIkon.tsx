@@ -8,7 +8,8 @@ const UnderenhetIkon = () => (
             fill="none"
             fillRule="evenodd"
             strokeLinecap="round"
-            strokeLinejoin="round">
+            strokeLinejoin="round"
+        >
             <path d="M11 16H1V1h10z" />
             <path d="M6 13H3v3h3zM1 3h4M1 5h3M1 7h2" />
         </g>

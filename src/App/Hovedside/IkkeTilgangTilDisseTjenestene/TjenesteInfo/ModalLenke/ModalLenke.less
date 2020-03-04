@@ -1,0 +1,103 @@
+@import '~nav-frontend-core/less/_variabler';
+.tjeneste-info {
+  &__lenke-syfo {
+    color: @navBla;
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+    border: none;
+
+    &:hover,
+    &--hover {
+      text-decoration: none;
+    }
+
+    &:focus,
+    &--focus {
+      outline: none;
+      color: white;
+      text-decoration: none;
+      background-color: @fokusFarge;
+      box-shadow: 0 0 0 2px @fokusFarge;
+    }
+  }
+
+
+}
+
+.modal__overlay {
+  padding: 1rem 0;
+}
+
+.eksport-modal {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+
+  &__innhold {
+    padding: 1rem;
+  }
+
+  &__overskrift {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  &__varsel {
+    display: flex;
+    margin: 2rem 0 0.6rem;
+
+    .varselikon {
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.5rem;
+    }
+    .varseltekst {
+      min-width: 10rem;
+      font-weight: 600;
+    }
+  }
+
+  &__personvern-info {
+    padding-bottom: 2rem;
+    .tekst {
+      margin-bottom: 2rem;
+    }
+  }
+
+  &__knapper {
+    .avbryt-knapp {
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+@media (min-width: @screen-sm) {
+  .modal__overlay {
+    padding: initial;
+  }
+
+  .eksport-modal {
+    width: 554px;
+    height: initial;
+    border-radius: 4px;
+
+    &__innhold {
+      padding: 0;
+      margin: 2.5rem 1.5rem 1.6rem;
+    }
+
+    &__overskrift {
+      margin-top: 0;
+    }
+
+    &__knapper {
+      display: flex;
+      justify-content: space-between;
+
+      .avbryt-knapp {
+        margin-top: 0;
+      }
+    }
+  }
+}
