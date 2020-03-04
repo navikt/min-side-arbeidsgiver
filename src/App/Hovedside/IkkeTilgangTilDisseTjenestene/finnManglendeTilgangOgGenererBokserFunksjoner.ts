@@ -42,19 +42,19 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
     const tjenesteInnhold: TjenesteInfoProps = {overskrift:skjema.navn, lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, skjema.kode, skjema.versjon), innholdstekst: ""}
     switch (skjema.navn) {
         case 'Mentortilskudd': {
-            tjenesteInnhold.innholdstekst = 'Tilskudd til mentor for frikjøp av en ansatt. Tilskuddet er ment for å støtte ansatte som gjennomfører arbeidsmarkedstiltak eller for å gi ansatte med nedsatt arbeidsevne støtte til å få eller beholde jobb';
+            tjenesteInnhold.innholdstekst = 'Tilskudd til mentor for frikjøp av en ansatt. Tilskuddet er ment for ansatte som gjennomfører arbeidsmarkedstiltak eller for å gi ansatte med nedsatt arbeidsevne støtte til å få eller beholde jobb';
             break
         }
         case 'Inkluderingstilskudd': {
-            tjenesteInnhold.innholdstekst = 'Søk om inkluderingstilskudd til kostnad knyttet til personer som trenger tilrettelegging på arbeids- eller tiltaksplassen.';
+            tjenesteInnhold.innholdstekst = 'Inkluderingstilskudd til kostnad knyttet til personer som trenger tilrettelegging på arbeids- eller tiltaksplassen.';
             break;
         }
         case 'Ekspertbistand': {
-            tjenesteInnhold.innholdstekst = 'Søk om eksperbistand. NAV kan gi tilskudd til ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær.';
+            tjenesteInnhold.innholdstekst = 'Eksperbistand. NAV kan gi tilskudd til ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær.';
             break;
         }
         case 'Lonnstilskudd': {
-            tjenesteInnhold.innholdstekst = 'Søk om lønnstilskudd for arbeidstakere som har problemer med å få en jobb på ordinære lønns- og arbeidsvilkår eller som står i fare for å miste jobben din av helsemessige årsaker';
+            tjenesteInnhold.innholdstekst = 'Lønnstilskudd for arbeidstakere som har problemer med å få en jobb på ordinære lønns- og arbeidsvilkår eller som står i fare for å miste jobben din av helsemessige årsaker';
             tjenesteInnhold.overskrift = 'Lønnstilskudd';
             break;
         }
