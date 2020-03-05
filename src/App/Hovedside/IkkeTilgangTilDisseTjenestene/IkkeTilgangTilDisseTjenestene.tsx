@@ -31,14 +31,14 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
 
     return (
-        <>
+        <div className={"oversikt-over-manglende-tilganger__container"}>
             {' '}
             {skalViseInnhold && (
                 <Ekspanderbartpanel
                     className={'oversikt-over-manglende-tilganger'}
                     tittel="Tjenester du ikke har tilgang til"
                 >
-                    <div className={'oversikt-over-manglende-tilganger__container'}>
+                    <div className={'oversikt-over-manglende-tilganger__innhold'}>
                         <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
                             Du har for øyeblikket ikke rettighetene som kreves for å bruke disse
                             tjenestene.
@@ -51,7 +51,7 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                     </div>
                 </Ekspanderbartpanel>
             )}
-        </>
+        </div>
     );
 };
 
