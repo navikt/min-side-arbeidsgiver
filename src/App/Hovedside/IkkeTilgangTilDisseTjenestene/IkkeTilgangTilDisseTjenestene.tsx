@@ -43,10 +43,10 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                             Du har for øyeblikket ikke rettighetene som kreves for å bruke disse
                             tjenestene.
                         </AlertStripeInfo>
-                        <Organisasjonsbeskrivelse
+                        {valgtOrganisasjon.OrganizationNumber !== ''&& <Organisasjonsbeskrivelse
                             navn={valgtOrganisasjon.Name}
                             orgnummer={valgtOrganisasjon.OrganizationNumber}
-                        />
+                        />}
                         {tjenesteinfoBokser}
                     </div>
                 </Ekspanderbartpanel>

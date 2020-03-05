@@ -10,7 +10,7 @@ export const genererTekstbokser = (
     valgtOrgNr?: string
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
-    if (tjenesteboksTilgangsArray[0] !== Tilgang.IKKE_TILGANG) {
+    if (tjenesteboksTilgangsArray[0] === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({
             overskrift: 'Dine sykmeldte',
             innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for',
@@ -36,7 +36,7 @@ export const genererTekstbokser = (
         if (tjenesteboksTilgangsArray[3] === Tilgang.IKKE_TILGANG) {
             listeMedProps.push({
                 overskrift: 'Arbeidstrening',
-                innholdstekst: 'Lag arbeidstreningsavtaler',
+                innholdstekst: 'Arbeidstrening er et tiltak som gir arbeidssøker mulighet til å prøve seg i arbeid, få relevant erfaring og skaffe seg en ordinær jobb. Arbeidstrening i din bedrift kan bidra til at arbeidssøkeren når målene sine. ',
                 lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5332', '2', '1'),
             });
         }
@@ -58,7 +58,7 @@ const sjekkOmTilgangTilAltinnSkjema = (
     if (
         skjema.OrganisasjonerMedTilgang.filter(org => org.OrganizationNumber === orgnr).length > 0
     ) {
-        return true;
+        return true
     }
     return false;
 };
@@ -72,28 +72,28 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
     switch (skjema.navn) {
         case 'Mentortilskudd': {
             tjenesteInnhold.innholdstekst =
-                'Tilskudd til mentor for frikjøp av en ansatt. Tilskuddet er ment for ansatte som gjennomfører arbeidsmarkedstiltak eller for å gi ansatte med nedsatt arbeidsevne støtte til å få eller beholde jobb';
+                'Tilskudd til mentor innebærer å frikjøpe en arbeidskollega som kan gi praktisk hjelp, veiledning og opplæring for personer som gjennomfører arbeidsmarkedstiltak. Mentor kan også gis for at personer med nedsatt arbeidsevne skal få eller beholde lønnet arbeid.';
             break;
         }
         case 'Inkluderingstilskudd': {
             tjenesteInnhold.innholdstekst =
-                'Inkluderingstilskudd til kostnad knyttet til personer som trenger tilrettelegging på arbeids- eller tiltaksplassen.';
+                'Arbeidsgivere kan få dekket utgifter til tilrettelegging av arbeidsplassen gjennom inkluderingstilskudd. Tilskuddet skal kompensere for eventuelle merkostnader bedriften har i forbindelse med tilrettelegging av arbeidsplassen.';
             break;
         }
         case 'Ekspertbistand': {
             tjenesteInnhold.innholdstekst =
-                'Eksperbistand. NAV kan gi tilskudd til ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær.';
+                'NAV kan gi tilskudd til ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær. Arbeidstakeren, arbeidsgiveren og NAV skal være enige om at ekspertbistand er et hensiktsmessig tiltak.';
             break;
         }
         case 'Lonnstilskudd': {
             tjenesteInnhold.innholdstekst =
-                'Lønnstilskudd for arbeidstakere som har problemer med å få en jobb på ordinære lønns- og arbeidsvilkår eller som står i fare for å miste jobben din av helsemessige årsaker';
+                'Lønnstilskudd er en støtteordning for arbeidsgivere, hvor NAV kan dekke deler av lønnen ved ansettelse av personer som har problemer med å komme inn på arbeidsmarkedet.';
             tjenesteInnhold.overskrift = 'Lønnstilskudd';
             break;
         }
         case 'Inntektsmelding': {
             tjenesteInnhold.innholdstekst =
-                'Send digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger';
+                'Send digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger.';
             break;
         }
     }
