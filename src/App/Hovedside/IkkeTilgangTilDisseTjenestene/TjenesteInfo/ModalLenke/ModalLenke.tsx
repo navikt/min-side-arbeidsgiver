@@ -9,6 +9,7 @@ import informasjonsikon from './informasjonsikon.svg';
 import nyfane from '../nyfane.svg';
 
 import { LenkeTilInfoOmNarmesteLeder } from '../../../../../lenker';
+import {loggTjenesteTrykketPa} from "../../../../../utils/funksjonerForAmplitudeLogging";
 
 const ModalLenke = () => {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -18,7 +19,11 @@ const ModalLenke = () => {
     return (
         <div>
             <button
-                onClick={() => openModal()}
+                onClick={() => {
+                    openModal();
+                    loggTjenesteTrykketPa('Be om tilgang-Syfo');
+                    }
+                }
                 className={'tjeneste-info__lenke tjeneste-info__lenke-syfo'}
             >
                 Be om tilgang <img src={nyfane} alt={' '} />{' '}
