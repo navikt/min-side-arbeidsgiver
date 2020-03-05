@@ -40,8 +40,8 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                 >
                     <div className={'oversikt-over-manglende-tilganger__innhold'}>
                         <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
-                            Du har for øyeblikket ikke rettighetene som kreves for å bruke disse
-                            tjenestene.
+                            Du har ikke rettighetene som kreves for å bruke disse
+                            tjenestene. Du kan be om tilgang til de spesifikke tjenestene ved å følge lenkene under.
                         </AlertStripeInfo>
                         {valgtOrganisasjon.OrganizationNumber !== ''&& <Organisasjonsbeskrivelse
                             navn={valgtOrganisasjon.Name}
