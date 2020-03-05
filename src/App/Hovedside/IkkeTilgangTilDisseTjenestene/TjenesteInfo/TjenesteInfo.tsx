@@ -11,6 +11,7 @@ export interface TjenesteInfoProps {
     innholdstekst: string;
     lenkeTilBeOmTjeneste: string;
     erSyfo?: boolean;
+    key?: string;
 }
 
 const TjenesteInfo: FunctionComponent<TjenesteInfoProps> = props => {

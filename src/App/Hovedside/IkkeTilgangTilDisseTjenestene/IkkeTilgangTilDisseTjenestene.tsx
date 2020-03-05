@@ -24,6 +24,7 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                 lenkeTilBeOmTjeneste={info.lenkeTilBeOmTjeneste}
                 innholdstekst={info.innholdstekst}
                 erSyfo={info.erSyfo}
+                key={info.overskrift}
             />
         );
     });
