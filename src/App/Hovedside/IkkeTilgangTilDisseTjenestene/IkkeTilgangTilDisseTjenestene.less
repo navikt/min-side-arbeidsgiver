@@ -1,0 +1,44 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.oversikt-over-manglende-tilganger {
+  max-width: 60rem;
+  width: 100%;
+  margin: 0;
+
+  &__container {
+    margin:0;
+    width: 100%;
+    max-width: 60rem;
+  }
+
+  &__innhold {
+    display: flex;
+    flex-wrap: wrap;
+    width:100%;
+    justify-content: space-between;
+
+  }
+
+  &__tjeneste-info-bokser {
+    margin-top: 0.5rem;
+    width: 100%;
+    display:flex;
+    flex-wrap: inherit;
+    justify-content: space-between;
+  }
+
+  &__info {
+    width: 100%;
+    margin-bottom: 1.3rem;
+  }
+}
+
+@media (max-width: @screen-md-min) {
+  .oversikt-over-manglende-tilganger {
+
+    &__container {
+      padding: 0 1rem 0 1rem;
+
+    }
+  }
+}

@@ -14,6 +14,7 @@ import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
+import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -35,6 +36,7 @@ const Hovedside: FunctionComponent = () => {
                     <NyttigForDegContainer />
                     <AltinnContainer />
                     <SkjemaveilederContainer />
+                    <IkkeTilgangTilDisseTjenestene />
                     <div className={'hovedside__informasjonstekst'}>
                         <img className={'hovedside__ikon'} src={ikon} alt="informasjonsikon" />
                         Forventet du å se flere tjenester?

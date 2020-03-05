@@ -53,6 +53,7 @@ export const AltinnContainer: FunctionComponent = () => {
             }
         }
     };
+
     useEffect(() => {
         seterFem('');
         const sjekkOgSettTilgang = (
