@@ -61,7 +61,6 @@ export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
         }
         const antallAnsatte = Number(infoFraEereg.antallAnsatte);
         const antallAnsatteJuridiske = Number(infoFraEeregJuridisk.antallAnsatte);
-        console.log(antallAnsatte);
         switch (true) {
             case antallAnsatte < 20:
                 amplitude.logEvent('#min-side-arbeidsgiver under 20 ansatte');

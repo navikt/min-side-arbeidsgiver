@@ -10,7 +10,7 @@ export const genererTekstbokser = (
     valgtOrgNr: string
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
-    if (tjenesteboksTilgangsArray[0] !== Tilgang.IKKE_TILGANG) {
+    if (tjenesteboksTilgangsArray[0] === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({
             overskrift: 'Dine sykmeldte',
             innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for',
@@ -56,7 +56,7 @@ const sjekkOmTilgangTilAltinnSkjema = (
     if (
         skjema.OrganisasjonerMedTilgang.filter(org => org.OrganizationNumber === orgnr).length > 0
     ) {
-        return false;
+        return true;
     }
     return false;
 };
