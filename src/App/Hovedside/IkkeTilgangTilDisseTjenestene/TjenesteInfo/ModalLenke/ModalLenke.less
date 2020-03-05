@@ -22,14 +22,13 @@
     }
   }
 
-
 }
 
 .modal__overlay {
   padding: 1rem 0;
 }
 
-.eksport-modal {
+.syfo-modal {
   width: 100%;
   height: 100%;
   border-radius: 0;
@@ -38,38 +37,30 @@
     padding: 1rem;
   }
 
+  &__tekst {
+    margin-bottom: 1rem;
+  }
+
   &__overskrift {
     margin-top: 2.5rem;
     margin-bottom: 1rem;
   }
 
-  &__varsel {
+  &__overskrift-og-info {
     display: flex;
     margin: 2rem 0 0.6rem;
 
-    .varselikon {
+    .infoikon {
       width: 1.5rem;
       height: 1.5rem;
       margin-right: 0.5rem;
     }
-    .varseltekst {
+    .tittel {
       min-width: 10rem;
       font-weight: 600;
     }
   }
 
-  &__personvern-info {
-    padding-bottom: 2rem;
-    .tekst {
-      margin-bottom: 2rem;
-    }
-  }
-
-  &__knapper {
-    .avbryt-knapp {
-      margin-top: 1.5rem;
-    }
-  }
 }
 
 @media (min-width: @screen-sm) {
@@ -77,7 +68,7 @@
     padding: initial;
   }
 
-  .eksport-modal {
+  .syfo-modal {
     width: 554px;
     height: initial;
     border-radius: 4px;
@@ -91,13 +82,5 @@
       margin-top: 0;
     }
 
-    &__knapper {
-      display: flex;
-      justify-content: space-between;
-
-      .avbryt-knapp {
-        margin-top: 0;
-      }
-    }
   }
 }

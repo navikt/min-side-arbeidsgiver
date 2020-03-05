@@ -27,19 +27,19 @@ const ModalLenke = () => {
                 isOpen={modalIsOpen}
                 onRequestClose={() => closeModal()}
                 closeButton={true}
-                contentLabel="Last ned Excelfil modal"
-                className="eksport-modal"
+                contentLabel="digitale sykmeldinger-modal"
+                className="syfo-modal"
             >
-                <div className="eksport-modal__innhold">
-                    <div className="eksport-modal__varsel">
-                        <img src={informasjonsikon} alt="" className="varselikon" />
-                        <Undertittel className="eksport-modal__overskrift">
+                <div className="syfo-modal__innhold">
+                    <div className="syfo-modal__overskrift-og-info">
+                        <img src={informasjonsikon} alt="" className="infoikon" />
+                        <Undertittel className="syfo-modal__tittel">
                             Tilgang til dine sykmeldte
                         </Undertittel>
                     </div>
 
-                    <div className="eksport-modal__personvern-info">
-                        <Normaltekst className="tekst">
+                    <div className="syfo-modal__personvern-info">
+                        <Normaltekst className="syfo-modal__tekst">
                             For å bruke denne tjennesten må du være registrert som nærmeste leder
                             for én eller flere ansatte. Tilgangstyringen skiller seg fra våre andre
                             tjenester ved at den ikke baserer seg på hvilken virksomhet du har valgt
@@ -47,7 +47,7 @@ const ModalLenke = () => {
                         </Normaltekst>
 
                         <Lenke
-                            className={'eksport-modal__lenke'}
+                            className={'syfo-modal__lenke'}
                             href={LenkeTilInfoOmNarmesteLeder}
                             target="_blank"
                         >
@@ -55,7 +55,6 @@ const ModalLenke = () => {
                         </Lenke>
                     </div>
 
-                    <div className="eksport-modal__knapper"></div>
                 </div>
             </Modal>
         </div>
