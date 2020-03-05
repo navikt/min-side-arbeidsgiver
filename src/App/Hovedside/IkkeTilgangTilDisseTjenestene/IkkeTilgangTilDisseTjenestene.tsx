@@ -47,7 +47,9 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                             navn={valgtOrganisasjon.Name}
                             orgnummer={valgtOrganisasjon.OrganizationNumber}
                         />}
+                        <div className={'oversikt-over-manglende-tilganger__tjeneste-info-bokser'}>
                         {tjenesteinfoBokser}
+                        </div>
                     </div>
                 </Ekspanderbartpanel>
             )}
