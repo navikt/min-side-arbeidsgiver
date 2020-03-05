@@ -81,7 +81,7 @@
     "react-tooltip": "^3.10.0",
     "typescript": "3.3.3",
     "unorm": "^1.6.0",
-    "yarn": "^1.19.1"
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
     "fs-extra": "^7.0.1",
