@@ -41,7 +41,7 @@ const ModalLenke = () => {
                     <div className="syfo-modal__personvern-info">
                         <Normaltekst className="syfo-modal__tekst">
                             For å bruke denne tjennesten må du være registrert som nærmeste leder
-                            for én eller flere ansatte. Tilgangstyringen skiller seg fra våre andre
+                            for én eller flere ansatte. Tilgangsstyringen skiller seg fra våre andre
                             tjenester ved at den ikke baserer seg på hvilken virksomhet du har valgt
                             i menyen, men kun baserer seg på om du er nærmeste leder eller ikke.
                         </Normaltekst>
