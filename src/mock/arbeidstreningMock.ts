@@ -61,7 +61,7 @@ const gammelarbeidstreningsmock = [
             },
         ],
         sistEndret: '2020-03-02T15:37:03.907896Z',
-        avbrutt: false,
+        avbrutt: true,
         erLaast: false,
         journalpostId: null,
         bedriftNavn: 'Maura og Kolbu regnskap',
@@ -101,7 +101,7 @@ const gammelarbeidstreningsmock = [
         godkjentPaVegneAv: false,
         kanAvbrytes: true,
         kanLåsesOpp: false,
-        status: 'Mangler godkjenning',
+        status: 'Avbrutt',
     },
     {
         deltakerFnr: '28076938972',
