@@ -7,7 +7,7 @@ import { beOmTilgangIAltinnLink } from '../../../lenker';
 export const genererTekstbokser = (
     tjenesteboksTilgangsArray: Tilgang[],
     altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[],
-    valgtOrgNr: string
+    valgtOrgNr?: string
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
     if (tjenesteboksTilgangsArray[0] !== Tilgang.IKKE_TILGANG) {
@@ -18,34 +18,36 @@ export const genererTekstbokser = (
             erSyfo: true,
         });
     }
-    if (tjenesteboksTilgangsArray[1] === Tilgang.IKKE_TILGANG) {
-        listeMedProps.push({
-            overskrift: 'Rekruttering',
-            innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser',
-            lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5078', '1'),
-        });
-    }
-    if (tjenesteboksTilgangsArray[2] === Tilgang.IKKE_TILGANG) {
-        listeMedProps.push({
-            overskrift: 'Sykfraværsstatistikk',
-            innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje',
-            lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '3403', '2'),
-        });
-    }
-    if (tjenesteboksTilgangsArray[3] === Tilgang.IKKE_TILGANG) {
-        listeMedProps.push({
-            overskrift: 'Arbeidstrening',
-            innholdstekst: 'Lag arbeidstreningsavtaler',
-            lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5332', '2', '1'),
-        });
-    }
-
-    altinnTjenester.forEach(tjeneste => {
-        const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr, tjeneste);
-        if (!harTilgangTilTjeneste) {
-            listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
+    if (valgtOrgNr && valgtOrgNr !== '') {
+        if (tjenesteboksTilgangsArray[1] === Tilgang.IKKE_TILGANG) {
+            listeMedProps.push({
+                overskrift: 'Rekruttering',
+                innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5078', '1'),
+            });
         }
-    });
+        if (tjenesteboksTilgangsArray[2] === Tilgang.IKKE_TILGANG) {
+            listeMedProps.push({
+                overskrift: 'Sykfraværsstatistikk',
+                innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '3403', '2'),
+            });
+        }
+        if (tjenesteboksTilgangsArray[3] === Tilgang.IKKE_TILGANG) {
+            listeMedProps.push({
+                overskrift: 'Arbeidstrening',
+                innholdstekst: 'Lag arbeidstreningsavtaler',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5332', '2', '1'),
+            });
+        }
+
+        altinnTjenester.forEach(tjeneste => {
+            const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr, tjeneste);
+            if (!harTilgangTilTjeneste) {
+                listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
+            }
+        });
+    }
     return listeMedProps;
 };
 
