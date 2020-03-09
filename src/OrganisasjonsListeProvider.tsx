@@ -47,7 +47,8 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
         navn: 'Tiltaksgjennomforing',
         kode: '5332',
-        versjon: '1',
+        versjon: '2',
+        testversjon: '1'
     },
 ];
 
@@ -58,6 +59,7 @@ export interface AltinnSkjema {
     navn: string;
     kode: string;
     versjon: string;
+    testversjon?: string;
 }
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {

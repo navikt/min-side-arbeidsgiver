@@ -6,6 +6,7 @@ import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
+import environment from "../utils/environment";
 
 export interface Rolle {
     RoleType: string;
@@ -73,8 +74,7 @@ export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
     let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
         Skjema: skjema,
         OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(
-            skjema.kode,
-            skjema.versjon
+            skjema
         ),
     };
     return listeMedOrganisasjoner;
@@ -96,15 +96,25 @@ export async function hentTilgangForAlleAtinnskjema(
 }
 
 export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
-    serviceKode: string,
-    serviceEdition: string
+    skjema: AltinnSkjema
 ): Promise<Organisasjon[]> {
-    let respons = await fetch(
-        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
-            serviceKode +
-            '&serviceEdition=' +
-            serviceEdition
-    );
+    let respons;
+    if (environment.MILJO ==='prod-sbs' && !skjema.testversjon) {
+        respons = await fetch(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            skjema.kode +
+            '&serviceEdition=' + skjema.versjon
+
+        );
+    }
+    else {
+        respons = await fetch(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            skjema.kode +
+            '&serviceEdition=' + skjema.testversjon
+
+        );
+    }
     if (respons.ok) {
         return await respons.json();
     } else {

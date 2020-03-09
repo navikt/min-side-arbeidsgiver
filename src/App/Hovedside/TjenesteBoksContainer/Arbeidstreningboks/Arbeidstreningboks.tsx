@@ -26,7 +26,6 @@ const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
 
 const Arbeidstreningboks = () => {
     const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
-    console.log(arbeidsavtaler);
     const [kunAvsluttedeOgAvbrutte, setKunAvsluttedeOgAvbrutte] = useState<boolean>(false);
 
     const antallAvtalerPerStatus = (status: string): number =>

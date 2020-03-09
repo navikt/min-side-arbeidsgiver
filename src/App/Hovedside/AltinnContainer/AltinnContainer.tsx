@@ -73,8 +73,6 @@ export const AltinnContainer: FunctionComponent = () => {
             return 0;
         };
 
-        console.log(typeAntall, );
-
         const finnTilgang = () => {
             let tellTilganger: number = 0;
             listeMedSkjemaOgTilganger.forEach(skjema => {
