@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 
 import './AltinnContainer.less';
-import { Undertittel } from 'nav-frontend-typografi';
+import {Undertittel} from 'nav-frontend-typografi';
 
 import {
     ekspertbistand,
@@ -13,8 +13,9 @@ import {
     soknadTilskuddTilMentor,
 } from '../../../lenker';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
+import {OrganisasjonsListeContext} from '../../../OrganisasjonsListeProvider';
+import {SkjemaMedOrganisasjonerMedTilgang} from '../../../api/dnaApi';
+import {Tilgang} from "../../LoginBoundary";
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
@@ -27,7 +28,7 @@ export const AltinnContainer: FunctionComponent = () => {
     const [tilgangInntektsmelding, setTilgangInntektsmelding] = useState(false);
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon, tilgangsArray} = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     const SetStateFunksjonmedSkjemaNavn = (skjemaNavn: string, tilgang: boolean) => {
@@ -51,6 +52,9 @@ export const AltinnContainer: FunctionComponent = () => {
             case 'Inntektsmelding': {
                 setTilgangInntektsmelding(tilgang);
             }
+            default: {
+                break
+            }
         }
     };
 
@@ -61,7 +65,7 @@ export const AltinnContainer: FunctionComponent = () => {
             skjemaNavn: string,
             orgnrMedTilgang: string[]
         ): number => {
-            if (orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
+            if (orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber) && skjema.Skjema.navn !== 'Tiltaksgjennomforing') {
                 SetStateFunksjonmedSkjemaNavn(skjemaNavn, true);
                 return 1;
             }
@@ -72,6 +76,8 @@ export const AltinnContainer: FunctionComponent = () => {
 
             return 0;
         };
+
+        console.log(typeAntall, );
 
         const finnTilgang = () => {
             let tellTilganger: number = 0;
@@ -84,6 +90,7 @@ export const AltinnContainer: FunctionComponent = () => {
                     skjema.Skjema.navn,
                     orgnrMedTilgangTilSkjema
                 );
+
                 if (tellTilganger % 2 === 0) {
                     settypeAntall('antall-skjema-partall');
                 }
