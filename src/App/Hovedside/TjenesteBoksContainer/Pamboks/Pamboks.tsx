@@ -1,18 +1,16 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-
-import './Pamboks.less';
+import React, { useContext, useEffect, useState } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
+import { Normaltekst } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import { linkTilArbeidsplassen } from '../../../../lenker';
-import pamikon from './search.svg';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
+import ArbeidsplassenIkon from './Arbeidsplassen-ikon';
+import './Pamboks.less';
 
-interface Props {
-    className?: string;
-}
+const PamboksIkon = require('./pamboks-ikon.svg');
 
-const Pamboks: FunctionComponent<Props> = props => {
+const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
     const [stillingsAnnonseTekst, setStillingsAnnonseTekst] = useState('Lag ny stillingsannonse');
 
@@ -27,17 +25,21 @@ const Pamboks: FunctionComponent<Props> = props => {
     };
 
     return (
-        <div onClick={loggAtKlikketPaArbeidstrening} className={'pamboks ' + props.className}>
-            <TjenesteBoksBanner tittel={'Rekruttere'} imgsource={pamikon} altTekst={''} />
+        <div onClick={loggAtKlikketPaArbeidstrening} className="pamboks">
+            <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
             <Lenkepanel
-                className={'pamboks__lenke'}
+                className="pamboks__lenke"
                 href={linkTilArbeidsplassen()}
-                tittelProps={'normaltekst'}
+                tittelProps="normaltekst"
                 border={false}
             >
-                {'Finn kandidater'}
-                <br />
-                {stillingsAnnonseTekst}
+                <div className="pamboks-tekst">
+                    <Normaltekst>Finn kandidater</Normaltekst>
+                    {stillingsAnnonseTekst}
+                </div>
+                <div className="pamboks-logo">
+                    <ArbeidsplassenIkon />
+                </div>
             </Lenkepanel>
         </div>
     );

@@ -1,15 +1,38 @@
 @import '../../../../../node_modules/nav-frontend-core/less/_variabler';
 
 .pamboks {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  height: 13rem;
-;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 13rem;
 
-  &__lenke {
-    height: 12rem;
-    padding: 1rem;
-  }
+    &__lenke {
+        height: 12rem;
+        padding: 1rem;
 
+        .lenkepanel__heading {
+            display: flex;
+            flex-direction: column;
+
+            .pamboks-tekst {
+                min-width: 15rem;
+            }
+
+            .pamboks-logo {
+                width: 127px;
+                height: 27px;
+                margin-top: 0.8rem;
+            }
+
+            @media (min-width: 500px) {
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                .pamboks-logo {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
 }
