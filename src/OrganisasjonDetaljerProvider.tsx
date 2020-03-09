@@ -1,15 +1,12 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import {
-    Organisasjon,
-    tomAltinnOrganisasjon,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {Organisasjon, tomAltinnOrganisasjon,} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang } from './api/dnaApi';
-import { SyfoTilgangContext } from './SyfoTilgangProvider';
-import { Tilgang } from './App/LoginBoundary';
-import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
-import { loggBedriftsInfo } from './utils/funksjonerForAmplitudeLogging';
+import {Arbeidsavtale, hentTiltaksgjennomforingTilgang} from './api/dnaApi';
+import {SyfoTilgangContext} from './SyfoTilgangProvider';
+import {Tilgang} from './App/LoginBoundary';
+import {OrganisasjonsListeContext} from './OrganisasjonsListeProvider';
+import {loggBedriftsInfo} from './utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     children: React.ReactNode;
@@ -61,22 +58,17 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
 
     useEffect(() => {
-        setTilgangTilArbeidsavtaler(Tilgang.LASTER);
-        if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
+
+        if (valgtOrganisasjon !== tomAltinnOrganisasjon && tilgangTilArbeidsavtaler === Tilgang.TILGANG) {
             const hentArbeidsavtaler = async () => {
                 const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
                     valgtOrganisasjon
                 );
                 setArbeidsavtaler(avtaler);
-                if (avtaler.length > 0) {
-                    setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                } else {
-                    setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-                }
             };
             hentArbeidsavtaler();
         }
-    }, [valgtOrganisasjon]);
+    }, [valgtOrganisasjon, tilgangTilArbeidsavtaler]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
