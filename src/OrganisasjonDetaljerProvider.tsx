@@ -45,10 +45,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
             listeMedSkjemaOgTilganger.forEach( skjema => {
                 if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
-                    if (skjema.OrganisasjonerMedTilgang.filter(organisasjon => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length >0) {
-                        setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                    }
-                    else {
+                    if (skjema.OrganisasjonerMedTilgang.filter(organisasjon => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length ===0) {
                         setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG)
                     }
                 }
@@ -58,13 +55,13 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
 
     useEffect(() => {
-
-        if (valgtOrganisasjon !== tomAltinnOrganisasjon && tilgangTilArbeidsavtaler === Tilgang.TILGANG) {
+        if (valgtOrganisasjon !== tomAltinnOrganisasjon && tilgangTilArbeidsavtaler !== Tilgang.IKKE_TILGANG) {
             const hentArbeidsavtaler = async () => {
                 const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
                     valgtOrganisasjon
                 );
                 setArbeidsavtaler(avtaler);
+                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
             };
             hentArbeidsavtaler();
         }

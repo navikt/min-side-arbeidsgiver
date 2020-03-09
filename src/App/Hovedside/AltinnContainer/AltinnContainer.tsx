@@ -15,7 +15,6 @@ import {
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import {OrganisasjonsListeContext} from '../../../OrganisasjonsListeProvider';
 import {SkjemaMedOrganisasjonerMedTilgang} from '../../../api/dnaApi';
-import {Tilgang} from "../../LoginBoundary";
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
@@ -28,7 +27,7 @@ export const AltinnContainer: FunctionComponent = () => {
     const [tilgangInntektsmelding, setTilgangInntektsmelding] = useState(false);
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-    const { valgtOrganisasjon, tilgangsArray} = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
     const SetStateFunksjonmedSkjemaNavn = (skjemaNavn: string, tilgang: boolean) => {
@@ -51,9 +50,6 @@ export const AltinnContainer: FunctionComponent = () => {
             }
             case 'Inntektsmelding': {
                 setTilgangInntektsmelding(tilgang);
-            }
-            default: {
-                break
             }
         }
     };
