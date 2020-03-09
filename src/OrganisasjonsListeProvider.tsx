@@ -44,6 +44,11 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         kode: '4936',
         versjon: '1',
     },
+    {
+        navn: 'Tiltaksgjennomforing',
+        kode: '5332',
+        versjon: '1',
+    },
 ];
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);

@@ -15,6 +15,7 @@ const loggAtKlikketPaArbeidstrening = () => {
 };
 
 const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
+    console.log(antall);
     if (antall === 0) {
         return;
     } else if (antall === 1) {
@@ -25,7 +26,9 @@ const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
 };
 
 const Arbeidstreningboks = () => {
+    console.log("Arbeidsavtaler rendres");
     const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
+    console.log(arbeidsavtaler);
     const [kunAvsluttedeOgAvbrutte, setKunAvsluttedeOgAvbrutte] = useState<boolean>(false);
 
     const antallAvtalerPerStatus = (status: string): number =>
@@ -38,6 +41,8 @@ const Arbeidstreningboks = () => {
     const antallGjennomfores: number = antallAvtalerPerStatus('Gjennomføres');
     const antallAvbrutte: number = antallAvtalerPerStatus('Avbrutt');
     const antallAvsluttede: number = antallAvtalerPerStatus('Avsluttet');
+
+
 
     useEffect(() => {
         if (
@@ -78,6 +83,8 @@ const Arbeidstreningboks = () => {
                             {lagTekstBasertPaAntall(antallGjennomfores, 'gjennomføres')}
                         </>
                     )}
+                    {arbeidsavtaler.length === 0 &&
+                    <Normaltekst> Gi arbeidssøker mulighet til å prøve seg i arbeid, få relevant erfaring og skaffe seg en ordinær jobb.</Normaltekst>}
                 </>
             </Lenkepanel>
         </div>

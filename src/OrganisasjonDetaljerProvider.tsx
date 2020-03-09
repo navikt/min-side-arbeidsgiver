@@ -40,7 +40,25 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         organisasjonerMedIAWEB,
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
+        listeMedSkjemaOgTilganger
     } = useContext(OrganisasjonsListeContext);
+
+    useEffect(() => {
+        setTilgangTilArbeidsavtaler(Tilgang.LASTER);
+        if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
+            listeMedSkjemaOgTilganger.forEach( skjema => {
+                if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
+                    if (skjema.OrganisasjonerMedTilgang.filter(organisasjon => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length >0) {
+                        setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                    }
+                    else {
+                        setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG)
+                    }
+                }
+            })
+
+        }
+    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
 
     useEffect(() => {
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
