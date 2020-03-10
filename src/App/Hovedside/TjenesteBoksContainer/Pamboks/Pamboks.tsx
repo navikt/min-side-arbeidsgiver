@@ -5,7 +5,6 @@ import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerPr
 import { linkTilArbeidsplassen } from '../../../../lenker';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
-import ArbeidsplassenIkon from './Arbeidsplassen-ikon';
 import './Pamboks.less';
 
 const PamboksIkon = require('./pamboks-ikon.svg');
@@ -36,9 +35,6 @@ const Pamboks = () => {
                 <div className="pamboks-tekst">
                     <Normaltekst>Finn kandidater</Normaltekst>
                     {stillingsAnnonseTekst}
-                </div>
-                <div className="pamboks-logo">
-                    <ArbeidsplassenIkon />
                 </div>
             </Lenkepanel>
         </div>
