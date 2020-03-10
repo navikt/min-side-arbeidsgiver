@@ -41,33 +41,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         listeMedSkjemaOgTilganger
     } = useContext(OrganisasjonsListeContext);
 
-    useEffect(() => {
-        console.log('forste useEffect kallt');
-        setTilgangTilArbeidsavtaler(Tilgang.LASTER);
-        if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
-            listeMedSkjemaOgTilganger.forEach( (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
-                if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
-                    if (skjema.OrganisasjonerMedTilgang.filter((organisasjon:Organisasjon) => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length ===0) {
-                        setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-                        console.log("dette skjer")
-                    }
-                    else {
-                        setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                        const hentArbeidsavtaler = async () => {
-                            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
-                                valgtOrganisasjon
-                            );
-                            setArbeidsavtaler(avtaler);
-                            setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                            };
-                            hentArbeidsavtaler();
-
-                    }
-                }
-            });
-        }
-    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
-
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
             loggBedriftsInfo(org);
@@ -94,14 +67,26 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 }
             }
             if (alltinnSkjemaMedTilgangerFerdigLastet !== Tilgang.LASTER) {
-                const hentArbeidsavtaler = async () => {
-                    const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
-                        valgtOrganisasjon
-                    );
-                    setArbeidsavtaler(avtaler);
-                    setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                };
-                hentArbeidsavtaler();
+                listeMedSkjemaOgTilganger.forEach( (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
+                    if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
+                        if (skjema.OrganisasjonerMedTilgang.filter((organisasjon:Organisasjon) => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length ===0) {
+                            setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+                            console.log("dette skjer")
+                        }
+                        else {
+                            setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                            const hentArbeidsavtaler = async () => {
+                                const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
+                                    valgtOrganisasjon
+                                );
+                                setArbeidsavtaler(avtaler);
+                                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                            };
+                            hentArbeidsavtaler();
+
+                        }
+                    }
+                });
             }
         }
     };

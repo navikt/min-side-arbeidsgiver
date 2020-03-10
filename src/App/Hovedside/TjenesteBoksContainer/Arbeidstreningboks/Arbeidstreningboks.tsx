@@ -50,6 +50,9 @@ const Arbeidstreningboks = () => {
         ) {
             setKunAvsluttedeOgAvbrutte(true);
         }
+        else {
+            setKunAvsluttedeOgAvbrutte(false);
+        }
     }, [arbeidsavtaler]);
 
     return (
