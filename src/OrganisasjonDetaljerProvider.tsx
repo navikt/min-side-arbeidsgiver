@@ -73,7 +73,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                         console.log("dette skjer: tror de ikke har tilgang")
                     } else {
                         hentTiltaksgjennomforingTilgang(
-                            valgtOrganisasjon
+                            org
                         ).then(avtaler => {
                             setArbeidsavtaler(avtaler);
                             setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
