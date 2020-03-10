@@ -81,47 +81,36 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [visFeilmelding, setVisFeilmelding] = useState(false);
 
     useEffect(() => {
-        setOrganisasjonslisteFerdigLastet(Tilgang.LASTER);
-        setOrganisasjonerMedIAFerdigLastet(Tilgang.LASTER);
-        setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.LASTER);
-        const getOrganisasjoner = async () => {
-            let organisasjonerRespons: Organisasjon[] = [];
-            try {
-                organisasjonerRespons = await hentOrganisasjoner();
-            } catch (e) {
-                organisasjonerRespons = [];
-                setVisFeilmelding(true);
-            }
-            if (organisasjonerRespons.length > 0) {
-                setOrganisasjoner(organisasjonerRespons);
+        hentOrganisasjoner().then((organisasjoner) => {
+            setOrganisasjoner(organisasjoner);
+            if (organisasjoner.length>0)
                 setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);
-            } else {
-                setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
+            else {
                 setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
             }
-        };
-        const getOrganisasjonerTilIAweb = async () => {
-            let organisasjonerIAWEB = await hentOrganisasjonerIAweb();
+        }).catch( e => {
+                    setOrganisasjoner([]);
+                    setVisFeilmelding(true);
+        });
+
+        hentOrganisasjonerIAweb().then((organisasjonerMedIA) => {
             setOrganisasjonerMedIAWEB(
-                organisasjonerIAWEB.filter((organisasjon: Organisasjon) => {
+                organisasjonerMedIA.filter((organisasjon: Organisasjon) => {
                     return organisasjon.OrganizationForm === 'BEDR';
                 })
             );
-            if (organisasjonerIAWEB.length === 0) {
+            if (organisasjonerMedIA.length === 0) {
                 setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
             } else {
                 setOrganisasjonerMedIAFerdigLastet(Tilgang.TILGANG);
             }
-        };
-        const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
-            const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
-            setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
-            setListeMedSkjemaOgTilganger(liste);
-        };
+        }).catch( e => setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG));
 
-        getOrganisasjoner();
-        finnTilgangerTilSkjema(ListeMedAltinnSkjemaKoder);
-        getOrganisasjonerTilIAweb();
+        hentTilgangForAlleAtinnskjema(ListeMedAltinnSkjemaKoder).then( (skjemaer) => {
+            setListeMedSkjemaOgTilganger(skjemaer);
+            setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
+        }).catch( e => setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG));
+
     }, []);
 
     let defaultContext: Context = {

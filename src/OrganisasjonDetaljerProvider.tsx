@@ -37,11 +37,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         organisasjonerMedIAWEB,
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
-        alltinnSkjemaMedTilgangerFerdigLastet,
         listeMedSkjemaOgTilganger
     } = useContext(OrganisasjonsListeContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
+        console.log("endre org kallt");
         if (org) {
             loggBedriftsInfo(org);
             settilgangTilPamState(Tilgang.LASTER);
@@ -66,28 +66,26 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                     setTilgangTilIAWeb(Tilgang.IKKE_TILGANG);
                 }
             }
-            if (alltinnSkjemaMedTilgangerFerdigLastet !== Tilgang.LASTER) {
-                listeMedSkjemaOgTilganger.forEach( (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
-                    if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
-                        if (skjema.OrganisasjonerMedTilgang.filter((organisasjon:Organisasjon) => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length ===0) {
-                            setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-                            console.log("dette skjer")
-                        }
-                        else {
+            listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
+                if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
+                    if (skjema.OrganisasjonerMedTilgang.filter((organisasjon: Organisasjon) => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length === 0) {
+                        setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+                        console.log("dette skjer: tror de ikke har tilgang")
+                    } else {
+                        setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                        hentTiltaksgjennomforingTilgang(
+                            valgtOrganisasjon
+                        ).then(avtaler => {
+                            setArbeidsavtaler(avtaler);
                             setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                            const hentArbeidsavtaler = async () => {
-                                const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
-                                    valgtOrganisasjon
-                                );
-                                setArbeidsavtaler(avtaler);
-                                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                            };
-                            hentArbeidsavtaler();
-
-                        }
+                        }).catch(e => {
+                            setArbeidsavtaler([]);
+                            setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+                        });
                     }
-                });
-            }
+                }
+                ;
+            });
         }
     };
 
