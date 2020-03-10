@@ -41,12 +41,18 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     } = useContext(OrganisasjonsListeContext);
 
     useEffect(() => {
+        console.log('forste useEffect kallt');
         setTilgangTilArbeidsavtaler(Tilgang.LASTER);
         if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
             listeMedSkjemaOgTilganger.forEach( (skjema: SkjemaMedOrganisasjonerMedTilgang) => {
                 if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
                     if (skjema.OrganisasjonerMedTilgang.filter((organisasjon:Organisasjon) => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length ===0) {
-                        setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG)
+                        setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+                        console.log("dette skjer")
+                    }
+                    else {
+                        setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+
                     }
                 }
             })
@@ -55,7 +61,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
 
     useEffect(() => {
-        if (valgtOrganisasjon !== tomAltinnOrganisasjon && tilgangTilArbeidsavtaler !== Tilgang.IKKE_TILGANG) {
+        console.log(tilgangTilArbeidsavtaler);
+        if (valgtOrganisasjon !== tomAltinnOrganisasjon && tilgangTilArbeidsavtaler === Tilgang.TILGANG) {
             const hentArbeidsavtaler = async () => {
                 const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
                     valgtOrganisasjon
@@ -72,6 +79,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             loggBedriftsInfo(org);
             settilgangTilPamState(Tilgang.LASTER);
             setTilgangTilIAWeb(Tilgang.LASTER);
+            setTilgangTilArbeidsavtaler(Tilgang.LASTER);
             await setValgtOrganisasjon(org);
             const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
             if (harPamTilgang) {
