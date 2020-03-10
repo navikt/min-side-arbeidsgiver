@@ -1,12 +1,12 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {Organisasjon, tomAltinnOrganisasjon} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { Organisasjon, tomAltinnOrganisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import {Arbeidsavtale, hentTiltaksgjennomforingTilgang, SkjemaMedOrganisasjonerMedTilgang} from './api/dnaApi';
+import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, SkjemaMedOrganisasjonerMedTilgang } from './api/dnaApi';
 import {SyfoTilgangContext} from './SyfoTilgangProvider';
-import {Tilgang} from './App/LoginBoundary';
-import {OrganisasjonsListeContext} from './OrganisasjonsListeProvider';
-import {loggBedriftsInfo} from './utils/funksjonerForAmplitudeLogging';
+import { Tilgang } from './App/LoginBoundary';
+import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
+import { loggBedriftsInfo } from './utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     children: React.ReactNode;
