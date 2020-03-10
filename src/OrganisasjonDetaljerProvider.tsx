@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { Organisasjon, tomAltinnOrganisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {Organisasjon, tomAltinnOrganisasjon} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, SkjemaMedOrganisasjonerMedTilgang } from './api/dnaApi';
-import { SyfoTilgangContext} from './SyfoTilgangProvider';
-import { Tilgang } from './App/LoginBoundary';
-import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
-import { loggBedriftsInfo } from './utils/funksjonerForAmplitudeLogging';
+import {Arbeidsavtale, hentTiltaksgjennomforingTilgang, SkjemaMedOrganisasjonerMedTilgang} from './api/dnaApi';
+import {SyfoTilgangContext} from './SyfoTilgangProvider';
+import {Tilgang} from './App/LoginBoundary';
+import {OrganisasjonsListeContext} from './OrganisasjonsListeProvider';
+import {loggBedriftsInfo} from './utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     children: React.ReactNode;
@@ -37,6 +37,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         organisasjonerMedIAWEB,
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
+        alltinnSkjemaMedTilgangerFerdigLastet,
         listeMedSkjemaOgTilganger
     } = useContext(OrganisasjonsListeContext);
 
@@ -52,27 +53,20 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                     }
                     else {
                         setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                        const hentArbeidsavtaler = async () => {
+                            const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
+                                valgtOrganisasjon
+                            );
+                            setArbeidsavtaler(avtaler);
+                            setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                            };
+                            hentArbeidsavtaler();
 
                     }
                 }
-            })
-
+            });
         }
     }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
-
-    useEffect(() => {
-        console.log(tilgangTilArbeidsavtaler);
-        if (valgtOrganisasjon !== tomAltinnOrganisasjon && tilgangTilArbeidsavtaler === Tilgang.TILGANG) {
-            const hentArbeidsavtaler = async () => {
-                const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
-                    valgtOrganisasjon
-                );
-                setArbeidsavtaler(avtaler);
-                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-            };
-            hentArbeidsavtaler();
-        }
-    }, [valgtOrganisasjon, tilgangTilArbeidsavtaler]);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
@@ -89,7 +83,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPamState(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
-            if (organisasjonerMedIAFerdigLastet) {
+            if (organisasjonerMedIAFerdigLastet !== Tilgang.LASTER) {
                 const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(
                     org => org.OrganizationNumber
                 );
@@ -98,6 +92,16 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 } else {
                     setTilgangTilIAWeb(Tilgang.IKKE_TILGANG);
                 }
+            }
+            if (alltinnSkjemaMedTilgangerFerdigLastet !== Tilgang.LASTER) {
+                const hentArbeidsavtaler = async () => {
+                    const avtaler: Arbeidsavtale[] = await hentTiltaksgjennomforingTilgang(
+                        valgtOrganisasjon
+                    );
+                    setArbeidsavtaler(avtaler);
+                    setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                };
+                hentArbeidsavtaler();
             }
         }
     };

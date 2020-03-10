@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, {FunctionComponent, useEffect, useState} from 'react';
 
 import {
     hentOrganisasjoner,
@@ -6,8 +6,8 @@ import {
     hentTilgangForAlleAtinnskjema,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
-import { Organisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { Tilgang } from './App/LoginBoundary';
+import {Organisasjon} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {Tilgang} from './App/LoginBoundary';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -15,6 +15,7 @@ export type Context = {
     organisasjonerMedIAWEB: Organisasjon[];
     organisasjonslisteFerdigLastet: Tilgang;
     organisasjonerMedIAFerdigLastet: Tilgang;
+    alltinnSkjemaMedTilgangerFerdigLastet: Tilgang
     visFeilmelding: boolean;
 };
 
@@ -74,11 +75,16 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjonerMedIAFerdigLastet, setOrganisasjonerMedIAFerdigLastet] = useState(
         Tilgang.LASTER
     );
+    const [alltinnSkjemaMedTilgangerFerdigLastet, setAlltinnSkjemaMedTilgangerFerdigLastet] = useState(
+        Tilgang.LASTER
+    );
     const [visFeilmelding, setVisFeilmelding] = useState(false);
 
     useEffect(() => {
+        setOrganisasjonslisteFerdigLastet(Tilgang.LASTER);
+        setOrganisasjonerMedIAFerdigLastet(Tilgang.LASTER);
+        setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.LASTER);
         const getOrganisasjoner = async () => {
-            setOrganisasjonerMedIAFerdigLastet(Tilgang.LASTER);
             let organisasjonerRespons: Organisasjon[] = [];
             try {
                 organisasjonerRespons = await hentOrganisasjoner();
@@ -109,6 +115,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         };
         const finnTilgangerTilSkjema = async (skjemaer: AltinnSkjema[]) => {
             const liste = await hentTilgangForAlleAtinnskjema(skjemaer);
+            setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
             setListeMedSkjemaOgTilganger(liste);
         };
 
@@ -123,13 +130,14 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonerMedIAWEB,
         organisasjonerMedIAFerdigLastet,
         organisasjonslisteFerdigLastet,
+        alltinnSkjemaMedTilgangerFerdigLastet,
         visFeilmelding,
     };
 
     return (
         <>
             {organisasjonerMedIAFerdigLastet !== Tilgang.LASTER &&
-                organisasjonslisteFerdigLastet && (
+                organisasjonslisteFerdigLastet !== Tilgang.LASTER && alltinnSkjemaMedTilgangerFerdigLastet !== Tilgang.LASTER && (
                     <OrganisasjonsListeContext.Provider value={defaultContext}>
                         {props.children}
                     </OrganisasjonsListeContext.Provider>
