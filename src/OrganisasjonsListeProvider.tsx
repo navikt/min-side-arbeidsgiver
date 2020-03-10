@@ -107,8 +107,14 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         }).catch( e => setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG));
 
         hentTilgangForAlleAtinnskjema(ListeMedAltinnSkjemaKoder).then( (skjemaer) => {
-            setListeMedSkjemaOgTilganger(skjemaer);
-            setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
+            if (skjemaer.length>0) {
+                setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
+                setListeMedSkjemaOgTilganger(skjemaer);
+            }
+            else {
+                setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG);
+                setListeMedSkjemaOgTilganger([]);
+            }
         }).catch( e => setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG));
 
     }, []);

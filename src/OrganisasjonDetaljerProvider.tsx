@@ -83,7 +83,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                         });
                     }
                 }
-                ;
             });
         }
     };
