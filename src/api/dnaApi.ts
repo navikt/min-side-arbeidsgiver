@@ -99,11 +99,11 @@ export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     skjema: AltinnSkjema
 ): Promise<Organisasjon[]> {
     let respons;
-    if (environment.MILJO ==='prod-sbs' && !skjema.testversjon) {
+    if (environment.MILJO ==='preprod-sbs' && skjema.testversjon) {
         respons = await fetch(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
             skjema.kode +
-            '&serviceEdition=' + skjema.versjon
+            '&serviceEdition=' + skjema.testversjon
 
         );
     }
@@ -111,7 +111,7 @@ export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
         respons = await fetch(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
             skjema.kode +
-            '&serviceEdition=' + skjema.testversjon
+            '&serviceEdition=' + skjema.versjon
 
         );
     }

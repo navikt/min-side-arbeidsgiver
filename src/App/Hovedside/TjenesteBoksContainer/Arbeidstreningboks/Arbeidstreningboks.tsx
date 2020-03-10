@@ -25,7 +25,7 @@ const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
 };
 
 const Arbeidstreningboks = () => {
-    const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
+    const { arbeidsavtaler, tilgangsArray } = useContext(OrganisasjonsDetaljerContext);
     const [kunAvsluttedeOgAvbrutte, setKunAvsluttedeOgAvbrutte] = useState<boolean>(false);
 
     const antallAvtalerPerStatus = (status: string): number =>
@@ -38,6 +38,8 @@ const Arbeidstreningboks = () => {
     const antallGjennomfores: number = antallAvtalerPerStatus('Gjennomføres');
     const antallAvbrutte: number = antallAvtalerPerStatus('Avbrutt');
     const antallAvsluttede: number = antallAvtalerPerStatus('Avsluttet');
+
+    console.log("Arbeidstreningsboks rendres,", tilgangsArray, arbeidsavtaler);
 
     useEffect(() => {
         if (
