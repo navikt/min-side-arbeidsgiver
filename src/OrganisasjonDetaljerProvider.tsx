@@ -68,7 +68,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             }
             listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
                 if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
-                    if (skjema.OrganisasjonerMedTilgang.filter((organisasjon: Organisasjon) => organisasjon.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length === 0) {
+                    if (skjema.OrganisasjonerMedTilgang.filter((organisasjon: Organisasjon) => organisasjon.OrganizationNumber === org.OrganizationNumber).length === 0) {
                         setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
                         console.log("dette skjer: tror de ikke har tilgang")
                     } else {
