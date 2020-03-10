@@ -6,7 +6,7 @@ import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
 import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
-import environment from "../utils/environment";
+import environment from '../utils/environment';
 
 export interface Rolle {
     RoleType: string;

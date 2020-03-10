@@ -39,8 +39,6 @@ const Arbeidstreningboks = () => {
     const antallAvbrutte: number = antallAvtalerPerStatus('Avbrutt');
     const antallAvsluttede: number = antallAvtalerPerStatus('Avsluttet');
 
-
-
     useEffect(() => {
         if (
             arbeidsavtaler.every(
