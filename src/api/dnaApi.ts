@@ -1,36 +1,13 @@
 import {
-    Organisasjon,
-    JuridiskEnhetMedUnderEnheterArray,
+    Organisasjon
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
-import { hentAlleJuridiskeEnheter } from './enhetsregisteretApi';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
-
-export interface Rolle {
-    RoleType: string;
-    RoleDefinitionId: number;
-    RoleName: string;
-    RoleDescription: string;
-}
-
-enum AltinnKode {
-    HelseSosialOgVelferdstjenester = 131,
-    AnsvarligRevisor = 5602,
-    LonnOgPersonalmedarbeider = 3,
-    RegnskapsførerLønn = 5607,
-    RegnskapsførerMedSignering = 5608,
-    RegnskapsførerUtenSignering = 5609,
-    Revisormedarbeider = 5610,
-    KontaktPersonNUF = 188,
-}
+import environment from '../utils/environment';
 
 export interface Arbeidsavtale {
     status: string;
-}
-
-export interface UnleashRespons {
-    tilgang: boolean;
 }
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
@@ -39,15 +16,6 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
         return await respons.json();
     } else {
         throw new Error('Feil ved kontakt mot baksystem.');
-    }
-}
-
-export async function sjekkOmAltinnErNede(): Promise<boolean> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
-    if (respons.ok) {
-        return false;
-    } else {
-        return true;
     }
 }
 
@@ -73,8 +41,7 @@ export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
     let listeMedOrganisasjoner: SkjemaMedOrganisasjonerMedTilgang = {
         Skjema: skjema,
         OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(
-            skjema.kode,
-            skjema.versjon
+            skjema
         ),
     };
     return listeMedOrganisasjoner;
@@ -96,116 +63,30 @@ export async function hentTilgangForAlleAtinnskjema(
 }
 
 export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
-    serviceKode: string,
-    serviceEdition: string
+    skjema: AltinnSkjema
 ): Promise<Organisasjon[]> {
-    let respons = await fetch(
-        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
-            serviceKode +
-            '&serviceEdition=' +
-            serviceEdition
-    );
+    let respons;
+    if (environment.MILJO ==='preprod-sbs' && skjema.testversjon) {
+        respons = await fetch(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            skjema.kode +
+            '&serviceEdition=' + skjema.testversjon
+
+        );
+    }
+    else {
+        respons = await fetch(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            skjema.kode +
+            '&serviceEdition=' + skjema.versjon
+
+        );
+    }
     if (respons.ok) {
         return await respons.json();
     } else {
         return [];
     }
-}
-
-export function settSammenJuridiskEnhetMedUnderOrganisasjoner(
-    juridiskeEnheter: Organisasjon[],
-    underEnheter: Organisasjon[]
-): JuridiskEnhetMedUnderEnheterArray[] {
-    const organisasjonsTre: JuridiskEnhetMedUnderEnheterArray[] = juridiskeEnheter.map(
-        juridiskEnhet => {
-            const underenheter = underEnheter.filter(
-                underenhet =>
-                    underenhet.ParentOrganizationNumber === juridiskEnhet.OrganizationNumber
-            );
-
-            const resultat = {
-                JuridiskEnhet: juridiskEnhet,
-                Underenheter: underenheter,
-            };
-            return resultat;
-        }
-    );
-    return organisasjonsTre;
-}
-
-export async function byggOrganisasjonstre(
-    organisasjoner: Organisasjon[]
-): Promise<JuridiskEnhetMedUnderEnheterArray[]> {
-    const juridiskeEnheter = organisasjoner.filter(function(organisasjon: Organisasjon) {
-        return organisasjon.Type === 'Enterprise';
-    });
-    const underenheter = organisasjoner.filter(
-        org => org.OrganizationForm === 'BEDR' && org.ParentOrganizationNumber
-    );
-    let organisasjonsliste = settSammenJuridiskEnhetMedUnderOrganisasjoner(
-        juridiskeEnheter,
-        underenheter
-    );
-    let underenheterMedTilgangTilJuridiskEnhet: Organisasjon[] = [];
-    organisasjonsliste.forEach(juridiskenhet => {
-        underenheterMedTilgangTilJuridiskEnhet.push.apply(
-            underenheterMedTilgangTilJuridiskEnhet,
-            juridiskenhet.Underenheter
-        );
-    });
-    let underEnheterUtenTilgangTilJuridiskEnhet: Organisasjon[] = underenheter.filter(
-        underenhet => !underenheterMedTilgangTilJuridiskEnhet.includes(underenhet)
-    );
-
-    if (underEnheterUtenTilgangTilJuridiskEnhet.length > 0) {
-        const juridiskeEnheterUtenTilgang = await hentAlleJuridiskeEnheter(
-            underEnheterUtenTilgangTilJuridiskEnhet.map(org => org.ParentOrganizationNumber)
-        );
-        let organisasjonsListeUtenTilgangJuridisk: JuridiskEnhetMedUnderEnheterArray[] = settSammenJuridiskEnhetMedUnderOrganisasjoner(
-            juridiskeEnheterUtenTilgang,
-            underEnheterUtenTilgangTilJuridiskEnhet
-        );
-        organisasjonsliste = organisasjonsliste.concat(organisasjonsListeUtenTilgangJuridisk);
-    }
-    const juridiskeenheterMedUnderenheter = organisasjonsliste.filter(
-        jur => jur.Underenheter.length > 0
-    );
-    return juridiskeenheterMedUnderenheter.sort((a, b) =>
-        a.JuridiskEnhet.Name.localeCompare(b.JuridiskEnhet.Name)
-    );
-}
-
-export async function hentRoller(orgnr: string): Promise<Rolle[]> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/roller/' + orgnr);
-    if (respons.ok) {
-        return await respons.json();
-    } else {
-        return [];
-    }
-}
-
-export function sjekkAltinnRolleHelseSosial(rolleListe: Rolle[]): boolean {
-    const rolle = rolleListe.find(
-        rolle => AltinnKode.HelseSosialOgVelferdstjenester === rolle.RoleDefinitionId
-    );
-    return !!rolle;
-}
-
-export function sjekkAltinnRolleForInntekstmelding(rolleListe: Array<Rolle>): boolean {
-    const koderSomGirTilgangTilInntekstmelding = [
-        AltinnKode.AnsvarligRevisor,
-        AltinnKode.LonnOgPersonalmedarbeider,
-        AltinnKode.RegnskapsførerLønn,
-        AltinnKode.RegnskapsførerMedSignering,
-        AltinnKode.RegnskapsførerUtenSignering,
-        AltinnKode.Revisormedarbeider,
-        AltinnKode.KontaktPersonNUF,
-    ];
-
-    const listeMedRollerSomGirTilgang = rolleListe
-        .map(rolle => rolle.RoleDefinitionId)
-        .filter(kode => koderSomGirTilgangTilInntekstmelding.includes(kode));
-    return listeMedRollerSomGirTilgang.length > 0;
 }
 
 export async function hentSyfoTilgang(): Promise<boolean> {

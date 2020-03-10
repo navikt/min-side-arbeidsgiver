@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
@@ -25,8 +25,7 @@ const lagTekstBasertPaAntall = (antall: number, typeTekst: string) => {
 };
 
 const Arbeidstreningboks = () => {
-    const { arbeidsavtaler } = useContext(OrganisasjonsDetaljerContext);
-    const [kunAvsluttedeOgAvbrutte, setKunAvsluttedeOgAvbrutte] = useState<boolean>(false);
+    const { arbeidsavtaler} = useContext(OrganisasjonsDetaljerContext);
 
     const antallAvtalerPerStatus = (status: string): number =>
         arbeidsavtaler.filter((arbeidsavtale: Arbeidsavtale) => arbeidsavtale.status === status)
@@ -39,16 +38,16 @@ const Arbeidstreningboks = () => {
     const antallAvbrutte: number = antallAvtalerPerStatus('Avbrutt');
     const antallAvsluttede: number = antallAvtalerPerStatus('Avsluttet');
 
-    useEffect(() => {
-        if (
-            arbeidsavtaler.every(
-                (arbeidsavtale: Arbeidsavtale) =>
-                    arbeidsavtale.status === 'Avsluttet' || arbeidsavtale.status === 'Avbrutt'
-            )
-        ) {
-            setKunAvsluttedeOgAvbrutte(true);
-        }
-    }, [arbeidsavtaler]);
+    let kunAvsluttedeOgAvbrutte = false;
+
+    if (
+        arbeidsavtaler.every(
+            (arbeidsavtale: Arbeidsavtale) =>
+                arbeidsavtale.status === 'Avsluttet' || arbeidsavtale.status === 'Avbrutt'
+        )
+    ) {
+        kunAvsluttedeOgAvbrutte = true;
+    };
 
     return (
         <div onClick={loggAtKlikketPaArbeidstrening} className="arbeidstreningboks">
@@ -78,6 +77,8 @@ const Arbeidstreningboks = () => {
                             {lagTekstBasertPaAntall(antallGjennomfores, 'gjennomføres')}
                         </>
                     )}
+                    {arbeidsavtaler.length === 0 &&
+                    <Normaltekst> Gi arbeidssøker mulighet til å prøve seg i arbeid, få relevant erfaring og skaffe seg en ordinær jobb.</Normaltekst>}
                 </>
             </Lenkepanel>
         </div>
