@@ -15,6 +15,7 @@ import { Tilgang } from '../LoginBoundary';
 import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
+import AlertStripe from "nav-frontend-alertstriper";
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -29,6 +30,13 @@ const Hovedside: FunctionComponent = () => {
                 visFeilmelding={visFeilmelding}
                 visSyfoFeilmelding={visSyfoFeilmelding}
             />
+            <div className={"hovedside__corona-info-container" }>
+                <AlertStripe type={'info'}>
+                    <b>Permitteringer som følge av koronaviruset</b>
+                    <p>Les mer om hva som gjelder ved <a href={"https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset"}>permitteringer som følge av koronaviruset </a>og finn <a href={"https://www.nav.no/soknader/nb/bedrift/permitteringer-oppsigelser-og-konkurs"}> skjemaer for permitteringer, oppsigelser og konkurs. </a></p>
+                </AlertStripe>
+            </div>
+
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
