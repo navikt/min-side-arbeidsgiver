@@ -1,10 +1,10 @@
 import React from 'react';
-import './LasterBoks.less';
-import Innholdsboks from '../../Innholdsboks/Innholdsboks';
 import NavFrontendSpinner from 'nav-frontend-spinner';
+import Innholdsboks from '../../Innholdsboks/Innholdsboks';
+import './LasterBoks.less';
 
-const LasterBoks: React.FunctionComponent = () => (
-    <Innholdsboks className={'laster'}>
+const LasterBoks = () => (
+    <Innholdsboks classname="laster">
         <NavFrontendSpinner />
     </Innholdsboks>
 );

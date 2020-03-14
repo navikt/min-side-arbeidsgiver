@@ -1,66 +1,29 @@
 @import '../../../../../node_modules/nav-frontend-core/less/_variabler';
 
 .tjeneste-boks-banner {
-  display: flex;
-  background-color: @navBlaLighten80;
-  align-self: stretch;
-  align-elemtents: center;
-  height: 4rem;
-  border-radius: 4px 4px 0 0;
-  padding-left: 1rem;
-  flex-shrink: 0;
-  position: relative;
+    display: flex;
+    background-color: @navBlaLighten80;
+    align-self: stretch;
+    align-items: center;
+    height: 4rem;
+    border-radius: 4px 4px 0 0;
+    padding-left: 1rem;
+    flex-shrink: 0;
+    position: relative;
 
-  &__ikon {
-    height: 1.5rem;
-    align-self: center;
-    margin-right: 1rem;
-  }
+    &__ikon {
+        height: 1.5rem;
+        align-self: center;
+        margin-right: 1rem;
+    }
 
-  &__tittel {
-    align-self: center;
-  }
-
-  &__varsel {
-    font-size: 14px;
-  }
-
-  &__varselsirkel {
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    border-radius: 40px;
-    width: 24px;
-    height: 24px;
-    padding-top: 1px;
-    text-align: center;
-    background-color: @navRod;
-    color: @white;
-    margin-left: 3rem;
-    align-self: center;
-    position: absolute;
-    right: 1.5rem;
-  }
-  &__feil{
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    border-radius: 40px;
-    width: 24px;
-    height: 24px;
-    padding-top: 1px;
-    text-align: center;
-    background-color: #ffa733;
-    color: #3e3832;
-    margin-left: 3rem;
-    align-self: center;
-    position: absolute;
-    right: 1.5rem;
-
-  }
-
+    &__tittel {
+        align-self: center;
+    }
 }
 
 @media (min-width: @screen-md-min) {
-  .tjeneste-boks-banner {
-    padding-left: 1.5rem;
+    .tjeneste-boks-banner {
+        padding-left: 1.5rem;
     }
-  }
+}
