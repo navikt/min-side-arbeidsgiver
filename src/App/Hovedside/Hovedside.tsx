@@ -16,7 +16,7 @@ import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgan
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
 import AlertStripe from "nav-frontend-alertstriper";
-import amplitude from "amplitude-js";
+import {loggTjenesteTrykketPa} from "../../utils/funksjonerForAmplitudeLogging";
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -25,8 +25,10 @@ const Hovedside: FunctionComponent = () => {
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
     const loggPermitteringsinfo = (lenkebeskrivelse:string) => {
-        amplitude.logEventWithTimestamp('#min-side-arbeidsgiver trykket pa permitteringstjenester  '+ lenkebeskrivelse);
+        loggTjenesteTrykketPa(lenkebeskrivelse);
     };
+
+    loggTjenesteTrykketPa
 
     return (
         <div className="hovedside">
