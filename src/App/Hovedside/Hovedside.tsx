@@ -16,6 +16,7 @@ import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgan
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
 import AlertStripe from "nav-frontend-alertstriper";
+import amplitude from "amplitude-js";
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -23,6 +24,9 @@ const Hovedside: FunctionComponent = () => {
     const skalViseManglerTilgangBoks = !(
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
+    const loggPermitteringsinfo = (lenkebeskrivelse:string) => {
+        amplitude.logEventWithTimestamp('#min-side-arbeidsgiver trykket pa permitteringstjenester  '+ lenkebeskrivelse);
+    };
 
     return (
         <div className="hovedside">
@@ -33,7 +37,9 @@ const Hovedside: FunctionComponent = () => {
             <div className={"hovedside__corona-info-container" }>
                 <AlertStripe type={'info'}>
                     <b>Permitteringer som følge av koronaviruset</b>
-                    <p>Les mer om hva som gjelder ved <a href={"https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset"}>permitteringer som følge av koronaviruset </a>og finn <a href={"https://www.nav.no/soknader/nb/bedrift/permitteringer-oppsigelser-og-konkurs"}> skjemaer for permitteringer, oppsigelser og konkurs. </a></p>
+                    <p>Les mer om hva som gjelder ved &nbsp;
+                        <a onClick={() => loggPermitteringsinfo('info om permitering')} href={"https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset"}>permitteringer som følge av koronaviruset </a>
+                        og finn <a onClick={() => loggPermitteringsinfo('skjemaer for permitteringer, oppsigelser og konkurs')} href={"https://www.nav.no/soknader/nb/bedrift/permitteringer-oppsigelser-og-konkurs"}> skjemaer for permitteringer, oppsigelser og konkurs. </a></p>
                 </AlertStripe>
             </div>
 
