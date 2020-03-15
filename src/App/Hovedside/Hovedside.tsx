@@ -28,8 +28,6 @@ const Hovedside: FunctionComponent = () => {
         loggTjenesteTrykketPa(lenkebeskrivelse);
     };
 
-    loggTjenesteTrykketPa
-
     return (
         <div className="hovedside">
             <FeilmeldingContainer
