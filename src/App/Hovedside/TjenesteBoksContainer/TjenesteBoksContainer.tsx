@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { Knapp } from 'nav-frontend-knapper';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
@@ -105,12 +104,12 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             {visSyfo && visInfoSyfovarsler && ferdigLastet === 'ferdig' && (
                 <div className="info-syfovarsler">
                     <AlertStripeInfo>
-                        <Normaltekst className="info-syfovarsler__tekst">
-                            Vi viser ikke lengre varsel for dine sykemeldte. Du må gå inn på
-                            tjenesten for å se oppgaver som eventuelt venter.
-                        </Normaltekst>
-                        <div className="info-syfovarsler__knapp">
-                            <Knapp onClick={settCookie}>Lukk, ikke vis denne meldingen igjen</Knapp>
+                        Vi viser ikke lengre varsel for dine sykemeldte. Du må gå inn på
+                        tjenesten for å se oppgaver som eventuelt venter.
+                        <div className="info-lukk-knapp">
+                            <Knapp onClick={settCookie}>
+                                Lukk, ikke vis igjen
+                            </Knapp>
                         </div>
                     </AlertStripeInfo>
                 </div>

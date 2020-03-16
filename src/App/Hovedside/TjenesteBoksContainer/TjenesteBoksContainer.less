@@ -3,9 +3,12 @@
 .info-syfovarsler {
     width: 100%;
     margin-bottom: 2rem;
+    padding: 0 1rem;
 
-    &__tekst {
-        margin-bottom: 1rem;
+    .alertstripe .alertstripe__tekst {
+        .info-lukk-knapp {
+            margin-top: 1rem;
+        }
     }
 }
 
@@ -39,6 +42,7 @@
 @media (min-width: @screen-md-min) {
     .info-syfovarsler {
         width: 60rem;
+        padding: 0;
     }
 
     .tjenesteboks-container {
