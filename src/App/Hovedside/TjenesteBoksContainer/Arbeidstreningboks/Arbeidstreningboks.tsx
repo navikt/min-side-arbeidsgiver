@@ -6,7 +6,6 @@ import { Arbeidsavtale } from '../../../../api/dnaApi';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
-import './Arbeidstreningboks.less';
 
 const arbeidstreningikon = require('./koffert-tiltak.svg');
 
@@ -50,7 +49,7 @@ const Arbeidstreningboks = () => {
     };
 
     return (
-        <div onClick={loggAtKlikketPaArbeidstrening} className="arbeidstreningboks">
+        <div className="arbeidstreningboks tjenesteboks-innhold" onClick={loggAtKlikketPaArbeidstrening} >
             <TjenesteBoksBanner
                 tittel="Arbeidstrening"
                 imgsource={arbeidstreningikon}

@@ -5,7 +5,6 @@ import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerPr
 import { linkTilArbeidsplassen } from '../../../../lenker';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
-import './Pamboks.less';
 
 const PamboksIkon = require('./pamboks-ikon.svg');
 
@@ -24,7 +23,7 @@ const Pamboks = () => {
     };
 
     return (
-        <div onClick={loggAtKlikketPaArbeidstrening} className="pamboks">
+        <div className="pamboks tjenesteboks-innhold" onClick={loggAtKlikketPaArbeidstrening} >
             <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
             <Lenkepanel
                 className="pamboks__lenke"

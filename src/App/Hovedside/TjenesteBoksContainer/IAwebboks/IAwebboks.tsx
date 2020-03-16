@@ -1,35 +1,27 @@
-import React, { FunctionComponent } from 'react';
-
+import React from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import './IAwebboks.less';
-
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
 import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
-
-interface Props {
-    varseltekst?: string;
-    className?: string;
-}
+import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import './IAwebboks.less';
 
 const loggAtKlikketPaIAeb = () => {
     loggTjenesteTrykketPa('IA');
 };
 
-const IAwebboks: FunctionComponent<Props> = props => {
+const IAwebboks = () => {
     return (
-        <div className={'IA-web-boks ' + props.className} onClick={loggAtKlikketPaIAeb}>
+        <div className="IA-web-boks tjenesteboks-innhold" onClick={loggAtKlikketPaIAeb}>
             <TjenesteBoksBanner
-                tittel={'Sykefraværsstatistikk'}
+                tittel="Sykefraværsstatistikk"
                 imgsource={IAwebikon}
-                altTekst={''}
+                altTekst=""
             />
-
             <Lenkepanel
-                className={'IA-web-boks__info'}
+                className="IA-web-boks__info"
                 href={lenkeTilSykefravarsstatistikk}
-                tittelProps={'normaltekst'}
+                tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >
                 <div className="IA-web-boks__tekst">
