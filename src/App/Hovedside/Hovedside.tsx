@@ -38,29 +38,39 @@ const Hovedside: FunctionComponent = () => {
                 <AlertStripe type="info">
                     <b>Permitteringer som følge av koronaviruset</b>
                     <p>
-                        Les mer om hva som gjelder ved &nbsp;
-                        <a
-                            onClick={() => loggPermitteringsinfo('info om permitering')}
+                        {'Les mer om hva som gjelder ved '}
+                        <Lenke
                             href={
                                 'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset'
                             }
+                            onClick={() => loggPermitteringsinfo('info om permitering')}
                         >
-                            permitteringer som følge av koronaviruset{' '}
-                        </a>
-                        og finn {' '}
-                        <a
+                            permitteringer som følge av koronaviruset
+                        </Lenke>
+                        {', send skjema '}
+                        <Lenke
+                            href={
+                                'https://www.nav.no/soknader/nb/bedrift/permitteringer-oppsigelser-og-konkurs/masseoppsigelser'
+                            }
                             onClick={() =>
                                 loggPermitteringsinfo(
                                     'skjemaer for permitteringer, oppsigelser og konkurs'
                                 )
                             }
-                            href={
-                                'https://www.nav.no/soknader/nb/bedrift/permitteringer-oppsigelser-og-konkurs'
+                        >
+                            Arbeidsgivers meldeplikt til NAV ved masseoppsigelser, permitteringer uten lønn og innskrenking i arbeidstiden
+                        </Lenke>
+                        , eller {' '}
+                        <Lenke
+                            href="https://www.nav.no/person/kontakt-oss/chat/arbeidsgiver"
+                            onClick={() =>
+                                loggPermitteringsinfo(
+                                    'chat med NAV om permittering.'
+                                )
                             }
                         >
-                            {' '}
-                            skjemaer for permitteringer, oppsigelser og konkurs.{' '}
-                        </a>
+                            chat med NAV om permittering
+                        </Lenke>
                     </p>
                 </AlertStripe>
             </div>

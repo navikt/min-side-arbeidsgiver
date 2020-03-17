@@ -10,7 +10,10 @@ import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
-import { loggTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
+import {
+    loggTilgangsKombinasjonAvTjenestebokser,
+    loggTjenesteTrykketPa,
+} from '../../../utils/funksjonerForAmplitudeLogging';
 import './TjenesteBoksContainer.less';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
@@ -30,6 +33,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visPAM, setVisPam] = useState(false);
     const [visInfoSyfovarsler, setVisInfoSyfoVarsler] = useState(false);
 
+    const loggSyfovarselInfo = (beskrivelse: string) => {
+        loggTjenesteTrykketPa(beskrivelse);
+    };
+
     const finnCookie = (): boolean => {
         return !!document.cookie
             .split(';')
@@ -39,6 +46,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const settCookie = () => {
         document.cookie = 'syfovarslerinfo=1; expires=Thu, 16 Apr 2020 17:00:00 GMT;';
         setVisInfoSyfoVarsler(false);
+        loggSyfovarselInfo('Info om fjerning av syfovarsler')
     };
 
     useEffect(() => {
