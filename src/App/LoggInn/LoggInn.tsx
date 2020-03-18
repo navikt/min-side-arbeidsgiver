@@ -14,7 +14,7 @@ export const LoggInn: FunctionComponent = () => {
         } else {
             document.cookie = 'nav-esso=0123456789..*; path=/;';
             document.cookie = 'selvbetjening-idtoken =0123456789..*; path=/;';
-            window.location.href = '/min-side-arbeidsgiver/';
+            window.location.href = '/min-side-arbeidsgiver';
         }
     };
     return (
