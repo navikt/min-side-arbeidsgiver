@@ -15,6 +15,7 @@ import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeT
 import { loggTjenesteTrykketPa } from '../../utils/funksjonerForAmplitudeLogging';
 import ikon from './infomation-circle-2.svg';
 import './Hovedside.less';
+import { Koronaboks } from '../Koronaboks/Koronaboks';
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -34,6 +35,7 @@ const Hovedside: FunctionComponent = () => {
                 visFeilmelding={visFeilmelding}
                 visSyfoFeilmelding={visSyfoFeilmelding}
             />
+            <Koronaboks/>
             <div className="hovedside__corona-info-container">
                 <AlertStripe type="info">
                     <b>Permitteringer som følge av koronaviruset</b>
