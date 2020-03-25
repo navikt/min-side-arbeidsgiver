@@ -159,3 +159,12 @@ export const lenkeTilInfoOmDigitaleSoknader =
 
 export const lenkeTilInforOmInntekstmelding =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
+
+export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
+    if (environment.MILJO === 'prod-sbs') {
+        return 'https://arbeidsgiver.nav.no/permittering/'
+    }
+    return 'https://arbeidsgiver-q.nav.no/permittering/'
+};
+
+export const infoOmPermitteringOgMasseoppsigelse = 'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';
