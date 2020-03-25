@@ -1,73 +1,58 @@
 @import '../../../node_modules/nav-frontend-core/less/_variabler';
 
 .informasjon-om-tilgangsstyring {
-  flex-direction: column;
-  display: flex;
-  background-color: @navLysGra;
-  min-height: 100vh;
-
-  &__innhold {
     flex-direction: column;
-    align-self: center;
-    padding: 1rem;
-    margin: 1rem;
-
-  }
-
-  &__tekst {
-    flex-direction: column;
-    max-width: 40rem;
     display: flex;
-    background-color: white;
-    padding: 2.5rem;
-    border-radius: 4px;
-    margin: 2rem;
+    background-color: @navLysGra;
+    min-height: 100vh;
 
-  }
-
-  &__lenke {
-    margin: 2rem;
-
-  }
-
-  &__innholdstittel {
-    margin-bottom: 2rem;
-  }
-
-  &__ingress {
-    margin-bottom: 2rem;
-  }
-
-  &__systemtittel {
-    margin: 0.5rem 0 1rem 0rem;
-  }
-
-  &__bunntekst {
-    margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  @media (max-width: @screen-md-min) {
-    &__tekst {
-      margin: 1rem 0 0 0;
-
-    }
     &__innhold {
-      padding: 0;
-      margin: 0;
-
+        width: 100%;
+        margin: 0;
+        padding: 0 0 3rem 0;
     }
-  }
 
+    &__tekst {
+        background-color: white;
+        margin: 1rem 0 0 0;
+        padding: 2.5rem 1rem;
+        border-radius: 4px;
+
+        .ekspanderbartPanel {
+            margin-bottom: 1rem;
+        }
+    }
+
+    &__lenke {
+        margin: 0.5rem 1rem 1rem;
+    }
+
+    &__innholdstittel {
+        margin-bottom: 2rem;
+    }
+
+    &__ingress {
+        margin-bottom: 2rem;
+    }
+
+    &__systemtittel {
+        margin: 0.5rem 0 1rem;
+    }
+
+    &__bunntekst {
+        margin-top: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        &__tekst {
+            margin: 0 auto;
+            max-width: 40rem;
+        }
+
+        &__lenke {
+            margin: 1rem 2rem 2rem;
+        }
+    }
 }
-
-.ekspanderbartPanel {
-  margin-bottom: 1rem;
-}
-
-
-
-
-
-
