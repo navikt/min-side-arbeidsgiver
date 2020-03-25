@@ -159,3 +159,6 @@ export const lenkeTilInfoOmDigitaleSoknader =
 
 export const lenkeTilInforOmInntekstmelding =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
+
+export const lenkeTilInfoOmPermittering =
+    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
