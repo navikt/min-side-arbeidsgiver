@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import './InformasjonOmTilgangsstyringSide.less';
 import Lenke from 'nav-frontend-lenker';
-
 import { Innholdstittel, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import { basename } from '../../paths';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
@@ -12,16 +10,22 @@ import {
     LenkeTilInfoOmRettigheterTilSykmelding,
     lenkeTilInforOmInntekstmelding,
     lenkeTilInfoOmSykefravarsstatistikk,
+    lenkeTilInfoOmPermittering
 } from '../../lenker';
+import './InformasjonOmTilgangsstyringSide.less';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
     return (
         <div className={'informasjon-om-tilgangsstyring '}>
+
             <LoggInnBanner />
+
             <div className={'informasjon-om-tilgangsstyring__innhold'}>
-                <Lenke className={'informasjon-om-tilgangsstyring__lenke'} href={basename + '/'}>
-                    Tilbake til forsiden
-                </Lenke>
+                <div className={'informasjon-om-tilgangsstyring__lenke'}>
+                    <Lenke  href={basename + '/'}>
+                        Tilbake til forsiden
+                    </Lenke>
+                </div>
                 <div className={'informasjon-om-tilgangsstyring__tekst'}>
                     <Innholdstittel className={'informasjon-om-tilgangsstyring__innholdstittel'}>
                         {' '}
@@ -45,6 +49,19 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                     <Undertittel className={'informasjon-om-tilgangsstyring__systemtittel'}>
                         Slik får du tilgang til de digitale tjenestene
                     </Undertittel>
+
+                    <Ekspanderbartpanel tittel="Permittering, masseoppsigelse og innskrenking av arbeidstid" border>
+                        <Normaltekst>
+                            For å få tilgang til digitalt skjema om permittering uten lønn, masseoppsigelse og
+                            innskrenking av arbeidstid må du ha en hvilken som helst Altinn-rolle. Du vil bare se
+                            skjemaer som du selv har opprettet og sendt inn.
+                        </Normaltekst>
+                        <br />
+                        <Lenke href={lenkeTilInfoOmPermittering}>
+                            Les mer om permittering uten lønn, masseoppsigelse og innskrenking av arbeidstid
+                        </Lenke>
+                    </Ekspanderbartpanel>
+
                     <Ekspanderbartpanel tittel="Avtaler/søknader om NAV-tiltak" border>
                         Vi tilbyr følgende digitale tjenester om NAV-tiltak:
                         <ul>
@@ -70,6 +87,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             Les om digitale tiltakssøknader
                         </Lenke>
                     </Ekspanderbartpanel>
+
                     <Ekspanderbartpanel tittel="Tilskuddsbrev for NAV-tiltak" border>
                         <Normaltekst>
                             For å få tilgang til digitale tilskuddsbrev om NAV-tiltak må du ha en av

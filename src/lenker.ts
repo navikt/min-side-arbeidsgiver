@@ -170,3 +170,6 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
 };
 
 export const infoOmPermitteringOgMasseoppsigelse = 'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';
+
+export const lenkeTilInfoOmPermittering =
+    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
