@@ -21,7 +21,7 @@ export interface FeatureToggles {
 
 export const FeatureToggleContext = createContext<FeatureToggles>({});
 
-const hentFeatureToggles = async (featureToggles: Feature[]): Promise<FeatureToggles> => {
+const hentFeatureToggles = async (): Promise<FeatureToggles> => {
     const response = await fetch(featureTogglePath(alleFeatures), { credentials: 'same-origin' });
     return await response.json();
 };
@@ -30,7 +30,9 @@ export const FeatureToggleProvider = (props: any) => {
     const [featureToggles, setFeatureToggles] = useState<FeatureToggles>({});
 
     const hentToggles = () => {
-        hentFeatureToggles(alleFeatures).then(setFeatureToggles);
+        hentFeatureToggles().then( toggles => {
+            setFeatureToggles(toggles);
+        });
     };
 
     useEffect(() => {

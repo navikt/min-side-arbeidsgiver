@@ -1,14 +1,13 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './IkkeTilgangTilDisseTjenestene.less';
 
-
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjoner';
 import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
-import AlertStripeInfo from "nav-frontend-alertstriper/lib/info-alertstripe";
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 
 const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
@@ -33,7 +32,7 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
 
     return (
-        <div className={"oversikt-over-manglende-tilganger__container"}>
+        <div className={'oversikt-over-manglende-tilganger__container'}>
             {' '}
             {skalViseInnhold && (
                 <Ekspanderbartpanel
@@ -42,15 +41,17 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                 >
                     <div className={'oversikt-over-manglende-tilganger__innhold'}>
                         <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
-                            Du har ikke rettighetene som kreves for å bruke disse
-                            tjenestene. Du kan be om tilgang til de spesifikke tjenestene ved å følge lenkene under.
+                            Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du kan
+                            be om tilgang til de spesifikke tjenestene ved å følge lenkene under.
                         </AlertStripeInfo>
-                        {valgtOrganisasjon.OrganizationNumber !== ''&& <Organisasjonsbeskrivelse
-                            navn={valgtOrganisasjon.Name}
-                            orgnummer={valgtOrganisasjon.OrganizationNumber}
-                        />}
+                        {valgtOrganisasjon.OrganizationNumber !== '' && (
+                            <Organisasjonsbeskrivelse
+                                navn={valgtOrganisasjon.Name}
+                                orgnummer={valgtOrganisasjon.OrganizationNumber}
+                            />
+                        )}
                         <div className={'oversikt-over-manglende-tilganger__tjeneste-info-bokser'}>
-                        {tjenesteinfoBokser}
+                            {tjenesteinfoBokser}
                         </div>
                     </div>
                 </Ekspanderbartpanel>
