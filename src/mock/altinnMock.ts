@@ -51,6 +51,30 @@ const OrganisasjonerResponse = [
         OrganizationForm: 'BEDR',
         Status: 'Active',
     },
+    {
+        Name: 'BJØRNØYA OG ROVDE REVISJON',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '810993472',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'ARENDAL OG BØNES REVISJON',
+        Type: 'Business',
+        ParentOrganizationNumber: '810993472',
+        OrganizationNumber: '810993502',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'GRAVDAL OG SOLLIA REVISJON',
+        Type: 'Business',
+        ParentOrganizationNumber: '810993472',
+        OrganizationNumber: '910993542',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
 ];
 
 fetchMock
@@ -66,6 +90,14 @@ fetchMock
         'begin:/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
         delay.then(() => {
             return ekspertBistandSkjemaResponse;
+        })
+    )
+    .spy();
+fetchMock
+    .get(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
+        delay.then(() => {
+            return InntektsmeldingSkjemaResponse;
         })
     )
     .spy();
@@ -272,5 +304,23 @@ const rollerResponse = [
         RoleName: 'Økokrim reporting',
         RoleDescription:
             'Access to services from The Norwegian National Authority for Investigation and Prosecution of Economic and Environmental Crime',
+    },
+];
+
+const InntektsmeldingSkjemaResponse = [
+    {
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '811076732',
+        ParentOrganizationNumber: '811076112',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '811076112',
+        OrganizationForm: 'AS',
+        Status: 'Active',
     },
 ];

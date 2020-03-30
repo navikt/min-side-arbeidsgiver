@@ -169,6 +169,15 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
     }
 };
 
+export  const LenkeTilKoronaRefusjon = () =>{
+    if (environment.MILJO === 'prod-sbs'){
+        return 'https://arbeidsgiver.nav.no/nettrefusjon'
+    }
+    else{
+        return 'https://arbeidsgiver-q.nav.no/nettrefusjon'
+    }
+};
+
 export const infoOmPermitteringOgMasseoppsigelse = 'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';
 
 export const lenkeTilInfoOmPermittering =
