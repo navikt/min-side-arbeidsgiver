@@ -1,13 +1,14 @@
 import React, { FunctionComponent, useContext } from 'react';
 import './IkkeTilgangTilDisseTjenestene.less';
 
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjoner';
 import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import AlertStripeInfo from "nav-frontend-alertstriper/lib/info-alertstripe";
 
 const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
