@@ -51,6 +51,7 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         versjon: '2',
         testversjon: '1'
     },
+
 ];
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);

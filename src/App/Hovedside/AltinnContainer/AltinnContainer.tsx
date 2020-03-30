@@ -102,7 +102,7 @@ export const AltinnContainer: FunctionComponent = () => {
                 }
             });
         };
-        if (listeMedSkjemaOgTilganger.length === 5) {
+        if (listeMedSkjemaOgTilganger.length === 6) {
             finnTilgang();
         }
 
