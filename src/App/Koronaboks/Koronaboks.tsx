@@ -10,7 +10,6 @@ import {Undertittel} from "nav-frontend-typografi";
 import {OrganisasjonsDetaljerContext} from "../../OrganisasjonDetaljerProvider";
 import {OrganisasjonsListeContext} from "../../OrganisasjonsListeProvider";
 import {SkjemaMedOrganisasjonerMedTilgang} from "../../api/dnaApi";
-import {Feature, FeatureToggleContext} from "../../FeatureToggleProvider";
 
 export const Koronaboks = () => {
     const { valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
