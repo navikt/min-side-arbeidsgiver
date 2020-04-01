@@ -16,8 +16,6 @@ export const Koronaboks = () => {
     const { valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     const [tilgangRefusjon, setTilgangRefusjon] = useState(false);
-    const featureToggleContext = useContext(FeatureToggleContext);
-    const visRefusjon = featureToggleContext[Feature.visRefusjon];
     useEffect(() => {
         const sjekkOgSettTilgang = (
             skjema: SkjemaMedOrganisasjonerMedTilgang,
