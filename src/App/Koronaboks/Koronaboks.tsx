@@ -15,6 +15,13 @@ export const Koronaboks = () => {
     const { valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     const [tilgangRefusjon, setTilgangRefusjon] = useState(false);
+
+    const SetStateFunksjonmedSkjemaNavn = (skjemaNavn: string, tilgang: boolean) => {
+        if(skjemaNavn ==='Inntektsmelding') {
+            setTilgangRefusjon(tilgang);
+            }
+        };
+
     useEffect(() => {
         const sjekkOgSettTilgang = (
             skjema: SkjemaMedOrganisasjonerMedTilgang,
@@ -22,11 +29,11 @@ export const Koronaboks = () => {
             orgnrMedTilgang: string[]
         ): number => {
             if (orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber) && skjema.Skjema.navn !== 'Tiltaksgjennomforing') {
-                setTilgangRefusjon( true);
+                SetStateFunksjonmedSkjemaNavn(skjemaNavn, true);
                 return 1;
             }
             if (!orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
-                setTilgangRefusjon( false);
+                SetStateFunksjonmedSkjemaNavn( skjemaNavn,false);
             }
             return 0;
         };
@@ -48,7 +55,6 @@ export const Koronaboks = () => {
         }
         finnTilgang();
     }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
-
 
     return (
         <div className={'koronaboks'}>
