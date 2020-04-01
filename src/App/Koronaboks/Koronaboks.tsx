@@ -61,7 +61,7 @@ export const Koronaboks = () => {
             <Element className={'koronaboks__tekst'}> Permittering </Element>
             <Lenke className={'koronaboks__lenke'} href={lenkeTilPermitteringOgMasseoppsigelsesSkjema()}>Varsle NAV om permitteringer, masseoppsigelser, permitteringer eller innskrenknigner i arbeidstiden <HoyreChevron/></Lenke>
             <Lenke className={'koronaboks__lenke'} href={"https://www.nav.no/person/kontakt-oss/chat/arbeidsgiver"}>Chat med NAV om permittering <HoyreChevron/></Lenke>
-            {visRefusjon && tilgangRefusjon &&
+            {tilgangRefusjon &&
                 <div>
                 <Element className={'koronaboks__tekst'}> Refusjon </Element>
                 < Lenke className={'koronaboks__lenke'} href={LenkeTilKoronaRefusjon()}>Søk om refusjon av sykepenger relatert til koronavirus <HoyreChevron/></Lenke>
