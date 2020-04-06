@@ -16,7 +16,7 @@ const OrganisasjonerResponse = [
         Type: 'Business',
         OrganizationNumber: '811076732',
         ParentOrganizationNumber: '811076112',
-        OrganizationForm: 'BEDR',
+        OrganizationForm: 'AAFY',
         Status: 'Active',
     },
     {
@@ -24,7 +24,7 @@ const OrganisasjonerResponse = [
         Type: 'Enterprise',
         ParentOrganizationNumber: null,
         OrganizationNumber: '811076112',
-        OrganizationForm: 'AS',
+        OrganizationForm: 'FLI',
         Status: 'Active',
     },
     {
@@ -33,6 +33,14 @@ const OrganisasjonerResponse = [
         OrganizationNumber: '922658986',
         ParentOrganizationNumber: '822565212',
         OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'TEST AV AAFY ',
+        Type: 'Business',
+        OrganizationNumber: '973610015',
+        ParentOrganizationNumber: '971348593',
+        OrganizationForm: 'AAFY',
         Status: 'Active',
     },
     {
@@ -73,6 +81,22 @@ const OrganisasjonerResponse = [
         ParentOrganizationNumber: '810993472',
         OrganizationNumber: '910993542',
         OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'STORFOSNA OG FREDRIKSTAD REGNSKAP',
+        Type: 'Business',
+        ParentOrganizationNumber: '910825550',
+        OrganizationNumber: '910825569',
+        OrganizationForm: 'AAFY',
+        Status: 'Active',
+    },
+    {
+        Name: 'TRANØY OG SANDE I VESTFOLD REGNSKAP',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: '',
+        OrganizationNumber: '910825550',
+        OrganizationForm: 'FLI',
         Status: 'Active',
     },
 ];
