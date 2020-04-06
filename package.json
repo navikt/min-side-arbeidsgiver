@@ -7,7 +7,7 @@
   "dependencies": {
     "@craco/craco": "^3.4.1",
     "@navikt/arbeidsforhold": "^1.0.4",
-    "@navikt/bedriftsmeny": "2.0.2",
+    "@navikt/bedriftsmeny": "2.0.5",
     "@types/amplitude-js": "^5.8.0",
     "@types/classnames": "^2.2.7",
     "@types/fetch-mock": "^7.2.3",
