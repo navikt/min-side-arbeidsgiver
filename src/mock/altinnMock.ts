@@ -16,7 +16,7 @@ const OrganisasjonerResponse = [
         Type: 'Business',
         OrganizationNumber: '811076732',
         ParentOrganizationNumber: '811076112',
-        OrganizationForm: 'BEDR',
+        OrganizationForm: 'AAFY',
         Status: 'Active',
     },
     {
@@ -24,7 +24,7 @@ const OrganisasjonerResponse = [
         Type: 'Enterprise',
         ParentOrganizationNumber: null,
         OrganizationNumber: '811076112',
-        OrganizationForm: 'AS',
+        OrganizationForm: 'FLI',
         Status: 'Active',
     },
     {
@@ -33,6 +33,14 @@ const OrganisasjonerResponse = [
         OrganizationNumber: '922658986',
         ParentOrganizationNumber: '822565212',
         OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'TEST AV AAFY ',
+        Type: 'Business',
+        OrganizationNumber: '973610015',
+        ParentOrganizationNumber: '971348593',
+        OrganizationForm: 'AAFY',
         Status: 'Active',
     },
     {
