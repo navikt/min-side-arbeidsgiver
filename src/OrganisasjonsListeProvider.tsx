@@ -84,10 +84,10 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     useEffect(() => {
         hentOrganisasjoner().then((organisasjoner) => {
             const organisasjonerFiltrert = organisasjoner.filter(org =>
-                org.OrganizationForm === 'BEDR' || (org.Type === 'Enterprise' && org.OrganizationForm !== 'FLI')
+                org.OrganizationForm === 'BEDR' || org.OrganizationForm === 'AAFY' || org.Type === 'Enterprise'
             );
             setOrganisasjoner(organisasjoner.filter(org =>
-                org.OrganizationForm === 'BEDR' || (org.Type === 'Enterprise' && org.OrganizationForm !== 'FLI')
+                org.OrganizationForm === 'BEDR' || org.OrganizationForm === 'AAFY' || org.Type === 'Enterprise'
             ));
             if (organisasjonerFiltrert.length>0)
                 setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);

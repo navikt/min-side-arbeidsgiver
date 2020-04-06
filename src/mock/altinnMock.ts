@@ -75,6 +75,22 @@ const OrganisasjonerResponse = [
         OrganizationForm: 'BEDR',
         Status: 'Active',
     },
+    {
+        Name: 'STORFOSNA OG FREDRIKSTAD REGNSKAP',
+        Type: 'Business',
+        ParentOrganizationNumber: '910825550',
+        OrganizationNumber: '910825569',
+        OrganizationForm: 'AAFY',
+        Status: 'Active',
+    },
+    {
+        Name: 'TRANØY OG SANDE I VESTFOLD REGNSKAP',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: '',
+        OrganizationNumber: '910825550',
+        OrganizationForm: 'FLI',
+        Status: 'Active',
+    },
 ];
 
 fetchMock
