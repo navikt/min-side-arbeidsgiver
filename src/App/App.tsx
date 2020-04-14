@@ -12,6 +12,7 @@ import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import environment from '../utils/environment';
 import amplitude from '../utils/amplitude';
+import {FeatureToggleProvider} from "../FeatureToggleProvider";
 
 const App: FunctionComponent = () => {
     amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
@@ -27,6 +28,7 @@ const App: FunctionComponent = () => {
                             component={InformasjonOmTilgangsstyringSide}
                         />
                         <LoginBoundary>
+                            <FeatureToggleProvider>
                             <OrganisasjonsListeProvider>
                                 <SyfoTilgangProvider>
                                     <OrganisasjonsDetaljerProvider>
@@ -48,6 +50,7 @@ const App: FunctionComponent = () => {
                                     </OrganisasjonsDetaljerProvider>
                                 </SyfoTilgangProvider>
                             </OrganisasjonsListeProvider>
+                            </FeatureToggleProvider>
                         </LoginBoundary>
                     </Switch>
                 </div>
