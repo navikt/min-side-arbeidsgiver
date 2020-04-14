@@ -10,7 +10,7 @@ spec:
   team: {{team}}
   port: 3000
   ingresses:
-    - https://arbeidsgiver.nav.no/min-side-arbeidsgiver/
+    - https://arbeidsgiver.nav.no/min-side-arbeidsgiver
   liveness:
     path: /min-side-arbeidsgiver/internal/isAlive
     initialDelay: 20
@@ -25,4 +25,4 @@ spec:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
-      value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver/
+      value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver
