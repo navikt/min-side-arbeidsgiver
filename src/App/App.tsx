@@ -30,7 +30,7 @@ const App: FunctionComponent = () => {
                         <LoginBoundary>
                             <FeatureToggleProvider>
                             <OrganisasjonsListeProvider>
-                                <SyfoTilgangProvider>
+                                <SyfoTilgangProvider>yarn mock
                                     <OrganisasjonsDetaljerProvider>
                                         <Banner />
                                         <div className="bakgrunnsside">
