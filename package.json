@@ -7,7 +7,7 @@
   "dependencies": {
     "@craco/craco": "^3.4.1",
     "@navikt/arbeidsforhold": "^1.0.4",
-    "@navikt/bedriftsmeny": "2.0.6",
+    "@navikt/bedriftsmeny": "2.1.0-beta.1",
     "@sentry/browser": "^5.15.4",
     "@types/amplitude-js": "^5.8.0",
     "@types/classnames": "^2.2.7",
@@ -73,7 +73,7 @@
     "nav-frontend-veileder-style": "^2.0.6",
     "nav-frontend-veilederpanel": "^0.1.9",
     "nav-frontend-veilederpanel-style": "0.0.14",
-    "npm": "^6.11.3",
+
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
     "react-app-polyfill": "^1.0.2",
