@@ -4,15 +4,15 @@ import 'react-app-polyfill/stable';
 import 'unorm/lib/unorm';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { init as Sentry } from '@sentry/browser';
+// import { init as Sentry } from '@sentry/browser';
 import App from './App/App';
 import './index.less';
 
-Sentry({
+/* Sentry({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',
     release: process.env.GIT_COMMIT_HASH || 'unknown',
     environment: window.location.hostname,
-});
+}); */
 
 if (process.env.REACT_APP_MOCK) {
     console.log('========================================');
