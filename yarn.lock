@@ -1253,10 +1253,10 @@
   resolved "https://registry.yarnpkg.com/@navikt/arbeidsforhold/-/arbeidsforhold-1.1.25.tgz#0e742dc0f112b2e3fbf0f92cb6e55db0536fc07e"
   integrity sha512-VFnSbAQmnmB7f1jM8Gv7Gy3WGY34Y4ckVc81hcoFYsElsN3GDVt8uuYsIxivo4OgOil913KgtUcHS1g+yV+19g==
 
-"@navikt/bedriftsmeny@2.1.0-beta.3":
-  version "2.1.0-beta.3"
-  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-2.1.0-beta.3.tgz#ad578ffaed7efbe55daf7f85b93448710a83487a"
-  integrity sha512-/hYQFkfDMq59SeEB/0PlZeOzdD1Fkf4TMFWr7GYWocOY2Wj/QNXoon/GnyQArYaHYOaLWxpyZ3IybcMaR0GQnA==
+"@navikt/bedriftsmeny@2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-2.1.0.tgz#d176b66856bac6a1057bd15b21ec1694a9a8c02a"
+  integrity sha512-UGEbof4PmUYUHc4TEkYh3FY533n72bR3bhqIS+Yhu9ysI2IHFzD1TxA0qID0mAFE6Q/VBoNBWthazOpoMWjOnw==
   dependencies:
     classnames "^2.2.6"
     fuzzysort "^1.1.4"
@@ -8983,7 +8983,7 @@ raw-body@2.4.0:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-react-app-polyfill@^1.0.2, react-app-polyfill@^1.0.6:
+react-app-polyfill@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/react-app-polyfill/-/react-app-polyfill-1.0.6.tgz#890f8d7f2842ce6073f030b117de9130a5f385f0"
   integrity sha512-OfBnObtnGgLGfweORmdZbyEz+3dgVePQBb3zipiaDsMHV1NpWm0rDFYIVXFV/AK+x4VIIfWHhrdMIeoTLyRr2g==
