@@ -12,7 +12,7 @@ import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import environment from '../utils/environment';
 import amplitude from '../utils/amplitude';
-import {FeatureToggleProvider} from "../FeatureToggleProvider";
+import { FeatureToggleProvider } from '../FeatureToggleProvider';
 
 const App: FunctionComponent = () => {
     amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
@@ -20,15 +20,14 @@ const App: FunctionComponent = () => {
     return (
         <div className="typo-normal">
             <BrowserRouter basename={basename}>
-                <div>
-                    <Switch>
-                        <Route
-                            path="/informasjon-om-tilgangsstyring"
-                            exact={true}
-                            component={InformasjonOmTilgangsstyringSide}
-                        />
-                        <LoginBoundary>
-                            <FeatureToggleProvider>
+                <Switch>
+                    <Route
+                        path="/informasjon-om-tilgangsstyring"
+                        exact={true}
+                        component={InformasjonOmTilgangsstyringSide}
+                    />
+                    <LoginBoundary>
+                        <FeatureToggleProvider>
                             <OrganisasjonsListeProvider>
                                 <SyfoTilgangProvider>
                                     <OrganisasjonsDetaljerProvider>
@@ -50,10 +49,9 @@ const App: FunctionComponent = () => {
                                     </OrganisasjonsDetaljerProvider>
                                 </SyfoTilgangProvider>
                             </OrganisasjonsListeProvider>
-                            </FeatureToggleProvider>
-                        </LoginBoundary>
-                    </Switch>
-                </div>
+                        </FeatureToggleProvider>
+                    </LoginBoundary>
+                </Switch>
             </BrowserRouter>
         </div>
     );

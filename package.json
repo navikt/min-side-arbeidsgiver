@@ -7,7 +7,7 @@
   "dependencies": {
     "@craco/craco": "^3.4.1",
     "@navikt/arbeidsforhold": "^1.0.4",
-    "@navikt/bedriftsmeny": "2.0.6",
+    "@navikt/bedriftsmeny": "2.1.0",
     "@sentry/browser": "^5.15.4",
     "@types/amplitude-js": "^5.8.0",
     "@types/classnames": "^2.2.7",
@@ -73,10 +73,8 @@
     "nav-frontend-veileder-style": "^2.0.6",
     "nav-frontend-veilederpanel": "^0.1.9",
     "nav-frontend-veilederpanel-style": "0.0.14",
-    "npm": "^6.11.3",
     "prop-types": "^15.7.2",
     "react": "^16.13.0",
-    "react-app-polyfill": "^1.0.2",
     "react-aria-menubutton": "^6.1.0",
     "react-collapse": "^5.0.0",
     "react-dom": "^16.8.1",
@@ -85,9 +83,11 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "^3.1.1",
     "react-tooltip": "^3.10.0",
+    "regenerator-runtime": "^0.13.5",
     "typescript": "3.3.3",
     "unorm": "^1.6.0",
-    "yarn": "^1.22.0"
+    "yarn": "^1.22.0",
+    "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
     "fs-extra": "^7.0.1",
@@ -105,10 +105,18 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+      "> 0.5% in NO",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "ie 11"
+    ]
+  }
 }

@@ -1,4 +1,3 @@
-
 const path = require('path');
 const express = require('express');
 const BASE_PATH='/min-side-arbeidsgiver';
@@ -32,7 +31,6 @@ server.get(`${BASE_PATH}/redirect-til-login`, (req, res) => {
     res.redirect(loginUrl);
 });
 
-
 const renderApp = decoratorFragments =>
     new Promise((resolve, reject) => {
         server.render('index.html', decoratorFragments, (err, html) => {
@@ -56,7 +54,8 @@ const startServer = html => {
         console.log('Server listening on port', port);
     });
 };
-const startMockServer = html => {
+
+const startMockServer = () => {
     console.log("start mock server");
     server.use(BASE_PATH, express.static(buildPath));
 
@@ -81,13 +80,10 @@ const setInternalEndpoints = () => {
     );
 };
 
-
-
-
-if(process.env.REACT_APP_MOCK){
+if(process.env.REACT_APP_MOCK) {
     startMockServer();
 
-}else {
+} else {
     getDecorator()
         .then(renderApp, error => {
             console.error('Kunne ikke hente dekoratør ', error);

@@ -1,7 +1,9 @@
-import 'core-js';
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 import 'unorm/lib/unorm';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'whatwg-fetch';
 import { init as Sentry } from '@sentry/browser';
 import App from './App/App';
 import './index.less';
@@ -15,7 +17,7 @@ Sentry({
 if (process.env.REACT_APP_MOCK) {
     console.log('========================================');
     console.log('=============== MED MOCK ===============');
-    console.log('===DETTE SKAL DU IKKE SE I PRODUKSJON===');
+    console.log('== DETTE SKAL DU IKKE SE I PRODUKSJON ==');
     console.log('========================================');
     require('./mock/pamMock');
     require('./mock/syfoMock');
@@ -27,7 +29,3 @@ if (process.env.REACT_APP_MOCK) {
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
