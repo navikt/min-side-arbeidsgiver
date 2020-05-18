@@ -128,17 +128,17 @@ export const beOmTilgangIAltinnLink = (
             serviceEditionKode
         );
     } else {
-        let riktigKode = serviceEditionKode;
+        let testServiceEditionKode = serviceEditionKode;
         if (serviceEditionKodeTest) {
-            riktigKode = serviceEditionKodeTest;
+            testServiceEditionKode = serviceEditionKodeTest;
         }
         return (
             'https://tt02.altinn.no/ui/DelegationRequest?offeredBy=' +
             orgnr +
             '&resources=' +
-            riktigKode +
+            serviceKode+
             '_' +
-            serviceEditionKode
+            testServiceEditionKode
         );
     }
 };
