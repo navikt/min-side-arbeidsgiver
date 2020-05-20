@@ -11,9 +11,9 @@ import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgan
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
+import { Koronaboks } from '../Koronaboks/Koronaboks';
 import ikon from './infomation-circle-2.svg';
 import './Hovedside.less';
-import { Koronaboks } from '../Koronaboks/Koronaboks';
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -23,20 +23,16 @@ const Hovedside: FunctionComponent = () => {
         organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
     );
 
-    /*const loggPermitteringsinfo = (lenkebeskrivelse: string) => {
-        loggTjenesteTrykketPa(lenkebeskrivelse);
-    };*/
-
     return (
         <div className="hovedside">
             <FeilmeldingContainer
                 visFeilmelding={visFeilmelding}
                 visSyfoFeilmelding={visSyfoFeilmelding}
             />
-            <Koronaboks/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
+                    <Koronaboks/>
                     <TjenesteBoksContainer />
                     <NyttigForDegContainer />
                     <AltinnContainer />
