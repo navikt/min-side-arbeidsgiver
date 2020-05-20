@@ -14,6 +14,7 @@ import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeT
 import ikon from './infomation-circle-2.svg';
 import './Hovedside.less';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
+import {SurveyBoks} from "./SurveyBoks/SurveyBoks";
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -33,6 +34,7 @@ const Hovedside: FunctionComponent = () => {
                 visFeilmelding={visFeilmelding}
                 visSyfoFeilmelding={visSyfoFeilmelding}
             />
+            <SurveyBoks/>
             <Koronaboks/>
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
