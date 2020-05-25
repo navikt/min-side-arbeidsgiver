@@ -8,6 +8,7 @@ import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjo
 import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
+import { Undertittel } from 'nav-frontend-typografi';
 
 const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
@@ -32,29 +33,35 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
 
     return (
-        <div className={'oversikt-over-manglende-tilganger__container'}>
-            {' '}
+        <div className="oversikt-over-manglende-tilganger__container">
             {skalViseInnhold && (
-                <Ekspanderbartpanel
-                    className={'oversikt-over-manglende-tilganger'}
-                    tittel="Tjenester du ikke har tilgang til"
-                >
-                    <div className={'oversikt-over-manglende-tilganger__innhold'}>
-                        <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
-                            Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du kan
-                            be om tilgang til de spesifikke tjenestene ved å følge lenkene under.
-                        </AlertStripeInfo>
-                        {valgtOrganisasjon.OrganizationNumber !== '' && (
-                            <Organisasjonsbeskrivelse
-                                navn={valgtOrganisasjon.Name}
-                                orgnummer={valgtOrganisasjon.OrganizationNumber}
-                            />
-                        )}
-                        <div className={'oversikt-over-manglende-tilganger__tjeneste-info-bokser'}>
-                            {tjenesteinfoBokser}
-                        </div>
+                <>
+                    <div className="oversikt-over-manglende-tilganger__tittel">
+                        <div className="divider"></div>
+                        <Undertittel className="tekst">Trenger du tilgang til flere tjenester?</Undertittel>
+                        <div className="divider"></div>
                     </div>
-                </Ekspanderbartpanel>
+                    <Ekspanderbartpanel
+                        className={'oversikt-over-manglende-tilganger'}
+                        tittel="Tjenester du kan be om tilgang til"
+                    >
+                        <div className="oversikt-over-manglende-tilganger__innhold">
+                            <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
+                                Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du kan
+                                be om tilgang til de spesifikke tjenestene ved å følge lenkene under.
+                            </AlertStripeInfo>
+                            {valgtOrganisasjon.OrganizationNumber !== '' && (
+                                <Organisasjonsbeskrivelse
+                                    navn={valgtOrganisasjon.Name}
+                                    orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                />
+                            )}
+                            <div className="oversikt-over-manglende-tilganger__tjeneste-info-bokser">
+                                {tjenesteinfoBokser}
+                            </div>
+                        </div>
+                    </Ekspanderbartpanel>
+                </>
             )}
         </div>
     );
