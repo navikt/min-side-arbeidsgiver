@@ -38,7 +38,7 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
                 <>
                     <div className="oversikt-over-manglende-tilganger__tittel">
                         <div className="divider"></div>
-                        <Undertittel className="tekst">Trenger du til tilgang til flere tjenester?</Undertittel>
+                        <Undertittel className="tekst">Trenger du tilgang til flere tjenester?</Undertittel>
                         <div className="divider"></div>
                     </div>
                     <Ekspanderbartpanel
