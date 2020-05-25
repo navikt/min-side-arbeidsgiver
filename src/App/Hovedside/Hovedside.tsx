@@ -9,8 +9,10 @@ import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgan
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
-import { Koronaboks } from '../Koronaboks/Koronaboks';
+import ikon from './infomation-circle-2.svg';
 import './Hovedside.less';
+import { Koronaboks } from '../Koronaboks/Koronaboks';
+import {SurveyBoks} from "./SurveyBoks/SurveyBoks";
 
 const Hovedside: FunctionComponent = () => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -29,6 +31,7 @@ const Hovedside: FunctionComponent = () => {
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
+                    <SurveyBoks/>
                     <Koronaboks/>
                     <TjenesteBoksContainer />
                     <NyttigForDegContainer />
