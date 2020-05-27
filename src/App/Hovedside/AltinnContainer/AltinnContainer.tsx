@@ -100,6 +100,10 @@ export const AltinnContainer: FunctionComponent = () => {
                 if (tellTilganger > 0) {
                     setgenerellAltinnTilgang(true);
                 }
+                if (tellTilganger === 0) {
+                    setgenerellAltinnTilgang(false);
+                }
+
             });
         };
         if (listeMedSkjemaOgTilganger.length === 6) {
