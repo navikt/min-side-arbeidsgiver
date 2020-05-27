@@ -10,7 +10,6 @@ import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContaine
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
-import { SurveyBoks } from './SurveyBoks/SurveyBoks';
 import './Hovedside.less';
 
 const Hovedside: FunctionComponent = () => {
@@ -30,7 +29,7 @@ const Hovedside: FunctionComponent = () => {
             {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
             {!skalViseManglerTilgangBoks && (
                 <>
-                    <SurveyBoks />
+
                     <Koronaboks />
                     <TjenesteBoksContainer />
                     <NyttigForDegContainer />
