@@ -37,9 +37,9 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
             {skalViseInnhold && (
                 <>
                     <div className="oversikt-over-manglende-tilganger__tittel">
-                        <div className="divider"></div>
+                        <div className="divider"/>
                         <Undertittel className="tekst">Trenger du tilgang til flere tjenester?</Undertittel>
-                        <div className="divider"></div>
+                        <div className="divider"/>
                     </div>
                     <Ekspanderbartpanel
                         className={'oversikt-over-manglende-tilganger'}
