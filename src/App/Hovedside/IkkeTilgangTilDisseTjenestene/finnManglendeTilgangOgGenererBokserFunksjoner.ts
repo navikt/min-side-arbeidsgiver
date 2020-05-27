@@ -72,7 +72,7 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
     switch (skjema.navn) {
         case 'Mentortilskudd': {
             tjenesteInnhold.innholdstekst =
-                'Få tilgang til å søke om Mentortilskudd i Altinn. Du kan søke om mentortilskudd for å få dekket frikjøp av en arbeidskollega som kan gi praktisk hjelp, veiledning og opplæring for personer som gjennomfører arbeidsmarkedstiltak. ';
+                'Få tilgang til å søke om mentortilskudd i Altinn. Du kan søke om mentortilskudd for å få dekket frikjøp av en arbeidskollega som kan gi praktisk hjelp, veiledning og opplæring for personer som gjennomfører arbeidsmarkedstiltak. ';
             break;
         }
         case 'Inkluderingstilskudd': {
@@ -93,10 +93,9 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
         }
         case 'Inntektsmelding': {
             tjenesteInnhold.innholdstekst =
-                'Send digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger.';
+                'Få tilgang til å sende digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger.';
             break;
         }
-
 
     }
     return tjenesteInnhold;
