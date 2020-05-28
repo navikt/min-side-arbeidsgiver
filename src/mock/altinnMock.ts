@@ -125,6 +125,14 @@ fetchMock
         })
     )
     .spy();
+fetchMock
+    .get(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5441&serviceEdition=1',
+        delay.then(() => {
+            return ArbeidsforholdResponse;
+        })
+    )
+    .spy();
 
 const ekspertBistandSkjemaResponse = [
     {
@@ -190,6 +198,42 @@ const mentortilskuddskjemaResponse = [
         ParentOrganizationNumber: '874652202',
         OrganizationNumber: '990229023',
         OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+];
+
+const InntektsmeldingSkjemaResponse = [
+    {
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '811076732',
+        ParentOrganizationNumber: '811076112',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '811076112',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+];
+
+const ArbeidsforholdResponse = [
+    {
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '811076732',
+        ParentOrganizationNumber: '811076112',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '811076112',
+        OrganizationForm: 'AS',
         Status: 'Active',
     },
 ];
@@ -331,20 +375,3 @@ const rollerResponse = [
     },
 ];
 
-const InntektsmeldingSkjemaResponse = [
-    {
-        Name: 'BALLSTAD OG HAMARØY',
-        Type: 'Business',
-        OrganizationNumber: '811076732',
-        ParentOrganizationNumber: '811076112',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
-        Name: 'BALLSTAD OG HORTEN',
-        Type: 'Enterprise',
-        OrganizationNumber: '811076112',
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-];

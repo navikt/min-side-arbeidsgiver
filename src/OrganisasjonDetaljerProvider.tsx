@@ -1,9 +1,13 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { Organisasjon, tomAltinnOrganisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { Organisasjon, tomAltinnOrganisasjon, } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentTiltaksgjennomforingTilgang, SkjemaMedOrganisasjonerMedTilgang } from './api/dnaApi';
-import {SyfoTilgangContext} from './SyfoTilgangProvider';
+import {
+    Arbeidsavtale,
+    hentTiltaksgjennomforingTilgang,
+    SkjemaMedOrganisasjonerMedTilgang,
+} from './api/dnaApi';
+import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 import { loggBedriftsInfo } from './utils/funksjonerForAmplitudeLogging';
@@ -28,6 +32,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
     const [tilgangTilArbeidsavtaler, setTilgangTilArbeidsavtaler] = useState(Tilgang.LASTER);
     const [tilgangTilIAWeb, setTilgangTilIAWeb] = useState(Tilgang.LASTER);
+    const [tilgangTilArbeidsforhold, setTilgangTilArbeidsforhold] = useState(Tilgang.LASTER);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [arbeidsavtaler, setArbeidsavtaler] = useState(Array<Arbeidsavtale>());
@@ -37,16 +42,17 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         organisasjonerMedIAWEB,
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
-        listeMedSkjemaOgTilganger
+        listeMedSkjemaOgTilganger,
     } = useContext(OrganisasjonsListeContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
-        console.log("endre org kallt");
+        // console.log('Endre org');
         if (org) {
             loggBedriftsInfo(org);
             settilgangTilPamState(Tilgang.LASTER);
             setTilgangTilIAWeb(Tilgang.LASTER);
             setTilgangTilArbeidsavtaler(Tilgang.LASTER);
+            setTilgangTilArbeidsforhold(Tilgang.LASTER);
             await setValgtOrganisasjon(org);
             const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
             if (harPamTilgang) {
@@ -68,19 +74,37 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             }
             listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
                 if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
-                    if (skjema.OrganisasjonerMedTilgang.filter((organisasjon: Organisasjon) => organisasjon.OrganizationNumber === org.OrganizationNumber).length === 0) {
+                    if (
+                        skjema.OrganisasjonerMedTilgang.filter(
+                            (organisasjon: Organisasjon) =>
+                                organisasjon.OrganizationNumber === org.OrganizationNumber
+                        ).length === 0
+                    ) {
                         setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-                        console.log("dette skjer: tror de ikke har tilgang")
+                        // console.log('Har ikke tilgang til arbeidstrening');
                     } else {
-                        hentTiltaksgjennomforingTilgang(
-                            org
-                        ).then(avtaler => {
-                            setArbeidsavtaler(avtaler);
-                            setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
-                        }).catch(e => {
-                            setArbeidsavtaler([]);
-                            setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-                        });
+                        hentTiltaksgjennomforingTilgang(org)
+                            .then(avtaler => {
+                                setArbeidsavtaler(avtaler);
+                                setTilgangTilArbeidsavtaler(Tilgang.TILGANG);
+                            })
+                            .catch(e => {
+                                setArbeidsavtaler([]);
+                                setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
+                            });
+                    }
+                }
+                if (skjema.Skjema.navn === 'Arbeidsforhold') {
+                    if (
+                        skjema.OrganisasjonerMedTilgang.filter(
+                            (organisasjon: Organisasjon) =>
+                                organisasjon.OrganizationNumber === org.OrganizationNumber
+                        ).length > 0
+                    ) {
+                        setTilgangTilArbeidsforhold(Tilgang.TILGANG);
+                    } else {
+                        setTilgangTilArbeidsforhold(Tilgang.IKKE_TILGANG);
+                        // console.log('Har ikke tilgang til arbeidsforhold');
                     }
                 }
             });
@@ -93,11 +117,13 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             tilgangTilPamState,
             tilgangTilIAWeb,
             tilgangTilArbeidsavtaler,
+            tilgangTilArbeidsforhold,
         ];
         setTilgangsArray(tilgangsArray);
         if (valgtOrganisasjon === tomAltinnOrganisasjon && organisasjonslisteFerdigLastet) {
             setTilgangsArray([
                 tilgangTilSyfoState,
+                Tilgang.IKKE_TILGANG,
                 Tilgang.IKKE_TILGANG,
                 Tilgang.IKKE_TILGANG,
                 Tilgang.IKKE_TILGANG,
@@ -108,6 +134,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         tilgangTilPamState,
         tilgangTilIAWeb,
         tilgangTilArbeidsavtaler,
+        tilgangTilArbeidsforhold,
         valgtOrganisasjon,
         organisasjonslisteFerdigLastet,
     ]);

@@ -1,8 +1,8 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .koronaboks {
     background-color: transparent;
-    max-width: 62rem;
-    width: 100%;
-    padding: 1rem;
+    margin: 0 1rem 2rem;
 
     &__ikon {
         position: absolute;
@@ -11,7 +11,7 @@
     }
 
     &__tekst {
-        margin: 0.5rem 0 0.5rem 0;
+        margin: 0.5rem 0;
     }
 
     &__lenke {
@@ -19,9 +19,20 @@
     }
 
     &__innhold {
-        padding: 1rem 3.5rem 1rem 3.5rem;
+        padding: 1rem 1rem 1rem 3rem;
         display: flex;
         flex-direction: column;
         position: relative;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        &__innhold {
+            padding: 1rem 3.5rem;
+        }
+    }
+
+    @media (min-width: @screen-md-min) {
+        width: 60rem;
+        margin: 0 0 2rem;
     }
 }
