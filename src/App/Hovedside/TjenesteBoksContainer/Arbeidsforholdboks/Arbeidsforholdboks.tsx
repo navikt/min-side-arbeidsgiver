@@ -11,6 +11,13 @@ const Arbeidsforholdboks = () => {
         loggTjenesteTrykketPa('Arbeidsforhold');
     };
 
+    const valgtbedrift = () => {
+        const orgnummerFraUrl = new URLSearchParams(window.location.search).get(
+            'bedrift'
+        );
+        return orgnummerFraUrl ? `?bedrift=${orgnummerFraUrl}` : '';
+    };
+
     return (
         <div className="arbeidsforholdboks tjenesteboks-innhold" onClick={loggAtKlikketPaArbeidsfohold}>
             <TjenesteBoksBanner
@@ -20,7 +27,7 @@ const Arbeidsforholdboks = () => {
             />
             <Lenkepanel
                 className="arbeidsforholdboks__arbeidsforhold"
-                href={arbeidsforholdLink()}
+                href={arbeidsforholdLink() + valgtbedrift()}
                 tittelProps="normaltekst"
             >
                 Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
