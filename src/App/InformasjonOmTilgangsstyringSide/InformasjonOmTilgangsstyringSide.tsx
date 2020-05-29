@@ -10,33 +10,29 @@ import {
     LenkeTilInfoOmRettigheterTilSykmelding,
     lenkeTilInforOmInntekstmelding,
     lenkeTilInfoOmSykefravarsstatistikk,
-    lenkeTilInfoOmPermittering
+    lenkeTilInfoOmPermittering,
 } from '../../lenker';
 import './InformasjonOmTilgangsstyringSide.less';
 
 const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
     return (
-        <div className={'informasjon-om-tilgangsstyring '}>
-
+        <div className="informasjon-om-tilgangsstyring">
             <LoggInnBanner />
 
-            <div className={'informasjon-om-tilgangsstyring__innhold'}>
-                <div className={'informasjon-om-tilgangsstyring__lenke'}>
-                    <Lenke  href={basename + '/'}>
-                        Tilbake til forsiden
-                    </Lenke>
+            <div className="informasjon-om-tilgangsstyring__innhold">
+                <div className="informasjon-om-tilgangsstyring__lenke">
+                    <Lenke href={basename + '/'}>Tilbake til forsiden</Lenke>
                 </div>
-                <div className={'informasjon-om-tilgangsstyring__tekst'}>
-                    <Innholdstittel className={'informasjon-om-tilgangsstyring__innholdstittel'}>
-                        {' '}
-                        Tilganger i Altinn{' '}
+                <div className="informasjon-om-tilgangsstyring__tekst">
+                    <Innholdstittel className="informasjon-om-tilgangsstyring__innholdstittel">
+                        Tilganger i Altinn
                     </Innholdstittel>
-                    <Normaltekst className={'informasjon-om-tilgangsstyring__ingress'}>
+                    <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                         For å få tilgang til NAVs tjenester til arbeidsgiver må du ha blitt tildelt
                         nødvendige Altinn-rettigheter av din arbeidsgiver. Administrator for Altinn
                         i virksomheten er ofte daglig leder, men det kan også være andre.
                     </Normaltekst>
-                    <ul>
+                    <ul className="informasjon-om-tilgangsstyring__avsnitt">
                         <li>
                             En <b>Altinn-rolle</b> gir som regel tilgang til <u>flere</u> tjenester,
                             også fra andre enn NAV. Vi sier at en rolle gir såkalt «vide tilganger».{' '}
@@ -45,20 +41,24 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             En <b>enkeltrettighet</b> gir tilgang til <u>en</u> enkelt tjeneste.
                         </li>
                     </ul>
-                    <br />
-                    <Undertittel className={'informasjon-om-tilgangsstyring__systemtittel'}>
+
+                    <Undertittel className="informasjon-om-tilgangsstyring__tittel">
                         Slik får du tilgang til de digitale tjenestene
                     </Undertittel>
 
-                    <Ekspanderbartpanel tittel="Permittering, masseoppsigelse og innskrenking av arbeidstid" border>
-                        <Normaltekst>
-                            For å få tilgang til digitalt skjema om permittering uten lønn, masseoppsigelse og
-                            innskrenking av arbeidstid må du ha en hvilken som helst Altinn-rolle. Du vil bare se
-                            skjemaer som du selv har opprettet og sendt inn.
+                    <Ekspanderbartpanel
+                        tittel="Permittering, masseoppsigelse og innskrenking av arbeidstid"
+                        border
+                    >
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                            For å få tilgang til digitalt skjema om permittering uten lønn,
+                            masseoppsigelse og innskrenking av arbeidstid må du ha en hvilken som
+                            helst Altinn-rolle. Du vil bare se skjemaer som du selv har opprettet og
+                            sendt inn.
                         </Normaltekst>
-                        <br />
                         <Lenke href={lenkeTilInfoOmPermittering}>
-                            Les mer om permittering uten lønn, masseoppsigelse og innskrenking av arbeidstid
+                            Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
+                            arbeidstid
                         </Lenke>
                     </Ekspanderbartpanel>
 
@@ -71,18 +71,16 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>søknad om tilskudd til mentor</li>
                             <li>søknad om tilskudd til ekspertbistand </li>
                         </ul>
-                        <Normaltekst>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             <b>Rolle i Altinn:</b> For å få tilgang til <u>alle</u> de nevnte
                             tjenestene over må du ha rollen «Helse-, sosial og velferdstjenester» i
                             Altinn.
                         </Normaltekst>
-                        <br />
-                        <Normaltekst>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             <b>Enkeltrettighet i Altinn:</b> Trenger du kun tilgang til en av de
                             nevnte tjenestene ovenfor kan du klare deg med en enkeltrettighet. Navn
                             på enkeltrettighetene er det samme som navnet på tjenesten.
                         </Normaltekst>
-                        <br />
                         <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
                             Les om digitale tiltakssøknader
                         </Lenke>
@@ -104,11 +102,10 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>norsk representant for utenlandsk enhet</li>
                             <li>bostyrer</li>
                         </ul>
-                        <Normaltekst>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             Enkeltansatte får tilgang ved å bli tildelt enkeltrettigheten:{' '}
                             <b>Tilskuddsbrev NAV-tiltak</b>
                         </Normaltekst>
-                        <br />
                         <Normaltekst>
                             NAV sender digitale tilskuddsbrev for følgende tiltak:
                         </Normaltekst>
@@ -128,6 +125,7 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>Enkeltplass arbeidsmarkedsopplæring</li>
                         </ul>
                     </Ekspanderbartpanel>
+
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
                         For å få tilgang til digital inntektsmelding må du ha en av Altinn-rollene
                         <ul>
@@ -139,48 +137,51 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             <li>revisormedarbeider</li>
                             <li>kontaktperson NUF</li>
                         </ul>
-                        <div>
-                            Du kan også ha rettigheten <b> inntekstmelding</b>{' '}
-                        </div>
+                        <Normaltekst>
+                            Du kan også ha rettigheten <b>inntektsmelding</b>
+                        </Normaltekst>
                         <Lenke href={lenkeTilInforOmInntekstmelding}>
                             Les om digitale inntekstmelding
                         </Lenke>
                     </Ekspanderbartpanel>
+
                     <Ekspanderbartpanel tittel="Rekruttering" border>
-                        På{' '}
-                        <Lenke href={'https://arbeidsplassen.nav.no/bedrift'}>Arbeidsplassen</Lenke>{' '}
-                        kan du finne kandidater og lage stillingsannonser. For å få tilgang må du ha
-                        en av rollene{' '}
+                        <Normaltekst>
+                            På{' '}
+                            <Lenke href={'https://arbeidsplassen.nav.no/bedrift'}>Arbeidsplassen</Lenke>{' '}
+                            kan du finne kandidater og lage stillingsannonser. For å få tilgang må du ha
+                            en av rollene
+                        </Normaltekst>
                         <ul>
                             <li>lønn og personalmedarbeider</li>
                             <li>utfyller/innsender</li>
                         </ul>
-                        <div>
-                            Du kan også ha enkeltrettigheten <b> rekruttering</b>{' '}
-                        </div>
-                    </Ekspanderbartpanel>
-                    <Ekspanderbartpanel tittel="Sykmelding/sykefraværsoppfølging" border>
                         <Normaltekst>
+                            Du kan også ha enkeltrettigheten <b>rekruttering</b>
+                        </Normaltekst>
+                    </Ekspanderbartpanel>
+
+                    <Ekspanderbartpanel tittel="Sykmelding/sykefraværsoppfølging" border>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             HR og lønn trenger følgende fire enkeltrettigheter: Sykmelding – oppgi
                             leder, Sykmelding, Søknad om sykepenger og Digital oppfølgingsplan for
                             sykmeldte
                         </Normaltekst>
-                        <br />
-                        <Normaltekst>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
                             skjemaet «Sykmelding – oppgi nærmeste leder».
                         </Normaltekst>
-                        <br />
                         <Lenke href={LenkeTilInfoOmRettigheterTilSykmelding}>
                             Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
                         </Lenke>
                     </Ekspanderbartpanel>
+
                     <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        <Normaltekst>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra
                             NAV Arbeidslivssenter må du ha
                         </Normaltekst>
-                        <br />
+
                         <Normaltekst>
                             <b>Rolle i Altinn:</b> helse-, sosial- og velferdstjenester
                         </Normaltekst>
@@ -192,10 +193,24 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             Les mer om tjenesten sykefraværsstatistikk på nav.no
                         </Lenke>
                     </Ekspanderbartpanel>
+
+                    <Ekspanderbartpanel tittel="Arbeidsforhold" border>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                            Tilgang til innsynstjeneste for arbeidsforhold innrapportert via
+                            A-meldingen gis automatisk til styrets leder og daglig leder, innehaver
+                            av enkeltpersonsforetak og deltager i ansvarlig selskap.
+                        </Normaltekst>
+                        <Normaltekst>
+                            Du kan også ha rettigheten{' '}
+                            <b>Innsyn i Aa-registeret for arbeidsgivere.</b>
+                        </Normaltekst>
+                    </Ekspanderbartpanel>
+
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
-                        Mangler du tilgang til tjenester? &nbsp;
-                        <br />
-                        <Lenke href={LenkeTilInfoOmAltinnRoller}>Les om roller i Altinn.</Lenke>
+                        <Normaltekst>
+                            Mangler du tilgang til tjenester? {' '}
+                            <Lenke href={LenkeTilInfoOmAltinnRoller}>Les om roller i Altinn.</Lenke>
+                        </Normaltekst>
                     </div>
                 </div>
             </div>
