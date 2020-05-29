@@ -2,6 +2,7 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { Tilgang } from '../../LoginBoundary';
+import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
@@ -28,11 +29,17 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visArbeidstrening, setVisArbeidstrening] = useState(false);
     const [visSyfo, setVisSyfo] = useState(false);
     const [visPAM, setVisPam] = useState(false);
+    const [visArbeidsforhold, setVisArbeidsforhold] = useState(false);
 
     useEffect(() => {
         setFerdigLastet('laster');
 
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
+            if (tilgangsArray[4] === Tilgang.TILGANG) {
+                setVisArbeidsforhold(true);
+            } else {
+                setVisArbeidsforhold(false);
+            }
             if (tilgangsArray[0] === Tilgang.TILGANG) {
                 setVisSyfo(true);
             } else {
@@ -87,6 +94,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
             {ferdigLastet === 'ferdig' && (
                 <>
+                    {visArbeidsforhold && (
+                        <Innholdsboks classname="tjenesteboks">
+                            <Arbeidsforholdboks />
+                        </Innholdsboks>
+                    )}
                     {visSyfo && (
                         <Innholdsboks classname="tjenesteboks">
                             <Syfoboks />

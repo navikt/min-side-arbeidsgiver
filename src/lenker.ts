@@ -31,6 +31,14 @@ export const ekspertbistand =
 
 export const skjemaForArbeidsgivere = 'https://www.nav.no/soknader/nb/bedrift';
 
+export const arbeidsforholdLink = () => {
+    if (environment.MILJO === 'prod-sbs') {
+        return 'https://arbeidsgiver.nav.no/arbeidsforhold/';
+    } else {
+        return 'https://arbeidsgiver-q.nav.no/arbeidsforhold/';
+    }
+};
+
 export const syfoLink = () => {
     if (environment.MILJO === 'prod-sbs') {
         return 'https://tjenester.nav.no/sykefravaerarbeidsgiver';

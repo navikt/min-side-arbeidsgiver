@@ -56,29 +56,33 @@ export const Koronaboks = () => {
     }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
 
     return (
-        <div className={'koronaboks'}>
-            <Innholdsboks classname={'koronaboks__innhold'}>
-                <img className={'koronaboks__ikon'} alt="" src={sirkel} />
+        <div className="koronaboks">
+            <Innholdsboks classname="koronaboks__innhold">
+                <img className="koronaboks__ikon" alt="" src={sirkel} />
                 <Undertittel>Koronarelaterte tjenester</Undertittel>
-                <Element className={'koronaboks__tekst'}> Permittering </Element>
+                <Element className="koronaboks__tekst">Permittering</Element>
                 <Lenke
-                    className={'koronaboks__lenke'}
+                    className="koronaboks__lenke"
                     href={lenkeTilPermitteringOgMasseoppsigelsesSkjema()}
                 >
-                    Varsle NAV om permitteringer, masseoppsigelser, permitteringer eller
-                    innskrenkninger i arbeidstiden <HoyreChevron />
+                    <span>
+                        Varsle NAV om permitteringer, masseoppsigelser, permitteringer eller
+                        innskrenkninger i arbeidstiden
+                    </span>
+                    <HoyreChevron />
                 </Lenke>
                 <Lenke
-                    className={'koronaboks__lenke'}
-                    href={'https://www.nav.no/person/kontakt-oss/chat/arbeidsgiver'}
+                    className="koronaboks__lenke"
+                    href="https://www.nav.no/person/kontakt-oss/chat/arbeidsgiver"
                 >
-                    Chat med NAV om permittering <HoyreChevron />
+                    <span>Chat med NAV om permittering</span> <HoyreChevron />
                 </Lenke>
                 {tilgangRefusjon && (
                     <div>
-                        <Element className={'koronaboks__tekst'}> Refusjon </Element>
-                        <Lenke className={'koronaboks__lenke'} href={LenkeTilKoronaRefusjon()}>
-                            Søk om refusjon av sykepenger relatert til koronavirus <HoyreChevron />
+                        <Element className="koronaboks__tekst">Refusjon</Element>
+                        <Lenke className="koronaboks__lenke" href={LenkeTilKoronaRefusjon()}>
+                            <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
+                            <HoyreChevron />
                         </Lenke>
                     </div>
                 )}

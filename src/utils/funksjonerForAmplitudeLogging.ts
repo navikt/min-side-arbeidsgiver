@@ -15,12 +15,14 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
     if (tilgangsArray[1] === Tilgang.TILGANG) {
         skalLogges += ' PAM';
     }
-
     if (tilgangsArray[2] === Tilgang.TILGANG) {
         skalLogges += ' IA';
     }
     if (tilgangsArray[3] === Tilgang.TILGANG) {
         skalLogges += ' Arbeidstrening';
+    }
+    if (tilgangsArray[4] === Tilgang.TILGANG) {
+        skalLogges += ' Arbeidsforhold';
     }
     amplitude.logEvent(skalLogges);
 };
