@@ -41,6 +41,14 @@ export const genererTekstbokser = (
             });
         }
 
+        if (tjenesteboksTilgangsArray[4] === Tilgang.IKKE_TILGANG) {
+            listeMedProps.push({
+                overskrift: 'Arbeidsforhold',
+                innholdstekst: 'Få oversikt over alle arbeidsforhold du som arbeidsgiver har rapportert inn via A-meldingen. Her kan du kontrollere opplysningene og se hva som er registrert i arbeidsgiver- og arbeidstakerregisteret (Aa-registeret). ',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5441','1'),
+            });
+        }
+
         altinnTjenester.forEach(tjeneste => {
             const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr, tjeneste);
             if (!harTilgangTilTjeneste && tjeneste.Skjema.navn !== 'Tiltaksgjennomforing') {

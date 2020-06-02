@@ -126,6 +126,7 @@ export const AltinnContainer: FunctionComponent = () => {
                         className={'altinn-container__' + typeAntall + erFem}
                         href={soknadskjemaInkluderingstilskudd()}
                         tekst={'Inkluderingstilskudd'}
+                        nyFane={true}
                     />
                 )}
                 {tilgangLonnstilskudd && (
@@ -133,6 +134,7 @@ export const AltinnContainer: FunctionComponent = () => {
                         className={'altinn-container__' + typeAntall + erFem}
                         href={soknadsskjemaLonnstilskudd()}
                         tekst={'Lønnstilskudd'}
+                        nyFane={true}
                     />
                 )}
                 {tilgangMentortilskudd && (
@@ -140,6 +142,7 @@ export const AltinnContainer: FunctionComponent = () => {
                         className={'altinn-container__' + typeAntall + erFem + erFem}
                         href={soknadTilskuddTilMentor()}
                         tekst={'Tilskudd til mentor'}
+                        nyFane={true}
                     />
                 )}
                 {tilgangEkspertbistand && (
@@ -147,6 +150,7 @@ export const AltinnContainer: FunctionComponent = () => {
                         className={'altinn-container__' + typeAntall + erFem}
                         href={ekspertbistand}
                         tekst={'Tilskudd til ekspertbistand'}
+                        nyFane={true}
                     />
                 )}
 
@@ -155,6 +159,7 @@ export const AltinnContainer: FunctionComponent = () => {
                         className={'altinn-container__' + typeAntall + erFem}
                         href={inntekstmelding}
                         tekst={'Inntektsmelding'}
+                        nyFane={true}
                     />
                 )}
             </div>
