@@ -1,0 +1,7 @@
+{
+  "ingress": "https://arbeidsgiver.nav.no/permittering",
+  "api-gw-url": "https://api-gw.oera.no",
+  "selvbetjening-login-url": "https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/permittering",
+  "logout-url": "https://loginservice.nav.no/slo",
+  "decorator-external-url": "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true"
+}
