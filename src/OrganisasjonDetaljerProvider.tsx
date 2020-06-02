@@ -46,7 +46,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     } = useContext(OrganisasjonsListeContext);
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
-        // console.log('Endre org');
         if (org) {
             loggBedriftsInfo(org);
             settilgangTilPamState(Tilgang.LASTER);
@@ -81,7 +80,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                         ).length === 0
                     ) {
                         setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
-                        // console.log('Har ikke tilgang til arbeidstrening');
                     } else {
                         hentTiltaksgjennomforingTilgang(org)
                             .then(avtaler => {

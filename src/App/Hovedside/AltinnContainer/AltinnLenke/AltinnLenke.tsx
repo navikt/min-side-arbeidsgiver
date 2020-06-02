@@ -16,8 +16,6 @@ const AltinnLenke: FunctionComponent<Props> = props => {
     };
 
     const nyFaneProp = props.nyFane ? "_blank" : "_self";
-    console.log(nyFaneProp);
-    console.log(nyfane, nyFaneProp);
 
     return (
         <div onClick={loggAtKlikketPaAltinn}>
