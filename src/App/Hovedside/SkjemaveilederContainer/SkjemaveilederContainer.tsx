@@ -14,6 +14,7 @@ export const SkjemaveilederContainer: FunctionComponent = () => {
                 href={skjemaForArbeidsgivere}
                 tekst={'Sende skjema eller ettersende dokumenter'}
                 className={'skjemaveilerderContainer__lenkepanel'}
+                nyFane={false}
             >
                 Sende skjema eller ettersende dokumenter
             </AltinnLenke>

@@ -7,12 +7,17 @@ interface Props {
     className?: string;
     href: string;
     tekst: string;
+    nyFane: boolean
 }
 
 const AltinnLenke: FunctionComponent<Props> = props => {
     const loggAtKlikketPaAltinn = () => {
         //loggNavigasjonTilTjeneste(props.tekst);
     };
+
+    const nyFaneProp = props.nyFane ? "_blank" : "_self";
+    console.log(nyFaneProp);
+    console.log(nyfane, nyFaneProp);
 
     return (
         <div onClick={loggAtKlikketPaAltinn}>
@@ -22,17 +27,17 @@ const AltinnLenke: FunctionComponent<Props> = props => {
                 tittelProps={'element'}
                 border={false}
                 linkCreator={(props: any) => (
-                    <a target="_blank" {...props}>
+                    <a target={nyFaneProp} {...props}>
                         {props.children}
                     </a>
                 )}
             >
                 {props.tekst}
-                <img
+                {props.nyFane && <img
                     className={'altinn-container__ikon'}
                     src={nyfane}
                     alt="ikon for å beskrive at lenken åpnes i en ny fane"
-                />
+                />}
             </Lenkepanel>
         </div>
     );
