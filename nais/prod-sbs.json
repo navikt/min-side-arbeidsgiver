@@ -1,5 +1,5 @@
 {
-  "ingress": "https://arbeidsgiver.nav.no/permittering",
+  "ingress": "https://arbeidsgiver.nav.no/min-side-arbeidsgiver",
   "api-gw-url": "https://api-gw.oera.no",
   "selvbetjening-login-url": "https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/permittering",
   "logout-url": "https://loginservice.nav.no/slo",
