@@ -22,9 +22,6 @@ jobs:
       - name: Installer avhengigheter (yarn install)
         run:  yarn install --frozen-lockfile
 
-      - name: Kjør tester (yarn test)
-        run: yarn test
-
       - name: Bygg (yarn build)
         run: yarn build
 
