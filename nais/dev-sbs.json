@@ -1,6 +1,7 @@
 {
   "ingress": "https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver",
   "api-gw-url": "https://api-gw-q1.oera.no",
+  "api-gw-url-q0": "https://api-gw-q0.oera.no",
   "selvbetjening-login-url": "https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://loginservice-q.nav.no/slo",
   "decorator-external-url": "https://appres-q1.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true"
