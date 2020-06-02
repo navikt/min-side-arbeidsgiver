@@ -7,7 +7,7 @@ interface Props {
     className?: string;
     href: string;
     tekst: string;
-    nyFane: boolean
+    nyFane: boolean;
 }
 
 const AltinnLenke: FunctionComponent<Props> = props => {
