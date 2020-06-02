@@ -1,0 +1,32 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+  name: permittering
+  namespace: default
+  labels:
+    team: arbeidsgiver
+spec:
+  image: {{image}}
+  team: arbeidsgiver
+  port: 3000
+  ingresses:
+    - '{{{ingress}}}'
+  liveness:
+    path: /permittering/internal/isAlive
+    initialDelay: 20
+  readiness:
+    path: /permittering/internal/isReady
+    initialDelay: 20
+  vault:
+    enabled: true
+  webproxy: true
+  env:
+    - name: NODE_EXTRA_CA_CERTS
+      value: /etc/ssl/ca-bundle.pem
+    - name: APIGW_URL
+      value: '{{{api-gw-url}}}'
+    - name: LOGIN_URL
+      value: '{{{selvbetjening-login-url}}}'
+    - name: Q0API_GATEWAY
+      value: '{{{api-gw-url-q0}}}'
+
