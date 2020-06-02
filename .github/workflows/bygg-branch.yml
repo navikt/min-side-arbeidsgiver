@@ -1,4 +1,4 @@
-  name: Bygg branch og lag deployment-issue
+name: Bygg branch og lag deployment-issue
 
 on:
   push:
