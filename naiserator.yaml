@@ -1,7 +1,7 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-  name: ditt-nav-arbeidsgiver
+  name: min-side-arbeidsgiver
   namespace: default
   labels:
     team: arbeidsgiver
