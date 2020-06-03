@@ -51,7 +51,8 @@ export const genererTekstbokser = (
 
         altinnTjenester.forEach(tjeneste => {
             const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr, tjeneste);
-            if (!harTilgangTilTjeneste && tjeneste.Skjema.navn !== 'Tiltaksgjennomforing') {
+            //tjenestene arbeidsforhold og arbeidstrening er allerede lagt v tjenesteboksArray
+            if (!harTilgangTilTjeneste && ((tjeneste.Skjema.navn !== 'Tiltaksgjennomforing' && tjeneste.Skjema.navn !== 'Arbeidsforhold')) ){
                 listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
             }
         });
