@@ -19,7 +19,7 @@ const KontaktOss: FunctionComponent = () => {
         >
             <div className={'kontakt-oss__wrapper'}>
                 <img className={'kontakt-oss__ikon'} src={iconKontaktNav} alt="" />
-                <Undertittel className={'kontakt-oss__tekst'}>Bli oppringt av NAV</Undertittel>
+                <Undertittel className={'kontakt-oss__tekst'}>Kontakt NAV</Undertittel>
             </div>
         </Lenkepanel>
     );

@@ -196,10 +196,18 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
 
                     <Ekspanderbartpanel tittel="Arbeidsforhold" border>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Tilgang til innsynstjeneste for arbeidsforhold innrapportert via
-                            A-meldingen gis automatisk til styrets leder og daglig leder, innehaver
-                            av enkeltpersonsforetak og deltager i ansvarlig selskap.
+                            Tilgang til innsynstjeneste for arbeidsforhold innrapportert via A-meldingen gis automatisk til:
                         </Normaltekst>
+                        <ul>
+                            <li>daglig leder/administrerende direktør</li>
+                            <li>styrets leder</li>
+                            <li>innehaver av enkeltpersonsforetak</li>
+                            <li>deltaker i ansvarlig selskap (ANS og DA)</li>
+                            <li>bestyrende reder</li>
+                            <li>bostyrer i konkursbo (omfatter ikke foretaket som er gått konkurs) og andre bo</li>
+                            <li>Komplementar (Kun fødselsnummer)</li>
+                            <li>Norsk representant for utenlandsk enhet</li>
+                        </ul>
                         <Normaltekst>
                             Du kan også ha rettigheten{' '}
                             <b>Innsyn i Aa-registeret for arbeidsgivere.</b>
