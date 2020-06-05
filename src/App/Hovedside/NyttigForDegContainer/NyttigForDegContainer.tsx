@@ -1,34 +1,23 @@
-import React, { FunctionComponent, useContext, useState, useEffect } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
-import ArbeidsgiverTelefon from './ArbeidsgiverTelefon/ArbeidsgiverTelefon';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { tomAltinnOrganisasjon } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 const NyttigForDegContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const [antallBokser, setAntallBokser] = useState('to');
-
-    useEffect(() => {
-        if (valgtOrganisasjon !== tomAltinnOrganisasjon) {
-            setAntallBokser('tre');
-        }
-    }, [valgtOrganisasjon]);
 
     return (
         <div className={'nyttig-for-deg'}>
             <div className={'nyttig-for-deg__bokser'}>
                 {valgtOrganisasjon !== tomAltinnOrganisasjon && (
-                    <div className={'nyttig-for-deg__boks-' + antallBokser}>
+                    <div className={'nyttig-for-deg__boks-to'}>
                         <Bedriftsinfoknapp />
                     </div>
                 )}
-                <div className={'nyttig-for-deg__boks-' + antallBokser}>
+                <div className={'nyttig-for-deg__boks-to'}>
                     <KontaktOss />
-                </div>
-                <div className={'nyttig-for-deg__boks-' + antallBokser}>
-                    <ArbeidsgiverTelefon />
                 </div>
             </div>
         </div>
