@@ -1,7 +1,5 @@
 import environment from './utils/environment';
 
-export const basename = '/informasjon-om-tilgangsstyring';
-
 export const soknadskjemaInkluderingstilskudd = () => {
     if (environment.MILJO === 'prod-sbs') {
         return 'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/';
