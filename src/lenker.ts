@@ -179,10 +179,10 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
 
 export  const LenkeTilKoronaRefusjon = () =>{
     if (environment.MILJO === 'prod-sbs'){
-        return 'https://arbeidsgiver.nav.no/nettrefusjon'
+        return 'https://arbeidsgiver.nav.no/nettrefusjon/'
     }
     else{
-        return 'https://arbeidsgiver-q.nav.no/nettrefusjon'
+        return 'https://arbeidsgiver-q.nav.no/nettrefusjon/'
     }
 };
 
