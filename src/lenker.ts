@@ -177,6 +177,24 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
     }
 };
 
+export const lenkeTilLonnskompensasjonRefusjonSkjema = () => {
+    if (environment.MILJO === 'prod-sbs') {
+        return 'https://arbeidsgiver.nav.no/permittering-refusjon/'
+    }
+    else {
+        return 'https://arbeidsgiver-q.nav.no/permittering-refusjon/'
+    }
+};
+
+export const lenkeTilKlageskjema = () => {
+    if (environment.MILJO === 'prod-sbs') {
+        return 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/'
+    }
+    else {
+        return 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/'
+    }
+};
+
 export  const LenkeTilKoronaRefusjon = () =>{
     if (environment.MILJO === 'prod-sbs'){
         return 'https://arbeidsgiver.nav.no/nettrefusjon/'
