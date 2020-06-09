@@ -4,7 +4,12 @@ import Element from 'nav-frontend-typografi/lib/element';
 import Lenke from 'nav-frontend-lenker';
 import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
 import sirkel from './report-problem-circle.svg';
-import { LenkeTilKoronaRefusjon, lenkeTilPermitteringOgMasseoppsigelsesSkjema } from '../../lenker';
+import {
+    LenkeTilKoronaRefusjon,
+    lenkeTilPermitteringOgMasseoppsigelsesSkjema,
+    lenkeTilLonnskompensasjonRefusjonSkjema,
+    lenkeTilKlageskjema
+} from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
@@ -60,7 +65,9 @@ export const Koronaboks = () => {
             <Innholdsboks classname="koronaboks__innhold">
                 <img className="koronaboks__ikon" alt="" src={sirkel} />
                 <Undertittel>Koronarelaterte tjenester</Undertittel>
+
                 <Element className="koronaboks__tekst">Permittering</Element>
+
                 <Lenke
                     className="koronaboks__lenke"
                     href={lenkeTilPermitteringOgMasseoppsigelsesSkjema()}
@@ -71,20 +78,37 @@ export const Koronaboks = () => {
                     </span>
                     <HoyreChevron />
                 </Lenke>
+
                 <Lenke
                     className="koronaboks__lenke"
                     href="https://www.nav.no/person/kontakt-oss/chat/arbeidsgiver"
                 >
                     <span>Chat med NAV om permittering</span> <HoyreChevron />
                 </Lenke>
+
                 {tilgangRefusjon && (
-                    <div>
-                        <Element className="koronaboks__tekst">Refusjon</Element>
+                    <>
+                        <Lenke
+                            className="koronaboks__lenke"
+                            href={lenkeTilLonnskompensasjonRefusjonSkjema()}
+                        >
+                            <span>Arbeidsgivers innmelding for lønnskompensasjon og refusjon</span>
+                            <HoyreChevron />
+                        </Lenke>
+                        <Lenke
+                            className="koronaboks__lenke"
+                            href={lenkeTilKlageskjema()}
+                        >
+                            <span>Klage på vedtak for refusjon av lønn ved permittering</span>
+                            <HoyreChevron />
+                        </Lenke>
+
+                        <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
                         <Lenke className="koronaboks__lenke" href={LenkeTilKoronaRefusjon()}>
                             <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
                             <HoyreChevron />
                         </Lenke>
-                    </div>
+                    </>
                 )}
             </Innholdsboks>
         </div>
