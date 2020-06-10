@@ -97,7 +97,7 @@ export const Koronaboks = () => {
                         </Lenke>
                         <Lenke
                             className="koronaboks__lenke"
-                            href={lenkeTilKlageskjema()}
+                            href={lenkeTilKlageskjema(valgtOrganisasjon.OrganizationNumber)}
                         >
                             <span>Klage på vedtak for refusjon av lønn ved permittering</span>
                             <HoyreChevron />
