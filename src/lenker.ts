@@ -186,12 +186,13 @@ export const lenkeTilLonnskompensasjonRefusjonSkjema = () => {
     }
 };
 
-export const lenkeTilKlageskjema = () => {
+export const lenkeTilKlageskjema = (orgnr: string) => {
+    const orgNrDel = orgnr.length > 0 ? '?bedrift=' + orgnr : '';
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/'
+        return 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/' + orgNrDel;
     }
     else {
-        return 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/'
+        return 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/' + orgNrDel;
     }
 };
 
