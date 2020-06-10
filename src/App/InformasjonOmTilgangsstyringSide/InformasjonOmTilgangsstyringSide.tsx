@@ -144,6 +144,21 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                             Les om digitale inntekstmelding
                         </Lenke>
                     </Ekspanderbartpanel>
+                    <Ekspanderbartpanel tittel="Innmelding for lønnskompensasjon og refusjon" border>
+                        Rollene er de samme som kreves for å sende inntektsmelding. Du må dermed ha disse tilgangene (rollene) på vegne av den aktuelle virksomheten
+                        <ul>
+                            <li>ansvarlig revisor</li>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>regnskapsfører lønn</li>
+                            <li>regnskapsfører med signeringsrettighet</li>
+                            <li>regnskapsfører uten signeringsrettighet</li>
+                            <li>revisormedarbeider</li>
+                            <li>kontaktperson NUF</li>
+                        </ul>
+                        <Normaltekst>
+                            Du kan også ha rettigheten <b>inntektsmelding</b>
+                        </Normaltekst>
+                    </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Rekruttering" border>
                         <Normaltekst>
