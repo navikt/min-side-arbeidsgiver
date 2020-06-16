@@ -16,7 +16,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
     return (
         <div className="overordnet-enhet-info">
             <Tekstboks className="overordnetenhet-navn">
-                <Normaltekst className="overordnet-enhet-info__overskrift">Overordnet enhet</Normaltekst>
+                <Normaltekst>Overordnet enhet</Normaltekst>
                 <Systemtittel className="overordnet-enhet-info__navn"><JuridiskEnhetIkon />{overordnetenhet.navn}</Systemtittel>
             </Tekstboks>
 
@@ -49,13 +49,24 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
             </div>
 
             <Tekstboks className="overordnetenhet-kode">
-                <Normaltekst className="informasjon-om-bedrift__naeringskoder">
+                <Normaltekst>
                     Næringskoder
                 </Normaltekst>
                 <Normaltekst>
                     {overordnetenhet.naeringskode1 ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}` : ''}
                 </Normaltekst>
             </Tekstboks>
+
+            {overordnetenhet.hjemmeside &&
+                <Tekstboks className="overordnetenhet-hjemmeside">
+                    <Normaltekst>
+                        Hjemmeside
+                    </Normaltekst>
+                    <Normaltekst>
+                        {overordnetenhet.hjemmeside}
+                    </Normaltekst>
+                </Tekstboks>
+            }
 
             <Lenke href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)} target="_blank">
                 <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>

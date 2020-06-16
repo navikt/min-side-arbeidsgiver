@@ -73,6 +73,7 @@ fetchMock
                 }
             }
         },
+        "hjemmeside": "www.hjemmeside123.no",
         "postadresse": {
             "land": "Norge",
             "landkode": "NO",
