@@ -1,0 +1,26 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.overordnet-enhet-info {
+    margin-top: 1.5rem;
+
+    &__container {
+        @media (min-width: @screen-sm-min) {
+            width: 32rem;
+            display: flex;
+            flex-wrap: wrap;
+
+            .tekstboks {
+                width: 16rem;
+            }
+        }
+    }
+
+    &__navn {
+        display: flex;
+        align-items: center;
+
+        .overordnetenhet-ikon {
+            margin-right: 0.3rem;
+        }
+    }
+}

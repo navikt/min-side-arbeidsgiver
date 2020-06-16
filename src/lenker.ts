@@ -108,6 +108,14 @@ export const hentOverordnetEnhetApiLink = (orgnr: string) => {
     return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 };
 
+export const enhetsregisteretUnderenhetLink = (orgnr: string) => {
+    return `https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${orgnr}`;
+};
+
+export const enhetsregisteretOverordnetenhetLink = (orgnr: string) => {
+    return `https://data.brreg.no/enhetsregisteret/oppslag/enheter/${orgnr}`;
+};
+
 export const arbeidsAvtaleLink = () => {
     if (environment.MILJO === 'prod-sbs') {
         return 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver';

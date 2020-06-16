@@ -1,16 +1,17 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-
-import './HovedBanner.less';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import './HovedBanner.less';
 
-const Banner: FunctionComponent<RouteComponentProps> = props => {
-    const { history } = props;
+interface OwnProps {
+    sidetittel: string;
+}
 
+const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
@@ -22,7 +23,7 @@ const Banner: FunctionComponent<RouteComponentProps> = props => {
 
     return (
         <Bedriftsmeny
-            sidetittel="Min side – arbeidsgiver"
+            sidetittel={sidetittel}
             organisasjoner={organisasjoner}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}

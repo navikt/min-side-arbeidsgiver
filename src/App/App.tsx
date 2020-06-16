@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.less';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
-import Banner from './HovedBanner/HovedBanner';
 import LoginBoundary from './LoginBoundary';
 import { OrganisasjonsListeProvider } from '../OrganisasjonsListeProvider';
 import { OrganisasjonsDetaljerProvider } from '../OrganisasjonDetaljerProvider';
@@ -31,7 +30,6 @@ const App: FunctionComponent = () => {
                             <OrganisasjonsListeProvider>
                                 <SyfoTilgangProvider>
                                     <OrganisasjonsDetaljerProvider>
-                                        <Banner />
                                         <div className="bakgrunnsside">
                                             <Switch>
                                                 <Route

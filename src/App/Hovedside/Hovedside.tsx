@@ -10,6 +10,7 @@ import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContaine
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
+import Banner from '../HovedBanner/HovedBanner';
 import './Hovedside.less';
 
 const Hovedside: FunctionComponent = () => {
@@ -21,24 +22,26 @@ const Hovedside: FunctionComponent = () => {
     );
 
     return (
-        <div className="hovedside">
-            <FeilmeldingContainer
-                visFeilmelding={visFeilmelding}
-                visSyfoFeilmelding={visSyfoFeilmelding}
-            />
-            {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
-            {!skalViseManglerTilgangBoks && (
-                <>
-
-                    <Koronaboks />
-                    <TjenesteBoksContainer />
-                    <NyttigForDegContainer />
-                    <AltinnContainer />
-                    <SkjemaveilederContainer />
-                    <IkkeTilgangTilDisseTjenestene />
-                </>
-            )}
-        </div>
+        <>
+            <Banner sidetittel="Min side – arbeidsgiver" />
+            <div className="hovedside">
+                <FeilmeldingContainer
+                    visFeilmelding={visFeilmelding}
+                    visSyfoFeilmelding={visSyfoFeilmelding}
+                />
+                {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
+                {!skalViseManglerTilgangBoks && (
+                    <>
+                        <Koronaboks />
+                        <TjenesteBoksContainer />
+                        <NyttigForDegContainer />
+                        <AltinnContainer />
+                        <SkjemaveilederContainer />
+                        <IkkeTilgangTilDisseTjenestene />
+                    </>
+                )}
+            </div>
+        </>
     );
 };
 

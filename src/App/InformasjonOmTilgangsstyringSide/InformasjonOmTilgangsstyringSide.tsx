@@ -18,7 +18,6 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
     return (
         <div className="informasjon-om-tilgangsstyring">
             <LoggInnBanner />
-
             <div className="informasjon-om-tilgangsstyring__innhold">
                 <div className="informasjon-om-tilgangsstyring__lenke">
                     <Lenke href={basename + '/'}>Tilbake til forsiden</Lenke>
