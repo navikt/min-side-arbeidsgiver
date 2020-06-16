@@ -6,7 +6,7 @@ fetchMock
 
         {
             "organisasjonsnummer": "974491850",
-            "navn": "HANNAS BALLETTSTUDIO",
+            "navn": "VIRKSOMHETENS NAVN",
             "organisasjonsform": {
                 "kode": "BEDR",
                 "beskrivelse": "Bedrift",
@@ -30,7 +30,7 @@ fetchMock
             "registreringsdatoEnhetsregisteret": "1995-06-15",
             "registrertIMvaregisteret": false,
             "naeringskode1": {
-                "beskrivelse": "Undervisning i kunstfag",
+                "beskrivelse": "Xyz",
                 "kode": "85.522"
             },
             "antallAnsatte": 0,
@@ -40,12 +40,12 @@ fetchMock
             "beliggenhetsadresse": {
                 "land": "Norge",
                 "landkode": "NO",
-                "postnummer": "8014",
-                "poststed": "BODØ",
+                "postnummer": "1234",
+                "poststed": "KARDEMOMME BY",
                 "adresse": [
-                    "Storgata 46"
+                    "Tante Sofies gate 1"
                 ],
-                "kommune": "BODØ",
+                "kommune": "KRISTIANSAND",
                 "kommunenummer": "1804"
             },
             "_links": {
@@ -63,7 +63,7 @@ fetchMock
 fetchMock
     .get('begin:https://data.brreg.no/enhetsregisteret/api/enheter', {
         "organisasjonsnummer": "982033268",
-        "navn": "SVANEN Hanna Bertine Olea Kanck",
+        "navn": "Navn på overordnet enhet",
         "organisasjonsform": {
             "kode": "ENK",
             "beskrivelse": "Enkeltpersonforetak",
@@ -76,10 +76,10 @@ fetchMock
         "postadresse": {
             "land": "Norge",
             "landkode": "NO",
-            "postnummer": "8003",
-            "poststed": "BODØ",
+            "postnummer": "1234",
+            "poststed": "KRISTIANSAND",
             "adresse": [
-                "Evald Erlandsens vei 10"
+                "Thorbjørn Egners vei 10"
             ],
             "kommune": "BODØ",
             "kommunenummer": "1804"
@@ -87,17 +87,17 @@ fetchMock
         "registreringsdatoEnhetsregisteret": "2000-06-02",
         "registrertIMvaregisteret": false,
         "naeringskode1": {
-            "beskrivelse": "Undervisning i kunstfag",
+            "beskrivelse": "Xyz",
             "kode": "85.522"
         },
         "antallAnsatte": 0,
         "forretningsadresse": {
             "land": "Norge",
             "landkode": "NO",
-            "postnummer": "8011",
-            "poststed": "BODØ",
+            "postnummer": "1324",
+            "poststed": "KARDEMOMME BY",
             "adresse": [
-                "Stormyra"
+                "Røverhuset "
             ],
             "kommune": "BODØ",
             "kommunenummer": "1804"

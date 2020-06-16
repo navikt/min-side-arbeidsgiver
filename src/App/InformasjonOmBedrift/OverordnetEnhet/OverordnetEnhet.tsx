@@ -16,7 +16,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
     return (
         <div className="overordnet-enhet-info">
             <Tekstboks className="overordnetenhet-navn">
-                <Normaltekst>Overordnet enhet</Normaltekst>
+                <Normaltekst className="overordnet-enhet-info__overskrift">Overordnet enhet</Normaltekst>
                 <Systemtittel className="overordnet-enhet-info__navn"><JuridiskEnhetIkon />{overordnetenhet.navn}</Systemtittel>
             </Tekstboks>
 
