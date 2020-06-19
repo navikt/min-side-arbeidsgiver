@@ -72,7 +72,13 @@ export interface naeringskode3 {
 }
 
 export interface beliggenhetsadresse {
+    land: string;
+    landkode: string;
+    postnummer: string;
+    poststed: string;
+    adresse: Array<string>;
     kommune: string;
+    kommunenummer: string;
 }
 
 export interface institusjonellSektorkode {
@@ -99,9 +105,14 @@ export const tomEnhetsregOrg: OrganisasjonFraEnhetsregisteret = {
         kommune: '',
         kommunenummer: '',
     },
-
     beliggenhetsadresse: {
+        land: '',
+        landkode: '',
+        postnummer: '',
+        poststed: '',
+        adresse: [''],
         kommune: '',
+        kommunenummer: '',
     },
     forretningsadresse: {
         land: '',

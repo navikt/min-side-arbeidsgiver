@@ -5,93 +5,119 @@ fetchMock
         'begin:https://data.brreg.no/enhetsregisteret/api/underenheter',
 
         {
-            organisasjonsnummer: '66666666',
-            navn: 'UnderEnhetsFraMock',
-            organisasjonsform: {
-                kode: '',
-                beskrivelse: '',
+            "organisasjonsnummer": "974491850",
+            "navn": "VIRKSOMHETENS NAVN",
+            "organisasjonsform": {
+                "kode": "BEDR",
+                "beskrivelse": "Bedrift",
+                "_links": {
+                    "self": {
+                        "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/BEDR"
+                    }
+                }
             },
-            overordnetEnhet: '77777777',
-            antallAnsatte: '',
-            hjemmeside: '',
-            postadresse: {
-                land: '',
-                landkode: '',
-                postnummer: '',
-                poststed: '',
-                adresse: [''],
-                kommune: '',
-                kommunenummer: '',
+            "postadresse": {
+                "land": "Norge",
+                "landkode": "NO",
+                "postnummer": "8003",
+                "poststed": "BODØ",
+                "adresse": [
+                    "Evald Erlandsens vei 10"
+                ],
+                "kommune": "BODØ",
+                "kommunenummer": "1804"
             },
-            beliggenhetsadresse: {
-                kommune: 'MOLDE',
+            "registreringsdatoEnhetsregisteret": "1995-06-15",
+            "registrertIMvaregisteret": false,
+            "naeringskode1": {
+                "beskrivelse": "Xyz",
+                "kode": "85.522"
             },
-
-            forretningsadresse: {
-                land: '',
-                landkode: '',
-                postnummer: '',
-                poststed: '',
-                adresse: [''],
-                kommune: 'Molde',
-                kommunenummer: '',
+            "antallAnsatte": 0,
+            "overordnetEnhet": "982033268",
+            "oppstartsdato": "1995-03-01",
+            "datoEierskifte": "2000-07-01",
+            "beliggenhetsadresse": {
+                "land": "Norge",
+                "landkode": "NO",
+                "postnummer": "1234",
+                "poststed": "KARDEMOMME BY",
+                "adresse": [
+                    "Tante Sofies gate 1"
+                ],
+                "kommune": "KRISTIANSAND",
+                "kommunenummer": "1804"
             },
-            naeringskode1: {
-                beskrivelse: '',
-                kode: '',
-            },
-            naeringskode2: {
-                beskrivelse: '',
-                kode: '',
-            },
-            naeringskode3: {
-                beskrivelse: '',
-                kode: '',
-            },
-        }
+            "_links": {
+                "self": {
+                    "href": "https://data.brreg.no/enhetsregisteret/api/underenheter/974491850"
+                },
+                "overordnetEnhet": {
+                    "href": "https://data.brreg.no/enhetsregisteret/api/enheter/982033268"
+                }
+            }
+        },
     )
     .spy();
 
 fetchMock
     .get('begin:https://data.brreg.no/enhetsregisteret/api/enheter', {
-        organisasjonsnummer: '7777777',
-        navn: 'EnhetFraMock',
-        organisasjonsform: {
-            kode: '',
-            beskrivelse: '',
+        "organisasjonsnummer": "982033268",
+        "navn": "Navn på overordnet enhet",
+        "organisasjonsform": {
+            "kode": "ENK",
+            "beskrivelse": "Enkeltpersonforetak",
+            "_links": {
+                "self": {
+                    "href": "https://data.brreg.no/enhetsregisteret/api/organisasjonsformer/ENK"
+                }
+            }
         },
-        overordnetEnhet: '',
-        antallAnsatte: '',
-        hjemmeside: '',
-        postadresse: {
-            land: '',
-            landkode: '',
-            postnummer: '',
-            poststed: '',
-            adresse: [''],
-            kommune: '',
-            kommunenummer: '',
+        "hjemmeside": "www.hjemmeside123.no",
+        "postadresse": {
+            "land": "Norge",
+            "landkode": "NO",
+            "postnummer": "1234",
+            "poststed": "KRISTIANSAND",
+            "adresse": [
+                "Thorbjørn Egners vei 10"
+            ],
+            "kommune": "BODØ",
+            "kommunenummer": "1804"
         },
-        forretningsadresse: {
-            land: '',
-            landkode: '',
-            postnummer: '',
-            poststed: '',
-            adresse: [''],
-            kommune: 'Molde',
-            kommunenummer: '',
+        "registreringsdatoEnhetsregisteret": "2000-06-02",
+        "registrertIMvaregisteret": false,
+        "naeringskode1": {
+            "beskrivelse": "Xyz",
+            "kode": "85.522"
         },
-        naeringskode1: {
-            beskrivelse: '',
-            kode: '',
+        "antallAnsatte": 0,
+        "forretningsadresse": {
+            "land": "Norge",
+            "landkode": "NO",
+            "postnummer": "1324",
+            "poststed": "KARDEMOMME BY",
+            "adresse": [
+                "Røverhuset "
+            ],
+            "kommune": "BODØ",
+            "kommunenummer": "1804"
         },
-        naeringskode2: {
-            beskrivelse: '',
-            kode: '',
+        "institusjonellSektorkode": {
+            "kode": "8200",
+            "beskrivelse": "Personlig næringsdrivende"
         },
-        naeringskode3: {
-            beskrivelse: '',
-            kode: '',
-        },
+        "registrertIForetaksregisteret": false,
+        "registrertIStiftelsesregisteret": false,
+        "registrertIFrivillighetsregisteret": false,
+        "konkurs": false,
+        "underAvvikling": false,
+        "underTvangsavviklingEllerTvangsopplosning": false,
+        "maalform": "Bokmål",
+        "_links": {
+            "self": {
+                "href": "https://data.brreg.no/enhetsregisteret/api/enheter/982033268"
+            }
+        }
     })
     .spy();

@@ -1,16 +1,15 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { Normaltekst, Systemtittel, Ingress } from 'nav-frontend-typografi';
+import { Link } from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
 import {
     tomEnhetsregOrg,
     OrganisasjonFraEnhetsregisteret,
 } from '../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
+import Underenhet from './Underenhet/Underenhet';
+import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
+import Banner from '../HovedBanner/HovedBanner';
 import './InformasjonOmBedrift.less';
-import Lenke from 'nav-frontend-lenker';
-import Tekstboks from './Tekstboks/Tekstboks';
-import { Link } from 'react-router-dom';
-import 'nav-frontend-lenker-style/src/lenker-style.less';
 
 const InformasjonOmBedrift: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -19,6 +18,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         tomEnhetsregOrg
     );
     const orgnr = valgtOrganisasjon.OrganizationNumber;
+
     useEffect(() => {
         const setEnheter = async () => {
             if (orgnr !== '') {
@@ -31,100 +31,27 @@ const InformasjonOmBedrift: FunctionComponent = () => {
 
     return (
         <>
-            <Link
-                className={'tilbake-til-forsiden lenke'}
-                to={'/?bedrift=' + valgtOrganisasjon.OrganizationNumber}
-            >
-                Tilbake til forsiden
-            </Link>
+            <Banner sidetittel="Bedriftsprofil" />
             <div className="informasjon-om-bedrift">
-                {underenhet !== tomEnhetsregOrg && (
-                    <div className={'informasjon-om-bedrift__tekstomrade'}>
-                        <Systemtittel>{underenhet.navn}</Systemtittel>
-                        <br />
-                        {underenhet.organisasjonsnummer && (
-                            <Tekstboks>
-                                <Normaltekst>Organisasjonsnummer</Normaltekst>
-                                <Ingress> {underenhet.organisasjonsnummer}</Ingress>
-                            </Tekstboks>
-                        )}
-                        {underenhet.overordnetEnhet && (
-                            <Tekstboks>
-                                <Normaltekst>Overordnet enhet</Normaltekst>
-                                <Ingress> {overordnetEnhet.navn}</Ingress>
-                            </Tekstboks>
-                        )}
-                        {underenhet.forretningsadresse && (
-                            <Tekstboks>
-                                <Normaltekst>Forretningsadresse</Normaltekst>
-                                <Ingress> {underenhet.forretningsadresse.adresse[0]}</Ingress>
-                                <Ingress>
-                                    {underenhet.forretningsadresse.postnummer +
-                                        ' ' +
-                                        underenhet.forretningsadresse.poststed}
-                                </Ingress>
-                            </Tekstboks>
-                        )}
-                        <Tekstboks>
-                            <Normaltekst className={'informasjon-om-bedrift__naeringskoder'}>
-                                Næringskoder
-                            </Normaltekst>
-                            {underenhet.naeringskode1 && (
-                                <Ingress>
-                                    {underenhet.naeringskode1.kode +
-                                        '. ' +
-                                        underenhet.naeringskode1.beskrivelse}
-                                </Ingress>
-                            )}
-                            {underenhet.naeringskode2 && (
-                                <Ingress>
-                                    {underenhet.naeringskode2.kode +
-                                        '. ' +
-                                        underenhet.naeringskode2.beskrivelse}
-                                </Ingress>
-                            )}
-                            {underenhet.naeringskode3 && (
-                                <Ingress>
-                                    {underenhet.naeringskode3.kode +
-                                        '. ' +
-                                        underenhet.naeringskode3.beskrivelse}
-                                </Ingress>
-                            )}
-                        </Tekstboks>
-                        {underenhet.hjemmeside && (
-                            <Tekstboks>
-                                <Normaltekst>Hjemmeside</Normaltekst>
-                                <Lenke href={underenhet.hjemmeside}>{underenhet.hjemmeside}</Lenke>
-                                <br />
-                            </Tekstboks>
-                        )}
-
-                        {underenhet.organisasjonsform && (
-                            <Tekstboks>
-                                <Normaltekst>Organisasjonsform </Normaltekst>
-                                <Ingress>
-                                    {underenhet.organisasjonsform.beskrivelse +
-                                        ' ' +
-                                        '(' +
-                                        underenhet.organisasjonsform.kode +
-                                        ')'}
-                                </Ingress>
-                            </Tekstboks>
-                        )}
-                        {underenhet.postadresse && (
-                            <Tekstboks>
-                                <Normaltekst>Postadresse</Normaltekst>
-                                <Ingress>{underenhet.postadresse.adresse[0]}</Ingress>
-                                <Ingress>
-                                    {underenhet.postadresse.postnummer +
-                                        ' ' +
-                                        underenhet.postadresse.poststed}
-                                </Ingress>
-                            </Tekstboks>
-                        )}
-                    </div>
-                )}
-                {underenhet === tomEnhetsregOrg && <div> Kunne ikke hente informasjon</div>}
+                <div className="informasjon-om-bedrift__brodsmule">
+                    <Link
+                        to={'/?bedrift=' + valgtOrganisasjon.OrganizationNumber}
+                        className="informasjon-om-bedrift__brodsmule"
+                    >
+                        Min side - arbeidsgiver
+                    </Link>
+                    {' / Bedriftsprofil'}
+                </div>
+                <div className="informasjon-om-bedrift__hvitboks">
+                    {underenhet !== tomEnhetsregOrg ? (
+                        <div className="informasjon-om-bedrift__info">
+                            <Underenhet underenhet={underenhet} />
+                            <OverordnetEnhet overordnetenhet={overordnetEnhet} />
+                        </div>
+                    ) : (
+                        <div> Kunne ikke hente informasjon</div>
+                    )}
+                </div>
             </div>
         </>
     );
