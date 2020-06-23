@@ -8,6 +8,7 @@
     "@craco/craco": "^3.4.1",
     "@navikt/arbeidsforhold": "^1.0.4",
     "@navikt/bedriftsmeny": "2.1.0",
+    "@navikt/nav-chatbot": "1.2.2",
     "@sentry/browser": "^5.15.4",
     "@types/amplitude-js": "^5.8.0",
     "@types/classnames": "^2.2.7",
