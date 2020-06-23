@@ -79,13 +79,6 @@ export const Koronaboks = () => {
                     <HoyreChevron />
                 </Lenke>
 
-                <Lenke
-                    className="koronaboks__lenke"
-                    href="https://www.nav.no/person/kontakt-oss/chat/arbeidsgiver"
-                >
-                    <span>Chat med NAV om permittering</span> <HoyreChevron />
-                </Lenke>
-
                 {tilgangRefusjon && (
                     <>
                         <Lenke

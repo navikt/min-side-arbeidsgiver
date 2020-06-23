@@ -11,6 +11,7 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
+import { FridaChatbot } from '../FridaChatbot/FridaChatbot';
 import './Hovedside.less';
 
 const Hovedside: FunctionComponent = () => {
@@ -38,6 +39,7 @@ const Hovedside: FunctionComponent = () => {
                         <AltinnContainer />
                         <SkjemaveilederContainer />
                         <IkkeTilgangTilDisseTjenestene />
+                        <FridaChatbot />
                     </>
                 )}
             </div>
