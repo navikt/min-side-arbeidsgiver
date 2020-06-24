@@ -1,7 +1,6 @@
 {
   "ingress": [
-      "https://arbeidsgiver-q.nav.no",
-      "https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver"
+      "https://arbeidsgiver-q.nav.no"
   ],
   "api-gw-url": "https://api-gw-q1.oera.no",
   "api-gw-url-q0": "https://api-gw-q0.oera.no",
