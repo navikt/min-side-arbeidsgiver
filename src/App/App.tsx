@@ -12,16 +12,22 @@ import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import environment from '../utils/environment';
 import amplitude from '../utils/amplitude';
 import { FeatureToggleProvider } from '../FeatureToggleProvider';
+import TestRedirect from './TestRedirect';
 
 const App: FunctionComponent = () => {
     amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
 
     return (
         <div className="typo-normal">
-            <BrowserRouter basename={basename}>
+            <BrowserRouter>
                 <Switch>
                     <Route
-                        path="/informasjon-om-tilgangsstyring"
+                        path= {"/"}
+                        exact={true}
+                        component={TestRedirect}
+                    />
+                    <Route
+                        path= {basename + "/informasjon-om-tilgangsstyring"}
                         exact={true}
                         component={InformasjonOmTilgangsstyringSide}
                     />
@@ -33,12 +39,12 @@ const App: FunctionComponent = () => {
                                         <div className="bakgrunnsside">
                                             <Switch>
                                                 <Route
-                                                    path="/bedriftsinformasjon"
+                                                    path={basename + "/bedriftsinformasjon"}
                                                     exact={true}
                                                     component={InformasjonOmBedrift}
                                                 />
                                                 <Route
-                                                    path="/"
+                                                    path={basename + "/"}
                                                     exact={true}
                                                     component={Hovedside}
                                                 />
