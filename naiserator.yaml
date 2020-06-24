@@ -10,7 +10,9 @@ spec:
   team: arbeidsgiver
   port: 3000
   ingresses:
-    - '{{{ingress}}}'
+  {{#each ingress}}
+     - "{{this}}"
+  {{/each}}
   liveness:
     path: /min-side-arbeidsgiver/internal/isAlive
     initialDelay: 20
