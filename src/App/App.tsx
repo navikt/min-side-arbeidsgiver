@@ -12,7 +12,6 @@ import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import environment from '../utils/environment';
 import amplitude from '../utils/amplitude';
 import { FeatureToggleProvider } from '../FeatureToggleProvider';
-import TestRedirect from './TestRedirect';
 
 const App: FunctionComponent = () => {
     amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
@@ -24,7 +23,7 @@ const App: FunctionComponent = () => {
                     <Route
                         path= {"/"}
                         exact={true}
-                        component={TestRedirect}
+                        render={() => window.location.href="https://www.nav.no/no/bedrift"}
                     />
                     <Route
                         path= {basename + "/informasjon-om-tilgangsstyring"}
