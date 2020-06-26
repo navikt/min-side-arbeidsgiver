@@ -39,6 +39,10 @@ export const LoggInn: FunctionComponent = () => {
                                 rekruttere nye medarbeidere
                             </li>
                             <li className={'innloggingsside__punkt'}>
+                                {' '}
+                                få oversikt over dine ansatte (fra Aa-registeret)
+                            </li>
+                            <li className={'innloggingsside__punkt'}>
                                 sende inn digitale skjemaer
                             </li>
                         </ul>
