@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
 import Element from 'nav-frontend-typografi/lib/element';
 import Lenke from 'nav-frontend-lenker';
@@ -13,52 +13,16 @@ import {
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
-import { SkjemaMedOrganisasjonerMedTilgang } from '../../api/dnaApi';
 import './Koronaboks.less';
 
 export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
-    const [tilgangRefusjon, setTilgangRefusjon] = useState(false);
 
-    const SetStateFunksjonmedSkjemaNavn = (skjemaNavn: string, tilgang: boolean) => {
-        if (skjemaNavn === 'Inntektsmelding') {
-            setTilgangRefusjon(tilgang);
-        }
-    };
-
-    useEffect(() => {
-        const sjekkOgSettTilgang = (
-            skjema: SkjemaMedOrganisasjonerMedTilgang,
-            skjemaNavn: string,
-            orgnrMedTilgang: string[]
-        ): number => {
-            if (
-                orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber) &&
-                skjema.Skjema.navn !== 'Tiltaksgjennomforing'
-            ) {
-                SetStateFunksjonmedSkjemaNavn(skjemaNavn, true);
-                return 1;
-            }
-            if (!orgnrMedTilgang.includes(valgtOrganisasjon.OrganizationNumber)) {
-                SetStateFunksjonmedSkjemaNavn(skjemaNavn, false);
-            }
-            return 0;
-        };
-
-        const finnTilgang = () => {
-            listeMedSkjemaOgTilganger.forEach(skjema => {
-                let orgnrMedTilgangTilSkjema: string[] = skjema.OrganisasjonerMedTilgang.map(
-                    org => org.OrganizationNumber
-                );
-                sjekkOgSettTilgang(skjema, skjema.Skjema.navn, orgnrMedTilgangTilSkjema);
-            });
-        };
-        if (listeMedSkjemaOgTilganger.length === 6) {
-            finnTilgang();
-        }
-        finnTilgang();
-    }, [valgtOrganisasjon, listeMedSkjemaOgTilganger]);
+    let harTilgangRefusjon = listeMedSkjemaOgTilganger.filter(tjeneste =>
+        tjeneste.Skjema.navn === 'Inntektsmelding' && tjeneste.OrganisasjonerMedTilgang.filter(org =>
+            org.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length >0
+    ).length > 0 ;
 
     return (
         <div className="koronaboks">
@@ -79,7 +43,7 @@ export const Koronaboks = () => {
                     <HoyreChevron />
                 </Lenke>
 
-                {tilgangRefusjon && (
+                {harTilgangRefusjon && (
                     <>
                         <Lenke
                             className="koronaboks__lenke"

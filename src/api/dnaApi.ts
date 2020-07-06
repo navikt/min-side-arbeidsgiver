@@ -101,7 +101,7 @@ export async function hentSyfoTilgang(): Promise<boolean> {
     throw new Error('Feil ved kontakt mot baksystem.');
 }
 
-export async function hentTiltaksgjennomforingTilgang(
+export async function hentArbeidstreningTilgang(
     valgtOrganisasjon: Organisasjon
 ): Promise<Array<Arbeidsavtale>> {
     let respons = await fetch(

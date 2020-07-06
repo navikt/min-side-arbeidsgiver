@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext } from 'react';
-import './IkkeTilgangTilDisseTjenestene.less';
+import './BeOmTilgang.less';
 
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
@@ -10,7 +10,7 @@ import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
 
-const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
+const BeOmTilgang: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     const { tilgangsArray, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
@@ -67,4 +67,4 @@ const IkkeTilgangTilDisseTjenestene: FunctionComponent = () => {
     );
 };
 
-export default IkkeTilgangTilDisseTjenestene;
+export default BeOmTilgang;
