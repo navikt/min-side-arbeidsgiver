@@ -94,7 +94,7 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
                 'Få tilgang til å søke ekspertbistand i Altinn. Du kan søke om ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær.';
             break;
         }
-        case 'Lonnstilskudd': {
+        case 'Lønnstilskudd': {
             tjenesteInnhold.innholdstekst =
                 'Få tilgang å søke om midlertidig eller varig lønnstilskudd i Altinn. Dette kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.';
             tjenesteInnhold.overskrift = 'Lønnstilskudd';
