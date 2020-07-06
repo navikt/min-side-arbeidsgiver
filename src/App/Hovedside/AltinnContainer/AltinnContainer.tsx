@@ -78,13 +78,13 @@ export const AltinnContainer: FunctionComponent = () => {
     }
 
     return (
-        <div className={'altinn-container'}>
+        <div className={'altinn-container '+ typeAntall}>
             {generellAltinnTilgang && (
                 <div className={'altinn-container__tekst'}>
                     <Undertittel>Søknader og skjemaer på Altinn</Undertittel>
                 </div>
             )}
-            <div className={'altinn-container__bokser'}>
+            <div className={'altinn-container__bokser '+ typeAntall}>
                 {lagAltinnlenker()}
             </div>
         </div>

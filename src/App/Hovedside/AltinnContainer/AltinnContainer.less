@@ -8,6 +8,10 @@
     margin-left: 0;
     padding: 0 1rem;
 
+    .altinn-lenke {
+        width: 100%;
+    }
+
     &__bokser {
         display: flex;
         width: 100%;
@@ -19,25 +23,6 @@
         margin: 1.5rem 0 1rem;
     }
 
-    &__antall-skjema-partall {
-        width: 100%;
-        padding: 1rem;
-        height: 4rem;
-    }
-
-    &__antall-skjema-en {
-        display: flex;
-        flex-grow: 1;
-        padding: 1rem;
-        height: 4rem;
-    }
-
-    &__antall-skjema-oddetall {
-        width: 100%;
-        padding: 1rem;
-        height: 4rem;
-    }
-
     &__ikon {
         height: 1rem;
         margin-left: 1rem;
@@ -45,6 +30,25 @@
 }
 
 @media (min-width: @screen-md-min) {
+    .antall-skjema-partall {
+        .altinn-lenke {
+            width: 29.5rem;
+
+        }
+    }
+
+    .antall-skjema-oddetall {
+        .altinn-lenke {
+            width: 19.3rem;
+        }
+    }
+
+    .antall-skjema-en {
+        .altinn-lenke {
+            width: 100%;
+        }
+    }
+
     .altinn-container {
         width: 60rem;
         padding: 0;
@@ -55,37 +59,6 @@
             flex-wrap: wrap;
             flex-direction: row;
             margin-left: 0;
-            justify-content: space-between;
-        }
-
-        &__bokserfem {
-            display: flex;
-            width: 60rem;
-            flex-wrap: wrap;
-            flex-direction: row;
-            margin-left: 0;
-        }
-
-        &__antall-skjema-partall {
-            width: 29.5rem;
-        }
-
-        &__antall-skjema-en {
-            display: flex;
-            flex-grow: 1;
-        }
-
-        &__antall-skjema-oddetall {
-            width: 19.3rem;
-        }
-
-        &__antall-skjema-oddetallfem {
-            width: 19.3rem;
-            margin-right: 1rem;
-        }
-
-        &__antall-skjema-oddetallfemfem {
-            width: 19.3rem;
         }
 
         &__ikon {

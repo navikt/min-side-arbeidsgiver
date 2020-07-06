@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import './AltinnLenke.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import nyfane from './nyfane.svg';
 
@@ -18,9 +17,8 @@ const AltinnLenke: FunctionComponent<Props> = props => {
     const nyFaneProp = props.nyFane ? "_blank" : "_self";
 
     return (
-        <div onClick={loggAtKlikketPaAltinn}>
+        <div onClick={loggAtKlikketPaAltinn} className={'altinn-lenke'}>
             <Lenkepanel
-                className={props.className}
                 href={props.href}
                 tittelProps={'element'}
                 border={false}

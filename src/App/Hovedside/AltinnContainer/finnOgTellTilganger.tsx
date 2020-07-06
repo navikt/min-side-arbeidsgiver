@@ -25,7 +25,7 @@ const sjekkOmTilgangTilAltinnSkjema = (
 
 export const genererAltinnSkjema = (skjemanavn: string, lenke: string, typeAntall: string) => {
     return <AltinnLenke
-        className={'altinn-container__' + typeAntall} href={lenke}
+        className={'altinn-lenke'} href={lenke}
         tekst={skjemanavn}
         nyFane={true}
     />
