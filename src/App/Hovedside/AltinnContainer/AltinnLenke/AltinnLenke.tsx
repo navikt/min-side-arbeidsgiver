@@ -30,7 +30,7 @@ const AltinnLenke: FunctionComponent<Props> = props => {
             >
                 {props.tekst}
                 {props.nyFane && <img
-                    className={'altinn-container__ikon'}
+                    className={'altinn-container__ny-fane-ikon'}
                     src={nyfane}
                     alt="ikon for å beskrive at lenken åpnes i en ny fane"
                 />}
