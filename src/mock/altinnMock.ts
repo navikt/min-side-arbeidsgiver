@@ -169,14 +169,6 @@ const ekspertBistandSkjemaResponse = [
 ];
 const mentortilskuddskjemaResponse = [
     {
-        Name: 'BALLSTAD OG HAMARØY',
-        Type: 'Business',
-        OrganizationNumber: '811076732',
-        ParentOrganizationNumber: '811076112',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
         Name: 'DIGITAL JUNKIES AS ',
         Type: 'Enterprise',
         OrganizationNumber: '822565212',

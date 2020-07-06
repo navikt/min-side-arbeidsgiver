@@ -33,13 +33,20 @@
     .antall-skjema-partall {
         .altinn-lenke {
             width: 29.5rem;
-
+            margin-right: 1rem;
+        }
+        .altinn-lenke:nth-child(even) {
+            margin-right: 0;
         }
     }
 
     .antall-skjema-oddetall {
         .altinn-lenke {
             width: 19.3rem;
+            margin-right: 1rem;
+        }
+        .altinn-lenke:nth-child(3n+0) {
+            margin-right: 0;
         }
     }
 
@@ -58,7 +65,6 @@
             width: 60rem;
             flex-wrap: wrap;
             flex-direction: row;
-            margin-left: 0;
         }
 
         &__ikon {
