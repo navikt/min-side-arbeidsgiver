@@ -4,7 +4,7 @@ import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
 import {
     Arbeidsavtale,
-    hentTiltaksgjennomforingTilgang,
+    hentArbeidstreningTilgang,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
 import { SyfoTilgangContext } from './SyfoTilgangProvider';
@@ -72,7 +72,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 }
             }
             listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
-                if (skjema.Skjema.navn === 'Tiltaksgjennomforing') {
+                if (skjema.Skjema.navn === 'Arbeidstrening') {
                     if (
                         skjema.OrganisasjonerMedTilgang.filter(
                             (organisasjon: Organisasjon) =>
@@ -81,7 +81,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                     ) {
                         setTilgangTilArbeidsavtaler(Tilgang.IKKE_TILGANG);
                     } else {
-                        hentTiltaksgjennomforingTilgang(org)
+                        hentArbeidstreningTilgang(org)
                             .then(avtaler => {
                                 setArbeidsavtaler(avtaler);
                                 setTilgangTilArbeidsavtaler(Tilgang.TILGANG);

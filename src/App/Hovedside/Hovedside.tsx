@@ -8,7 +8,7 @@ import { AltinnContainer } from './AltinnContainer/AltinnContainer';
 import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
-import IkkeTilgangTilDisseTjenestene from './IkkeTilgangTilDisseTjenestene/IkkeTilgangTilDisseTjenestene';
+import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
 import { FridaChatbot } from '../FridaChatbot/FridaChatbot';
@@ -38,7 +38,7 @@ const Hovedside: FunctionComponent = () => {
                         <NyttigForDegContainer />
                         <AltinnContainer />
                         <SkjemaveilederContainer />
-                        <IkkeTilgangTilDisseTjenestene />
+                        <BeOmTilgang />
                         <FridaChatbot />
                     </>
                 )}

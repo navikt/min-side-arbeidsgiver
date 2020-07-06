@@ -46,7 +46,7 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         versjon: '1',
     },
     {
-        navn: 'Tiltaksgjennomforing',
+        navn: 'Arbeidstrening',
         kode: '5332',
         versjon: '2',
         testversjon: '1',
