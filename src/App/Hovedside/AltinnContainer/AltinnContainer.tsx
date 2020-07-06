@@ -67,9 +67,6 @@ export const AltinnContainer: FunctionComponent = () => {
         }
     }, [altinnSkjemaMedTilgang]);
 
-
-
-
     const lagAltinnlenker = (): any [] => {
         const altinnLenkeObjekt: any []= [];
         skjemanavnMedLenker.forEach( skjema => {

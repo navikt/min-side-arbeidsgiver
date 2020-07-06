@@ -31,7 +31,7 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         versjon: '1',
     },
     {
-        navn: 'Lonnstilskudd',
+        navn: 'Lønnstilskudd',
         kode: '5159',
         versjon: '1',
     },
