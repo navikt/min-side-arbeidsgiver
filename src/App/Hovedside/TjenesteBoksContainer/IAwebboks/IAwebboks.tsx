@@ -11,6 +11,14 @@ const loggAtKlikketPaIAeb = () => {
 };
 
 const IAwebboks = () => {
+
+    const valgtbedrift = () => {
+        const orgnummerFraUrl = new URLSearchParams(window.location.search).get(
+            'bedrift'
+        );
+        return orgnummerFraUrl ? `?bedrift=${orgnummerFraUrl}` : '';
+    };
+
     return (
         <div className="IA-web-boks tjenesteboks-innhold" onClick={loggAtKlikketPaIAeb}>
             <TjenesteBoksBanner
@@ -20,7 +28,7 @@ const IAwebboks = () => {
             />
             <Lenkepanel
                 className="IA-web-boks__info"
-                href={lenkeTilSykefravarsstatistikk}
+                href={lenkeTilSykefravarsstatistikk+valgtbedrift()}
                 tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

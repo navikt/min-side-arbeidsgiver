@@ -204,12 +204,13 @@ export const lenkeTilKlageskjema = (orgnr: string) => {
     }
 };
 
-export  const LenkeTilKoronaRefusjon = () =>{
-    if (environment.MILJO === 'prod-sbs'){
-        return 'https://arbeidsgiver.nav.no/nettrefusjon/'
+export  const LenkeTilKoronaSykeRefusjon = (orgnr: string) => {
+    const orgNrDel = orgnr.length > 0 ? '?bedrift=' + orgnr : '';
+    if (environment.MILJO === 'prod-sbs') {
+        return 'https://arbeidsgiver.nav.no/nettrefusjon/' + orgNrDel;
     }
-    else{
-        return 'https://arbeidsgiver-q.nav.no/nettrefusjon/'
+    else {
+        return 'https://arbeidsgiver-q.nav.no/nettrefusjon/' + orgNrDel;
     }
 };
 
