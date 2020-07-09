@@ -5,10 +5,9 @@ import Lenke from 'nav-frontend-lenker';
 import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
 import sirkel from './report-problem-circle.svg';
 import {
-    LenkeTilKoronaRefusjon,
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     lenkeTilLonnskompensasjonRefusjonSkjema,
-    lenkeTilKlageskjema
+    lenkeTilKlageskjema, LenkeTilKoronaSykeRefusjon
 } from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
@@ -61,7 +60,7 @@ export const Koronaboks = () => {
                         </Lenke>
 
                         <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
-                        <Lenke className="koronaboks__lenke" href={LenkeTilKoronaRefusjon()}>
+                        <Lenke className="koronaboks__lenke" href={LenkeTilKoronaSykeRefusjon(valgtOrganisasjon.OrganizationNumber)}>
                             <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
                             <HoyreChevron />
                         </Lenke>
