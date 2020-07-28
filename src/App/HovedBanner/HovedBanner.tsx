@@ -14,8 +14,11 @@ interface OwnProps {
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
+        if (valgtOrganisasjon.OrganizationNumber.length > 0)
+        history.replace("");
         if (organisasjon) {
             endreOrganisasjon(organisasjon);
         }

@@ -9,12 +9,16 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
 import { Tilgang } from '../../LoginBoundary';
+import { RouteComponentProps } from 'react-router';
 
-export const ManglerTilgangContainer: FunctionComponent = () => {
+interface Props {
+    url: string;
+}
+
+export const ManglerTilgangContainer: FunctionComponent<RouteComponentProps & Props> = ({history, url }) => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-
 
 
     const harTilganger =
