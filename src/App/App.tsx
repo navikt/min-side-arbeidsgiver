@@ -12,6 +12,7 @@ import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import environment from '../utils/environment';
 import amplitude from '../utils/amplitude';
 import { FeatureToggleProvider } from '../FeatureToggleProvider';
+import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
 
 const App: FunctionComponent = () => {
     amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
@@ -36,6 +37,11 @@ const App: FunctionComponent = () => {
                                                     path="/bedriftsinformasjon"
                                                     exact={true}
                                                     component={InformasjonOmBedrift}
+                                                />
+                                                <Route
+                                                    path="/mangler-tilgang"
+                                                    exact={true}
+                                                    component={ManglerTilgangContainer}
                                                 />
                                                 <Route
                                                     path="/"

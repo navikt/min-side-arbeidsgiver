@@ -3,11 +3,14 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import './ManglerTilgangContainer.less';
 import { ManglerTilgangLenkePanel } from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
 import { lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo } from '../../../lenker';
+import Banner from '../../HovedBanner/HovedBanner';
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
     return (
-        <div>
-            <Innholdstittel>Du mangler tilganger</Innholdstittel>
+        <>
+        <Banner sidetittel="Min side – arbeidsgiver" />
+        <div className="mangler-tilgang-bakgrunn ">
+            <Innholdstittel className={'mangler-tilgang-bakgrunn__innholdstittel'}>Du mangler tilganger</Innholdstittel>
             <span className={'mangler-tilgang-container'}>
                 <ManglerTilgangLenkePanel
                     tittel="Se tjenester som privatperson"
@@ -21,5 +24,6 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
                 />
             </span>
         </div>
+            </>
     );
 };
