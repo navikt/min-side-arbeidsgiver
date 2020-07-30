@@ -14,11 +14,15 @@ interface OwnProps {
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
+        if (valgtOrganisasjon.OrganizationNumber.length > 0 && !window.location.href.includes('/bedriftsinformasjon'))
+        history.replace("/?bedrift=" + organisasjon!!.OrganizationNumber);
         if (organisasjon) {
             endreOrganisasjon(organisasjon);
         }
+        console.log('kaller skifte org kallt');
     };
 
     return (

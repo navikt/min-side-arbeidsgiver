@@ -1,13 +1,44 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import './ManglerTilgangContainer.less';
 import { ManglerTilgangLenkePanel } from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
 import { lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo } from '../../../lenker';
+import Banner from '../../HovedBanner/HovedBanner';
+import { Link } from 'react-router-dom';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
+import { Tilgang } from '../../LoginBoundary';
+import { RouteComponentProps } from 'react-router';
 
-export const ManglerTilgangContainer: FunctionComponent = () => {
+interface Props {
+    url: string;
+}
+
+export const ManglerTilgangContainer: FunctionComponent<RouteComponentProps & Props> = ({history, url }) => {
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { organisasjoner } = useContext(OrganisasjonsListeContext);
+    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
+
+
+    const harTilganger =
+        organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG;
+    const bedriftsparameter = valgtOrganisasjon.OrganizationNumber.length>0? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber : '';
+
     return (
-        <div>
-            <Innholdstittel>Du mangler tilganger</Innholdstittel>
+        <>
+        <Banner sidetittel="Min side – arbeidsgiver" />
+        <div className="mangler-tilgang-bakgrunn ">
+            { harTilganger && <div className="mangler-tilgang-bakgrunn__brodsmule">
+                <Link
+                    to={bedriftsparameter}
+                    className="informasjon-om-bedrift__brodsmule"
+                >
+                    Min side - arbeidsgiver
+                </Link>
+                {' / mangler-tilgang'}
+            </div>}
+            <Innholdstittel className={'mangler-tilgang-bakgrunn__innholdstittel'}>Du mangler tilganger</Innholdstittel>
             <span className={'mangler-tilgang-container'}>
                 <ManglerTilgangLenkePanel
                     tittel="Se tjenester som privatperson"
@@ -21,5 +52,6 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
                 />
             </span>
         </div>
+            </>
     );
 };

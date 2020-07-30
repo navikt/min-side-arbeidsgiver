@@ -1,26 +1,32 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import { AltinnContainer } from './AltinnContainer/AltinnContainer';
-import { ManglerTilgangContainer } from './ManglerTilgangContainer/ManglerTilgangContainer';
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
 import { FridaChatbot } from '../FridaChatbot/FridaChatbot';
+import { withRouter, RouteComponentProps } from 'react-router';
 import './Hovedside.less';
 
-const Hovedside: FunctionComponent = () => {
+const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState, visSyfoFeilmelding } = useContext(SyfoTilgangContext);
 
-    const skalViseManglerTilgangBoks = !(
-        organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
-    );
+    useEffect(() => {
+        const skalViseManglerTilgangBoks = !(
+            organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
+        );
+
+        if (skalViseManglerTilgangBoks) {
+            history.replace({ pathname: 'mangler-tilgang'});
+        }
+    }, [organisasjoner, tilgangTilSyfoState, history]);
 
     return (
         <>
@@ -30,8 +36,6 @@ const Hovedside: FunctionComponent = () => {
                     visFeilmelding={visFeilmelding}
                     visSyfoFeilmelding={visSyfoFeilmelding}
                 />
-                {skalViseManglerTilgangBoks && <ManglerTilgangContainer />}
-                {!skalViseManglerTilgangBoks && (
                     <>
                         <Koronaboks />
                         <TjenesteBoksContainer />
@@ -41,10 +45,9 @@ const Hovedside: FunctionComponent = () => {
                         <BeOmTilgang />
                         <FridaChatbot />
                     </>
-                )}
             </div>
         </>
     );
 };
 
-export default Hovedside;
+export default withRouter(Hovedside);
