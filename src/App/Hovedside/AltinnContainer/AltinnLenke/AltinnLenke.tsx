@@ -17,11 +17,12 @@ const AltinnLenke: FunctionComponent<Props> = props => {
     const nyFaneProp = props.nyFane ? "_blank" : "_self";
 
     return (
-        <div onClick={loggAtKlikketPaAltinn} className={'altinn-lenke'}>
+        <div className={'altinn-lenke'}>
             <Lenkepanel
                 href={props.href}
                 tittelProps={'element'}
                 border={false}
+                onClick={loggAtKlikketPaAltinn}
                 linkCreator={(props: any) => (
                     <a target={nyFaneProp} {...props}>
                         {props.children}

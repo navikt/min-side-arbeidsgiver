@@ -29,7 +29,13 @@ export const FridaChatbot = () => {
     }, [chatbotOpened]);
 
     return (
-        <div className="chatbot-wrapper" onClick={() => openChatbot(setChatbotOpened)}>
+        <div
+            className="chatbot-wrapper"
+            onClick={() => openChatbot(setChatbotOpened)}
+            onKeyPress={(e) => {if (e.keyCode === 13) openChatbot(setChatbotOpened)}}
+            role="button"
+            tabIndex={0}
+        >
             <div
                 className={`chatbot-wrapper__visual ${
                     chatbotOpened ? `chatbot-wrapper__visual--open` : ''

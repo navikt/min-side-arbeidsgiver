@@ -19,7 +19,7 @@ const Arbeidsforholdboks = () => {
     };
 
     return (
-        <div className="arbeidsforholdboks tjenesteboks-innhold" onClick={loggAtKlikketPaArbeidsfohold}>
+        <div className="arbeidsforholdboks tjenesteboks-innhold">
             <TjenesteBoksBanner
                 tittel="Arbeidsforhold"
                 imgsource={arbeidsforholdikon}
@@ -28,6 +28,7 @@ const Arbeidsforholdboks = () => {
             <Lenkepanel
                 className="arbeidsforholdboks__arbeidsforhold"
                 href={arbeidsforholdLink() + valgtbedrift()}
+                onClick={loggAtKlikketPaArbeidsfohold}
                 tittelProps="normaltekst"
             >
                 Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
