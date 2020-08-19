@@ -12,7 +12,7 @@ const Syfoboks = () => {
     };
 
     return (
-        <div className="syfoboks tjenesteboks-innhold" onClick={loggAtKlikketPaSyfo}>
+        <div className="syfoboks tjenesteboks-innhold">
             <TjenesteBoksBanner
                 tittel="Sykmeldte"
                 imgsource={syfoikon}
@@ -21,6 +21,7 @@ const Syfoboks = () => {
             <Lenkepanel
                 className="syfoboks__sykemeldte"
                 href={syfoLink()}
+                onClick={loggAtKlikketPaSyfo}
                 tittelProps="normaltekst"
             >
                 Se sykmeldte du har ansvar for å følge opp

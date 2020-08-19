@@ -11,7 +11,6 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
-import { FridaChatbot } from '../FridaChatbot/FridaChatbot';
 import './Hovedside.less';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
@@ -43,7 +42,6 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
                         <AltinnContainer />
                         <SkjemaveilederContainer />
                         <BeOmTilgang />
-                        <FridaChatbot />
                     </>
             </div>
         </>
