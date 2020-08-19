@@ -49,7 +49,7 @@ const Arbeidstreningboks = () => {
     };
 
     return (
-        <div className="arbeidstreningboks tjenesteboks-innhold" onClick={loggAtKlikketPaArbeidstrening} >
+        <div className="arbeidstreningboks tjenesteboks-innhold">
             <TjenesteBoksBanner
                 tittel="Arbeidstrening"
                 imgsource={arbeidstreningikon}
@@ -59,6 +59,7 @@ const Arbeidstreningboks = () => {
             <Lenkepanel
                 className="arbeidstreningboks__info"
                 href={arbeidsAvtaleLink()}
+                onClick={loggAtKlikketPaArbeidstrening}
                 tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

@@ -22,7 +22,6 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
         if (organisasjon) {
             endreOrganisasjon(organisasjon);
         }
-        console.log('kaller skifte org kallt');
     };
 
     return (

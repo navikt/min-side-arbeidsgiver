@@ -23,11 +23,12 @@ const Pamboks = () => {
     };
 
     return (
-        <div className="pamboks tjenesteboks-innhold" onClick={loggAtKlikketPaArbeidstrening} >
+        <div className="pamboks tjenesteboks-innhold">
             <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
             <Lenkepanel
                 className="pamboks__lenke"
                 href={linkTilArbeidsplassen()}
+                onClick={loggAtKlikketPaArbeidstrening}
                 tittelProps="normaltekst"
                 border={false}
             >

@@ -20,7 +20,7 @@ const IAwebboks = () => {
     };
 
     return (
-        <div className="IA-web-boks tjenesteboks-innhold" onClick={loggAtKlikketPaIAeb}>
+        <div className="IA-web-boks tjenesteboks-innhold">
             <TjenesteBoksBanner
                 tittel="Sykefraværsstatistikk"
                 imgsource={IAwebikon}
@@ -29,6 +29,7 @@ const IAwebboks = () => {
             <Lenkepanel
                 className="IA-web-boks__info"
                 href={lenkeTilSykefravarsstatistikk+valgtbedrift()}
+                onClick={loggAtKlikketPaIAeb}
                 tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

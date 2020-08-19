@@ -78,6 +78,9 @@ jobs:
       - name: Installer avhengigheter (yarn install)
         run:  yarn install --production --ignore-scripts --no-optional
 
+      - name: Kjør UU-tester (yarn lint)
+        run: yarn lint
+
       - name: Bygg (yarn build)
         run: yarn build
 

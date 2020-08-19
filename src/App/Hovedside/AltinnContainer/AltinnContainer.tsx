@@ -1,10 +1,8 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-
-import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
-
-import './AltinnContainer.less';
-import {Undertittel} from 'nav-frontend-typografi';
-
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { Undertittel } from 'nav-frontend-typografi';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { finnOgTellTilganger, genererAltinnSkjema } from './finnOgTellTilganger';
 import {
     ekspertbistand,
     inntekstmelding,
@@ -12,46 +10,48 @@ import {
     soknadsskjemaLonnstilskudd,
     soknadTilskuddTilMentor,
 } from '../../../lenker';
-import {OrganisasjonsListeContext} from '../../../OrganisasjonsListeProvider';
-import {finnOgTellTilganger, genererAltinnSkjema} from "./finnOgTellTilganger";
+import './AltinnContainer.less';
 
 interface skjemaNavnOgLenke {
     navn: string;
-    lenke: string
+    lenke: string;
 }
 
 const skjemanavnMedLenker: skjemaNavnOgLenke[] = [
     {
         navn: 'Mentortilskudd',
-        lenke: soknadTilskuddTilMentor()
+        lenke: soknadTilskuddTilMentor(),
     },
     {
         navn: 'Inkluderingstilskudd',
-        lenke: soknadskjemaInkluderingstilskudd()
+        lenke: soknadskjemaInkluderingstilskudd(),
     },
     {
         navn: 'Ekspertbistand',
-        lenke: ekspertbistand
+        lenke: ekspertbistand,
     },
     {
         navn: 'Lønnstilskudd',
-        lenke: soknadsskjemaLonnstilskudd()
+        lenke: soknadsskjemaLonnstilskudd(),
     },
     {
         navn: 'Inntektsmelding',
-        lenke: inntekstmelding
+        lenke: inntekstmelding,
     },
-]
+];
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
 
     const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
 
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const {listeMedSkjemaOgTilganger} = useContext(OrganisasjonsListeContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
-    const altinnSkjemaMedTilgang = finnOgTellTilganger(listeMedSkjemaOgTilganger, valgtOrganisasjon.OrganizationNumber);
+    const altinnSkjemaMedTilgang = finnOgTellTilganger(
+        listeMedSkjemaOgTilganger,
+        valgtOrganisasjon.OrganizationNumber
+    );
 
     useEffect(() => {
         const antallTilganger = altinnSkjemaMedTilgang.length;
@@ -67,26 +67,24 @@ export const AltinnContainer: FunctionComponent = () => {
         }
     }, [altinnSkjemaMedTilgang]);
 
-    const lagAltinnlenker = (): any [] => {
-        const altinnLenkeObjekt: any []= [];
-        skjemanavnMedLenker.forEach( skjema => {
+    const lagAltinnlenker = (): any[] => {
+        const altinnLenkeObjekt: any[] = [];
+        skjemanavnMedLenker.forEach(skjema => {
             if (altinnSkjemaMedTilgang.filter(navn => navn === skjema.navn).length) {
-                altinnLenkeObjekt.push(genererAltinnSkjema(skjema.navn, skjema.lenke, typeAntall))
+                altinnLenkeObjekt.push(genererAltinnSkjema(skjema.navn, skjema.lenke));
             }
-        })
-        return altinnLenkeObjekt
-    }
+        });
+        return altinnLenkeObjekt;
+    };
 
     return (
-        <div className={'altinn-container '+ typeAntall}>
+        <div className={'altinn-container ' + typeAntall}>
             {generellAltinnTilgang && (
                 <div className={'altinn-container__tekst'}>
                     <Undertittel>Søknader og skjemaer på Altinn</Undertittel>
                 </div>
             )}
-            <div className={'altinn-container__bokser '+ typeAntall}>
-                {lagAltinnlenker()}
-            </div>
+            <div className={'altinn-container__bokser ' + typeAntall}>{lagAltinnlenker()}</div>
         </div>
     );
 };

@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
@@ -10,7 +11,6 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
-import { withRouter, RouteComponentProps } from 'react-router';
 import './Hovedside.less';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
