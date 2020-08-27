@@ -2,12 +2,21 @@ import {
     Organisasjon
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
+import {digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, sjekkInnloggetLenke} from '../lenker';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 import environment from '../utils/environment';
 
 export interface Arbeidsavtale {
     status: string;
+}
+
+export async function sjekkInnlogget(signal: any): Promise<boolean> {
+    let respons = await fetch(sjekkInnloggetLenke(), { signal: signal });
+    if (respons.ok) {
+        return true
+    } else {
+        return false
+    }
 }
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {

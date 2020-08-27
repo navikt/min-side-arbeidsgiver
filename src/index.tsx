@@ -25,7 +25,6 @@ if (process.env.REACT_APP_MOCK) {
     require('./mock/arbeidstreningMock');
     require('./mock/altinnMock');
     require('./mock/unleashMock');
-    //require("./mock/veilarbMock");
 }
 
 if (process.env.REACT_APP_MOCK || environment.MILJO === 'dev-sbs') {
