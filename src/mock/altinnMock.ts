@@ -133,6 +133,22 @@ fetchMock
         })
     )
     .spy();
+fetchMock
+    .get(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5516&serviceEdition=1',
+        delay.then(() => {
+            return ArbeidsforholdResponse;
+        })
+    )
+    .spy();
+fetchMock
+    .get(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5516&serviceEdition=2',
+        delay.then(() => {
+            return ArbeidsforholdResponse;
+        })
+    )
+    .spy();
 
 const ekspertBistandSkjemaResponse = [
     {

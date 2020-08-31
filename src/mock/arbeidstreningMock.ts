@@ -1,18 +1,7 @@
 import fetchMock from 'fetch-mock';
 import { hentArbeidsavtalerApiLink } from '../lenker';
-//const delay = new Promise(res => setTimeout(res, 500));
 
-/*fetchMock
-    .get(
-        hentArbeidsavtalerApiLink(),
-        delay.then(() => {
-            return 500;
-        })
-    )
-    .spy();
-    */
-
-const gammelarbeidstreningsmock = [
+const arbeidstreningsmock = [
     {
         deltakerFnr: '28076938972',
         bedriftNr: '910825518',
@@ -101,7 +90,7 @@ const gammelarbeidstreningsmock = [
         godkjentPaVegneAv: false,
         kanAvbrytes: true,
         kanLåsesOpp: false,
-        status: 'Avbrutt',
+        status: 'Påbegynt',
     },
     {
         deltakerFnr: '28076938972',
@@ -417,13 +406,13 @@ const gammelarbeidstreningsmock = [
         godkjentPaVegneAv: true,
         kanAvbrytes: false,
         kanLåsesOpp: true,
-        status: 'Avsluttet',
+        status: 'Påbegynt',
     },
     {
         deltakerFnr: '00000000000',
         bedriftNr: '910825518',
         veilederNavIdent: 'Z992785',
-        tiltakstype: 'MENTOR',
+        tiltakstype: 'ARBEIDSTRENING',
         opprettetTidspunkt: '2020-02-14T09:15:04.302173',
         id: 'adaccf0b-4a44-4a38-9dea-058ff7bf51b5',
         versjoner: [
@@ -763,7 +752,7 @@ const gammelarbeidstreningsmock = [
         godkjentPaVegneAv: true,
         kanAvbrytes: false,
         kanLåsesOpp: true,
-        status: 'Avsluttet',
+        status: 'Gjennomføres',
     },
     {
         deltakerFnr: '16047844235',
@@ -1077,7 +1066,7 @@ const gammelarbeidstreningsmock = [
         deltakerFnr: '01093434109',
         bedriftNr: '910825518',
         veilederNavIdent: 'Z992785',
-        tiltakstype: 'MENTOR',
+        tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
         opprettetTidspunkt: '2020-02-12T12:49:16.925086',
         id: '89bdbc61-e092-4925-9a63-2ebc3bbb6326',
         versjoner: [
@@ -1165,7 +1154,7 @@ const gammelarbeidstreningsmock = [
         godkjentPaVegneAv: true,
         kanAvbrytes: false,
         kanLåsesOpp: true,
-        status: 'Avsluttet',
+        status: 'Påbegynt',
     },
     {
         deltakerFnr: '01093434109',
@@ -1615,7 +1604,7 @@ const gammelarbeidstreningsmock = [
         godkjentPaVegneAv: true,
         kanAvbrytes: false,
         kanLåsesOpp: true,
-        status: 'Avsluttet',
+        status: 'Mangler godkjenning',
     },
     {
         deltakerFnr: '15046623840',
@@ -1859,4 +1848,4 @@ const gammelarbeidstreningsmock = [
     },
 ];
 
-fetchMock.get('begin:' + hentArbeidsavtalerApiLink(), gammelarbeidstreningsmock);
+fetchMock.get('begin:' + hentArbeidsavtalerApiLink(), arbeidstreningsmock);

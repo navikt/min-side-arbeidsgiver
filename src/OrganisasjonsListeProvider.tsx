@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-
 import {
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
-    hentTilgangForAlleAtinnskjema,
+    hentTilgangForAlleAltinnskjema,
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
 import { Organisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
@@ -18,6 +17,13 @@ export type Context = {
     alltinnSkjemaMedTilgangerFerdigLastet: Tilgang;
     visFeilmelding: boolean;
 };
+
+export interface AltinnSkjema {
+    navn: string;
+    kode: string;
+    versjon: string;
+    testversjon?: string;
+}
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
@@ -56,17 +62,20 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
         kode: '5441',
         versjon: '1',
     },
+    {
+        navn: 'Midlertidig lønnstilskudd',
+        kode: '5516',
+        versjon: '1',
+    },
+    {
+        navn: 'Varig lønnstilskudd',
+        kode: '5516',
+        versjon: '2',
+    },
 ];
 
 const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
-
-export interface AltinnSkjema {
-    navn: string;
-    kode: string;
-    versjon: string;
-    testversjon?: string;
-}
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
@@ -95,14 +104,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                         org.OrganizationForm === 'AAFY' ||
                         org.Type === 'Enterprise'
                 );
-                setOrganisasjoner(
-                    organisasjoner.filter(
-                        org =>
-                            org.OrganizationForm === 'BEDR' ||
-                            org.OrganizationForm === 'AAFY' ||
-                            org.Type === 'Enterprise'
-                    )
-                );
+                setOrganisasjoner(organisasjonerFiltrert);
                 if (organisasjonerFiltrert.length > 0)
                     setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);
                 else {
@@ -129,7 +131,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             })
             .catch(e => setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG));
 
-        hentTilgangForAlleAtinnskjema(ListeMedAltinnSkjemaKoder)
+        hentTilgangForAlleAltinnskjema(ListeMedAltinnSkjemaKoder)
             .then(skjemaer => {
                 if (skjemaer.length > 0) {
                     setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
