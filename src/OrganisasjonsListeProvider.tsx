@@ -112,6 +112,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             .catch(e => {
                 setOrganisasjoner([]);
                 setVisFeilmelding(true);
+                setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
             });
 
         hentOrganisasjonerIAweb()
