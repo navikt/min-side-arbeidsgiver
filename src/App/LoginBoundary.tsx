@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { LoggInn } from './LoggInn/LoggInn';
-import { veilarbStepup } from '../lenker';
 import environment from '../utils/environment';
-import hentVeilarbStatus, { VeilStatus } from '../api/veilarbApi';
+import {sjekkInnlogget} from "../api/dnaApi";
 
 export enum Tilgang {
     LASTER,
@@ -10,36 +9,25 @@ export enum Tilgang {
     TILGANG,
 }
 
-function setEssoCookieLocally() {
-    document.cookie = 'nav-esso=0123456789..*; path=/; domain=localhost;';
-}
-function getEssoToken(veilarbStatusRespons: VeilStatus) {
-    if (!veilarbStatusRespons.erInnlogget) {
-        window.location.href = veilarbStepup();
-    }
-}
 const LoginBoundary: FunctionComponent = props => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
-    function localLogin() {
+   const localLogin = () => {
         if (document.cookie.includes('selvbetjening-idtoken')) {
             setInnlogget(Tilgang.TILGANG);
         } else {
             setInnlogget(Tilgang.IKKE_TILGANG);
         }
-        setEssoCookieLocally();
     }
 
     useEffect(() => {
         setInnlogget(Tilgang.LASTER);
         const getLoginStatus = async () => {
+            const abortController = new AbortController();
+            const signal = abortController.signal;
             if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-                let veilarbStatusRespons = await hentVeilarbStatus();
-                if (
-                    veilarbStatusRespons.harGyldigOidcToken &&
-                    veilarbStatusRespons.nivaOidc === 4
-                ) {
-                    getEssoToken(veilarbStatusRespons);
+                let innloggingsstatus = await sjekkInnlogget(signal);
+                if (innloggingsstatus) {
                     setInnlogget(Tilgang.TILGANG);
                 } else {
                     setInnlogget(Tilgang.IKKE_TILGANG);

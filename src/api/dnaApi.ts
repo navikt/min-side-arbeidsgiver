@@ -1,6 +1,6 @@
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import { digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink } from '../lenker';
+import {digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, sjekkInnloggetLenke} from '../lenker';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
 import environment from '../utils/environment';
 
@@ -27,6 +27,15 @@ export async function hentSyfoTilgang(): Promise<boolean> {
 
     }
     throw new Error('Feil ved kontakt mot baksystem.');
+}
+
+export async function sjekkInnlogget(signal: any): Promise<boolean> {
+    let respons = await fetch(sjekkInnloggetLenke(), { signal: signal });
+    if (respons.ok) {
+        return true
+    } else {
+        return false
+    }
 }
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {

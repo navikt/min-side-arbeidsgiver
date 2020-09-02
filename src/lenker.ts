@@ -1,4 +1,5 @@
 import environment from './utils/environment';
+import {basename} from "./paths";
 
 export const soknadskjemaInkluderingstilskudd = () => {
     if (environment.MILJO === 'prod-sbs') {
@@ -47,14 +48,6 @@ export const syfoLink = () => {
     }
 };
 
-export const veilarbStepup = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://tjenester.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver.nav.no/min-side-arbeidsgiver';
-    } else {
-        return 'https://tjenester-q1.nav.no/veilarbstepup/oidc?url=https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver';
-    }
-};
-
 export const linkTilArbeidsplassen = () => {
     if (environment.MILJO === 'prod-sbs') {
         return 'https://arbeidsplassen.nav.no/bedrift';
@@ -69,6 +62,10 @@ export const pamSettBedriftLenke = (orgnr: string) => {
     } else {
         return `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
     }
+};
+
+export const sjekkInnloggetLenke = () => {
+    return basename + '/api/innlogget';
 };
 
 export const pamHentStillingsannonserLenke = () => {

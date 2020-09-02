@@ -7,7 +7,6 @@ const getDecorator = require('./decorator');
 const Promise = require('promise');
 const port = process.env.PORT || 3000;
 const sonekrysning = require('./sonekrysningConfig.js');
-const veilarbStatusProxyConfig = require('./veilarbStatusProxyConfig');
 const tiltakSonekrysningConfig = require('./tiltaksSonekrysningConfig');
 const digisyfoSykemeldteProxyConfig = require('./digisyfoProxy');
 const createEnvSettingsFile = require('./envSettings.js');
@@ -15,7 +14,6 @@ const createEnvSettingsFile = require('./envSettings.js');
 const buildPath = path.join(__dirname,'../../build');
 
 server.use(`${BASE_PATH}/api`, sonekrysning);
-server.use(`${BASE_PATH}/veilarbstepup/status`,veilarbStatusProxyConfig);
 server.use(`${BASE_PATH}/tiltaksgjennomforing-api/avtaler`,tiltakSonekrysningConfig);
 server.use(`${BASE_PATH}/syforest/arbeidsgiver/sykmeldte`,digisyfoSykemeldteProxyConfig);
 
