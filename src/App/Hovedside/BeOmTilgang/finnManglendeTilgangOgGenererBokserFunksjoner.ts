@@ -78,7 +78,8 @@ export const genererTekstbokser = (
                 tjeneste.Skjema.navn !== 'Arbeidstrening' &&
                     tjeneste.Skjema.navn !== 'Arbeidsforhold' &&
                     tjeneste.Skjema.navn !== 'Midlertidig lønnstilskudd' &&
-                    tjeneste.Skjema.navn !== 'Varig lønnstilskudd'
+                    tjeneste.Skjema.navn !== 'Varig lønnstilskudd' &&
+                    tjeneste.Skjema.navn !== 'Lønnstilskudd'
             ) {
                 listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
             }
@@ -113,12 +114,6 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
         case 'Ekspertbistand': {
             tjenesteInnhold.innholdstekst =
                 'Få tilgang til å søke ekspertbistand i Altinn. Du kan søke om ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær.';
-            break;
-        }
-        case 'Lønnstilskudd': {
-            tjenesteInnhold.innholdstekst =
-                'Få tilgang å søke om midlertidig eller varig lønnstilskudd i Altinn. Dette kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.';
-            tjenesteInnhold.overskrift = 'Lønnstilskudd';
             break;
         }
         case 'Inntektsmelding': {
