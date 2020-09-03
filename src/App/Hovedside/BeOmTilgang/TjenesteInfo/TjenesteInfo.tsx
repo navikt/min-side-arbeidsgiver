@@ -25,7 +25,7 @@ const TjenesteInfo = (props: TjenesteInfoProps) => {
                     href={props.lenkeTilBeOmTjeneste}
                     onClick={() => loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift)}
                 >
-                    Be om tilgang <img src={nyfane} alt="" />
+                    <span>Be om tilgang</span> <img src={nyfane} alt="" />
                 </Lenke>
             )}
             <Element className="tjeneste-info__overskrift">{props.overskrift}</Element>

@@ -12,8 +12,9 @@ import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
 import './Hovedside.less';
+import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 
-const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
+const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState, visSyfoFeilmelding } = useContext(SyfoTilgangContext);
 
@@ -23,7 +24,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
         );
 
         if (skalViseManglerTilgangBoks) {
-            history.replace({ pathname: 'mangler-tilgang'});
+            history.replace({ pathname: 'mangler-tilgang' });
         }
     }, [organisasjoner, tilgangTilSyfoState, history]);
 
@@ -35,14 +36,15 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history})  => {
                     visFeilmelding={visFeilmelding}
                     visSyfoFeilmelding={visSyfoFeilmelding}
                 />
-                    <>
-                        <Koronaboks />
-                        <TjenesteBoksContainer />
-                        <NyttigForDegContainer />
-                        <AltinnContainer />
-                        <SkjemaveilederContainer />
-                        <BeOmTilgang />
-                    </>
+                <>
+                    <Koronaboks />
+                    <TjenesteBoksContainer />
+                    <BrevFraAltinnContainer />
+                    <NyttigForDegContainer />
+                    <AltinnContainer />
+                    <SkjemaveilederContainer />
+                    <BeOmTilgang />
+                </>
             </div>
         </>
     );

@@ -1,0 +1,54 @@
+@import '~nav-frontend-core/less/_variabler';
+
+.tilskuddsbrev {
+    margin: 0 1rem;
+
+    @media (min-width: @screen-sm-min) {
+        width: 46rem;
+        margin: 0;
+        &__inboxikon {
+            width: 3rem;
+        }
+    }
+
+    @media (min-width: @screen-md-min) {
+        width: 60rem;
+        margin: 0;
+    }
+
+    .ekspanderbartPanel__hode {
+        padding: 1.5rem 1rem 1rem;
+    }
+
+    &__tittel {
+        display: flex;
+        justify-items: center;
+    }
+
+    &__inboxikon {
+        width: 4.2rem;
+        position: relative;
+        display: inline-block;
+    }
+
+    &__liste {
+        padding: 0;
+    }
+
+    &__liste-element {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0.5rem;
+        @media (min-width: @screen-md-min) {
+            flex-direction: row;
+        }
+    }
+
+    &__dato {
+        width: 8rem;
+    }
+
+    &__ulest-lenke {
+        font-weight: bold;
+    }
+}

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { LoggInn } from './LoggInn/LoggInn';
 import environment from '../utils/environment';
-import {sjekkInnlogget} from "../api/dnaApi";
+import { sjekkInnlogget } from '../api/dnaApi';
 
 export enum Tilgang {
     LASTER,
@@ -12,13 +12,13 @@ export enum Tilgang {
 const LoginBoundary: FunctionComponent = props => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
-   const localLogin = () => {
+    const localLogin = () => {
         if (document.cookie.includes('selvbetjening-idtoken')) {
             setInnlogget(Tilgang.TILGANG);
         } else {
             setInnlogget(Tilgang.IKKE_TILGANG);
         }
-    }
+    };
 
     useEffect(() => {
         setInnlogget(Tilgang.LASTER);

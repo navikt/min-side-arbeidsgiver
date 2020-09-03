@@ -10,7 +10,7 @@ fetchMock
     )
     .spy();
 
-const OrganisasjonerResponse = [
+export const OrganisasjonerResponse = [
     {
         Name: 'BALLSTAD OG HAMARØY',
         Type: 'Business',

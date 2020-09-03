@@ -10,6 +10,7 @@ import { SyfoTilgangContext } from './SyfoTilgangProvider';
 import { Tilgang } from './App/LoginBoundary';
 import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 import { loggBedriftsInfo } from './utils/funksjonerForAmplitudeLogging';
+import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from './api/altinnApi';
 
 interface Props {
     children: React.ReactNode;
@@ -23,6 +24,7 @@ export type Context = {
     midlertidigLonnstilskuddAvtaler: Arbeidsavtale[];
     varigLonnstilskuddAvtaler: Arbeidsavtale[];
     tilgangsArray: Tilgang[];
+    altinnMeldingsboks: Meldingsboks | undefined;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -33,6 +35,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
         listeMedSkjemaOgTilganger,
+        reporteeMessagesUrls,
     } = useContext(OrganisasjonsListeContext);
 
     const [antallAnnonser, setantallAnnonser] = useState(-1);
@@ -51,8 +54,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [tilgangTilArbeidsforhold, setTilgangTilArbeidsforhold] = useState(Tilgang.LASTER);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
     const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
-
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
+    const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(
+        undefined
+    );
     const [arbeidstreningsavtaler, setArbeidstreningsavtaler] = useState(Array<Arbeidsavtale>());
     const [midlertidigLonnstilskuddAvtaler, setMidlertidigLonnstilskuddAvtaler] = useState(
         Array<Arbeidsavtale>()
@@ -116,8 +121,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                                 if (tiltaktype === 'ARBEIDSTRENING') {
                                     setArbeidstreningsavtaler(filtrerteavtaler);
                                     setTilgangTilArbeidstreningsavtaler(Tilgang.TILGANG);
-                                }
-                                else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
+                                } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
                                     setMidlertidigLonnstilskuddAvtaler(filtrerteavtaler);
                                     setTilgangTilMidlertidigLonnstilskudd(Tilgang.TILGANG);
                                 } else {
@@ -125,7 +129,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                                     setTilgangTilVarigLonnstilskudd(Tilgang.TILGANG);
                                 }
                             })
-                            .catch(e => {
+                            .catch(_ => {
                                 if (tiltaktype === 'ARBEIDSTRENING') {
                                     setArbeidstreningsavtaler([]);
                                     setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
@@ -160,6 +164,19 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                     }
                 }
             });
+
+            const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
+            if (messagesUrl === undefined) {
+                setAltinnMeldingsboks(undefined);
+            } else {
+                const resultat = await hentMeldingsboks(messagesUrl);
+                if (resultat instanceof Error) {
+                    autentiserAltinnBruker(window.location.href);
+                    setAltinnMeldingsboks(undefined);
+                } else {
+                    setAltinnMeldingsboks(resultat);
+                }
+            }
         }
     };
 
@@ -205,6 +222,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         midlertidigLonnstilskuddAvtaler,
         varigLonnstilskuddAvtaler,
         tilgangsArray,
+        altinnMeldingsboks,
     };
 
     return (
