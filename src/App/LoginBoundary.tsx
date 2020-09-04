@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { LoggInn } from './LoggInn/LoggInn';
-
 import environment from '../utils/environment';
 import {sjekkInnlogget} from "../api/dnaApi";
 

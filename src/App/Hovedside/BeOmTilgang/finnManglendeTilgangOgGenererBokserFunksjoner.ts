@@ -7,7 +7,7 @@ import { beOmTilgangIAltinnLink } from '../../../lenker';
 export const genererTekstbokser = (
     tjenesteboksTilgangsArray: Tilgang[],
     altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[],
-    valgtOrgNr?: string
+    valgtOrgNr: string
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
     if (tjenesteboksTilgangsArray[0] === Tilgang.IKKE_TILGANG) {
@@ -36,7 +36,8 @@ export const genererTekstbokser = (
         if (tjenesteboksTilgangsArray[3] === Tilgang.IKKE_TILGANG) {
             listeMedProps.push({
                 overskrift: 'Arbeidstrening',
-                innholdstekst: 'Arbeidstrening er et tiltak som gir arbeidssøker mulighet til å prøve seg i arbeid, få relevant erfaring og skaffe seg en ordinær jobb. Arbeidstrening i din bedrift kan bidra til at arbeidssøkeren når målene sine. ',
+                innholdstekst:
+                    'Arbeidstrening er et tiltak som gir arbeidssøker mulighet til å prøve seg i arbeid, få relevant erfaring og skaffe seg en ordinær jobb. Arbeidstrening i din bedrift kan bidra til at arbeidssøkeren når målene sine. ',
                 lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5332', '2', '1'),
             });
         }
@@ -44,15 +45,42 @@ export const genererTekstbokser = (
         if (tjenesteboksTilgangsArray[4] === Tilgang.IKKE_TILGANG) {
             listeMedProps.push({
                 overskrift: 'Arbeidsforhold',
-                innholdstekst: 'Få oversikt over alle arbeidsforhold du som arbeidsgiver har rapportert inn via A-meldingen. Her kan du kontrollere opplysningene og se hva som er registrert i arbeidsgiver- og arbeidstakerregisteret (Aa-registeret). ',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5441','1'),
+                innholdstekst:
+                    'Få oversikt over alle arbeidsforhold du som arbeidsgiver har rapportert inn via A-meldingen. Her kan du kontrollere opplysningene og se hva som er registrert i arbeidsgiver- og arbeidstakerregisteret (Aa-registeret). ',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5441', '1'),
+            });
+        }
+
+        if (tjenesteboksTilgangsArray[5] === Tilgang.IKKE_TILGANG) {
+            listeMedProps.push({
+                overskrift: 'Midlertidig lønnstilskudd',
+                innholdstekst:
+                    'Få tilgang til avtaler om midlertidig lønnstilskudd i din virksomhet. Lønnstilskudd kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5516', '1'),
+            });
+        }
+
+        if (tjenesteboksTilgangsArray[6] === Tilgang.IKKE_TILGANG) {
+            listeMedProps.push({
+                overskrift: 'Varig lønnstilskudd',
+                innholdstekst:
+                    'Få tilgang til avtaler om varig lønnstilskudd i din virksomhet. Lønnstilskudd kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.',
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5516', '2'),
             });
         }
 
         altinnTjenester.forEach(tjeneste => {
             const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr, tjeneste);
-            //tjenestene Arbeidsforhold og Arbeidstrening er allerede lagt ved å bruke tjenesteboksTilgangsArray
-            if (!harTilgangTilTjeneste && ((tjeneste.Skjema.navn !== 'Arbeidstrening' && tjeneste.Skjema.navn !== 'Arbeidsforhold')) ){
+            /* Tjenestene Arbeidsforhold, Midlertidg/varig lønnstilskudd og Arbeidstrening
+            er allerede lagt til ved å bruke tjenesteboksTilgangsArray */
+            if (
+                !harTilgangTilTjeneste &&
+                tjeneste.Skjema.navn !== 'Arbeidstrening' &&
+                    tjeneste.Skjema.navn !== 'Arbeidsforhold' &&
+                    tjeneste.Skjema.navn !== 'Midlertidig lønnstilskudd' &&
+                    tjeneste.Skjema.navn !== 'Varig lønnstilskudd' &&
+                    tjeneste.Skjema.navn !== 'Lønnstilskudd'
+            ) {
                 listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
             }
         });
@@ -60,16 +88,10 @@ export const genererTekstbokser = (
     return listeMedProps;
 };
 
-const sjekkOmTilgangTilAltinnSkjema = (
-    orgnr: string,
-    skjema: SkjemaMedOrganisasjonerMedTilgang
-) => {
-    if (
+const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang) => {
+    return (
         skjema.OrganisasjonerMedTilgang.filter(org => org.OrganizationNumber === orgnr).length > 0
-    ) {
-        return true
-    }
-    return false;
+    );
 };
 
 const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): TjenesteInfoProps => {
@@ -94,18 +116,11 @@ const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): Tje
                 'Få tilgang til å søke ekspertbistand i Altinn. Du kan søke om ekspertbistand hvis en arbeidstaker har lange og/eller hyppige sykefravær.';
             break;
         }
-        case 'Lønnstilskudd': {
-            tjenesteInnhold.innholdstekst =
-                'Få tilgang å søke om midlertidig eller varig lønnstilskudd i Altinn. Dette kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.';
-            tjenesteInnhold.overskrift = 'Lønnstilskudd';
-            break;
-        }
         case 'Inntektsmelding': {
             tjenesteInnhold.innholdstekst =
                 'Få tilgang til å sende digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger.';
             break;
         }
-
     }
     return tjenesteInnhold;
 };

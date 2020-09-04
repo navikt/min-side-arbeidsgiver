@@ -2,20 +2,25 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { Tilgang } from '../../LoginBoundary';
+import { loggTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
-import Arbeidstreningboks from './Arbeidstreningboks/Arbeidstreningboks';
+import Arbeidstreningboks from './ArbeidstreningLonnstilskuddBoks/Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
-import {
-    loggTilgangsKombinasjonAvTjenestebokser
-} from '../../../utils/funksjonerForAmplitudeLogging';
+import MidlertidigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/MidlertidigLonnstilskuddboks/MidlertidigLonnstilskuddboks';
+import VarigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/VarigLonnstilskuddboks/VarigLonnstilskuddboks';
 import './TjenesteBoksContainer.less';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { tilgangsArray, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const {
+        arbeidstreningsavtaler,
+        midlertidigLonnstilskuddAvtaler,
+        varigLonnstilskuddAvtaler,
+    } = useContext(OrganisasjonsDetaljerContext);
     const {
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
@@ -30,16 +35,13 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visSyfo, setVisSyfo] = useState(false);
     const [visPAM, setVisPam] = useState(false);
     const [visArbeidsforhold, setVisArbeidsforhold] = useState(false);
+    const [visMidlertidigLonnstilskudd, setVisMidlertidigLonnstilskudd] = useState(false);
+    const [visVarigLonnstilskudd, setVisVarigLonnstilskudd] = useState(false);
 
     useEffect(() => {
         setFerdigLastet('laster');
 
         if (!tilgangsArray.includes(Tilgang.LASTER)) {
-            if (tilgangsArray[4] === Tilgang.TILGANG) {
-                setVisArbeidsforhold(true);
-            } else {
-                setVisArbeidsforhold(false);
-            }
             if (tilgangsArray[0] === Tilgang.TILGANG) {
                 setVisSyfo(true);
             } else {
@@ -55,13 +57,36 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             } else {
                 setVisIA(false);
             }
-            if (tilgangsArray[3] === Tilgang.TILGANG) {
+            if (tilgangsArray[3] === Tilgang.TILGANG && arbeidstreningsavtaler.length > 0) {
                 setVisArbeidstrening(true);
             } else {
                 setVisArbeidstrening(false);
             }
+            if (tilgangsArray[4] === Tilgang.TILGANG) {
+                setVisArbeidsforhold(true);
+            } else {
+                setVisArbeidsforhold(false);
+            }
+            if (
+                tilgangsArray[5] === Tilgang.TILGANG && midlertidigLonnstilskuddAvtaler.length > 0
+            ) {
+                setVisMidlertidigLonnstilskudd(true);
+            } else {
+                setVisMidlertidigLonnstilskudd(false);
+            }
+            if (tilgangsArray[6] === Tilgang.TILGANG && varigLonnstilskuddAvtaler.length > 0) {
+                setVisVarigLonnstilskudd(true);
+            } else {
+                setVisVarigLonnstilskudd(false);
+            }
         }
-    }, [valgtOrganisasjon, tilgangsArray]);
+    }, [
+        valgtOrganisasjon,
+        tilgangsArray,
+        arbeidstreningsavtaler,
+        midlertidigLonnstilskuddAvtaler,
+        varigLonnstilskuddAvtaler,
+    ]);
 
     useEffect(() => {
         const antallTjenester: number = tilgangsArray.filter(tilgang => {
@@ -112,6 +137,16 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                     {visPAM && (
                         <Innholdsboks classname="tjenesteboks">
                             <Pamboks />
+                        </Innholdsboks>
+                    )}
+                    {visMidlertidigLonnstilskudd && (
+                        <Innholdsboks classname="tjenesteboks">
+                            <MidlertidigLonnstilskuddboks />
+                        </Innholdsboks>
+                    )}
+                    {visVarigLonnstilskudd && (
+                        <Innholdsboks classname="tjenesteboks">
+                            <VarigLonnstilskuddboks />
                         </Innholdsboks>
                     )}
                     {visArbeidstrening && (

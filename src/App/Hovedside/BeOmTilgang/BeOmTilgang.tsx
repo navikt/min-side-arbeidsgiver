@@ -1,14 +1,13 @@
 import React, { FunctionComponent, useContext } from 'react';
-import './BeOmTilgang.less';
-
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjoner';
-import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
+import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjoner';
+import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
+import './BeOmTilgang.less';
 
 const BeOmTilgang: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
@@ -42,7 +41,7 @@ const BeOmTilgang: FunctionComponent = () => {
                         <div className="divider"/>
                     </div>
                     <Ekspanderbartpanel
-                        className={'oversikt-over-manglende-tilganger'}
+                        className="oversikt-over-manglende-tilganger"
                         tittel="Tjenester du kan be om tilgang til"
                     >
                         <div className="oversikt-over-manglende-tilganger__innhold">

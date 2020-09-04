@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
-import './ModalLenke.less';
 import Lenke from 'nav-frontend-lenker';
-
-import informasjonsikon from './informasjonsikon.svg';
-
-import nyfane from '../nyfane.svg';
-
 import { LenkeTilInfoOmNarmesteLeder } from '../../../../../lenker';
-import {loggTjenesteTrykketPa} from "../../../../../utils/funksjonerForAmplitudeLogging";
+import { loggTjenesteTrykketPa } from '../../../../../utils/funksjonerForAmplitudeLogging';
+import informasjonsikon from './informasjonsikon.svg';
+import nyfane from '../nyfane.svg';
+import './ModalLenke.less';
 
 const ModalLenke = () => {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
@@ -22,9 +19,8 @@ const ModalLenke = () => {
                 onClick={() => {
                     openModal();
                     loggTjenesteTrykketPa('Be om tilgang-Syfo');
-                    }
-                }
-                className={'tjeneste-info__lenke tjeneste-info__lenke-syfo'}
+                }}
+                className="tjeneste-info__lenke tjeneste-info__lenke-syfo"
             >
                 Be om tilgang <img src={nyfane} alt={' '} />{' '}
             </button>
@@ -59,7 +55,6 @@ const ModalLenke = () => {
                             Les om hvordan nærmeste leder registreres <img src={nyfane} alt={' '} />{' '}
                         </Lenke>
                     </div>
-
                 </div>
             </Modal>
         </div>

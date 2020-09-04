@@ -1,11 +1,10 @@
-import React, { FunctionComponent } from 'react';
-import './TjenesteInfo.less';
-import nyfane from './nyfane.svg';
-
+import React from 'react';
 import { Element } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import ModalLenke from './ModalLenke/ModalLenke';
-import {loggTjenesteTrykketPa} from "../../../../utils/funksjonerForAmplitudeLogging";
+import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
+import nyfane from './nyfane.svg';
+import './TjenesteInfo.less';
 
 export interface TjenesteInfoProps {
     overskrift: string;
@@ -15,21 +14,21 @@ export interface TjenesteInfoProps {
     key?: string;
 }
 
-const TjenesteInfo: FunctionComponent<TjenesteInfoProps> = props => {
+const TjenesteInfo = (props: TjenesteInfoProps) => {
     return (
-        <div className={'tjeneste-info'}>
-            {props.erSyfo && <ModalLenke></ModalLenke>}
+        <div className="tjeneste-info">
+            {props.erSyfo && <ModalLenke />}
             {!props.erSyfo && (
                 <Lenke
                     target="_blank"
-                    className={'tjeneste-info__lenke'}
+                    className="tjeneste-info__lenke"
                     href={props.lenkeTilBeOmTjeneste}
-                    onClick={() => loggTjenesteTrykketPa('Be om tilgang-' +props.overskrift)}
+                    onClick={() => loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift)}
                 >
-                    Be om tilgang <img src={nyfane} alt={' '} />{' '}
+                    Be om tilgang <img src={nyfane} alt="" />
                 </Lenke>
             )}
-            <Element className={'tjeneste-info__overskrift'}>{props.overskrift}</Element>
+            <Element className="tjeneste-info__overskrift">{props.overskrift}</Element>
             {props.innholdstekst}
         </div>
     );
