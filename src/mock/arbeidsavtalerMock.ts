@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 import { hentArbeidsavtalerApiLink } from '../lenker';
 
-const arbeidstreningsmock = [
+const arbeidsavtalermock = [
     {
         deltakerFnr: '28076938972',
         bedriftNr: '910825518',
@@ -1848,4 +1848,4 @@ const arbeidstreningsmock = [
     },
 ];
 
-fetchMock.get('begin:' + hentArbeidsavtalerApiLink(), arbeidstreningsmock);
+fetchMock.get('begin:' + hentArbeidsavtalerApiLink(), arbeidsavtalermock);
