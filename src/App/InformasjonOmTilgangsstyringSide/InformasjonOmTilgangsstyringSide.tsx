@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Lenke from 'nav-frontend-lenker';
 import { Innholdstittel, Normaltekst, Undertittel } from 'nav-frontend-typografi';
@@ -14,7 +14,7 @@ import {
 } from '../../lenker';
 import './InformasjonOmTilgangsstyringSide.less';
 
-const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
+const InformasjonOmTilgangsstyringSide = () => {
     return (
         <div className="informasjon-om-tilgangsstyring">
             <LoggInnBanner />
@@ -65,15 +65,19 @@ const InformasjonOmTilgangsstyringSide: FunctionComponent = () => {
                         Vi tilbyr følgende digitale tjenester om NAV-tiltak:
                         <ul>
                             <li>avtale om arbeidstrening </li>
-                            <li>søknad om lønnstilskudd</li>
+                            <li>avtale om midlertidig lønnstilskudd</li>
+                            <li>avtale om varig lønnstilskudd</li>
                             <li>søknad om inkluderingstilskudd</li>
                             <li>søknad om tilskudd til mentor</li>
                             <li>søknad om tilskudd til ekspertbistand </li>
                         </ul>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            <b>Rolle i Altinn:</b> For å få tilgang til <u>alle</u> de nevnte
-                            tjenestene over må du ha rollen «Helse-, sosial og velferdstjenester» i
-                            Altinn.
+                            <b>Rolle i Altinn:</b> Rollen «Helse-, sosial og velferdstjenester» i
+                            Altinn gir deg tilgang til alle de nevnte tjenestene over (utenom avtale
+                            om midlertidig lønnstilskudd og avtale om varig lønnstilskudd).
+                        </Normaltekst>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                            Daglig leder får automatisk tilgang til avtale om midlertidig lønnstilskudd og avtale om varig lønnstilskudd.
                         </Normaltekst>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             <b>Enkeltrettighet i Altinn:</b> Trenger du kun tilgang til en av de
