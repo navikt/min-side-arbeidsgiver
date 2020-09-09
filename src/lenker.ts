@@ -114,7 +114,7 @@ export const arbeidsAvtaleLink = () => {
 };
 
 export const hentArbeidsavtalerApiLink = () => {
-    return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler?part=arbeidsgiver';
+    return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
 };
 
 export const beOmTilgangIAltinnLink = (
