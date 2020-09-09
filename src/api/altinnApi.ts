@@ -90,11 +90,8 @@ const tiltaksbrevFilter = `ServiceCode+eq+'5278'+and+ServiceEdition+eq+1`;
 export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Meldingsboks | Error> => {
     const hentBrev = async () => {
         const maksBrev = 10;
-        const tiltaksbrevUrl =
-            meldingsboksUrl +
-            `?$top=${maksBrev + 1}` +
-            `&$orderby=CreatedDate+desc` +
-            `&$filter=${tiltaksbrevFilter}`;
+        const tiltaksbrevUrl = `${meldingsboksUrl}?$top=${maksBrev +
+            1}&$orderby=CreatedDate+desc&$filter=${tiltaksbrevFilter}`;
         const tiltaksbrev = await altinnFetch(tiltaksbrevUrl);
         const alleBrevIRespons: AltinnBrev[] = tiltaksbrev._embedded.messages.map(
             (responsBrev: any): AltinnBrev => ({
@@ -113,8 +110,7 @@ export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Melding
     };
 
     const hentAntallUleste = async () => {
-        const ulesteTiltaksbrevUrl =
-            meldingsboksUrl + `?$top=10` + `&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`;
+        const ulesteTiltaksbrevUrl = `${meldingsboksUrl}?$top=10&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`;
         const ulesteTiltaksbrev = await altinnFetch(ulesteTiltaksbrevUrl);
         const antallUlesteIRespons: number = ulesteTiltaksbrev._embedded.messages.length;
         const antallUleste = antallUlesteIRespons <= 9 ? antallUlesteIRespons.toString() : '9+';
