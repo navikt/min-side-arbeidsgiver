@@ -1,10 +1,9 @@
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import ModalLenke from './ModalLenke/ModalLenke';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
-import nyfane from './nyfane.svg';
 import './TjenesteInfo.less';
+import NyFaneLenke from '../../../../GeneriskeElementer/NyFaneLenke';
 
 export interface TjenesteInfoProps {
     overskrift: string;
@@ -19,14 +18,13 @@ const TjenesteInfo = (props: TjenesteInfoProps) => {
         <div className="tjeneste-info">
             {props.erSyfo && <ModalLenke />}
             {!props.erSyfo && (
-                <Lenke
-                    target="_blank"
+                <NyFaneLenke
                     className="tjeneste-info__lenke"
                     href={props.lenkeTilBeOmTjeneste}
                     onClick={() => loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift)}
                 >
-                    <span>Be om tilgang</span> <img src={nyfane} alt="" />
-                </Lenke>
+                    Be om tilgang
+                </NyFaneLenke>
             )}
             <Element className="tjeneste-info__overskrift">{props.overskrift}</Element>
             {props.innholdstekst}

@@ -1,13 +1,24 @@
+@import '~nav-frontend-core/less/_variabler';
 
+@sirkel-diameter: 1.1em;
 
 .antall-ulest-sirkel {
-  border-radius: 50%;
-  background: red;
-  color: white;
-  width: 1.5rem;
-  height: 1.5rem;
-  text-align: center;
-  position: absolute;
   display: inline-block;
-  top: -1rem;
+
+  background: #CD2027;
+  border-radius: 1em;
+  color: white;
+
+  height: @sirkel-diameter;
+  line-height: @sirkel-diameter;
+  min-width: @sirkel-diameter;
+  padding: 0 0.2em 0;
+
+  vertical-align: center;
+  text-align: center;
+
+  @media (min-width: @screen-sm-min) {
+    position: relative;
+    top: -1em;
+  }
 }

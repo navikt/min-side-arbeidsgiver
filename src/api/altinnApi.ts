@@ -17,38 +17,13 @@ export interface AltinnBrev {
 export interface Meldingsboks {
     brev: AltinnBrev[];
     finnesFlereBrev: boolean;
-    antallUleste: number | 'mange';
+    antallUleste: string;
     portalview: string;
 }
 
 // Map fra organisasjons-nummer til url for reportee messages api endpoint
 export type ReporteeMessagesUrls = {
     [orgnr: string]: string | undefined;
-};
-
-/* Apikeys av typen 'nettleserapplikasjon' er ikke hemmeligheter.
- * se https://altinn.github.io/docs/api/#api-key  */
-const altinnApiKey = () =>
-    environment.MILJO === 'prod-sbs'
-        ? 'DE7173AF-3A43-47E3-A7A2-E8AB4D88C253'
-        : '2C585F91-5741-4568-8FD7-3807A45AFDD7';
-
-const fetchProps = (): RequestInit => ({
-    redirect: 'manual',
-    credentials: 'include',
-    headers: {
-        accept: 'application/hal+json',
-        apikey: altinnApiKey(),
-    },
-});
-
-const fetchJsonBody = async (info: RequestInfo, init?: RequestInit) => {
-    const response = await fetch(info, init);
-    if (response.ok) {
-        return await response.json();
-    } else {
-        throw new Error(`fetch ${info}: http-status ${response.status}`);
-    }
 };
 
 /* Autentiserer mot altinn på nytt, men gjør ingen ting hvis
@@ -69,16 +44,39 @@ export const autentiserAltinnBruker = (returnUrl: string) => {
     }
 };
 
+const altinnFetch = async (info: RequestInfo) => {
+    const props: RequestInit = {
+        redirect: 'manual',
+        credentials: 'include',
+        headers: {
+            accept: 'application/hal+json',
+            /* Apikeys av typen 'nettleserapplikasjon' er ikke hemmeligheter.
+             * se https://altinn.github.io/docs/api/#api-key  */
+            apikey:
+                environment.MILJO === 'prod-sbs'
+                    ? 'DE7173AF-3A43-47E3-A7A2-E8AB4D88C253'
+                    : '2C585F91-5741-4568-8FD7-3807A45AFDD7',
+        },
+    };
+    const response = await fetch(info, props);
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`fetch ${info}: http-status ${response.status}`);
+    }
+};
+
 export const hentAltinnRaporteeIdentiteter: () => Promise<
     ReporteeMessagesUrls | Error
 > = async () => {
     try {
-        const body = await fetchJsonBody(`${altinnUrl()}/api/reportees`, fetchProps());
-        const reportees = body['_embedded']['reportees'];
+        const body = await altinnFetch(`${altinnUrl()}/api/reportees`);
+        const reportees = body._embedded.reportees;
         const result: ReporteeMessagesUrls = {};
         reportees.forEach((element: any) => {
-            const orgnr: string = element['OrganizationNumber'];
-            result[orgnr] = element['_links']['messages']['href'];
+            const orgnr: string = element.OrganizationNumber;
+            result[orgnr] = element._links.messages.href;
         });
         return result;
     } catch (error) {
@@ -87,34 +85,39 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
     }
 };
 
+const tiltaksbrevFilter = `ServiceCode+eq+'5278'+and+ServiceEdition+eq+1`;
+
 export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Meldingsboks | Error> => {
     const hentBrev = async () => {
         const maksBrev = 10;
-        const tiltaksbrevUrl = `${meldingsboksUrl}?$top=${maksBrev +
-            1}&$orderby=CreatedDate+desc&$filter=ServiceCode+eq+'5278'+and+ServiceEdition+eq+1`;
-        const tiltaksbrev = await fetchJsonBody(tiltaksbrevUrl, fetchProps());
-
-        const portalview: string = tiltaksbrev['_links']['portalview']['href'];
-        const alleBrevIRespons: AltinnBrev[] = tiltaksbrev['_embedded']['messages'].map(
-            (brev: any): AltinnBrev => ({
-                key: brev['MessageId'],
-                tittel: brev['Subject'],
-                status: brev['Status'],
-                datoSendt: new Date(brev['CreatedDate']),
-                portalview: brev['_links']['portalview']['href'],
+        const tiltaksbrevUrl =
+            meldingsboksUrl +
+            `?$top=${maksBrev + 1}` +
+            `&$orderby=CreatedDate+desc` +
+            `&$filter=${tiltaksbrevFilter}`;
+        const tiltaksbrev = await altinnFetch(tiltaksbrevUrl);
+        const alleBrevIRespons: AltinnBrev[] = tiltaksbrev._embedded.messages.map(
+            (responsBrev: any): AltinnBrev => ({
+                key: responsBrev.MessageId,
+                tittel: responsBrev.Subject,
+                status: responsBrev.Status,
+                datoSendt: new Date(responsBrev.CreatedDate),
+                portalview: responsBrev._links.portalview.href,
             })
         );
+
+        const portalview: string = tiltaksbrev._links.portalview.href;
         const finnesFlereBrev = alleBrevIRespons.length >= maksBrev;
         const brev = alleBrevIRespons.slice(0, maksBrev);
         return { portalview, brev, finnesFlereBrev };
     };
 
     const hentAntallUleste = async () => {
-        const ulesteTiltaksbrevUrl = `${meldingsboksUrl}?$top=10&$filter=ServiceCode+eq+'5278'+and+ServiceEdition+eq+1+and+Status+eq+'Ulest'`;
-        const ulesteTiltaksbrev = await fetchJsonBody(ulesteTiltaksbrevUrl, fetchProps());
-        const antallUlesteIRespons: number = ulesteTiltaksbrev['_embedded']['messages'].length;
-        const antallUleste: number | 'mange' =
-            antallUlesteIRespons <= 9 ? antallUlesteIRespons : 'mange';
+        const ulesteTiltaksbrevUrl =
+            meldingsboksUrl + `?$top=10` + `&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`;
+        const ulesteTiltaksbrev = await altinnFetch(ulesteTiltaksbrevUrl);
+        const antallUlesteIRespons: number = ulesteTiltaksbrev._embedded.messages.length;
+        const antallUleste = antallUlesteIRespons <= 9 ? antallUlesteIRespons.toString() : '9+';
         return { antallUleste };
     };
 

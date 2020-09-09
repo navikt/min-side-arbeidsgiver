@@ -1,17 +1,11 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .tilskuddsbrev {
-    margin: 0 1rem;
-
-    @media (min-width: @screen-sm-min) {
-        width: 46rem;
-        margin: 0;
-        &__inboxikon {
-            width: 3rem;
-        }
-    }
+    padding: 0 1rem;
+    width: 100%;
 
     @media (min-width: @screen-md-min) {
+        padding: 0;
         width: 60rem;
         margin: 0;
     }
@@ -26,9 +20,15 @@
     }
 
     &__inboxikon {
-        width: 4.2rem;
-        position: relative;
-        display: inline-block;
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: flex-end;
+        @media (min-width: @screen-sm-min) {
+            flex-direction: row;
+            justify-content: left;
+        }
+
+        padding-right: 0.2em;
     }
 
     &__liste {

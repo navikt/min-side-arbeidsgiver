@@ -33,8 +33,8 @@ const uniqueMessageId = (id => () => {
 })(0);
 
 const randomMessage = (org: any): any => {
-    var måned = getRandomInt(1, 11).toString();
-    var dag = getRandomInt(1, 28).toString();
+    let måned = getRandomInt(1, 11).toString();
+    let dag = getRandomInt(1, 28).toString();
 
     if (måned.length === 1) {
         måned = '0' + måned;
