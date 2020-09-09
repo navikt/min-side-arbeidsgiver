@@ -24,6 +24,12 @@ export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]
     if (tilgangsArray[4] === Tilgang.TILGANG) {
         skalLogges += ' Arbeidsforhold';
     }
+    if (tilgangsArray[5] === Tilgang.TILGANG) {
+        skalLogges += ' Midlertidig lønnstilskudd';
+    }
+    if (tilgangsArray[6] === Tilgang.TILGANG) {
+        skalLogges += ' Varig lønnstilskudd';
+    }
     amplitude.logEvent(skalLogges);
 };
 
