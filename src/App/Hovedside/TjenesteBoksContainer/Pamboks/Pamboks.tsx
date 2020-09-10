@@ -31,6 +31,7 @@ const Pamboks = () => {
                 onClick={loggAtKlikketPaArbeidstrening}
                 tittelProps="normaltekst"
                 border={false}
+                aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
                 <div className="pamboks-tekst">
                     <Normaltekst>Finn kandidater</Normaltekst>

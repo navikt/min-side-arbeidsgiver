@@ -5,7 +5,7 @@ import Lenke from 'nav-frontend-lenker';
 import { LenkeTilInfoOmNarmesteLeder } from '../../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../../utils/funksjonerForAmplitudeLogging';
 import informasjonsikon from './informasjonsikon.svg';
-import nyfane from '../nyfane.svg';
+import NyFaneIkon from '../NyFaneIkon';
 import './ModalLenke.less';
 
 const ModalLenke = () => {
@@ -20,9 +20,9 @@ const ModalLenke = () => {
                     openModal();
                     loggTjenesteTrykketPa('Be om tilgang-Syfo');
                 }}
-                className="tjeneste-info__lenke tjeneste-info__lenke-syfo"
+                className="be-om-tilgang__tjenesteinfo__lenke tjeneste-info__lenke-syfo"
             >
-                Be om tilgang <img src={nyfane} alt={' '} />{' '}
+                <span>Be om tilgang</span><NyFaneIkon />
             </button>
             <Modal
                 isOpen={modalIsOpen}
@@ -48,11 +48,11 @@ const ModalLenke = () => {
                         </Normaltekst>
 
                         <Lenke
-                            className={'syfo-modal__lenke'}
+                            className="syfo-modal__lenke"
                             href={LenkeTilInfoOmNarmesteLeder}
                             target="_blank"
                         >
-                            Les om hvordan nærmeste leder registreres <img src={nyfane} alt={' '} />{' '}
+                            <span>Les om hvordan nærmeste leder registreres</span><NyFaneIkon/>
                         </Lenke>
                     </div>
                 </div>

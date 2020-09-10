@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import nyfane from './nyfane.svg';
+import NyFaneIkon from '../NyFaneIkon';
 
 interface Props {
     className?: string;
@@ -17,7 +17,7 @@ const AltinnLenke: FunctionComponent<Props> = props => {
     const nyFaneProp = props.nyFane ? "_blank" : "_self";
 
     return (
-        <div className={'altinn-lenke'}>
+        <li className="altinn-lenke">
             <Lenkepanel
                 href={props.href}
                 tittelProps={'element'}
@@ -29,14 +29,9 @@ const AltinnLenke: FunctionComponent<Props> = props => {
                     </a>
                 )}
             >
-                {props.tekst}
-                {props.nyFane && <img
-                    className={'altinn-container__ny-fane-ikon'}
-                    src={nyfane}
-                    alt="ikon for å beskrive at lenken åpnes i en ny fane"
-                />}
+                {props.tekst}{props.nyFane && <NyFaneIkon />}
             </Lenkepanel>
-        </div>
+        </li>
     );
 };
 

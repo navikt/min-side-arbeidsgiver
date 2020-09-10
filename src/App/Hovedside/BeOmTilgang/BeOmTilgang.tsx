@@ -17,14 +17,14 @@ const BeOmTilgang: FunctionComponent = () => {
         tilgangsArray,
         listeMedSkjemaOgTilganger,
         valgtOrganisasjon.OrganizationNumber
-    ).map(info => {
+    ).map(tjeneste => {
         return (
             <TjenesteInfo
-                overskrift={info.overskrift}
-                lenkeTilBeOmTjeneste={info.lenkeTilBeOmTjeneste}
-                innholdstekst={info.innholdstekst}
-                erSyfo={info.erSyfo}
-                key={info.overskrift}
+                overskrift={tjeneste.overskrift}
+                lenkeTilBeOmTjeneste={tjeneste.lenkeTilBeOmTjeneste}
+                innholdstekst={tjeneste.innholdstekst}
+                erSyfo={tjeneste.erSyfo}
+                key={tjeneste.overskrift}
             />
         );
     });
@@ -32,22 +32,25 @@ const BeOmTilgang: FunctionComponent = () => {
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
 
     return (
-        <div className="oversikt-over-manglende-tilganger__container">
+        <div className="be-om-tilgang">
             {skalViseInnhold && (
                 <>
-                    <div className="oversikt-over-manglende-tilganger__tittel">
-                        <div className="divider"/>
-                        <Undertittel className="tekst">Trenger du tilgang til flere tjenester?</Undertittel>
-                        <div className="divider"/>
+                    <div className="be-om-tilgang__tittel">
+                        <div className="divider" />
+                        <Undertittel className="tekst">
+                            Trenger du tilgang til flere tjenester?
+                        </Undertittel>
+                        <div className="divider" />
                     </div>
                     <Ekspanderbartpanel
-                        className="oversikt-over-manglende-tilganger"
+                        className="be-om-tilgang__container"
                         tittel="Tjenester du kan be om tilgang til"
                     >
-                        <div className="oversikt-over-manglende-tilganger__innhold">
-                            <AlertStripeInfo className="oversikt-over-manglende-tilganger__info">
-                                Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du kan
-                                be om tilgang til de spesifikke tjenestene ved å følge lenkene under.
+                        <div className="be-om-tilgang__innhold">
+                            <AlertStripeInfo className="be-om-tilgang__info">
+                                Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du
+                                kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
+                                under.
                             </AlertStripeInfo>
                             {valgtOrganisasjon.OrganizationNumber !== '' && (
                                 <Organisasjonsbeskrivelse
@@ -55,9 +58,11 @@ const BeOmTilgang: FunctionComponent = () => {
                                     orgnummer={valgtOrganisasjon.OrganizationNumber}
                                 />
                             )}
-                            <div className="oversikt-over-manglende-tilganger__tjeneste-info-bokser">
+                            <ul
+                                className="be-om-tilgang__tjenesteinfo-bokser"
+                            >
                                 {tjenesteinfoBokser}
-                            </div>
+                            </ul>
                         </div>
                     </Ekspanderbartpanel>
                 </>

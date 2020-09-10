@@ -23,6 +23,7 @@ const Syfoboks = () => {
                 href={syfoLink()}
                 onClick={loggAtKlikketPaSyfo}
                 tittelProps="normaltekst"
+                aria-label="Sykmeldte. Se sykmeldte du har ansvar for å følge opp"
             >
                 Se sykmeldte du har ansvar for å følge opp
             </Lenkepanel>
