@@ -24,7 +24,7 @@ const ModalLenke = ({overskrift}: Props) => {
                     openModal();
                     loggTjenesteTrykketPa('Be om tilgang-Syfo');
                 }}
-                className="be-om-tilgang__tjenesteinfo__lenke tjeneste-info__lenke-syfo"
+                className="be-om-tilgang__tjenesteinfo__lenke-syfo"
             >
                 <span>{overskrift + ' - be om tilgang' }</span><NyFaneIkon />
             </button>
