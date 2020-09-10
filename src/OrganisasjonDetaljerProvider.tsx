@@ -165,16 +165,18 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 }
             });
 
-            const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
-            if (messagesUrl === undefined) {
-                setAltinnMeldingsboks(undefined);
-            } else {
-                const resultat = await hentMeldingsboks(messagesUrl);
-                if (resultat instanceof Error) {
-                    autentiserAltinnBruker(window.location.href);
+            if (window.location.search.match('altinnMeldingsboks=true')) {
+                const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
+                if (messagesUrl === undefined) {
                     setAltinnMeldingsboks(undefined);
                 } else {
-                    setAltinnMeldingsboks(resultat);
+                    const resultat = await hentMeldingsboks(messagesUrl);
+                    if (resultat instanceof Error) {
+                        autentiserAltinnBruker(window.location.href);
+                        setAltinnMeldingsboks(undefined);
+                    } else {
+                        setAltinnMeldingsboks(resultat);
+                    }
                 }
             }
         }
