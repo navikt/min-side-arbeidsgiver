@@ -8,7 +8,11 @@ import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../NyFaneIkon';
 import './ModalLenke.less';
 
-const ModalLenke = () => {
+interface Props {
+    overskrift: string;
+}
+
+const ModalLenke = ({overskrift}: Props) => {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
@@ -22,7 +26,7 @@ const ModalLenke = () => {
                 }}
                 className="be-om-tilgang__tjenesteinfo__lenke tjeneste-info__lenke-syfo"
             >
-                <span>Be om tilgang</span><NyFaneIkon />
+                <span>{overskrift + ' - be om tilgang' }</span><NyFaneIkon />
             </button>
             <Modal
                 isOpen={modalIsOpen}

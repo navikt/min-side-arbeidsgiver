@@ -17,7 +17,7 @@ export interface TjenesteInfoProps {
 const TjenesteInfo = (props: TjenesteInfoProps) => {
     return (
         <li className="be-om-tilgang__tjenesteinfo">
-            {props.erSyfo && <ModalLenke />}
+            {props.erSyfo && <ModalLenke overskrift={props.overskrift} />}
             {!props.erSyfo && (
                 <Element className="be-om-tilgang-lenke">
                     <Lenke
