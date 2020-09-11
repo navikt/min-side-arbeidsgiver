@@ -1,26 +1,28 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.tjeneste-info {
-    &__lenke-syfo {
-        color: @navBla;
-        background: transparent;
-        text-decoration: underline;
-        cursor: pointer;
-        border: none;
+.be-om-tilgang__tjenesteinfo__lenke-syfo {
+    color: @navBla;
+    background: transparent;
+    text-decoration: underline;
+    cursor: pointer;
+    border: none;
 
-        &:hover,
-        &--hover {
-            text-decoration: none;
-        }
+    &:hover,
+    &--hover {
+        text-decoration: none;
+    }
 
-        &:focus,
-        &--focus {
-            outline: none;
-            color: white;
-            text-decoration: none;
-            background-color: @fokusFarge;
-            box-shadow: 0 0 0 2px @fokusFarge;
-        }
+    &:focus,
+    &--focus {
+        outline: none;
+        color: white;
+        text-decoration: none;
+        background-color: @fokusFarge;
+        box-shadow: 0 0 0 2px @fokusFarge;
+    }
+
+    svg {
+        margin-right: 0.25rem;
     }
 }
 

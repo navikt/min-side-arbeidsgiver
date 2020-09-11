@@ -1,23 +1,25 @@
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import './SkjemaveilederContainer.less';
 import { skjemaForArbeidsgivere } from '../../../lenker';
 import AltinnLenke from '../AltinnContainer/AltinnLenke/AltinnLenke';
+import './SkjemaveilederContainer.less';
 
-export const SkjemaveilederContainer: FunctionComponent = () => {
+export const SkjemaveilederContainer = () => {
     return (
-        <div className={'skjemaveilerderContainer'}>
-            <div className={'skjemaveilerderContainer__tekst'}>
-                <Undertittel>Alle søknader og skjemaer</Undertittel>
+        <div className="skjemaveileder-container">
+            <div className="skjemaveileder-tittel">
+                <Undertittel id="skjemaveileder-tittel">Alle søknader og skjemaer</Undertittel>
             </div>
-            <AltinnLenke
-                href={skjemaForArbeidsgivere}
-                tekst={'Sende skjema eller ettersende dokumenter'}
-                className={'skjemaveilerderContainer__lenkepanel'}
-                nyFane={false}
-            >
-                Sende skjema eller ettersende dokumenter
-            </AltinnLenke>
+            <ul aria-labelledby="skjemaveileder-tittel">
+                <AltinnLenke
+                    href={skjemaForArbeidsgivere}
+                    tekst="Sende skjema eller ettersende dokumenter"
+                    className="skjemaveileder-lenkepanel"
+                    nyFane={false}
+                >
+                    Sende skjema eller ettersende dokumenter
+                </AltinnLenke>
+            </ul>
         </div>
     );
 };

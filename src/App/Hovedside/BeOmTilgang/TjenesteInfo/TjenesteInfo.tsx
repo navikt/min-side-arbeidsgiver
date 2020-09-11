@@ -1,9 +1,10 @@
 import React from 'react';
-import { Element } from 'nav-frontend-typografi';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
+import Lenke from 'nav-frontend-lenker';
 import ModalLenke from './ModalLenke/ModalLenke';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
+import NyFaneIkon from './NyFaneIkon';
 import './TjenesteInfo.less';
-import NyFaneLenke from '../../../../GeneriskeElementer/NyFaneLenke';
 
 export interface TjenesteInfoProps {
     overskrift: string;
@@ -15,20 +16,23 @@ export interface TjenesteInfoProps {
 
 const TjenesteInfo = (props: TjenesteInfoProps) => {
     return (
-        <div className="tjeneste-info">
-            {props.erSyfo && <ModalLenke />}
+        <li className="be-om-tilgang__tjenesteinfo">
+            {props.erSyfo && <ModalLenke overskrift={props.overskrift} />}
             {!props.erSyfo && (
-                <NyFaneLenke
-                    className="tjeneste-info__lenke"
-                    href={props.lenkeTilBeOmTjeneste}
-                    onClick={() => loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift)}
-                >
-                    Be om tilgang
-                </NyFaneLenke>
+                <Element className="be-om-tilgang-lenke">
+                    <Lenke
+                        target="_blank"
+                        href={props.lenkeTilBeOmTjeneste}
+                        onClick={() => loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift)}
+                    >
+                        <span>{props.overskrift + ' - be om tilgang'}</span><NyFaneIkon/>
+                    </Lenke>
+                </Element>
             )}
-            <Element className="tjeneste-info__overskrift">{props.overskrift}</Element>
-            {props.innholdstekst}
-        </div>
+            <Normaltekst>
+                {props.innholdstekst}
+            </Normaltekst>
+        </li>
     );
 };
 
