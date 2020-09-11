@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
 import Lenke from 'nav-frontend-lenker';
 import { LenkeTilInfoOmNarmesteLeder } from '../../../../../lenker';
@@ -26,7 +26,9 @@ const ModalLenke = ({overskrift}: Props) => {
                 }}
                 className="be-om-tilgang__tjenesteinfo__lenke-syfo"
             >
-                <span>{overskrift + ' - be om tilgang' }</span><NyFaneIkon />
+                <Element>
+                    <span>{overskrift + ' - be om tilgang' }</span><NyFaneIkon />
+                </Element>
             </button>
             <Modal
                 isOpen={modalIsOpen}
