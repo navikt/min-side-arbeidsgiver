@@ -5,7 +5,7 @@
 .antall-ulest-sirkel {
   display: inline-block;
 
-  background: #CD2027;
+  background: @navRod;
   border-radius: 1em;
   color: white;
 
@@ -14,11 +14,14 @@
   min-width: @sirkel-diameter;
   padding: 0 0.2em 0;
 
-  vertical-align: center;
   text-align: center;
 
   @media (min-width: @screen-sm-min) {
     position: relative;
     top: -1em;
   }
+}
+
+button:hover {
+  text-decoration: none !important;
 }

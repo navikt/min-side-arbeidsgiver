@@ -6,7 +6,7 @@ import { AltinnBrev, Status } from '../../../api/altinnApi';
 import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';
 import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import Innboksikon from '../../../ikoner/Innboksikon';
+import Innboksikon from './Innboksikon';
 
 const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     const { altinnMeldingsboks } = useContext(OrganisasjonsDetaljerContext);
