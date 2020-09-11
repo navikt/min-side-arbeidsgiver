@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
+import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
 import Lenke from 'nav-frontend-lenker';
 import { LenkeTilInfoOmNarmesteLeder } from '../../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../../utils/funksjonerForAmplitudeLogging';
 import informasjonsikon from './informasjonsikon.svg';
-import nyfane from '../nyfane.svg';
+import NyFaneIkon from '../NyFaneIkon';
 import './ModalLenke.less';
 
-const ModalLenke = () => {
+interface Props {
+    overskrift: string;
+}
+
+const ModalLenke = ({overskrift}: Props) => {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
     const openModal = () => setModalIsOpen(true);
     const closeModal = () => setModalIsOpen(false);
@@ -20,9 +24,11 @@ const ModalLenke = () => {
                     openModal();
                     loggTjenesteTrykketPa('Be om tilgang-Syfo');
                 }}
-                className="tjeneste-info__lenke tjeneste-info__lenke-syfo"
+                className="be-om-tilgang__tjenesteinfo__lenke-syfo"
             >
-                Be om tilgang <img src={nyfane} alt={' '} />{' '}
+                <Element>
+                    <span>{overskrift + ' - be om tilgang' }</span><NyFaneIkon />
+                </Element>
             </button>
             <Modal
                 isOpen={modalIsOpen}
@@ -48,11 +54,11 @@ const ModalLenke = () => {
                         </Normaltekst>
 
                         <Lenke
-                            className={'syfo-modal__lenke'}
+                            className="syfo-modal__lenke"
                             href={LenkeTilInfoOmNarmesteLeder}
                             target="_blank"
                         >
-                            Les om hvordan nærmeste leder registreres <img src={nyfane} alt={' '} />{' '}
+                            <span>Les om hvordan nærmeste leder registreres</span><NyFaneIkon/>
                         </Lenke>
                     </div>
                 </div>

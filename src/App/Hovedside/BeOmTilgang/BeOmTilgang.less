@@ -1,20 +1,12 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.oversikt-over-manglende-tilganger {
-    max-width: 60rem;
+.be-om-tilgang {
     width: 100%;
-    margin: 0 0 3.25rem;
-
-    &__container {
-        margin: 0;
-        width: 100%;
-        max-width: 60rem;
-        padding: 0 1rem;
-    }
+    margin-bottom: 3.25rem;
+    padding: 0 1rem;
 
     &__tittel {
         display: flex;
-        flex-direction: row;
         align-items: center;
         margin: 1rem 0 1rem;
 
@@ -28,6 +20,10 @@
         }
     }
 
+    &__container {
+        margin: 0;
+    }
+
     &__innhold {
         display: flex;
         flex-wrap: wrap;
@@ -35,8 +31,9 @@
         justify-content: space-between;
     }
 
-    &__tjeneste-info-bokser {
-        margin-top: 0.5rem;
+    &__tjenesteinfo-bokser {
+        margin: 1rem 0 0;
+        padding: 0;
         width: 100%;
         display: flex;
         flex-wrap: inherit;
@@ -50,8 +47,9 @@
 }
 
 @media (min-width: @screen-sm-min) {
-    .oversikt-over-manglende-tilganger {
-        margin: 0 0 5.25rem;
+    .be-om-tilgang {
+        margin-bottom: 5.25rem;
+
         &__tittel {
             margin: 3rem 0 1.5rem;
 
@@ -70,9 +68,8 @@
 }
 
 @media (min-width: @screen-md-min) {
-    .oversikt-over-manglende-tilganger {
-        &__container {
-            padding: 0;
-        }
+    .be-om-tilgang {
+        width: 60rem;
+        padding: 0;
     }
 }

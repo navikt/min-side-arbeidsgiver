@@ -1,22 +1,29 @@
 @import '~nav-frontend-core/less/_variabler';
-.skjemaveilerderContainer {
-  width: 100%;
-  display: flex;
-  justify-self: center;
-  flex-direction: column;
-  margin-left: 0;
-  padding: 0 1rem 0 1rem;
-  &__tekst {
-    margin: 1.5rem 0 1rem 0;
-  }
-  &__lenkepanel{
-    height: 4rem;
-  }
-}
 
-@media (min-width: @screen-md-min) {
-  .skjemaveilerderContainer {
-    width: 60rem;
-    padding: 0;
-  }
+.skjemaveileder-container {
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    margin-left: 0;
+    width: 100%;
+    padding: 0 1rem;
+
+    @media (min-width: @screen-md-min) {
+        width: 60rem;
+        padding: 0;
+    }
+
+    .skjemaveileder-tittel {
+        margin: 1.5rem 0 1rem;
+    }
+
+    .skjemaveileder-lenkepanel {
+        height: 4rem;
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 }

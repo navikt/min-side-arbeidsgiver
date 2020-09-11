@@ -13,7 +13,7 @@ export const genererTekstbokser = (
     if (tjenesteboksTilgangsArray[0] === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({
             overskrift: 'Dine sykmeldte',
-            innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for',
+            innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for.',
             lenkeTilBeOmTjeneste: 'syfo',
             erSyfo: true,
         });
@@ -22,14 +22,14 @@ export const genererTekstbokser = (
         if (tjenesteboksTilgangsArray[1] === Tilgang.IKKE_TILGANG) {
             listeMedProps.push({
                 overskrift: 'Rekruttering',
-                innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser',
+                innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.',
                 lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5078', '1'),
             });
         }
         if (tjenesteboksTilgangsArray[2] === Tilgang.IKKE_TILGANG) {
             listeMedProps.push({
                 overskrift: 'Sykfraværsstatistikk',
-                innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje',
+                innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje.',
                 lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '3403', '2'),
             });
         }

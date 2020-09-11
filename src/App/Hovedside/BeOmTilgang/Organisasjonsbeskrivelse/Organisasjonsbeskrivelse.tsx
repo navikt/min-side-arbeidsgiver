@@ -1,5 +1,5 @@
-import React, { FunctionComponent } from 'react';
-import { Element } from 'nav-frontend-typografi';
+import React from 'react';
+import { Element, Normaltekst } from 'nav-frontend-typografi';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';
 
@@ -8,17 +8,15 @@ interface Props {
     orgnummer: string;
 }
 
-const Organisasjonsbeskrivelse: FunctionComponent<Props> = props => {
-    const { navn, orgnummer } = props;
-
+const Organisasjonsbeskrivelse = ({ navn, orgnummer }: Props) => {
     return (
         <div className="organisasjonsbeskrivelse">
             <div className="organisasjonsbeskrivelse__ikon">
                 <UnderenhetIkon />
             </div>
             <div className="organisasjonsbeskrivelse__beskrivelse">
-                <Element className="organisasjonsbeskrivelse__navn">{navn}</Element>
-                org. nr. {orgnummer}
+                <Element className="organisasjonsnavn">{navn}</Element>
+                <Normaltekst>org. nr. {orgnummer}</Normaltekst>
             </div>
         </div>
     );
