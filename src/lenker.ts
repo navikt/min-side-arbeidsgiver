@@ -1,5 +1,5 @@
 import environment from './utils/environment';
-import {basename} from "./paths";
+import { basename } from './paths';
 
 export const soknadskjemaInkluderingstilskudd = () => {
     if (environment.MILJO === 'prod-sbs') {
@@ -141,7 +141,7 @@ export const beOmTilgangIAltinnLink = (
             'https://tt02.altinn.no/ui/DelegationRequest?offeredBy=' +
             orgnr +
             '&resources=' +
-            serviceKode+
+            serviceKode +
             '_' +
             testServiceEditionKode
         );
@@ -165,21 +165,27 @@ export const lenkeTilInfoOmDigitaleSoknader =
 export const lenkeTilInforOmInntekstmelding =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
 
+export const altinnUrl = () => {
+    if (environment.MILJO === 'prod-sbs') {
+        return 'https://altinn.no';
+    } else {
+        return 'https://tt02.altinn.no';
+    }
+};
+
 export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/permittering/'
-    }
-    else {
-        return 'https://arbeidsgiver-q.nav.no/permittering/'
+        return 'https://arbeidsgiver.nav.no/permittering/';
+    } else {
+        return 'https://arbeidsgiver-q.nav.no/permittering/';
     }
 };
 
 export const lenkeTilLonnskompensasjonRefusjonSkjema = () => {
     if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/permittering-refusjon/'
-    }
-    else {
-        return 'https://arbeidsgiver-q.nav.no/permittering-refusjon/'
+        return 'https://arbeidsgiver.nav.no/permittering-refusjon/';
+    } else {
+        return 'https://arbeidsgiver-q.nav.no/permittering-refusjon/';
     }
 };
 
@@ -187,23 +193,22 @@ export const lenkeTilKlageskjema = (orgnr: string) => {
     const orgNrDel = orgnr.length > 0 ? '?bedrift=' + orgnr : '';
     if (environment.MILJO === 'prod-sbs') {
         return 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/' + orgNrDel;
-    }
-    else {
+    } else {
         return 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/' + orgNrDel;
     }
 };
 
-export  const LenkeTilKoronaSykeRefusjon = (orgnr: string) => {
+export const LenkeTilKoronaSykeRefusjon = (orgnr: string) => {
     const orgNrDel = orgnr.length > 0 ? '?bedrift=' + orgnr : '';
     if (environment.MILJO === 'prod-sbs') {
         return 'https://arbeidsgiver.nav.no/nettrefusjon/' + orgNrDel;
-    }
-    else {
+    } else {
         return 'https://arbeidsgiver-q.nav.no/nettrefusjon/' + orgNrDel;
     }
 };
 
-export const infoOmPermitteringOgMasseoppsigelse = 'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';
+export const infoOmPermitteringOgMasseoppsigelse =
+    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';
 
 export const lenkeTilInfoOmPermittering =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';

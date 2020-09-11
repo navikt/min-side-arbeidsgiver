@@ -24,6 +24,7 @@ if (process.env.REACT_APP_MOCK) {
     require('./mock/syfoMock');
     require('./mock/arbeidsavtalerMock');
     require('./mock/altinnMock');
+    require('./mock/altinnMeldingsboksMock');
     require('./mock/unleashMock');
 }
 

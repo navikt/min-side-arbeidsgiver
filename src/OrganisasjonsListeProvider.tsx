@@ -7,6 +7,11 @@ import {
 } from './api/dnaApi';
 import { Organisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { Tilgang } from './App/LoginBoundary';
+import {
+    autentiserAltinnBruker,
+    hentAltinnRaporteeIdentiteter,
+    ReporteeMessagesUrls,
+} from './api/altinnApi';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -15,6 +20,7 @@ export type Context = {
     organisasjonslisteFerdigLastet: Tilgang;
     organisasjonerMedIAFerdigLastet: Tilgang;
     alltinnSkjemaMedTilgangerFerdigLastet: Tilgang;
+    reporteeMessagesUrls: ReporteeMessagesUrls;
     visFeilmelding: boolean;
 };
 
@@ -94,8 +100,21 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         setAlltinnSkjemaMedTilgangerFerdigLastet,
     ] = useState(Tilgang.LASTER);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
+    const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
 
     useEffect(() => {
+        if (window.location.search.match("altinnMeldingsboks=true")) {
+            /* Kjører denne først, fordi den kan føre til en redirect til Altinn. */
+            hentAltinnRaporteeIdentiteter().then(result => {
+                if (result instanceof Error) {
+                    autentiserAltinnBruker(window.location.href);
+                    setReporteeMessagesUrls({});
+                } else {
+                    setReporteeMessagesUrls(result);
+                }
+            });
+        }
+
         hentOrganisasjoner()
             .then(organisasjoner => {
                 const organisasjonerFiltrert = organisasjoner.filter(
@@ -111,7 +130,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
                 }
             })
-            .catch(e => {
+            .catch(_ => {
                 setOrganisasjoner([]);
                 setVisFeilmelding(true);
                 setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
@@ -130,7 +149,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     setOrganisasjonerMedIAFerdigLastet(Tilgang.TILGANG);
                 }
             })
-            .catch(e => setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG));
+            .catch(_ => setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG));
 
         hentTilgangForAlleAltinnskjema(ListeMedAltinnSkjemaKoder)
             .then(skjemaer => {
@@ -142,7 +161,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                     setListeMedSkjemaOgTilganger([]);
                 }
             })
-            .catch(e => setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG));
+            .catch(_ => setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG));
     }, []);
 
     let defaultContext: Context = {
@@ -152,6 +171,7 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         organisasjonerMedIAFerdigLastet,
         organisasjonslisteFerdigLastet,
         alltinnSkjemaMedTilgangerFerdigLastet,
+        reporteeMessagesUrls,
         visFeilmelding,
     };
 

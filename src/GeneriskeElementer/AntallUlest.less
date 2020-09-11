@@ -1,0 +1,27 @@
+@import '~nav-frontend-core/less/_variabler';
+
+@sirkel-diameter: 1.1em;
+
+.antall-ulest-sirkel {
+  display: inline-block;
+
+  background: @navRod;
+  border-radius: 1em;
+  color: white;
+
+  height: @sirkel-diameter;
+  line-height: @sirkel-diameter;
+  min-width: @sirkel-diameter;
+  padding: 0 0.2em 0;
+
+  text-align: center;
+
+  @media (min-width: @screen-sm-min) {
+    position: relative;
+    top: -1em;
+  }
+}
+
+button:hover {
+  text-decoration: none !important;
+}
