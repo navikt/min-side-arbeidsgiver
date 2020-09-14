@@ -103,17 +103,15 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
 
     useEffect(() => {
-        if (window.location.search.match("altinnMeldingsboks=true")) {
-            /* Kjører denne først, fordi den kan føre til en redirect til Altinn. */
-            hentAltinnRaporteeIdentiteter().then(result => {
-                if (result instanceof Error) {
-                    autentiserAltinnBruker(window.location.href);
-                    setReporteeMessagesUrls({});
-                } else {
-                    setReporteeMessagesUrls(result);
-                }
-            });
-        }
+        /* Kjører denne først, fordi den kan føre til en redirect til Altinn. */
+        hentAltinnRaporteeIdentiteter().then(result => {
+            if (result instanceof Error) {
+                autentiserAltinnBruker(window.location.href);
+                setReporteeMessagesUrls({});
+            } else {
+                setReporteeMessagesUrls(result);
+            }
+        });
 
         hentOrganisasjoner()
             .then(organisasjoner => {
