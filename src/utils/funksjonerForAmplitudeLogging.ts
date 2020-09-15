@@ -7,35 +7,55 @@ import {
 } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
+interface TilgangsstyringEventProps {
+    syfo?: string;
+    PAM?: string;
+    IA?: string;
+    Arbeidstrening?: string;
+    Arbeidsforhold?: string;
+    MidlertidigLønnstilskudd?: string;
+    Variglønnstilskudd?: string;
+    url: string;
+}
+
+interface NavigasjonsProps {
+    tjeneste: string;
+    destinasjon: string;
+    lenketekst: string
+}
+
 export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]) => {
-    let skalLogges = '#min-side-arbeidsgiver';
+    let tilgangsinfo: TilgangsstyringEventProps = {
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'}
     if (tilgangsArray[0] === Tilgang.TILGANG) {
-        skalLogges += ' Syfo';
+        tilgangsinfo.syfo = "tilgang"
     }
     if (tilgangsArray[1] === Tilgang.TILGANG) {
-        skalLogges += ' PAM';
+        tilgangsinfo.PAM = "tilgang"
     }
     if (tilgangsArray[2] === Tilgang.TILGANG) {
-        skalLogges += ' IA';
+        tilgangsinfo.IA = "tilgang"
     }
     if (tilgangsArray[3] === Tilgang.TILGANG) {
-        skalLogges += ' Arbeidstrening';
+        tilgangsinfo.Arbeidstrening = "tilgang"
     }
     if (tilgangsArray[4] === Tilgang.TILGANG) {
-        skalLogges += ' Arbeidsforhold';
+        tilgangsinfo.Arbeidsforhold = "tilgang"
     }
     if (tilgangsArray[5] === Tilgang.TILGANG) {
-        skalLogges += ' Midlertidig lønnstilskudd';
+        tilgangsinfo.MidlertidigLønnstilskudd = "tilgang"
     }
     if (tilgangsArray[6] === Tilgang.TILGANG) {
-        skalLogges += ' Varig lønnstilskudd';
+        tilgangsinfo.Variglønnstilskudd = "tilgang"
     }
-    amplitude.logEvent(skalLogges);
+    amplitude.logEvent("sidevisning", tilgangsinfo);
 };
 
-export const loggTjenesteTrykketPa = (tjeneste: string) => {
-    const skalLogges = '#min-side-arbeidsgiver ' + tjeneste + ' trykket pa';
-    amplitude.logEvent(skalLogges);
+export const loggTjenesteTrykketPa = (tjeneste: string, destinasjon: string, lenketekst: string) => {
+    const navigasjonsInfo: NavigasjonsProps = {
+        destinasjon: destinasjon, lenketekst: lenketekst, tjeneste: tjeneste
+    }
+    amplitude.logEvent("navigere", navigasjonsInfo);
 };
 
 export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {

@@ -28,7 +28,7 @@ const MidlertidigLonnstilskuddboks = () => {
             <Lenkepanel
                 className="arbeidstreningboks__info"
                 href={arbeidsAvtaleLink()}
-                onClick={() => loggTjenesteTrykketPa('Midlertidig lønnstilskudd')}
+                onClick={() => loggTjenesteTrykketPa('Midlertidig lønnstilskudd', arbeidsAvtaleLink(), "Midlertidig lønnstilskudd")}
                 tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

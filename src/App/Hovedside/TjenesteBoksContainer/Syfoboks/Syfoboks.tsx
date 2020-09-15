@@ -7,10 +7,6 @@ import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeL
 
 const Syfoboks = () => {
 
-    const loggAtKlikketPaSyfo = () => {
-        loggTjenesteTrykketPa('Syfo');
-    };
-
     return (
         <div className="syfoboks tjenesteboks-innhold">
             <TjenesteBoksBanner
@@ -21,7 +17,7 @@ const Syfoboks = () => {
             <Lenkepanel
                 className="syfoboks__sykemeldte"
                 href={syfoLink()}
-                onClick={loggAtKlikketPaSyfo}
+                onClick={() => loggTjenesteTrykketPa('Syfo', syfoLink(),"Sykmeldte")}
                 tittelProps="normaltekst"
                 aria-label="Sykmeldte. Se sykmeldte du har ansvar for å følge opp"
             >

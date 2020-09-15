@@ -8,7 +8,7 @@ import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeL
 const Arbeidsforholdboks = () => {
 
     const loggAtKlikketPaArbeidsfohold = () => {
-        loggTjenesteTrykketPa('Arbeidsforhold');
+        loggTjenesteTrykketPa('Arbeidsforhold',arbeidsforholdLink(), "Arbeidsforhold" );
     };
 
     const valgtbedrift = () => {

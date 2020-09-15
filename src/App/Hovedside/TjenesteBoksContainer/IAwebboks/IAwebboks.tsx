@@ -7,7 +7,7 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import './IAwebboks.less';
 
 const loggAtKlikketPaIAeb = () => {
-    loggTjenesteTrykketPa('IA');
+    loggTjenesteTrykketPa('IA', lenkeTilSykefravarsstatistikk,"Sykefraværsstatistikk");
 };
 
 const IAwebboks = () => {

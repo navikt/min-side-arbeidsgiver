@@ -3,10 +3,10 @@ import { Element, Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
 import Lenke from 'nav-frontend-lenker';
 import { LenkeTilInfoOmNarmesteLeder } from '../../../../../lenker';
-import { loggTjenesteTrykketPa } from '../../../../../utils/funksjonerForAmplitudeLogging';
 import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../NyFaneIkon';
 import './ModalLenke.less';
+import {loggTjenesteTrykketPa} from "../../../../../utils/funksjonerForAmplitudeLogging";
 
 interface Props {
     overskrift: string;
@@ -22,7 +22,6 @@ const ModalLenke = ({overskrift}: Props) => {
             <button
                 onClick={() => {
                     openModal();
-                    loggTjenesteTrykketPa('Be om tilgang-Syfo');
                 }}
                 className="be-om-tilgang__tjenesteinfo__lenke-syfo"
             >
@@ -54,6 +53,7 @@ const ModalLenke = ({overskrift}: Props) => {
                         </Normaltekst>
 
                         <Lenke
+                            onClick={() => loggTjenesteTrykketPa("Be om tilgang- "+overskrift,LenkeTilInfoOmNarmesteLeder,"Les om hvordan nærmeste leder registreres" )}
                             className="syfo-modal__lenke"
                             href={LenkeTilInfoOmNarmesteLeder}
                             target="_blank"

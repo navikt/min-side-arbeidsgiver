@@ -18,17 +18,13 @@ const Pamboks = () => {
         }
     }, [antallAnnonser]);
 
-    const loggAtKlikketPaArbeidstrening = () => {
-        loggTjenesteTrykketPa('PAM');
-    };
-
     return (
         <div className="pamboks tjenesteboks-innhold">
             <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
             <Lenkepanel
                 className="pamboks__lenke"
                 href={linkTilArbeidsplassen()}
-                onClick={loggAtKlikketPaArbeidstrening}
+                onClick={() => loggTjenesteTrykketPa("PAM", linkTilArbeidsplassen(), "Rekruttere")}
                 tittelProps="normaltekst"
                 border={false}
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}

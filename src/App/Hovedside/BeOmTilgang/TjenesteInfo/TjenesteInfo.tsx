@@ -23,7 +23,8 @@ const TjenesteInfo = (props: TjenesteInfoProps) => {
                     <Lenke
                         target="_blank"
                         href={props.lenkeTilBeOmTjeneste}
-                        onClick={() => loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift)}
+                        onClick={() =>
+                            loggTjenesteTrykketPa('Be om tilgang-' + props.overskrift, props.lenkeTilBeOmTjeneste, "be om tilgang" )}
                     >
                         <span>{props.overskrift + ' - be om tilgang'}</span><NyFaneIkon/>
                     </Lenke>
