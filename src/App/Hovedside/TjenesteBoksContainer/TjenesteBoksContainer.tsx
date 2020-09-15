@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { Tilgang } from '../../LoginBoundary';
-import { loggTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
+import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
@@ -103,7 +103,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (antallTjenester === 1) {
                 settypeAntall('antall-en');
             }
-            loggTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
+            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
             setFerdigLastet('ferdig');
         }
     }, [

@@ -1,11 +1,5 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
-import { hentOverordnetEnhet, hentUnderenhet } from '../api/enhetsregisteretApi';
-import {
-    OrganisasjonFraEnhetsregisteret,
-    tomEnhetsregOrg,
-} from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 interface TilgangsstyringEventProps {
     syfo?: string;
@@ -16,6 +10,7 @@ interface TilgangsstyringEventProps {
     MidlertidigLønnstilskudd?: string;
     Variglønnstilskudd?: string;
     url: string;
+    ingenTilganger?: boolean
 }
 
 interface NavigasjonsProps {
@@ -24,9 +19,13 @@ interface NavigasjonsProps {
     lenketekst: string
 }
 
-export const loggTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[]) => {
+export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[], ingenTilganger?: boolean) => {
     let tilgangsinfo: TilgangsstyringEventProps = {
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'}
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'};
+    if (ingenTilganger) {
+        tilgangsinfo.ingenTilganger = true;
+        amplitude.logEvent("sidevisning", tilgangsinfo);
+    }
     if (tilgangsArray[0] === Tilgang.TILGANG) {
         tilgangsinfo.syfo = "tilgang"
     }
@@ -58,7 +57,13 @@ export const loggTjenesteTrykketPa = (tjeneste: string, destinasjon: string, len
     amplitude.logEvent("navigere", navigasjonsInfo);
 };
 
+export const loggBrukerLoggetInn = () => {
+    amplitude.logEvent("innlogget", {url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'});
+};
+
+/*
 export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
+
     amplitude.logEvent('#min-side-arbeidsgiver loggbedriftsinfo kallt');
 
     let infoFraEereg: OrganisasjonFraEnhetsregisteret = tomEnhetsregOrg;
@@ -143,4 +148,7 @@ export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
                 break;
         }
     }
-};
+)
+
+
+ */

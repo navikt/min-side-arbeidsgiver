@@ -1,16 +1,13 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import {
-    Organisasjon,
-    tomAltinnOrganisasjon,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {Organisasjon, tomAltinnOrganisasjon,} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentArbeidsavtaler, SkjemaMedOrganisasjonerMedTilgang } from './api/dnaApi';
-import { SyfoTilgangContext } from './SyfoTilgangProvider';
-import { Tilgang } from './App/LoginBoundary';
-import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
-import { loggBedriftsInfo } from './utils/funksjonerForAmplitudeLogging';
-import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from './api/altinnApi';
+import {Arbeidsavtale, hentArbeidsavtaler, SkjemaMedOrganisasjonerMedTilgang} from './api/dnaApi';
+import {SyfoTilgangContext} from './SyfoTilgangProvider';
+import {Tilgang} from './App/LoginBoundary';
+import {OrganisasjonsListeContext} from './OrganisasjonsListeProvider';
+import {autentiserAltinnBruker, hentMeldingsboks, Meldingsboks} from './api/altinnApi';
+import {loggSidevisningOgTilgangsKombinasjonAvTjenestebokser} from "./utils/funksjonerForAmplitudeLogging";
 
 interface Props {
     children: React.ReactNode;
@@ -68,7 +65,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
-            loggBedriftsInfo(org);
+            //loggBedriftsInfo(org);
             settilgangTilPamState(Tilgang.LASTER);
             setTilgangTilIAWeb(Tilgang.LASTER);
             setTilgangTilArbeidstreningsavtaler(Tilgang.LASTER);
@@ -201,6 +198,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 Tilgang.IKKE_TILGANG,
                 Tilgang.IKKE_TILGANG,
             ]);
+            if (tilgangTilSyfoState === Tilgang.IKKE_TILGANG) {
+                loggSidevisningOgTilgangsKombinasjonAvTjenestebokser([], true)
+            }
         }
     }, [
         tilgangTilSyfoState,

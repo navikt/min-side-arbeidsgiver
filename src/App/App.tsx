@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent, useEffect} from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.less';
 import { basename } from '../paths';
@@ -9,13 +9,15 @@ import { OrganisasjonsDetaljerProvider } from '../OrganisasjonDetaljerProvider';
 import { SyfoTilgangProvider } from '../SyfoTilgangProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
-import environment from '../utils/environment';
-import amplitude from '../utils/amplitude';
 import { FeatureToggleProvider } from '../FeatureToggleProvider';
 import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
+import {loggBrukerLoggetInn} from "../utils/funksjonerForAmplitudeLogging";
 
 const App: FunctionComponent = () => {
-    amplitude.logEvent(' #min-side-arbeidsgiver logget pa i ' + environment.MILJO);
+
+    useEffect(() => {
+        loggBrukerLoggetInn()
+    }, []);
 
     return (
         <div className="typo-normal">
