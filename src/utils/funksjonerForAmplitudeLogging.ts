@@ -52,22 +52,20 @@ export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
             infoFraEeregJuridisk = enhet;
         });
 
-        if (infoFraEereg.naeringskode1 && infoFraEereg.naeringskode1.kode.startsWith('84')) {
+        if (infoFraEereg?.naeringskode1?.kode.startsWith('84')) {
             amplitude.logEvent('#min-side-arbeidsgiver OFFENTLIG');
             if (
-                infoFraEereg.institusjonellSektorkode.kode &&
-                infoFraEereg.institusjonellSektorkode.kode === '6500'
+                infoFraEereg?.institusjonellSektorkode?.kode === '6500'
             ) {
                 amplitude.logEvent('#min-side-arbeidsgiver Kommuneforvaltningen');
             }
             if (
-                infoFraEereg.institusjonellSektorkode.kode &&
-                infoFraEereg.institusjonellSektorkode.kode === '6100'
+                infoFraEereg?.institusjonellSektorkode?.kode === '6100'
             ) {
-                amplitude.logEvent('#min-side-arbeidsgiver  Statsforvaltningen');
+                amplitude.logEvent('#min-side-arbeidsgiver Statsforvaltningen');
             }
         } else {
-            amplitude.logEvent('#min-side-arbeidsgiver  PRIVAT');
+            amplitude.logEvent('#min-side-arbeidsgiver PRIVAT');
         }
 
         const antallAnsatte = Number(infoFraEereg.antallAnsatte);
