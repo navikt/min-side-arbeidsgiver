@@ -76,22 +76,23 @@ export const loggBedriftsInfo = async (organisasjon: Organisasjon) => {
         await hentOverordnetEnhet(organisasjon.ParentOrganizationNumber).then(enhet => {
             infoFraEeregJuridisk = enhet;
         });
-        if (infoFraEereg.naeringskode1.kode.startsWith('84')) {
+
+        if (infoFraEereg?.naeringskode1?.kode.startsWith('84')) {
             amplitude.logEvent('#min-side-arbeidsgiver OFFENTLIG');
-            if (infoFraEereg.institusjonellSektorkode.kode === '6500') {
+            if (
+                infoFraEereg?.institusjonellSektorkode?.kode === '6500'
+            ) {
                 amplitude.logEvent('#min-side-arbeidsgiver Kommuneforvaltningen');
             }
-            if (infoFraEereg.institusjonellSektorkode.kode === '6100') {
+            if (
+                infoFraEereg?.institusjonellSektorkode?.kode === '6100'
+            ) {
                 amplitude.logEvent('#min-side-arbeidsgiver Statsforvaltningen');
             }
-
-            amplitude.logEvent(
-                '#min-side-arbeidsgiver kode er: ',
-                infoFraEereg.institusjonellSektorkode.kode
-            );
         } else {
             amplitude.logEvent('#min-side-arbeidsgiver PRIVAT');
         }
+
         const antallAnsatte = Number(infoFraEereg.antallAnsatte);
         const antallAnsatteJuridiske = Number(infoFraEeregJuridisk.antallAnsatte);
         switch (true) {
