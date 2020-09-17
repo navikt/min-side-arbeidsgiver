@@ -1,9 +1,10 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import 'unorm/lib/unorm';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'unorm/lib/unorm';
 import 'whatwg-fetch';
+import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 import { init as Sentry } from '@sentry/browser';
 import App from './App/App';
 import './index.less';
