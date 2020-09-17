@@ -1,29 +1,27 @@
-import environment from './utils/environment';
+import environment, { gittMiljo } from './utils/environment';
 import { basename } from './paths';
 
-export const soknadskjemaInkluderingstilskudd = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/';
-    } else {
-        return 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212';
-    }
-};
+export const soknadskjemaInkluderingstilskudd = gittMiljo({
+    prod:
+        'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/',
+    other:
+        'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
+});
 
-export const soknadsskjemaLonnstilskudd = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/';
-    } else {
-        return 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5159';
-    }
-};
+export const soknadsskjemaLonnstilskudd = gittMiljo({
+    prod:
+        'https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/',
+    other:
+        'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5159',
+});
 
-export const soknadTilskuddTilMentor = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/';
-    } else {
-        return 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216';
-    }
-};
+export const soknadTilskuddTilMentor = gittMiljo({
+    prod:
+        'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/',
+    other:
+        'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
+});
+
 export const inntekstmelding =
     'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/';
 
@@ -32,49 +30,35 @@ export const ekspertbistand =
 
 export const skjemaForArbeidsgivere = 'https://www.nav.no/soknader/nb/bedrift';
 
-export const arbeidsforholdLink = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/arbeidsforhold/';
-    } else {
-        return 'https://arbeidsgiver-q.nav.no/arbeidsforhold/';
-    }
-};
+export const arbeidsforholdLink = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
+    other: 'https://arbeidsgiver-q.nav.no/arbeidsforhold/',
+});
 
-export const syfoLink = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://tjenester.nav.no/sykefravaerarbeidsgiver';
-    } else {
-        return 'https://tjenester-q1.nav.no/sykefravaerarbeidsgiver';
-    }
-};
+export const syfoLink = gittMiljo({
+    prod: 'https://tjenester.nav.no/sykefravaerarbeidsgiver',
+    other: 'https://tjenester-q1.nav.no/sykefravaerarbeidsgiver',
+});
 
-export const linkTilArbeidsplassen = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsplassen.nav.no/bedrift';
-    } else {
-        return 'https://arbeidsplassen-q.nav.no/bedrift';
-    }
-};
+export const linkTilArbeidsplassen = gittMiljo({
+    prod: 'https://arbeidsplassen.nav.no/bedrift',
+    other: 'https://arbeidsplassen-q.nav.no/bedrift',
+});
 
-export const pamSettBedriftLenke = (orgnr: string) => {
-    if (environment.MILJO === 'prod-sbs') {
-        return `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
-    } else {
-        return `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`;
-    }
-};
+export const pamSettBedriftLenke: (orgnr: string) => string = gittMiljo({
+    prod: orgnr =>
+        `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
+    other: orgnr =>
+        `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
+});
 
-export const sjekkInnloggetLenke = () => {
-    return basename + '/api/innlogget';
-};
+export const sjekkInnloggetLenke = basename + '/api/innlogget';
 
-export const pamHentStillingsannonserLenke = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus';
-    } else {
-        return 'https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus';
-    }
-};
+export const pamHentStillingsannonserLenke = gittMiljo({
+    prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+    other:
+        'https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+});
 
 export const digiSyfoNarmesteLederLink = '/min-side-arbeidsgiver/api/narmesteleder';
 
@@ -89,33 +73,25 @@ export const LenkeTilInfoOmAltinnRoller =
 export const lenkeTilInfoOmSykefravarsstatistikk =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/fa-oversikt-over-sykefravaeret';
 
-export const hentUnderenhetApiLink = (orgnr: string) => {
-    return `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`;
-};
+export const hentUnderenhetApiLink = (orgnr: string) =>
+    `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`;
 
-export const hentOverordnetEnhetApiLink = (orgnr: string) => {
-    return `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
-};
+export const hentOverordnetEnhetApiLink = (orgnr: string) =>
+    `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
 
-export const enhetsregisteretUnderenhetLink = (orgnr: string) => {
-    return `https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${orgnr}`;
-};
+export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
+    `https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${orgnr}`;
 
-export const enhetsregisteretOverordnetenhetLink = (orgnr: string) => {
-    return `https://data.brreg.no/enhetsregisteret/oppslag/enheter/${orgnr}`;
-};
+export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
+    `https://data.brreg.no/enhetsregisteret/oppslag/enheter/${orgnr}`;
 
-export const arbeidsAvtaleLink = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver';
-    } else {
-        return 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver';
-    }
-};
+export const arbeidsAvtaleLink = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+    other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+});
 
-export const hentArbeidsavtalerApiLink = () => {
-    return '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
-};
+export const hentArbeidsavtalerApiLink =
+    '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
 
 export const beOmTilgangIAltinnLink = (
     orgnr: string,
@@ -149,6 +125,7 @@ export const beOmTilgangIAltinnLink = (
 };
 
 export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
+
 export const lenkeTilTilgangsstyringsInfo =
     'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
 
@@ -165,47 +142,37 @@ export const lenkeTilInfoOmDigitaleSoknader =
 export const lenkeTilInforOmInntekstmelding =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
 
-export const altinnUrl = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://altinn.no';
-    } else {
-        return 'https://tt02.altinn.no';
-    }
-};
+export const altinnUrl = gittMiljo({
+    prod: 'https://altinn.no',
+    other: 'https://tt02.altinn.no',
+});
 
-export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/permittering/';
-    } else {
-        return 'https://arbeidsgiver-q.nav.no/permittering/';
-    }
-};
+export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/permittering/',
+    other: 'https://arbeidsgiver-q.nav.no/permittering/',
+});
 
-export const lenkeTilLonnskompensasjonRefusjonSkjema = () => {
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/permittering-refusjon/';
-    } else {
-        return 'https://arbeidsgiver-q.nav.no/permittering-refusjon/';
-    }
-};
+export const lenkeTilLonnskompensasjonRefusjonSkjema = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
+    other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/',
+});
 
-export const lenkeTilKlageskjema = (orgnr: string) => {
-    const orgNrDel = orgnr.length > 0 ? '?bedrift=' + orgnr : '';
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/' + orgNrDel;
-    } else {
-        return 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/' + orgNrDel;
-    }
-};
+export const urlMedBedriftNr = (baseUrl: string) => (orgnr: string) =>
+    baseUrl + (orgnr.length > 0 ? '?bedrift=' + orgnr : '');
 
-export const LenkeTilKoronaSykeRefusjon = (orgnr: string) => {
-    const orgNrDel = orgnr.length > 0 ? '?bedrift=' + orgnr : '';
-    if (environment.MILJO === 'prod-sbs') {
-        return 'https://arbeidsgiver.nav.no/nettrefusjon/' + orgNrDel;
-    } else {
-        return 'https://arbeidsgiver-q.nav.no/nettrefusjon/' + orgNrDel;
-    }
-};
+export const lenkeTilKlageskjema = urlMedBedriftNr(
+    gittMiljo({
+        prod: 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/',
+        other: 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/',
+    })
+);
+
+export const LenkeTilKoronaSykeRefusjon = urlMedBedriftNr(
+    gittMiljo({
+        prod: 'https://arbeidsgiver.nav.no/nettrefusjon/',
+        other: 'https://arbeidsgiver-q.nav.no/nettrefusjon/',
+    })
+);
 
 export const infoOmPermitteringOgMasseoppsigelse =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';

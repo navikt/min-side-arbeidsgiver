@@ -12,6 +12,7 @@ import {
     hentAltinnRaporteeIdentiteter,
     ReporteeMessagesUrls,
 } from './api/altinnApi';
+import { gittMiljo } from './utils/environment';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;
@@ -28,7 +29,6 @@ export interface AltinnSkjema {
     navn: string;
     kode: string;
     versjon: string;
-    testversjon?: string;
 }
 
 export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
@@ -60,8 +60,7 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     {
         navn: 'Arbeidstrening',
         kode: '5332',
-        versjon: '2',
-        testversjon: '1',
+        versjon: gittMiljo({prod: '2', other: '1'})
     },
     {
         navn: 'Arbeidsforhold',
@@ -84,11 +83,11 @@ const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 export { OrganisasjonsListeContext };
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
-    const [organisasjoner, setOrganisasjoner] = useState(Array<Organisasjon>());
-    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState(Array<Organisasjon>());
-    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState(
-        [] as SkjemaMedOrganisasjonerMedTilgang[]
-    );
+    const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[]>([]);
+    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState<Organisasjon[]>([]);
+    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState<
+        SkjemaMedOrganisasjonerMedTilgang[]
+    >([]);
     const [organisasjonslisteFerdigLastet, setOrganisasjonslisteFerdigLastet] = useState(
         Tilgang.LASTER
     );
@@ -137,9 +136,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         hentOrganisasjonerIAweb()
             .then(organisasjonerMedIA => {
                 setOrganisasjonerMedIAWEB(
-                    organisasjonerMedIA.filter((organisasjon: Organisasjon) => {
-                        return organisasjon.OrganizationForm === 'BEDR';
-                    })
+                    organisasjonerMedIA.filter(
+                        organisasjon => organisasjon.OrganizationForm === 'BEDR'
+                    )
                 );
                 if (organisasjonerMedIA.length === 0) {
                     setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);

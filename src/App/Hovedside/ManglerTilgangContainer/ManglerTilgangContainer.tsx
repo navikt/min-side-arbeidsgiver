@@ -9,49 +9,46 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
 import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
 import { Tilgang } from '../../LoginBoundary';
-import { RouteComponentProps } from 'react-router';
 
-interface Props {
-    url: string;
-}
-
-export const ManglerTilgangContainer: FunctionComponent<RouteComponentProps & Props> = ({history, url }) => {
+export const ManglerTilgangContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
 
-
-    const harTilganger =
-        organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG;
-    const bedriftsparameter = valgtOrganisasjon.OrganizationNumber.length>0? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber : '';
+    const harTilganger = organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG;
+    const bedriftsparameter =
+        valgtOrganisasjon.OrganizationNumber.length > 0
+            ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber
+            : '';
 
     return (
         <>
-        <Banner sidetittel="Min side – arbeidsgiver" />
-        <div className="mangler-tilgang-bakgrunn ">
-            { harTilganger && <div className="mangler-tilgang-bakgrunn__brodsmule">
-                <Link
-                    to={bedriftsparameter}
-                    className="informasjon-om-bedrift__brodsmule"
-                >
-                    Min side - arbeidsgiver
-                </Link>
-                {' / mangler-tilgang'}
-            </div>}
-            <Innholdstittel className={'mangler-tilgang-bakgrunn__innholdstittel'}>Du mangler tilganger</Innholdstittel>
-            <span className={'mangler-tilgang-container'}>
-                <ManglerTilgangLenkePanel
-                    tittel="Se tjenester som privatperson"
-                    infoTekst="Gå til Ditt NAV"
-                    lenke={lenkeTilDittNavPerson}
-                />
-                <ManglerTilgangLenkePanel
-                    tittel="Hvordan får jeg tilgang?"
-                    infoTekst="Lær om roller og tilganger i Altinn"
-                    lenke={lenkeTilTilgangsstyringsInfo}
-                />
-            </span>
-        </div>
-            </>
+            <Banner sidetittel="Min side – arbeidsgiver" />
+            <div className="mangler-tilgang-bakgrunn ">
+                {harTilganger && (
+                    <div className="mangler-tilgang-bakgrunn__brodsmule">
+                        <Link to={bedriftsparameter} className="informasjon-om-bedrift__brodsmule">
+                            Min side - arbeidsgiver
+                        </Link>
+                        {' / mangler-tilgang'}
+                    </div>
+                )}
+                <Innholdstittel className={'mangler-tilgang-bakgrunn__innholdstittel'}>
+                    Du mangler tilganger
+                </Innholdstittel>
+                <span className={'mangler-tilgang-container'}>
+                    <ManglerTilgangLenkePanel
+                        tittel="Se tjenester som privatperson"
+                        infoTekst="Gå til Ditt NAV"
+                        lenke={lenkeTilDittNavPerson}
+                    />
+                    <ManglerTilgangLenkePanel
+                        tittel="Hvordan får jeg tilgang?"
+                        infoTekst="Lær om roller og tilganger i Altinn"
+                        lenke={lenkeTilTilgangsstyringsInfo}
+                    />
+                </span>
+            </div>
+        </>
     );
 };

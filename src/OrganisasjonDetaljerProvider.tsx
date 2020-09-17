@@ -13,6 +13,16 @@ interface Props {
     children: React.ReactNode;
 }
 
+export interface Tilganger {
+    tilgangTilSyfo: Tilgang,
+    tilgangTilPam: Tilgang,
+    tilgangTilIAWeb: Tilgang,
+    tilgangTilArbeidstreningsavtaler: Tilgang,
+    tilgangTilArbeidsforhold: Tilgang,
+    tilgangTilMidlertidigLonnstilskudd: Tilgang,
+    tilgangTilVarigLonnstilskudd: Tilgang,
+}
+
 export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
     valgtOrganisasjon: Organisasjon;
@@ -20,7 +30,7 @@ export type Context = {
     arbeidstreningsavtaler: Arbeidsavtale[];
     midlertidigLonnstilskuddAvtaler: Arbeidsavtale[];
     varigLonnstilskuddAvtaler: Arbeidsavtale[];
-    tilgangsArray: Tilgang[];
+    tilganger: Tilganger;
     altinnMeldingsboks: Meldingsboks | undefined;
 };
 
@@ -37,7 +47,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const [antallAnnonser, setantallAnnonser] = useState(-1);
 
-    const [tilgangTilPamState, settilgangTilPamState] = useState(Tilgang.LASTER);
+    const [tilgangTilPam, settilgangTilPam] = useState(Tilgang.LASTER);
     const [tilgangTilArbeidstreningsavtaler, setTilgangTilArbeidstreningsavtaler] = useState(
         Tilgang.LASTER
     );
@@ -49,8 +59,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     );
     const [tilgangTilIAWeb, setTilgangTilIAWeb] = useState(Tilgang.LASTER);
     const [tilgangTilArbeidsforhold, setTilgangTilArbeidsforhold] = useState(Tilgang.LASTER);
-    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
-    const [tilgangsArray, setTilgangsArray] = useState(Array<Tilgang>());
+    const tilgangTilSyfo = useContext(SyfoTilgangContext).tilgangTilSyfoState;
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(
         undefined
@@ -63,10 +72,12 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         Array<Arbeidsavtale>()
     );
 
+    const [tilganger, setTilganger] = useState<Tilganger>({} as any);
+
     const endreOrganisasjon = async (org?: Organisasjon) => {
         if (org) {
             //loggBedriftsInfo(org);
-            settilgangTilPamState(Tilgang.LASTER);
+            settilgangTilPam(Tilgang.LASTER);
             setTilgangTilIAWeb(Tilgang.LASTER);
             setTilgangTilArbeidstreningsavtaler(Tilgang.LASTER);
             setTilgangTilMidlertidigLonnstilskudd(Tilgang.LASTER);
@@ -76,10 +87,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             await setValgtOrganisasjon(org);
             const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
             if (harPamTilgang) {
-                settilgangTilPamState(Tilgang.TILGANG);
+                settilgangTilPam(Tilgang.TILGANG);
                 setantallAnnonser(await hentAntallannonser());
             } else {
-                settilgangTilPamState(Tilgang.IKKE_TILGANG);
+                settilgangTilPam(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
             if (organisasjonerMedIAFerdigLastet !== Tilgang.LASTER) {
@@ -105,10 +116,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                             ? 'MIDLERTIDIG_LONNSTILSKUDD'
                             : 'VARIG_LONNSTILSKUDD';
                     if (
-                        skjema.OrganisasjonerMedTilgang.filter(
-                            (organisasjon: Organisasjon) =>
+                        skjema.OrganisasjonerMedTilgang.some(
+                            organisasjon =>
                                 organisasjon.OrganizationNumber === org.OrganizationNumber
-                        ).length > 0
+                        )
                     ) {
                         hentArbeidsavtaler(org)
                             .then((avtaler: Arbeidsavtale[]) => {
@@ -150,10 +161,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 }
                 if (skjema.Skjema.navn === 'Arbeidsforhold') {
                     if (
-                        skjema.OrganisasjonerMedTilgang.filter(
-                            (organisasjon: Organisasjon) =>
+                        skjema.OrganisasjonerMedTilgang.some(
+                            organisasjon =>
                                 organisasjon.OrganizationNumber === org.OrganizationNumber
-                        ).length > 0
+                        )
                     ) {
                         setTilgangTilArbeidsforhold(Tilgang.TILGANG);
                     } else {
@@ -178,33 +189,33 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     };
 
     useEffect(() => {
-        const tilgangsArray: Tilgang[] = [
-            tilgangTilSyfoState,
-            tilgangTilPamState,
-            tilgangTilIAWeb,
-            tilgangTilArbeidstreningsavtaler,
-            tilgangTilArbeidsforhold,
-            tilgangTilMidlertidigLonnstilskudd,
-            tilgangTilVarigLonnstilskudd,
-        ];
-        setTilgangsArray(tilgangsArray);
         if (valgtOrganisasjon === tomAltinnOrganisasjon && organisasjonslisteFerdigLastet) {
-            setTilgangsArray([
-                tilgangTilSyfoState,
-                Tilgang.IKKE_TILGANG,
-                Tilgang.IKKE_TILGANG,
-                Tilgang.IKKE_TILGANG,
-                Tilgang.IKKE_TILGANG,
-                Tilgang.IKKE_TILGANG,
-                Tilgang.IKKE_TILGANG,
-            ]);
-            if (tilgangTilSyfoState === Tilgang.IKKE_TILGANG) {
-                loggSidevisningOgTilgangsKombinasjonAvTjenestebokser([], true)
+            setTilganger({
+                tilgangTilSyfo,
+                tilgangTilPam: Tilgang.IKKE_TILGANG,
+                tilgangTilIAWeb: Tilgang.IKKE_TILGANG,
+                tilgangTilArbeidstreningsavtaler: Tilgang.IKKE_TILGANG,
+                tilgangTilArbeidsforhold: Tilgang.IKKE_TILGANG,
+                tilgangTilMidlertidigLonnstilskudd: Tilgang.IKKE_TILGANG,
+                tilgangTilVarigLonnstilskudd: Tilgang.IKKE_TILGANG,
+            });
+            if (tilgangTilSyfo === Tilgang.IKKE_TILGANG) {
+                loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(null);
             }
+        } else {
+            setTilganger({
+                tilgangTilSyfo,
+                tilgangTilPam,
+                tilgangTilIAWeb,
+                tilgangTilArbeidstreningsavtaler,
+                tilgangTilArbeidsforhold,
+                tilgangTilMidlertidigLonnstilskudd,
+                tilgangTilVarigLonnstilskudd,
+            });
         }
     }, [
-        tilgangTilSyfoState,
-        tilgangTilPamState,
+        tilgangTilSyfo,
+        tilgangTilPam,
         tilgangTilIAWeb,
         tilgangTilArbeidstreningsavtaler,
         tilgangTilArbeidsforhold,
@@ -221,13 +232,13 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         arbeidstreningsavtaler,
         midlertidigLonnstilskuddAvtaler,
         varigLonnstilskuddAvtaler,
-        tilgangsArray,
+        tilganger,
         altinnMeldingsboks,
     };
 
     return (
         <>
-            {tilgangTilSyfoState !== Tilgang.LASTER && (
+            {tilgangTilSyfo !== Tilgang.LASTER && (
                 <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
                     {children}
                 </OrganisasjonsDetaljerContext.Provider>

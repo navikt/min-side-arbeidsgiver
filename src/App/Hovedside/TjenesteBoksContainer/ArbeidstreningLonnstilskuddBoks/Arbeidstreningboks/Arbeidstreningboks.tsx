@@ -27,8 +27,8 @@ const Arbeidstreningboks = () => {
 
             <Lenkepanel
                 className="arbeidstreningboks__info"
-                href={arbeidsAvtaleLink()}
-                onClick={() => loggTjenesteTrykketPa('Arbeidstrening', arbeidsAvtaleLink(), "Arbeidstrening")}
+                href={arbeidsAvtaleLink}
+                onClick={() => loggTjenesteTrykketPa('Arbeidstrening', arbeidsAvtaleLink, "Arbeidstrening")}
                 tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

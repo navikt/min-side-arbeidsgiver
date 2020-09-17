@@ -101,4 +101,4 @@ const arbeidsavtalermock = [
     }
 ];
 
-fetchMock.get('begin:' + hentArbeidsavtalerApiLink(), arbeidsavtalermock);
+fetchMock.get('begin:' + hentArbeidsavtalerApiLink, arbeidsavtalermock);

@@ -103,6 +103,6 @@ const getMessagesForReportee = (url: string): any => {
     return {};
 };
 
-fetchMock.get(`${altinnUrl()}/api/reportees`, reportees);
+fetchMock.get(`${altinnUrl}/api/reportees`, reportees);
 
-fetchMock.get(`glob:${altinnUrl()}/api/*/messages*`, getMessagesForReportee);
+fetchMock.get(`glob:${altinnUrl}/api/*/messages*`, getMessagesForReportee);

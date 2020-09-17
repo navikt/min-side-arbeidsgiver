@@ -2,7 +2,8 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { finnOgTellTilganger, genererAltinnSkjema } from './finnOgTellTilganger';
+import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
+import AltinnLenke from './AltinnLenke/AltinnLenke';
 import {
     ekspertbistand,
     inntekstmelding,
@@ -20,11 +21,11 @@ interface skjemaNavnOgLenke {
 const skjemanavnMedLenker: skjemaNavnOgLenke[] = [
     {
         navn: 'Mentortilskudd',
-        lenke: soknadTilskuddTilMentor(),
+        lenke: soknadTilskuddTilMentor,
     },
     {
         navn: 'Inkluderingstilskudd',
-        lenke: soknadskjemaInkluderingstilskudd(),
+        lenke: soknadskjemaInkluderingstilskudd,
     },
     {
         navn: 'Ekspertbistand',
@@ -32,13 +33,15 @@ const skjemanavnMedLenker: skjemaNavnOgLenke[] = [
     },
     {
         navn: 'Lønnstilskudd',
-        lenke: soknadsskjemaLonnstilskudd(),
+        lenke: soknadsskjemaLonnstilskudd,
     },
     {
         navn: 'Inntektsmelding',
         lenke: inntekstmelding,
     },
 ];
+
+const navnPaAltinnSkejma = skjemanavnMedLenker.map(_ => _.navn);
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
@@ -67,29 +70,52 @@ export const AltinnContainer: FunctionComponent = () => {
         }
     }, [altinnSkjemaMedTilgang]);
 
-    const lagAltinnlenker = (): any[] => {
-        const altinnLenkeObjekt: any[] = [];
-        skjemanavnMedLenker.forEach(skjema => {
-            if (altinnSkjemaMedTilgang.filter(navn => navn === skjema.navn).length) {
-                altinnLenkeObjekt.push(genererAltinnSkjema(skjema.navn, skjema.lenke));
-            }
-        });
-        return altinnLenkeObjekt;
-    };
-
     return (
         <div className={'altinn-container ' + typeAntall}>
+
             {generellAltinnTilgang && (
                 <div className={'altinn-container__tekst'}>
-                    <Undertittel id="altinn-container-tittel">Søknader og skjemaer på Altinn</Undertittel>
+                    <Undertittel id="altinn-container-tittel">
+                        Søknader og skjemaer på Altinn
+                    </Undertittel>
                 </div>
             )}
+
             <ul
                 className={'altinn-container__bokser ' + typeAntall}
                 aria-labelledby="altinn-container-tittel"
             >
-                {lagAltinnlenker()}
+                {skjemanavnMedLenker
+                    .filter(skjema => altinnSkjemaMedTilgang.some(navn => navn === skjema.navn))
+                    .map(skjema => (
+                        <AltinnLenke
+                            key={skjema.navn}
+                            className="altinn-lenke"
+                            href={skjema.lenke}
+                            tekst={skjema.navn}
+                            nyFane={true}
+                        />
+                    ))}
             </ul>
         </div>
     );
 };
+
+const finnOgTellTilganger = (
+    altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[],
+    valgtOrganisasjon: string
+): string[] => {
+    const listeMedNavnPaTilganger: string[] = [];
+    navnPaAltinnSkejma.forEach(skjemaNavn => {
+        altinnTjenester.forEach(tjeneste => {
+            if (tjeneste.Skjema.navn === skjemaNavn) {
+                const harTilgang = sjekkOmTilgangTilAltinnSkjema(valgtOrganisasjon, tjeneste);
+                harTilgang && listeMedNavnPaTilganger.push(skjemaNavn);
+            }
+        });
+    });
+    return listeMedNavnPaTilganger;
+};
+
+const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang) =>
+    skjema.OrganisasjonerMedTilgang.some(org => org.OrganizationNumber === orgnr);

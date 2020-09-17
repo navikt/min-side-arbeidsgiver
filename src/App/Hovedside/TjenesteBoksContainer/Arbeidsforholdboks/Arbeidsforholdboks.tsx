@@ -6,18 +6,12 @@ import { arbeidsforholdLink } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 
 const Arbeidsforholdboks = () => {
-
     const loggAtKlikketPaArbeidsfohold = () => {
-        loggTjenesteTrykketPa('Arbeidsforhold',arbeidsforholdLink(), "Arbeidsforhold" );
+        loggTjenesteTrykketPa('Arbeidsforhold',arbeidsforholdLink, "Arbeidsforhold" );
     };
 
-    const valgtbedrift = () => {
-        const orgnummerFraUrl = new URLSearchParams(window.location.search).get(
-            'bedrift'
-        );
-        return orgnummerFraUrl ? `?bedrift=${orgnummerFraUrl}` : '';
-    };
-
+    const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift');
+    const href = arbeidsforholdLink + (orgnummerFraUrl ? `?bedrift=${orgnummerFraUrl}` : '');
     return (
         <div className="arbeidsforholdboks tjenesteboks-innhold">
             <TjenesteBoksBanner
@@ -27,12 +21,13 @@ const Arbeidsforholdboks = () => {
             />
             <Lenkepanel
                 className="arbeidsforholdboks__arbeidsforhold"
-                href={arbeidsforholdLink() + valgtbedrift()}
+                href={href}
                 onClick={loggAtKlikketPaArbeidsfohold}
                 tittelProps="normaltekst"
                 aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
             >
-                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret
+                (Aa-registeret)
             </Lenkepanel>
         </div>
     );
