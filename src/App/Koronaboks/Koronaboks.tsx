@@ -36,7 +36,7 @@ export const Koronaboks = () => {
                     href={lenkeTilPermitteringOgMasseoppsigelsesSkjema()}
                 >
                     <span>
-                        Varsle NAV om permitteringer, masseoppsigelser, permitteringer eller
+                        Varsle NAV om permitteringer, masseoppsigelser eller
                         innskrenkninger i arbeidstiden
                     </span>
                     <HoyreChevron />
