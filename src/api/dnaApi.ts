@@ -1,17 +1,22 @@
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import {digiSyfoNarmesteLederLink, hentArbeidsavtalerApiLink, sjekkInnloggetLenke} from '../lenker';
+import {
+    digiSyfoNarmesteLederLink,
+    hentArbeidsavtalerApiLink,
+    sjekkInnloggetLenke,
+} from '../lenker';
 import { AltinnSkjema } from '../OrganisasjonsListeProvider';
-import environment from '../utils/environment';
 
 export interface Arbeidsavtale {
     status: string;
     tiltakstype: string;
 }
 
-export async function hentArbeidsavtaler(valgtOrganisasjon: Organisasjon): Promise<Array<Arbeidsavtale>> {
-    let respons = await fetch(
-        hentArbeidsavtalerApiLink() + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber
+export async function hentArbeidsavtaler(
+    valgtOrganisasjon: Organisasjon
+): Promise<Array<Arbeidsavtale>> {
+    const respons = await fetch(
+        hentArbeidsavtalerApiLink + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber
     );
     if (respons.ok) {
         return await respons.json();
@@ -20,26 +25,20 @@ export async function hentArbeidsavtaler(valgtOrganisasjon: Organisasjon): Promi
 }
 
 export async function hentSyfoTilgang(): Promise<boolean> {
-    let respons = await fetch(digiSyfoNarmesteLederLink);
+    const respons = await fetch(digiSyfoNarmesteLederLink);
     if (respons.ok) {
         const syfoTilgang: SyfoKallObjekt = await respons.json();
         return syfoTilgang.tilgang;
-
     }
     throw new Error('Feil ved kontakt mot baksystem.');
 }
 
-export async function sjekkInnlogget(signal: any): Promise<boolean> {
-    let respons = await fetch(sjekkInnloggetLenke(), { signal: signal });
-    if (respons.ok) {
-        return true
-    } else {
-        return false
-    }
-}
+export const sjekkInnlogget = (signal: any): Promise<boolean> =>
+    fetch(sjekkInnloggetLenke, { signal: signal })
+        .then(_ => _.ok);
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
-    let respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
+    const respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
     if (respons.ok) {
         return await respons.json();
     } else {
@@ -48,7 +47,7 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 }
 
 export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
-    let respons = await fetch(
+    const respons = await fetch(
         '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=3403&serviceEdition=2'
     );
     if (respons.ok) {
@@ -66,22 +65,13 @@ export interface SkjemaMedOrganisasjonerMedTilgang {
 export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
     skjema: AltinnSkjema
 ): Promise<Organisasjon[]> {
-    let respons;
-    if (environment.MILJO === 'preprod-sbs' && skjema.testversjon) {
-        respons = await fetch(
-            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
-                skjema.kode +
-                '&serviceEdition=' +
-                skjema.testversjon
-        );
-    } else {
-        respons = await fetch(
-            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
-                skjema.kode +
-                '&serviceEdition=' +
-                skjema.versjon
-        );
-    }
+    const respons = await fetch(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            skjema.kode +
+            '&serviceEdition=' +
+            skjema.versjon
+    );
+
     if (respons.ok) {
         return await respons.json();
     } else {

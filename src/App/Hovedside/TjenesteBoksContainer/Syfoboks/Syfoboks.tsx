@@ -16,8 +16,8 @@ const Syfoboks = () => {
             />
             <Lenkepanel
                 className="syfoboks__sykemeldte"
-                href={syfoLink()}
-                onClick={() => loggTjenesteTrykketPa('Syfo', syfoLink(),"Sykmeldte")}
+                href={syfoLink}
+                onClick={() => loggTjenesteTrykketPa('Syfo', syfoLink,"Sykmeldte")}
                 tittelProps="normaltekst"
                 aria-label="Sykmeldte. Se sykmeldte du har ansvar for å følge opp"
             >

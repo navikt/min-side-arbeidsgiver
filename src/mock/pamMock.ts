@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock';
 import { pamSettBedriftLenke, pamHentStillingsannonserLenke } from '../lenker';
 
 fetchMock.get(pamSettBedriftLenke('811076422'), 200);
-fetchMock.get(pamHentStillingsannonserLenke(), {
+fetchMock.get(pamHentStillingsannonserLenke, {
     TIL_GODKJENNING: 17,
     GODKJENT: 0,
     PAABEGYNT: 42,

@@ -39,7 +39,7 @@ export const autentiserAltinnBruker = (returnUrl: string) => {
         sessionStorage.setItem(storageName, now.toString());
         const encodedUri = encodeURIComponent(returnUrl);
         window.location.replace(
-            `${altinnUrl()}/Pages/ExternalAuthentication/Redirect.aspx?returnUrl=${encodedUri}`
+            `${altinnUrl}/Pages/ExternalAuthentication/Redirect.aspx?returnUrl=${encodedUri}`
         );
     }
 };
@@ -71,7 +71,7 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
     ReporteeMessagesUrls | Error
 > = async () => {
     try {
-        const body = await altinnFetch(`${altinnUrl()}/api/reportees`);
+        const body = await altinnFetch(`${altinnUrl}/api/reportees`);
         const reportees = body._embedded.reportees;
         const result: ReporteeMessagesUrls = {};
         reportees.forEach((element: any) => {

@@ -11,10 +11,10 @@ import './BeOmTilgang.less';
 
 const BeOmTilgang: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
-    const { tilgangsArray, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { tilganger, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const tjenesteinfoBokser = genererTekstbokser(
-        tilgangsArray,
+        tilganger,
         listeMedSkjemaOgTilganger,
         valgtOrganisasjon.OrganizationNumber
     ).map(tjeneste => {

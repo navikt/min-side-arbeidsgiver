@@ -2,12 +2,10 @@ import React from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { Arbeidsavtale } from '../../../../api/dnaApi';
 
-export const kunAvsluttedeOgAvbrutte = (avtaler: Arbeidsavtale[]) => {
-    return avtaler.every(
-        (arbeidsavtale: Arbeidsavtale) =>
-            arbeidsavtale.status === 'Avsluttet' || arbeidsavtale.status === 'Avbrutt'
+export const kunAvsluttedeOgAvbrutte = (avtaler: Arbeidsavtale[]) =>
+    avtaler.every(
+        arbeidsavtale => arbeidsavtale.status === 'Avsluttet' || arbeidsavtale.status === 'Avbrutt'
     );
-};
 
 const antallAvtalerPerStatus = (avtaler: Arbeidsavtale[], status: string): number =>
     avtaler.filter((arbeidsavtale: Arbeidsavtale) => arbeidsavtale.status === status).length;

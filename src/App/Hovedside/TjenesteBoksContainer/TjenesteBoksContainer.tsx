@@ -15,8 +15,9 @@ import VarigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/VarigLonns
 import './TjenesteBoksContainer.less';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
-    const { tilgangsArray, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const {
+        tilganger,
+        valgtOrganisasjon,
         arbeidstreningsavtaler,
         midlertidigLonnstilskuddAvtaler,
         varigLonnstilskuddAvtaler,
@@ -28,7 +29,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } = useContext(OrganisasjonsListeContext);
 
     const [typeAntall, settypeAntall] = useState('');
-    const [ferdigLastet, setFerdigLastet] = useState('laster');
+    const [ferdigLastet, setFerdigLastet] = useState(false);
 
     const [visIA, setVisIA] = useState(false);
     const [visArbeidstrening, setVisArbeidstrening] = useState(false);
@@ -39,61 +40,35 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const [visVarigLonnstilskudd, setVisVarigLonnstilskudd] = useState(false);
 
     useEffect(() => {
-        setFerdigLastet('laster');
+        setFerdigLastet(false);
 
-        if (!tilgangsArray.includes(Tilgang.LASTER)) {
-            if (tilgangsArray[0] === Tilgang.TILGANG) {
-                setVisSyfo(true);
-            } else {
-                setVisSyfo(false);
-            }
-            if (tilgangsArray[1] === Tilgang.TILGANG) {
-                setVisPam(true);
-            } else {
-                setVisPam(false);
-            }
-            if (tilgangsArray[2] === Tilgang.TILGANG) {
-                setVisIA(true);
-            } else {
-                setVisIA(false);
-            }
-            if (tilgangsArray[3] === Tilgang.TILGANG && arbeidstreningsavtaler.length > 0) {
-                setVisArbeidstrening(true);
-            } else {
-                setVisArbeidstrening(false);
-            }
-            if (tilgangsArray[4] === Tilgang.TILGANG) {
-                setVisArbeidsforhold(true);
-            } else {
-                setVisArbeidsforhold(false);
-            }
-            if (
-                tilgangsArray[5] === Tilgang.TILGANG && midlertidigLonnstilskuddAvtaler.length > 0
-            ) {
-                setVisMidlertidigLonnstilskudd(true);
-            } else {
-                setVisMidlertidigLonnstilskudd(false);
-            }
-            if (tilgangsArray[6] === Tilgang.TILGANG && varigLonnstilskuddAvtaler.length > 0) {
-                setVisVarigLonnstilskudd(true);
-            } else {
-                setVisVarigLonnstilskudd(false);
-            }
+        if (!Object.values(tilganger).includes(Tilgang.LASTER)) {
+            setVisSyfo(tilganger.tilgangTilSyfo === Tilgang.TILGANG);
+            setVisPam(tilganger.tilgangTilPam === Tilgang.TILGANG);
+            setVisIA(tilganger.tilgangTilIAWeb === Tilgang.TILGANG);
+            setVisArbeidstrening(
+                tilganger.tilgangTilArbeidstreningsavtaler === Tilgang.TILGANG && arbeidstreningsavtaler.length > 0
+            );
+            setVisArbeidsforhold(tilganger.tilgangTilArbeidsforhold === Tilgang.TILGANG);
+            setVisMidlertidigLonnstilskudd(
+                tilganger.tilgangTilMidlertidigLonnstilskudd === Tilgang.TILGANG && midlertidigLonnstilskuddAvtaler.length > 0
+            );
+            setVisVarigLonnstilskudd(
+                tilganger.tilgangTilVarigLonnstilskudd === Tilgang.TILGANG && varigLonnstilskuddAvtaler.length > 0
+            );
         }
     }, [
         valgtOrganisasjon,
-        tilgangsArray,
+        tilganger,
         arbeidstreningsavtaler,
         midlertidigLonnstilskuddAvtaler,
         varigLonnstilskuddAvtaler,
     ]);
 
     useEffect(() => {
-        const antallTjenester: number = tilgangsArray.filter(tilgang => {
-            return tilgang === Tilgang.TILGANG;
-        }).length;
+        const antallTjenester = Object.values(tilganger).filter(tilgang => tilgang === Tilgang.TILGANG).length;
 
-        if (!tilgangsArray.includes(Tilgang.LASTER)) {
+        if (!Object.values(tilganger).includes(Tilgang.LASTER)) {
             if (antallTjenester % 2 === 0) {
                 settypeAntall('antall-partall');
             }
@@ -103,21 +78,21 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             if (antallTjenester === 1) {
                 settypeAntall('antall-en');
             }
-            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(tilgangsArray);
-            setFerdigLastet('ferdig');
+            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(tilganger);
+            setFerdigLastet(true);
         }
     }, [
         organisasjonslisteFerdigLastet,
         organisasjonerMedIAFerdigLastet,
-        tilgangsArray,
+        tilganger,
         organisasjoner,
     ]);
 
     return (
         <div className={'tjenesteboks-container ' + typeAntall}>
-            {ferdigLastet === 'laster' && <LasterBoks />}
+            {!ferdigLastet && <LasterBoks />}
 
-            {ferdigLastet === 'ferdig' && (
+            {ferdigLastet && (
                 <>
                     {visArbeidsforhold && (
                         <Innholdsboks classname="tjenesteboks">

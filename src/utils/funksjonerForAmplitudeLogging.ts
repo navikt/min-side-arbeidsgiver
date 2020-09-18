@@ -1,5 +1,6 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
+import { Tilganger } from '../OrganisasjonDetaljerProvider';
 
 interface TilgangsstyringEventProps {
     syfo?: string;
@@ -10,55 +11,66 @@ interface TilgangsstyringEventProps {
     MidlertidigLønnstilskudd?: string;
     Variglønnstilskudd?: string;
     url: string;
-    ingenTilganger?: boolean
+    ingenTilganger?: boolean;
 }
 
 interface NavigasjonsProps {
     tjeneste: string;
     destinasjon: string;
-    lenketekst: string
+    lenketekst: string;
 }
 
-export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (tilgangsArray: Tilgang[], ingenTilganger?: boolean) => {
+export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
+    tilganger: Tilganger | null
+) => {
     let tilgangsinfo: TilgangsstyringEventProps = {
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'};
-    if (ingenTilganger) {
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+    };
+
+    if (!tilganger) {
         tilgangsinfo.ingenTilganger = true;
-        amplitude.logEvent("sidevisning", tilgangsinfo);
     }
-    if (tilgangsArray[0] === Tilgang.TILGANG) {
-        tilgangsinfo.syfo = "tilgang"
+
+    if (tilganger?.tilgangTilSyfo === Tilgang.TILGANG) {
+        tilgangsinfo.syfo = 'tilgang';
     }
-    if (tilgangsArray[1] === Tilgang.TILGANG) {
-        tilgangsinfo.PAM = "tilgang"
+    if (tilganger?.tilgangTilPam === Tilgang.TILGANG) {
+        tilgangsinfo.PAM = 'tilgang';
     }
-    if (tilgangsArray[2] === Tilgang.TILGANG) {
-        tilgangsinfo.IA = "tilgang"
+    if (tilganger?.tilgangTilIAWeb === Tilgang.TILGANG) {
+        tilgangsinfo.IA = 'tilgang';
     }
-    if (tilgangsArray[3] === Tilgang.TILGANG) {
-        tilgangsinfo.Arbeidstrening = "tilgang"
+    if (tilganger?.tilgangTilArbeidstreningsavtaler === Tilgang.TILGANG) {
+        tilgangsinfo.Arbeidstrening = 'tilgang';
     }
-    if (tilgangsArray[4] === Tilgang.TILGANG) {
-        tilgangsinfo.Arbeidsforhold = "tilgang"
+    if (tilganger?.tilgangTilArbeidsforhold === Tilgang.TILGANG) {
+        tilgangsinfo.Arbeidsforhold = 'tilgang';
     }
-    if (tilgangsArray[5] === Tilgang.TILGANG) {
-        tilgangsinfo.MidlertidigLønnstilskudd = "tilgang"
+    if (tilganger?.tilgangTilMidlertidigLonnstilskudd === Tilgang.TILGANG) {
+        tilgangsinfo.MidlertidigLønnstilskudd = 'tilgang';
     }
-    if (tilgangsArray[6] === Tilgang.TILGANG) {
-        tilgangsinfo.Variglønnstilskudd = "tilgang"
+    if (tilganger?.tilgangTilVarigLonnstilskudd === Tilgang.TILGANG) {
+        tilgangsinfo.Variglønnstilskudd = 'tilgang';
     }
-    amplitude.logEvent("sidevisning", tilgangsinfo);
+
+    amplitude.logEvent('sidevisning', tilgangsinfo);
 };
 
-export const loggTjenesteTrykketPa = (tjeneste: string, destinasjon: string, lenketekst: string) => {
+export const loggTjenesteTrykketPa = (
+    tjeneste: string,
+    destinasjon: string,
+    lenketekst: string
+) => {
     const navigasjonsInfo: NavigasjonsProps = {
-        destinasjon: destinasjon, lenketekst: lenketekst, tjeneste: tjeneste
-    }
-    amplitude.logEvent("navigere", navigasjonsInfo);
+        destinasjon: destinasjon,
+        lenketekst: lenketekst,
+        tjeneste: tjeneste,
+    };
+    amplitude.logEvent('navigere', navigasjonsInfo);
 };
 
 export const loggBrukerLoggetInn = () => {
-    amplitude.logEvent("innlogget", {url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'});
+    amplitude.logEvent('innlogget', { url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/' });
 };
 
 /*

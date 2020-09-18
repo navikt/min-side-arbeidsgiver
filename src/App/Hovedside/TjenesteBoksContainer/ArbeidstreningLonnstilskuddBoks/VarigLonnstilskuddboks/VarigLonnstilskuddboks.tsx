@@ -26,8 +26,8 @@ const VarigLonnstilskuddboks = () => {
 
             <Lenkepanel
                 className="arbeidstreningboks__info"
-                href={arbeidsAvtaleLink()}
-                onClick={() => loggTjenesteTrykketPa('Varig lønnstilskudd', arbeidsAvtaleLink(),"Varig lønnstilskudd" )}
+                href={arbeidsAvtaleLink}
+                onClick={() => loggTjenesteTrykketPa('Varig lønnstilskudd', arbeidsAvtaleLink,"Varig lønnstilskudd" )}
                 tittelProps="normaltekst"
                 linkCreator={(props: any) => <a {...props}>{props.children}</a>}
             >

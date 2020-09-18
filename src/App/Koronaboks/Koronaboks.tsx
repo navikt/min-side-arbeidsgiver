@@ -33,7 +33,7 @@ export const Koronaboks = () => {
 
                 <Lenke
                     className="koronaboks__lenke"
-                    href={lenkeTilPermitteringOgMasseoppsigelsesSkjema()}
+                    href={lenkeTilPermitteringOgMasseoppsigelsesSkjema}
                 >
                     <span>
                         Varsle NAV om permitteringer, masseoppsigelser eller
@@ -46,7 +46,7 @@ export const Koronaboks = () => {
                     <>
                         <Lenke
                             className="koronaboks__lenke"
-                            href={lenkeTilLonnskompensasjonRefusjonSkjema()}
+                            href={lenkeTilLonnskompensasjonRefusjonSkjema}
                         >
                             <span>Arbeidsgivers innmelding for lønnskompensasjon og refusjon</span>
                             <HoyreChevron />
