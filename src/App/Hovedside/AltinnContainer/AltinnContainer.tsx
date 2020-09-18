@@ -13,12 +13,12 @@ import {
 } from '../../../lenker';
 import './AltinnContainer.less';
 
-interface skjemaNavnOgLenke {
+interface SkjemanavnOgLenke {
     navn: string;
     lenke: string;
 }
 
-const skjemanavnMedLenker: skjemaNavnOgLenke[] = [
+const skjemanavnMedLenker: SkjemanavnOgLenke[] = [
     {
         navn: 'Mentortilskudd',
         lenke: soknadTilskuddTilMentor,
@@ -41,7 +41,7 @@ const skjemanavnMedLenker: skjemaNavnOgLenke[] = [
     },
 ];
 
-const navnPaAltinnSkejma = skjemanavnMedLenker.map(_ => _.navn);
+const navnPåAltinnSkjema = skjemanavnMedLenker.map(_ => _.navn);
 
 export const AltinnContainer: FunctionComponent = () => {
     const [typeAntall, settypeAntall] = useState('');
@@ -106,7 +106,7 @@ const finnOgTellTilganger = (
     valgtOrganisasjon: string
 ): string[] => {
     const listeMedNavnPaTilganger: string[] = [];
-    navnPaAltinnSkejma.forEach(skjemaNavn => {
+    navnPåAltinnSkjema.forEach(skjemaNavn => {
         altinnTjenester.forEach(tjeneste => {
             if (tjeneste.Skjema.navn === skjemaNavn) {
                 const harTilgang = sjekkOmTilgangTilAltinnSkjema(valgtOrganisasjon, tjeneste);
