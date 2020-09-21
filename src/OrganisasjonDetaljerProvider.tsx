@@ -94,14 +94,12 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 setantallAnnonser(0);
             }
             if (organisasjonerMedIAFerdigLastet !== Tilgang.LASTER) {
-                const orgNrIAweb: string[] = organisasjonerMedIAWEB.map(
-                    org => org.OrganizationNumber
+                setTilgangTilIAWeb(
+                    organisasjonerMedIAWEB.some(_ => _.OrganizationNumber === org.OrganizationNumber)
+                        ? Tilgang.TILGANG
+                        : Tilgang.IKKE_TILGANG
+
                 );
-                if (orgNrIAweb.includes(org.OrganizationNumber)) {
-                    setTilgangTilIAWeb(Tilgang.TILGANG);
-                } else {
-                    setTilgangTilIAWeb(Tilgang.IKKE_TILGANG);
-                }
             }
             listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
                 if (
