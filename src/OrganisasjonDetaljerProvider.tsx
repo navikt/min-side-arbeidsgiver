@@ -1,26 +1,29 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {Organisasjon, tomAltinnOrganisasjon,} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {settBedriftIPamOgReturnerTilgang} from './api/pamApi';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import {
+    Organisasjon,
+    tomAltinnOrganisasjon,
+} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
 import hentAntallannonser from './api/hent-stillingsannonser';
-import {Arbeidsavtale, hentArbeidsavtaler, SkjemaMedOrganisasjonerMedTilgang} from './api/dnaApi';
-import {SyfoTilgangContext} from './SyfoTilgangProvider';
-import {Tilgang} from './App/LoginBoundary';
-import {OrganisasjonsListeContext} from './OrganisasjonsListeProvider';
-import {autentiserAltinnBruker, hentMeldingsboks, Meldingsboks} from './api/altinnApi';
-import {loggSidevisningOgTilgangsKombinasjonAvTjenestebokser} from "./utils/funksjonerForAmplitudeLogging";
+import { Arbeidsavtale, hentArbeidsavtaler, SkjemaMedOrganisasjonerMedTilgang } from './api/dnaApi';
+import { SyfoTilgangContext } from './SyfoTilgangProvider';
+import { Tilgang, tilgangFromTruthy } from './App/LoginBoundary';
+import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
+import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from './api/altinnApi';
+import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from './utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     children: React.ReactNode;
 }
 
 export interface Tilganger {
-    tilgangTilSyfo: Tilgang,
-    tilgangTilPam: Tilgang,
-    tilgangTilIAWeb: Tilgang,
-    tilgangTilArbeidstreningsavtaler: Tilgang,
-    tilgangTilArbeidsforhold: Tilgang,
-    tilgangTilMidlertidigLonnstilskudd: Tilgang,
-    tilgangTilVarigLonnstilskudd: Tilgang,
+    tilgangTilSyfo: Tilgang;
+    tilgangTilPam: Tilgang;
+    tilgangTilIAWeb: Tilgang;
+    tilgangTilArbeidstreningsavtaler: Tilgang;
+    tilgangTilArbeidsforhold: Tilgang;
+    tilgangTilMidlertidigLonnstilskudd: Tilgang;
+    tilgangTilVarigLonnstilskudd: Tilgang;
 }
 
 export type Context = {
@@ -37,11 +40,10 @@ export type Context = {
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const {
-        organisasjonerMedIAWEB,
-        listeMedSkjemaOgTilganger,
-        reporteeMessagesUrls,
-    } = useContext(OrganisasjonsListeContext);
+    const { organisasjonerMedIAWEB, listeMedSkjemaOgTilganger, reporteeMessagesUrls } = useContext(
+        OrganisasjonsListeContext
+    );
+    const tilgangTilSyfo = useContext(SyfoTilgangContext).tilgangTilSyfoState;
 
     const [antallAnnonser, setantallAnnonser] = useState(-1);
 
@@ -57,7 +59,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     );
     const [tilgangTilIAWeb, setTilgangTilIAWeb] = useState(Tilgang.LASTER);
     const [tilgangTilArbeidsforhold, setTilgangTilArbeidsforhold] = useState(Tilgang.LASTER);
-    const tilgangTilSyfo = useContext(SyfoTilgangContext).tilgangTilSyfoState;
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState(tomAltinnOrganisasjon);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(
         undefined
@@ -93,10 +94,11 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             }
 
             setTilgangTilIAWeb(
-                organisasjonerMedIAWEB.some(_ => _.OrganizationNumber === org.OrganizationNumber)
-                    ? Tilgang.TILGANG
-                    : Tilgang.IKKE_TILGANG
-
+                tilgangFromTruthy(
+                    organisasjonerMedIAWEB.some(
+                        _ => _.OrganizationNumber === org.OrganizationNumber
+                    )
+                )
             );
 
             listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
@@ -156,16 +158,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                     }
                 }
                 if (skjema.Skjema.navn === 'Arbeidsforhold') {
-                    if (
-                        skjema.OrganisasjonerMedTilgang.some(
-                            organisasjon =>
-                                organisasjon.OrganizationNumber === org.OrganizationNumber
-                        )
-                    ) {
-                        setTilgangTilArbeidsforhold(Tilgang.TILGANG);
-                    } else {
-                        setTilgangTilArbeidsforhold(Tilgang.IKKE_TILGANG);
-                    }
+                    const tilgang = skjema.OrganisasjonerMedTilgang.some(
+                        organisasjon => organisasjon.OrganizationNumber === org.OrganizationNumber
+                    );
+                    setTilgangTilArbeidsforhold(tilgangFromTruthy(tilgang));
                 }
             });
 
