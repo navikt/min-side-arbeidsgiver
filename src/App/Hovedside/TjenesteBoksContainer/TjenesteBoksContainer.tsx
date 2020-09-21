@@ -23,8 +23,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         varigLonnstilskuddAvtaler,
     } = useContext(OrganisasjonsDetaljerContext);
     const {
-        organisasjonslisteFerdigLastet,
-        organisasjonerMedIAFerdigLastet,
         organisasjoner,
     } = useContext(OrganisasjonsListeContext);
 
@@ -81,12 +79,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(tilganger);
             setFerdigLastet(true);
         }
-    }, [
-        organisasjonslisteFerdigLastet,
-        organisasjonerMedIAFerdigLastet,
-        tilganger,
-        organisasjoner,
-    ]);
+    }, [tilganger,organisasjoner]);
 
     return (
         <div className={'tjenesteboks-container ' + typeAntall}>

@@ -39,8 +39,6 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const {
         organisasjonerMedIAWEB,
-        organisasjonslisteFerdigLastet,
-        organisasjonerMedIAFerdigLastet,
         listeMedSkjemaOgTilganger,
         reporteeMessagesUrls,
     } = useContext(OrganisasjonsListeContext);
@@ -93,14 +91,14 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
                 settilgangTilPam(Tilgang.IKKE_TILGANG);
                 setantallAnnonser(0);
             }
-            if (organisasjonerMedIAFerdigLastet !== Tilgang.LASTER) {
-                setTilgangTilIAWeb(
-                    organisasjonerMedIAWEB.some(_ => _.OrganizationNumber === org.OrganizationNumber)
-                        ? Tilgang.TILGANG
-                        : Tilgang.IKKE_TILGANG
 
-                );
-            }
+            setTilgangTilIAWeb(
+                organisasjonerMedIAWEB.some(_ => _.OrganizationNumber === org.OrganizationNumber)
+                    ? Tilgang.TILGANG
+                    : Tilgang.IKKE_TILGANG
+
+            );
+
             listeMedSkjemaOgTilganger.forEach((skjema: SkjemaMedOrganisasjonerMedTilgang) => {
                 if (
                     skjema.Skjema.navn === 'Arbeidstrening' ||
@@ -187,7 +185,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     };
 
     useEffect(() => {
-        if (valgtOrganisasjon === tomAltinnOrganisasjon && organisasjonslisteFerdigLastet) {
+        if (valgtOrganisasjon === tomAltinnOrganisasjon) {
             setTilganger({
                 tilgangTilSyfo,
                 tilgangTilPam: Tilgang.IKKE_TILGANG,
@@ -220,7 +218,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         tilgangTilMidlertidigLonnstilskudd,
         tilgangTilVarigLonnstilskudd,
         valgtOrganisasjon,
-        organisasjonslisteFerdigLastet,
     ]);
 
     let defaultContext: Context = {

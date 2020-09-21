@@ -6,7 +6,6 @@ import {
     SkjemaMedOrganisasjonerMedTilgang,
 } from './api/dnaApi';
 import { Organisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { Tilgang } from './App/LoginBoundary';
 import {
     autentiserAltinnBruker,
     hentAltinnRaporteeIdentiteter,
@@ -18,9 +17,6 @@ export type Context = {
     organisasjoner: Array<Organisasjon>;
     listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
     organisasjonerMedIAWEB: Organisasjon[];
-    organisasjonslisteFerdigLastet: Tilgang;
-    organisasjonerMedIAFerdigLastet: Tilgang;
-    alltinnSkjemaMedTilgangerFerdigLastet: Tilgang;
     reporteeMessagesUrls: ReporteeMessagesUrls;
     visFeilmelding: boolean;
 };
@@ -79,25 +75,14 @@ export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
     },
 ];
 
-const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
-export { OrganisasjonsListeContext };
+export const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
-    const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[]>([]);
-    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState<Organisasjon[]>([]);
+    const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[] | undefined>(undefined);
+    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState<Organisasjon[] | undefined>(undefined);
     const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState<
-        SkjemaMedOrganisasjonerMedTilgang[]
-    >([]);
-    const [organisasjonslisteFerdigLastet, setOrganisasjonslisteFerdigLastet] = useState(
-        Tilgang.LASTER
-    );
-    const [organisasjonerMedIAFerdigLastet, setOrganisasjonerMedIAFerdigLastet] = useState(
-        Tilgang.LASTER
-    );
-    const [
-        alltinnSkjemaMedTilgangerFerdigLastet,
-        setAlltinnSkjemaMedTilgangerFerdigLastet,
-    ] = useState(Tilgang.LASTER);
+        SkjemaMedOrganisasjonerMedTilgang[] | undefined
+    >(undefined);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
 
@@ -121,16 +106,10 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                         org.Type === 'Enterprise'
                 );
                 setOrganisasjoner(organisasjonerFiltrert);
-                if (organisasjonerFiltrert.length > 0)
-                    setOrganisasjonslisteFerdigLastet(Tilgang.TILGANG);
-                else {
-                    setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
-                }
             })
-            .catch(_ => {
+            .catch(e => {
                 setOrganisasjoner([]);
                 setVisFeilmelding(true);
-                setOrganisasjonslisteFerdigLastet(Tilgang.IKKE_TILGANG);
             });
 
         hentOrganisasjonerIAweb()
@@ -140,47 +119,27 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                         organisasjon => organisasjon.OrganizationForm === 'BEDR'
                     )
                 );
-                if (organisasjonerMedIA.length === 0) {
-                    setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG);
-                } else {
-                    setOrganisasjonerMedIAFerdigLastet(Tilgang.TILGANG);
-                }
             })
-            .catch(_ => setOrganisasjonerMedIAFerdigLastet(Tilgang.IKKE_TILGANG));
+            .catch(_ => setOrganisasjonerMedIAWEB([]));
 
         hentTilgangForAlleAltinnskjema(ListeMedAltinnSkjemaKoder)
-            .then(skjemaer => {
-                if (skjemaer.length > 0) {
-                    setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.TILGANG);
-                    setListeMedSkjemaOgTilganger(skjemaer);
-                } else {
-                    setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG);
-                    setListeMedSkjemaOgTilganger([]);
-                }
-            })
-            .catch(_ => setAlltinnSkjemaMedTilgangerFerdigLastet(Tilgang.IKKE_TILGANG));
+            .then(skjemaer => setListeMedSkjemaOgTilganger(skjemaer))
+            .catch(_ => setListeMedSkjemaOgTilganger([]));
     }, []);
 
-    let defaultContext: Context = {
-        organisasjoner,
-        listeMedSkjemaOgTilganger,
-        organisasjonerMedIAWEB,
-        organisasjonerMedIAFerdigLastet,
-        organisasjonslisteFerdigLastet,
-        alltinnSkjemaMedTilgangerFerdigLastet,
-        reporteeMessagesUrls,
-        visFeilmelding,
-    };
 
-    return (
-        <>
-            {organisasjonerMedIAFerdigLastet !== Tilgang.LASTER &&
-                organisasjonslisteFerdigLastet !== Tilgang.LASTER &&
-                alltinnSkjemaMedTilgangerFerdigLastet !== Tilgang.LASTER && (
-                    <OrganisasjonsListeContext.Provider value={defaultContext}>
-                        {props.children}
-                    </OrganisasjonsListeContext.Provider>
-                )}
-        </>
-    );
+    if (organisasjoner && listeMedSkjemaOgTilganger && organisasjonerMedIAWEB) {
+        const context = {
+            organisasjoner,
+            listeMedSkjemaOgTilganger,
+            organisasjonerMedIAWEB,
+            reporteeMessagesUrls,
+            visFeilmelding
+        };
+        return <OrganisasjonsListeContext.Provider value={context}>
+            {props.children}
+        </OrganisasjonsListeContext.Provider>
+    } else {
+        return <></>;
+    }
 };
