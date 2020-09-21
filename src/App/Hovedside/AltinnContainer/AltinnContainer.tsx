@@ -1,8 +1,7 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import {
     ekspertbistand,
@@ -41,52 +40,54 @@ const skjemanavnMedLenker: SkjemanavnOgLenke[] = [
     },
 ];
 
-const navnPåAltinnSkjema = skjemanavnMedLenker.map(_ => _.navn);
-
 export const AltinnContainer: FunctionComponent = () => {
-    const [typeAntall, settypeAntall] = useState('');
-
-    const [generellAltinnTilgang, setgenerellAltinnTilgang] = useState(false);
-
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon: {OrganizationNumber} } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
-    const altinnSkjemaMedTilgang = finnOgTellTilganger(
-        listeMedSkjemaOgTilganger,
-        valgtOrganisasjon.OrganizationNumber
-    );
+    const harTilgang = (skjema: SkjemanavnOgLenke) =>
+        listeMedSkjemaOgTilganger.some(tilgang =>
+            skjema.navn === tilgang.Skjema.navn &&
+            tilgang.OrganisasjonerMedTilgang.some(
+                org => org.OrganizationNumber === OrganizationNumber
+            )
+        );
 
-    useEffect(() => {
-        const antallTilganger = altinnSkjemaMedTilgang.length;
-        setgenerellAltinnTilgang(antallTilganger > 0);
-        if (antallTilganger % 2 === 0) {
-            settypeAntall('antall-skjema-partall');
-        }
-        if (antallTilganger % 2 !== 0 && antallTilganger !== 1) {
-            settypeAntall('antall-skjema-oddetall');
-        }
-        if (antallTilganger === 1) {
-            settypeAntall('antall-skjema-en');
-        }
-    }, [altinnSkjemaMedTilgang]);
+    return <AltinnContainerRender skjemaListe={skjemanavnMedLenker.filter(harTilgang)}/>;
+};
+
+interface Props {
+   skjemaListe: SkjemanavnOgLenke[];
+}
+
+const AltinnContainerRender = ({skjemaListe}: Props) => {
+    const antall = skjemaListe.length;
+
+    let className = 'antall-skjema-';
+
+    if (!(antall > 0)) {
+        return null;
+    } else if (antall % 2 === 0) {
+        className += 'partall';
+    } else if (antall % 2 !== 0 && antall !== 1) {
+        className += 'oddetall';
+    } else {
+        className += 'en';
+    }
 
     return (
-        <div className={'altinn-container ' + typeAntall}>
+        <div className={'altinn-container ' + className}>
 
-            {generellAltinnTilgang && (
                 <div className={'altinn-container__tekst'}>
                     <Undertittel id="altinn-container-tittel">
                         Søknader og skjemaer på Altinn
                     </Undertittel>
                 </div>
-            )}
 
             <ul
-                className={'altinn-container__bokser ' + typeAntall}
+                className={'altinn-container__bokser ' + className}
                 aria-labelledby="altinn-container-tittel"
             >
-                {skjemanavnMedLenker
-                    .filter(skjema => altinnSkjemaMedTilgang.some(navn => navn === skjema.navn))
+                {skjemaListe
                     .map(skjema => (
                         <AltinnLenke
                             key={skjema.navn}
@@ -101,21 +102,3 @@ export const AltinnContainer: FunctionComponent = () => {
     );
 };
 
-const finnOgTellTilganger = (
-    altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[],
-    valgtOrganisasjon: string
-): string[] => {
-    const listeMedNavnPaTilganger: string[] = [];
-    navnPåAltinnSkjema.forEach(skjemaNavn => {
-        altinnTjenester.forEach(tjeneste => {
-            if (tjeneste.Skjema.navn === skjemaNavn) {
-                const harTilgang = sjekkOmTilgangTilAltinnSkjema(valgtOrganisasjon, tjeneste);
-                harTilgang && listeMedNavnPaTilganger.push(skjemaNavn);
-            }
-        });
-    });
-    return listeMedNavnPaTilganger;
-};
-
-const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang) =>
-    skjema.OrganisasjonerMedTilgang.some(org => org.OrganizationNumber === orgnr);
