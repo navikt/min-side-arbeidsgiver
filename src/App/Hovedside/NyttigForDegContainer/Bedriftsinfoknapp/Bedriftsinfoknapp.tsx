@@ -3,7 +3,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import bedriftinfoikon from './infoombedriftikon.svg';
 import './Bedriftsinfoknapp.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { Link } from 'react-router-dom';
 
 const Bedriftsinfoknapp: FunctionComponent = () => {

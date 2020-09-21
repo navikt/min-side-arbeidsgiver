@@ -2,15 +2,15 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import {
     Organisasjon,
     tomAltinnOrganisasjon,
-} from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { settBedriftIPamOgReturnerTilgang } from './api/pamApi';
-import hentAntallannonser from './api/hent-stillingsannonser';
-import { Arbeidsavtale, hentArbeidsavtaler, SkjemaMedOrganisasjonerMedTilgang } from './api/dnaApi';
-import { SyfoTilgangContext } from './SyfoTilgangProvider';
-import { Tilgang, tilgangFromTruthy } from './App/LoginBoundary';
+} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { settBedriftIPamOgReturnerTilgang } from '../api/pamApi';
+import hentAntallannonser from '../api/hent-stillingsannonser';
+import { Arbeidsavtale, hentArbeidsavtaler, SkjemaMedOrganisasjonerMedTilgang } from '../api/dnaApi';
+import { SyfoTilgangContext } from '../SyfoTilgangProvider';
+import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 import { OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
-import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from './api/altinnApi';
-import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from './utils/funksjonerForAmplitudeLogging';
+import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
+import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     children: React.ReactNode;

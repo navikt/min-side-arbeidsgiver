@@ -5,7 +5,7 @@ import {
     hentArbeidsavtalerApiLink,
     sjekkInnloggetLenke,
 } from '../lenker';
-import { AltinnSkjema } from '../OrganisasjonsListeProvider';
+import { AltinnSkjema } from '../App/OrganisasjonsListeProvider';
 
 export interface Arbeidsavtale {
     status: string;

@@ -5,8 +5,8 @@ import { ManglerTilgangLenkePanel } from './ManglerTilgangLenkePanel/ManglerTilg
 import { lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo } from '../../../lenker';
 import Banner from '../../HovedBanner/HovedBanner';
 import { Link } from 'react-router-dom';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
 import { Tilgang } from '../../LoginBoundary';
 

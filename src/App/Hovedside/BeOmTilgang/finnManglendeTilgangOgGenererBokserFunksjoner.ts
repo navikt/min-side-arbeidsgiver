@@ -1,9 +1,9 @@
 import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 import { Tilgang } from '../../LoginBoundary';
 import { TjenesteInfoProps } from './TjenesteInfo/TjenesteInfo';
-import { AltinnSkjema } from '../../../OrganisasjonsListeProvider';
+import { AltinnSkjema } from '../../OrganisasjonsListeProvider';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
-import { Tilganger } from '../../../OrganisasjonDetaljerProvider';
+import { Tilganger } from '../../OrganisasjonDetaljerProvider';
 
 export const genererTekstbokser = (
     tilganger: Tilganger,

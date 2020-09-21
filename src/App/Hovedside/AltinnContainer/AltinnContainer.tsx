@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import {
     ekspertbistand,

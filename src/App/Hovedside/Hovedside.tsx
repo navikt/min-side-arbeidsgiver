@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';

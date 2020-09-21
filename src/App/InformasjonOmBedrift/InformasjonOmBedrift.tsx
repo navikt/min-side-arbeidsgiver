@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
 import {
     tomEnhetsregOrg,

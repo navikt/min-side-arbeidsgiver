@@ -4,14 +4,14 @@ import {
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAltinnskjema,
     SkjemaMedOrganisasjonerMedTilgang,
-} from './api/dnaApi';
-import { Organisasjon } from './Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+} from '../api/dnaApi';
+import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import {
     autentiserAltinnBruker,
     hentAltinnRaporteeIdentiteter,
     ReporteeMessagesUrls,
-} from './api/altinnApi';
-import { gittMiljo } from './utils/environment';
+} from '../api/altinnApi';
+import { gittMiljo } from '../utils/environment';
 
 export type Context = {
     organisasjoner: Array<Organisasjon>;

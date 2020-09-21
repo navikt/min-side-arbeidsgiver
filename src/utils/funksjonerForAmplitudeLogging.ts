@@ -1,6 +1,6 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
-import { Tilganger } from '../OrganisasjonDetaljerProvider';
+import { Tilganger } from '../App/OrganisasjonDetaljerProvider';
 
 interface TilgangsstyringEventProps {
     syfo?: string;

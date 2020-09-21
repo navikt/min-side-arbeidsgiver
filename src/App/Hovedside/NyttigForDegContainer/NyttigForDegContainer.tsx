@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.less';
 import KontaktOss from './KontaktOss/KontaktOss';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { tomAltinnOrganisasjon } from '../../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 const NyttigForDegContainer: FunctionComponent = () => {

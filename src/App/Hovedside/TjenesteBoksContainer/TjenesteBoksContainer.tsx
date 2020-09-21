@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { Tilgang } from '../../LoginBoundary';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';

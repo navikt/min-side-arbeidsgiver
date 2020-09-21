@@ -10,8 +10,8 @@ import {
     lenkeTilKlageskjema, LenkeTilKoronaSykeRefusjon
 } from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import './Koronaboks.less';
 
 export const Koronaboks = () => {
