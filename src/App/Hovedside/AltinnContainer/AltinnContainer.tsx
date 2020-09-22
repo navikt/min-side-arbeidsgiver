@@ -41,14 +41,18 @@ const skjemanavnMedLenker: SkjemanavnOgLenke[] = [
 ];
 
 export const AltinnContainer: FunctionComponent = () => {
-    const { valgtOrganisasjon: {OrganizationNumber} } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
+
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
 
     const harTilgang = (skjema: SkjemanavnOgLenke) =>
         listeMedSkjemaOgTilganger.some(tilgang =>
             skjema.navn === tilgang.Skjema.navn &&
             tilgang.OrganisasjonerMedTilgang.some(
-                org => org.OrganizationNumber === OrganizationNumber
+                org => org.OrganizationNumber === valgtOrganisasjon.OrganizationNumber
             )
         );
 

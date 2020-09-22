@@ -18,10 +18,10 @@ export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
 
-    let harTilgangRefusjon = listeMedSkjemaOgTilganger.filter(tjeneste =>
-        tjeneste.Skjema.navn === 'Inntektsmelding' && tjeneste.OrganisasjonerMedTilgang.filter(org =>
-            org.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length >0
-    ).length > 0 ;
+    const harTilgangRefusjon = valgtOrganisasjon && listeMedSkjemaOgTilganger.some(tjeneste =>
+        tjeneste.Skjema.navn === 'Inntektsmelding' && tjeneste.OrganisasjonerMedTilgang.some(org =>
+            org.OrganizationNumber === valgtOrganisasjon.OrganizationNumber)
+    );
 
     return (
         <div className="koronaboks">
@@ -42,7 +42,7 @@ export const Koronaboks = () => {
                     <HoyreChevron />
                 </Lenke>
 
-                {harTilgangRefusjon && (
+                {harTilgangRefusjon && valgtOrganisasjon && (
                     <>
                         <Lenke
                             className="koronaboks__lenke"

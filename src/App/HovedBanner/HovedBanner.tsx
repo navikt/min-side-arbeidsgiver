@@ -13,15 +13,13 @@ interface OwnProps {
 
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
-        if (valgtOrganisasjon.OrganizationNumber.length > 0 && !window.location.href.includes('/bedriftsinformasjon')) {
+    const onOrganisasjonChange = (organisasjon: Organisasjon) => {
+        if (organisasjon.OrganizationNumber.length > 0 && !window.location.href.includes('/bedriftsinformasjon')) {
             history.replace("/?bedrift=" + organisasjon!!.OrganizationNumber);
         }
-        if (organisasjon) {
-            endreOrganisasjon(organisasjon);
-        }
+        endreOrganisasjon(organisasjon);
     };
 
     return (

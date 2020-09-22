@@ -17,7 +17,7 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
 
     const harTilganger = organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG;
     const bedriftsparameter =
-        valgtOrganisasjon.OrganizationNumber.length > 0
+        valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber.length > 0
             ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber
             : '';
 

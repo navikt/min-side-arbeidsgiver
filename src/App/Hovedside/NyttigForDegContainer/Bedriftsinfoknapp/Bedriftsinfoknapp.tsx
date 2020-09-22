@@ -13,6 +13,10 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
         //loggNavigasjonTilTjeneste('bedrifsinfo');
     };
 
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
+
     return (
         <Lenkepanel
             href={'/bedriftsinformasjon'}

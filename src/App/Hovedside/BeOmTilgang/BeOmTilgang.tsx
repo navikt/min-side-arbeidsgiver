@@ -13,6 +13,10 @@ const BeOmTilgang: FunctionComponent = () => {
     const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
     const { tilganger, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
+
     const tjenesteinfoBokser = genererTekstbokser(
         tilganger,
         listeMedSkjemaOgTilganger,

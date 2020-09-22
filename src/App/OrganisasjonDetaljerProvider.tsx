@@ -28,7 +28,7 @@ export interface Tilganger {
 
 export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
-    valgtOrganisasjon: Organisasjon;
+    valgtOrganisasjon: Organisasjon | undefined;
     antallAnnonser: number;
     arbeidstreningsavtaler: Arbeidsavtale[];
     midlertidigLonnstilskuddAvtaler: Arbeidsavtale[];
