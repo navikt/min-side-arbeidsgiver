@@ -4,9 +4,7 @@ import {
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAltinnskjema,
 } from '../api/dnaApi';
-import {
-    Organisasjon,
-} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import {
     autentiserAltinnBruker,
     hentAltinnRaporteeIdentiteter,
@@ -110,17 +108,15 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         });
 
         hentOrganisasjoner()
-            .then(organisasjoner =>
-                organisasjoner.filter(
+            .then(orgs =>
+                orgs.filter(
                     org =>
                         org.OrganizationForm === 'BEDR' ||
                         org.OrganizationForm === 'AAFY' ||
                         org.Type === 'Enterprise'
                 )
             )
-            .then(organisasjoner =>
-                Record.fromEntries(organisasjoner.map(org => [org.OrganizationNumber, org]))
-            )
+            .then(orgs => Record.fromEntries(orgs.map(org => [org.OrganizationNumber, org])))
             .then(setOrganisasjoner)
             .catch(_ => {
                 setOrganisasjoner({});
@@ -128,9 +124,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             });
 
         hentOrganisasjonerIAweb()
-            .then(organisasjoner => organisasjoner.filter(org => org.OrganizationForm === 'BEDR'))
-            .then(organisasjoner => organisasjoner.map(org => org.OrganizationNumber))
-            .then(organisasjoner => new Set(organisasjoner))
+            .then(orgs => orgs.filter(org => org.OrganizationForm === 'BEDR'))
+            .then(orgs => orgs.map(org => org.OrganizationNumber))
+            .then(orgs => new Set(orgs))
             .then(setOrganisasjonerMedIAWEB)
             .catch(_ => setOrganisasjonerMedIAWEB(new Set()));
 

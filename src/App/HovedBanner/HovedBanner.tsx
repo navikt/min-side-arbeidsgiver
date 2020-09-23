@@ -18,7 +18,7 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
 
     const onOrganisasjonChange = (organisasjon: Organisasjon) => {
         if (organisasjon.OrganizationNumber.length > 0 && !window.location.href.includes('/bedriftsinformasjon')) {
-            history.replace("/?bedrift=" + organisasjon!!.OrganizationNumber);
+            history.replace("/?bedrift=" + organisasjon.OrganizationNumber);
         }
         endreOrganisasjon(organisasjon);
     };
