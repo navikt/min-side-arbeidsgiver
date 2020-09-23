@@ -56,10 +56,6 @@ export const altinnSkjemanavn: AltinnSkjemanavn[] = Record.keys(altinnSkjemakode
 
 type AltinnSkjematilganger = Record<AltinnSkjemanavn, boolean>;
 
-export const ingenSkjematilgang: AltinnSkjematilganger = Record.fromEntries(
-    altinnSkjemanavn.map(navn => [navn, false])
-);
-
 export const ingenSkjemaOrganisasjoner: Record<AltinnSkjemanavn, Set<orgnr>> = Record.fromEntries(
     altinnSkjemanavn.map(navn => [navn, new Set()])
 );
