@@ -40,6 +40,11 @@ export const AltinnContainer: FunctionComponent = () => {
     );
 
     const antall = skjemaliste.length;
+
+    if (antall === 0) {
+        return null;
+    }
+
     let className = 'antall-skjema-';
 
     if (antall === 1) {
