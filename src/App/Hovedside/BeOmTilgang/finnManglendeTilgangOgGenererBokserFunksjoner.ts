@@ -1,17 +1,22 @@
-import { SkjemaMedOrganisasjonerMedTilgang } from '../../../api/dnaApi';
 import { Tilgang } from '../../LoginBoundary';
 import { TjenesteInfoProps } from './TjenesteInfo/TjenesteInfo';
-import { AltinnSkjema } from '../../OrganisasjonsListeProvider';
+import {
+    altinnSkjemakoder,
+    AltinnSkjemanavn,
+    AltinnTjenesteMap,
+} from '../../OrganisasjonsListeProvider';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
 import { Tilganger } from '../../OrganisasjonDetaljerProvider';
+import * as Record from '../../../utils/Record';
 
 export const genererTekstbokser = (
     tilganger: Tilganger,
-    altinnTjenester: SkjemaMedOrganisasjonerMedTilgang[],
+    altinnTjenester: AltinnTjenesteMap<boolean>,
     valgtOrgNr: string
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
-    if (tilganger.tilgangTilSyfo  === Tilgang.IKKE_TILGANG) {
+
+    if (tilganger.tilgangTilSyfo === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({
             overskrift: 'Dine sykmeldte',
             innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for.',
@@ -71,27 +76,23 @@ export const genererTekstbokser = (
             });
         }
 
-        altinnTjenester.forEach(tjeneste => {
-            const harTilgangTilTjeneste = sjekkOmTilgangTilAltinnSkjema(valgtOrgNr, tjeneste);
+        Record.forEach(altinnTjenester, (skjemanavn: AltinnSkjemanavn, tilgang: boolean) => {
             /* Tjenestene Arbeidsforhold, Midlertidg/varig lønnstilskudd og Arbeidstrening
             er allerede lagt til ved å bruke tjenesteboksTilgangsArray */
             if (
-                !harTilgangTilTjeneste &&
-                tjeneste.Skjema.navn !== 'Arbeidstrening' &&
-                tjeneste.Skjema.navn !== 'Arbeidsforhold' &&
-                tjeneste.Skjema.navn !== 'Midlertidig lønnstilskudd' &&
-                tjeneste.Skjema.navn !== 'Varig lønnstilskudd' &&
-                tjeneste.Skjema.navn !== 'Lønnstilskudd'
+                !tilgang &&
+                skjemanavn !== 'Arbeidstrening' &&
+                skjemanavn !== 'Arbeidsforhold' &&
+                skjemanavn !== 'Midlertidig lønnstilskudd' &&
+                skjemanavn !== 'Varig lønnstilskudd' &&
+                skjemanavn !== 'Lønnstilskudd'
             ) {
-                listeMedProps.push(genererPropsForAltinnTjeneste(tjeneste.Skjema, valgtOrgNr));
+                listeMedProps.push(genererPropsForAltinnTjeneste(skjemanavn, valgtOrgNr));
             }
         });
     }
     return listeMedProps;
 };
-
-const sjekkOmTilgangTilAltinnSkjema = (orgnr: string, skjema: SkjemaMedOrganisasjonerMedTilgang) =>
-    skjema.OrganisasjonerMedTilgang.some(org => org.OrganizationNumber === orgnr);
 
 const innholdstekst: { [key: string]: string } = {
     Mentortilskudd:
@@ -104,8 +105,15 @@ const innholdstekst: { [key: string]: string } = {
         'Få tilgang til å sende digital inntektsmelding når arbeidstakeren skal ha sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger eller opplæringspenger.',
 };
 
-const genererPropsForAltinnTjeneste = (skjema: AltinnSkjema, orgnr: string): TjenesteInfoProps => ({
-    overskrift: skjema.navn,
-    lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, skjema.kode, skjema.versjon),
-    innholdstekst: innholdstekst[skjema.navn] ?? '',
+const genererPropsForAltinnTjeneste = (
+    skjemanavn: AltinnSkjemanavn,
+    orgnr: string
+): TjenesteInfoProps => ({
+    overskrift: skjemanavn,
+    lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(
+        orgnr,
+        altinnSkjemakoder[skjemanavn].kode,
+        altinnSkjemakoder[skjemanavn].versjon
+    ),
+    innholdstekst: innholdstekst[skjemanavn] ?? '',
 });

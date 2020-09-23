@@ -6,6 +6,7 @@ import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import './HovedBanner.less';
+import * as Record from '../../utils/Record';
 
 interface OwnProps {
     sidetittel: string;
@@ -22,10 +23,12 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
         endreOrganisasjon(organisasjon);
     };
 
+    const orgs = Record.values(organisasjoner).map(_ => _.organisasjon)
+
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}
-            organisasjoner={organisasjoner}
+            organisasjoner={orgs}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
         />

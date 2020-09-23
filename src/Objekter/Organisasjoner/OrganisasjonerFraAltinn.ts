@@ -7,11 +7,6 @@ export interface Organisasjon {
     ParentOrganizationNumber: string;
 }
 
-export interface JuridiskEnhetMedUnderEnheterArray {
-    JuridiskEnhet: Organisasjon;
-    Underenheter: Array<Organisasjon>;
-}
-
 export const tomAltinnOrganisasjon: Organisasjon = {
     Name: '',
     Type: '',

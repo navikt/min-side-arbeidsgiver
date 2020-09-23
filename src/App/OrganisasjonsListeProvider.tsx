@@ -3,23 +3,20 @@ import {
     hentOrganisasjoner,
     hentOrganisasjonerIAweb,
     hentTilgangForAlleAltinnskjema,
-    SkjemaMedOrganisasjonerMedTilgang,
 } from '../api/dnaApi';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {
+    Organisasjon,
+} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import {
     autentiserAltinnBruker,
     hentAltinnRaporteeIdentiteter,
     ReporteeMessagesUrls,
 } from '../api/altinnApi';
 import { gittMiljo } from '../utils/environment';
+import * as Record from '../utils/Record';
 
-export type Context = {
-    organisasjoner: Array<Organisasjon>;
-    listeMedSkjemaOgTilganger: SkjemaMedOrganisasjonerMedTilgang[];
-    organisasjonerMedIAWEB: Organisasjon[];
-    reporteeMessagesUrls: ReporteeMessagesUrls;
-    visFeilmelding: boolean;
-};
+type orgnr = string;
+type OrgnrMap<T> = { [orgnr: string]: T };
 
 export interface AltinnSkjema {
     navn: string;
@@ -27,61 +24,76 @@ export interface AltinnSkjema {
     versjon: string;
 }
 
-export const ListeMedAltinnSkjemaKoder: AltinnSkjema[] = [
-    {
-        navn: 'Ekspertbistand',
-        kode: '5384',
-        versjon: '1',
-    },
-    {
-        navn: 'Inkluderingstilskudd',
-        kode: '5212',
-        versjon: '1',
-    },
-    {
-        navn: 'Lønnstilskudd',
-        kode: '5159',
-        versjon: '1',
-    },
-    {
-        navn: 'Mentortilskudd',
-        kode: '5216',
-        versjon: '1',
-    },
-    {
-        navn: 'Inntektsmelding',
-        kode: '4936',
-        versjon: '1',
-    },
-    {
-        navn: 'Arbeidstrening',
-        kode: '5332',
-        versjon: gittMiljo({prod: '2', other: '1'})
-    },
-    {
-        navn: 'Arbeidsforhold',
-        kode: '5441',
-        versjon: '1',
-    },
-    {
-        navn: 'Midlertidig lønnstilskudd',
-        kode: '5516',
-        versjon: '1',
-    },
-    {
-        navn: 'Varig lønnstilskudd',
-        kode: '5516',
-        versjon: '2',
-    },
-];
+export type AltinnTjenesteMap<A> = Record<AltinnSkjemanavn, A>;
+
+interface AltinnKode {
+    kode: string;
+    versjon: string;
+}
+
+export type AltinnSkjemanavn =
+    | 'Ekspertbistand'
+    | 'Inkluderingstilskudd'
+    | 'Lønnstilskudd'
+    | 'Mentortilskudd'
+    | 'Inntektsmelding'
+    | 'Arbeidstrening'
+    | 'Arbeidsforhold'
+    | 'Midlertidig lønnstilskudd'
+    | 'Varig lønnstilskudd';
+
+export const altinnSkjemakoder: Record<AltinnSkjemanavn, AltinnKode> = {
+    Ekspertbistand: { kode: '5384', versjon: '1' },
+    Inkluderingstilskudd: { kode: '5212', versjon: '1' },
+    Lønnstilskudd: { kode: '5159', versjon: '1' },
+    Mentortilskudd: { kode: '5216', versjon: '1' },
+    Inntektsmelding: { kode: '4936', versjon: '1' },
+    Arbeidstrening: { kode: '5332', versjon: gittMiljo({ prod: '2', other: '1' }) },
+    Arbeidsforhold: { kode: '5441', versjon: '1' },
+    'Midlertidig lønnstilskudd': { kode: '5516', versjon: '1' },
+    'Varig lønnstilskudd': { kode: '5516', versjon: '2' },
+};
+
+export const altinnSkjemanavn: AltinnSkjemanavn[] = Record.keys(altinnSkjemakoder);
+
+type AltinnSkjematilganger = Record<AltinnSkjemanavn, boolean>;
+
+export const ingenSkjematilgang: AltinnSkjematilganger = Record.fromEntries(
+    altinnSkjemanavn.map(navn => [navn, false])
+);
+
+export const ingenSkjemaOrganisasjoner: Record<AltinnSkjemanavn, Set<orgnr>> = Record.fromEntries(
+    altinnSkjemanavn.map(navn => [navn, new Set()])
+);
+
+export type OrganisasjonInfo = {
+    organisasjon: Organisasjon;
+    altinnSkjematilgang: AltinnTjenesteMap<boolean>;
+    iawebtilgang: boolean;
+};
+
+export type Context = {
+    organisasjoner: Record<orgnr, OrganisasjonInfo>;
+    reporteeMessagesUrls: ReporteeMessagesUrls;
+    visFeilmelding: boolean;
+};
+
+const listeMedAltinnSkjemakoder = Object.entries(altinnSkjemakoder).map(([navn, kode]) => ({
+    navn,
+    ...kode,
+}));
 
 export const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
-    const [organisasjoner, setOrganisasjoner] = useState<Organisasjon[] | undefined>(undefined);
-    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState<Organisasjon[] | undefined>(undefined);
-    const [listeMedSkjemaOgTilganger, setListeMedSkjemaOgTilganger] = useState<
-        SkjemaMedOrganisasjonerMedTilgang[] | undefined
+    const [organisasjoner, setOrganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(
+        undefined
+    );
+    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState<Set<orgnr> | undefined>(
+        undefined
+    );
+    const [skjematilganger, setSkjematilganger] = useState<
+        Record<AltinnSkjemanavn, Set<string>> | undefined
     >(undefined);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
@@ -98,47 +110,58 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         });
 
         hentOrganisasjoner()
-            .then(organisasjoner => {
-                const organisasjonerFiltrert = organisasjoner.filter(
+            .then(organisasjoner =>
+                organisasjoner.filter(
                     org =>
                         org.OrganizationForm === 'BEDR' ||
                         org.OrganizationForm === 'AAFY' ||
                         org.Type === 'Enterprise'
-                );
-                setOrganisasjoner(organisasjonerFiltrert);
-            })
-            .catch(e => {
-                setOrganisasjoner([]);
+                )
+            )
+            .then(organisasjoner =>
+                Record.fromEntries(organisasjoner.map(org => [org.OrganizationNumber, org]))
+            )
+            .then(setOrganisasjoner)
+            .catch(_ => {
+                setOrganisasjoner({});
                 setVisFeilmelding(true);
             });
 
         hentOrganisasjonerIAweb()
-            .then(organisasjonerMedIA => {
-                setOrganisasjonerMedIAWEB(
-                    organisasjonerMedIA.filter(
-                        organisasjon => organisasjon.OrganizationForm === 'BEDR'
-                    )
-                );
-            })
-            .catch(_ => setOrganisasjonerMedIAWEB([]));
+            .then(organisasjoner => organisasjoner.filter(org => org.OrganizationForm === 'BEDR'))
+            .then(organisasjoner => organisasjoner.map(org => org.OrganizationNumber))
+            .then(organisasjoner => new Set(organisasjoner))
+            .then(setOrganisasjonerMedIAWEB)
+            .catch(_ => setOrganisasjonerMedIAWEB(new Set()));
 
-        hentTilgangForAlleAltinnskjema(ListeMedAltinnSkjemaKoder)
-            .then(skjemaer => setListeMedSkjemaOgTilganger(skjemaer))
-            .catch(_ => setListeMedSkjemaOgTilganger([]));
+        hentTilgangForAlleAltinnskjema(listeMedAltinnSkjemakoder)
+            .then((resultat: any) => setSkjematilganger(resultat))
+            .catch(_ => setSkjematilganger(ingenSkjemaOrganisasjoner));
     }, []);
 
-
-    if (organisasjoner && listeMedSkjemaOgTilganger && organisasjonerMedIAWEB) {
-        const context = {
-            organisasjoner,
-            listeMedSkjemaOgTilganger,
-            organisasjonerMedIAWEB,
+    if (organisasjoner && skjematilganger && organisasjonerMedIAWEB) {
+        const context: Context = {
+            organisasjoner: Record.map(organisasjoner, org => {
+                const orgnr = org.OrganizationNumber;
+                const altinnSkjematilgang: AltinnSkjematilganger = Record.map(skjematilganger, _ =>
+                    _.has(orgnr)
+                );
+                const z: OrganisasjonInfo = {
+                    organisasjon: org,
+                    iawebtilgang: organisasjonerMedIAWEB.has(orgnr),
+                    altinnSkjematilgang,
+                };
+                return z;
+            }),
             reporteeMessagesUrls,
-            visFeilmelding
+            visFeilmelding,
         };
-        return <OrganisasjonsListeContext.Provider value={context}>
-            {props.children}
-        </OrganisasjonsListeContext.Provider>
+
+        return (
+            <OrganisasjonsListeContext.Provider value={context}>
+                {props.children}
+            </OrganisasjonsListeContext.Provider>
+        );
     } else {
         return <></>;
     }

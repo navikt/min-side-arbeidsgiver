@@ -34,8 +34,7 @@ export async function hentSyfoTilgang(): Promise<boolean> {
 }
 
 export const sjekkInnlogget = (signal: any): Promise<boolean> =>
-    fetch(sjekkInnloggetLenke, { signal: signal })
-        .then(_ => _.ok);
+    fetch(sjekkInnloggetLenke, { signal: signal }).then(_ => _.ok);
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     const respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
@@ -57,48 +56,45 @@ export async function hentOrganisasjonerIAweb(): Promise<Organisasjon[]> {
     }
 }
 
-export interface SkjemaMedOrganisasjonerMedTilgang {
-    Skjema: AltinnSkjema;
-    OrganisasjonerMedTilgang: Organisasjon[];
+interface KodeOgVersjon {
+    kode: string;
+    versjon: string;
 }
 
-export async function hentOrganisasjonerMedTilgangTilAltinntjeneste(
-    skjema: AltinnSkjema
-): Promise<Organisasjon[]> {
+export const hentOrganisasjonerMedTilgangTilAltinntjeneste = async ({
+    kode,
+    versjon,
+}: KodeOgVersjon): Promise<Set<string>> => {
     const respons = await fetch(
         '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
-            skjema.kode +
+            kode +
             '&serviceEdition=' +
-            skjema.versjon
+            versjon
     );
 
     if (respons.ok) {
-        return await respons.json();
+        const orgs: Organisasjon[] = await respons.json();
+        return new Set(orgs.map(_ => _.OrganizationNumber));
     } else {
-        return [];
+        return new Set();
     }
+};
+
+type orgnr = string;
+interface AltinnSkjemaTilganger {
+    [skjemanavn: string]: Set<orgnr>;
 }
 
-export async function lagListeMedOrganisasjonerMedTilgangTilSkjema(
-    skjema: AltinnSkjema
-): Promise<SkjemaMedOrganisasjonerMedTilgang> {
-    return {
-        Skjema: skjema,
-        OrganisasjonerMedTilgang: await hentOrganisasjonerMedTilgangTilAltinntjeneste(skjema),
-    };
-}
-
-export async function hentTilgangForAlleAltinnskjema(
+export const hentTilgangForAlleAltinnskjema = async (
     altinnSkjemaer: AltinnSkjema[]
-): Promise<SkjemaMedOrganisasjonerMedTilgang[]> {
-    let returnObjekt: SkjemaMedOrganisasjonerMedTilgang[] = [];
-    await Promise.all(
-        altinnSkjemaer.map(async skjema => {
-            let listeObjekt: SkjemaMedOrganisasjonerMedTilgang = await lagListeMedOrganisasjonerMedTilgangTilSkjema(
-                skjema
-            );
-            returnObjekt.push(listeObjekt);
-        })
+): Promise<AltinnSkjemaTilganger> => {
+    const entries = await Promise.all(
+        altinnSkjemaer.map(skjema =>
+            hentOrganisasjonerMedTilgangTilAltinntjeneste(skjema).then(orgnr => [
+                skjema.navn,
+                orgnr,
+            ])
+        )
     );
-    return returnObjekt;
-}
+    return Object.fromEntries(entries);
+};

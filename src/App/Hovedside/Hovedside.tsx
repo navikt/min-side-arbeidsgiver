@@ -13,6 +13,7 @@ import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
 import './Hovedside.less';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
+import * as Record from '../../utils/Record'
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
@@ -20,7 +21,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
 
     useEffect(() => {
         const skalViseManglerTilgangBoks = !(
-            organisasjoner.length > 0 || tilgangTilSyfoState === Tilgang.TILGANG
+            Record.length(organisasjoner) > 0 || tilgangTilSyfoState === Tilgang.TILGANG
         );
 
         if (skalViseManglerTilgangBoks) {
