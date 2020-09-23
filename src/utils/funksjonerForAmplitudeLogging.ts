@@ -2,56 +2,51 @@ import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
 import { Tilganger } from '../App/OrganisasjonDetaljerProvider';
 
-interface TilgangsstyringEventProps {
-    syfo?: string;
-    PAM?: string;
-    IA?: string;
-    Arbeidstrening?: string;
-    Arbeidsforhold?: string;
-    MidlertidigLønnstilskudd?: string;
-    Variglønnstilskudd?: string;
+interface EventProps {
+    tilgangskombinasjon?: string;
+    tjeneste?: string;
+    destinasjon?: string;
+    lenketekst?: string;
     url: string;
+    erTilleggssInformasjon:boolean;
     ingenTilganger?: boolean;
-}
-
-interface NavigasjonsProps {
-    tjeneste: string;
-    destinasjon: string;
-    lenketekst: string;
 }
 
 export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     tilganger: Tilganger | null
 ) => {
-    let tilgangsinfo: TilgangsstyringEventProps = {
+    let tilgangsinfo: EventProps = {
+        erTilleggssInformasjon: true,
         url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
     };
 
     if (!tilganger) {
         tilgangsinfo.ingenTilganger = true;
     }
+    let tilgangsKombinasjon = ''
 
     if (tilganger?.tilgangTilSyfo === Tilgang.TILGANG) {
-        tilgangsinfo.syfo = 'tilgang';
+        tilgangsKombinasjon += 'digisyfo ';
     }
     if (tilganger?.tilgangTilPam === Tilgang.TILGANG) {
-        tilgangsinfo.PAM = 'tilgang';
+        tilgangsKombinasjon += 'arbeidsplassen ';
     }
     if (tilganger?.tilgangTilIAWeb === Tilgang.TILGANG) {
-        tilgangsinfo.IA = 'tilgang';
+        tilgangsKombinasjon += 'sykefraværsstatistikk ';
     }
     if (tilganger?.tilgangTilArbeidstreningsavtaler === Tilgang.TILGANG) {
-        tilgangsinfo.Arbeidstrening = 'tilgang';
+        tilgangsKombinasjon += 'arbeidstrening ';
     }
     if (tilganger?.tilgangTilArbeidsforhold === Tilgang.TILGANG) {
-        tilgangsinfo.Arbeidsforhold = 'tilgang';
+        tilgangsKombinasjon += 'arbeidsforhold'
     }
     if (tilganger?.tilgangTilMidlertidigLonnstilskudd === Tilgang.TILGANG) {
-        tilgangsinfo.MidlertidigLønnstilskudd = 'tilgang';
+        tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
     }
     if (tilganger?.tilgangTilVarigLonnstilskudd === Tilgang.TILGANG) {
-        tilgangsinfo.Variglønnstilskudd = 'tilgang';
+        tilgangsKombinasjon += 'varig lønnstilskudd';
     }
+    tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
 
     amplitude.logEvent('sidevisning', tilgangsinfo);
 };
@@ -61,16 +56,22 @@ export const loggTjenesteTrykketPa = (
     destinasjon: string,
     lenketekst: string
 ) => {
-    const navigasjonsInfo: NavigasjonsProps = {
+    const navigasjonsInfo: EventProps = {
         destinasjon: destinasjon,
         lenketekst: lenketekst,
         tjeneste: tjeneste,
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+        erTilleggssInformasjon: false
+
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
 };
 
 export const loggBrukerLoggetInn = () => {
-    amplitude.logEvent('innlogget', { url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/' });
+    amplitude.logEvent('sidevisning', {
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+        erTilleggssInformasjon: false
+    });
 };
 
 /*
