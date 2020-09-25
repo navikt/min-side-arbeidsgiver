@@ -4,7 +4,7 @@ import { settBedriftIPamOgReturnerTilgang } from '../api/pamApi';
 import hentAntallannonser from '../api/hent-stillingsannonser';
 import { Arbeidsavtale, hentArbeidsavtaler } from '../api/dnaApi';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
-import { altinnSkjemanavn, OrganisasjonInfo, OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
+import { OrganisasjonInfo, OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 
@@ -97,61 +97,36 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
         setTilgangTilIAWeb(tilgangFromTruthy(orgInfo.iawebtilgang));
 
-        altinnSkjemanavn.forEach(skjemanavn => {
-            if (
-                skjemanavn === 'Arbeidstrening' ||
-                skjemanavn === 'Midlertidig lønnstilskudd' ||
-                skjemanavn === 'Varig lønnstilskudd'
-            ) {
-                const tiltaktype =
-                    skjemanavn === 'Arbeidstrening'
-                        ? 'ARBEIDSTRENING'
-                        : skjemanavn === 'Midlertidig lønnstilskudd'
-                        ? 'MIDLERTIDIG_LONNSTILSKUDD'
-                        : 'VARIG_LONNSTILSKUDD';
-                if (orgInfo.altinnSkjematilgang[skjemanavn]) {
-                    hentArbeidsavtaler(org)
-                        .then((avtaler: Arbeidsavtale[]) => {
-                            const filtrerteavtaler = avtaler.filter(
-                                (avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype
-                            );
-                            if (tiltaktype === 'ARBEIDSTRENING') {
-                                setArbeidstreningsavtaler(filtrerteavtaler);
-                                setTilgangTilArbeidstreningsavtaler(Tilgang.TILGANG);
-                            } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
-                                setMidlertidigLonnstilskuddAvtaler(filtrerteavtaler);
-                                setTilgangTilMidlertidigLonnstilskudd(Tilgang.TILGANG);
-                            } else {
-                                setVarigLonnstilskuddAvtaler(filtrerteavtaler);
-                                setTilgangTilVarigLonnstilskudd(Tilgang.TILGANG);
-                            }
-                        })
-                        .catch(_ => {
-                            if (tiltaktype === 'ARBEIDSTRENING') {
-                                setArbeidstreningsavtaler([]);
-                                setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
-                            } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
-                                setMidlertidigLonnstilskuddAvtaler([]);
-                                setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                            } else {
-                                setVarigLonnstilskuddAvtaler([]);
-                                setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                            }
-                        });
-                } else {
-                    if (tiltaktype === 'ARBEIDSTRENING') {
-                        setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
-                    } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
-                        setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                    } else {
-                        setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                    }
-                }
-            }
-            if (skjemanavn === 'Arbeidsforhold') {
-                setTilgangTilArbeidsforhold(tilgangFromTruthy(orgInfo.altinnSkjematilgang[skjemanavn]));
-            }
-        });
+
+        const tilgangArbeidstrening = orgInfo.altinnSkjematilgang.Arbeidstrening;
+        const tilgangVarigLønnstilskudd = orgInfo.altinnSkjematilgang['Varig lønnstilskudd'];
+        const tilgangMidlertidigLønnstilskudd = orgInfo.altinnSkjematilgang['Midlertidig lønnstilskudd'];
+
+        setTilgangTilArbeidstreningsavtaler(tilgangFromTruthy(tilgangArbeidstrening));
+        setTilgangTilMidlertidigLonnstilskudd(tilgangFromTruthy(tilgangMidlertidigLønnstilskudd));
+        setTilgangTilVarigLonnstilskudd(tilgangFromTruthy(varigLonnstilskuddAvtaler));
+
+        if (tilgangArbeidstrening || tilgangMidlertidigLønnstilskudd || tilgangVarigLønnstilskudd) {
+            hentArbeidsavtaler(org)
+                .then((avtaler: Arbeidsavtale[]) => {
+                    const avtalerMedTiltaktype = (tiltaktype: string) => avtaler.filter(
+                        (avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype
+                    );
+                    setArbeidstreningsavtaler(avtalerMedTiltaktype('ARBEIDSTRENING'));
+                    setMidlertidigLonnstilskuddAvtaler(avtalerMedTiltaktype('MIDLERTIDIG_LONNSTILSKUDD'));
+                    setVarigLonnstilskuddAvtaler(avtalerMedTiltaktype('VARIG_LONNSTILSKUDD'));
+                })
+                .catch(_ => {
+                    setArbeidstreningsavtaler([]);
+                    setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
+                    setMidlertidigLonnstilskuddAvtaler([]);
+                    setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
+                    setVarigLonnstilskuddAvtaler([]);
+                    setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
+                });
+        }
+
+        setTilgangTilArbeidsforhold(tilgangFromTruthy(orgInfo.altinnSkjematilgang.Arbeidsforhold));
 
         const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
         if (messagesUrl === undefined) {
