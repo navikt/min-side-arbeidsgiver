@@ -15,10 +15,10 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
     const { organisasjoner, tilgangTilSyfo } = useContext(OrganisasjonsListeContext);
 
     const harTilganger = Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG;
-    const bedriftsparameter =
-        valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber.length > 0
-            ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber
-            : '';
+    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber;
+    const bedriftsparameter = orgnr && orgnr.length > 0
+        ? `/?bedrift=${orgnr}`
+        : '';
 
     return (
         <>

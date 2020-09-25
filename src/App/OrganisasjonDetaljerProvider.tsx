@@ -4,7 +4,7 @@ import { settBedriftIPamOgReturnerTilgang } from '../api/pamApi';
 import hentAntallannonser from '../api/hent-stillingsannonser';
 import { Arbeidsavtale, hentArbeidsavtaler } from '../api/dnaApi';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
-import { altinnSkjemanavn, OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
+import { altinnSkjemanavn, OrganisasjonInfo, OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 
@@ -24,7 +24,7 @@ export interface Tilganger {
 
 export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
-    valgtOrganisasjon: Organisasjon | undefined;
+    valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     arbeidstreningsavtaler: Arbeidsavtale[];
     midlertidigLonnstilskuddAvtaler: Arbeidsavtale[];
@@ -54,7 +54,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     );
     const [tilgangTilIAWeb, setTilgangTilIAWeb] = useState(Tilgang.LASTER);
     const [tilgangTilArbeidsforhold, setTilgangTilArbeidsforhold] = useState(Tilgang.LASTER);
-    const [valgtOrganisasjon, setValgtOrganisasjon] = useState<Organisasjon | undefined>(undefined);
+    const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(
         undefined
     );
@@ -76,95 +76,93 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         tilgangTilSyfo: Tilgang.LASTER,
     });
 
-    const endreOrganisasjon = async (org?: Organisasjon) => {
-        if (org) {
-            const orgInfo = organisasjoner[org.OrganizationNumber]
-            settilgangTilPam(Tilgang.LASTER);
-            setTilgangTilIAWeb(Tilgang.LASTER);
-            setTilgangTilArbeidstreningsavtaler(Tilgang.LASTER);
-            setTilgangTilMidlertidigLonnstilskudd(Tilgang.LASTER);
-            setTilgangTilVarigLonnstilskudd(Tilgang.LASTER);
-            setTilgangTilArbeidsforhold(Tilgang.LASTER);
+    const endreOrganisasjon = async (org: Organisasjon) => {
+        const orgInfo = organisasjoner[org.OrganizationNumber]
+        setValgtOrganisasjon(orgInfo);
+        settilgangTilPam(Tilgang.LASTER);
+        setTilgangTilIAWeb(Tilgang.LASTER);
+        setTilgangTilArbeidstreningsavtaler(Tilgang.LASTER);
+        setTilgangTilMidlertidigLonnstilskudd(Tilgang.LASTER);
+        setTilgangTilVarigLonnstilskudd(Tilgang.LASTER);
+        setTilgangTilArbeidsforhold(Tilgang.LASTER);
 
-            await setValgtOrganisasjon(org);
-            const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
-            if (harPamTilgang) {
-                settilgangTilPam(Tilgang.TILGANG);
-                setantallAnnonser(await hentAntallannonser());
-            } else {
-                settilgangTilPam(Tilgang.IKKE_TILGANG);
-                setantallAnnonser(0);
-            }
+        const harPamTilgang = await settBedriftIPamOgReturnerTilgang(org.OrganizationNumber);
+        if (harPamTilgang) {
+            settilgangTilPam(Tilgang.TILGANG);
+            setantallAnnonser(await hentAntallannonser());
+        } else {
+            settilgangTilPam(Tilgang.IKKE_TILGANG);
+            setantallAnnonser(0);
+        }
 
-            setTilgangTilIAWeb( tilgangFromTruthy(orgInfo.iawebtilgang));
+        setTilgangTilIAWeb(tilgangFromTruthy(orgInfo.iawebtilgang));
 
-            altinnSkjemanavn.forEach(skjemanavn => {
-                if (
-                    skjemanavn === 'Arbeidstrening' ||
-                    skjemanavn === 'Midlertidig lønnstilskudd' ||
-                    skjemanavn === 'Varig lønnstilskudd'
-                ) {
-                    const tiltaktype =
-                        skjemanavn === 'Arbeidstrening'
-                            ? 'ARBEIDSTRENING'
-                            : skjemanavn === 'Midlertidig lønnstilskudd'
-                            ? 'MIDLERTIDIG_LONNSTILSKUDD'
-                            : 'VARIG_LONNSTILSKUDD';
-                    if (orgInfo.altinnSkjematilgang[skjemanavn]) {
-                        hentArbeidsavtaler(org)
-                            .then((avtaler: Arbeidsavtale[]) => {
-                                const filtrerteavtaler = avtaler.filter(
-                                    (avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype
-                                );
-                                if (tiltaktype === 'ARBEIDSTRENING') {
-                                    setArbeidstreningsavtaler(filtrerteavtaler);
-                                    setTilgangTilArbeidstreningsavtaler(Tilgang.TILGANG);
-                                } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
-                                    setMidlertidigLonnstilskuddAvtaler(filtrerteavtaler);
-                                    setTilgangTilMidlertidigLonnstilskudd(Tilgang.TILGANG);
-                                } else {
-                                    setVarigLonnstilskuddAvtaler(filtrerteavtaler);
-                                    setTilgangTilVarigLonnstilskudd(Tilgang.TILGANG);
-                                }
-                            })
-                            .catch(_ => {
-                                if (tiltaktype === 'ARBEIDSTRENING') {
-                                    setArbeidstreningsavtaler([]);
-                                    setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
-                                } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
-                                    setMidlertidigLonnstilskuddAvtaler([]);
-                                    setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                                } else {
-                                    setVarigLonnstilskuddAvtaler([]);
-                                    setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                                }
-                            });
+        altinnSkjemanavn.forEach(skjemanavn => {
+            if (
+                skjemanavn === 'Arbeidstrening' ||
+                skjemanavn === 'Midlertidig lønnstilskudd' ||
+                skjemanavn === 'Varig lønnstilskudd'
+            ) {
+                const tiltaktype =
+                    skjemanavn === 'Arbeidstrening'
+                        ? 'ARBEIDSTRENING'
+                        : skjemanavn === 'Midlertidig lønnstilskudd'
+                        ? 'MIDLERTIDIG_LONNSTILSKUDD'
+                        : 'VARIG_LONNSTILSKUDD';
+                if (orgInfo.altinnSkjematilgang[skjemanavn]) {
+                    hentArbeidsavtaler(org)
+                        .then((avtaler: Arbeidsavtale[]) => {
+                            const filtrerteavtaler = avtaler.filter(
+                                (avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype
+                            );
+                            if (tiltaktype === 'ARBEIDSTRENING') {
+                                setArbeidstreningsavtaler(filtrerteavtaler);
+                                setTilgangTilArbeidstreningsavtaler(Tilgang.TILGANG);
+                            } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
+                                setMidlertidigLonnstilskuddAvtaler(filtrerteavtaler);
+                                setTilgangTilMidlertidigLonnstilskudd(Tilgang.TILGANG);
+                            } else {
+                                setVarigLonnstilskuddAvtaler(filtrerteavtaler);
+                                setTilgangTilVarigLonnstilskudd(Tilgang.TILGANG);
+                            }
+                        })
+                        .catch(_ => {
+                            if (tiltaktype === 'ARBEIDSTRENING') {
+                                setArbeidstreningsavtaler([]);
+                                setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
+                            } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
+                                setMidlertidigLonnstilskuddAvtaler([]);
+                                setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
+                            } else {
+                                setVarigLonnstilskuddAvtaler([]);
+                                setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
+                            }
+                        });
+                } else {
+                    if (tiltaktype === 'ARBEIDSTRENING') {
+                        setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
+                    } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
+                        setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
                     } else {
-                        if (tiltaktype === 'ARBEIDSTRENING') {
-                            setTilgangTilArbeidstreningsavtaler(Tilgang.IKKE_TILGANG);
-                        } else if (tiltaktype === 'MIDLERTIDIG_LONNSTILSKUDD') {
-                            setTilgangTilMidlertidigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                        } else {
-                            setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
-                        }
+                        setTilgangTilVarigLonnstilskudd(Tilgang.IKKE_TILGANG);
                     }
                 }
-                if (skjemanavn === 'Arbeidsforhold') {
-                    setTilgangTilArbeidsforhold(tilgangFromTruthy(orgInfo.altinnSkjematilgang[skjemanavn]));
-                }
-            });
+            }
+            if (skjemanavn === 'Arbeidsforhold') {
+                setTilgangTilArbeidsforhold(tilgangFromTruthy(orgInfo.altinnSkjematilgang[skjemanavn]));
+            }
+        });
 
-            const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
-            if (messagesUrl === undefined) {
+        const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
+        if (messagesUrl === undefined) {
+            setAltinnMeldingsboks(undefined);
+        } else {
+            const resultat = await hentMeldingsboks(messagesUrl);
+            if (resultat instanceof Error) {
+                autentiserAltinnBruker(window.location.href);
                 setAltinnMeldingsboks(undefined);
             } else {
-                const resultat = await hentMeldingsboks(messagesUrl);
-                if (resultat instanceof Error) {
-                    autentiserAltinnBruker(window.location.href);
-                    setAltinnMeldingsboks(undefined);
-                } else {
-                    setAltinnMeldingsboks(resultat);
-                }
+                setAltinnMeldingsboks(resultat);
             }
         }
     };

@@ -17,12 +17,12 @@ const BeOmTilgang: FunctionComponent = () => {
         return null;
     }
 
-    const orgnr = valgtOrganisasjon.OrganizationNumber
+    const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
 
     const tjenesteinfoBokser = genererTekstbokser(
         tilganger,
         organisasjoner[orgnr].altinnSkjematilgang,
-        valgtOrganisasjon.OrganizationNumber
+        orgnr
     ).map(tjeneste => {
         return (
             <TjenesteInfo
@@ -58,12 +58,12 @@ const BeOmTilgang: FunctionComponent = () => {
                                 kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                                 under.
                             </AlertStripeInfo>
-                            {valgtOrganisasjon.OrganizationNumber !== '' && (
+                            {
                                 <Organisasjonsbeskrivelse
-                                    navn={valgtOrganisasjon.Name}
-                                    orgnummer={valgtOrganisasjon.OrganizationNumber}
+                                    navn={valgtOrganisasjon.organisasjon.Name}
+                                    orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
                                 />
-                            )}
+                            }
                             <ul
                                 className="be-om-tilgang__tjenesteinfo-bokser"
                             >

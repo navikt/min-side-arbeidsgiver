@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { AltinnSkjemanavn, OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { AltinnSkjemanavn } from '../../OrganisasjonsListeProvider';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import {
     ekspertbistand,
@@ -26,17 +26,14 @@ const skjemanavnMedLenker: SkjemanavnOgLenke[] = [
 ];
 
 export const AltinnContainer: FunctionComponent = () => {
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) {
         return null;
     }
 
-    const org = organisasjoner[valgtOrganisasjon.OrganizationNumber]
-
     const skjemaliste = skjemanavnMedLenker.filter(
-        skjema => org.altinnSkjematilgang[skjema.navn]
+        skjema => valgtOrganisasjon.altinnSkjematilgang[skjema.navn]
     );
 
     const antall = skjemaliste.length;

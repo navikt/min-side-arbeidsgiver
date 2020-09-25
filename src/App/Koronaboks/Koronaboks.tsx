@@ -12,16 +12,14 @@ import {
 } from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import './Koronaboks.less';
 
 export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
 
     const harTilgangRefusjon =
-        valgtOrganisasjon &&
-        organisasjoner[valgtOrganisasjon.OrganizationNumber].altinnSkjematilgang['Inntektsmelding'];
+        valgtOrganisasjon && valgtOrganisasjon.altinnSkjematilgang.Inntektsmelding;
+    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber
 
     return (
         <div className="koronaboks">
@@ -42,7 +40,7 @@ export const Koronaboks = () => {
                     <HoyreChevron />
                 </Lenke>
 
-                {harTilgangRefusjon && valgtOrganisasjon && (
+                {harTilgangRefusjon && orgnr && (
                     <>
                         <Lenke
                             className="koronaboks__lenke"
@@ -53,7 +51,7 @@ export const Koronaboks = () => {
                         </Lenke>
                         <Lenke
                             className="koronaboks__lenke"
-                            href={lenkeTilKlageskjema(valgtOrganisasjon.OrganizationNumber)}
+                            href={lenkeTilKlageskjema(orgnr)}
                         >
                             <span>
                                 Endring av opplysninger/klage på vedtak for refusjon av lønn ved
@@ -65,7 +63,7 @@ export const Koronaboks = () => {
                         <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
                         <Lenke
                             className="koronaboks__lenke"
-                            href={LenkeTilKoronaSykeRefusjon(valgtOrganisasjon.OrganizationNumber)}
+                            href={LenkeTilKoronaSykeRefusjon(orgnr)}
                         >
                             <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
                             <HoyreChevron />
