@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import './BrevFraAltinnContainer.less';
 import { AltinnBrev, Status } from '../../../api/altinnApi';
 import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';

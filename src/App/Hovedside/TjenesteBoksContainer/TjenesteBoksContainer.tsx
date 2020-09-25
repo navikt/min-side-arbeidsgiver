@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import { Tilgang } from '../../LoginBoundary';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
@@ -23,8 +23,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         varigLonnstilskuddAvtaler,
     } = useContext(OrganisasjonsDetaljerContext);
     const {
-        organisasjonslisteFerdigLastet,
-        organisasjonerMedIAFerdigLastet,
         organisasjoner,
     } = useContext(OrganisasjonsListeContext);
 
@@ -81,12 +79,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
             loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(tilganger);
             setFerdigLastet(true);
         }
-    }, [
-        organisasjonslisteFerdigLastet,
-        organisasjonerMedIAFerdigLastet,
-        tilganger,
-        organisasjoner,
-    ]);
+    }, [tilganger,organisasjoner]);
 
     return (
         <div className={'tjenesteboks-container ' + typeAntall}>

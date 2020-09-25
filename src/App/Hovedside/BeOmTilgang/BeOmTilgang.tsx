@@ -2,20 +2,26 @@ import React, { FunctionComponent, useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
-import { OrganisasjonsListeContext } from '../../../OrganisasjonsListeProvider';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjoner';
 import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.less';
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { tilganger, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
+
+    const orgnr = valgtOrganisasjon.OrganizationNumber
 
     const tjenesteinfoBokser = genererTekstbokser(
         tilganger,
-        listeMedSkjemaOgTilganger,
+        organisasjoner[orgnr].altinnSkjematilgang,
         valgtOrganisasjon.OrganizationNumber
     ).map(tjeneste => {
         return (

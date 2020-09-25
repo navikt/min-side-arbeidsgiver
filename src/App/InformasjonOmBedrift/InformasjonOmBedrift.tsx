@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
 import {
     tomEnhetsregOrg,
@@ -17,7 +17,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     const [overordnetEnhet, setOverordnetEnhet] = useState<OrganisasjonFraEnhetsregisteret>(
         tomEnhetsregOrg
     );
-    const orgnr = valgtOrganisasjon.OrganizationNumber;
+    const orgnr = valgtOrganisasjon?.OrganizationNumber ?? '';
 
     useEffect(() => {
         const setEnheter = async () => {
@@ -35,7 +35,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
             <div className="informasjon-om-bedrift">
                 <div className="informasjon-om-bedrift__brodsmule">
                     <Link
-                        to={'/?bedrift=' + valgtOrganisasjon.OrganizationNumber}
+                        to={'/?bedrift=' + orgnr}
                         className="informasjon-om-bedrift__brodsmule"
                     >
                         Min side - arbeidsgiver

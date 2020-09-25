@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { OrganisasjonsDetaljerContext } from '../../../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
 import TjenesteBoksBanner from '../../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsAvtaleLink } from '../../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../../utils/funksjonerForAmplitudeLogging';

@@ -2,10 +2,11 @@ import React, { FunctionComponent, useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import { Organisasjon } from '../../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import './HovedBanner.less';
+import * as Record from '../../utils/Record';
 
 interface OwnProps {
     sidetittel: string;
@@ -13,21 +14,21 @@ interface OwnProps {
 
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    const onOrganisasjonChange = (organisasjon?: Organisasjon) => {
-        if (valgtOrganisasjon.OrganizationNumber.length > 0 && !window.location.href.includes('/bedriftsinformasjon')) {
-            history.replace("/?bedrift=" + organisasjon!!.OrganizationNumber);
+    const onOrganisasjonChange = (organisasjon: Organisasjon) => {
+        if (organisasjon.OrganizationNumber.length > 0 && !window.location.href.includes('/bedriftsinformasjon')) {
+            history.replace("/?bedrift=" + organisasjon.OrganizationNumber);
         }
-        if (organisasjon) {
-            endreOrganisasjon(organisasjon);
-        }
+        endreOrganisasjon(organisasjon);
     };
+
+    const orgs = Record.values(organisasjoner).map(_ => _.organisasjon)
 
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}
-            organisasjoner={organisasjoner}
+            organisasjoner={orgs}
             onOrganisasjonChange={onOrganisasjonChange}
             history={history}
         />

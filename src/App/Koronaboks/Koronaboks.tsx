@@ -7,21 +7,21 @@ import sirkel from './report-problem-circle.svg';
 import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     lenkeTilLonnskompensasjonRefusjonSkjema,
-    lenkeTilKlageskjema, LenkeTilKoronaSykeRefusjon
+    lenkeTilKlageskjema,
+    LenkeTilKoronaSykeRefusjon,
 } from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import './Koronaboks.less';
 
 export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { listeMedSkjemaOgTilganger } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner } = useContext(OrganisasjonsListeContext);
 
-    let harTilgangRefusjon = listeMedSkjemaOgTilganger.filter(tjeneste =>
-        tjeneste.Skjema.navn === 'Inntektsmelding' && tjeneste.OrganisasjonerMedTilgang.filter(org =>
-            org.OrganizationNumber === valgtOrganisasjon.OrganizationNumber).length >0
-    ).length > 0 ;
+    const harTilgangRefusjon =
+        valgtOrganisasjon &&
+        organisasjoner[valgtOrganisasjon.OrganizationNumber].altinnSkjematilgang['Inntektsmelding'];
 
     return (
         <div className="koronaboks">
@@ -36,13 +36,13 @@ export const Koronaboks = () => {
                     href={lenkeTilPermitteringOgMasseoppsigelsesSkjema}
                 >
                     <span>
-                        Varsle NAV om permitteringer, masseoppsigelser eller
-                        innskrenkninger i arbeidstiden
+                        Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i
+                        arbeidstiden
                     </span>
                     <HoyreChevron />
                 </Lenke>
 
-                {harTilgangRefusjon && (
+                {harTilgangRefusjon && valgtOrganisasjon && (
                     <>
                         <Lenke
                             className="koronaboks__lenke"
@@ -55,12 +55,18 @@ export const Koronaboks = () => {
                             className="koronaboks__lenke"
                             href={lenkeTilKlageskjema(valgtOrganisasjon.OrganizationNumber)}
                         >
-                            <span>Endring av opplysninger/klage på vedtak for refusjon av lønn ved permittering</span>
+                            <span>
+                                Endring av opplysninger/klage på vedtak for refusjon av lønn ved
+                                permittering
+                            </span>
                             <HoyreChevron />
                         </Lenke>
 
                         <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
-                        <Lenke className="koronaboks__lenke" href={LenkeTilKoronaSykeRefusjon(valgtOrganisasjon.OrganizationNumber)}>
+                        <Lenke
+                            className="koronaboks__lenke"
+                            href={LenkeTilKoronaSykeRefusjon(valgtOrganisasjon.OrganizationNumber)}
+                        >
                             <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
                             <HoyreChevron />
                         </Lenke>

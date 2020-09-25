@@ -9,34 +9,22 @@ export enum Tilgang {
     TILGANG,
 }
 
+export const tilgangFromTruthy: (e: any) => Tilgang =
+    e => e ? Tilgang.TILGANG : Tilgang.IKKE_TILGANG;
+
 const LoginBoundary: FunctionComponent = props => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
-    const localLogin = () => {
-        if (document.cookie.includes('selvbetjening-idtoken')) {
-            setInnlogget(Tilgang.TILGANG);
-        } else {
-            setInnlogget(Tilgang.IKKE_TILGANG);
-        }
-    };
-
     useEffect(() => {
-        setInnlogget(Tilgang.LASTER);
-        const getLoginStatus = async () => {
-            const abortController = new AbortController();
-            const signal = abortController.signal;
-            if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
-                let innloggingsstatus = await sjekkInnlogget(signal);
-                if (innloggingsstatus) {
-                    setInnlogget(Tilgang.TILGANG);
-                } else {
-                    setInnlogget(Tilgang.IKKE_TILGANG);
-                }
-            } else {
-                localLogin();
-            }
-        };
-        getLoginStatus();
+        const signal = new AbortController().signal;
+        if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
+            sjekkInnlogget(signal)
+                .then(tilgangFromTruthy)
+                .then(setInnlogget);
+        } else {
+            const harIdtoken = document.cookie.includes('selvbetjening-idtoken');
+            setInnlogget(tilgangFromTruthy(harIdtoken));
+        }
     }, []);
 
     if (innlogget === Tilgang.TILGANG) {

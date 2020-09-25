@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { OrganisasjonsDetaljerContext } from '../../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { linkTilArbeidsplassen } from '../../../../lenker';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
