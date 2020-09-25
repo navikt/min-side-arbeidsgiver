@@ -7,16 +7,14 @@ import Banner from '../../HovedBanner/HovedBanner';
 import { Link } from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
-import { SyfoTilgangContext } from '../../../SyfoTilgangProvider';
 import { Tilgang } from '../../LoginBoundary';
 import * as Record from '../../../utils/Record';
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { tilgangTilSyfoState } = useContext(SyfoTilgangContext);
+    const { organisasjoner, tilgangTilSyfo } = useContext(OrganisasjonsListeContext);
 
-    const harTilganger = Record.length(organisasjoner) > 0 || tilgangTilSyfoState === Tilgang.TILGANG;
+    const harTilganger = Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG;
     const bedriftsparameter =
         valgtOrganisasjon && valgtOrganisasjon.OrganizationNumber.length > 0
             ? '/?bedrift=' + valgtOrganisasjon.OrganizationNumber

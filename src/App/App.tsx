@@ -6,7 +6,6 @@ import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
 import { OrganisasjonsListeProvider } from './OrganisasjonsListeProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
-import { SyfoTilgangProvider } from '../SyfoTilgangProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import { FeatureToggleProvider } from '../FeatureToggleProvider';
@@ -31,29 +30,27 @@ const App: FunctionComponent = () => {
                     <LoginBoundary>
                         <FeatureToggleProvider>
                             <OrganisasjonsListeProvider>
-                                <SyfoTilgangProvider>
-                                    <OrganisasjonsDetaljerProvider>
-                                        <div className="bakgrunnsside">
-                                            <Switch>
-                                                <Route
-                                                    path="/bedriftsinformasjon"
-                                                    exact={true}
-                                                    component={InformasjonOmBedrift}
-                                                />
-                                                <Route
-                                                    path="/mangler-tilgang"
-                                                    exact={true}
-                                                    component={ManglerTilgangContainer}
-                                                />
-                                                <Route
-                                                    path="/"
-                                                    exact={true}
-                                                    component={Hovedside}
-                                                />
-                                            </Switch>
-                                        </div>
-                                    </OrganisasjonsDetaljerProvider>
-                                </SyfoTilgangProvider>
+                                <OrganisasjonsDetaljerProvider>
+                                    <div className="bakgrunnsside">
+                                        <Switch>
+                                            <Route
+                                                path="/bedriftsinformasjon"
+                                                exact={true}
+                                                component={InformasjonOmBedrift}
+                                            />
+                                            <Route
+                                                path="/mangler-tilgang"
+                                                exact={true}
+                                                component={ManglerTilgangContainer}
+                                            />
+                                            <Route
+                                                path="/"
+                                                exact={true}
+                                                component={Hovedside}
+                                            />
+                                        </Switch>
+                                    </div>
+                                </OrganisasjonsDetaljerProvider>
                             </OrganisasjonsListeProvider>
                         </FeatureToggleProvider>
                     </LoginBoundary>

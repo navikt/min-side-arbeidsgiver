@@ -3,7 +3,6 @@ import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn
 import { settBedriftIPamOgReturnerTilgang } from '../api/pamApi';
 import hentAntallannonser from '../api/hent-stillingsannonser';
 import { Arbeidsavtale, hentArbeidsavtaler } from '../api/dnaApi';
-import { SyfoTilgangContext } from '../SyfoTilgangProvider';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 import { altinnSkjemanavn, OrganisasjonsListeContext } from './OrganisasjonsListeProvider';
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
@@ -37,10 +36,9 @@ export type Context = {
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const { organisasjoner, reporteeMessagesUrls } = useContext(
+    const { organisasjoner, reporteeMessagesUrls, tilgangTilSyfo } = useContext(
         OrganisasjonsListeContext
     );
-    const tilgangTilSyfo = useContext(SyfoTilgangContext).tilgangTilSyfoState;
 
     const [antallAnnonser, setantallAnnonser] = useState(-1);
 

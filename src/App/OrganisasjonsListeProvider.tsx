@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     hentOrganisasjoner,
-    hentOrganisasjonerIAweb,
+    hentOrganisasjonerIAweb, hentSyfoTilgang,
     hentTilgangForAlleAltinnskjema,
 } from '../api/dnaApi';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
@@ -12,6 +12,7 @@ import {
 } from '../api/altinnApi';
 import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
+import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -70,6 +71,8 @@ export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     reporteeMessagesUrls: ReporteeMessagesUrls;
     visFeilmelding: boolean;
+    tilgangTilSyfo: Tilgang;
+    visSyfoFeilmelding: boolean;
 };
 
 const listeMedAltinnSkjemakoder = Object.entries(altinnSkjemakoder).map(([navn, kode]) => ({
@@ -91,6 +94,8 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
     >(undefined);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
+    const [tilgangTilSyfo, setTilgangTilSyfo] = useState(Tilgang.LASTER);
+    const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
 
     useEffect(() => {
         /* Kjører denne først, fordi den kan føre til en redirect til Altinn. */
@@ -129,6 +134,14 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         hentTilgangForAlleAltinnskjema(listeMedAltinnSkjemakoder)
             .then((resultat: any) => setSkjematilganger(resultat))
             .catch(_ => setSkjematilganger(ingenSkjemaOrganisasjoner));
+
+        hentSyfoTilgang()
+            .then(tilgangFromTruthy)
+            .then(setTilgangTilSyfo)
+            .catch(_ => {
+                setVisSyfoFeilmelding(true);
+                setTilgangTilSyfo(Tilgang.IKKE_TILGANG);
+            }) ;
     }, []);
 
     if (organisasjoner && skjematilganger && organisasjonerMedIAWEB) {
@@ -147,6 +160,8 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             }),
             reporteeMessagesUrls,
             visFeilmelding,
+            visSyfoFeilmelding,
+            tilgangTilSyfo,
         };
 
         return (
