@@ -37,15 +37,13 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                     visFeilmelding={visFeilmelding}
                     visSyfoFeilmelding={visSyfoFeilmelding}
                 />
-                <>
-                    <Koronaboks />
-                    <TjenesteBoksContainer />
-                    <BrevFraAltinnContainer />
-                    <NyttigForDegContainer />
-                    <AltinnContainer />
-                    <SkjemaveilederContainer />
-                    <BeOmTilgang />
-                </>
+                <Koronaboks />
+                <TjenesteBoksContainer />
+                <BrevFraAltinnContainer />
+                <NyttigForDegContainer />
+                <AltinnContainer />
+                <SkjemaveilederContainer />
+                <BeOmTilgang />
             </div>
         </>
     );
