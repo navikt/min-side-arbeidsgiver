@@ -11,29 +11,20 @@ import './BeOmTilgang.less';
 
 const BeOmTilgang: FunctionComponent = () => {
     const { tilgangTilSyfo } = useContext(OrganisasjonsListeContext);
-    const { valgtOrganisasjon, tilgangTilPam, } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon, tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
 
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
-
-    const tjenesteinfoBokser = genererTekstbokser(
-        valgtOrganisasjon,
-        {
-            tilgangTilPam,
-            tilgangTilSyfo,
-        }
-    ).map(tjeneste => {
-        return (
-            <TjenesteInfo
-                overskrift={tjeneste.overskrift}
-                lenkeTilBeOmTjeneste={tjeneste.lenkeTilBeOmTjeneste}
-                innholdstekst={tjeneste.innholdstekst}
-                erSyfo={tjeneste.erSyfo}
-                key={tjeneste.overskrift}
-            />
-        );
-    });
+    const tjenesteinfoBokser = genererTekstbokser(valgtOrganisasjon, {
+        tilgangTilPam,
+        tilgangTilSyfo,
+    }).map(tjeneste => (
+        <TjenesteInfo
+            overskrift={tjeneste.overskrift}
+            lenkeTilBeOmTjeneste={tjeneste.lenkeTilBeOmTjeneste}
+            innholdstekst={tjeneste.innholdstekst}
+            erSyfo={tjeneste.erSyfo}
+            key={tjeneste.overskrift}
+        />
+    ));
 
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
 
@@ -58,15 +49,13 @@ const BeOmTilgang: FunctionComponent = () => {
                                 kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                                 under.
                             </AlertStripeInfo>
-                            {
+                            {valgtOrganisasjon && (
                                 <Organisasjonsbeskrivelse
                                     navn={valgtOrganisasjon.organisasjon.Name}
                                     orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
                                 />
-                            }
-                            <ul
-                                className="be-om-tilgang__tjenesteinfo-bokser"
-                            >
+                            )}
+                            <ul className="be-om-tilgang__tjenesteinfo-bokser">
                                 {tjenesteinfoBokser}
                             </ul>
                         </div>
