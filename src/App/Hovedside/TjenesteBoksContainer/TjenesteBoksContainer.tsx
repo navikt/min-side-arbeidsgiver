@@ -26,35 +26,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tilgangTilSyfo,
     } = useContext(OrganisasjonsListeContext);
 
-
-    let antallTjenester = 0
-
-    tilgangTilSyfo === Tilgang.TILGANG && (antallTjenester += 1);
-
-    const tilgang = valgtOrganisasjon?.altinnSkjematilgang
-    tilgang?.arbeidsforhold && (antallTjenester += 1);
-    tilgang?.iaweb && (antallTjenester += 1);
-
-    tilgangTilPam === Tilgang.TILGANG && (antallTjenester += 1);
-
-    const visArbeidstrening = tilgang?.arbeidstrening && arbeidstreningsavtaler.length > 0;
-    visArbeidstrening && (antallTjenester += 1);
-
-    const visMidlertidigLonnstilskudd = tilgang?.midlertidigLønnstilskudd && midlertidigLonnstilskuddAvtaler.length > 0;
-    visMidlertidigLonnstilskudd && (antallTjenester += 1);
-
-    const visVarigLonnstilskudd = tilgang?.varigLønnstilskudd && varigLonnstilskuddAvtaler.length > 0;
-    visVarigLonnstilskudd && (antallTjenester += 1);
-
-    let antallClassname;
-    if (antallTjenester === 1) {
-        antallClassname = 'antall-en';
-    } else if (antallTjenester % 2 === 0) {
-        antallClassname = 'antall-partall';
-    } else {
-        antallClassname = 'antall-oddetall';
-    }
-
     useEffect( () => {
             loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(
                 valgtOrganisasjon,
@@ -66,46 +37,47 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         }, [valgtOrganisasjon, tilgangTilSyfo, tilgangTilPam]
     );
 
+    const tilgang = valgtOrganisasjon?.altinnSkjematilgang
+
+    const tjenester: FunctionComponent[] = []
+
+    if (tilgang?.arbeidsforhold) {
+        tjenester.push(Arbeidsforholdboks)
+    }
+    if (tilgangTilSyfo) {
+        tjenester.push(Syfoboks);
+    }
+    if (tilgang?.iaweb) {
+        tjenester.push(IAwebboks)
+    }
+    if (tilgangTilPam === Tilgang.TILGANG) {
+        tjenester.push(Pamboks)
+    }
+    if (tilgang?.midlertidigLønnstilskudd && midlertidigLonnstilskuddAvtaler.length > 0) {
+        tjenester.push(MidlertidigLonnstilskuddboks);
+    }
+    if (tilgang?.varigLønnstilskudd && varigLonnstilskuddAvtaler.length > 0) {
+        tjenester.push(VarigLonnstilskuddboks)
+    }
+    if (tilgang?.arbeidstrening && arbeidstreningsavtaler.length > 0) {
+        tjenester.push(Arbeidstreningboks)
+    }
+
+    let antallClassname;
+    if (tjenester.length === 1) {
+        antallClassname = 'antall-en';
+    } else if (tjenester.length % 2 === 0) {
+        antallClassname = 'antall-partall';
+    } else {
+        antallClassname = 'antall-oddetall';
+    }
+
     return (
         <div className={'tjenesteboks-container ' + antallClassname}>
-            {(
-                <>
-                    {tilgang?.arbeidsforhold && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <Arbeidsforholdboks />
-                        </Innholdsboks>
-                    )}
-                    {tilgangTilSyfo && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <Syfoboks />
-                        </Innholdsboks>
-                    )}
-                    {tilgang?.iaweb && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <IAwebboks />
-                        </Innholdsboks>
-                    )}
-                    {tilgangTilPam === Tilgang.TILGANG && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <Pamboks />
-                        </Innholdsboks>
-                    )}
-                    {visMidlertidigLonnstilskudd && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <MidlertidigLonnstilskuddboks />
-                        </Innholdsboks>
-                    )}
-                    {visVarigLonnstilskudd && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <VarigLonnstilskuddboks />
-                        </Innholdsboks>
-                    )}
-                    {visArbeidstrening && (
-                        <Innholdsboks classname="tjenesteboks">
-                            <Arbeidstreningboks />
-                        </Innholdsboks>
-                    )}
-                </>
+            {tjenester.map(Tjeneste =>
+                <Innholdsboks classname="tjenesteboks">
+                    <Tjeneste/>
+                </Innholdsboks>
             )}
         </div>
     );
