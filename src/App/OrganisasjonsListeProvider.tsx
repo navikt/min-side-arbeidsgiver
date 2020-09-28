@@ -12,7 +12,7 @@ import {
 import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 import { hentAltinntilganger } from '../altinn/tilganger';
-import { alleAltinntjenster, AltinnId, altinntjeneste } from '../altinn/tjenester';
+import { alleAltinntjenster, AltinnId } from '../altinn/tjenester';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };

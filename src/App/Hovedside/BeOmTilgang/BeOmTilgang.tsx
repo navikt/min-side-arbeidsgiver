@@ -17,8 +17,6 @@ const BeOmTilgang: FunctionComponent = () => {
         return null;
     }
 
-    const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
-
     const tjenesteinfoBokser = genererTekstbokser(
         valgtOrganisasjon,
         {
