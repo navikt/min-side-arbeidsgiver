@@ -3,20 +3,21 @@ import { TjenesteInfoProps } from './TjenesteInfo/TjenesteInfo';
 import {
     altinnSkjemakoder,
     AltinnSkjemanavn,
-    AltinnTjenesteMap,
+    OrganisasjonInfo,
 } from '../../OrganisasjonsListeProvider';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
-import { Tilganger } from '../../OrganisasjonDetaljerProvider';
-import * as Record from '../../../utils/Record';
 
+interface AndreTilganger {
+    tilgangTilSyfo: Tilgang,
+    tilgangTilPam: Tilgang,
+}
 export const genererTekstbokser = (
-    tilganger: Tilganger,
-    altinnTjenester: AltinnTjenesteMap<boolean>,
-    valgtOrgNr: string
+    organisasjon: OrganisasjonInfo | undefined,
+    {tilgangTilSyfo, tilgangTilPam }: AndreTilganger
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
 
-    if (tilganger.tilgangTilSyfo === Tilgang.IKKE_TILGANG) {
+    if (tilgangTilSyfo === Tilgang.IKKE_TILGANG) {
         listeMedProps.push({
             overskrift: 'Dine sykmeldte',
             innholdstekst: 'Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for.',
@@ -25,71 +26,69 @@ export const genererTekstbokser = (
         });
     }
 
-    if (valgtOrgNr && valgtOrgNr !== '') {
-        if (tilganger.tilgangTilPam === Tilgang.IKKE_TILGANG) {
+    if (organisasjon) {
+        const orgnr = organisasjon.organisasjon.OrganizationNumber;
+        const tilgang = organisasjon.altinnSkjematilgang;
+
+        if (tilgangTilPam === Tilgang.IKKE_TILGANG) {
             listeMedProps.push({
                 overskrift: 'Rekruttering',
                 innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5078', '1'),
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '5078', '1'),
             });
         }
-        if (tilganger.tilgangTilIAWeb === Tilgang.IKKE_TILGANG) {
+
+        if (!organisasjon.iawebtilgang) {
             listeMedProps.push({
                 overskrift: 'Sykfraværsstatistikk',
                 innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje.',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '3403', '2'),
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '3403', '2'),
             });
         }
-        if (tilganger.tilgangTilArbeidstreningsavtaler === Tilgang.IKKE_TILGANG) {
+        if (!tilgang.Arbeidstrening) {
             listeMedProps.push({
                 overskrift: 'Arbeidstrening',
                 innholdstekst:
                     'Arbeidstrening er et tiltak som gir arbeidssøker mulighet til å prøve seg i arbeid, få relevant erfaring og skaffe seg en ordinær jobb. Arbeidstrening i din bedrift kan bidra til at arbeidssøkeren når målene sine. ',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5332', '2', '1'),
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '5332', '2', '1'),
             });
         }
 
-        if (tilganger.tilgangTilArbeidsforhold === Tilgang.IKKE_TILGANG) {
+        if (!tilgang.Arbeidsforhold) {
             listeMedProps.push({
                 overskrift: 'Arbeidsforhold',
                 innholdstekst:
                     'Få oversikt over alle arbeidsforhold du som arbeidsgiver har rapportert inn via A-meldingen. Her kan du kontrollere opplysningene og se hva som er registrert i arbeidsgiver- og arbeidstakerregisteret (Aa-registeret). ',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5441', '1'),
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '5441', '1'),
             });
         }
 
-        if (tilganger.tilgangTilMidlertidigLonnstilskudd === Tilgang.IKKE_TILGANG) {
+        if (!tilgang['Midlertidig lønnstilskudd']) {
             listeMedProps.push({
                 overskrift: 'Midlertidig lønnstilskudd',
                 innholdstekst:
                     'Få tilgang til avtaler om midlertidig lønnstilskudd i din virksomhet. Lønnstilskudd kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5516', '1'),
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '5516', '1'),
             });
         }
 
-        if (tilganger.tilgangTilVarigLonnstilskudd === Tilgang.IKKE_TILGANG) {
+        if (!tilgang['Varig lønnstilskudd']) {
             listeMedProps.push({
                 overskrift: 'Varig lønnstilskudd',
                 innholdstekst:
                     'Få tilgang til avtaler om varig lønnstilskudd i din virksomhet. Lønnstilskudd kan gis dersom du ansetter personer som har problemer med å komme inn på arbeidsmarkedet.',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(valgtOrgNr, '5516', '2'),
+                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '5516', '2'),
             });
         }
 
-        Record.forEach(altinnTjenester, (skjemanavn: AltinnSkjemanavn, tilgang: boolean) => {
-            /* Tjenestene Arbeidsforhold, Midlertidg/varig lønnstilskudd og Arbeidstrening
-            er allerede lagt til ved å bruke tjenesteboksTilgangsArray */
-            if (
-                !tilgang &&
-                skjemanavn !== 'Arbeidstrening' &&
-                skjemanavn !== 'Arbeidsforhold' &&
-                skjemanavn !== 'Midlertidig lønnstilskudd' &&
-                skjemanavn !== 'Varig lønnstilskudd' &&
-                skjemanavn !== 'Lønnstilskudd'
-            ) {
-                listeMedProps.push(genererPropsForAltinnTjeneste(skjemanavn, valgtOrgNr));
+        const andreSkjema: AltinnSkjemanavn[] = [
+            'Ekspertbistand', 'Inkluderingstilskudd', 'Mentortilskudd', 'Inntektsmelding'
+        ];
+        for (let skjema of andreSkjema) {
+            if (!tilgang[skjema]) {
+                listeMedProps.push(genererPropsForAltinnTjeneste(skjema, orgnr));
             }
-        });
+        }
     }
     return listeMedProps;
 };

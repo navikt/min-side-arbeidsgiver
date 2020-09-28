@@ -10,8 +10,8 @@ import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.less';
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
-    const { tilganger, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilSyfo } = useContext(OrganisasjonsListeContext);
+    const { valgtOrganisasjon, tilgangTilPam, } = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) {
         return null;
@@ -20,9 +20,11 @@ const BeOmTilgang: FunctionComponent = () => {
     const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
 
     const tjenesteinfoBokser = genererTekstbokser(
-        tilganger,
-        organisasjoner[orgnr].altinnSkjematilgang,
-        orgnr
+        valgtOrganisasjon,
+        {
+            tilgangTilPam,
+            tilgangTilSyfo,
+        }
     ).map(tjeneste => {
         return (
             <TjenesteInfo

@@ -1,6 +1,6 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
-import { Tilganger } from '../App/OrganisasjonDetaljerProvider';
+import { OrganisasjonInfo } from '../App/OrganisasjonsListeProvider';
 
 interface EventProps {
     tilgangskombinasjon?: string;
@@ -12,44 +12,56 @@ interface EventProps {
     ingenTilganger?: boolean;
 }
 
+interface AndreTilganger {
+    tilgangTilPam: Tilgang,
+    tilgangTilSyfo: Tilgang,
+}
+
 export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
-    tilganger: Tilganger | null
+    org: OrganisasjonInfo | undefined,
+    {tilgangTilPam, tilgangTilSyfo}: AndreTilganger
 ) => {
     let tilgangsinfo: EventProps = {
         erTilleggssInformasjon: true,
         url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
     };
 
-    if (!tilganger) {
-        tilgangsinfo.ingenTilganger = true;
-    }
     let tilgangsKombinasjon = ''
 
-    if (tilganger?.tilgangTilSyfo === Tilgang.TILGANG) {
+    if (tilgangTilSyfo === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'digisyfo ';
     }
-    if (tilganger?.tilgangTilPam === Tilgang.TILGANG) {
+    if (tilgangTilPam === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'arbeidsplassen ';
     }
-    if (tilganger?.tilgangTilIAWeb === Tilgang.TILGANG) {
+    if (org?.iawebtilgang) {
         tilgangsKombinasjon += 'sykefraværsstatistikk ';
     }
-    if (tilganger?.tilgangTilArbeidstreningsavtaler === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.Arbeidstrening) {
         tilgangsKombinasjon += 'arbeidstrening ';
     }
-    if (tilganger?.tilgangTilArbeidsforhold === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.Arbeidsforhold) {
         tilgangsKombinasjon += 'arbeidsforhold'
     }
-    if (tilganger?.tilgangTilMidlertidigLonnstilskudd === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang['Midlertidig lønnstilskudd']) {
         tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
     }
-    if (tilganger?.tilgangTilVarigLonnstilskudd === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang['Varig lønnstilskudd']) {
         tilgangsKombinasjon += 'varig lønnstilskudd';
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
 
     amplitude.logEvent('sidevisning', tilgangsinfo);
 };
+
+export const loggIngenTilganger = () => {
+    let tilgangsinfo: EventProps = {
+        erTilleggssInformasjon: true,
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+        ingenTilganger: true,
+    };
+    amplitude.logEvent('sidevisning', tilgangsinfo);
+}
 
 export const loggTjenesteTrykketPa = (
     tjeneste: string,

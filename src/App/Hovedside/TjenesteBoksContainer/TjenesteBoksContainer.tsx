@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
-import { Tilgang } from '../../LoginBoundary';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
@@ -9,100 +8,94 @@ import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Arbeidstreningboks from './ArbeidstreningLonnstilskuddBoks/Arbeidstreningboks/Arbeidstreningboks';
 import IAwebboks from './IAwebboks/IAwebboks';
-import LasterBoks from '../AltinnContainer/LasterBoks/LasterBoks';
-import MidlertidigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/MidlertidigLonnstilskuddboks/MidlertidigLonnstilskuddboks';
+import MidlertidigLonnstilskuddboks
+    from './ArbeidstreningLonnstilskuddBoks/MidlertidigLonnstilskuddboks/MidlertidigLonnstilskuddboks';
 import VarigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/VarigLonnstilskuddboks/VarigLonnstilskuddboks';
 import './TjenesteBoksContainer.less';
+import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {
-        tilganger,
         valgtOrganisasjon,
         arbeidstreningsavtaler,
         midlertidigLonnstilskuddAvtaler,
         varigLonnstilskuddAvtaler,
+        tilgangTilPam,
     } = useContext(OrganisasjonsDetaljerContext);
     const {
-        organisasjoner,
+        tilgangTilSyfo,
     } = useContext(OrganisasjonsListeContext);
 
-    const [typeAntall, settypeAntall] = useState('');
-    const [ferdigLastet, setFerdigLastet] = useState(false);
 
-    const [visIA, setVisIA] = useState(false);
-    const [visArbeidstrening, setVisArbeidstrening] = useState(false);
-    const [visSyfo, setVisSyfo] = useState(false);
-    const [visPAM, setVisPam] = useState(false);
-    const [visArbeidsforhold, setVisArbeidsforhold] = useState(false);
-    const [visMidlertidigLonnstilskudd, setVisMidlertidigLonnstilskudd] = useState(false);
-    const [visVarigLonnstilskudd, setVisVarigLonnstilskudd] = useState(false);
+    let antallTjenester = 0
+    let visArbeidstrening = false
+    let visMidlertidigLonnstilskudd = false
+    let visVarigLonnstilskudd = false
 
-    useEffect(() => {
-        setFerdigLastet(false);
+    tilgangTilSyfo && (antallTjenester += 1);
 
-        if (!Object.values(tilganger).includes(Tilgang.LASTER)) {
-            setVisSyfo(tilganger.tilgangTilSyfo === Tilgang.TILGANG);
-            setVisPam(tilganger.tilgangTilPam === Tilgang.TILGANG);
-            setVisIA(tilganger.tilgangTilIAWeb === Tilgang.TILGANG);
-            setVisArbeidstrening(
-                tilganger.tilgangTilArbeidstreningsavtaler === Tilgang.TILGANG && arbeidstreningsavtaler.length > 0
-            );
-            setVisArbeidsforhold(tilganger.tilgangTilArbeidsforhold === Tilgang.TILGANG);
-            setVisMidlertidigLonnstilskudd(
-                tilganger.tilgangTilMidlertidigLonnstilskudd === Tilgang.TILGANG && midlertidigLonnstilskuddAvtaler.length > 0
-            );
-            setVisVarigLonnstilskudd(
-                tilganger.tilgangTilVarigLonnstilskudd === Tilgang.TILGANG && varigLonnstilskuddAvtaler.length > 0
-            );
+    const tilganger = valgtOrganisasjon?.altinnSkjematilgang
+    if (valgtOrganisasjon && tilganger) {
+        tilganger.Arbeidsforhold && (antallTjenester += 1);
+        valgtOrganisasjon.iawebtilgang && (antallTjenester += 1);
+
+        tilgangTilPam === Tilgang.TILGANG && (antallTjenester += 1);
+
+        if (tilganger.Arbeidstrening && arbeidstreningsavtaler.length > 0) {
+            visArbeidstrening = true;
+            antallTjenester += 1;
         }
-    }, [
-        valgtOrganisasjon,
-        tilganger,
-        arbeidstreningsavtaler,
-        midlertidigLonnstilskuddAvtaler,
-        varigLonnstilskuddAvtaler,
-    ]);
 
-    useEffect(() => {
-        const antallTjenester = Object.values(tilganger).filter(tilgang => tilgang === Tilgang.TILGANG).length;
-
-        if (!Object.values(tilganger).includes(Tilgang.LASTER)) {
-            if (antallTjenester % 2 === 0) {
-                settypeAntall('antall-partall');
-            }
-            if (antallTjenester % 2 !== 0 && antallTjenester !== 1) {
-                settypeAntall('antall-oddetall');
-            }
-            if (antallTjenester === 1) {
-                settypeAntall('antall-en');
-            }
-            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(tilganger);
-            setFerdigLastet(true);
+        if (tilganger['Midlertidig lønnstilskudd'] && midlertidigLonnstilskuddAvtaler.length > 0) {
+            visMidlertidigLonnstilskudd = true;
+            antallTjenester += 1;
         }
-    }, [tilganger,organisasjoner]);
+        if (tilganger['Varig lønnstilskudd'] && varigLonnstilskuddAvtaler.length > 0) {
+            visVarigLonnstilskudd = true;
+            antallTjenester += 1;
+        }
+    }
+
+    let antallClassname;
+    if (antallTjenester === 1) {
+        antallClassname = 'antall-en';
+    } else if (antallTjenester % 2 === 0) {
+        antallClassname = 'antall-partall';
+    } else {
+        antallClassname = 'antall-oddetall';
+    }
+
+    useEffect( () => {
+            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(
+                valgtOrganisasjon,
+                {
+                    tilgangTilSyfo,
+                    tilgangTilPam
+                }
+            );
+        }, [valgtOrganisasjon, tilgangTilSyfo, tilgangTilPam]
+    );
 
     return (
-        <div className={'tjenesteboks-container ' + typeAntall}>
-            {!ferdigLastet && <LasterBoks />}
-
-            {ferdigLastet && (
+        <div className={'tjenesteboks-container ' + antallClassname}>
+            {(
                 <>
-                    {visArbeidsforhold && (
+                    {tilganger?.Arbeidsforhold && (
                         <Innholdsboks classname="tjenesteboks">
                             <Arbeidsforholdboks />
                         </Innholdsboks>
                     )}
-                    {visSyfo && (
+                    {tilgangTilSyfo && (
                         <Innholdsboks classname="tjenesteboks">
                             <Syfoboks />
                         </Innholdsboks>
                     )}
-                    {visIA && (
+                    {valgtOrganisasjon?.iawebtilgang && (
                         <Innholdsboks classname="tjenesteboks">
                             <IAwebboks />
                         </Innholdsboks>
                     )}
-                    {visPAM && (
+                    {tilgangTilPam === Tilgang.TILGANG && (
                         <Innholdsboks classname="tjenesteboks">
                             <Pamboks />
                         </Innholdsboks>
