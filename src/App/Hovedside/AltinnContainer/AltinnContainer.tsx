@@ -5,7 +5,6 @@ import AltinnLenke from './AltinnLenke/AltinnLenke';
 import './AltinnContainer.less';
 import { altinnskjema, AltinnskjemaId } from '../../../altinn/tjenester';
 
-
 const skjemarekkefølge: AltinnskjemaId[] = [
     'mentortilskudd',
     'inkluderingstilskudd',
@@ -21,13 +20,9 @@ export const AltinnContainer: FunctionComponent = () => {
         return null;
     }
 
-    const skjemaliste = skjemarekkefølge.flatMap( navn => {
-        if (valgtOrganisasjon.altinnSkjematilgang[navn]) {
-            return [altinnskjema[navn]];
-        } else {
-            return [];
-        }
-    });
+    const skjemaliste = skjemarekkefølge.flatMap(navn =>
+        valgtOrganisasjon.altinnSkjematilgang[navn] ? [altinnskjema[navn]] : []
+    );
 
     const antall = skjemaliste.length;
 

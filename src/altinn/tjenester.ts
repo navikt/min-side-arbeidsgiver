@@ -89,7 +89,7 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
         navn: 'Lønnstilskudd',
         tjenestekode: '5159',
         tjenesteversjon: '1',
-        beOmTilgangBeskrivelse: '', /* Fases ut, kan ikke be om tilgang. */
+        beOmTilgangBeskrivelse: '',
         skjemaUrl: gittMiljo({
             prod:
                 'https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/',
