@@ -1,4 +1,4 @@
-import environment, { gittMiljo } from './utils/environment';
+import { gittMiljo } from './utils/environment';
 import { basename } from './paths';
 
 export const skjemaForArbeidsgivere = 'https://www.nav.no/soknader/nb/bedrift';
