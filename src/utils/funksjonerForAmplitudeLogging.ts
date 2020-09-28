@@ -34,19 +34,19 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     if (tilgangTilPam === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'arbeidsplassen ';
     }
-    if (org?.iawebtilgang) {
+    if (org?.altinnSkjematilgang.iaweb) {
         tilgangsKombinasjon += 'sykefraværsstatistikk ';
     }
-    if (org?.altinnSkjematilgang.Arbeidstrening) {
+    if (org?.altinnSkjematilgang.arbeidstrening) {
         tilgangsKombinasjon += 'arbeidstrening ';
     }
-    if (org?.altinnSkjematilgang.Arbeidsforhold) {
+    if (org?.altinnSkjematilgang.arbeidsforhold) {
         tilgangsKombinasjon += 'arbeidsforhold'
     }
-    if (org?.altinnSkjematilgang['Midlertidig lønnstilskudd']) {
+    if (org?.altinnSkjematilgang.midlertidigLønnstilskudd) {
         tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
     }
-    if (org?.altinnSkjematilgang['Varig lønnstilskudd']) {
+    if (org?.altinnSkjematilgang.varigLønnstilskudd) {
         tilgangsKombinasjon += 'varig lønnstilskudd';
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon

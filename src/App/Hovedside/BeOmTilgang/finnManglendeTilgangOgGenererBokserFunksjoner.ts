@@ -1,11 +1,10 @@
 import { Tilgang } from '../../LoginBoundary';
 import { TjenesteInfoProps } from './TjenesteInfo/TjenesteInfo';
 import {
-    altinnSkjemakoder,
-    AltinnSkjemanavn,
     OrganisasjonInfo,
 } from '../../OrganisasjonsListeProvider';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
+import { alleAltinntjenster, AltinnId, altinntjeneste } from '../../../altinn/tjenester';
 
 interface AndreTilganger {
     tilgangTilSyfo: Tilgang,
@@ -38,14 +37,14 @@ export const genererTekstbokser = (
             });
         }
 
-        if (!organisasjon.iawebtilgang) {
+        if (!tilgang.iaweb) {
             listeMedProps.push({
                 overskrift: 'Sykfraværsstatistikk',
                 innholdstekst: 'Oversikt over sykefravær i din virksomhet og bransje.',
                 lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '3403', '2'),
             });
         }
-        if (!tilgang.Arbeidstrening) {
+        if (!tilgang.arbeidstrening) {
             listeMedProps.push({
                 overskrift: 'Arbeidstrening',
                 innholdstekst:
@@ -54,7 +53,7 @@ export const genererTekstbokser = (
             });
         }
 
-        if (!tilgang.Arbeidsforhold) {
+        if (!tilgang.arbeidsforhold) {
             listeMedProps.push({
                 overskrift: 'Arbeidsforhold',
                 innholdstekst:
@@ -63,7 +62,7 @@ export const genererTekstbokser = (
             });
         }
 
-        if (!tilgang['Midlertidig lønnstilskudd']) {
+        if (!tilgang.midlertidigLønnstilskudd) {
             listeMedProps.push({
                 overskrift: 'Midlertidig lønnstilskudd',
                 innholdstekst:
@@ -72,7 +71,7 @@ export const genererTekstbokser = (
             });
         }
 
-        if (!tilgang['Varig lønnstilskudd']) {
+        if (!tilgang.varigLønnstilskudd) {
             listeMedProps.push({
                 overskrift: 'Varig lønnstilskudd',
                 innholdstekst:
@@ -81,8 +80,8 @@ export const genererTekstbokser = (
             });
         }
 
-        const andreSkjema: AltinnSkjemanavn[] = [
-            'Ekspertbistand', 'Inkluderingstilskudd', 'Mentortilskudd', 'Inntektsmelding'
+        const andreSkjema: AltinnId[] = [
+            'ekspertbistand', 'inkluderingstilskudd', 'mentortilskudd', 'inntektsmelding'
         ];
         for (let skjema of andreSkjema) {
             if (!tilgang[skjema]) {
@@ -105,14 +104,14 @@ const innholdstekst: { [key: string]: string } = {
 };
 
 const genererPropsForAltinnTjeneste = (
-    skjemanavn: AltinnSkjemanavn,
+    skjemanavn: AltinnId,
     orgnr: string
 ): TjenesteInfoProps => ({
     overskrift: skjemanavn,
     lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(
         orgnr,
-        altinnSkjemakoder[skjemanavn].kode,
-        altinnSkjemakoder[skjemanavn].versjon
+        alleAltinntjenster[skjemanavn].tjenestekode,
+        alleAltinntjenster[skjemanavn].tjenesteversjon
     ),
     innholdstekst: innholdstekst[skjemanavn] ?? '',
 });

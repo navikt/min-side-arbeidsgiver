@@ -61,9 +61,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             setantallAnnonser(0);
         }
 
-        const tilgangArbeidstrening = orgInfo.altinnSkjematilgang.Arbeidstrening;
-        const tilgangVarigLønnstilskudd = orgInfo.altinnSkjematilgang['Varig lønnstilskudd'];
-        const tilgangMidlertidigLønnstilskudd = orgInfo.altinnSkjematilgang['Midlertidig lønnstilskudd'];
+        const tilgangArbeidstrening = orgInfo.altinnSkjematilgang.arbeidstrening;
+        const tilgangVarigLønnstilskudd = orgInfo.altinnSkjematilgang.varigLønnstilskudd;
+        const tilgangMidlertidigLønnstilskudd = orgInfo.altinnSkjematilgang.midlertidigLønnstilskudd;
 
         if (tilgangArbeidstrening || tilgangMidlertidigLønnstilskudd || tilgangVarigLønnstilskudd) {
             hentArbeidsavtaler(org)

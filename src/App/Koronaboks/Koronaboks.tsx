@@ -18,7 +18,7 @@ export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const harTilgangRefusjon =
-        valgtOrganisasjon && valgtOrganisasjon.altinnSkjematilgang.Inntektsmelding;
+        valgtOrganisasjon && valgtOrganisasjon.altinnSkjematilgang.inntektsmelding;
     const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber
 
     return (

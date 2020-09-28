@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import {
     hentOrganisasjoner,
-    hentOrganisasjonerIAweb, hentSyfoTilgang,
-    hentTilgangForAlleAltinnskjema,
+    hentSyfoTilgang,
 } from '../api/dnaApi';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import {
@@ -10,61 +9,17 @@ import {
     hentAltinnRaporteeIdentiteter,
     ReporteeMessagesUrls,
 } from '../api/altinnApi';
-import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
+import { hentAltinntilganger } from '../altinn/tilganger';
+import { alleAltinntjenster, AltinnId, altinntjeneste } from '../altinn/tjenester';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
 
-export interface AltinnSkjema {
-    navn: string;
-    kode: string;
-    versjon: string;
-}
-
-export type AltinnTjenesteMap<A> = Record<AltinnSkjemanavn, A>;
-
-interface AltinnKode {
-    kode: string;
-    versjon: string;
-}
-
-export type AltinnSkjemanavn =
-    | 'Ekspertbistand'
-    | 'Inkluderingstilskudd'
-    | 'Lønnstilskudd'
-    | 'Mentortilskudd'
-    | 'Inntektsmelding'
-    | 'Arbeidstrening'
-    | 'Arbeidsforhold'
-    | 'Midlertidig lønnstilskudd'
-    | 'Varig lønnstilskudd';
-
-export const altinnSkjemakoder: Record<AltinnSkjemanavn, AltinnKode> = {
-    Ekspertbistand: { kode: '5384', versjon: '1' },
-    Inkluderingstilskudd: { kode: '5212', versjon: '1' },
-    Lønnstilskudd: { kode: '5159', versjon: '1' },
-    Mentortilskudd: { kode: '5216', versjon: '1' },
-    Inntektsmelding: { kode: '4936', versjon: '1' },
-    Arbeidstrening: { kode: '5332', versjon: gittMiljo({ prod: '2', other: '1' }) },
-    Arbeidsforhold: { kode: '5441', versjon: '1' },
-    'Midlertidig lønnstilskudd': { kode: '5516', versjon: '1' },
-    'Varig lønnstilskudd': { kode: '5516', versjon: '2' },
-};
-
-export const altinnSkjemanavn: AltinnSkjemanavn[] = Record.keys(altinnSkjemakoder);
-
-type AltinnSkjematilganger = Record<AltinnSkjemanavn, boolean>;
-
-export const ingenSkjemaOrganisasjoner: Record<AltinnSkjemanavn, Set<orgnr>> = Record.fromEntries(
-    altinnSkjemanavn.map(navn => [navn, new Set()])
-);
-
 export type OrganisasjonInfo = {
     organisasjon: Organisasjon;
-    altinnSkjematilgang: AltinnTjenesteMap<boolean>;
-    iawebtilgang: boolean;
+    altinnSkjematilgang: Record<AltinnId, boolean>;
 };
 
 export type Context = {
@@ -75,23 +30,15 @@ export type Context = {
     visSyfoFeilmelding: boolean;
 };
 
-const listeMedAltinnSkjemakoder = Object.entries(altinnSkjemakoder).map(([navn, kode]) => ({
-    navn,
-    ...kode,
-}));
-
 export const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsListeProvider: FunctionComponent = props => {
-    const [organisasjoner, setOrganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(
+    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(
         undefined
     );
-    const [organisasjonerMedIAWEB, setOrganisasjonerMedIAWEB] = useState<Set<orgnr> | undefined>(
-        undefined
-    );
-    const [skjematilganger, setSkjematilganger] = useState<
-        Record<AltinnSkjemanavn, Set<string>> | undefined
-    >(undefined);
+    const [altinntilganger, setAltinntilganger] = useState<
+        Record<AltinnId, Set<string>> | undefined
+        >(undefined);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(Tilgang.LASTER);
@@ -118,22 +65,15 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
                 )
             )
             .then(orgs => Record.fromEntries(orgs.map(org => [org.OrganizationNumber, org])))
-            .then(setOrganisasjoner)
+            .then(setAltinnorganisasjoner)
             .catch(_ => {
-                setOrganisasjoner({});
+                setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
             });
 
-        hentOrganisasjonerIAweb()
-            .then(orgs => orgs.filter(org => org.OrganizationForm === 'BEDR'))
-            .then(orgs => orgs.map(org => org.OrganizationNumber))
-            .then(orgs => new Set(orgs))
-            .then(setOrganisasjonerMedIAWEB)
-            .catch(_ => setOrganisasjonerMedIAWEB(new Set()));
-
-        hentTilgangForAlleAltinnskjema(listeMedAltinnSkjemakoder)
-            .then((resultat: any) => setSkjematilganger(resultat))
-            .catch(_ => setSkjematilganger(ingenSkjemaOrganisasjoner));
+        hentAltinntilganger()
+            .then(setAltinntilganger)
+            .catch(_ => setAltinntilganger(Record.map(alleAltinntjenster, _ => new Set())))
 
         hentSyfoTilgang()
             .then(tilgangFromTruthy)
@@ -144,20 +84,14 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
             }) ;
     }, []);
 
-    if (organisasjoner && skjematilganger && organisasjonerMedIAWEB) {
+    if (altinnorganisasjoner && altinntilganger) {
+        const organisasjoner = Record.map(altinnorganisasjoner, org => ({
+                organisasjon: org,
+                altinnSkjematilgang: Record.map(altinntilganger, _ => _.has(org.OrganizationNumber))
+            }));
+
         const context: Context = {
-            organisasjoner: Record.map(organisasjoner, org => {
-                const orgnr = org.OrganizationNumber;
-                const altinnSkjematilgang: AltinnSkjematilganger = Record.map(skjematilganger, _ =>
-                    _.has(orgnr)
-                );
-                const z: OrganisasjonInfo = {
-                    organisasjon: org,
-                    iawebtilgang: organisasjonerMedIAWEB.has(orgnr),
-                    altinnSkjematilgang,
-                };
-                return z;
-            }),
+            organisasjoner,
             reporteeMessagesUrls,
             visFeilmelding,
             visSyfoFeilmelding,

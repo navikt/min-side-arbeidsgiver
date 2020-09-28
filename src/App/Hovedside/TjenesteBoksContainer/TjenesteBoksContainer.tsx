@@ -28,33 +28,23 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
 
     let antallTjenester = 0
-    let visArbeidstrening = false
-    let visMidlertidigLonnstilskudd = false
-    let visVarigLonnstilskudd = false
 
-    tilgangTilSyfo && (antallTjenester += 1);
+    tilgangTilSyfo === Tilgang.TILGANG && (antallTjenester += 1);
 
-    const tilganger = valgtOrganisasjon?.altinnSkjematilgang
-    if (valgtOrganisasjon && tilganger) {
-        tilganger.Arbeidsforhold && (antallTjenester += 1);
-        valgtOrganisasjon.iawebtilgang && (antallTjenester += 1);
+    const tilgang = valgtOrganisasjon?.altinnSkjematilgang
+    tilgang?.arbeidsforhold && (antallTjenester += 1);
+    tilgang?.iaweb && (antallTjenester += 1);
 
-        tilgangTilPam === Tilgang.TILGANG && (antallTjenester += 1);
+    tilgangTilPam === Tilgang.TILGANG && (antallTjenester += 1);
 
-        if (tilganger.Arbeidstrening && arbeidstreningsavtaler.length > 0) {
-            visArbeidstrening = true;
-            antallTjenester += 1;
-        }
+    const visArbeidstrening = tilgang?.arbeidstrening && arbeidstreningsavtaler.length > 0;
+    visArbeidstrening && (antallTjenester += 1);
 
-        if (tilganger['Midlertidig lønnstilskudd'] && midlertidigLonnstilskuddAvtaler.length > 0) {
-            visMidlertidigLonnstilskudd = true;
-            antallTjenester += 1;
-        }
-        if (tilganger['Varig lønnstilskudd'] && varigLonnstilskuddAvtaler.length > 0) {
-            visVarigLonnstilskudd = true;
-            antallTjenester += 1;
-        }
-    }
+    const visMidlertidigLonnstilskudd = tilgang?.midlertidigLønnstilskudd && midlertidigLonnstilskuddAvtaler.length > 0;
+    visMidlertidigLonnstilskudd && (antallTjenester += 1);
+
+    const visVarigLonnstilskudd = tilgang?.varigLønnstilskudd && varigLonnstilskuddAvtaler.length > 0;
+    visVarigLonnstilskudd && (antallTjenester += 1);
 
     let antallClassname;
     if (antallTjenester === 1) {
@@ -80,7 +70,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         <div className={'tjenesteboks-container ' + antallClassname}>
             {(
                 <>
-                    {tilganger?.Arbeidsforhold && (
+                    {tilgang?.arbeidsforhold && (
                         <Innholdsboks classname="tjenesteboks">
                             <Arbeidsforholdboks />
                         </Innholdsboks>
@@ -90,7 +80,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                             <Syfoboks />
                         </Innholdsboks>
                     )}
-                    {valgtOrganisasjon?.iawebtilgang && (
+                    {tilgang?.iaweb && (
                         <Innholdsboks classname="tjenesteboks">
                             <IAwebboks />
                         </Innholdsboks>
