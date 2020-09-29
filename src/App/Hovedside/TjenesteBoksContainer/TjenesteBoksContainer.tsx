@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
-import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../../../utils/funksjonerForAmplitudeLogging';
+import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
@@ -12,7 +11,6 @@ import MidlertidigLonnstilskuddboks
     from './ArbeidstreningLonnstilskuddBoks/MidlertidigLonnstilskuddboks/MidlertidigLonnstilskuddboks';
 import VarigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/VarigLonnstilskuddboks/VarigLonnstilskuddboks';
 import './TjenesteBoksContainer.less';
-import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {
@@ -20,24 +18,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         arbeidstreningsavtaler,
         midlertidigLonnstilskuddAvtaler,
         varigLonnstilskuddAvtaler,
-        tilgangTilPam,
     } = useContext(OrganisasjonsDetaljerContext);
     const {
         tilgangTilSyfo,
-    } = useContext(OrganisasjonsListeContext);
-
-    useEffect( () => {
-        if (tilgangTilPam !== Tilgang.LASTER) {
-            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(
-                valgtOrganisasjon,
-                {
-                    tilgangTilSyfo,
-                    tilgangTilPam
-                }
-            );
-        }
-        }, [valgtOrganisasjon, tilgangTilSyfo, tilgangTilPam]
-    );
+    } = useContext(OrganisasjonerOgTilgangerContext);
 
     const tilgang = valgtOrganisasjon?.altinnSkjematilgang
 
@@ -52,7 +36,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     if (tilgang?.iaweb) {
         tjenester.push(IAwebboks)
     }
-    if (tilgangTilPam === Tilgang.TILGANG) {
+    if (tilgang?.pam) {
         tjenester.push(Pamboks)
     }
     if (tilgang?.midlertidigLønnstilskudd && midlertidigLonnstilskuddAvtaler.length > 0) {

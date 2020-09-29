@@ -4,7 +4,7 @@ import './App.less';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
-import { OrganisasjonsListeProvider } from './OrganisasjonsListeProvider';
+import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
@@ -29,7 +29,7 @@ const App: FunctionComponent = () => {
                     />
                     <LoginBoundary>
                         <FeatureToggleProvider>
-                            <OrganisasjonsListeProvider>
+                            <OrganisasjonerOgTilgangerProvider>
                                 <OrganisasjonsDetaljerProvider>
                                     <div className="bakgrunnsside">
                                         <Switch>
@@ -51,7 +51,7 @@ const App: FunctionComponent = () => {
                                         </Switch>
                                     </div>
                                 </OrganisasjonsDetaljerProvider>
-                            </OrganisasjonsListeProvider>
+                            </OrganisasjonerOgTilgangerProvider>
                         </FeatureToggleProvider>
                     </LoginBoundary>
                 </Switch>

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
-import { OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import { genererTekstbokser } from './finnManglendeTilgangOgGenererBokserFunksjoner';
@@ -10,20 +10,13 @@ import TjenesteInfo from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.less';
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { tilgangTilSyfo } = useContext(OrganisasjonsListeContext);
-    const { valgtOrganisasjon, tilgangTilPam } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const tjenesteinfoBokser = genererTekstbokser(valgtOrganisasjon, {
-        tilgangTilPam,
         tilgangTilSyfo,
     }).map(tjeneste => (
-        <TjenesteInfo
-            overskrift={tjeneste.overskrift}
-            lenkeTilBeOmTjeneste={tjeneste.lenkeTilBeOmTjeneste}
-            innholdstekst={tjeneste.innholdstekst}
-            erSyfo={tjeneste.erSyfo}
-            key={tjeneste.overskrift}
-        />
+        <TjenesteInfo {...tjeneste} key={tjeneste.overskrift}/>
     ));
 
     const skalViseInnhold = tjenesteinfoBokser.length > 0;

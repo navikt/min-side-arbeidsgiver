@@ -1,6 +1,6 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
-import { OrganisasjonInfo } from '../App/OrganisasjonsListeProvider';
+import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 
 interface EventProps {
     tilgangskombinasjon?: string;
@@ -13,13 +13,12 @@ interface EventProps {
 }
 
 interface AndreTilganger {
-    tilgangTilPam: Tilgang,
     tilgangTilSyfo: Tilgang,
 }
 
 export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     org: OrganisasjonInfo | undefined,
-    {tilgangTilPam, tilgangTilSyfo}: AndreTilganger
+    {tilgangTilSyfo}: AndreTilganger
 ) => {
     let tilgangsinfo: EventProps = {
         erTilleggssInformasjon: true,
@@ -31,7 +30,7 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     if (tilgangTilSyfo === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'digisyfo ';
     }
-    if (tilgangTilPam === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.pam) {
         tilgangsKombinasjon += 'arbeidsplassen ';
     }
     if (org?.altinnSkjematilgang.iaweb) {
@@ -51,17 +50,12 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
 
+    if (tilgangsKombinasjon === '') {
+        tilgangsinfo.ingenTilganger = true;
+    }
+
     amplitude.logEvent('sidevisning', tilgangsinfo);
 };
-
-export const loggIngenTilganger = () => {
-    let tilgangsinfo: EventProps = {
-        erTilleggssInformasjon: true,
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
-        ingenTilganger: true,
-    };
-    amplitude.logEvent('sidevisning', tilgangsinfo);
-}
 
 export const loggTjenesteTrykketPa = (
     tjeneste: string,

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
+import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { Tilgang } from '../LoginBoundary';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
@@ -15,7 +15,7 @@ import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer'
 import * as Record from '../../utils/Record'
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
-    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonsListeContext);
+    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);
 
     useEffect(() => {
         const skalViseManglerTilgangBoks = !(

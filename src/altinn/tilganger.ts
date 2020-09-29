@@ -5,11 +5,11 @@ import * as Record from '../utils/Record';
 type Orgnr = string;
 
 export const hentAltinntilganger = async (): Promise<Record<AltinnId, Set<Orgnr>>> => {
-    const enkelttilganger = await Promise.all(Record.fold(altinntjeneste, hentEnAltinntilganger));
+    const enkelttilganger = await Promise.all(Record.fold(altinntjeneste, hentAltinntilgangerForEnTjeneste));
     return Record.fromEntries(enkelttilganger);
 };
 
-const hentEnAltinntilganger = async (
+const hentAltinntilgangerForEnTjeneste = async (
     id: AltinnId,
     tjeneste: AltinnFellesInfo
 ): Promise<[AltinnId, Set<Orgnr>]> => {

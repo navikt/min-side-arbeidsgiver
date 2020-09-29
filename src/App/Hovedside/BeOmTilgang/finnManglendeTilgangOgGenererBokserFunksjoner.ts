@@ -1,16 +1,15 @@
 import { Tilgang } from '../../LoginBoundary';
 import { TjenesteInfoProps } from './TjenesteInfo/TjenesteInfo';
-import { OrganisasjonInfo } from '../../OrganisasjonsListeProvider';
+import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerProvider';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
 import { alleAltinntjenster, AltinnId } from '../../../altinn/tjenester';
 
 interface AndreTilganger {
     tilgangTilSyfo: Tilgang;
-    tilgangTilPam: Tilgang;
 }
 export const genererTekstbokser = (
     organisasjon: OrganisasjonInfo | undefined,
-    { tilgangTilSyfo, tilgangTilPam }: AndreTilganger
+    { tilgangTilSyfo }: AndreTilganger
 ): TjenesteInfoProps[] => {
     const listeMedProps: TjenesteInfoProps[] = [];
 
@@ -27,15 +26,8 @@ export const genererTekstbokser = (
         const orgnr = organisasjon.organisasjon.OrganizationNumber;
         const tilgang = organisasjon.altinnSkjematilgang;
 
-        if (tilgangTilPam === Tilgang.IKKE_TILGANG) {
-            listeMedProps.push({
-                overskrift: 'Rekruttering',
-                innholdstekst: 'Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.',
-                lenkeTilBeOmTjeneste: beOmTilgangIAltinnLink(orgnr, '5078', '1'),
-            });
-        }
-
         const altinnIdIRekkefølge: AltinnId[] = [
+            'pam',
             'iaweb',
             'arbeidstrening',
             'arbeidsforhold',
@@ -58,6 +50,7 @@ export const genererTekstbokser = (
                         tjeneste.tjenestekode,
                         tjeneste.tjenesteversjon
                     ),
+                    erSyfo: false,
                 });
             }
         }

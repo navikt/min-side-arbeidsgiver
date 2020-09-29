@@ -30,9 +30,9 @@ export type Context = {
     visSyfoFeilmelding: boolean;
 };
 
-export const OrganisasjonsListeContext = React.createContext<Context>({} as Context);
+export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
-export const OrganisasjonsListeProvider: FunctionComponent = props => {
+export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(
         undefined
     );
@@ -99,9 +99,9 @@ export const OrganisasjonsListeProvider: FunctionComponent = props => {
         };
 
         return (
-            <OrganisasjonsListeContext.Provider value={context}>
+            <OrganisasjonerOgTilgangerContext.Provider value={context}>
                 {props.children}
-            </OrganisasjonsListeContext.Provider>
+            </OrganisasjonerOgTilgangerContext.Provider>
         );
     } else {
         return <></>;
