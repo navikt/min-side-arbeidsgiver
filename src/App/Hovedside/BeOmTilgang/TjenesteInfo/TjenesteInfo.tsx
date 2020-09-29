@@ -10,8 +10,7 @@ export interface TjenesteInfoProps {
     overskrift: string;
     innholdstekst: string;
     lenkeTilBeOmTjeneste: string;
-    erSyfo?: boolean;
-    key?: string;
+    erSyfo: boolean;
 }
 
 const TjenesteInfo = (props: TjenesteInfoProps) => {

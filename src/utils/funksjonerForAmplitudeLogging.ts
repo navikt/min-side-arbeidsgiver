@@ -1,6 +1,6 @@
 import amplitude from '../utils/amplitude';
 import { Tilgang } from '../App/LoginBoundary';
-import { Tilganger } from '../App/OrganisasjonDetaljerProvider';
+import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 
 interface EventProps {
     tilgangskombinasjon?: string;
@@ -12,41 +12,47 @@ interface EventProps {
     ingenTilganger?: boolean;
 }
 
+interface AndreTilganger {
+    tilgangTilSyfo: Tilgang,
+}
+
 export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
-    tilganger: Tilganger | null
+    org: OrganisasjonInfo | undefined,
+    {tilgangTilSyfo}: AndreTilganger
 ) => {
     let tilgangsinfo: EventProps = {
         erTilleggssInformasjon: true,
         url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
     };
 
-    if (!tilganger) {
-        tilgangsinfo.ingenTilganger = true;
-    }
     let tilgangsKombinasjon = ''
 
-    if (tilganger?.tilgangTilSyfo === Tilgang.TILGANG) {
+    if (tilgangTilSyfo === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'digisyfo ';
     }
-    if (tilganger?.tilgangTilPam === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.pam) {
         tilgangsKombinasjon += 'arbeidsplassen ';
     }
-    if (tilganger?.tilgangTilIAWeb === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.iaweb) {
         tilgangsKombinasjon += 'sykefraværsstatistikk ';
     }
-    if (tilganger?.tilgangTilArbeidstreningsavtaler === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.arbeidstrening) {
         tilgangsKombinasjon += 'arbeidstrening ';
     }
-    if (tilganger?.tilgangTilArbeidsforhold === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.arbeidsforhold) {
         tilgangsKombinasjon += 'arbeidsforhold'
     }
-    if (tilganger?.tilgangTilMidlertidigLonnstilskudd === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.midlertidigLønnstilskudd) {
         tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
     }
-    if (tilganger?.tilgangTilVarigLonnstilskudd === Tilgang.TILGANG) {
+    if (org?.altinnSkjematilgang.varigLønnstilskudd) {
         tilgangsKombinasjon += 'varig lønnstilskudd';
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
+
+    if (tilgangsKombinasjon === '') {
+        tilgangsinfo.ingenTilganger = true;
+    }
 
     amplitude.logEvent('sidevisning', tilgangsinfo);
 };
