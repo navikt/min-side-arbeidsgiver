@@ -74,8 +74,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
 
     return (
         <div className={'tjenesteboks-container ' + antallClassname}>
-            {tjenester.map(Tjeneste =>
-                <Innholdsboks classname="tjenesteboks">
+            {tjenester.map((Tjeneste, indeks) =>
+                <Innholdsboks classname="tjenesteboks" key={indeks}>
                     <Tjeneste/>
                 </Innholdsboks>
             )}
