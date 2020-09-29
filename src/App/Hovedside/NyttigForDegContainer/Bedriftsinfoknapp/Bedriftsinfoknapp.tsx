@@ -25,7 +25,7 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
             onClick={loggAtKlikketPaBedriftInfo}
             linkCreator={(props: any) => (
                 <Link
-                    to={props.href + '?bedrift=' + valgtOrganisasjon.organisasjon.OrganizationNumber}
+                    to={props.href + '?bedrift=' + valgtOrganisasjon.OrganizationNumber}
                     {...props}
                 >
                     {props.children}

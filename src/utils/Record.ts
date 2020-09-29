@@ -1,51 +1,33 @@
-
-export const fromEntries: <Key extends string, Value>(entries: [Key, Value][]) => Record<Key, Value> =
+export const fromEntries: <Key extends string, T>(entries: [Key, T][]) => Record<Key, T> =
     Object.fromEntries;
 
-export const keys: <Key extends string, Value>(record: Record<Key, Value>) => Key[] =
+export const keys: <Key extends string, T>(record: Record<Key, T>) => Key[] =
     Object.keys;
 
-export const values: <Key extends string, Value>(record: Record<Key, Value>) => Value[] =
+export const values: <Key extends string, T>(record: Record<Key, T>) => T[] =
     Object.values;
 
-export const entries: <Key extends string, Value>(record: Record<Key, Value>) => [Key, Value][] =
-    Object.entries;
+export const map = <Key extends string, From, To>(
+    input: Record<Key, From>,
+    f: (_: From) => To
+): Record<Key, To> => {
+    const output = {} as Record<Key, To>;
 
-export const map = <Key extends string, FromValue, ToValue>(
-    input: Record<Key, FromValue>,
-    f: (_: FromValue) => ToValue
-): Record<Key, ToValue> => {
-    const output = {} as Record<Key, ToValue>;
-
-    for (let key of keys(input)) {
+    for (let key of Object.keys(input) as Key[]) {
         output[key] = f(input[key]);
     }
 
     return output;
 };
 
-export const forEach = <Key extends string, Value>(
-    obj: Record<Key, Value>,
-    f: (key: Key, value: Value) => void
+export const forEach = <Key extends string, T>(
+    obj: Record<Key, T>,
+    f: (key: Key, value: T) => void
 ): void => {
-    for (let key of keys(obj)) {
+    for (let key of Object.keys(obj) as Key[]) {
         f(key, obj[key]);
     }
 };
 
-export const length = <Key extends string, Value>(obj: Record<Key, Value>): number =>
+export const length = <Key extends string, T>(obj: Record<Key, T>): number =>
     Object.keys(obj).length;
-
-export const fold = <Key extends string, FromValue, ToValue>(
-    record: Record<Key, FromValue>,
-    f: (k: Key, v:FromValue) => ToValue
-): ToValue[] => {
-    const result = []
-
-    for (let [key, value] of entries(record)) {
-        result.push(f(key, value))
-    }
-
-    return result
-}
-

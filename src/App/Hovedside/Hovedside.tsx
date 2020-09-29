@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
+import { SyfoTilgangContext } from '../../SyfoTilgangProvider';
 import { Tilgang } from '../LoginBoundary';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
@@ -15,17 +16,18 @@ import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer'
 import * as Record from '../../utils/Record'
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
-    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner, visFeilmelding } = useContext(OrganisasjonsListeContext);
+    const { tilgangTilSyfoState, visSyfoFeilmelding } = useContext(SyfoTilgangContext);
 
     useEffect(() => {
         const skalViseManglerTilgangBoks = !(
-            Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG
+            Record.length(organisasjoner) > 0 || tilgangTilSyfoState === Tilgang.TILGANG
         );
 
         if (skalViseManglerTilgangBoks) {
             history.replace({ pathname: 'mangler-tilgang' });
         }
-    }, [organisasjoner, tilgangTilSyfo, history]);
+    }, [organisasjoner, tilgangTilSyfoState, history]);
 
     return (
         <>
@@ -35,13 +37,15 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                     visFeilmelding={visFeilmelding}
                     visSyfoFeilmelding={visSyfoFeilmelding}
                 />
-                <Koronaboks />
-                <TjenesteBoksContainer />
-                <BrevFraAltinnContainer />
-                <NyttigForDegContainer />
-                <AltinnContainer />
-                <SkjemaveilederContainer />
-                <BeOmTilgang />
+                <>
+                    <Koronaboks />
+                    <TjenesteBoksContainer />
+                    <BrevFraAltinnContainer />
+                    <NyttigForDegContainer />
+                    <AltinnContainer />
+                    <SkjemaveilederContainer />
+                    <BeOmTilgang />
+                </>
             </div>
         </>
     );

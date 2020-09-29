@@ -12,14 +12,16 @@ import {
 } from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { OrganisasjonsListeContext } from '../OrganisasjonsListeProvider';
 import './Koronaboks.less';
 
 export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { organisasjoner } = useContext(OrganisasjonsListeContext);
 
     const harTilgangRefusjon =
-        valgtOrganisasjon && valgtOrganisasjon.altinnSkjematilgang.inntektsmelding;
-    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber
+        valgtOrganisasjon &&
+        organisasjoner[valgtOrganisasjon.OrganizationNumber].altinnSkjematilgang['Inntektsmelding'];
 
     return (
         <div className="koronaboks">
@@ -40,7 +42,7 @@ export const Koronaboks = () => {
                     <HoyreChevron />
                 </Lenke>
 
-                {harTilgangRefusjon && orgnr && (
+                {harTilgangRefusjon && valgtOrganisasjon && (
                     <>
                         <Lenke
                             className="koronaboks__lenke"
@@ -51,7 +53,7 @@ export const Koronaboks = () => {
                         </Lenke>
                         <Lenke
                             className="koronaboks__lenke"
-                            href={lenkeTilKlageskjema(orgnr)}
+                            href={lenkeTilKlageskjema(valgtOrganisasjon.OrganizationNumber)}
                         >
                             <span>
                                 Endring av opplysninger/klage på vedtak for refusjon av lønn ved
@@ -63,7 +65,7 @@ export const Koronaboks = () => {
                         <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
                         <Lenke
                             className="koronaboks__lenke"
-                            href={LenkeTilKoronaSykeRefusjon(orgnr)}
+                            href={LenkeTilKoronaSykeRefusjon(valgtOrganisasjon.OrganizationNumber)}
                         >
                             <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
                             <HoyreChevron />

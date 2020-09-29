@@ -1,5 +1,32 @@
-import { gittMiljo } from './utils/environment';
+import environment, { gittMiljo } from './utils/environment';
 import { basename } from './paths';
+
+export const soknadskjemaInkluderingstilskudd = gittMiljo({
+    prod:
+        'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/',
+    other:
+        'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
+});
+
+export const soknadsskjemaLonnstilskudd = gittMiljo({
+    prod:
+        'https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/',
+    other:
+        'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5159',
+});
+
+export const soknadTilskuddTilMentor = gittMiljo({
+    prod:
+        'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/',
+    other:
+        'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
+});
+
+export const inntekstmelding =
+    'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/';
+
+export const ekspertbistand =
+    'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-ekspertbistand/';
 
 export const skjemaForArbeidsgivere = 'https://www.nav.no/soknader/nb/bedrift';
 
@@ -66,17 +93,36 @@ export const arbeidsAvtaleLink = gittMiljo({
 export const hentArbeidsavtalerApiLink =
     '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
 
-export const altinnUrl = gittMiljo({
-    prod: 'https://altinn.no',
-    other: 'https://tt02.altinn.no',
-});
-
 export const beOmTilgangIAltinnLink = (
     orgnr: string,
     serviceKode: string,
-    serviceEditionKode: string
-) =>
-    `${altinnUrl}/ui/DelegationRequest?offeredBy=${orgnr}&resources=${serviceKode}_${serviceEditionKode}`;
+    serviceEditionKode: string,
+    serviceEditionKodeTest?: string
+) => {
+    if (environment.MILJO === 'prod-sbs') {
+        return (
+            'https://altinn.no/ui/DelegationRequest?offeredBy=' +
+            orgnr +
+            '&resources=' +
+            serviceKode +
+            '_' +
+            serviceEditionKode
+        );
+    } else {
+        let testServiceEditionKode = serviceEditionKode;
+        if (serviceEditionKodeTest) {
+            testServiceEditionKode = serviceEditionKodeTest;
+        }
+        return (
+            'https://tt02.altinn.no/ui/DelegationRequest?offeredBy=' +
+            orgnr +
+            '&resources=' +
+            serviceKode +
+            '_' +
+            testServiceEditionKode
+        );
+    }
+};
 
 export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
 
@@ -95,6 +141,11 @@ export const lenkeTilInfoOmDigitaleSoknader =
 
 export const lenkeTilInforOmInntekstmelding =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
+
+export const altinnUrl = gittMiljo({
+    prod: 'https://altinn.no',
+    other: 'https://tt02.altinn.no',
+});
 
 export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering/',

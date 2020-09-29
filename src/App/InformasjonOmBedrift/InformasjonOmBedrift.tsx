@@ -17,7 +17,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     const [overordnetEnhet, setOverordnetEnhet] = useState<OrganisasjonFraEnhetsregisteret>(
         tomEnhetsregOrg
     );
-    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
+    const orgnr = valgtOrganisasjon?.OrganizationNumber ?? '';
 
     useEffect(() => {
         const setEnheter = async () => {
