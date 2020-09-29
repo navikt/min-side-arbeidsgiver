@@ -27,6 +27,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     } = useContext(OrganisasjonsListeContext);
 
     useEffect( () => {
+        if (tilgangTilPam !== Tilgang.LASTER) {
             loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(
                 valgtOrganisasjon,
                 {
@@ -34,6 +35,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
                     tilgangTilPam
                 }
             );
+        }
         }, [valgtOrganisasjon, tilgangTilSyfo, tilgangTilPam]
     );
 
