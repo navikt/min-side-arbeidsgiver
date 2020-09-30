@@ -1,11 +1,11 @@
-import { AltinnFellesInfo, AltinnId, altinntjeneste } from './tjenester';
+import { alleAltinntjenster, AltinnFellesInfo, AltinnId } from './tjenester';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import * as Record from '../utils/Record';
 
 type Orgnr = string;
 
 export const hentAltinntilganger = async (): Promise<Record<AltinnId, Set<Orgnr>>> => {
-    const enkelttilganger = await Promise.all(Record.fold(altinntjeneste, hentAltinntilgangerForEnTjeneste));
+    const enkelttilganger = await Promise.all(Record.fold(alleAltinntjenster, hentAltinntilgangerForEnTjeneste));
     return Record.fromEntries(enkelttilganger);
 };
 
