@@ -11,6 +11,7 @@ import MidlertidigLonnstilskuddboks
     from './ArbeidstreningLonnstilskuddBoks/MidlertidigLonnstilskuddboks/MidlertidigLonnstilskuddboks';
 import VarigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/VarigLonnstilskuddboks/VarigLonnstilskuddboks';
 import './TjenesteBoksContainer.less';
+import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {
@@ -30,7 +31,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     if (tilgang?.arbeidsforhold) {
         tjenester.push(Arbeidsforholdboks)
     }
-    if (tilgangTilSyfo) {
+    if (tilgangTilSyfo === Tilgang.TILGANG) {
         tjenester.push(Syfoboks);
     }
     if (tilgang?.iaweb) {
