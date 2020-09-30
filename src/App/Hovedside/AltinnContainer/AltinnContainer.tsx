@@ -1,42 +1,27 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { AltinnSkjemanavn, OrganisasjonsListeContext } from '../../OrganisasjonsListeProvider';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
-import {
-    ekspertbistand,
-    inntekstmelding,
-    soknadskjemaInkluderingstilskudd,
-    soknadsskjemaLonnstilskudd,
-    soknadTilskuddTilMentor,
-} from '../../../lenker';
 import './AltinnContainer.less';
+import { altinnskjema, AltinnskjemaId } from '../../../altinn/tjenester';
 
-interface SkjemanavnOgLenke {
-    navn: AltinnSkjemanavn;
-    lenke: string;
-}
-
-const skjemanavnMedLenker: SkjemanavnOgLenke[] = [
-    { navn: 'Mentortilskudd', lenke: soknadTilskuddTilMentor },
-    { navn: 'Inkluderingstilskudd', lenke: soknadskjemaInkluderingstilskudd },
-    { navn: 'Ekspertbistand', lenke: ekspertbistand },
-    { navn: 'Lønnstilskudd', lenke: soknadsskjemaLonnstilskudd },
-    { navn: 'Inntektsmelding', lenke: inntekstmelding },
+const skjemarekkefølge: AltinnskjemaId[] = [
+    'mentortilskudd',
+    'inkluderingstilskudd',
+    'ekspertbistand',
+    'lønnstilskudd',
+    'inntektsmelding',
 ];
 
 export const AltinnContainer: FunctionComponent = () => {
-    const { organisasjoner } = useContext(OrganisasjonsListeContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) {
         return null;
     }
 
-    const org = organisasjoner[valgtOrganisasjon.OrganizationNumber]
-
-    const skjemaliste = skjemanavnMedLenker.filter(
-        skjema => org.altinnSkjematilgang[skjema.navn]
+    const skjemaliste = skjemarekkefølge.flatMap(navn =>
+        valgtOrganisasjon.altinnSkjematilgang[navn] ? [altinnskjema[navn]] : []
     );
 
     const antall = skjemaliste.length;
@@ -71,7 +56,7 @@ export const AltinnContainer: FunctionComponent = () => {
                     <AltinnLenke
                         key={skjema.navn}
                         className="altinn-lenke"
-                        href={skjema.lenke}
+                        href={skjema.skjemaUrl}
                         tekst={skjema.navn}
                         nyFane={true}
                     />
