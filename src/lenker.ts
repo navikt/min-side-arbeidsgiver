@@ -40,6 +40,7 @@ export const LenkeTilInfoOmNarmesteLeder =
 
 export const LenkeTilInfoOmRettigheterTilSykmelding =
     'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/om-tilganger-i-altinn';
+
 export const LenkeTilInfoOmAltinnRoller =
     'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
 
@@ -83,11 +84,6 @@ export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
 export const lenkeTilTilgangsstyringsInfo =
     'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
 
-export const linkTilUnleash = '/min-side-arbeidsgiver/api/feature';
-
-export const lenkeIAweb =
-    'https://www.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=2&ServiceCode=3403&Oselect=true&M=SP';
-
 export const lenkeTilSykefravarsstatistikk = '/sykefravarsstatistikk/';
 
 export const lenkeTilInfoOmDigitaleSoknader =
@@ -123,8 +119,8 @@ export const LenkeTilKoronaSykeRefusjon = urlMedBedriftNr(
     })
 );
 
-export const infoOmPermitteringOgMasseoppsigelse =
-    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset/';
-
 export const lenkeTilInfoOmPermittering =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
+
+export const lenkeTilInfoOmRefusjonSykepengerKorona =
+    'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/nyheter/refusjon-av-sykepenger-ved-koronavirus--hva-er-status#chapter-2';

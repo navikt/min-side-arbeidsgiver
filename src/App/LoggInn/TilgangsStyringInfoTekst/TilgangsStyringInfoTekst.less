@@ -1,27 +1,19 @@
-
 @import '~nav-frontend-core/less/_variabler';
 
-
-
 .informasjonsboks {
-  display: flex;
-  border: 2px solid @navBlaLighten60;
-  text-align: left;
-  width: 20rem;
-  align-items: flex-start;
-  padding: 1rem;
-
-  &__lenke {
-    margin-top: 1rem
-  }
-
-  &__tekst {
-    margin-left: 1rem;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-around;
+    border: 2px solid @navBlaLighten60;
+    width: 20rem;
+    padding: 1rem;
 
-  }
+    &__tekst {
+        margin-left: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
 
+        .lenke {
+            margin-top: 1rem;
+        }
+    }
 }
