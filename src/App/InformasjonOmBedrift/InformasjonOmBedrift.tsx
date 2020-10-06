@@ -38,7 +38,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
                         to={'/?bedrift=' + orgnr}
                         className="informasjon-om-bedrift__brodsmule"
                     >
-                        Min side - arbeidsgiver
+                        Min side – arbeidsgiver
                     </Link>
                     {' / Bedriftsprofil'}
                 </div>
@@ -49,7 +49,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
                             <OverordnetEnhet overordnetenhet={overordnetEnhet} />
                         </div>
                     ) : (
-                        <div> Kunne ikke hente informasjon</div>
+                        <div>Kunne ikke hente informasjon</div>
                     )}
                 </div>
             </div>

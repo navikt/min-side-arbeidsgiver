@@ -27,8 +27,8 @@
         margin: 0.5rem 1rem 1rem;
     }
 
-    &__innholdstittel {
-        margin-bottom: 2rem;
+    &__systemtittel {
+        margin-bottom: 1rem;
     }
 
     &__avsnitt {
@@ -45,10 +45,52 @@
         flex-wrap: wrap;
     }
 
+    .be-om-tilgang-info {
+        margin: 2rem 0;
+
+        .ekspanderbartPanel__hode {
+            padding: 1rem;
+
+            @media (min-width: @screen-sm-min) {
+                padding: 2rem 1rem;
+            }
+        }
+
+        ul {
+            margin-block-start: 0;
+        }
+
+        &__tittel {
+            display: flex;
+
+            .logo {
+                width: 3rem;
+                display: flex;
+                justify-content: center;
+                margin-right: 0.5rem;
+
+                svg {
+                    width: 1.5rem;
+                    height: 1.5rem;
+                }
+
+                @media (min-width: @screen-sm-min) {
+                    width: 5rem;
+
+                    svg {
+                        width: 3rem;
+                        height: 3rem;
+                    }
+                }
+            }
+        }
+    }
+
     @media (min-width: @screen-sm-min) {
         &__tekst {
             margin: 0 auto;
-            max-width: 40rem;
+            width: 44rem;
+            padding: 2.5rem;
         }
 
         &__lenke {

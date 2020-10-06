@@ -1,28 +1,20 @@
-import React, { FunctionComponent } from 'react';
-import './TilgangsStyringInfoTekst.less';
-import alertikon from '../../Hovedside/infomation-circle-2.svg';
+import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-
 import Lenke from 'nav-frontend-lenker';
 import { basename } from '../../../paths';
+import InfoIkon from './InfoIkon';
+import './TilgangsStyringInfoTekst.less';
 
-export const TilgangsStyringInfoTekst: FunctionComponent = () => {
+export const TilgangsStyringInfoTekst = () => {
     return (
-        <div className={'informasjonsboks'}>
-            <img
-                src={alertikon}
-                alt={'ikon for å vise at det kommer informasjon om tilgangsstyring'}
-                className={'informasjonsboks__ikon'}
-            />
-            <div className={'informasjonsboks__tekst'}>
-                <Element className={'informasjonsboks__overskrift'}>
-                    Tildeling av roller foregår i Altinn{' '}
+        <div className="informasjonsboks">
+            <InfoIkon size="24"/>
+            <div className="informasjonsboks__tekst">
+                <Element className="informasjonsboks__overskrift">
+                    Tildeling av roller foregår i Altinn
                 </Element>
-                <Lenke
-                    className={'informasjonsboks__lenke'}
-                    href={basename + '/informasjon-om-tilgangsstyring'}
-                >
-                    Les mer om roller og tilganger.
+                <Lenke href={basename + '/informasjon-om-tilgangsstyring'}>
+                    Les mer om roller og tilganger
                 </Lenke>
             </div>
         </div>
