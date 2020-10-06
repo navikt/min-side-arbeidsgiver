@@ -25,7 +25,7 @@ export const VarselOmNedetid: FunctionComponent<VarselOmNedetidProps> = props =>
             <AlertStripe type={'advarsel'}>
                 {' '}
                 Altinn vil være utilgjengelig 01.01.2020 i tidsrommet 17:00 til ca. 23:00. Dette vil
-                medføre at en del tjenester på Min Side - Arbeidsgiver ikke vil fungere som normalt.
+                medføre at en del tjenester på Min Side – Arbeidsgiver ikke vil fungere som normalt.
             </AlertStripe>
         </div>
     );

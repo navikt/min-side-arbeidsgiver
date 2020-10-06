@@ -25,7 +25,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                 </div>
                 <div className="tekst">
                     <Undertittel>Har du allerede tilgang til noen tjenester?</Undertittel>
-                    <Normaltekst>Slik kan du be om tilgang til flere tjenester fra Min side - arbeidsgiver.</Normaltekst>
+                    <Normaltekst>Slik kan du be om tilgang til flere tjenester fra Min side – arbeidsgiver.</Normaltekst>
                 </div>
             </div>
         );
@@ -58,7 +58,7 @@ const InformasjonOmTilgangsstyringSide = () => {
 
                     <Ekspanderbartpanel tittel={tittelBeTilgangInfo} className="be-om-tilgang-info" border>
                         <ul>
-                            <li>Logg inn på Min side - arbeidsgiver.</li>
+                            <li>Logg inn på Min side – arbeidsgiver.</li>
                             <li>Velg virksomhet.</li>
                             <li>Lengst nede på Min side – arbeidsgiver finnes en oversikt over tjenester du kan
                                 be om tilgang til.</li>

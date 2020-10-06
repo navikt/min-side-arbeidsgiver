@@ -27,7 +27,7 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
                 {harTilganger && (
                     <div className="mangler-tilgang-bakgrunn__brodsmule">
                         <Link to={bedriftsparameter} className="informasjon-om-bedrift__brodsmule">
-                            Min side - arbeidsgiver
+                            Min side – arbeidsgiver
                         </Link>
                         {' / mangler-tilgang'}
                     </div>

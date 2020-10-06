@@ -4,7 +4,7 @@ Min side – arbeidsgiver er en samleside for digitale tjenester for arbeidsgive
 
 
 ## Komme i gang
-Min side - Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi alle sammen med fetchmock
+Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi alle sammen med fetchmock
 
 ### Avhengigheter
   For å kjøre lokalt kreves det at man har node og yarn installert
