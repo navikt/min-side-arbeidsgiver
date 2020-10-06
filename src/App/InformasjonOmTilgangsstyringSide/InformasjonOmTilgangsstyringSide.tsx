@@ -80,7 +80,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                     <Ekspanderbartpanel tittel="Arbeidsforhold" border>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             Tilgang til innsynstjeneste for arbeidsforhold innrapportert via
-                            A-meldingen gis automatisk til:
+                            a-meldingen gis automatisk til:
                         </Normaltekst>
                         <ul>
                             <li>daglig leder/administrerende direktør</li>
@@ -92,8 +92,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                                 bostyrer i konkursbo (omfatter ikke foretaket som er gått konkurs)
                                 og andre bo
                             </li>
-                            <li>Komplementar (Kun fødselsnummer)</li>
-                            <li>Norsk representant for utenlandsk enhet</li>
+                            <li>komplementar (kun fødselsnummer)</li>
+                            <li>norsk representant for utenlandsk enhet</li>
                         </ul>
                         <Normaltekst>
                             Du kan også ha rettigheten{' '}
@@ -163,7 +163,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>regnskapsfører med signeringsrettighet</li>
                             <li>regnskapsfører uten signeringsrettighet</li>
                             <li>revisormedarbeider</li>
-                            <li>kontaktperson NUF</li>
+                            <li>norsk representant for utenlandsk enhet</li>
                         </ul>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             Du kan også ha rettigheten <b>inntektsmelding</b>
@@ -176,8 +176,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                     <Ekspanderbartpanel tittel="Permittering, masseoppsigelse og innskrenking av arbeidstid" border>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             For å få tilgang til digitalt skjema om permittering uten lønn,
-                            masseoppsigelse og innskrenking av arbeidstid må du ha en hvilken som
-                            helst Altinn-rolle. Du vil bare se skjemaer som du selv har opprettet og
+                            masseoppsigelse og innskrenking av arbeidstid, trenger du kun en vilkårlig Altinn-rolle
+                            i din virksomhet. Du vil bare se skjemaer som du selv har opprettet og
                             sendt inn.
                         </Normaltekst>
                         <Lenke href={lenkeTilInfoOmPermittering}>
@@ -197,7 +197,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Normaltekst>
                         <ul>
                             <li>ansvarlig revisor</li>
-                            <li>lønns- og personalmedarbeider</li>
+                            <li>lønn og personalmedarbeider</li>
                             <li>regnskapsfører lønn</li>
                             <li>regnskapsfører med signeringsrettighet</li>
                             <li>regnskapsfører uten signeringsrettighet</li>
