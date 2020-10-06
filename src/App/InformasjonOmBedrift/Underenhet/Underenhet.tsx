@@ -26,7 +26,7 @@ const Underenhet = ({ underenhet }: Props) => {
                 <Tekstboks className="underenhet-orgnr">
                     <Normaltekst>Organisasjonsnummer</Normaltekst>
                     <Normaltekst>
-                        {underenhet.organisasjonsnummer ? underenhet.organisasjonsnummer : ''}
+                        {underenhet.organisasjonsnummer}
                     </Normaltekst>
                 </Tekstboks>
 

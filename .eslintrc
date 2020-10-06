@@ -1,8 +1,15 @@
 {
   "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["*.js"],
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "plugins": ["@typescript-eslint"],
-  "extends": ["plugin:jsx-a11y/recommended"]
+  "extends": ["plugin:jsx-a11y/recommended"],
+  "rules": {
+    "@typescript-eslint/strict-boolean-expressions": [2, {
+      "allowString": false
+    }]
+  }
 }

@@ -9,7 +9,7 @@ export enum Tilgang {
     TILGANG,
 }
 
-export const tilgangFromTruthy: (e: any) => Tilgang =
+export const tilgangFromTruthy: (e: boolean) => Tilgang =
     e => e ? Tilgang.TILGANG : Tilgang.IKKE_TILGANG;
 
 const LoginBoundary: FunctionComponent = props => {

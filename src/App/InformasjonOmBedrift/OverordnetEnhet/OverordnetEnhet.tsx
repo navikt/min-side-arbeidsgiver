@@ -23,7 +23,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
                     <Normaltekst>Organisasjonsnummer</Normaltekst>
-                    <Normaltekst> {overordnetenhet.organisasjonsnummer ? overordnetenhet.organisasjonsnummer : ''}</Normaltekst>
+                    <Normaltekst> {overordnetenhet.organisasjonsnummer}</Normaltekst>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">
@@ -57,7 +57,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
                 </Normaltekst>
             </Tekstboks>
 
-            {overordnetenhet.hjemmeside &&
+            {(overordnetenhet.hjemmeside ?? '') !== '' &&
                 <Tekstboks className="overordnetenhet-hjemmeside">
                     <Normaltekst>
                         Hjemmeside
