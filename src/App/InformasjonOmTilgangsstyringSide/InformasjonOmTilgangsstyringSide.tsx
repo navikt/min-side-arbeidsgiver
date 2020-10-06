@@ -144,7 +144,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>regnskapsfører med signeringsrettighet</li>
                             <li>regnskapsfører uten signeringsrettighet</li>
                             <li>revisormedarbeider</li>
-                            <li>kontaktperson NUF</li>
+                            <li>norsk representant for utenlandsk enhet</li>
                         </ul>
                         <Normaltekst>
                             Du kan også ha rettigheten <b>inntektsmelding</b>
@@ -202,7 +202,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>regnskapsfører med signeringsrettighet</li>
                             <li>regnskapsfører uten signeringsrettighet</li>
                             <li>revisormedarbeider</li>
-                            <li>kontaktperson NUF</li>
+                            <li>norsk representant for utenlandsk enhet</li>
                         </ul>
                         <Lenke href={lenkeTilInfoOmRefusjonSykepengerKorona}>
                             Les mer om refusjon av sykepenger relatert til koronavirus
