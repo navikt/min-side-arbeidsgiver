@@ -25,7 +25,7 @@ const Tiltakboks = () => {
                 href={tiltakUrl}
                 onClick={() => loggTjenesteTrykketPa('Tiltak', tiltaksgjennomforingLink, "Tiltak")}
                 tittelProps="normaltekst"
-                linkCreator={(props: any) => <a {...props}>{props.children}</a>}
+                aria-label="Tiltak. Arbeidstrening, midlertidig lønnstilskudd og varig lønnstilskudd. De ulike tiltakene krever egne tilganger i Altinn"
             >
                 <Normaltekst className="avsnitt">
                     Arbeidstrening, midlertidig lønnstilskudd og varig lønnstilskudd.

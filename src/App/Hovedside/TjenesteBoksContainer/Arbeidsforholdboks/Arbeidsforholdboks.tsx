@@ -26,8 +26,7 @@ const Arbeidsforholdboks = () => {
                 tittelProps="normaltekst"
                 aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
             >
-                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret
-                (Aa-registeret)
+                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
             </Lenkepanel>
         </div>
     );

@@ -31,7 +31,6 @@ const IAwebboks = () => {
                 href={lenkeTilSykefravarsstatistikk+valgtbedrift()}
                 onClick={loggAtKlikketPaIAeb}
                 tittelProps="normaltekst"
-                linkCreator={(props: any) => <a {...props}>{props.children}</a>}
                 aria-label="Sykefraværsstatistikk. Oversikt over sykefravær i din virksomhet og bransje"
             >
                 <div className="IA-web-boks__tekst">
