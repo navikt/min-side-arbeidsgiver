@@ -19,7 +19,7 @@ export const Koronaboks = () => {
 
     const harTilgangRefusjon =
         valgtOrganisasjon && valgtOrganisasjon.altinnSkjematilgang.inntektsmelding;
-    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber
+    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber;
 
     return (
         <div className="koronaboks">

@@ -1,32 +1,21 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
+import { Tilgang } from '../../LoginBoundary';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
-import Arbeidstreningboks from './ArbeidstreningLonnstilskuddBoks/Arbeidstreningboks/Arbeidstreningboks';
+import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
-import MidlertidigLonnstilskuddboks
-    from './ArbeidstreningLonnstilskuddBoks/MidlertidigLonnstilskuddboks/MidlertidigLonnstilskuddboks';
-import VarigLonnstilskuddboks from './ArbeidstreningLonnstilskuddBoks/VarigLonnstilskuddboks/VarigLonnstilskuddboks';
 import './TjenesteBoksContainer.less';
-import { Tilgang } from '../../LoginBoundary';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
-    const {
-        valgtOrganisasjon,
-        arbeidstreningsavtaler,
-        midlertidigLonnstilskuddAvtaler,
-        varigLonnstilskuddAvtaler,
-    } = useContext(OrganisasjonsDetaljerContext);
-    const {
-        tilgangTilSyfo,
-    } = useContext(OrganisasjonerOgTilgangerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
+    const tilgang = valgtOrganisasjon?.altinnSkjematilgang;
 
-    const tilgang = valgtOrganisasjon?.altinnSkjematilgang
-
-    const tjenester: FunctionComponent[] = []
+    const tjenester: FunctionComponent[] = [];
 
     if (tilgang?.arbeidsforhold) {
         tjenester.push(Arbeidsforholdboks)
@@ -40,14 +29,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     if (tilgang?.pam) {
         tjenester.push(Pamboks)
     }
-    if (tilgang?.midlertidigLønnstilskudd && midlertidigLonnstilskuddAvtaler.length > 0) {
-        tjenester.push(MidlertidigLonnstilskuddboks);
-    }
-    if (tilgang?.varigLønnstilskudd && varigLonnstilskuddAvtaler.length > 0) {
-        tjenester.push(VarigLonnstilskuddboks)
-    }
-    if (tilgang?.arbeidstrening && arbeidstreningsavtaler.length > 0) {
-        tjenester.push(Arbeidstreningboks)
+    if (tilgang?.midlertidigLønnstilskudd || tilgang?.varigLønnstilskudd || tilgang?.arbeidstrening) {
+        tjenester.push(Tiltakboks);
     }
 
     let antallClassname;

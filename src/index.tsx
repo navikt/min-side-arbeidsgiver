@@ -23,7 +23,6 @@ if (process.env.REACT_APP_MOCK) {
     console.log('========================================');
     require('./mock/pamMock');
     require('./mock/syfoMock');
-    require('./mock/arbeidsavtalerMock');
     require('./mock/altinnMock');
     require('./mock/altinnMeldingsboksMock');
     require('./mock/unleashMock');

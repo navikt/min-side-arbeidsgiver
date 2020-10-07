@@ -26,7 +26,6 @@ const Pamboks = () => {
                 href={linkTilArbeidsplassen}
                 onClick={() => loggTjenesteTrykketPa("PAM", linkTilArbeidsplassen, "Rekruttere")}
                 tittelProps="normaltekst"
-                border={false}
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
                 <div className="pamboks-tekst">

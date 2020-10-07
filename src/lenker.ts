@@ -59,14 +59,6 @@ export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
 export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/oppslag/enheter/${orgnr}`;
 
-export const arbeidsAvtaleLink = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
-    other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
-});
-
-export const hentArbeidsavtalerApiLink =
-    '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
-
 export const altinnUrl = gittMiljo({
     prod: 'https://altinn.no',
     other: 'https://tt02.altinn.no',
@@ -118,6 +110,11 @@ export const LenkeTilKoronaSykeRefusjon = urlMedBedriftNr(
         other: 'https://arbeidsgiver-q.nav.no/nettrefusjon/',
     })
 );
+
+export const tiltaksgjennomforingLink = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+    other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+});
 
 export const lenkeTilInfoOmPermittering =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
