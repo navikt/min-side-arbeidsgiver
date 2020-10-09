@@ -15,8 +15,8 @@ const IAwebboks = () => {
     const valgtbedrift = () => {
         const orgnummerFraUrl = new URLSearchParams(window.location.search).get(
             'bedrift'
-        );
-        return orgnummerFraUrl ? `?bedrift=${orgnummerFraUrl}` : '';
+        ) ?? '';
+        return orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`;
     };
 
     return (

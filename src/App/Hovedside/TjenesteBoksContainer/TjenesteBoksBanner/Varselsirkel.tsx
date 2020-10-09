@@ -30,7 +30,7 @@ const Varselsirkel: FunctionComponent<VarselProps> = props => {
                     {tooltip(props)}
                 </span>
             )}
-            {props.VisOppgaveFeilmelding && (
+            {(props.VisOppgaveFeilmelding ?? false) && (
                 <span className="tjeneste-boks-banner__feil">
                     <Element data-tip data-for="tooltip" className="varseltekst">
                         !

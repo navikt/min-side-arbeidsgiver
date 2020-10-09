@@ -10,7 +10,7 @@ const tiltakikon = require('./tiltakboks-ikon.svg');
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const tiltakUrl = valgtOrganisasjon && valgtOrganisasjon.organisasjon.OrganizationNumber
+    const tiltakUrl = valgtOrganisasjon && valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
         ? `${tiltaksgjennomforingLink}&bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
         : tiltaksgjennomforingLink;
 

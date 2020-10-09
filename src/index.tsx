@@ -10,13 +10,16 @@ import App from './App/App';
 import './index.less';
 import environment from './utils/environment';
 
+const commithash = process.env.GIT_COMMIT_HASH ?? ''
+const isMockApp = (process.env.REACT_APP_MOCK ?? '').length > 0
+
 Sentry({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',
-    release: process.env.GIT_COMMIT_HASH || 'unknown',
+    release: commithash === '' ? 'unknown' : commithash,
     environment: window.location.hostname,
 });
 
-if (process.env.REACT_APP_MOCK) {
+if (isMockApp) {
     console.log('========================================');
     console.log('=============== MED MOCK ===============');
     console.log('== DETTE SKAL DU IKKE SE I PRODUKSJON ==');
@@ -26,9 +29,10 @@ if (process.env.REACT_APP_MOCK) {
     require('./mock/altinnMock');
     require('./mock/altinnMeldingsboksMock');
     require('./mock/unleashMock');
+    require('./mock/altinnBeOmTilgangMock')
 }
 
-if (process.env.REACT_APP_MOCK || environment.MILJO === 'dev-sbs') {
+if (isMockApp || environment.MILJO === 'dev-sbs') {
     require('./mock/enhetsRegisteretMock');
 }
 

@@ -37,7 +37,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         const orgInfo = organisasjoner[org.OrganizationNumber];
         setValgtOrganisasjon(orgInfo);
 
-        if (orgInfo.altinnSkjematilgang.pam) {
+        if (orgInfo.altinnSkjematilgang.pam.tilgang === 'ja') {
             setantallAnnonser(await hentAntallannonser());
         } else {
             setantallAnnonser(0);

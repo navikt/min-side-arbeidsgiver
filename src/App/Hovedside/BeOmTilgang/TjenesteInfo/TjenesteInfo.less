@@ -14,7 +14,21 @@
         height: 10.5rem;
     }
 
-    .be-om-tilgang-lenke {
+    .be-om-tilgang-lenke, .tilgang-sokt {
         margin-bottom: 0.3rem;
+    }
+
+    .tilgang-sokt .tilgang-sokt-etikett {
+      margin-left: 1em;
+    }
+
+    .tilgang-sokt .tilgang-sokt-etikett .tilgang-sokt-hjelp {
+      margin-left: .4em;
+      & .hjelpetekst__apneknapp {
+        vertical-align: middle;
+        & .hjelpetekst__ikon {
+          fill: #000;
+        }
+      }
     }
 }

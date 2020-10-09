@@ -1,5 +1,5 @@
 export interface ListeMedJuridiskeEnheter {
-    _embedded: {
+    _embedded?: {
         enheter: OrganisasjonFraEnhetsregisteret[];
     };
     _links: {
@@ -18,16 +18,16 @@ export interface ListeMedJuridiskeEnheter {
 export interface OrganisasjonFraEnhetsregisteret {
     organisasjonsnummer: string;
     navn: string;
-    organisasjonsform: organisasjonsform;
-    naeringskode1: naeringskode1;
-    naeringskode2: naeringskode2;
-    naeringskode3: naeringskode3;
-    postadresse: postadresse;
-    forretningsadresse: forretningsadresse;
+    organisasjonsform?: organisasjonsform;
+    naeringskode1?: naeringskode1;
+    naeringskode2?: naeringskode2;
+    naeringskode3?: naeringskode3;
+    postadresse?: postadresse;
+    forretningsadresse?: forretningsadresse;
     hjemmeside: string;
     overordnetEnhet: string;
     antallAnsatte: string;
-    beliggenhetsadresse: beliggenhetsadresse;
+    beliggenhetsadresse?: beliggenhetsadresse;
     institusjonellSektorkode: institusjonellSektorkode;
 }
 
