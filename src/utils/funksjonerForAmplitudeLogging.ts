@@ -30,22 +30,22 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     if (tilgangTilSyfo === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'digisyfo ';
     }
-    if (org?.altinnSkjematilgang.pam) {
+    if (org?.altinntilgang.pam) {
         tilgangsKombinasjon += 'arbeidsplassen ';
     }
-    if (org?.altinnSkjematilgang.iaweb) {
+    if (org?.altinntilgang.iaweb) {
         tilgangsKombinasjon += 'sykefraværsstatistikk ';
     }
-    if (org?.altinnSkjematilgang.arbeidstrening) {
+    if (org?.altinntilgang.arbeidstrening) {
         tilgangsKombinasjon += 'arbeidstrening ';
     }
-    if (org?.altinnSkjematilgang.arbeidsforhold) {
+    if (org?.altinntilgang.arbeidsforhold) {
         tilgangsKombinasjon += 'arbeidsforhold'
     }
-    if (org?.altinnSkjematilgang.midlertidigLønnstilskudd) {
+    if (org?.altinntilgang.midlertidigLønnstilskudd) {
         tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
     }
-    if (org?.altinnSkjematilgang.varigLønnstilskudd) {
+    if (org?.altinntilgang.varigLønnstilskudd) {
         tilgangsKombinasjon += 'varig lønnstilskudd';
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon

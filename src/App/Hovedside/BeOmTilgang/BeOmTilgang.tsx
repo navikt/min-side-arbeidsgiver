@@ -15,11 +15,11 @@ import {
 } from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.less';
 import { Tilgang } from '../../LoginBoundary';
-import { alleAltinntjenster, AltinnId } from '../../../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
 
-const altinnIdIRekkefølge: AltinnId[] = [
+const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'pam',
     'iaweb',
     'arbeidstrening',
@@ -30,13 +30,14 @@ const altinnIdIRekkefølge: AltinnId[] = [
     'inkluderingstilskudd',
     'mentortilskudd',
     'inntektsmelding',
+    'tilskuddsbrev'
 ];
 
 const beOmTilgangUrlFallback = (
-    altinnId: AltinnId,
+    altinnId: AltinntjenesteId,
     valgtOrganisasjon: OrganisasjonInfo
 ): string => {
-    const tjeneste = alleAltinntjenster[altinnId];
+    const tjeneste = altinntjeneste[altinnId];
     return beOmTilgangIAltinnLink(
         valgtOrganisasjon.organisasjon.OrganizationNumber,
         tjeneste.tjenestekode,
@@ -45,7 +46,7 @@ const beOmTilgangUrlFallback = (
 };
 
 const opprettSøknad = (
-    altinnId: AltinnId,
+    altinnId: AltinntjenesteId,
     valgtOrganisasjon: OrganisasjonInfo
 ): MouseEventHandler<unknown> => {
     let harTrykket = false; /* ikke opprett to søknader hvis bruker klikker raskt på knappen. */
@@ -84,7 +85,7 @@ const BeOmTilgang: FunctionComponent = () => {
 
     if (valgtOrganisasjon) {
         for (let altinnId of altinnIdIRekkefølge) {
-            const tilgang = valgtOrganisasjon.altinnSkjematilgang[altinnId];
+            const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
 
             if (tilgang.tilgang === 'ja') {
                 /* har tilgang -- ingen ting å vise */

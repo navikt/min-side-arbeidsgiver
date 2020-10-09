@@ -12,7 +12,7 @@ import {
 import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
-import { alleAltinntjenster, AltinnId } from '../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -27,7 +27,7 @@ export type Altinntilgang =
 
 export type OrganisasjonInfo = {
     organisasjon: Organisasjon;
-    altinnSkjematilgang: Record<AltinnId, Altinntilgang>;
+    altinntilgang: Record<AltinntjenesteId, Altinntilgang>;
 };
 
 export type Context = {
@@ -45,7 +45,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         undefined
     );
     const [altinntilganger, setAltinntilganger] = useState<
-        Record<AltinnId, Set<string>> | undefined
+        Record<AltinntjenesteId, Set<string>> | undefined
         >(undefined);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
@@ -84,7 +84,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
         hentAltinntilganger()
             .then(setAltinntilganger)
-            .catch(() => setAltinntilganger(Record.map(alleAltinntjenster, () => new Set())))
+            .catch(() => setAltinntilganger(Record.map(altinntjeneste, () => new Set())))
 
         hentAltinnTilgangssøknader()
             .then(setAltinnTilgangssøknader)
@@ -100,11 +100,11 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     }, []);
 
     if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader) {
-        const sjekkTilgang = (orgnr: orgnr) => (id: AltinnId, orgnrMedTilgang: Set<orgnr>): Altinntilgang => {
+        const sjekkTilgang = (orgnr: orgnr) => (id: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): Altinntilgang => {
             if (orgnrMedTilgang.has(orgnr)) {
                 return {tilgang: 'ja'};
             }
-            const { tjenestekode, tjenesteversjon } = alleAltinntjenster[id]
+            const { tjenestekode, tjenesteversjon } = altinntjeneste[id]
             const søknader = altinnTilgangssøknader.filter(s =>
                 s.orgnr === orgnr &&
                 s.serviceCode === tjenestekode &&
@@ -129,7 +129,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
         const organisasjoner = Record.map(altinnorganisasjoner, (orgnr, org) => ({
                 organisasjon: org,
-                altinnSkjematilgang: Record.map(altinntilganger, sjekkTilgang(orgnr))
+                altinntilgang: Record.map(altinntilganger, sjekkTilgang(orgnr))
             }));
 
         const context: Context = {

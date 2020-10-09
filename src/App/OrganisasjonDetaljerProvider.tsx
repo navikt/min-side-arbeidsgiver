@@ -40,7 +40,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         const orgInfo = organisasjoner[org.OrganizationNumber];
         setValgtOrganisasjon(orgInfo);
 
-        if (orgInfo.altinnSkjematilgang.pam.tilgang === 'ja') {
+        if (orgInfo.altinntilgang.pam.tilgang === 'ja') {
             settBedriftIPam(orgInfo.organisasjon.OrganizationNumber).then(() =>
                 hentAntallannonser().then(setantallAnnonser)
             );
@@ -48,16 +48,18 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             setantallAnnonser(0);
         }
 
-        const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
-        if (messagesUrl === undefined) {
-            setAltinnMeldingsboks(undefined);
-        } else {
-            const resultat = await hentMeldingsboks(messagesUrl);
-            if (resultat instanceof Error) {
-                autentiserAltinnBruker(window.location.href);
+        if (orgInfo.altinntilgang.tilskuddsbrev.tilgang === 'ja') {
+            const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
+            if (messagesUrl === undefined) {
                 setAltinnMeldingsboks(undefined);
             } else {
-                setAltinnMeldingsboks(resultat);
+                const resultat = await hentMeldingsboks(messagesUrl);
+                if (resultat instanceof Error) {
+                    autentiserAltinnBruker(window.location.href);
+                    setAltinnMeldingsboks(undefined);
+                } else {
+                    setAltinnMeldingsboks(resultat);
+                }
             }
         }
     };
