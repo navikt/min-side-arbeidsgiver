@@ -30,23 +30,26 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     if (tilgangTilSyfo === Tilgang.TILGANG) {
         tilgangsKombinasjon += 'digisyfo ';
     }
-    if (org?.altinntilgang.pam) {
-        tilgangsKombinasjon += 'arbeidsplassen ';
-    }
-    if (org?.altinntilgang.iaweb) {
-        tilgangsKombinasjon += 'sykefraværsstatistikk ';
-    }
-    if (org?.altinntilgang.arbeidstrening) {
-        tilgangsKombinasjon += 'arbeidstrening ';
-    }
-    if (org?.altinntilgang.arbeidsforhold) {
-        tilgangsKombinasjon += 'arbeidsforhold'
-    }
-    if (org?.altinntilgang.midlertidigLønnstilskudd) {
-        tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
-    }
-    if (org?.altinntilgang.varigLønnstilskudd) {
-        tilgangsKombinasjon += 'varig lønnstilskudd';
+
+    if (org) {
+        if (org.altinntilgang.pam.tilgang === 'ja') {
+            tilgangsKombinasjon += 'arbeidsplassen ';
+        }
+        if (org.altinntilgang.iaweb.tilgang === 'ja') {
+            tilgangsKombinasjon += 'sykefraværsstatistikk ';
+        }
+        if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
+            tilgangsKombinasjon += 'arbeidstrening ';
+        }
+        if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
+            tilgangsKombinasjon += 'arbeidsforhold'
+        }
+        if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
+            tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
+        }
+        if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
+            tilgangsKombinasjon += 'varig lønnstilskudd';
+        }
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
 
