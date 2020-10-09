@@ -22,7 +22,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const tjenester: FunctionComponent[] = [];
 
     if (harTilgang('arbeidsforhold')) {
-        tjenester.unshift(Arbeidsforholdboks)
+        tjenester.push(Arbeidsforholdboks)
     }
 
     if (tilgangTilSyfo === Tilgang.TILGANG) {

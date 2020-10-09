@@ -1,10 +1,13 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import hentAntallannonser from '../api/hent-stillingsannonser';
 import { Tilgang } from './LoginBoundary';
-import { OrganisasjonInfo, OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
+import {
+    OrganisasjonInfo,
+    OrganisasjonerOgTilgangerContext,
+} from './OrganisasjonerOgTilgangerProvider';
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
+import { settBedriftIPam, hentAntallannonser } from '../api/pamApi';
 
 interface Props {
     children: React.ReactNode;
@@ -38,7 +41,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         setValgtOrganisasjon(orgInfo);
 
         if (orgInfo.altinnSkjematilgang.pam.tilgang === 'ja') {
-            setantallAnnonser(await hentAntallannonser());
+            settBedriftIPam(orgInfo.organisasjon.OrganizationNumber).then(() =>
+                hentAntallannonser().then(setantallAnnonser)
+            );
         } else {
             setantallAnnonser(0);
         }
