@@ -3,5 +3,6 @@
   "api-gw-url": "https://api-gw.oera.no",
   "selvbetjening-login-url": "https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://loginservice.nav.no/slo",
-  "decorator-external-url": "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true"
+  "decorator-external-url": "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true",
+  "namespace": "default"
 }
