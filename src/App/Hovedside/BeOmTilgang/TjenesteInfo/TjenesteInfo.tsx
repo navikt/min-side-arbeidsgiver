@@ -39,7 +39,7 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
         if (props.href === undefined) {
             event.preventDefault();
         }
-        loggTjenesteTrykketPa(tittel, '', 'be om tilgang');
+        loggTjenesteTrykketPa(`Be om tilgang-${tittel}`, '', 'be om tilgang');
         if (props.onClick) {
             props.onClick(event);
         }
@@ -63,10 +63,7 @@ export const BeOmSyfotilgang = () => {
             <BeOmTilgangBoks
                 tittel="Dine sykmeldte"
                 beskrivelse="Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for."
-                onClick={event => {
-                    event.preventDefault();
-                    setModalIsOpen(true);
-                }}
+                onClick={() => setModalIsOpen(true)}
             />
             <SyfoBeOmTilgangModalBoks
                 isOpen={modalIsOpen}
