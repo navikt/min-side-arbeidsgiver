@@ -1,14 +1,14 @@
 import fetchMock from 'fetch-mock';
 import { AltinnTilgangssøknad } from '../altinn/tilganger';
-import { alleAltinntjenster } from '../altinn/tjenester';
+import { altinntjeneste } from '../altinn/tjenester';
 
 const søknader: AltinnTilgangssøknad[] = [
     {
         orgnr: '810993502',
         status: 'Created',
         submitUrl: `https://fake-altinn/send-inn-soknad/`,
-        serviceCode: alleAltinntjenster.arbeidstrening.tjenestekode,
-        serviceEdition: alleAltinntjenster.arbeidstrening.tjenesteversjon,
+        serviceCode: altinntjeneste.arbeidstrening.tjenestekode,
+        serviceEdition: altinntjeneste.arbeidstrening.tjenesteversjon,
         cratedDateTime: '',
         lastChangedDateTime: '',
     },
@@ -16,8 +16,8 @@ const søknader: AltinnTilgangssøknad[] = [
         orgnr: '810993502',
         status: 'Unopened',
         submitUrl: `/mock-altinn/skjema/`,
-        serviceCode: alleAltinntjenster.midlertidigLønnstilskudd.tjenestekode,
-        serviceEdition: alleAltinntjenster.midlertidigLønnstilskudd.tjenesteversjon,
+        serviceCode: altinntjeneste.midlertidigLønnstilskudd.tjenestekode,
+        serviceEdition: altinntjeneste.midlertidigLønnstilskudd.tjenesteversjon,
         cratedDateTime: '',
         lastChangedDateTime: '',
     },
@@ -25,8 +25,8 @@ const søknader: AltinnTilgangssøknad[] = [
         orgnr: '810993502',
         status: 'Unopened',
         submitUrl: `/mock-altinn/skjema/`,
-        serviceCode: alleAltinntjenster.mentortilskudd.tjenestekode,
-        serviceEdition: alleAltinntjenster.mentortilskudd.tjenesteversjon,
+        serviceCode: altinntjeneste.mentortilskudd.tjenestekode,
+        serviceEdition: altinntjeneste.mentortilskudd.tjenesteversjon,
         cratedDateTime: '',
         lastChangedDateTime: '',
     }

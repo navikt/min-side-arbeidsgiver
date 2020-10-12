@@ -1,5 +1,6 @@
 import { altinnUrl } from '../lenker';
 import environment from '../utils/environment';
+import { navtjenester } from '../altinn/tjenester';
 
 export enum Status {
     Ulest = 'Ulest',
@@ -85,7 +86,11 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
     }
 };
 
-const tiltaksbrevFilter = `ServiceCode+eq+'5278'+and+ServiceEdition+eq+1`;
+
+const tilskuddsbrev = navtjenester.tilskuddsbrev
+
+const tiltaksbrevFilter =
+    `ServiceCode+eq+'${tilskuddsbrev.tjenestekode}5278'+and+ServiceEdition+eq+${tilskuddsbrev.tjenesteversjon}`;
 
 export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Meldingsboks | Error> => {
     const hentBrev = async () => {

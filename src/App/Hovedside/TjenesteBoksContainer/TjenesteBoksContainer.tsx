@@ -9,20 +9,20 @@ import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import './TjenesteBoksContainer.less';
-import { AltinnId } from '../../../altinn/tjenester';
+import { AltinntjenesteId } from '../../../altinn/tjenester';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
-    const tilgang = valgtOrganisasjon?.altinnSkjematilgang;
+    const tilgang = valgtOrganisasjon?.altinntilgang;
 
-    const harTilgang = (altinnId: AltinnId): boolean =>
+    const harTilgang = (altinnId: AltinntjenesteId): boolean =>
         tilgang !== undefined && tilgang[altinnId].tilgang === 'ja';
 
     const tjenester: FunctionComponent[] = [];
 
     if (harTilgang('arbeidsforhold')) {
-        tjenester.unshift(Arbeidsforholdboks)
+        tjenester.push(Arbeidsforholdboks)
     }
 
     if (tilgangTilSyfo === Tilgang.TILGANG) {

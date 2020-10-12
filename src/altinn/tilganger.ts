@@ -1,20 +1,20 @@
-import { alleAltinntjenster, AltinnFellesInfo, AltinnId } from './tjenester';
+import { altinntjeneste, AltinnFellesInfo, AltinntjenesteId } from './tjenester';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import * as Record from '../utils/Record';
 
 type Orgnr = string;
 
-export const hentAltinntilganger = async (): Promise<Record<AltinnId, Set<Orgnr>>> => {
+export const hentAltinntilganger = async (): Promise<Record<AltinntjenesteId, Set<Orgnr>>> => {
     const enkelttilganger = await Promise.all(
-        Record.fold(alleAltinntjenster, hentAltinntilgangerForEnTjeneste)
+        Record.fold(altinntjeneste, hentAltinntilgangerForEnTjeneste)
     );
     return Record.fromEntries(enkelttilganger);
 };
 
 const hentAltinntilgangerForEnTjeneste = async (
-    id: AltinnId,
+    id: AltinntjenesteId,
     tjeneste: AltinnFellesInfo
-): Promise<[AltinnId, Set<Orgnr>]> => {
+): Promise<[AltinntjenesteId, Set<Orgnr>]> => {
     const respons = await fetch(
         '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
             tjeneste.tjenestekode +
@@ -60,7 +60,7 @@ export const hentAltinnTilgangssøknader = async () => {
 export interface AltinnTilgangssøknadskjema {
     orgnr: string;
     redirectUrl: string;
-    altinnId: AltinnId;
+    altinnId: AltinntjenesteId;
 }
 
 export interface AltinnTilgangssøknadskjemaDTO {
@@ -74,8 +74,8 @@ export const opprettAltinnTilgangssøknad = async (skjema: AltinnTilgangssøknad
     const dto: AltinnTilgangssøknadskjemaDTO = {
         orgnr: skjema.orgnr,
         redirectUrl: skjema.redirectUrl,
-        serviceCode: alleAltinntjenster[skjema.altinnId].tjenestekode,
-        serviceEdition: parseInt(alleAltinntjenster[skjema.altinnId].tjenesteversjon)
+        serviceCode: altinntjeneste[skjema.altinnId].tjenestekode,
+        serviceEdition: parseInt(altinntjeneste[skjema.altinnId].tjenesteversjon)
     }
 
     const response = await fetch(altinnTilgangssøknadUrl, {

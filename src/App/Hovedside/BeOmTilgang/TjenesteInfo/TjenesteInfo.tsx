@@ -3,7 +3,7 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
 import SyfoBeOmTilgangModalBoks from '../SyfoBeOmTilgangModalBoks/SyfoBeOmTilgangModalBoks';
 import './TjenesteInfo.less';
-import { alleAltinntjenster, AltinnId } from '../../../../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import EtikettBase from 'nav-frontend-etiketter';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
@@ -15,7 +15,7 @@ interface TjenesteInfo {
 }
 
 interface EnAltinnId {
-    altinnId: AltinnId;
+    altinnId: AltinntjenesteId;
 }
 
 interface BeOmTilgangAction {
@@ -25,7 +25,7 @@ interface BeOmTilgangAction {
 
 const hentInfo = (props: TjenesteInfo | EnAltinnId): [string, string] => {
     if ('altinnId' in props) {
-        const tjeneste = alleAltinntjenster[props.altinnId]
+        const tjeneste = altinntjeneste[props.altinnId]
         return [tjeneste.navn, tjeneste.beOmTilgangBeskrivelse]
     } else {
         return [props.tittel, props.beskrivelse]
@@ -39,7 +39,7 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
         if (props.href === undefined) {
             event.preventDefault();
         }
-        loggTjenesteTrykketPa(tittel, '', 'be om tilgang');
+        loggTjenesteTrykketPa(`Be om tilgang-${tittel}`, '', 'be om tilgang');
         if (props.onClick) {
             props.onClick(event);
         }
@@ -63,10 +63,7 @@ export const BeOmSyfotilgang = () => {
             <BeOmTilgangBoks
                 tittel="Dine sykmeldte"
                 beskrivelse="Gå til digitale sykmeldinger og følg opp sykmeldte du har ansvar for."
-                onClick={event => {
-                    event.preventDefault();
-                    setModalIsOpen(true);
-                }}
+                onClick={() => setModalIsOpen(true)}
             />
             <SyfoBeOmTilgangModalBoks
                 isOpen={modalIsOpen}
@@ -77,7 +74,7 @@ export const BeOmSyfotilgang = () => {
 };
 
 export interface AltinntilgangAlleredeSøktProps {
-    altinnId: AltinnId;
+    altinnId: AltinntjenesteId;
     status: string;
     statusBeskrivelse: string;
     type: 'suksess' | 'info';
@@ -87,7 +84,7 @@ export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAllerede
     = ({ altinnId , status, statusBeskrivelse, type}) => {
     return <>
         <div className="tilgang-sokt typo-element">
-            <span>{alleAltinntjenster[altinnId].navn}</span>
+            <span>{altinntjeneste[altinnId].navn}</span>
             <EtikettBase type={type} className="tilgang-sokt-etikett">
                 <span className="tilgang-sokt-etikette-tekst">{status}</span>
                 <Hjelpetekst className="tilgang-sokt-hjelp" >
@@ -95,7 +92,7 @@ export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAllerede
                 </Hjelpetekst>
             </EtikettBase>
         </div>
-        <Normaltekst>{alleAltinntjenster[altinnId].beOmTilgangBeskrivelse}</Normaltekst>
+        <Normaltekst>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</Normaltekst>
     </>
 }
 
