@@ -1,5 +1,5 @@
 {
-  "ingress": "https://arbeidsgiver.labs.nais.io/min-side-arbeidsgiver",
+  "ingress": "https://min-side-ag.labs.nais.io/min-side-arbeidsgiver",
   "api-gw-url": "https://api-gw.oera.no",
   "selvbetjening-login-url": "https://min-side-ag-fakelogin.labs.nais.io?issuer=selvbetjening&sub=123456789&redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://min-side-ag-fakelogin.labs.nais.io/logout?domain=labs.nais.io",
