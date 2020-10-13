@@ -1,8 +1,4 @@
-import React, {
-    FunctionComponent,
-    MouseEventHandler,
-    useContext,
-} from 'react';
+import React, { FunctionComponent, MouseEventHandler, useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -98,10 +94,13 @@ const BeOmTilgang: FunctionComponent = () => {
                     <BeOmTilgangBoks
                         altinnId={altinnId}
                         onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
+                        eksternSide={true}
                     />
                 );
             } else if (tilgang.tilgang === 'søknad opprettet') {
-                tjenesteinfoBokser.push(<BeOmTilgangBoks altinnId={altinnId} href={tilgang.url} />);
+                tjenesteinfoBokser.push(
+                    <BeOmTilgangBoks altinnId={altinnId} href={tilgang.url} eksternSide={true} />
+                );
             } else if (tilgang.tilgang === 'søkt') {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
