@@ -1,4 +1,8 @@
-import React, { FunctionComponent, MouseEventHandler, useContext } from 'react';
+import React, {
+    FunctionComponent,
+    MouseEventHandler,
+    useContext,
+} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -30,7 +34,7 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'inkluderingstilskudd',
     'mentortilskudd',
     'inntektsmelding',
-    'tilskuddsbrev'
+    'tilskuddsbrev',
 ];
 
 const beOmTilgangUrlFallback = (
@@ -127,7 +131,6 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
-
     return (
         <div className="be-om-tilgang">
             {skalViseInnhold && (
@@ -142,6 +145,7 @@ const BeOmTilgang: FunctionComponent = () => {
                     <Ekspanderbartpanel
                         className="be-om-tilgang__container"
                         tittel="Tjenester du kan be om tilgang til"
+                        apen={window.location.hash === '#be-om-tilgang'}
                     >
                         <div className="be-om-tilgang__innhold">
                             <AlertStripeInfo className="be-om-tilgang__info">
