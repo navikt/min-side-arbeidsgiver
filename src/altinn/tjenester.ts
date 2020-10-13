@@ -8,13 +8,14 @@ export type AltinnskjemaId =
     | 'lønnstilskudd'
     | 'inntektsmelding';
 
-export type AltinntjenesteId =
+export type NAVtjenesteId =
     | 'arbeidstrening'
     | 'arbeidsforhold'
     | 'midlertidigLønnstilskudd'
     | 'varigLønnstilskudd'
     | 'iaweb'
-    | 'pam';
+    | 'pam'
+    | 'tilskuddsbrev';
 
 
 export interface AltinnFellesInfo {
@@ -29,12 +30,12 @@ export interface Altinnskjema extends AltinnFellesInfo {
     skjemaUrl: string;
 }
 
-export interface Altinntjeneste extends AltinnFellesInfo {
+export interface NAVTjeneste extends AltinnFellesInfo {
     sort: 'tjeneste';
 }
 
-export type AltinnId = AltinnskjemaId | AltinntjenesteId;
-export type Altinn = Altinnskjema | Altinntjeneste;
+export type AltinntjenesteId = AltinnskjemaId | NAVtjenesteId;
+export type Altinn = Altinnskjema | NAVTjeneste;
 
 export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
     mentortilskudd: {
@@ -112,7 +113,7 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
     },
 };
 
-export const altinntjeneste: Record<AltinntjenesteId, Altinntjeneste> = {
+export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     arbeidstrening: {
         sort: 'tjeneste',
         navn: 'Arbeidstrening',
@@ -175,7 +176,18 @@ export const altinntjeneste: Record<AltinntjenesteId, Altinntjeneste> = {
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
+    tilskuddsbrev: {
+        sort: 'tjeneste',
+        navn: 'Tilskuddsbrev om NAV-tiltak',
+        beOmTilgangBeskrivelse: `
+            Få tilgang til digitale tilskuddsbrev om NAV-tiltak i Altinn.
+            NAV sender digitale brev om blant annet lønns- og inkluderingstilskudd og
+            tilskudd til mentor og ekspertbistand.
+        `,
+        tjenestekode: '5278',
+        tjenesteversjon: '1',
+    }
 };
 
-export const alleAltinntjenster: Record<AltinnId, Altinn>
-    = { ...altinnskjema, ...altinntjeneste}
+export const altinntjeneste: Record<AltinntjenesteId, Altinn>
+    = { ...altinnskjema, ...navtjenester}

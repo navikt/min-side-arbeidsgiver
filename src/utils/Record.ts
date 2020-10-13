@@ -13,12 +13,12 @@ export const entries: <Key extends string, Value>(record: Record<Key, Value>) =>
 
 export const map = <Key extends string, FromValue, ToValue>(
     input: Record<Key, FromValue>,
-    f: (_: FromValue) => ToValue
+    f: (key: Key, value: FromValue) => ToValue
 ): Record<Key, ToValue> => {
     const output = {} as Record<Key, ToValue>;
 
     for (let key of keys(input)) {
-        output[key] = f(input[key]);
+        output[key] = f(key, input[key]);
     }
 
     return output;

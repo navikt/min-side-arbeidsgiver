@@ -9,27 +9,33 @@ import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import './TjenesteBoksContainer.less';
+import { AltinntjenesteId } from '../../../altinn/tjenester';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
-    const tilgang = valgtOrganisasjon?.altinnSkjematilgang;
+    const tilgang = valgtOrganisasjon?.altinntilgang;
+
+    const harTilgang = (altinnId: AltinntjenesteId): boolean =>
+        tilgang !== undefined && tilgang[altinnId].tilgang === 'ja';
 
     const tjenester: FunctionComponent[] = [];
 
-    if (tilgang?.arbeidsforhold) {
+    if (harTilgang('arbeidsforhold')) {
         tjenester.push(Arbeidsforholdboks)
     }
+
     if (tilgangTilSyfo === Tilgang.TILGANG) {
         tjenester.push(Syfoboks);
     }
-    if (tilgang?.iaweb) {
+
+    if (harTilgang('iaweb')) {
         tjenester.push(IAwebboks)
     }
-    if (tilgang?.pam) {
+    if (harTilgang('pam')) {
         tjenester.push(Pamboks)
     }
-    if (tilgang?.midlertidigLønnstilskudd || tilgang?.varigLønnstilskudd || tilgang?.arbeidstrening) {
+    if (harTilgang('midlertidigLønnstilskudd') || harTilgang('varigLønnstilskudd') || harTilgang('arbeidstrening')) {
         tjenester.push(Tiltakboks);
     }
 

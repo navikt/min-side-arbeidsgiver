@@ -10,8 +10,8 @@ const Arbeidsforholdboks = () => {
         loggTjenesteTrykketPa('Arbeidsforhold',arbeidsforholdLink, "Arbeidsforhold" );
     };
 
-    const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift');
-    const href = arbeidsforholdLink + (orgnummerFraUrl ? `?bedrift=${orgnummerFraUrl}` : '');
+    const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
+    const href = arbeidsforholdLink + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
     return (
         <div className="arbeidsforholdboks tjenesteboks-innhold">
             <TjenesteBoksBanner

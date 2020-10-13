@@ -21,7 +21,7 @@ export const AltinnContainer: FunctionComponent = () => {
     }
 
     const skjemaliste = skjemarekkefølge.flatMap(navn =>
-        valgtOrganisasjon.altinnSkjematilgang[navn] ? [altinnskjema[navn]] : []
+        valgtOrganisasjon.altinntilgang[navn].tilgang === 'ja' ? [altinnskjema[navn]] : []
     );
 
     const antall = skjemaliste.length;
