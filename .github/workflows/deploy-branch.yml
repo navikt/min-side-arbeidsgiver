@@ -53,6 +53,18 @@ jobs:
           REF: ${{ env.COMMIT }}
           IMAGE: ${{ env.IMAGE }}
 
+      - name: Deploy til labs-gcp
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          TEAM: arbeidsgiver
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: labs-gcp
+          RESOURCE: naiserator.yaml
+          PRINT_PAYLOAD: true
+          VARS: nais/labs-gcp.json
+          REF: ${{ env.COMMIT }}
+          IMAGE: ${{ env.IMAGE }}
+
       - name: Oppdater kommentar med deployment status ved feil
         if: failure()
         uses: actions/github-script@0.5.0
