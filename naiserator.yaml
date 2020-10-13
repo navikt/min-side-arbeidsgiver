@@ -18,7 +18,7 @@ spec:
     path: /min-side-arbeidsgiver/internal/isReady
     initialDelay: 20
   vault:
-    enabled: true
+    enabled: '{{{vault-enabled}}}'
   webproxy: true
   env:
     - name: NODE_EXTRA_CA_CERTS
