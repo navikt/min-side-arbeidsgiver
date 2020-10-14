@@ -1,25 +1,20 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 interface Props {
     fragment: string;
 }
 
-const fragmentIs = (fragment: string): boolean => window.location.hash === `#${fragment}`;
+/* På grunn av en bug i altinn, så funker ikke fragment i redirect-URL-er. Benytter derfor
+ * query-parameter enn så lenge. Når det er fikset, så hadde det vært naturlig å sjekke
+ * fragment i stede for query parameter.
+ */
 
 export const LinkableFragment: FunctionComponent<Props> = ({ fragment, children }) => {
-    const [shouldScroll, setShouldScroll] = useState(fragmentIs(fragment));
     const [htmlElement, setHtmlElement] = useState<HTMLDivElement | null>(null);
-
-    const onLocationChange = useCallback(() => setShouldScroll(fragmentIs(fragment)), [fragment]);
-
-    useEffect(() => {
-        window.addEventListener('popstate', onLocationChange);
-        return () => window.removeEventListener('popstate', onLocationChange);
-    }, [onLocationChange]);
+    const shouldScroll = new URLSearchParams(window.location.search).get('fragment') === fragment;
 
     useEffect(() => {
         if (shouldScroll && htmlElement) {
-            setShouldScroll(false);
             /* Timeout fordi vi må vente til både Reacts DOM er innarbeidet inn i den ekte
              * DOM-en _og_ på at den ekte DOM-en er rendret. */
             setTimeout(() => htmlElement.scrollIntoView({ behavior: 'smooth' }), 500);

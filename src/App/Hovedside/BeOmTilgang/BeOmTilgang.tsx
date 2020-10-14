@@ -56,7 +56,7 @@ const opprettSøknad = (
         }
         harTrykket = true;
         const redirectUrl = new URL(window.location.href)
-        redirectUrl.hash = '#be-om-tilgang'
+        redirectUrl.searchParams.set('fragment', 'be-om-tilgang');
         opprettAltinnTilgangssøknad({
             orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
             altinnId,
@@ -146,7 +146,7 @@ const BeOmTilgang: FunctionComponent = () => {
                     <Ekspanderbartpanel
                         className="be-om-tilgang__container"
                         tittel="Tjenester du kan be om tilgang til"
-                        apen={window.location.hash === '#be-om-tilgang'}
+                        apen={new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'}
                     >
                         <div className="be-om-tilgang__innhold">
                             <AlertStripeInfo className="be-om-tilgang__info">
