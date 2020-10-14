@@ -55,10 +55,12 @@ const opprettSøknad = (
             return;
         }
         harTrykket = true;
+        const redirectUrl = new URL(window.location.href)
+        redirectUrl.hash = '#be-om-tilgang'
         opprettAltinnTilgangssøknad({
             orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
             altinnId,
-            redirectUrl: window.location.href,
+            redirectUrl: redirectUrl.toString(),
         })
             .then(søknad => {
                 if (søknad === null) {
