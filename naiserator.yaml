@@ -29,4 +29,6 @@ spec:
       value: '{{{selvbetjening-login-url}}}'
     - name: Q0API_GATEWAY
       value: '{{{api-gw-url-q0}}}'
+    - name: DECORATOR_EXTERNAL_URL
+      value: '{{{decorator-external-url}}}'
 
