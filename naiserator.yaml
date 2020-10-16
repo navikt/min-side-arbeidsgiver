@@ -31,4 +31,9 @@ spec:
       value: '{{{api-gw-url-q0}}}'
     - name: DECORATOR_EXTERNAL_URL
       value: '{{{decorator-external-url}}}'
-
+    {{#if labs}}
+   accessPolicy:
+     outbound:
+       rules:
+         - application: ditt-nav-arbeidsgiver-api
+    {{/if}}

@@ -5,5 +5,6 @@
   "logout-url": "https://min-side-ag-fakelogin.labs.nais.io/logout?domain=labs.nais.io",
   "decorator-external-url": "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true",
   "namespace": "arbeidsgiver",
-  "vault-enabled": false
+  "vault-enabled": false,
+  "labs": true
 }
