@@ -30,7 +30,7 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'inkluderingstilskudd',
     'mentortilskudd',
     'inntektsmelding',
-    'tilskuddsbrev'
+    'tilskuddsbrev',
 ];
 
 const beOmTilgangUrlFallback = (
@@ -55,10 +55,12 @@ const opprettSøknad = (
             return;
         }
         harTrykket = true;
+        const redirectUrl = new URL(window.location.href)
+        redirectUrl.searchParams.set('fragment', 'be-om-tilgang');
         opprettAltinnTilgangssøknad({
             orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
             altinnId,
-            redirectUrl: window.location.href,
+            redirectUrl: redirectUrl.toString(),
         })
             .then(søknad => {
                 if (søknad === null) {
@@ -94,10 +96,13 @@ const BeOmTilgang: FunctionComponent = () => {
                     <BeOmTilgangBoks
                         altinnId={altinnId}
                         onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
+                        eksternSide={true}
                     />
                 );
             } else if (tilgang.tilgang === 'søknad opprettet') {
-                tjenesteinfoBokser.push(<BeOmTilgangBoks altinnId={altinnId} href={tilgang.url} />);
+                tjenesteinfoBokser.push(
+                    <BeOmTilgangBoks altinnId={altinnId} href={tilgang.url} eksternSide={true} />
+                );
             } else if (tilgang.tilgang === 'søkt') {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
@@ -127,7 +132,6 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
-
     return (
         <div className="be-om-tilgang">
             {skalViseInnhold && (
@@ -142,6 +146,7 @@ const BeOmTilgang: FunctionComponent = () => {
                     <Ekspanderbartpanel
                         className="be-om-tilgang__container"
                         tittel="Tjenester du kan be om tilgang til"
+                        apen={new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'}
                     >
                         <div className="be-om-tilgang__innhold">
                             <AlertStripeInfo className="be-om-tilgang__info">

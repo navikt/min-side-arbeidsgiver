@@ -13,6 +13,7 @@ import Banner from '../HovedBanner/HovedBanner';
 import './Hovedside.less';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import * as Record from '../../utils/Record'
+import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);
@@ -41,7 +42,9 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <NyttigForDegContainer />
                 <AltinnContainer />
                 <SkjemaveilederContainer />
-                <BeOmTilgang />
+                <LinkableFragment fragment="be-om-tilgang">
+                    <BeOmTilgang/>
+                </LinkableFragment>
             </div>
         </>
     );

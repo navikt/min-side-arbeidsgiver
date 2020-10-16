@@ -19,6 +19,7 @@ interface EnAltinnId {
 }
 
 interface BeOmTilgangAction {
+    eksternSide?: boolean; /* default value: false */
     href?: string;
     onClick?: MouseEventHandler<unknown>;
 }
@@ -48,7 +49,8 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
     return (
         <>
             <Lenke href={props.href ?? ''} onClick={onClickAction} className="typo-element be-om-tilgang-lenke">
-                <span>{tittel} – be om tilgang</span> <NyFaneIkon />
+                <span>{tittel} – be om tilgang</span>
+                {props.eksternSide ?? false ? <NyFaneIkon /> : null}
             </Lenke>
             <Normaltekst>{beskrivelse}</Normaltekst>
         </>

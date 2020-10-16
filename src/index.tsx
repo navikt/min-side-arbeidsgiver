@@ -9,6 +9,11 @@ import { init as Sentry } from '@sentry/browser';
 import App from './App/App';
 import './index.less';
 import environment from './utils/environment';
+import raf from 'raf'
+import smoothscroll from 'smoothscroll-polyfill';
+
+raf.polyfill();
+smoothscroll.polyfill();
 
 const commithash = process.env.GIT_COMMIT_HASH ?? ''
 const isMockApp = (process.env.REACT_APP_MOCK ?? '').length > 0
