@@ -6,5 +6,6 @@
   "logout-url": "https://loginservice-q.nav.no/slo",
   "decorator-external-url": "https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
   "namespace": "default",
-  "vault-enabled": true
+  "vault-enabled": true,
+  "labs": false
 }
