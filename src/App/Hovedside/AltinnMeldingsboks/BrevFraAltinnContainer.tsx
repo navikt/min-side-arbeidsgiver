@@ -7,6 +7,20 @@ import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';
 import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Innboksikon from './Innboksikon';
+import { loggTjenesteTrykketPa } from '../../../utils/funksjonerForAmplitudeLogging';
+import { AltinntjenesteId } from '../../../altinn/tjenester';
+
+const tjenesteNavn: AltinntjenesteId = 'tilskuddsbrev';
+const loggNavigering = (href: string, knapp: string) => () => {
+    if (href === '') {
+        loggTjenesteTrykketPa(tjenesteNavn, '', knapp);
+    } else {
+        const {origin, pathname} = new URL(href)
+        const url = `${origin}${pathname.replace(/\d/g, 'X')}`
+        loggTjenesteTrykketPa(tjenesteNavn, url, knapp);
+    }
+}
+
 
 const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     const { altinnMeldingsboks } = useContext(OrganisasjonsDetaljerContext);
@@ -27,13 +41,22 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
 
     return (
         <section className="tilskuddsbrev">
-            <Ekspanderbartpanel tittel={inboksTittel}>
+            <Ekspanderbartpanel
+                tittel={inboksTittel}
+                onClick={loggNavigering('', 'ekspander panel')}
+            >
                 <>
                     <ul className="tilskuddsbrev__liste">
                         {altinnMeldingsboks.brev.map(BrevContainer)}
                     </ul>
                     {altinnMeldingsboks.finnesFlereBrev && (
-                        <NyFaneLenke href={altinnMeldingsboks.portalview}>
+                        <NyFaneLenke
+                            href={altinnMeldingsboks.portalview}
+                            onClick={loggNavigering(
+                                altinnMeldingsboks.portalview,
+                                'se flere i altinn meldingsboks'
+                            )}
+                        >
                             Se flere i Altinn meldingsboks
                         </NyFaneLenke>
                     )}
@@ -59,6 +82,7 @@ const BrevContainer = (brev: AltinnBrev) => {
                 className={className}
                 href={brev.portalview}
                 ariaLabel={`Sendt ${dato}, ${brev.status}, ${brev.tittel}`}
+                onClick={loggNavigering(brev.portalview, 'åpn tilskuddsbrev i altinn')}
             >
                 {brev.tittel}
             </NyFaneLenke>
