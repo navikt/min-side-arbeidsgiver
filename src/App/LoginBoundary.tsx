@@ -17,7 +17,8 @@ const LoginBoundary: FunctionComponent = props => {
 
     useEffect(() => {
         const signal = new AbortController().signal;
-        if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs') {
+        console.log('environment.MILJO', environment.MILJO);
+        if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs' || environment.MILJO === 'labs-gcp') {
             sjekkInnlogget(signal)
                 .then(tilgangFromTruthy)
                 .then(setInnlogget);
