@@ -90,7 +90,7 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
 const tilskuddsbrev = navtjenester.tilskuddsbrev
 
 const tiltaksbrevFilter =
-    `ServiceCode+eq+'${tilskuddsbrev.tjenestekode}5278'+and+ServiceEdition+eq+${tilskuddsbrev.tjenesteversjon}`;
+    `ServiceCode+eq+'${tilskuddsbrev.tjenestekode}'+and+ServiceEdition+eq+${tilskuddsbrev.tjenesteversjon}`;
 
 export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Meldingsboks | Error> => {
     const hentBrev = async () => {
