@@ -11,7 +11,6 @@ const proxyConfig = {
     pathRewrite: {
         '^/min-side-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
     },
-    logLevel: 'debug',
     secure: true,
     xfwd: true
 };

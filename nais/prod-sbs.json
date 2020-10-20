@@ -6,5 +6,6 @@
   "decorator-external-url": "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true",
   "namespace": "default",
   "vault-enabled": true,
+  "webproxy-enabled": true,
   "labs": false
 }

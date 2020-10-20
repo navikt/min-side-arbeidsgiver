@@ -19,7 +19,7 @@ spec:
     initialDelay: 20
   vault:
     enabled: {{vault-enabled}}
-  webproxy: false
+  webproxy: {{webproxy-enabled}}
   env:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
