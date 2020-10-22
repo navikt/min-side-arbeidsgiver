@@ -5,7 +5,6 @@ export type AltinnskjemaId =
     | 'mentortilskudd'
     | 'inkluderingstilskudd'
     | 'ekspertbistand'
-    | 'lønnstilskudd'
     | 'inntektsmelding';
 
 export type NAVtjenesteId =
@@ -83,20 +82,6 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
             hvis en arbeidstaker har lange og/eller hyppige sykefravær.`,
         skjemaUrl:
             'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-ekspertbistand/',
-    },
-
-    lønnstilskudd: {
-        sort: 'skjema',
-        navn: 'Lønnstilskudd',
-        tjenestekode: '5159',
-        tjenesteversjon: '1',
-        beOmTilgangBeskrivelse: '',
-        skjemaUrl: gittMiljo({
-            prod:
-                'https://altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/avtale-om-oppstart-av-lonnstilskudd/',
-            other:
-                'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5159',
-        }),
     },
 
     inntektsmelding: {
