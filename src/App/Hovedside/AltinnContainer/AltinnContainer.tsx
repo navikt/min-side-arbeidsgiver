@@ -9,7 +9,6 @@ const skjemarekkefølge: AltinnskjemaId[] = [
     'mentortilskudd',
     'inkluderingstilskudd',
     'ekspertbistand',
-    'lønnstilskudd',
     'inntektsmelding',
 ];
 
