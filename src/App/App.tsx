@@ -1,6 +1,5 @@
-import React, {FunctionComponent, useEffect} from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import './App.less';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
@@ -10,12 +9,12 @@ import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import { FeatureToggleProvider } from '../FeatureToggleProvider';
 import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
-import {loggBrukerLoggetInn} from "../utils/funksjonerForAmplitudeLogging";
+import { loggBrukerLoggetInn } from '../utils/funksjonerForAmplitudeLogging';
+import './App.less';
 
 const App: FunctionComponent = () => {
-
     useEffect(() => {
-        loggBrukerLoggetInn()
+        loggBrukerLoggetInn();
     }, []);
 
     return (
@@ -43,11 +42,7 @@ const App: FunctionComponent = () => {
                                                 exact={true}
                                                 component={ManglerTilgangContainer}
                                             />
-                                            <Route
-                                                path="/"
-                                                exact={true}
-                                                component={Hovedside}
-                                            />
+                                            <Route path="/" exact={true} component={Hovedside} />
                                         </Switch>
                                     </div>
                                 </OrganisasjonsDetaljerProvider>

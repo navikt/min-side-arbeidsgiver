@@ -1,11 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import './Logginn.less';
+import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
-import { Systemtittel } from 'nav-frontend-typografi';
-import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import environment from '../../utils/environment';
+import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
+import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
+import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
+import './Logginn.less';
 
 export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
@@ -17,52 +18,47 @@ export const LoggInn: FunctionComponent = () => {
         }
     };
     return (
-        <>
-            {
-                <div className="innloggingsside">
-                    <LoggInnBanner />
-                    <div className={'innloggingsside__innhold'}>
-                        <Systemtittel className={'innloggingsside__sidetittel'}>
-                            På Min side – arbeidsgiver kan du:
-                        </Systemtittel>
+        <div className="innloggingsside">
+            <Brodsmulesti brodsmuler={[]} />
+            <LoggInnBanner />
+            <div className="innloggingsside__innhold">
+                <Systemtittel className="innloggingsside__sidetittel">
+                    På Min side – arbeidsgiver kan du:
+                </Systemtittel>
 
-                        <ul className="innloggingsside__punktliste">
-                            <li className={'innloggingsside__punkt'}>
-                                {' '}
-                                få oversikt over dine sykmeldte
-                            </li>
-                            <li className={'innloggingsside__punkt'}>
-                                se sykfraværsstatistikk for din virksomhet
-                            </li>
-                            <li className={'innloggingsside__punkt'}>
-                                rekruttere nye medarbeidere
-                            </li>
-                            <li className={'innloggingsside__punkt'}>
-                                {' '}
-                                få oversikt over dine ansatte (fra Aa-registeret)
-                            </li>
-                            <li className={'innloggingsside__punkt'}>
-                                sende inn digitale skjemaer
-                            </li>
-                        </ul>
-                        <TilgangsStyringInfoTekst />
+                <ul className="innloggingsside__punktliste">
+                    <li className="innloggingsside__punkt">
+                        få oversikt over dine sykmeldte
+                    </li>
+                    <li className="innloggingsside__punkt">
+                        se sykfraværsstatistikk for din virksomhet
+                    </li>
+                    <li className="innloggingsside__punkt">
+                        rekruttere nye medarbeidere
+                    </li>
+                    <li className="innloggingsside__punkt">
+                        få oversikt over dine ansatte (fra Aa-registeret)
+                    </li>
+                    <li className="innloggingsside__punkt">
+                        sende inn digitale skjemaer
+                    </li>
+                </ul>
+                <TilgangsStyringInfoTekst />
 
-                        <Hovedknapp
-                            className={'innloggingsside__loginKnapp'}
-                            onClick={redirectTilLogin}
-                        >
-                            Logg inn
-                        </Hovedknapp>
+                <Hovedknapp
+                    className="innloggingsside__loginKnapp"
+                    onClick={redirectTilLogin}
+                >
+                    Logg inn
+                </Hovedknapp>
 
-                        <div className="innloggingsside__besok-ditt-nav">
-                            Ønsker du å se dine tjenester som privatperson? <br />
-                            <Lenke href={'https://www.nav.no/person/dittnav/'}>
-                                Logg inn på Ditt NAV
-                            </Lenke>
-                        </div>
-                    </div>
+                <div className="innloggingsside__besok-ditt-nav">
+                    <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
+                    <Lenke href={'https://www.nav.no/person/dittnav/'}>
+                        Logg inn på Ditt NAV
+                    </Lenke>
                 </div>
-            }
-        </>
+            </div>
+        </div>
     );
 };
