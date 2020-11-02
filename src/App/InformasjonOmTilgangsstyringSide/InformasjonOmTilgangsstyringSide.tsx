@@ -2,7 +2,7 @@ import React from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import Lenke from 'nav-frontend-lenker';
 import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
-import { basename } from '../../paths';
+import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
 import {
     LenkeTilInfoOmAltinnRoller,
@@ -16,6 +16,7 @@ import {
 import InfoIkon from '../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
 import './InformasjonOmTilgangsstyringSide.less';
+
 
 const InformasjonOmTilgangsstyringSide = () => {
     const tittelBeTilgangInfo = (
@@ -32,11 +33,9 @@ const InformasjonOmTilgangsstyringSide = () => {
 
     return (
         <div className="informasjon-om-tilgangsstyring">
+            <Brodsmulesti brodsmuler={[ { url: '/informasjon-om-tilgangsstyring', title: 'Tilganger i Altinn', handleInApp: true }]} />
             <LoggInnBanner />
             <div className="informasjon-om-tilgangsstyring__innhold">
-                <div className="informasjon-om-tilgangsstyring__lenke">
-                    <Lenke href={basename + '/'}>Tilbake til forsiden</Lenke>
-                </div>
                 <div className="informasjon-om-tilgangsstyring__tekst">
                     <Systemtittel className="informasjon-om-tilgangsstyring__systemtittel">
                         Tilganger i Altinn
