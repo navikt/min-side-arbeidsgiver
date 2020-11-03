@@ -1,54 +1,47 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .mangler-tilgang-bakgrunn {
-  display: flex;
-  flex-direction: column;
-  background-color: @navLysGra;
-  align-items: center;
-  align-self: center;
-  width: 100%;
-  padding-top: 2.5rem;
-
-  &__innholdstittel {
-    align-self: flex-start;
-    padding-left: 1rem;
-  }
-
-  &__brodsmule {
-    align-self: flex-start;
-    padding-left: 1rem;
-    margin-bottom: 1rem;
-  }
-
-}
-
-.mangler-tilgang-container{
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  padding: 0 1rem 2rem;
-}
-.mangler-tilgang-lenkepanel{
-  width: 100%;
-}
-@media (min-width: @screen-md-min) {
-  .mangler-tilgang-bakgrunn {
-    width: 62rem;
+    display: flex;
+    flex-direction: column;
+    background-color: @navLysGra;
+    align-items: center;
+    align-self: center;
+    width: 100%;
+    padding-top: 2.5rem;
 
     &__innholdstittel {
-      align-self: flex-start;
-      padding-left: 1rem;
+        align-self: flex-start;
+        padding-left: 1rem;
     }
-  }
+}
 
-  .mangler-tilgang-container{
-    flex-direction: row;
-    width: 100%
-  }
+.mangler-tilgang-container {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 1rem 2rem;
+}
+.mangler-tilgang-lenkepanel {
+    width: 100%;
+}
+@media (min-width: @screen-md-min) {
+    .mangler-tilgang-bakgrunn {
+        width: 62rem;
 
-  .mangler-tilgang-lenkepanel{
-    flex-grow: 1;
-    margin-right: 2%;
-  }
+        &__innholdstittel {
+            align-self: flex-start;
+            padding-left: 1rem;
+        }
+    }
+
+    .mangler-tilgang-container {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .mangler-tilgang-lenkepanel {
+        flex-grow: 1;
+        margin-right: 2%;
+    }
 }

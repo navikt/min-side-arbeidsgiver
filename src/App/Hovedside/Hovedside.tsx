@@ -10,10 +10,11 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import { Koronaboks } from '../Koronaboks/Koronaboks';
 import Banner from '../HovedBanner/HovedBanner';
-import './Hovedside.less';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import * as Record from '../../utils/Record'
 import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
+import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
+import './Hovedside.less';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);
@@ -30,6 +31,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
 
     return (
         <>
+            <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
             <div className="hovedside">
                 <FeilmeldingContainer

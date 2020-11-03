@@ -6,7 +6,7 @@ url = '';
     if (process.env.NAIS_CLUSTER_NAME === "prod-sbs") {
         url = "https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4";
     } else {
-        url =  process.env.DECORATOR_EXTERNAL_URL || "https://appres.nav.no/common-html/v4/navno?header-withmenu=true&styles=true&scripts=true&footer-withmenu=true";
+        url =  process.env.DECORATOR_EXTERNAL_URL || "https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4";
     }
 
 const requestDecorator = (callback) => request(url, callback);
