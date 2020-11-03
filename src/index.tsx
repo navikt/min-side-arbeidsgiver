@@ -37,7 +37,7 @@ if (isMockApp) {
     require('./mock/altinnBeOmTilgangMock')
 }
 
-if (isMockApp || environment.MILJO === 'dev-sbs') {
+if (isMockApp || environment.MILJO === 'dev-sbs' || environment.MILJO === 'labs-gcp') {
     require('./mock/enhetsRegisteretMock');
 }
 

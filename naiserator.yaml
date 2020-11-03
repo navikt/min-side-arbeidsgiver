@@ -18,8 +18,8 @@ spec:
     path: /min-side-arbeidsgiver/internal/isReady
     initialDelay: 20
   vault:
-    enabled: true
-  webproxy: true
+    enabled: {{vault-enabled}}
+  webproxy: {{webproxy-enabled}}
   env:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
@@ -29,4 +29,13 @@ spec:
       value: '{{{selvbetjening-login-url}}}'
     - name: Q0API_GATEWAY
       value: '{{{api-gw-url-q0}}}'
-
+    - name: DECORATOR_EXTERNAL_URL
+      value: '{{{decorator-external-url}}}'
+   {{#if labs}}
+  accessPolicy:
+    outbound:
+      rules:
+        - application: ditt-nav-arbeidsgiver-api
+      external:
+        - host: www.nav.no
+   {{/if}}

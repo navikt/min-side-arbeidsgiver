@@ -1,7 +1,11 @@
 {
   "ingress": "https://arbeidsgiver.labs.nais.io/min-side-arbeidsgiver",
-  "api-gw-url": "https://api-gw.oera.no",
-  "selvbetjening-login-url": "https://min-side-ag-fakelogin.labs.nais.io?issuer=selvbetjening&sub=123456789&redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver",
+  "api-gw-url": "http://ditt-nav-arbeidsgiver-api",
+  "selvbetjening-login-url": "https://min-side-ag-fakelogin.labs.nais.io/login?issuer=selvbetjening&sub=123456789&domain=labs.nais.io&redirect=https://arbeidsgiver.labs.nais.io/min-side-arbeidsgiver/",
   "logout-url": "https://min-side-ag-fakelogin.labs.nais.io/logout?domain=labs.nais.io",
-  "namespace": "arbeidsgiver"
+  "decorator-external-url": "https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
+  "namespace": "arbeidsgiver",
+  "vault-enabled": false,
+  "webproxy-enabled": false,
+  "labs": true
 }
