@@ -2,10 +2,22 @@
 # yarn lockfile v1
 
 
-"@amplitude/ua-parser-js@0.7.20":
-  version "0.7.20"
-  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.20.tgz#15652f8cc4fee72d962a5f2101cfde6f3c8e87b8"
-  integrity sha512-bmW++BLt1Hg+4HCExLXP+0Jhgy2eTsEevqkVc5o4yYbgwdP/gV3gEQXzyVrMVlWWNLgph/tFIkf5PVlSpCELEg==
+"@amplitude/types@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@amplitude/types/-/types-1.0.4.tgz#21275b030c8267f9ea133a79c5c525e30c706d69"
+  integrity sha512-iWdgTXiE0T/QCK88g2ezJEhJpYHDvDs0StVVPu1ygcl6qYzk/8xrNvbeEibiIBT8t/GJ8FtH5ZIPx3c4CMjlig==
+
+"@amplitude/ua-parser-js@0.7.24":
+  version "0.7.24"
+  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.24.tgz#2ce605af7d2c38d4a01313fb2385df55fbbd69aa"
+  integrity sha512-VbQuJymJ20WEw0HtI2np7EdC3NJGUWi8+Xdbc7uk8WfMIF308T0howpzkQ3JFMN7ejnrcSM/OyNGveeE3TP3TA==
+
+"@amplitude/utils@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.0.5.tgz#843d96b7965c69213bb1896980bed2c1569fbbed"
+  integrity sha512-leo4meeTAvp4W+UWk7EcWaJKuuJ3HqbNglRJPVAUYXaoCs2UzCnCVvjj5rUBN+Mhe0pAmkpEHHaS/1iv2prcKA==
+  dependencies:
+    "@amplitude/types" "^1.0.4"
 
 "@babel/code-frame@7.8.3":
   version "7.8.3"
@@ -2164,12 +2176,13 @@ alphanum-sort@^1.0.0:
   resolved "https://registry.yarnpkg.com/alphanum-sort/-/alphanum-sort-1.0.2.tgz#97a1119649b211ad33691d9f9f486a8ec9fbe0a3"
   integrity sha1-l6ERlkmyEa0zaR2fn0hqjsn74KM=
 
-amplitude-js@^5.8.0:
-  version "5.11.0"
-  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-5.11.0.tgz#578b1dbb9e2d6793a9dbd97a215bdd77ee10c9ae"
-  integrity sha512-rH5CqWvnKK9E6uVI7h1t/ikkQK4vhiS7iy2fncE4K56MY0ty/XVF9cNFBq2NAujMo1VXvu8oG80MdIETPG1zsA==
+amplitude-js@^7.3.2:
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-7.3.2.tgz#67425b7659d848c7128ccf78a2255d64c4eff468"
+  integrity sha512-OngxKt9FUMnskD/G38bgPuGTIMV29GQXct+1KvBCYzjAl/pMR6LDzAJA2y7BwVmGUDeWcutGr6umeWaj2Pgdqg==
   dependencies:
-    "@amplitude/ua-parser-js" "0.7.20"
+    "@amplitude/ua-parser-js" "0.7.24"
+    "@amplitude/utils" "^1.0.5"
     blueimp-md5 "^2.10.0"
     query-string "5"
 
