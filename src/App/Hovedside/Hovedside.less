@@ -1,56 +1,15 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .hovedside {
-    display: flex;
-    flex-direction: column;
     background-color: @navLysGra;
-    align-items: center;
-    align-self: center;
-    width: 100%;
+    margin: 0 1rem;
     padding-top: 2.5rem;
-
-    &__informasjonstekst {
-        text-align: center;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        margin: 2rem 0 2.5rem 0;
-    }
-
-    &__ikon {
-        margin: 1rem;
-    }
-
-    &__corona-info-container {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        padding: 0 1rem;
-        margin: 2rem 0 2.5rem;
-
-        .alertstripe:not(.alertstripe--inline) .lenke:not(:focus) {
-            color: #0067C5;
-        }
-    }
-
-    &__lenke {
-        margin-top: 0.5rem;
-    }
 }
 
-@media (min-width: @screen-md-min) {
-    .forside {
-        width: 60rem;
-
-        .lenkepanel {
-            padding: 1.5rem;
-        }
-    }
+@media (min-width: 1024px) {
 
     .hovedside {
-        &__corona-info-container {
-            width: 60rem;
-            padding: 0;
-        }
+        width: 60rem;
+        margin: 0 auto;
     }
 }

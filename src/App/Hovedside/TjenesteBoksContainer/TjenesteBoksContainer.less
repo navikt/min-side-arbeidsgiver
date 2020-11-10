@@ -1,15 +1,7 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .tjenesteboks-container {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-
     .tjenesteboks {
-        display: inline-block;
-        width: 100%;
         background-color: white;
         margin-bottom: 2rem;
 
@@ -28,43 +20,10 @@
 }
 
 @media (min-width: @screen-sm-min) {
-    .tjenesteboks-container .tjenesteboks {
-        .tjenesteboks-innhold {
-            height: 12rem;
-
-            .lenkepanel {
-                height: 11rem;
-            }
-        }
-    }
-}
-
-@media (min-width: @screen-md-min) {
     .tjenesteboks-container {
-        flex-direction: row;
-        width: 60rem;
+        display: flex;
         flex-wrap: wrap;
-        padding: 0;
-
-        &.antall-partall {
-            .tjenesteboks {
-                width: 29.5rem;
-
-                .tjenesteboks-innhold {
-                    height: 13rem;
-
-                    .lenkepanel {
-                        height: 12rem;
-                    }
-                }
-            }
-
-            .tjenesteboks:nth-child(1),
-            .tjenesteboks:nth-child(3),
-            .tjenesteboks:nth-child(5) {
-                margin-right: 1rem;
-            }
-        }
+        justify-content: space-between;
 
         &.antall-en {
             .tjenesteboks {
@@ -80,24 +39,17 @@
             }
         }
 
-        &.antall-oddetall {
+        &.antall-partall, &.antall-oddetall {
             .tjenesteboks {
-                width: 19.3rem;
+                width: 49%;
 
                 .tjenesteboks-innhold {
-                    height: 14rem;
+                    height: 13rem;
 
                     .lenkepanel {
-                        height: 13rem;
+                        height: 12rem;
                     }
                 }
-            }
-
-            .tjenesteboks:nth-child(1),
-            .tjenesteboks:nth-child(2),
-            .tjenesteboks:nth-child(4),
-            .tjenesteboks:nth-child(5) {
-                margin-right: 1rem;
             }
         }
     }

@@ -1,21 +1,21 @@
-import React, { FunctionComponent, useContext } from 'react';
-import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
-import './NyttigForDegContainer.less';
-import KontaktOss from './KontaktOss/KontaktOss';
+import React, { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
+import KontaktOss from './KontaktOss/KontaktOss';
+import './NyttigForDegContainer.less';
 
-const NyttigForDegContainer: FunctionComponent = () => {
+const NyttigForDegContainer = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     return (
-        <div className={'nyttig-for-deg'}>
-            <div className={'nyttig-for-deg__bokser'}>
+        <div className="nyttig-for-deg">
+            <div className="nyttig-for-deg__bokser">
                 {valgtOrganisasjon !== undefined && (
-                    <div className={'nyttig-for-deg__boks-to'}>
+                    <div className="boks">
                         <Bedriftsinfoknapp />
                     </div>
                 )}
-                <div className={'nyttig-for-deg__boks-to'}>
+                <div className="boks">
                     <KontaktOss />
                 </div>
             </div>

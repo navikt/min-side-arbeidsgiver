@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Undertittel } from 'nav-frontend-typografi';
-import bedriftinfoikon from './infoombedriftikon.svg';
-import './Bedriftsinfoknapp.less';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { Link } from 'react-router-dom';
+import bedriftinfoikon from './infoombedriftikon.svg';
+import './Bedriftsinfoknapp.less';
 
-const Bedriftsinfoknapp: FunctionComponent = () => {
+const Bedriftsinfoknapp = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const loggAtKlikketPaBedriftInfo = () => {
@@ -19,9 +19,9 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
 
     return (
         <Lenkepanel
-            href={'/bedriftsinformasjon'}
-            className={'bedriftsinfo-knapp'}
-            tittelProps={'undertittel'}
+            href="/bedriftsinformasjon"
+            className="bedriftsinfo-knapp"
+            tittelProps="undertittel"
             onClick={loggAtKlikketPaBedriftInfo}
             linkCreator={(props: any) => (
                 <Link
@@ -32,9 +32,9 @@ const Bedriftsinfoknapp: FunctionComponent = () => {
                 </Link>
             )}
         >
-            <div className={'bedriftsinfo-knapp__wrapper'}>
-                <img className={'bedriftsinfo-knapp__ikon'} src={bedriftinfoikon} alt="" />
-                <Undertittel className={'bedriftsinfo-knapp__tekst'}>
+            <div className="bedriftsinfo-knapp__wrapper">
+                <img className="bedriftsinfo-knapp__ikon" src={bedriftinfoikon} alt="" />
+                <Undertittel className="bedriftsinfo-knapp__tekst">
                     Informasjon om din bedrift
                 </Undertittel>
             </div>

@@ -7,9 +7,9 @@ import './SkjemaveilederContainer.less';
 export const SkjemaveilederContainer = () => {
     return (
         <div className="skjemaveileder-container">
-            <div className="skjemaveileder-tittel">
-                <Undertittel id="skjemaveileder-tittel">Alle søknader og skjemaer</Undertittel>
-            </div>
+            <Undertittel id="skjemaveileder-tittel" className="skjemaveileder-tittel">
+                Alle søknader og skjemaer
+            </Undertittel>
             <ul aria-labelledby="skjemaveileder-tittel">
                 <AltinnLenke
                     href={skjemaForArbeidsgivere}
