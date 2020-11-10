@@ -37,8 +37,12 @@ if (isMockApp) {
     require('./mock/altinnBeOmTilgangMock')
 }
 
-if (isMockApp || environment.MILJO === 'dev-sbs' || environment.MILJO === 'labs-gcp') {
+if (isMockApp || environment.MILJO === 'dev-sbs' ) {
     require('./mock/enhetsRegisteretMock');
+}
+if ( environment.MILJO === 'labs-gcp') {
+    require('./mock/enhetsRegisteretMock');
+    require('./mock/altinnMeldingsboksMock');
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
