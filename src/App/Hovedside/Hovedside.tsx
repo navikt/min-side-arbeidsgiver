@@ -15,7 +15,7 @@ import * as Record from '../../utils/Record'
 import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Hovedside.less';
-import AdvarselBannerTestversjon from "./AdvarselBannerTestversjon";
+import AdvarselBannerTestversjon from "./AdvarselBannerTestVersjon/AdvarselBannerTestversjon";
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);

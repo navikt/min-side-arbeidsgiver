@@ -7,7 +7,7 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Logginn.less';
-import AdvarselBannerTestversjon from "../Hovedside/AdvarselBannerTestversjon";
+import AdvarselBannerTestversjon from "../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon";
 
 export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
