@@ -15,6 +15,7 @@ import * as Record from '../../utils/Record'
 import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Hovedside.less';
+import AdvarselBannerTestversjon from "./AdvarselBannerTestversjon";
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);
@@ -34,6 +35,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
             <div className="hovedside">
+                <AdvarselBannerTestversjon/>
                 <FeilmeldingContainer
                     visFeilmelding={visFeilmelding}
                     visSyfoFeilmelding={visSyfoFeilmelding}
