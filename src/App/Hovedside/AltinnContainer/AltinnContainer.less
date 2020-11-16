@@ -1,78 +1,62 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .altinn-container {
-    width: 100%;
-    display: flex;
-    justify-self: center;
-    flex-direction: column;
-    margin-left: 0;
-    padding: 0 1rem;
 
-    .altinn-lenke {
-        width: 100%;
-
-        .ny-fane-ikon {
-            margin-top: 0.5rem;
-            margin-left: 0.3rem;
-        }
+    &__tittel {
+        margin: 1.5rem 0 1rem;
     }
 
     &__bokser {
         display: flex;
         width: 100%;
-        flex-wrap: wrap;
         flex-direction: column;
         padding: 0;
         margin: 0;
         list-style: none;
-    }
 
-    &__tekst {
-        margin: 1.5rem 0 1rem;
+        .altinn-lenke {
+            width: 100%;
+
+            .ny-fane-ikon {
+                margin-top: 0.5rem;
+                margin-left: 0.3rem;
+            }
+        }
     }
 }
 
-@media (min-width: @screen-md-min) {
-    .antall-skjema-partall {
-        .altinn-lenke {
-            width: 29.5rem;
-            margin-right: 1rem;
-        }
-        .altinn-lenke:nth-child(even) {
-            margin-right: 0;
-        }
-    }
-
-    .antall-skjema-oddetall {
-        .altinn-lenke {
-            width: 19.3rem;
-            margin-right: 1rem;
-        }
-        .altinn-lenke:nth-child(3n+0) {
-            margin-right: 0;
-        }
-    }
-
-    .antall-skjema-en {
-        .altinn-lenke {
-            width: 100%;
-        }
-    }
-
+@media (min-width: @screen-sm-min) {
     .altinn-container {
-        width: 60rem;
-        padding: 0;
 
         &__bokser {
-            display: flex;
-            width: 60rem;
             flex-wrap: wrap;
             flex-direction: row;
+            justify-content: space-between;
         }
 
-        &__ikon {
-            margin-left: 1rem;
-            height: 1rem;
+        .antall-skjema-en {
+            .altinn-lenke {
+                width: 100%;
+            }
         }
+
+        .antall-skjema-partall, .antall-skjema-oddetall {
+            .altinn-lenke {
+                width: 49%;
+            }
+        }
+        /*
+        .antall-skjema-oddetall {
+
+            .altinn-lenke {
+                width: 19.3rem;
+                margin-right: 1rem;
+            }
+
+            .altinn-lenke:nth-child(3n+0) {
+                margin-right: 0;
+            }
+        }
+        */
     }
 }

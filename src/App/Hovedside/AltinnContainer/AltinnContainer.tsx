@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { altinnskjema, AltinnskjemaId } from '../../../altinn/tjenester';
 import AltinnLenke from './AltinnLenke/AltinnLenke';
 import './AltinnContainer.less';
-import { altinnskjema, AltinnskjemaId } from '../../../altinn/tjenester';
 
 const skjemarekkefølge: AltinnskjemaId[] = [
     'mentortilskudd',
@@ -41,11 +41,9 @@ export const AltinnContainer: FunctionComponent = () => {
 
     return (
         <div className={'altinn-container ' + className}>
-            <div className={'altinn-container__tekst'}>
-                <Undertittel id="altinn-container-tittel">
-                    Søknader og skjemaer på Altinn
-                </Undertittel>
-            </div>
+            <Undertittel id="altinn-container-tittel" className="altinn-container__tittel">
+                Søknader og skjemaer på Altinn
+            </Undertittel>
 
             <ul
                 className={'altinn-container__bokser ' + className}

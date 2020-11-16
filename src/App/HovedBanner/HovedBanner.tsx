@@ -4,7 +4,6 @@ import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
-import './HovedBanner.less';
 import * as Record from '../../utils/Record';
 
 interface OwnProps {
