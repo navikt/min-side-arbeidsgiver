@@ -17,12 +17,15 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
     const orgs = organisasjoner ? Record.fold(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
 
     return (
-        <Bedriftsmeny
-            sidetittel={sidetittel}
-            organisasjoner={orgs}
-            onOrganisasjonChange={endreOrganisasjon}
-            history={history}
-        />
+        <div>
+            <Bedriftsmeny
+                sidetittel={sidetittel}
+                organisasjoner={orgs}
+                onOrganisasjonChange={endreOrganisasjon}
+                history={history}
+            />
+            <div>Toggle varsler</div>
+        </div>
     );
 };
 

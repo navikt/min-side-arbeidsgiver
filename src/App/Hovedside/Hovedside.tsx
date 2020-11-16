@@ -17,6 +17,7 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
+import Varselpanel from './Varselpanel/Varselpanel';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(
@@ -38,22 +39,25 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         <>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
-            <div className="hovedside">
-                <AdvarselBannerTestversjon />
-                <VarselHvisNedetid />
-                <FeilmeldingContainer
-                    visFeilmelding={visFeilmelding}
-                    visSyfoFeilmelding={visSyfoFeilmelding}
-                />
-                <Koronaboks />
-                <TjenesteBoksContainer />
-                <BrevFraAltinnContainer />
-                <NyttigForDegContainer />
-                <AltinnContainer />
-                <SkjemaveilederContainer />
-                <LinkableFragment fragment="be-om-tilgang">
-                    <BeOmTilgang />
-                </LinkableFragment>
+            <div className="hovedside-container">
+                <div className="hovedside">
+                    <AdvarselBannerTestversjon />
+                    <VarselHvisNedetid />
+                    <FeilmeldingContainer
+                        visFeilmelding={visFeilmelding}
+                        visSyfoFeilmelding={visSyfoFeilmelding}
+                    />
+                    <Koronaboks />
+                    <TjenesteBoksContainer />
+                    <BrevFraAltinnContainer />
+                    <NyttigForDegContainer />
+                    <AltinnContainer />
+                    <SkjemaveilederContainer />
+                    <LinkableFragment fragment="be-om-tilgang">
+                        <BeOmTilgang />
+                    </LinkableFragment>
+                </div>
+                <Varselpanel />
             </div>
         </>
     );
