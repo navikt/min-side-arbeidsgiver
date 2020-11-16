@@ -11,7 +11,7 @@ const AdvarselBannerTestversjon = () => {
                 <br/>
                 Testversjonen kan avvike noe fra den virkelige nettsiden og
                 foreløpig er det bare lenkene til <i>mine sykemeldte</i>,
-                og <i>arbeidsavtaler</i> som virker, de andre sidene har ikke fungerende testversjoner.
+                og <i>tiltak</i> som virker. De andre sidene har ikke fungerende testversjoner.
                 <br/>
             </AlertStripeAdvarsel>
      }
