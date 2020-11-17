@@ -3,7 +3,7 @@ import {AlertStripeAdvarsel} from "nav-frontend-alertstriper";
 import './AdvarselBannerTestversjon.less'
 const AdvarselBannerTestversjon = () => {
     return (
-        <>{
+        <>{window.location.hostname.includes('labs.nais.io') && (
             <AlertStripeAdvarsel className={'advarsel-banner-testversjon'}>
                 <b>Dette er en testversjon</b>
                 <br/>
@@ -14,7 +14,7 @@ const AdvarselBannerTestversjon = () => {
                 og <i>Tiltak</i> som virker. De andre sidene har ikke fungerende testversjoner.
                 <br/>
             </AlertStripeAdvarsel>
-     }
+        )}
         </>
     );
 };
