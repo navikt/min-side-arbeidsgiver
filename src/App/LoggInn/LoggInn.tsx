@@ -7,6 +7,7 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Logginn.less';
+import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 
 export const LoggInn: FunctionComponent = () => {
     const redirectTilLogin = () => {
@@ -22,6 +23,7 @@ export const LoggInn: FunctionComponent = () => {
             <Brodsmulesti brodsmuler={[]} />
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
+                <AdvarselBannerTestversjon/>
                 <Systemtittel className="innloggingsside__sidetittel">
                     På Min side – arbeidsgiver kan du:
                 </Systemtittel>
