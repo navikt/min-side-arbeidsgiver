@@ -11,6 +11,7 @@ export const arbeidsforholdLink = gittMiljo({
 export const syfoLink = gittMiljo({
     prod: 'https://tjenester.nav.no/sykefravaerarbeidsgiver',
     other: 'https://tjenester-q1.nav.no/sykefravaerarbeidsgiver',
+    labs: 'https://sykefravaerarbeidsgiver.labs.nais.io/sykefravaerarbeidsgiver/'
 });
 
 export const linkTilArbeidsplassen = gittMiljo({
@@ -113,6 +114,7 @@ export const LenkeTilKoronaSykeRefusjon = urlMedBedriftNr(
 
 export const tiltaksgjennomforingLink = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+    labs: 'https://arbeidsgiver.labs.nais.io/tiltaksgjennomforing',
     other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
 });
 
