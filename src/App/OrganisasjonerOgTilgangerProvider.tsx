@@ -13,6 +13,7 @@ import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import NavFrontendSpinner from "nav-frontend-spinner";
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -146,6 +147,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             </OrganisasjonerOgTilgangerContext.Provider>
         );
     } else {
-        return <></>;
+        return <NavFrontendSpinner className={"app__laster-spinner"}/>;
     }
 };
