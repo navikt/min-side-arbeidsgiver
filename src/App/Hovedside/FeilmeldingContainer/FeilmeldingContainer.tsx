@@ -19,7 +19,7 @@ export const FeilmeldingContainer = (props: Props) => {
                     </a>
                 </AlertStripe>
             )}
-            {!props.visFeilmelding && props.visSyfoFeilmelding && (
+            {props.visSyfoFeilmelding && (
                 <AlertStripe type="feil" className="feilStripe">
                     Vi har problemer med å hente informasjon om eventuelle sykemeldte du skal følge
                     opp. Vi jobber med å løse saken så raskt som mulig
