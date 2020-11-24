@@ -23,12 +23,12 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     useEffect(() => {
         const skalViseManglerTilgangBoks = !(
             Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG
-        );
+        ) && !visFeilmelding && !visSyfoFeilmelding;
 
         if (skalViseManglerTilgangBoks) {
             history.replace({ pathname: 'mangler-tilgang' });
         }
-    }, [organisasjoner, tilgangTilSyfo, history]);
+    }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding]);
 
     return (
         <>

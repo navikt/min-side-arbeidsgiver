@@ -1,8 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import {
-    hentOrganisasjoner,
-    hentSyfoTilgang,
-} from '../api/dnaApi';
+import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import {
     autentiserAltinnBruker,
@@ -11,19 +8,23 @@ import {
 } from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
-import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
+import {
+    AltinnTilgangssøknad,
+    hentAltinntilganger,
+    hentAltinnTilgangssøknader,
+} from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import NavFrontendSpinner from 'nav-frontend-spinner';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
 
-
 export type Altinntilgang =
-    | {tilgang: 'ja'}
-    | {tilgang: 'nei'}
-    | {tilgang: 'søknad opprettet', url: string}
-    | {tilgang: 'søkt'}
-    | {tilgang: 'godkjent'};
+    | { tilgang: 'ja' }
+    | { tilgang: 'nei' }
+    | { tilgang: 'søknad opprettet'; url: string }
+    | { tilgang: 'søkt' }
+    | { tilgang: 'godkjent' };
 
 export type OrganisasjonInfo = {
     organisasjon: Organisasjon;
@@ -41,12 +42,12 @@ export type Context = {
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
-    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(
-        undefined
-    );
+    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<
+        OrgnrMap<Organisasjon> | undefined
+    >(undefined);
     const [altinntilganger, setAltinntilganger] = useState<
         Record<AltinntjenesteId, Set<string>> | undefined
-        >(undefined);
+    >(undefined);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(Tilgang.LASTER);
@@ -56,27 +57,28 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     >(undefined);
 
     useEffect(() => {
-        /* Kjører denne først, fordi den kan føre til en redirect til Altinn. */
-        hentAltinnRaporteeIdentiteter().then(result => {
-            if (result instanceof Error) {
-                autentiserAltinnBruker(window.location.href);
-                setReporteeMessagesUrls({});
-            } else {
-                setReporteeMessagesUrls(result);
-            }
-        });
-
         hentOrganisasjoner()
-            .then(orgs =>
-                orgs.filter(
+            .then(orgs => {
+                const gyldigeOrganisasjoner = orgs.filter(
                     org =>
                         org.OrganizationForm === 'BEDR' ||
                         org.OrganizationForm === 'AAFY' ||
                         org.Type === 'Enterprise'
-                )
-            )
-            .then(orgs => Record.fromEntries(orgs.map(org => [org.OrganizationNumber, org])))
-            .then(setAltinnorganisasjoner)
+                );
+                setAltinnorganisasjoner(
+                    Record.fromEntries(
+                        gyldigeOrganisasjoner.map(org => [org.OrganizationNumber, org])
+                    )
+                );
+                hentAltinnRaporteeIdentiteter().then(result => {
+                    if (result instanceof Error) {
+                        autentiserAltinnBruker(window.location.href);
+                        setReporteeMessagesUrls({});
+                    } else {
+                        setReporteeMessagesUrls(result);
+                    }
+                });
+            })
             .catch(() => {
                 setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
@@ -84,11 +86,11 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
         hentAltinntilganger()
             .then(setAltinntilganger)
-            .catch(() => setAltinntilganger(Record.map(altinntjeneste, () => new Set())))
+            .catch(() => setAltinntilganger(Record.map(altinntjeneste, () => new Set())));
 
         hentAltinnTilgangssøknader()
             .then(setAltinnTilgangssøknader)
-            .catch(() => setAltinnTilgangssøknader([]))
+            .catch(() => setAltinnTilgangssøknader([]));
 
         hentSyfoTilgang()
             .then(tilgangFromTruthy)
@@ -96,41 +98,45 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => {
                 setVisSyfoFeilmelding(true);
                 setTilgangTilSyfo(Tilgang.IKKE_TILGANG);
-            }) ;
+            });
     }, []);
 
     if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader) {
-        const sjekkTilgang = (orgnr: orgnr) => (id: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): Altinntilgang => {
+        const sjekkTilgang = (orgnr: orgnr) => (
+            id: AltinntjenesteId,
+            orgnrMedTilgang: Set<orgnr>
+        ): Altinntilgang => {
             if (orgnrMedTilgang.has(orgnr)) {
-                return {tilgang: 'ja'};
+                return { tilgang: 'ja' };
             }
-            const { tjenestekode, tjenesteversjon } = altinntjeneste[id]
-            const søknader = altinnTilgangssøknader.filter(s =>
-                s.orgnr === orgnr &&
-                s.serviceCode === tjenestekode &&
-                s.serviceEdition.toString() === tjenesteversjon
+            const { tjenestekode, tjenesteversjon } = altinntjeneste[id];
+            const søknader = altinnTilgangssøknader.filter(
+                s =>
+                    s.orgnr === orgnr &&
+                    s.serviceCode === tjenestekode &&
+                    s.serviceEdition.toString() === tjenesteversjon
             );
 
             if (søknader.some(_ => _.status === 'Unopened')) {
-                return {tilgang: 'søkt'};
+                return { tilgang: 'søkt' };
             }
 
             const søknad = søknader.find(_ => _.status === 'Created');
             if (søknad) {
-                return {tilgang: 'søknad opprettet', url: søknad.submitUrl};
+                return { tilgang: 'søknad opprettet', url: søknad.submitUrl };
             }
 
             if (søknader.some(_ => _.status === 'Accepted')) {
-                return {tilgang: 'godkjent'}
+                return { tilgang: 'godkjent' };
             }
 
-            return {tilgang: 'nei'};
+            return { tilgang: 'nei' };
         };
 
         const organisasjoner = Record.map(altinnorganisasjoner, (orgnr, org) => ({
-                organisasjon: org,
-                altinntilgang: Record.map(altinntilganger, sjekkTilgang(orgnr))
-            }));
+            organisasjon: org,
+            altinntilgang: Record.map(altinntilganger, sjekkTilgang(orgnr)),
+        }));
 
         const context: Context = {
             organisasjoner,
@@ -146,6 +152,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             </OrganisasjonerOgTilgangerContext.Provider>
         );
     } else {
-        return <></>;
+        return <NavFrontendSpinner className={'app__laster-spinner'} />;
     }
 };
