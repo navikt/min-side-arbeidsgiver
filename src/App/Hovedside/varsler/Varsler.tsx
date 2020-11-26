@@ -37,9 +37,7 @@ const Varsler = () => {
     return (
         <div ref={varslernode} className="varsler">
             <VarslerKnapp erApen={erApen} setErApen={setErApen}/>
-            {erApen &&
-                <Varselpanel erApen={erApen} setErApen={setErApen}/>
-            }
+            <Varselpanel erApen={erApen} setErApen={setErApen}/>
         </div>
     );
 };

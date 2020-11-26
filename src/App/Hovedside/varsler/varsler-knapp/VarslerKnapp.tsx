@@ -16,7 +16,10 @@ export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
                 onClick={() => setErApen(!erApen)}
                 className="varselbjelle-knapp"
                 id={varslerKnappId}
-                aria-label=""
+                aria-label={
+                    `Varsler. Trykk enter for å ${
+                        erApen? 'lukke' : 'åpne'} varselpanelet`
+                }
                 aria-controls="varsler-dropdown"
                 aria-expanded={erApen}
                 aria-pressed={erApen}
