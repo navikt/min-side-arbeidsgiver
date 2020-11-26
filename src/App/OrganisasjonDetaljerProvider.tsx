@@ -7,6 +7,7 @@ import {
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 import { settBedriftIPam, hentAntallannonser } from '../api/pamApi';
+import { hentVarsler, Varsel } from '../api/varslerApi';
 
 interface Props {
     children: React.ReactNode;
@@ -17,6 +18,7 @@ export type Context = {
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
+    varsler: Varsel[] | undefined;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -26,6 +28,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
+
+    const [varsler, setVarsler] = useState<Varsel[] | undefined>(
+        undefined
+    );
 
     const endreOrganisasjon = async (org: Organisasjon) => {
         const orgInfo = organisasjoner[org.OrganizationNumber];
@@ -38,6 +44,15 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         } else {
             setantallAnnonser(0);
         }
+
+        hentVarsler()
+            .then((varsler: Varsel[]) => {
+                console.log('varsler fetch', varsler);
+                setVarsler(varsler);
+            })
+            .catch(() => {
+                setVarsler(undefined);
+            });
 
         if (orgInfo.altinntilgang.tilskuddsbrev.tilgang === 'ja') {
             const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
@@ -64,6 +79,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         endreOrganisasjon,
         valgtOrganisasjon,
         altinnMeldingsboks,
+        varsler
     };
 
     return (

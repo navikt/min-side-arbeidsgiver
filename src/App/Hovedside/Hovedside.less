@@ -1,32 +1,27 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .hovedside-container {
+    display: flex;
+    flex-direction: column;
 
     .hovedside {
         background-color: @navLysGra;
         margin: 0 1rem;
-        padding-top: 2.5rem;
+        padding-top: 0.5rem;
     }
 
-    .varselpanel {
-        display: none;
+    .varsler {
+        padding: 0 1rem;
+        margin: 1rem 0;
+        position: relative;
     }
 
     @media (min-width: 1024px) {
 
-        display: flex;
         margin: 0 auto;
 
         .hovedside {
-            // width: 60rem;
-            width: 656px;
+            width: 60rem;
         }
-
-        .varselpanel {
-            display: block;
-            background-color: white;
-            width: 368px;
-            border-radius: 4px;
-        }
-    }
+   }
 }

@@ -1,0 +1,187 @@
+@import 'node_modules/nav-frontend-core/less/_variabler';
+
+.varselpanel {
+    z-index: 10;
+    color: @navMorkGra;
+
+    /*
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+    }
+    */
+    &__dropdown {
+        &--lukket,
+        &--apen {
+            width: 18rem;
+            background-color: white;
+            outline: none;
+            border: solid 2px #194d62;
+            border-radius: 4px;
+            position: absolute;
+            top: 4.5rem;
+
+            .varselpanel-elementer-wrapper {
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                position: relative;
+            }
+
+            .varselpanel-elementer {
+                display: flex;
+                flex-direction: column;
+                overflow-y: scroll;
+                overflow-x: hidden;
+                width: 100%;
+                padding: 0;
+
+                &:focus {
+                    outline: none;
+                }
+
+                .varselpanel__tittel {
+                    margin-bottom: 1rem;
+                    padding: 1rem 0 2rem 1rem;
+                    border-bottom: @navGra40 2px solid;
+
+                    .varselpanel-overskrift {
+                        width: 15rem;
+                    }
+
+                    .varselpanel-lukknapp {
+                        position: absolute;
+                        right: 1rem;
+                        top: 1rem;
+                    }
+                }
+
+                .varselpanel__lenke {
+                    .lenkepanel {
+                        border-bottom: @navGra40 1px solid;
+                        border-radius: 0;
+                    }
+
+                    .varsel-dato-type {
+                        position: relative;
+
+                        .varsel-type {
+                            position: absolute;
+                            right: -2rem;
+                            top: -1rem;
+                            background-color: @navLysGra;
+                            border-radius: 4px;
+                            padding: 0.3rem 0.5rem;
+                            font-weight: 800;
+                        }
+                    }
+
+                    .varsel-innhold {
+                        margin: 0.5rem 0;
+
+                        .varsel-lenketekst {
+                            display: flex;
+                            padding: 1rem 0;
+
+                            .varsel-ikon {
+                                width: 54px;
+                                margin-right: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &--lukket {
+            visibility: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s ease-in-out;
+
+            .varselpanel-elementer {
+                max-height: 0;
+                transition: max-height 0.4s ease-in-out;
+            }
+        }
+
+        &--apen {
+            padding-right: 1px;
+            visibility: visible;
+            max-height: 25rem;
+            opacity: 1;
+            transition: max-height 0.6s linear;
+
+
+            &:before,
+            &:after {
+                content: '\0020';
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: -18.5px;
+                right: 5.5%;
+                width: 0;
+                height: 0;
+                border: solid 20px transparent;
+                border-top: 0;
+                border-bottom-color: #fff;
+            }
+
+            &:before {
+                top: -22px;
+                border-bottom-color: #194d62;
+            }
+
+            @media (max-width: @screen-md-min) {
+                &:before,
+                &:after {
+                    right: 45%;
+                }
+            }
+
+            .varselpanel-elementer {
+                max-height: 20rem;
+                transition: max-height 0.6s linear;
+            }
+        }
+    }
+
+    @media (min-width: 23rem) {
+        &__dropdown--apen {
+            width: 21rem;
+        }
+    }
+
+    @media (min-width: 28rem) {
+        &__dropdown {
+            &--apen {
+                width: 26rem;
+            }
+        }
+    }
+
+    @media (min-width: @screen-sm-min) {
+        &__dropdown {
+            &--apen {
+                right: 0;
+                max-height: 35rem;
+
+                .varselpanel-elementer {
+                    max-height: 30rem;
+                }
+            }
+        }
+    }
+}
+
+
+/*
+.varselpanel {
+    position: relative;
+    padding: 1rem;
+    border: 1px @navGra40 solid;
+}
+*/

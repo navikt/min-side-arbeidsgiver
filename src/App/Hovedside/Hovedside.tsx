@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { Tilgang } from '../LoginBoundary';
 import * as Record from '../../utils/Record';
@@ -16,8 +16,8 @@ import { AltinnContainer } from './AltinnContainer/AltinnContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
+import Varsler from './varsler/Varsler';
 import './Hovedside.less';
-import Varselpanel from './Varselpanel/Varselpanel';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(
@@ -40,6 +40,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
             <div className="hovedside-container">
+                <Varsler />
                 <div className="hovedside">
                     <AdvarselBannerTestversjon />
                     <VarselHvisNedetid />
@@ -57,7 +58,6 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                         <BeOmTilgang />
                     </LinkableFragment>
                 </div>
-                <Varselpanel />
             </div>
         </>
     );
