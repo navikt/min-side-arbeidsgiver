@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FunctionComponent, useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
