@@ -1,20 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {
-    autentiserAltinnBruker,
-    hentAltinnRaporteeIdentiteter,
-    ReporteeMessagesUrls,
-} from '../api/altinnApi';
+import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
-import {
-    AltinnTilgangssøknad,
-    hentAltinntilganger,
-    hentAltinnTilgangssøknader,
-} from '../altinn/tilganger';
+import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import Spinner from './Spinner';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -101,7 +93,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             });
     }, []);
 
-    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader) {
+    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== Tilgang.LASTER) {
         const sjekkTilgang = (orgnr: orgnr) => (
             id: AltinntjenesteId,
             orgnrMedTilgang: Set<orgnr>
@@ -151,7 +143,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 {props.children}
             </OrganisasjonerOgTilgangerContext.Provider>
         );
-    } else {
-        return <NavFrontendSpinner className={'app__laster-spinner'} />;
+    }
+    else {
+        return (
+            <Spinner />
+        );
     }
 };

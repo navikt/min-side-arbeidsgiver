@@ -14,7 +14,7 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    const orgs = Record.fold(organisasjoner, (orgnr, {organisasjon}) => organisasjon)
+    const orgs = organisasjoner ? Record.fold(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
 
     return (
         <Bedriftsmeny

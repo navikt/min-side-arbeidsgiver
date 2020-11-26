@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { Tilgang } from './LoginBoundary';
 import {
     OrganisasjonInfo,
     OrganisasjonerOgTilgangerContext,
@@ -65,11 +64,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     };
 
     useEffect(() => {
-        if (tilgangTilSyfo !== Tilgang.LASTER) {
-            loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(valgtOrganisasjon, {
-                tilgangTilSyfo,
-            });
-        }
+        loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(valgtOrganisasjon, {
+            tilgangTilSyfo,
+        });
     }, [valgtOrganisasjon, tilgangTilSyfo]);
 
     let defaultContext: Context = {
@@ -80,12 +77,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     };
 
     return (
-        <>
-            {tilgangTilSyfo !== Tilgang.LASTER && (
-                <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
-                    {children}
-                </OrganisasjonsDetaljerContext.Provider>
-            )}
-        </>
+        <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
+            {children}
+        </OrganisasjonsDetaljerContext.Provider>
     );
 };
