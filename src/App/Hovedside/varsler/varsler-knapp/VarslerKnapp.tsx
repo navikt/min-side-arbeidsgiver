@@ -25,7 +25,7 @@ export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
                 aria-pressed={erApen}
                 aria-haspopup="true"
             >
-                <VarselIkon isOpen={erApen} antallUleste={8} />
+                <VarselIkon isOpen={erApen} antallUleste={3} />
             </button>
         </div>
     );

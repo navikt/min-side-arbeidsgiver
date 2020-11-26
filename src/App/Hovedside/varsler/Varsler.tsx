@@ -17,11 +17,10 @@ const Varsler = () => {
 
     useEffect(() => {
         if (!erApen) {
-            // setfokusPaMenyKnapp();
-            // setOrganisasjonIFokus(tomAltinnOrganisasjon);
+            // setfokusPaKnapp();
         }
         else {
-            // setfokusPaSokefelt();
+            // setfokusPa...
         }
     }, [erApen]);
 

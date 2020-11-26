@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import Lukknapp from 'nav-frontend-lukknapp';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Varsel } from '../../../../api/varslerApi';
-import InfoIkon from '../../../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
+import { Varsel, Varseltype } from '../../../../api/varslerApi';
 import { datotekst } from './dato-funksjoner';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
+import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 import './Varselpanel.less';
 
 interface Props {
@@ -53,7 +54,10 @@ const Varselpanel = ({ erApen, setErApen }: Props) => {
                                         </div>
                                         <div className="varsel-lenketekst">
                                             <div className="varsel-ikon">
-                                                <InfoIkon size="48" />
+                                                { varsel.varseltype === Varseltype.BESKJED
+                                                    ? <VarselpanelIkonBeskjed />
+                                                    : <VarselpanelIkonOppgave />
+                                                }
                                             </div>
                                             <span>{varsel.beskjed}</span>
                                         </div>

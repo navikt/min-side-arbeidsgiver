@@ -29,8 +29,8 @@ const finnMaaned = (month: number): string => {
 };
 
 const formatterDato = (dato: Date) => {
-    const dat = new Date(dato);
-    return dat.getDate() + '. ' + finnMaaned(dat.getMonth()) + ' ' + dat.getFullYear();
+    const date = new Date(dato);
+    return date.getDate() + '. ' + finnMaaned(date.getMonth()) + ' ' + date.getFullYear();
 };
 
 let today = new Date();
@@ -42,9 +42,9 @@ export const isYesterday = (date: Date): boolean =>
     formatterDato(date) === formatterDato(yesterday);
 
 export const klokkeslett = (date: Date) => {
-    const dat = new Date(date);
-    let hour = dat.getHours().toString();
-    let minute = dat.getMinutes().toString();
+    const dato = new Date(date);
+    let hour = dato.getHours().toString();
+    let minute = dato.getMinutes().toString();
     if (hour.length < 2) {
         hour = '0' + hour;
     }
@@ -55,10 +55,10 @@ export const klokkeslett = (date: Date) => {
 };
 
 export const datotekst = (date: Date) => {
-    const dat = new Date(date);
-    if (isToday(dat)) {
-        return 'Idag ' + klokkeslett(dat);
+    const dato = new Date(date);
+    if (isToday(dato)) {
+        return 'Idag ' + klokkeslett(dato);
     } else if (isYesterday(date)) {
-        return 'Igår ' + klokkeslett(dat);
-    } else return formatterDato(dat);
+        return 'Igår ' + klokkeslett(dato);
+    } else return formatterDato(dato);
 };
