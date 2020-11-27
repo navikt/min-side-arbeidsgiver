@@ -15,7 +15,7 @@ interface Props {
 
 const Spinner = (props: Props) => {
     return (
-        <div className="bakgrunnsside">
+        <>
             <Brodsmulesti brodsmuler={[]} />
             { props.bannertype === Bannertype.LOGGINN
                 ? <LoggInnBanner />
@@ -24,7 +24,7 @@ const Spinner = (props: Props) => {
             <div className="app__laster-spinner">
                 <NavFrontendSpinner type="XL"/>
             </div>
-        </div>
+        </>
     );
 };
 
