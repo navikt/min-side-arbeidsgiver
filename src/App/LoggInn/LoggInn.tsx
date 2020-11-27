@@ -10,12 +10,14 @@ import './Logginn.less';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 
 
-//tidspunkt skirves på formen (2015-03-25T12:00:00Z"); blir f.eks klokka 13.00 ( 12:00 + en time = 13.00 pga tidsonen i Norge
+//tidspunkt skirves på formen (2015-03-25T12:00:00Z"); blir f.eks klokka 25. mars 2015, kl 13.00 ( 12:00 + en time = 13.00 pga tidsonen i Norge)
 
-const advarselboksSettesPåString = '';
-const nedetidboksSettesPaString = ''
+const advarselboksSettesPåString = '2020-11-27T09:47:00Z';
+const nedetidboksSettesPaString = '2020-11-27T09:47:30Z';
+const bokserSkalSlutteÅVisesString = '2020-11-27T09:48:00Z';
 
-export const regnUtOmBoksSkalVises =(tidspunkt: Date) => {
+export const erIFortiden =(tidspunktString: string) => {
+    const tidspunkt = new Date(tidspunktString);
     const nåVærendeTidspunkt = new Date();
     return nåVærendeTidspunkt > tidspunkt;
 }
@@ -23,9 +25,6 @@ export const regnUtOmBoksSkalVises =(tidspunkt: Date) => {
 export const LoggInn: FunctionComponent = () => {
     const [visAdvarselBoks, setVisAdvarselBoks] = useState(false)
     const [visNedetid, setVisNedetid] = useState(false)
-
-    const advarselboksSettesPåString = '';
-    const nedetidboksSettesPaString = ''
 
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs'||environment.MILJO === 'labs-gcp') {
@@ -37,30 +36,27 @@ export const LoggInn: FunctionComponent = () => {
     };
 
     useEffect(() => {
-        if (advarselboksSettesPåString.length >0  && nedetidboksSettesPaString.length>0)  {
-            const tidForAdvarselBoks = new Date(advarselboksSettesPåString);
-            const tidForNedetidBoks = new Date(nedetidboksSettesPaString);
-            const nedetidVises = regnUtOmBoksSkalVises(tidForNedetidBoks)
-            setVisAdvarselBoks(nedetidVises)
-            if (!nedetidVises) {
-                if (regnUtOmBoksSkalVises(tidForAdvarselBoks)){
-                    setVisNedetid(true)
-                }
-                else {
-                    setVisNedetid(false)
-                }
+        const bokserSkalSlutteÅVises = erIFortiden(bokserSkalSlutteÅVisesString)
+        if (advarselboksSettesPåString.length >0  && nedetidboksSettesPaString.length>0 && !bokserSkalSlutteÅVises)  {
+            const nedetidVises = erIFortiden(nedetidboksSettesPaString)
+            setVisNedetid(nedetidVises)
+            if (erIFortiden(advarselboksSettesPåString) && !nedetidVises){
+                setVisAdvarselBoks(true)
             }
-
         }
     }, []);
 
+    const visNyBoks = (visAdvarselBoks || visNedetid);
 
+    const nedetidTekst = visNedetid? 'nedetiden er NÅ' : ''
+    const advarselTekst = visAdvarselBoks? 'nedetiden kommer' : ''
 
     return (
         <div className="innloggingsside">
             <Brodsmulesti brodsmuler={[]} />
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
+                {visNyBoks && <Normaltekst> {nedetidTekst + advarselTekst}</Normaltekst>}
                 <AdvarselBannerTestversjon/>
                 <Systemtittel className="innloggingsside__sidetittel">
                     På Min side – arbeidsgiver kan du:
