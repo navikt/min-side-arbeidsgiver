@@ -11,7 +11,7 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/Ad
 import { VarselOmNedetid } from "./VarselOmNedetid/VarselOmNedetid";
 
 
-//tidspunkt skirves på formen (2015-03-25T12:00:00Z"); blir f.eks klokka 25. mars 2015, kl 13.00 ( 12:00 + en time = 13.00 pga tidsonen i Norge)
+//tidspunkt som argumentstreng skrives på formen (2015-03-25T12:00:00Z"), blir f.eks 25. mars 2015, kl 13.00 ( 12:00 + en time = 13.00 pga tidsonen i Norge)
 
 const advarselboksSettesPåString = '';
 const nedetidboksSettesPaString = '';
