@@ -1,13 +1,11 @@
 import React, { useContext } from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import Lukknapp from 'nav-frontend-lukknapp';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { Varsel, Varseltype } from '../../../../api/varslerApi';
-import { datotekst } from './dato-funksjoner';
+import { Undertittel } from 'nav-frontend-typografi';
+import { Varsel } from '../../../../api/varslerApi';
+
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
-import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 import './Varselpanel.less';
+import { VarselLenkepanel } from "./VarselLenkepanel/VarselLenkepanel";
 
 interface Props {
     erApen: boolean;
@@ -38,31 +36,7 @@ const Varselpanel = ({ erApen, setErApen }: Props) => {
                     <ul className="varselpanel__varsler" aria-label={`Liste med ${varsler?.length} beskjeder`}>
                         {varsler?.map((varsel: Varsel, index: number) => (
                             <li className="varselpanel__lenke" key={index}>
-                                <Lenkepanel
-                                    href={varsel.href}
-                                    tittelProps="normaltekst"
-                                    aria-label=""
-                                >
-                                    <div className="varsel-innhold">
-                                        <div className="varsel-dato-type">
-                                            <div className="varsel-dato">
-                                                {datotekst(varsel.dato)}
-                                            </div>
-                                            <Normaltekst className="varsel-type">
-                                                {varsel.type}
-                                            </Normaltekst>
-                                        </div>
-                                        <div className="varsel-lenketekst">
-                                            <div className="varsel-ikon">
-                                                { varsel.varseltype === Varseltype.BESKJED
-                                                    ? <VarselpanelIkonBeskjed />
-                                                    : <VarselpanelIkonOppgave />
-                                                }
-                                            </div>
-                                            <span>{varsel.beskjed}</span>
-                                        </div>
-                                    </div>
-                                </Lenkepanel>
+                                <VarselLenkepanel varsel={varsel}/>
                             </li>
                         ))}
                     </ul>
