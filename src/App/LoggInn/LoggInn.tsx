@@ -8,13 +8,14 @@ import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsSty
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Logginn.less';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
+import { VarselOmNedetid } from "./VarselOmNedetid/VarselOmNedetid";
 
 
 //tidspunkt skirves på formen (2015-03-25T12:00:00Z"); blir f.eks klokka 25. mars 2015, kl 13.00 ( 12:00 + en time = 13.00 pga tidsonen i Norge)
 
-const advarselboksSettesPåString = '2020-11-27T09:47:00Z';
-const nedetidboksSettesPaString = '2020-11-27T09:47:30Z';
-const bokserSkalSlutteÅVisesString = '2020-11-27T09:48:00Z';
+const advarselboksSettesPåString = '';
+const nedetidboksSettesPaString = '';
+const bokserSkalSlutteÅVisesString = '';
 
 export const erIFortiden =(tidspunktString: string) => {
     const tidspunkt = new Date(tidspunktString);
@@ -46,17 +47,14 @@ export const LoggInn: FunctionComponent = () => {
         }
     }, []);
 
-    const visNyBoks = (visAdvarselBoks || visNedetid);
-
-    const nedetidTekst = visNedetid? 'nedetiden er NÅ' : ''
-    const advarselTekst = visAdvarselBoks? 'nedetiden kommer' : ''
+    const visNedetidBokser = (visAdvarselBoks || visNedetid);
 
     return (
         <div className="innloggingsside">
             <Brodsmulesti brodsmuler={[]} />
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
-                {visNyBoks && <Normaltekst> {nedetidTekst + advarselTekst}</Normaltekst>}
+                {visNedetidBokser && <VarselOmNedetid advarselOmNedetid={visAdvarselBoks} nedetid={visNedetid}/>}
                 <AdvarselBannerTestversjon/>
                 <Systemtittel className="innloggingsside__sidetittel">
                     På Min side – arbeidsgiver kan du:

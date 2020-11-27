@@ -1,32 +1,30 @@
 import React, { FunctionComponent } from 'react';
 import AlertStripe from 'nav-frontend-alertstriper';
+import { Element } from 'nav-frontend-typografi';
+import './VarselOmNedetid.less';
 
-type VarselOmNedetidProps =
-    | {
-          visVarselOmNedeTid: true;
-          visFraDato: Date;
-          visTilDato: Date;
-      }
-    | {
-          visVarselOmNedeTid: false;
-      };
+interface Props {
+    nedetid: boolean
+    advarselOmNedetid: boolean
+}
 
-export const VarselOmNedetid: FunctionComponent<VarselOmNedetidProps> = props => {
-    const dagensDato: Date = new Date();
-    if (
-        !props.visVarselOmNedeTid ||
-        dagensDato > props.visTilDato ||
-        dagensDato < props.visFraDato
-    ) {
-        return null;
-    }
+export const VarselOmNedetid: FunctionComponent<Props> = props => {
+
     return (
-        <div>
-            <AlertStripe type={'advarsel'}>
-                {' '}
-                Altinn vil være utilgjengelig 01.01.2020 i tidsrommet 17:00 til ca. 23:00. Dette vil
-                medføre at en del tjenester på Min Side – Arbeidsgiver ikke vil fungere som normalt.
+        <div className={'nedetid'}>
+            {props.nedetid && <AlertStripe className={'nedetid__varsel'} type={'advarsel'}>
+                <Element className={'nedetid__varsel-overskrift'}>
+                    Min side — er nede
+                </Element>
+                Jobber med vedlikehold
+            </AlertStripe>}
+            {props.advarselOmNedetid && <AlertStripe type={'info'} className={'nedetid__varsel'}>
+                <Element className={'nedetid__varsel-overskrift'}>
+                    Min side — vil være nede
+                </Element>
+                Planlagt nedetid
             </AlertStripe>
+            }
         </div>
     );
 };
