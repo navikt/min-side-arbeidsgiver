@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { LoggInn } from './LoggInn/LoggInn';
 import environment from '../utils/environment';
 import { sjekkInnlogget } from '../api/dnaApi';
+import Spinner from './Spinner';
 
 export enum Tilgang {
     LASTER,
@@ -33,7 +34,7 @@ const LoginBoundary: FunctionComponent = props => {
     } else if (innlogget === Tilgang.IKKE_TILGANG) {
         return <LoggInn />;
     } else {
-        return null;
+        return <Spinner />;
     }
 };
 

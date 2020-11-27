@@ -34,19 +34,16 @@ export type Context = {
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
-    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<
-        OrgnrMap<Organisasjon> | undefined
-    >(undefined);
-    const [altinntilganger, setAltinntilganger] = useState<
-        Record<AltinntjenesteId, Set<string>> | undefined
-    >(undefined);
-    const [visFeilmelding, setVisFeilmelding] = useState(false);
+    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(undefined);
+    const [altinntilganger, setAltinntilganger] = useState<Record<AltinntjenesteId, Set<string>> | undefined>(undefined);
+    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>(undefined);
+
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(Tilgang.LASTER);
+
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
-    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<
-        AltinnTilgangssøknad[] | undefined
-    >(undefined);
+    const [visFeilmelding, setVisFeilmelding] = useState(false);
+
 
     useEffect(() => {
         hentOrganisasjoner()
