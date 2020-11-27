@@ -10,13 +10,15 @@ import { VarselLenkepanel } from "./VarselLenkepanel/VarselLenkepanel";
 interface Props {
     erApen: boolean;
     setErApen: (bool: boolean) => void;
+    setIndeksVarselIFokus: (indeks: number) => void;
+    indeksVarselIFokus: number
 }
 
-const Varselpanel = ({ erApen, setErApen }: Props) => {
+const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFokus }: Props) => {
     const { varsler } = useContext(OrganisasjonsDetaljerContext);
 
     return (
-        <div
+        <menu
             className={`varselpanel varselpanel__dropdown--${erApen ? 'apen' : 'lukket'}`}
             id="varsler-dropdown"
         >
@@ -36,13 +38,13 @@ const Varselpanel = ({ erApen, setErApen }: Props) => {
                     <ul className="varselpanel__varsler" aria-label={`Liste med ${varsler?.length} beskjeder`}>
                         {varsler?.map((varsel: Varsel, index: number) => (
                             <li className="varselpanel__lenke" key={index}>
-                                <VarselLenkepanel varsel={varsel}/>
+                                <VarselLenkepanel indeks={index} indeksVarselIFokus={indeksVarselIFokus} setIndeksVarselIFokus={setIndeksVarselIFokus} varsel={varsel}/>
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
-        </div>
+        </menu>
     );
 };
 

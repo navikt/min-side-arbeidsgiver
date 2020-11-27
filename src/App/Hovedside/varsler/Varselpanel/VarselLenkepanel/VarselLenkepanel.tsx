@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject, useEffect, useState } from "react";
 import './VarselLenkepanel.less';
 import { datotekst } from "../dato-funksjoner";
 import { Normaltekst } from "nav-frontend-typografi";
@@ -9,15 +9,29 @@ import Lenkepanel from "nav-frontend-lenkepanel";
 
 interface Props {
   varsel: Varsel
+  setIndeksVarselIFokus: (indeks: number) => void;
+  indeksVarselIFokus: number
+  indeks: number
 }
 
 export const VarselLenkepanel = (props: Props) => {
+  const [erIFokus, setErIFokus] = useState(false);
+
+  const refTilElement = React.createRef<HTMLButtonElement>()
+
+  useEffect(() => {
+    if (props.indeks === props.indeksVarselIFokus) {
+      console.log('dette skjer med indeks: ', props.indeks)
+      refTilElement?.current?.focus()
+    }
+  }, [props.indeks, props.indeksVarselIFokus]);
+
   return (
+    <button ref={refTilElement}>
     <Lenkepanel
       href={props.varsel.href}
       tittelProps="normaltekst"
       aria-label=""
-
     >
       <div className="varsel-innhold">
         <div className="varsel-dato-type">
@@ -39,5 +53,6 @@ export const VarselLenkepanel = (props: Props) => {
         </div>
       </div>
     </Lenkepanel>
+      </button>
   );
 };

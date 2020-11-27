@@ -5,6 +5,7 @@ import Varselpanel from './Varselpanel/Varselpanel';
 const Varsler = () => {
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
+    const [indeksVarselIFokus, setIndeksVarselIFokus] = useState(-1)
 
     const handleOutsideClick: { (event: MouseEvent|KeyboardEvent): void } = (e: MouseEvent|KeyboardEvent) => {
         const node = varslernode.current;
@@ -14,6 +15,14 @@ const Varsler = () => {
         }
         setErApen(false);
     };
+
+    const setErÅpenOgFokusPåFørsteVarsel = (åpen: boolean) => {
+        if (åpen) {
+            setIndeksVarselIFokus(0);
+            console.log('setter indeks i fokus')
+        }
+        setErApen(åpen)
+    }
 
     useEffect(() => {
         if (!erApen) {
@@ -35,8 +44,8 @@ const Varsler = () => {
 
     return (
         <div ref={varslernode} className="varsler">
-            <VarslerKnapp erApen={erApen} setErApen={setErApen}/>
-            <Varselpanel erApen={erApen} setErApen={setErApen}/>
+            <VarslerKnapp erApen={erApen} setErApen={setErÅpenOgFokusPåFørsteVarsel}/>
+            <Varselpanel erApen={erApen} setErApen={setErApen} indeksVarselIFokus={indeksVarselIFokus} setIndeksVarselIFokus={setIndeksVarselIFokus} />
         </div>
     );
 };
