@@ -1,4 +1,4 @@
-import React, { RefObject, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import './VarselLenkepanel.less';
 import { datotekst } from "../dato-funksjoner";
 import { Normaltekst } from "nav-frontend-typografi";
@@ -12,26 +12,46 @@ interface Props {
   setIndeksVarselIFokus: (indeks: number) => void;
   indeksVarselIFokus: number
   indeks: number
+  antallVarsler: number;
 }
 
 export const VarselLenkepanel = (props: Props) => {
-  const [erIFokus, setErIFokus] = useState(false);
-
-  const refTilElement = React.createRef<HTMLButtonElement>()
 
   useEffect(() => {
     if (props.indeks === props.indeksVarselIFokus) {
+      const element = document.getElementById('varsel-lenkepanel-indeks-'+props.indeks)
       console.log('dette skjer med indeks: ', props.indeks)
-      refTilElement?.current?.focus()
+      element?.focus()
     }
   }, [props.indeks, props.indeksVarselIFokus]);
 
+  const onArrowpress = (key: string) => {
+    if (key === 'ArrowUp' || key === 'Up') {
+      if (props.indeks === 0) {
+        props.setIndeksVarselIFokus(props.antallVarsler-1);
+      }
+      else {
+        props.setIndeksVarselIFokus(props.indeks -1);
+      }
+    }
+    if (key === 'ArrowDown' || key === 'Down') {
+      if (props.indeks === props.antallVarsler-1) {
+        props.setIndeksVarselIFokus(0);
+      }
+      else {
+        props.setIndeksVarselIFokus(props.indeks +1);
+      }
+    }
+  }
+
   return (
-    <button ref={refTilElement}>
     <Lenkepanel
+      onKeyDown={(event => onArrowpress(event.key))}
+      tabIndex={0}
       href={props.varsel.href}
       tittelProps="normaltekst"
       aria-label=""
+      id={ 'varsel-lenkepanel-indeks-'+props.indeks}
     >
       <div className="varsel-innhold">
         <div className="varsel-dato-type">
@@ -53,6 +73,5 @@ export const VarselLenkepanel = (props: Props) => {
         </div>
       </div>
     </Lenkepanel>
-      </button>
   );
 };
