@@ -13,6 +13,7 @@
     border-radius: 2px;
     height: 45px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     color: @navBla;
     padding: @padding-y @padding-x;
@@ -30,9 +31,18 @@
         padding: 4px;
     }
 
+    &__understrek{
+        width:3rem;
+        height: 4px;
+        margin-top: 1rem;
+        background-color: @navBla;
+    }
+
     &:hover {
         outline: 1px black solid;
         cursor: pointer;
     }
+
+
 }
 

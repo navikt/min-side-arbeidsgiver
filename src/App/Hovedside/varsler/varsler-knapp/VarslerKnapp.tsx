@@ -25,6 +25,7 @@ export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
                 aria-haspopup="true"
             >
                 <VarselIkon isOpen={erApen} antallUleste={3} />
+                <div className={'varselbjelle-knapp__understrek'}/>
             </button>
     );
 };
