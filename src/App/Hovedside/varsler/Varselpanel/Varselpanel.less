@@ -3,6 +3,7 @@
 .varselpanel {
     z-index: 10;
     color: @navMorkGra;
+    position: absolute;
 
     ul {
         margin: 0;
@@ -13,13 +14,14 @@
     &__dropdown {
         &--lukket,
         &--apen {
+            right: 0;
             width: 18rem;
             background-color: white;
             outline: none;
             border: solid 2px #194d62;
             border-radius: 4px;
             position: absolute;
-            top: 4.5rem;
+            top:5rem;
 
             .varselpanel-elementer-wrapper {
                 display: flex;
@@ -136,15 +138,11 @@
     @media (min-width: @screen-sm-min) {
         &__dropdown {
             &--apen {
-                right: 0;
                 max-height: 35rem;
 
                 .varselpanel-elementer {
                     max-height: 30rem;
                 }
-            }
-            &--lukket {
-                right: 0;
             }
         }
     }

@@ -13,6 +13,7 @@ interface Props {
   indeksVarselIFokus: number
   indeks: number
   antallVarsler: number;
+  setErApen: (bool: boolean) => void;
 }
 
 export const VarselLenkepanel = (props: Props) => {
@@ -26,6 +27,12 @@ export const VarselLenkepanel = (props: Props) => {
   }, [props.indeks, props.indeksVarselIFokus]);
 
   const onArrowpress = (key: string) => {
+    if (key === 'Tab' && props.indeks === props.antallVarsler-1) {
+      props.setErApen(false)
+    }
+    if (key === 'Escape' || key === 'Esc') {
+      props.setErApen(false);
+    }
     if (key === 'ArrowUp' || key === 'Up') {
       if (props.indeks === 0) {
         props.setIndeksVarselIFokus(props.antallVarsler-1);

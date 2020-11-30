@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { VarslerKnapp } from './varsler-knapp/VarslerKnapp';
 import Varselpanel from './Varselpanel/Varselpanel';
+import './Varsler.less';
 
 const Varsler = () => {
     const varslernode = useRef<HTMLDivElement>(null);
@@ -19,19 +20,12 @@ const Varsler = () => {
     const setErÅpenOgFokusPåFørsteVarsel = (åpen: boolean) => {
         if (åpen) {
             setIndeksVarselIFokus(0);
-            console.log('setter indeks i fokus')
+        }
+        else {
+            setIndeksVarselIFokus(-1);
         }
         setErApen(åpen)
     }
-
-    useEffect(() => {
-        if (!erApen) {
-            // setfokusPaKnapp();
-        }
-        else {
-            // setfokusPa...
-        }
-    }, [erApen]);
 
     useEffect(() => {
         document.addEventListener('click', handleOutsideClick, false);

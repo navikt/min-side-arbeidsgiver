@@ -36,11 +36,11 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding]);
 
     return (
-        <>
+        <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
+            <Varsler />
             <div className="hovedside-container">
-                <Varsler />
                 <div className="hovedside">
                     <AdvarselBannerTestversjon />
                     <VarselHvisNedetid />
@@ -59,7 +59,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                     </LinkableFragment>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

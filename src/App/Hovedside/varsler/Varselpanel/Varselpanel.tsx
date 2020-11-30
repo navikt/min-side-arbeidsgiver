@@ -39,7 +39,7 @@ const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFo
                     <ul className="varselpanel__varsler" aria-label={`Liste med ${varsler?.length} beskjeder`}>
                         {varsler?.map((varsel: Varsel, index: number) => (
                             <li className="varselpanel__lenke" key={index}>
-                                <VarselLenkepanel antallVarsler={varsler?.length} indeks={index} indeksVarselIFokus={indeksVarselIFokus} setIndeksVarselIFokus={setIndeksVarselIFokus} varsel={varsel}/>
+                                <VarselLenkepanel setErApen={setErApen}antallVarsler={varsler?.length} indeks={index} indeksVarselIFokus={indeksVarselIFokus} setIndeksVarselIFokus={setIndeksVarselIFokus} varsel={varsel}/>
                             </li>
                         ))}
                     </ul>
