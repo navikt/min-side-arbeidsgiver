@@ -11,7 +11,6 @@ interface Props {
 
 export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
     return (
-        <div className="varsler__knapp">
             <button
                 onClick={() => setErApen(!erApen)}
                 className="varselbjelle-knapp"
@@ -27,6 +26,5 @@ export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
             >
                 <VarselIkon isOpen={erApen} antallUleste={3} />
             </button>
-        </div>
     );
 };
