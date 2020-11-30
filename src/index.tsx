@@ -2,15 +2,14 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import raf from 'raf'
+import { init as Sentry } from '@sentry/browser';
 import 'unorm/lib/unorm';
 import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-import { init as Sentry } from '@sentry/browser';
-import App from './App/App';
-import './index.less';
-import environment from './utils/environment';
-import raf from 'raf'
 import smoothscroll from 'smoothscroll-polyfill';
+import environment from './utils/environment';
+import App from './App/App';
 
 raf.polyfill();
 smoothscroll.polyfill();
