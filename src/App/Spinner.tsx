@@ -21,7 +21,7 @@ const Spinner = (props: Props) => {
                 ? <LoggInnBanner />
                 : <Banner sidetittel="Min side – arbeidsgiver"/>
             }
-            <div className="app__laster-spinner">
+            <div className="app-laster-spinner">
                 <NavFrontendSpinner type="XL"/>
             </div>
         </>

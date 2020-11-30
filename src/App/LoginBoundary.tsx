@@ -18,7 +18,6 @@ const LoginBoundary: FunctionComponent = props => {
 
     useEffect(() => {
         const signal = new AbortController().signal;
-        // console.log('environment.MILJO', environment.MILJO);
         if (
             environment.MILJO === 'prod-sbs' ||
             environment.MILJO === 'dev-sbs' ||
