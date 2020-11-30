@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent } from "react";
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
@@ -11,11 +11,11 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/Ad
 import { VarselOmNedetid } from "./VarselOmNedetid/VarselOmNedetid";
 
 
-//tidspunkt som argumentstreng skrives på formen (2015-03-25T12:00:00Z"), blir f.eks 25. mars 2015, kl 13.00 ( 12:00 + en time = 13.00 pga tidsonen i Norge)
+//tidspunkt som argumentstreng skrives på formen (2020-11-30T09:22:00Z), blir f.eks 30. november 2020, kl 10.22 ( 09:00 + en time = 10.00 pga tidsonen i Norge)
 
-const advarselboksSettesPåString = '';
-const nedetidboksSettesPaString = '';
-const bokserSkalSlutteÅVisesString = '';
+const advarselboksSettesPåString = '2020-11-30T09:22:00Z';
+const nedetidboksSettesPaString = '2020-11-30T09:22:30Z';
+const bokserSkalSlutteÅVisesString = '2020-11-30T09:23:00Z';
 
 export const erIFortiden =(tidspunktString: string) => {
     const tidspunkt = new Date(tidspunktString);
@@ -24,8 +24,8 @@ export const erIFortiden =(tidspunktString: string) => {
 }
 
 export const LoggInn: FunctionComponent = () => {
-    const [visAdvarselBoks, setVisAdvarselBoks] = useState(false)
-    const [visNedetid, setVisNedetid] = useState(false)
+    let visAdvarselBoks = false;
+    let visNedetid = false;
 
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs'||environment.MILJO === 'labs-gcp') {
@@ -36,16 +36,14 @@ export const LoggInn: FunctionComponent = () => {
         }
     };
 
-    useEffect(() => {
         const bokserSkalSlutteÅVises = erIFortiden(bokserSkalSlutteÅVisesString)
         if (advarselboksSettesPåString.length >0  && nedetidboksSettesPaString.length>0 && !bokserSkalSlutteÅVises)  {
             const nedetidVises = erIFortiden(nedetidboksSettesPaString)
-            setVisNedetid(nedetidVises)
+            visNedetid = nedetidVises
             if (erIFortiden(advarselboksSettesPåString) && !nedetidVises){
-                setVisAdvarselBoks(true)
+                visAdvarselBoks = true
             }
         }
-    }, []);
 
     const visNedetidBokser = (visAdvarselBoks || visNedetid);
 
