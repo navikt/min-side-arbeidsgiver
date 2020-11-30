@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import environment from '../utils/environment';
 import { LoggInn } from './LoggInn/LoggInn';
 import { sjekkInnlogget } from '../api/dnaApi';
-import Spinner, { Bannertype } from './Spinner';
+import Spinner from './Spinner';
 
 export enum Tilgang {
     LASTER,
@@ -39,7 +39,7 @@ const LoginBoundary: FunctionComponent = props => {
             ) : innlogget === Tilgang.IKKE_TILGANG ? (
                 <LoggInn />
             ) : (
-                <Spinner bannertype={Bannertype.LOGGINN} />
+                <Spinner />
             )}
         </>
     );
