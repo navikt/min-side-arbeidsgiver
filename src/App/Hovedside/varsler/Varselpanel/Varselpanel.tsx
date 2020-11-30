@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from "react";
 import Lukknapp from 'nav-frontend-lukknapp';
 import { Undertittel } from 'nav-frontend-typografi';
 import { Varsel } from '../../../../api/varslerApi';
@@ -17,6 +17,13 @@ interface Props {
 const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFokus }: Props) => {
     const { varsler } = useContext(OrganisasjonsDetaljerContext);
 
+    useEffect(() => {
+        if (erApen) {
+            const containerElement = document.getElementById("varselpanel-elementer");
+            containerElement?.scrollTo(0,0)
+        }
+    },[erApen])
+
     return (
         <menu
             className={`varselpanel varselpanel__dropdown--${erApen ? 'apen' : 'lukket'}`}
@@ -24,7 +31,7 @@ const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFo
             role={'tool-bar'}
         >
             <div className="varselpanel-elementer-wrapper">
-                <div className="varselpanel-elementer">
+                <div id = {"varselpanel-elementer"} className="varselpanel-elementer">
                     <div className="varselpanel__tittel">
                         <Undertittel className="varselpanel-overskrift">
                             Beskjeder og oppgaver

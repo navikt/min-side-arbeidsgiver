@@ -14,6 +14,7 @@
     &__dropdown {
         &--lukket,
         &--apen {
+            overflow-y: scroll;
             right: 0;
             width: 18rem;
             background-color: white;
@@ -21,7 +22,7 @@
             border: solid 2px #194d62;
             border-radius: 4px;
             position: absolute;
-            top:5rem;
+            top:4.5rem;
 
             .varselpanel-elementer-wrapper {
                 display: flex;
@@ -43,7 +44,6 @@
                 }
 
                 .varselpanel__tittel {
-                    margin-bottom: 1rem;
                     padding: 1rem 0 2rem 1rem;
                     border-bottom: @navGra40 2px solid;
 
@@ -61,7 +61,7 @@
                 .varselpanel__lenke {
                     .lenkepanel {
                         border-bottom: @navGra40 1px solid;
-                        border-radius: 0;
+                        padding-top: 1rem;
                     }
                 }
             }
@@ -75,7 +75,6 @@
 
             .varselpanel-elementer {
                 max-height: 0;
-                transition: max-height 0.4s ease-in-out;
             }
         }
 
@@ -85,34 +84,6 @@
             max-height: 25rem;
             opacity: 1;
             transition: max-height 0.6s linear;
-
-
-            &:before,
-            &:after {
-                content: '\0020';
-                display: flex;
-                flex-direction: column;
-                position: absolute;
-                top: -18.5px;
-                right: 5.5%;
-                width: 0;
-                height: 0;
-                border: solid 20px transparent;
-                border-top: 0;
-                border-bottom-color: #fff;
-            }
-
-            &:before {
-                top: -22px;
-                border-bottom-color: #194d62;
-            }
-
-            @media (max-width: @screen-md-min) {
-                &:before,
-                &:after {
-                    right: 45%;
-                }
-            }
 
             .varselpanel-elementer {
                 max-height: 20rem;
