@@ -41,8 +41,7 @@ export const isToday = (date: Date): boolean => formatterDato(date) === formatte
 export const isYesterday = (date: Date): boolean =>
     formatterDato(date) === formatterDato(yesterday);
 
-export const klokkeslett = (date: Date) => {
-    const dato = new Date(date);
+export const klokkeslett = (dato: Date) => {
     let hour = dato.getHours().toString();
     let minute = dato.getMinutes().toString();
     if (hour.length < 2) {
@@ -57,8 +56,8 @@ export const klokkeslett = (date: Date) => {
 export const datotekst = (date: Date) => {
     const dato = new Date(date);
     if (isToday(dato)) {
-        return 'Idag ' + klokkeslett(dato);
+        return 'I dag ' + klokkeslett(dato);
     } else if (isYesterday(date)) {
-        return 'Igår ' + klokkeslett(dato);
+        return 'I går ' + klokkeslett(dato);
     } else return formatterDato(dato);
 };

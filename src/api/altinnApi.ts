@@ -81,7 +81,6 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
         });
         return result;
     } catch (error) {
-        console.error(error);
         return error;
     }
 };
@@ -126,7 +125,6 @@ export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Melding
         const [brev, antallUleste] = await Promise.all([hentBrev(), hentAntallUleste()]);
         return { ...brev, ...antallUleste };
     } catch (error) {
-        console.error(error);
         return error;
     }
 };

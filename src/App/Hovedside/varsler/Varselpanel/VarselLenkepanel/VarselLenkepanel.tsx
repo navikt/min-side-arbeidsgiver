@@ -21,7 +21,6 @@ export const VarselLenkepanel = (props: Props) => {
   useEffect(() => {
     if (props.indeks === props.indeksVarselIFokus) {
       const element = document.getElementById('varsel-lenkepanel-indeks-'+props.indeks)
-      console.log('dette skjer med indeks: ', props.indeks)
       element?.focus()
     }
   }, [props.indeks, props.indeksVarselIFokus]);
