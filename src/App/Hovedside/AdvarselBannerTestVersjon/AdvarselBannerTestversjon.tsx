@@ -9,9 +9,9 @@ const AdvarselBannerTestversjon = () => {
                 <br/>
                 Her kan du bli bedre kjent med Min side – Arbeidsgiver.
                 <br/>
-                Testversjonen kan avvike noe fra den virkelige nettsiden og
-                foreløpig er det bare lenkene til <i>Sykemeldte</i>,
-                og <i>Tiltak</i> som virker. De andre sidene har ikke fungerende testversjoner.
+                Testversjonen kan avvike noe fra den virkelige nettsiden.
+                Foreløpig fungerer lenkene til <i>Sykemeldte</i>,
+                <i>Tiltak</i>, <i>Arbeidsforhold</i> og <i>Sykefraværsstatistikk</i>. De andre sidene har ikke fungerende testversjoner.
                 <br/>
             </AlertStripeAdvarsel>
         )}
