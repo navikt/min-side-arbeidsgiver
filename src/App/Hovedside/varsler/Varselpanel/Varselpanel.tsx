@@ -28,9 +28,8 @@ const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFo
         <menu
             className={`varselpanel varselpanel__dropdown--${erApen ? 'apen' : 'lukket'}`}
             id="varsler-dropdown"
-            role={'toolbar'}
         >
-            <div className="varselpanel-elementer-wrapper">
+            <div className="varselpanel-elementer-wrapper" role={'toolbar'}>
                 <div id = {"varselpanel-elementer"} className="varselpanel-elementer">
                     <div className="varselpanel__tittel">
                         <Undertittel className="varselpanel-overskrift">
