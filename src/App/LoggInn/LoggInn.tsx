@@ -8,24 +8,9 @@ import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsSty
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Logginn.less';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import { VarselOmNedetid } from "./VarselOmNedetid/VarselOmNedetid";
-
-
-//tidspunkt som argumentstreng skrives på formen (2020-11-30T09:22:00Z), blir f.eks 30. november 2020, kl 10.22 ( 09:00 + en time = 10.00 pga tidsonen i Norge)
-
-const advarselboksSettesPåString = '2020-11-30T09:22:00Z';
-const nedetidboksSettesPaString = '2020-11-30T09:22:30Z';
-const bokserSkalSlutteÅVisesString = '2020-11-30T09:23:00Z';
-
-export const erIFortiden =(tidspunktString: string) => {
-    const tidspunkt = new Date(tidspunktString);
-    const nåVærendeTidspunkt = new Date();
-    return nåVærendeTidspunkt > tidspunkt;
-}
+import { VarselHvisNedetid } from "./VarselOmNedetid/VarselHvisNedetid";
 
 export const LoggInn: FunctionComponent = () => {
-    let visAdvarselBoks = false;
-    let visNedetid = false;
 
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs'||environment.MILJO === 'labs-gcp') {
@@ -36,23 +21,12 @@ export const LoggInn: FunctionComponent = () => {
         }
     };
 
-        const bokserSkalSlutteÅVises = erIFortiden(bokserSkalSlutteÅVisesString)
-        if (advarselboksSettesPåString.length >0  && nedetidboksSettesPaString.length>0 && !bokserSkalSlutteÅVises)  {
-            const nedetidVises = erIFortiden(nedetidboksSettesPaString)
-            visNedetid = nedetidVises
-            if (erIFortiden(advarselboksSettesPåString) && !nedetidVises){
-                visAdvarselBoks = true
-            }
-        }
-
-    const visNedetidBokser = (visAdvarselBoks || visNedetid);
-
     return (
         <div className="innloggingsside">
             <Brodsmulesti brodsmuler={[]} />
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
-                {visNedetidBokser && <VarselOmNedetid advarselOmNedetid={visAdvarselBoks} nedetid={visNedetid}/>}
+                <VarselHvisNedetid/>
                 <AdvarselBannerTestversjon/>
                 <Systemtittel className="innloggingsside__sidetittel">
                     På Min side – arbeidsgiver kan du:
