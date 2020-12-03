@@ -7,9 +7,11 @@ import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
+import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.less';
 
 export const LoggInn: FunctionComponent = () => {
+
     const redirectTilLogin = () => {
         if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs'||environment.MILJO === 'labs-gcp') {
             window.location.href = '/min-side-arbeidsgiver/redirect-til-login';
@@ -18,16 +20,17 @@ export const LoggInn: FunctionComponent = () => {
             window.location.href = '/min-side-arbeidsgiver';
         }
     };
+
     return (
         <div className="innloggingsside">
             <Brodsmulesti brodsmuler={[]} />
             <LoggInnBanner />
             <div className="innloggingsside__innhold">
+                <VarselHvisNedetid/>
                 <AdvarselBannerTestversjon/>
                 <Systemtittel className="innloggingsside__sidetittel">
                     På Min side – arbeidsgiver kan du:
                 </Systemtittel>
-
                 <ul className="innloggingsside__punktliste">
                     <li className="innloggingsside__punkt">
                         få oversikt over dine sykmeldte

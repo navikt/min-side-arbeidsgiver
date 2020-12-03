@@ -16,6 +16,7 @@ import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Hovedside.less';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
+import { VarselHvisNedetid } from "../LoggInn/VarselOmNedetid/VarselHvisNedetid";
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(OrganisasjonerOgTilgangerContext);
@@ -36,6 +37,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
             <Banner sidetittel="Min side – arbeidsgiver" />
             <div className="hovedside">
                 <AdvarselBannerTestversjon/>
+                <VarselHvisNedetid/>
                 <FeilmeldingContainer
                     visFeilmelding={visFeilmelding}
                     visSyfoFeilmelding={visSyfoFeilmelding}
