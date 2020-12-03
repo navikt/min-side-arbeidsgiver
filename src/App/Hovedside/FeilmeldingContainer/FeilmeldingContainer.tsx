@@ -11,7 +11,7 @@ interface Props {
 export const FeilmeldingContainer = (props: Props) => {
     return (
         <>
-            {!props.visFeilmelding && (
+            {props.visFeilmelding && (
                 <AlertStripe type="feil" className="feilStripe">
                     Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
                     du prøve å{' '}
@@ -20,7 +20,7 @@ export const FeilmeldingContainer = (props: Props) => {
                     </Lenke>
                 </AlertStripe>
             )}
-            {!props.visSyfoFeilmelding && (
+            {props.visSyfoFeilmelding && (
                 <AlertStripe type="feil" className="feilStripe">
                     Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge
                     opp. Vi jobber med å løse saken så raskt som mulig
