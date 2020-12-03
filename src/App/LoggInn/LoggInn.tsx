@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
@@ -8,7 +8,7 @@ import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsSty
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './Logginn.less';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import { VarselHvisNedetid } from "./VarselOmNedetid/VarselHvisNedetid";
+import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
 
 export const LoggInn: FunctionComponent = () => {
 
