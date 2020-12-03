@@ -13,6 +13,7 @@ import { loggBrukerLoggetInn } from '../utils/funksjonerForAmplitudeLogging';
 import './App.less';
 
 const App: FunctionComponent = () => {
+
     useEffect(() => {
         loggBrukerLoggetInn();
     }, []);
