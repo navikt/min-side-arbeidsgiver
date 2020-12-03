@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { LoggInn } from './LoggInn/LoggInn';
 import environment from '../utils/environment';
+import { LoggInn } from './LoggInn/LoggInn';
 import { sjekkInnlogget } from '../api/dnaApi';
+import Spinner from './Spinner';
 
 export enum Tilgang {
     LASTER,
@@ -9,16 +10,19 @@ export enum Tilgang {
     TILGANG,
 }
 
-export const tilgangFromTruthy: (e: boolean) => Tilgang =
-    e => e ? Tilgang.TILGANG : Tilgang.IKKE_TILGANG;
+export const tilgangFromTruthy: (e: boolean) => Tilgang = e =>
+    e ? Tilgang.TILGANG : Tilgang.IKKE_TILGANG;
 
 const LoginBoundary: FunctionComponent = props => {
     const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
 
     useEffect(() => {
         const signal = new AbortController().signal;
-        console.log('environment.MILJO', environment.MILJO);
-        if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs' || environment.MILJO === 'labs-gcp') {
+        if (
+            environment.MILJO === 'prod-sbs' ||
+            environment.MILJO === 'dev-sbs' ||
+            environment.MILJO === 'labs-gcp'
+        ) {
             sjekkInnlogget(signal)
                 .then(tilgangFromTruthy)
                 .then(setInnlogget);
@@ -28,13 +32,17 @@ const LoginBoundary: FunctionComponent = props => {
         }
     }, []);
 
-    if (innlogget === Tilgang.TILGANG) {
-        return <> {props.children} </>;
-    } else if (innlogget === Tilgang.IKKE_TILGANG) {
-        return <LoggInn />;
-    } else {
-        return null;
-    }
+    return (
+        <>
+            {innlogget === Tilgang.TILGANG ? (
+                props.children
+            ) : innlogget === Tilgang.IKKE_TILGANG ? (
+                <LoggInn />
+            ) : (
+                <Spinner />
+            )}
+        </>
+    );
 };
 
 export default LoginBoundary;

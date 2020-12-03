@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { FunctionComponent, useContext } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
@@ -13,8 +14,7 @@ interface OwnProps {
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
-    const orgs = Record.fold(organisasjoner, (orgnr, {organisasjon}) => organisasjon)
+    const orgs = organisasjoner ? Record.fold(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
 
     return (
         <Bedriftsmeny

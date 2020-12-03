@@ -1,20 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {
-    autentiserAltinnBruker,
-    hentAltinnRaporteeIdentiteter,
-    ReporteeMessagesUrls,
-} from '../api/altinnApi';
+import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
-import {
-    AltinnTilgangssøknad,
-    hentAltinntilganger,
-    hentAltinnTilgangssøknader,
-} from '../altinn/tilganger';
+import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import NavFrontendSpinner from 'nav-frontend-spinner';
+import Spinner from './Spinner';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -42,19 +34,16 @@ export type Context = {
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
-    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<
-        OrgnrMap<Organisasjon> | undefined
-    >(undefined);
-    const [altinntilganger, setAltinntilganger] = useState<
-        Record<AltinntjenesteId, Set<string>> | undefined
-    >(undefined);
-    const [visFeilmelding, setVisFeilmelding] = useState(false);
+    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(undefined);
+    const [altinntilganger, setAltinntilganger] = useState<Record<AltinntjenesteId, Set<string>> | undefined>(undefined);
+    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>(undefined);
+
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(Tilgang.LASTER);
+
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
-    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<
-        AltinnTilgangssøknad[] | undefined
-    >(undefined);
+    const [visFeilmelding, setVisFeilmelding] = useState(false);
+
 
     useEffect(() => {
         hentOrganisasjoner()
@@ -101,7 +90,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             });
     }, []);
 
-    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader) {
+    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== Tilgang.LASTER) {
         const sjekkTilgang = (orgnr: orgnr) => (
             id: AltinntjenesteId,
             orgnrMedTilgang: Set<orgnr>
@@ -151,7 +140,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 {props.children}
             </OrganisasjonerOgTilgangerContext.Provider>
         );
-    } else {
-        return <NavFrontendSpinner className={'app__laster-spinner'} />;
+    }
+    else {
+        return (
+            <Spinner />
+        );
     }
 };

@@ -6,9 +6,9 @@ import environment from '../../utils/environment';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
-import './Logginn.less';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
+import './Logginn.less';
 
 export const LoggInn: FunctionComponent = () => {
 

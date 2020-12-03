@@ -1,47 +1,40 @@
 @import '~nav-frontend-core/less/_variabler';
 
 .innloggingsside {
-  flex-direction: column;
-  display: flex;
-  width: 100%;
-  min-height: 100vh;
-  background-color: white;
-  color: @navMorkGra;
-
-  &__punktliste {
-    text-align: left;
-  }
-
-  &__punkt {
-    margin: 0.5rem;
-  }
-
-  &__innhold {
-    flex-direction: column;
     display: flex;
-    text-align: center;
-    align-items: center;
-    max-width: 40rem;
-    align-self: center;
-    padding: 1rem
-  }
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    background-color: white;
 
-  &__sidetittel {
-    padding: 0rem 1.5rem  0rem 1.5rem;
+    &__punktliste {
+        text-align: left;
+    }
 
-  }
+    &__punkt {
+        margin: 0.5rem;
+    }
 
-  &__loginKnapp {
-    margin: 1.5rem;
-  }
+    &__innhold {
+        flex-direction: column;
+        display: flex;
+        text-align: center;
+        align-items: center;
+        max-width: 40rem;
+        align-self: center;
+        padding: 1rem;
+    }
 
-  &__besok-ditt-nav{
-    align-text: center;
+    &__sidetittel {
+        padding: 0 1.5rem;
+    }
 
-    margin-bottom: 3rem;
-  }
+    &__loginKnapp {
+        margin: 1.5rem;
+    }
 
+    &__besok-ditt-nav {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
 }
-
-
-
