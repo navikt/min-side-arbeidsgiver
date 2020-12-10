@@ -7,15 +7,12 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import './IAwebboks.less';
 
 const loggAtKlikketPaIAeb = () => {
-    loggTjenesteTrykketPa('IA', lenkeTilSykefravarsstatistikk,"Sykefraværsstatistikk");
+    loggTjenesteTrykketPa('IA', lenkeTilSykefravarsstatistikk, 'Sykefraværsstatistikk');
 };
 
 const IAwebboks = () => {
-
     const valgtbedrift = () => {
-        const orgnummerFraUrl = new URLSearchParams(window.location.search).get(
-            'bedrift'
-        ) ?? '';
+        const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
         return orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`;
     };
 
@@ -28,13 +25,13 @@ const IAwebboks = () => {
             />
             <Lenkepanel
                 className="IA-web-boks__info"
-                href={lenkeTilSykefravarsstatistikk+valgtbedrift()}
+                href={lenkeTilSykefravarsstatistikk + valgtbedrift()}
                 onClick={loggAtKlikketPaIAeb}
                 tittelProps="normaltekst"
-                aria-label="Sykefraværsstatistikk. Oversikt over sykefravær i din virksomhet og bransje"
             >
                 <div className="IA-web-boks__tekst">
-                    Oversikt over sykefravær i din virksomhet og bransje
+                    Har du høyere eller lavere sykefravær sammenlignet med din bransje? Se tallene
+                    og tips om hvordan du kan påvirke sykefraværet ditt
                 </div>
             </Lenkepanel>
         </div>
