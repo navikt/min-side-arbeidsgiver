@@ -97,11 +97,6 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     other: 'https://arbeidsgiver-q.nav.no/permittering/',
 });
 
-export const lenkeTilLonnskompensasjonRefusjonSkjema = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
-    other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/',
-});
-
 export const urlMedBedriftNr = (baseUrl: string) => (orgnr: string) =>
     baseUrl + (orgnr.length > 0 ? '?bedrift=' + orgnr : '');
 

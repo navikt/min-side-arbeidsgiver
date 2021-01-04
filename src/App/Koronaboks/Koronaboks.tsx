@@ -6,7 +6,6 @@ import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
 import sirkel from './report-problem-circle.svg';
 import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
-    lenkeTilLonnskompensasjonRefusjonSkjema,
     lenkeTilKlageskjema,
     LenkeTilKoronaSykeRefusjon,
 } from '../../lenker';
@@ -42,13 +41,6 @@ export const Koronaboks = () => {
 
                 {harTilgangRefusjon && orgnr && (
                     <>
-                        <Lenke
-                            className="koronaboks__lenke"
-                            href={lenkeTilLonnskompensasjonRefusjonSkjema}
-                        >
-                            <span>Arbeidsgivers innmelding for lønnskompensasjon og refusjon</span>
-                            <HoyreChevron />
-                        </Lenke>
                         <Lenke
                             className="koronaboks__lenke"
                             href={lenkeTilKlageskjema(orgnr)}
