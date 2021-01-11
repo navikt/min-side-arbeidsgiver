@@ -28,10 +28,6 @@ const hentAltinntilgangerForEnTjeneste = async (
         organisasjoner = await respons.json();
     }
 
-    if (id === 'iaweb') {
-        organisasjoner = organisasjoner.filter(_ => _.OrganizationForm === 'BEDR');
-    }
-
     const orgnr = organisasjoner.map(_ => _.OrganizationNumber);
     return [id, new Set(orgnr)];
 };
