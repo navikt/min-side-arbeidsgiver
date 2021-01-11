@@ -7,7 +7,7 @@ import sirkel from './report-problem-circle.svg';
 import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     lenkeTilKlageskjema,
-    LenkeTilKoronaSykeRefusjon,
+    LenkeTilKoronaSykeRefusjon, lenkeTilPermitteringsInfo
 } from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
@@ -35,6 +35,15 @@ export const Koronaboks = () => {
                     <span>
                         Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i
                         arbeidstiden
+                    </span>
+                    <HoyreChevron />
+                </Lenke>
+                <Lenke
+                  className="koronaboks__lenke"
+                  href={lenkeTilPermitteringsInfo}
+                >
+                    <span>
+                        Nye regler for lønnsplikt ved permittering
                     </span>
                     <HoyreChevron />
                 </Lenke>
