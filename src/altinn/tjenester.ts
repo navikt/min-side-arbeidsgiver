@@ -151,7 +151,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         beOmTilgangBeskrivelse: `Oversikt over sykefravær i din virksomhet og bransje.`,
         tjenestekode: '3403',
         tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
-
     },
 
     pam: {

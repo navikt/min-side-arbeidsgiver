@@ -8,7 +8,7 @@ import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     lenkeTilKlageskjema,
     LenkeTilKoronaSykeRefusjon, lenkeTilPermitteringsInfo
-} from "../../lenker";
+} from '../../lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import './Koronaboks.less';
