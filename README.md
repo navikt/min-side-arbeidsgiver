@@ -19,8 +19,9 @@ Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi 
 Spørsmål knyttet til koden eller prosjektet kan rettes mot:
 
 * Bendik Segrov Ibenholt, bendik.segrov.ibenholt@nav.no
+* Peter Brottveit Bock, peter.brottveit.bock@nav.no
 * Hilde Steinbru Heggstad, hilde.steinbru.heggstad@nav.no
 
 ## For NAV-ansatte
 
-Interne henvendelser kan sendes via Slack i kanalen #tag-min-side-arbeidsgiver
+Interne henvendelser kan sendes via Slack i kanalen #arbeidsgiver-min-side-arbeidsgiver
