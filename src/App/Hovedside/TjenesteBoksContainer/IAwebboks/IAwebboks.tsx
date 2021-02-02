@@ -1,9 +1,9 @@
 import React from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import IAwebikon from './IawebIkon.svg';
 import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import IAwebikon from './IawebIkon.svg';
 import './IAwebboks.less';
 
 const loggAtKlikketPaIAeb = () => {
@@ -18,11 +18,7 @@ const IAwebboks = () => {
 
     return (
         <div className="IA-web-boks tjenesteboks-innhold">
-            <TjenesteBoksBanner
-                tittel="Sykefraværsstatistikk"
-                imgsource={IAwebikon}
-                altTekst=""
-            />
+            <TjenesteBoksBanner tittel="Sykefraværsstatistikk" imgsource={IAwebikon} altTekst="" />
             <Lenkepanel
                 className="IA-web-boks__info"
                 href={lenkeTilSykefravarsstatistikk + valgtbedrift()}

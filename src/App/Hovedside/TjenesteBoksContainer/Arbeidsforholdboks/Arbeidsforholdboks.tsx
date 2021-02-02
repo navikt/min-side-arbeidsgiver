@@ -1,13 +1,13 @@
 import React from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import arbeidsforholdikon from './arbeidsforholdikon.svg';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { arbeidsforholdLink } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
+import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import arbeidsforholdikon from './arbeidsforholdikon.svg';
 
 const Arbeidsforholdboks = () => {
     const loggAtKlikketPaArbeidsfohold = () => {
-        loggTjenesteTrykketPa('Arbeidsforhold',arbeidsforholdLink, "Arbeidsforhold" );
+        loggTjenesteTrykketPa('Arbeidsforhold', arbeidsforholdLink, 'Arbeidsforhold');
     };
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
@@ -26,7 +26,8 @@ const Arbeidsforholdboks = () => {
                 tittelProps="normaltekst"
                 aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
             >
-                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret
+                (Aa-registeret)
             </Lenkepanel>
         </div>
     );

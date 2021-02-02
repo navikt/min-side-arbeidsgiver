@@ -6,7 +6,8 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import './Tiltakboks.less';
-const tiltakikon = require('./tiltakboks-ikon.svg');
+
+import tiltakikon from './tiltakboks-ikon.svg';
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);

@@ -3,10 +3,9 @@ import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { linkTilArbeidsplassen } from '../../../../lenker';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
-
-const PamboksIkon = require('./pamboks-ikon.svg');
+import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import PamboksIkon from './pamboks-ikon.svg';
 
 const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
@@ -24,7 +23,7 @@ const Pamboks = () => {
             <Lenkepanel
                 className="pamboks__lenke"
                 href={linkTilArbeidsplassen}
-                onClick={() => loggTjenesteTrykketPa("PAM", linkTilArbeidsplassen, "Rekruttere")}
+                onClick={() => loggTjenesteTrykketPa('PAM', linkTilArbeidsplassen, 'Rekruttere')}
                 tittelProps="normaltekst"
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
