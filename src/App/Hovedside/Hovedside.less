@@ -3,30 +3,30 @@
 .min-side-arbeidsgiver-wrapper {
     display: flex;
     flex-direction: column;
-}
 
-.hovedside-container {
-    display: flex;
-    flex-direction: column;
-
-    .hovedside {
-        background-color: @navLysGra;
-        margin: 0 1rem;
-        padding-top: 0.5rem;
-    }
-
-    .varsler {
-        padding: 0 1rem;
-        margin: 1rem 0;
-        position: relative;
-    }
-
-    @media (min-width: 1024px) {
-
-        margin: 0 auto;
+    .hovedside-container {
+        display: flex;
+        flex-direction: column;
 
         .hovedside {
-            width: 60rem;
+            background-color: @navLysGra;
+            margin: 0 1rem;
+            padding-top: 0.5rem;
         }
-   }
+
+        .varsler {
+            padding: 0 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        @media (min-width: 1024px) {
+            .hovedside {
+                width: 60rem;
+                margin: 0 auto;
+            }
+        }
+    }
 }
+
+

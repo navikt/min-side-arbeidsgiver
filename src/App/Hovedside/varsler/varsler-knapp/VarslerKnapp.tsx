@@ -11,21 +11,18 @@ interface Props {
 
 export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
     return (
-            <button
-                onClick={() => setErApen(!erApen)}
-                className="varselbjelle-knapp"
-                id={varslerKnappId}
-                aria-label={
-                    `Varsler. Trykk enter for å ${
-                        erApen? 'lukke' : 'åpne'} varselpanelet`
-                }
-                aria-controls="varsler-dropdown"
-                aria-expanded={erApen}
-                aria-pressed={erApen}
-                aria-haspopup="true"
-            >
-                <VarselIkon isOpen={erApen} antallUleste={3} />
-                <div className={'varselbjelle-knapp__understrek'}/>
-            </button>
+        <button
+            onClick={() => setErApen(!erApen)}
+            className="varselbjelle-knapp"
+            id={varslerKnappId}
+            aria-label={`Varsler. Trykk enter for å ${erApen ? 'lukke' : 'åpne'} varselpanelet`}
+            aria-controls="varsler-dropdown"
+            aria-expanded={erApen}
+            aria-pressed={erApen}
+            aria-haspopup="true"
+        >
+            <VarselIkon isOpen={erApen} antallUleste={5} />
+            <div className="varselbjelle-knapp__understrek" />
+        </button>
     );
 };

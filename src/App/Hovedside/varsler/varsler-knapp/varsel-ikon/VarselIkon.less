@@ -1,43 +1,4 @@
 @import '~nav-frontend-core/less/core';
-@import (reference) '~nav-frontend-core/less/_variabler';
-@import (reference) '~nav-frontend-lenker-style/src/lenker-style';
-@import (reference) '~nav-frontend-typografi-style/src/index';
-@import (reference) '~nav-frontend-knapper-style/src/index';
-
-// screen size breakpoints
-@desktopMaxWidth: 1440px;
-@smallDesktopMaxWidth: 1024px;
-@desktopMinWidth: 768px;
-@smallMobileMaxWidth: 340px;
-@smallDesktopMaxHeight: 880px;
-
-// screen size media queries
-@screen-desktop: ~'(min-width: @{desktopMinWidth})';
-@screen-desktop-small-down: ~'(max-height: @{smallDesktopMaxHeight}), (max-width: @{smallDesktopMaxWidth})';
-@screen-desktop-small-width-down: ~'(max-width: @{smallDesktopMaxWidth})';
-@screen-desktop-medium-down: ~'(max-width: @{desktopMaxWidth})';
-@screen-desktop-medium-up: ~'(min-width: @{smallDesktopMaxWidth})';
-@screen-desktop-large-up: ~'(min-width: @{desktopMaxWidth})';
-@screen-mobile: ~'not all and (min-width: @{desktopMinWidth})';
-@screen-mobile-small-down: ~'(max-width: @{smallMobileMaxWidth})';
-
-@margins-sides-desktop: 3rem;
-@margins-sides-desktop-small: 1rem;
-@margins-sides-mobil: 1rem;
-@margins-sides-footer: 2rem;
-@margins-sides-footer-small: 1rem;
-
-@header-height-desktop: 106px;
-@header-height-mobil: 88px;
-
-@menu-height-mobil: calc(100% - @header-height-mobil);
-
-@header-separator-farge: @navGra20;
-@header-separator-height: 2px;
-
-@footer-seperator-farge: @navGra20;
-@footer-seperator-height: 2px;
-
 
 .varselbjelle-ikon {
     @main-color: @navBla;
@@ -114,85 +75,65 @@
     &__ring {
         position: absolute;
         z-index: 3;
-
-        transform: translateX((@width - @ring-diameter) / 2);
-
         height: @ring-diameter * 0.65;
         width: @ring-diameter;
-
         border-top-left-radius: @ring-diameter / 2;
         border-top-right-radius: @ring-diameter / 2;
         border: @main-color @stroke-width solid;
         border-bottom: none;
         background-color: white;
-
+        transform: translateX((@width - @ring-diameter) / 2);
         transition: @transition;
     }
 
     &__bell {
         position: absolute;
         z-index: 2;
-
-        transform: translate((@width - @bell-width) / 2, @ring-diameter * 0.35);
-
         height: @bell-height;
         width: @bell-width;
-
         border-top-left-radius: @bell-height / 2;
         border-top-right-radius: @bell-height / 2;
         border: @main-color @stroke-width solid;
         border-bottom: none;
         background-color: white;
-
+        transform: translate((@width - @bell-width) / 2, @ring-diameter * 0.35);
         transition: @transition;
     }
 
     &__lip {
         position: absolute;
         z-index: 2;
-
-        transform: translateY(@bell-height + @ring-diameter * 0.25);
-
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-
         width: @lip-width;
         height: @lip-height;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
         background-color: @main-color;
-
+        transform: translateY(@bell-height + @ring-diameter * 0.25);
         transition: @transition;
     }
 
     &__clapper {
         position: absolute;
         z-index: 1;
-
-        transform: translate((@width - @clapper-length) / 2, @height / 2) rotate(90deg);
-
-        border-radius: @clapper-thickness / 2;
-
         width: @clapper-length;
         height: @clapper-thickness;
+        border-radius: @clapper-thickness / 2;
         background-color: @main-color;
-
+        transform: translate((@width - @clapper-length) / 2, @height / 2) rotate(90deg);
         transition: @transition;
     }
 
     &__ulest-sirkel {
         position: absolute;
         z-index: 4;
-
-        transform: translate(@ulest-left, @ulest-top);
-
-        border-radius: 50%;
-        height: @ulest-diameter;
-        width: @ulest-diameter;
-        background-color: @navRodLighten40;
-
         display: flex;
         justify-content: center;
         align-items: center;
-
+        height: @ulest-diameter;
+        width: @ulest-diameter;
+        border-radius: 50%;
+        background-color: @navRodLighten40;
+        transform: translate(@ulest-left, @ulest-top);
         transition: @transition;
 
         &--hide {

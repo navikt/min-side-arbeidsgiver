@@ -1,29 +1,35 @@
 @import 'node_modules/nav-frontend-core/less/_variabler';
 
-.varsel-dato-type {
-  position: relative;
+.varselpanel__lenkepanel {
+    border-bottom: @navGra40 1px solid;
+    padding-top: 1rem;
+    margin: 3px;
 
-  .varsel-type {
-    position: absolute;
-    right: -2rem;
-    top: -1rem;
-    background-color: @navLysGra;
-    border-radius: 4px;
-    padding: 0.3rem 0.5rem;
-    font-weight: 800;
-  }
-}
+    .varsel-innhold {
+        margin: 0.5rem 0;
 
-.varsel-innhold {
-  margin: 0.5rem 0;
+        .varsel-dato-type {
+            position: relative;
 
-  .varsel-lenketekst {
-    display: flex;
-    padding: 1rem 0;
+            .varsel-type {
+                position: absolute;
+                right: -2rem;
+                top: -1rem;
+                background-color: @navLysGra;
+                border-radius: 4px;
+                padding: 0.3rem 0.5rem;
+                font-weight: 800;
+            }
+        }
 
-    .varsel-ikon {
-      width: 54px;
-      margin-right: 1rem;
+        .varsel-lenketekst {
+            display: flex;
+            padding: 1rem 0 0.5rem;
+
+            .varsel-ikon {
+                width: 3.375rem;
+                margin-right: 1rem;
+            }
+        }
     }
-  }
 }
