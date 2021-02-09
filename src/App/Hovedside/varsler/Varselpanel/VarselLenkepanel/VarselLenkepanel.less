@@ -11,10 +11,14 @@
         .varsel-dato-type {
             position: relative;
 
+            .varsel-dato {
+                margin-bottom: 0.5rem;
+            }
+
             .varsel-type {
                 position: absolute;
                 right: -2rem;
-                top: -1rem;
+                top: -0.7rem;
                 background-color: @navLysGra;
                 border-radius: 4px;
                 padding: 0.3rem 0.5rem;
@@ -24,11 +28,17 @@
 
         .varsel-lenketekst {
             display: flex;
-            padding: 1rem 0 0.5rem;
+            padding: 0;
 
             .varsel-ikon {
                 width: 3.375rem;
                 margin-right: 1rem;
+            }
+
+            .varsel-beskjed {
+                &--ulest {
+                    font-weight: 800;
+                }
             }
         }
     }

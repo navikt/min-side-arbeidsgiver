@@ -10,9 +10,18 @@ interface Props {
     setErApen: (bool: boolean) => void;
     setIndeksVarselIFokus: (indeks: number) => void;
     indeksVarselIFokus: number;
+    dropdownouterheight: number;
+    dropdowninnerheight: number;
 }
 
-const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFokus }: Props) => {
+const Varselpanel = ({
+    erApen,
+    setErApen,
+    indeksVarselIFokus,
+    setIndeksVarselIFokus,
+    dropdownouterheight,
+    dropdowninnerheight,
+}: Props) => {
     const { varsler } = useContext(OrganisasjonsDetaljerContext);
 
     useEffect(() => {
@@ -22,35 +31,46 @@ const Varselpanel = ({ erApen, setErApen, indeksVarselIFokus, setIndeksVarselIFo
         }
     }, [erApen]);
 
+    const sorterDato = (dato1: Varsel, dato2: Varsel) => {
+        return dato1.dato > dato2.dato ? -1 : dato1.dato < dato2.dato ? 1 : 0;
+    };
+
     return (
         <menu
             className={`varselpanel varselpanel__dropdown--${erApen ? 'apen' : 'lukket'}`}
             id="varsler-dropdown"
-
+            style={{ maxHeight: dropdownouterheight }}
         >
-            <Undertittel className="varselpanel-overskrift">
-                Beskjeder og oppgaver
-            </Undertittel>
+            <div className="varselpanel-tittel">
+                <Undertittel>Beskjeder og oppgaver</Undertittel>
+            </div>
 
             <div className="varselpanel-elementer-wrapper" role="toolbar">
-                <div id="varselpanel-elementer" className="varselpanel-elementer">
-                    <ul
-                        className="varselpanel-elementer__varsler-liste"
-                        aria-label={`Liste med ${varsler?.length} beskjeder`}
-                    >
-                        {varsler?.map((varsel: Varsel, index: number) => (
-                            <li key={index}>
-                                <VarselLenkepanel
-                                    setErApen={setErApen}
-                                    antallVarsler={varsler?.length}
-                                    indeks={index}
-                                    indeksVarselIFokus={indeksVarselIFokus}
-                                    setIndeksVarselIFokus={setIndeksVarselIFokus}
-                                    varsel={varsel}
-                                />
-                            </li>
-                        ))}
-                    </ul>
+                <div
+                    id="varselpanel-elementer"
+                    className="varselpanel-elementer"
+                    style={{ maxHeight: dropdowninnerheight }}
+                >
+                    {varsler && varsler.length ?
+                        <ul
+                            className="varselpanel-elementer__varsler-liste"
+                            aria-label={`Liste med ${varsler?.length} beskjeder`}
+                        >
+                            {varsler?.sort(sorterDato).map((varsel: Varsel, index: number) => (
+                                <li key={index}>
+                                    <VarselLenkepanel
+                                        setErApen={setErApen}
+                                        antallVarsler={varsler?.length}
+                                        indeks={index}
+                                        indeksVarselIFokus={indeksVarselIFokus}
+                                        setIndeksVarselIFokus={setIndeksVarselIFokus}
+                                        varsel={varsel}
+                                    />
+                                </li>
+                            ))}
+                        </ul>
+                    : <div className="varselpanel-elementer__ingenvarsler">Ingen nye beskjeder eller oppgaver</div>
+                    }
                 </div>
             </div>
         </menu>

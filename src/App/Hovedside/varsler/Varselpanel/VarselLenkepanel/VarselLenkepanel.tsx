@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { UndertekstBold } from 'nav-frontend-typografi';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { datotekst } from '../dato-funksjoner';
-import { Varsel, Varseltype } from '../../../../../api/varslerApi';
+import { settVarselSomLest, Varsel, Varseltype } from '../../../../../api/varslerApi';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
 import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 import './VarselLenkepanel.less';
@@ -50,6 +50,11 @@ export const VarselLenkepanel = (props: Props) => {
     return (
         <Lenkepanel
             className="varselpanel__lenkepanel"
+            onClick={() => {
+                if (!props.varsel.lest) {
+                    settVarselSomLest(props.varsel.id)
+                }
+            }}
             onKeyDown={(event) => onArrowpress(event.key)}
             href={props.varsel.href}
             tittelProps="normaltekst"
@@ -59,7 +64,7 @@ export const VarselLenkepanel = (props: Props) => {
             <div className="varsel-innhold">
                 <div className="varsel-dato-type">
                     <div className="varsel-dato">{datotekst(props.varsel.dato)}</div>
-                    <Normaltekst className="varsel-type">{props.varsel.type}</Normaltekst>
+                    <UndertekstBold className="varsel-type">{props.varsel.type}</UndertekstBold>
                 </div>
                 <div className="varsel-lenketekst">
                     <div className="varsel-ikon">
@@ -69,7 +74,7 @@ export const VarselLenkepanel = (props: Props) => {
                             <VarselpanelIkonOppgave />
                         )}
                     </div>
-                    <span>{props.varsel.beskjed}</span>
+                    <span className={props.varsel.lest ? 'varsel-beskjed--lest' : 'varsel-beskjed--ulest'}>{props.varsel.beskjed}</span>
                 </div>
             </div>
         </Lenkepanel>

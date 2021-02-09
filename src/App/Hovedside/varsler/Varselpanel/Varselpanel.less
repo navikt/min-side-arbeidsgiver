@@ -1,9 +1,5 @@
 @import 'node_modules/nav-frontend-core/less/_variabler';
 
-@dropdownHeight: 35rem;
-@dropdownElemHeightMobile: 25rem;
-@dropdownElemHeightDesktop: 30rem;
-
 .varselpanel {
     z-index: 10;
     color: @navMorkGra;
@@ -22,16 +18,14 @@
             position: absolute;
             top: 3.2rem;
             right: 0;
-            max-height: @dropdownHeight;
             visibility: hidden;
             transform: rotateX(-90deg);
             transform-origin: top center;
             opacity: 0.3;
             transition: 0.4s ease;
 
-            .varselpanel-overskrift {
-                margin: 1.5rem 0 1.5rem 1rem;
-                width: 15rem;
+            .varselpanel-tittel {
+                padding: 1rem 0 1rem 1rem;
             }
 
             .varselpanel-elementer-wrapper {
@@ -49,7 +43,6 @@
                 padding: 0;
                 overflow-y: scroll;
                 overflow-x: hidden;
-                max-height: @dropdownElemHeightMobile;
 
                 &::-webkit-scrollbar-track {
                     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -74,6 +67,10 @@
                     margin: 0;
                     padding: 0;
                     list-style: none;
+                }
+
+                &__ingenvarsler {
+                    padding: 3rem 1rem;
                 }
             }
         }
@@ -105,14 +102,10 @@
     }
 
 
-    @media (min-width: @screen-sm-min) {
+    @media (min-width: @screen-lg) {
         &__dropdown {
             &--apen {
                 top: 4rem;
-
-                .varselpanel-elementer {
-                    max-height: @dropdownElemHeightDesktop;
-                }
             }
         }
     }

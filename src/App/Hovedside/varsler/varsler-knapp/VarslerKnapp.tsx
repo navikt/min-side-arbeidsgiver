@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { VarselIkon } from './varsel-ikon/VarselIkon';
 import './VarslerKnapp.less';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { settTrykketPaaBjelle } from '../../../../api/varslerApi';
 
 export const varslerKnappId = 'varsler-knapp-id';
 
@@ -10,9 +12,17 @@ interface Props {
 }
 
 export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
+    const { antallUlesteVarsler, setAntallUlesteVarsler, tidspunktHentVarsler } = useContext(OrganisasjonsDetaljerContext);
+
     return (
         <button
-            onClick={() => setErApen(!erApen)}
+            onClick={() => {
+                if (!erApen) {
+                    setAntallUlesteVarsler(0);
+                    settTrykketPaaBjelle(tidspunktHentVarsler);
+                }
+                setErApen(!erApen);
+            }}
             className="varselbjelle-knapp"
             id={varslerKnappId}
             aria-label={`Varsler. Trykk enter for å ${erApen ? 'lukke' : 'åpne'} varselpanelet`}
@@ -21,8 +31,10 @@ export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
             aria-pressed={erApen}
             aria-haspopup="true"
         >
-            <VarselIkon isOpen={erApen} antallUleste={5} />
-            <div className="varselbjelle-knapp__understrek" />
+            <VarselIkon isOpen={erApen} antallUleste={antallUlesteVarsler} />
+            { (antallUlesteVarsler > 0 || (antallUlesteVarsler === 0 && erApen)) && (
+                <div className="varselbjelle-knapp__understrek"/>
+            )}
         </button>
     );
 };

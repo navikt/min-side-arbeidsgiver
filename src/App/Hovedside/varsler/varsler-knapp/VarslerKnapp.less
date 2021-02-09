@@ -1,8 +1,7 @@
 @import '~nav-frontend-core/less/_variabler';
 
-@height: 3rem;
 @padding-y: 0.25rem;
-@padding-x: 0.75rem;
+@padding-x: 0.25rem;
 
 .varselbjelle-knapp {
     float: right;
@@ -10,11 +9,11 @@
     flex-direction: column;
     align-items: center;
     padding: @padding-y @padding-x;
-
-    height: 2.8125rem;
+    margin: 4px 4px 0 0;
     background-color: transparent;
     border: none;
     color: @navBla;
+    width: 4.5rem;
 
     &:focus {
         outline: none;
@@ -28,9 +27,9 @@
     }
 
     &__understrek {
-        width: 3rem;
-        height: 5px;
-        margin-top: 1rem;
-        background-color: @navBla;
+        width: 4.5rem;
+        height: 4px;
+        margin-top: 0.5rem;
+        background-color: @navDypBla;
     }
 }

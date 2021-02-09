@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { VarslerKnapp } from './varsler-knapp/VarslerKnapp';
 import Varselpanel from './Varselpanel/Varselpanel';
+import { Size, useWindowSize } from './useWindowSize';
 import './Varsler.less';
 
 const Varsler = () => {
+    const size: Size = useWindowSize();
+    // console.log('size', size);
+
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
     const [indeksVarselIFokus, setIndeksVarselIFokus] = useState(-1);
@@ -31,6 +35,7 @@ const Varsler = () => {
     useEffect(() => {
         document.addEventListener('click', handleOutsideClick, false);
         document.addEventListener('keydown', handleOutsideClick, false);
+
         return () => {
             window.removeEventListener('click', handleOutsideClick, false);
             window.removeEventListener('keydown', handleOutsideClick, false);
@@ -45,6 +50,8 @@ const Varsler = () => {
                 setErApen={setErApen}
                 indeksVarselIFokus={indeksVarselIFokus}
                 setIndeksVarselIFokus={setIndeksVarselIFokus}
+                dropdownouterheight={size.dropdown.outerheight}
+                dropdowninnerheight={size.dropdown.innerheight}
             />
         </div>
     );
