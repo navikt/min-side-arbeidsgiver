@@ -47,7 +47,7 @@ export const LenkeTilInfoOmAltinnRoller =
     'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
 
 export const lenkeTilInfoOmSykefravarsstatistikk =
-    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/fa-oversikt-over-sykefravaeret';
+    'https://arbeidsgiver.nav.no/forebygge-sykefravaer/#digitale-tjenester';
 
 export const hentUnderenhetApiLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`;
