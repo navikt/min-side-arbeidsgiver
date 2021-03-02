@@ -1,15 +1,6 @@
 import fetchMock from 'fetch-mock';
 const delay = new Promise(res => setTimeout(res, 500));
 
-fetchMock
-    .get(
-        'min-side-arbeidsgiver/api/organisasjoner',
-        delay.then(() => {
-            return OrganisasjonerResponse;
-        })
-    )
-    .spy();
-
 export const OrganisasjonerResponse = [
     {
         Name: 'BALLSTAD OG HAMARØY',
@@ -116,33 +107,6 @@ export const OrganisasjonerResponse = [
       }
 ];
 
-fetchMock
-    .get(
-        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
-        delay.then(() => {
-            return mentortilskuddskjemaResponse;
-        })
-    )
-    .spy();
-
-fetchMock
-    .get(
-        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
-        delay.then(() => {
-            return InntektsmeldingSkjemaResponse;
-        })
-    )
-    .spy();
-
-fetchMock
-    .get(
-        'begin:/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
-        delay.then(() => {
-            return rettigheterSkjemaDefaultResponse;
-        })
-    )
-    .spy();
-
 const organisasjonerMedRettigheter = [
     '811076732',
     '811076112',
@@ -222,3 +186,40 @@ const InntektsmeldingSkjemaResponse = [
     },
 ];
 
+export const mock = () => {
+    fetchMock
+        .get(
+            'min-side-arbeidsgiver/api/organisasjoner',
+            delay.then(() => {
+                return OrganisasjonerResponse;
+            })
+        )
+        .spy();
+
+    fetchMock
+        .get(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
+            delay.then(() => {
+                return mentortilskuddskjemaResponse;
+            })
+        )
+        .spy();
+
+    fetchMock
+        .get(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
+            delay.then(() => {
+                return InntektsmeldingSkjemaResponse;
+            })
+        )
+        .spy();
+
+    fetchMock
+        .get(
+            'begin:/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
+            delay.then(() => {
+                return rettigheterSkjemaDefaultResponse;
+            })
+        )
+        .spy();
+}

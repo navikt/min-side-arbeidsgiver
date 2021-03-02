@@ -32,7 +32,8 @@ const søknader: AltinnTilgangssøknad[] = [
     }
 ]
 
-fetchMock.get('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', () => søknader);
+export const mock = () => {
+    fetchMock.get('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', () => søknader);
 
 // fetchMock.post('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', (url, request) => {
 //     const skjema = JSON.parse(request.body?.toString() ?? '') as AltinnTilgangssøknadskjemaDTO;
@@ -50,3 +51,5 @@ fetchMock.get('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', () => søknade
 //     id += 1;
 //     return søknad;
 // });
+
+}
