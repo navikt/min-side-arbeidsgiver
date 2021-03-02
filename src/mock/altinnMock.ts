@@ -175,6 +175,21 @@ const rettigheterSkjemaDefaultResponse = [
         OrganizationForm: 'BEDR',
         Status: 'Active',
     },
+    {
+        Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
+        Type: 'Enterprise',
+        OrganizationNumber: '910825555',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'SALTRØD OG HØNEBY',
+        Type: 'Business',
+        OrganizationNumber: '999999999',
+        ParentOrganizationNumber: '910825555',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    }
 ];
 
 const mentortilskuddskjemaResponse = [
