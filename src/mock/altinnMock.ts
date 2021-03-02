@@ -99,6 +99,21 @@ export const OrganisasjonerResponse = [
         OrganizationForm: 'FLI',
         Status: 'Active',
     },
+    {
+        Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
+        Type: 'Enterprise',
+        OrganizationNumber: '910825555',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+      },
+      {
+        Name: 'SALTRØD OG HØNEBY',
+        Type: 'Business',
+        OrganizationNumber: '999999999',
+        ParentOrganizationNumber: '910825555',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+      }
 ];
 
 fetchMock
@@ -128,39 +143,16 @@ fetchMock
     )
     .spy();
 
-const rettigheterSkjemaDefaultResponse = [
-    {
-        Name: 'BALLSTAD OG HAMARØY',
-        Type: 'Business',
-        OrganizationNumber: '811076732',
-        ParentOrganizationNumber: '811076112',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
-        Name: 'BALLSTAD OG HORTEN',
-        Type: 'Enterprise',
-        OrganizationNumber: '811076112',
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'DIGITAL JUNKIES AS',
-        Type: 'Enterprise',
-        OrganizationNumber: '822565212',
-        ParentOrganizationNumber: null,
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'DIGITAL JUNKIES AS',
-        Type: 'Business',
-        OrganizationNumber: '922658986',
-        ParentOrganizationNumber: '822565212',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
+const organisasjonerMedRettigheter = [
+    '811076732',
+    '811076112',
+    '822565212',
+    '922658986',
+    '910825555',
+    '999999999',
 ];
+const rettigheterSkjemaDefaultResponse = OrganisasjonerResponse
+    .filter(({OrganizationNumber}) => organisasjonerMedRettigheter.includes(OrganizationNumber));
 
 const mentortilskuddskjemaResponse = [
     {
