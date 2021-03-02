@@ -41,6 +41,7 @@ if (isMockApp || environment.MILJO === 'dev-sbs' ) {
 }
 if ( environment.MILJO === 'labs-gcp') {
     require('./mock/enhetsRegisteretMock').mock();
+    require('./mock/altinnMock').mock();
     require('./mock/altinnMeldingsboksMock').mock();
 }
 
