@@ -36,12 +36,12 @@ const getDecoratorFragments = async () => {
     };
 }
 
-const server = express();
-server.engine('html', mustacheExpress());
-server.set('view engine', 'mustache');
-server.set('views', BUILD_PATH);
+const app = express();
+app.engine('html', mustacheExpress());
+app.set('view engine', 'mustache');
+app.set('views', BUILD_PATH);
 
-server.use(
+app.use(
     base('/api'),
     createProxyMiddleware({
         changeOrigin: true,
@@ -54,7 +54,7 @@ server.use(
         ...(APIGW_HEADER ? {'x-nav-apiKey': APIGW_HEADER} : {})
     })
 );
-server.use(
+app.use(
     base('/syforest/arbeidsgiver/sykmeldte'),
     createProxyMiddleware({
         changeOrigin: true,
@@ -66,23 +66,23 @@ server.use(
         xfwd: true
     })
 );
-server.use(BASE_PATH, express.static(BUILD_PATH, {...(MOCK ? {} : {index: false})}));
+app.use(BASE_PATH, express.static(BUILD_PATH, {...(MOCK ? {} : {index: false})}));
 
-server.get(base('/redirect-til-login'), (req, res) => {
+app.get(base('/redirect-til-login'), (req, res) => {
     res.redirect(LOGIN_URL);
 });
-server.get(
+app.get(
     base('/internal/isAlive'),
     (req, res) => res.sendStatus(200)
 );
-server.get(
+app.get(
     base('/internal/isReady'),
     (req, res) => res.sendStatus(200)
 );
 
 if (MOCK) {
     console.error("mounted mock middleware. local dev only!");
-    server.get(base('/*'), (req, res) => {
+    app.get(base('/*'), (req, res) => {
         res.sendFile(path.resolve(BUILD_PATH, 'index.html'));
     });
 
@@ -90,7 +90,7 @@ if (MOCK) {
     getDecoratorFragments()
         .then(decoratorFragments => {
             console.log("mounted html render middleware");
-            server.get(base('/*'), (req, res) => {
+            app.get(base('/*'), (req, res) => {
                 res.render('index.html', decoratorFragments, (err, html) => {
                     if (err) {
                         console.error(err);
@@ -107,6 +107,6 @@ if (MOCK) {
         });
 }
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log('Server listening on port', PORT);
 });
