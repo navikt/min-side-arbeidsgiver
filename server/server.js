@@ -31,9 +31,11 @@ const getDecoratorFragments = async () => {
         FOOTER: document.getElementById('footer-withmenu').innerHTML,
         STYLES: document.getElementById('styles').innerHTML,
         SCRIPTS: document.getElementById('scripts').innerHTML,
-        APP_SETTINGS: `window.appSettings = {
-            MILJO: '${NAIS_CLUSTER_NAME}',
-        }`,
+        SETTINGS: `<script type="application/javascript">
+            window.appSettings = {
+                MILJO: '${NAIS_CLUSTER_NAME}',
+            }
+        </script>`,
     };
 }
 
