@@ -20,7 +20,7 @@ const {
 
 const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-sbs' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
 const BUILD_PATH = path.join(process.cwd(), '../build');
-const base = (path) => `${BASE_PATH}${path}`;
+const base = (part) => `${BASE_PATH}${part}`;
 const getDecoratorFragments = async () => {
     const response = await fetch(decoratorUrl);
     const body = await response.text();
@@ -36,12 +36,12 @@ const getDecoratorFragments = async () => {
     };
 }
 
-const app = express();
-app.engine('html', mustacheExpress());
-app.set('view engine', 'mustache');
-app.set('views', BUILD_PATH);
+const server = express();
+server.engine('html', mustacheExpress());
+server.set('view engine', 'mustache');
+server.set('views', BUILD_PATH);
 
-app.use(
+server.use(
     base('/api'),
     createProxyMiddleware({
         changeOrigin: true,
@@ -54,7 +54,7 @@ app.use(
         ...(APIGW_HEADER ? {'x-nav-apiKey': APIGW_HEADER} : {})
     })
 );
-app.use(
+server.use(
     base('/syforest/arbeidsgiver/sykmeldte'),
     createProxyMiddleware({
         changeOrigin: true,
@@ -66,23 +66,23 @@ app.use(
         xfwd: true
     })
 );
-app.use(BASE_PATH, express.static(BUILD_PATH, {...(MOCK ? {} : {index: false})}));
+server.use(BASE_PATH, express.static(BUILD_PATH, {...(MOCK ? {} : {index: false})}));
 
-app.get(base('/redirect-til-login'), (req, res) => {
+server.get(base('/redirect-til-login'), (req, res) => {
     res.redirect(LOGIN_URL);
 });
-app.get(
+server.get(
     base('/internal/isAlive'),
     (req, res) => res.sendStatus(200)
 );
-app.get(
+server.get(
     base('/internal/isReady'),
     (req, res) => res.sendStatus(200)
 );
 
 if (MOCK) {
     console.error("mounted mock middleware. local dev only!");
-    app.get(base('/*'), (req, res) => {
+    server.get(base('/*'), (req, res) => {
         res.sendFile(path.resolve(BUILD_PATH, 'index.html'));
     });
 
@@ -90,7 +90,7 @@ if (MOCK) {
     getDecoratorFragments()
         .then(decoratorFragments => {
             console.log("mounted html render middleware");
-            app.get(base('/*'), (req, res) => {
+            server.get(base('/*'), (req, res) => {
                 res.render('index.html', decoratorFragments, (err, html) => {
                     if (err) {
                         console.error(err);
@@ -107,6 +107,6 @@ if (MOCK) {
         });
 }
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log('Server listening on port', PORT);
 });
