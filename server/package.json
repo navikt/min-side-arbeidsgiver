@@ -15,8 +15,6 @@
     "promise": "^8.1.0"
   },
   "scripts": {
-    "lint": "eslint .",
-    "start": "node --experimental-modules server.js",
-    "start:mock": "MOCK=true npm run start"
+    "start": "node --experimental-modules server.js"
   }
 }

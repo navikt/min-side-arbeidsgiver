@@ -14,7 +14,6 @@ const {
     LOGIN_URL = defaultLoginUrl,
     DECORATOR_EXTERNAL_URL = defaultDecoratorUrl,
     BASE_PATH = '/min-side-arbeidsgiver',
-    MOCK = false,
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
     APIGW_HEADER,
@@ -68,7 +67,7 @@ app.use(
         xfwd: true
     })
 );
-app.use(BASE_PATH, express.static(BUILD_PATH, {...(MOCK ? {} : {index: false})}));
+app.use(base('/'), express.static(BUILD_PATH, { index: false }));
 
 app.get(base('/redirect-til-login'), (req, res) => {
     res.redirect(LOGIN_URL);
@@ -82,33 +81,26 @@ app.get(
     (req, res) => res.sendStatus(200)
 );
 
-if (MOCK) {
-    console.error("mounted mock middleware. local dev only!");
-    app.get(base('/*'), (req, res) => {
-        res.sendFile(path.resolve(BUILD_PATH, 'index.html'));
-    });
-
-} else {
-    getDecoratorFragments()
-        .then(decoratorFragments => {
-            console.log("mounted html render middleware");
-            app.get(base('/*'), (req, res) => {
-                res.render('index.html', decoratorFragments, (err, html) => {
-                    if (err) {
-                        console.error(err);
-                        res.sendStatus(500);
-                    } else {
-                        res.send(html);
-                    }
-                });
+const serve = async () => {
+    try {
+        const fragments = await getDecoratorFragments();
+        app.get(base('/*'), (req, res) => {
+            res.render('index.html', fragments, (err, html) => {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                } else {
+                    res.send(html);
+                }
             });
-        })
-        .catch((error) => {
-            console.error('Kunne ikke hente decoratør ', error);
-            process.exit(1);
         });
+        app.listen(PORT, () => {
+            console.log('Server listening on port ', PORT);
+        });
+    } catch (error) {
+        console.error('Server failed to start ', error);
+        process.exit(1);
+    }
 }
 
-app.listen(PORT, () => {
-    console.log('Server listening on port', PORT);
-});
+serve().then(/*noop*/);
