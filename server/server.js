@@ -2,9 +2,11 @@ import path from 'path';
 import fetch from 'node-fetch';
 import express from 'express';
 import mustacheExpress from 'mustache-express';
-import {createProxyMiddleware} from "http-proxy-middleware";
-import {JSDOM} from "jsdom";
+import httpProxyMiddleware from "http-proxy-middleware";
+import jsdom from "jsdom";
 
+const {JSDOM} = jsdom;
+const {createProxyMiddleware} = httpProxyMiddleware;
 const defaultLoginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
 const defaultDecoratorUrl = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4';
 const {

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "type": "module",
+  "main": "server.js",
   "dependencies": {
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.6",
@@ -16,6 +17,6 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node --experimental-modules server.js",
-    "start:mock": "MOCK=true yarn start"
+    "start:mock": "MOCK=true npm run start"
   }
 }
