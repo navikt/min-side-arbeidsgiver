@@ -1,16 +1,11 @@
-FROM node:alpine as builder
-
-WORKDIR /app
-RUN yarn add http-proxy-middleware@0.21.0 fs-extra mustache-express jsdom promise node-cache
-
-
-FROM navikt/node-express:12.2.0-alpine
-WORKDIR /app
+FROM navikt/node-express:12.18.0-alpine
+WORKDIR /usr/src/app
 
 COPY build/ build/
-COPY src/server/ src/server/
-COPY start.sh ./
-COPY --from=builder /app/node_modules /app/node_modules
+COPY server/ server/
+
+WORKDIR /usr/src/app/server
+RUN yarn install --frozen-lockfile
 
 
 EXPOSE 3000
