@@ -55,7 +55,7 @@ app.use(
         secure: true,
         xfwd: true,
         target: API_GATEWAY,
-        ...(APIGW_HEADER ? {'x-nav-apiKey': APIGW_HEADER} : {})
+        ...(APIGW_HEADER ? { headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
     })
 );
 app.use(
