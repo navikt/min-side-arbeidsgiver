@@ -38,6 +38,7 @@ const getDecoratorFragments = async () => {
 }
 
 const app = express();
+app.disable("x-powered-by");
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', BUILD_PATH);
