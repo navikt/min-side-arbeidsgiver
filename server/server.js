@@ -17,6 +17,7 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
     APIGW_HEADER,
+    DECORATOR_UPDATE_MS = 30 * 60 * 1000,
 } = process.env;
 
 const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-sbs' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
@@ -85,8 +86,9 @@ app.get(
 );
 
 const serve = async () => {
+    let fragments;
     try {
-        const fragments = await getDecoratorFragments();
+        fragments = await getDecoratorFragments();
         app.get(base('/*'), (req, res) => {
             res.render('index.html', fragments, (err, html) => {
                 if (err) {
@@ -104,6 +106,17 @@ const serve = async () => {
         console.error('Server failed to start ', error);
         process.exit(1);
     }
+
+    setInterval(() => {
+        getDecoratorFragments()
+            .then(oppdatert => {
+                fragments = oppdatert;
+                console.info("dekoratør oppdatert:", Object.keys(oppdatert));
+            })
+            .catch(error => {
+                console.warn("oppdatering av dekoratør feilet:", error);
+            });
+    }, DECORATOR_UPDATE_MS)
 }
 
 serve().then(/*noop*/);
