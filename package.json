@@ -95,11 +95,13 @@
   },
   "scripts": {
     "start": "craco start",
-    "winmock": "set REACT_APP_MOCK=true && yarn start",
-    "mock": "REACT_APP_MOCK=true yarn start",
+    "start:mock": "REACT_APP_MOCK=true yarn start",
+    "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
     "build": "craco build",
     "test": "craco test",
-    "lint": "eslint --ext ts,tsx ."
+    "lint": "eslint --ext ts,tsx .",
+    "docker:build": "docker build -t minside-arbeidsgiver .",
+    "docker:start": "docker run -p 3000:3000 minside-arbeidsgiver"
   },
   "eslintConfig": {
     "extends": "react-app"
