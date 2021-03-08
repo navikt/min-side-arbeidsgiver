@@ -4,6 +4,7 @@ import express from 'express';
 import mustacheExpress from 'mustache-express';
 import httpProxyMiddleware from "http-proxy-middleware";
 import jsdom from "jsdom";
+import Prometheus from "prom-client";
 const {JSDOM} = jsdom;
 const {createProxyMiddleware} = httpProxyMiddleware;
 
