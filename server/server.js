@@ -4,16 +4,16 @@ import express from 'express';
 import mustacheExpress from 'mustache-express';
 import httpProxyMiddleware from "http-proxy-middleware";
 import jsdom from "jsdom";
-
 const {JSDOM} = jsdom;
 const {createProxyMiddleware} = httpProxyMiddleware;
+
 const defaultLoginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
 const defaultDecoratorUrl = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4';
 const {
     PORT = 3000,
+    NAIS_APP_IMAGE = '?',
     LOGIN_URL = defaultLoginUrl,
     DECORATOR_EXTERNAL_URL = defaultDecoratorUrl,
-    BASE_PATH = '/min-side-arbeidsgiver',
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
     APIGW_HEADER,
@@ -22,7 +22,6 @@ const {
 
 const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-sbs' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
 const BUILD_PATH = path.join(process.cwd(), '../build');
-const base = (part) => `${BASE_PATH}${part}`;
 const getDecoratorFragments = async () => {
     const response = await fetch(decoratorUrl);
     const body = await response.text();
@@ -39,6 +38,25 @@ const getDecoratorFragments = async () => {
         </script>`,
     };
 }
+const startApiGWGauge = () => {
+    const gauge = new Prometheus.Gauge({
+        name: 'backend_api_gw',
+        help: 'Status til backend via API-Gateway (sonekrysning). up=1, down=0',
+    });
+
+    setInterval(async () => {
+        try {
+            const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/healthcheck`, {
+                ...(APIGW_HEADER ? {headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
+            });
+            gauge.set(res.ok ? 1 : 0);
+            console.log("healthcheck: ", gauge.name, res.ok);
+        } catch (error) {
+            console.error("healthcheck error:", gauge.name, error)
+            gauge.set(0);
+        }
+    }, 60 * 1000);
+}
 
 const app = express();
 app.disable("x-powered-by");
@@ -46,8 +64,12 @@ app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', BUILD_PATH);
 
+app.use('/*', (req, res, next) => {
+    res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
+    next();
+});
 app.use(
-    base('/api'),
+    '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
         changeOrigin: true,
         pathRewrite: {
@@ -60,7 +82,7 @@ app.use(
     })
 );
 app.use(
-    base('/syforest/arbeidsgiver/sykmeldte'),
+    '/min-side-arbeidsgiver/syforest/arbeidsgiver/sykmeldte',
     createProxyMiddleware({
         changeOrigin: true,
         target: NAIS_CLUSTER_NAME === "prod-sbs" ? "https://tjenester.nav.no" : "https://tjenester-q1.nav.no",
@@ -71,17 +93,17 @@ app.use(
         xfwd: true
     })
 );
-app.use(base('/'), express.static(BUILD_PATH, { index: false }));
+app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
 
-app.get(base('/redirect-til-login'), (req, res) => {
+app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
     res.redirect(LOGIN_URL);
 });
 app.get(
-    base('/internal/isAlive'),
+    '/min-side-arbeidsgiver/internal/isAlive',
     (req, res) => res.sendStatus(200)
 );
 app.get(
-    base('/internal/isReady'),
+    '/min-side-arbeidsgiver/internal/isReady',
     (req, res) => res.sendStatus(200)
 );
 
@@ -89,7 +111,7 @@ const serve = async () => {
     let fragments;
     try {
         fragments = await getDecoratorFragments();
-        app.get(base('/*'), (req, res) => {
+        app.get('/min-side-arbeidsgiver/*', (req, res) => {
             res.render('index.html', fragments, (err, html) => {
                 if (err) {
                     console.error(err);
@@ -107,6 +129,7 @@ const serve = async () => {
         process.exit(1);
     }
 
+    startApiGWGauge();
     setInterval(() => {
         getDecoratorFragments()
             .then(oppdatert => {
@@ -116,7 +139,7 @@ const serve = async () => {
             .catch(error => {
                 console.warn("oppdatering av dekoratør feilet:", error);
             });
-    }, DECORATOR_UPDATE_MS)
+    }, DECORATOR_UPDATE_MS);
 }
 
 serve().then(/*noop*/);
