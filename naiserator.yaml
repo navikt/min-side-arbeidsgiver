@@ -17,6 +17,9 @@ spec:
   readiness:
     path: /min-side-arbeidsgiver/internal/isReady
     initialDelay: 20
+  prometheus:
+    enabled: true
+    path: /min-side-arbeidsgiver/internal/metrics
   vault:
     enabled: {{vault-enabled}}
   webproxy: {{webproxy-enabled}}
