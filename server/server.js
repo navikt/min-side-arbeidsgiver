@@ -5,6 +5,8 @@ import mustacheExpress from 'mustache-express';
 import httpProxyMiddleware from "http-proxy-middleware";
 import jsdom from "jsdom";
 import Prometheus from "prom-client";
+
+const apiMetricsMiddleware = require('prometheus-api-metrics');
 const {JSDOM} = jsdom;
 const {createProxyMiddleware} = httpProxyMiddleware;
 
@@ -95,6 +97,11 @@ app.use(
     })
 );
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
+app.use(
+    apiMetricsMiddleware({
+        metricsPath: '/min-side-arbeidsgiver/internal/metrics',
+    })
+);
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
     res.redirect(LOGIN_URL);
