@@ -5,6 +5,7 @@ import mustacheExpress from 'mustache-express';
 import httpProxyMiddleware from "http-proxy-middleware";
 import jsdom from "jsdom";
 import Prometheus from "prom-client";
+import require from "./esm-require.js";
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const {JSDOM} = jsdom;
