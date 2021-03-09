@@ -50,7 +50,7 @@ const startApiGWGauge = () => {
 
     setInterval(async () => {
         try {
-            const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/healthcheck`, {
+            const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/actuator/health`, {
                 ...(APIGW_HEADER ? {headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
             });
             gauge.set(res.ok ? 1 : 0);
