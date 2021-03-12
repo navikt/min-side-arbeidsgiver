@@ -32,7 +32,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     return (
         <>
             <Brodsmulesti brodsmuler={[ { url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true }]} />
-            <Banner sidetittel="Bedriftsprofil" />
+            <Banner sidetittel="Virksomhetsprofil" />
             <div className="informasjon-om-bedrift">
                 <div className="informasjon-om-bedrift__hvitboks">
                     {underenhet !== tomEnhetsregOrg ? (
