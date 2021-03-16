@@ -7,6 +7,7 @@ import jsdom from "jsdom";
 import Prometheus from "prom-client";
 import require from "./esm-require.js";
 
+const {createLogger, transports, format} = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const {JSDOM} = jsdom;
 const {createProxyMiddleware} = httpProxyMiddleware;
@@ -23,6 +24,14 @@ const {
     APIGW_HEADER,
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
 } = process.env;
+const log = createLogger({
+    transports: [
+        new transports.Console({
+            timestamp: true,
+            format: format.json()
+        })
+    ]
+})
 
 const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-sbs' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
 const BUILD_PATH = path.join(process.cwd(), '../build');
@@ -54,9 +63,9 @@ const startApiGWGauge = () => {
                 ...(APIGW_HEADER ? {headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
             });
             gauge.set(res.ok ? 1 : 0);
-            console.log("healthcheck: ", gauge.name, res.ok);
+            log.info("healthcheck: ", gauge.name, res.ok);
         } catch (error) {
-            console.error("healthcheck error:", gauge.name, error)
+            log.error("healthcheck error:", gauge.name, error)
             gauge.set(0);
         }
     }, 60 * 1000);
@@ -75,6 +84,7 @@ app.use('/*', (req, res, next) => {
 app.use(
     '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
+        logProvider: _ => log,
         changeOrigin: true,
         pathRewrite: {
             '^/min-side-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
@@ -88,6 +98,7 @@ app.use(
 app.use(
     '/min-side-arbeidsgiver/syforest/arbeidsgiver/sykmeldte',
     createProxyMiddleware({
+        logProvider: _ => log,
         changeOrigin: true,
         target: NAIS_CLUSTER_NAME === "prod-sbs" ? "https://tjenester.nav.no" : "https://tjenester-q1.nav.no",
         pathRewrite: {
@@ -123,7 +134,7 @@ const serve = async () => {
         app.get('/min-side-arbeidsgiver/*', (req, res) => {
             res.render('index.html', fragments, (err, html) => {
                 if (err) {
-                    console.error(err);
+                    log.error(err);
                     res.sendStatus(500);
                 } else {
                     res.send(html);
@@ -131,10 +142,10 @@ const serve = async () => {
             });
         });
         app.listen(PORT, () => {
-            console.log('Server listening on port ', PORT);
+            log.info('Server listening on port ', PORT);
         });
     } catch (error) {
-        console.error('Server failed to start ', error);
+        log.error('Server failed to start ', error);
         process.exit(1);
     }
 
@@ -143,10 +154,10 @@ const serve = async () => {
         getDecoratorFragments()
             .then(oppdatert => {
                 fragments = oppdatert;
-                console.info("dekoratør oppdatert:", Object.keys(oppdatert));
+                log.info("dekoratør oppdatert:", Object.keys(oppdatert));
             })
             .catch(error => {
-                console.warn("oppdatering av dekoratør feilet:", error);
+                log.warn("oppdatering av dekoratør feilet:", error);
             });
     }, DECORATOR_UPDATE_MS);
 }
