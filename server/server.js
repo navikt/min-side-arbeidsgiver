@@ -93,7 +93,7 @@ app.use(
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
         onError: (err, req, res) => {
-            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${error.message}`);
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
         },
         changeOrigin: true,
         pathRewrite: {
@@ -103,23 +103,6 @@ app.use(
         xfwd: true,
         target: API_GATEWAY,
         ...(APIGW_HEADER ? { headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
-    })
-);
-app.use(
-    '/min-side-arbeidsgiver/syforest/arbeidsgiver/sykmeldte',
-    createProxyMiddleware({
-        logLevel: PROXY_LOG_LEVEL,
-        logProvider: _ => log,
-        onError: (err, req, res) => {
-            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${error.message}`);
-        },
-        changeOrigin: true,
-        target: NAIS_CLUSTER_NAME === "prod-sbs" ? "https://tjenester.nav.no" : "https://tjenester-q1.nav.no",
-        pathRewrite: {
-            '^/min-side-arbeidsgiver': '',
-        },
-        secure: true,
-        xfwd: true
     })
 );
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
