@@ -82,6 +82,11 @@ app.use('/*', (req, res, next) => {
     next();
 });
 app.use(
+    apiMetricsMiddleware({
+        metricsPath: '/min-side-arbeidsgiver/internal/metrics',
+    })
+);
+app.use(
     '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
         logProvider: _ => log,
@@ -109,11 +114,6 @@ app.use(
     })
 );
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
-app.use(
-    apiMetricsMiddleware({
-        metricsPath: '/min-side-arbeidsgiver/internal/metrics',
-    })
-);
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
     res.redirect(LOGIN_URL);
