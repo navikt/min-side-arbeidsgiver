@@ -84,6 +84,7 @@ app.use('/*', (req, res, next) => {
 app.use(
     '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
+        logProvider: _ => log,
         changeOrigin: true,
         pathRewrite: {
             '^/min-side-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
@@ -97,6 +98,7 @@ app.use(
 app.use(
     '/min-side-arbeidsgiver/syforest/arbeidsgiver/sykmeldte',
     createProxyMiddleware({
+        logProvider: _ => log,
         changeOrigin: true,
         target: NAIS_CLUSTER_NAME === "prod-sbs" ? "https://tjenester.nav.no" : "https://tjenester-q1.nav.no",
         pathRewrite: {
