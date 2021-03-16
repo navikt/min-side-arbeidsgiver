@@ -7,7 +7,7 @@ export const mock = () => {
 
             {
                 "organisasjonsnummer": "974491850",
-                "navn": "VIRKSOMHETENS NAVN",
+                "navn": "Gunnars bakeri Storgata",
                 "organisasjonsform": {
                     "kode": "BEDR",
                     "beskrivelse": "Bedrift",
@@ -64,7 +64,7 @@ export const mock = () => {
     fetchMock
         .get('begin:https://data.brreg.no/enhetsregisteret/api/enheter', {
             "organisasjonsnummer": "982033268",
-            "navn": "Navn på overordnet enhet",
+            "navn": "Gunnar og co bakeimperium",
             "organisasjonsform": {
                 "kode": "ENK",
                 "beskrivelse": "Enkeltpersonforetak",
