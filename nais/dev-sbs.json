@@ -5,7 +5,6 @@
   "selvbetjening-login-url": "https://loginservice-q.nav.no/login?redirect=https://arbeidsgiver-q.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://loginservice-q.nav.no/slo",
   "decorator-external-url": "https://www-q1.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
-  "namespace": "default",
   "vault-enabled": true,
   "webproxy-enabled": true,
   "labs": false
