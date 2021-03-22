@@ -8,7 +8,7 @@ import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     lenkeTilKlageskjema,
     LenkeTilKoronaSykeRefusjon,
-    lenkeTilPermitteringsInfo,
+    lenkeTilPermitteringsInfo, lenkeTilLonnskompensasjonOgRefusjon,
 } from '../../lenker';
 import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
@@ -40,6 +40,10 @@ export const Koronaboks = () => {
                 </Lenke>
                 <Lenke className="koronaboks__lenke" href={lenkeTilPermitteringsInfo}>
                     <span>Nye regler for lønnsplikt ved permittering</span>
+                    <HoyreChevron />
+                </Lenke>
+                <Lenke className="koronaboks__lenke" href={lenkeTilLonnskompensasjonOgRefusjon}>
+                    <span>Lønnskompensasjon og refusjon – se kvittering</span>
                     <HoyreChevron />
                 </Lenke>
 
