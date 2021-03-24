@@ -1,55 +1,58 @@
 import { gittMiljo } from './utils/environment';
 import { basename } from './paths';
 
-export const skjemaForArbeidsgivere = 'https://www.nav.no/soknader/nb/bedrift';
+export const skjemaForArbeidsgiverURL =
+    'https://www.nav.no/soknader/nb/bedrift';
 
-export const arbeidsforholdLink = gittMiljo({
+export const innsynAaregURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
     labs: 'https://arbeidsgiver.labs.nais.io/arbeidsforhold/',
     other: 'https://arbeidsgiver-q.nav.no/arbeidsforhold/',
 });
 
-export const syfoLink = gittMiljo({
+export const syfoURL = gittMiljo({
     prod: 'https://tjenester.nav.no/sykefravaerarbeidsgiver',
     other: 'https://tjenester-q1.nav.no/sykefravaerarbeidsgiver',
     labs: 'https://sykefravaerarbeidsgiver.labs.nais.io/sykefravaerarbeidsgiver/'
 });
 
-export const linkTilArbeidsplassen = gittMiljo({
+export const arbeidsplassenURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/bedrift',
     other: 'https://arbeidsplassen-q.nav.no/bedrift',
 });
 
-export const pamSettBedriftLenke: (orgnr: string) => string = gittMiljo({
-    prod: orgnr =>
+export const pamSettBedriftURL = gittMiljo({
+    prod: (orgnr: string) =>
         `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
-    other: orgnr =>
+    other: (orgnr: string) =>
         `https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
 });
 
-export const sjekkInnloggetLenke = basename + '/api/innlogget';
+export const sjekkInnloggetURL =
+    basename + '/api/innlogget';
 
-export const pamHentStillingsannonserLenke = gittMiljo({
+export const pamHentStillingsannonserURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
     other:
         'https://arbeidsplassen-q.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
 });
 
-export const digiSyfoNarmesteLederLink = '/min-side-arbeidsgiver/api/narmesteleder';
+export const digiSyfoNarmesteLederURL =
+    '/min-side-arbeidsgiver/api/narmesteleder';
 
-export const LenkeTilInfoOmNarmesteLeder =
+export const infoOmNærmesteLederURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
 
-export const LenkeTilInfoOmRettigheterTilSykmelding =
+export const infoOmRettigheterTilSykemeldingURL =
     'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/om-tilganger-i-altinn';
 
-export const LenkeTilInfoOmAltinnRoller =
+export const infoOmAltinnrollerURL =
     'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
 
-export const lenkeTilInfoOmSykefravarsstatistikk =
+export const infoOmSykefraværsstatistikk =
     'https://arbeidsgiver.nav.no/forebygge-sykefravaer/#digitale-tjenester';
 
-export const hentUnderenhetApiLink = (orgnr: string) =>
+export const hentUnderenhetApiURL = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`;
 
 export const hentOverordnetEnhetApiLink = (orgnr: string) =>
@@ -73,18 +76,17 @@ export const beOmTilgangIAltinnLink = (
 ) =>
     `${altinnUrl}/ui/DelegationRequest?offeredBy=${orgnr}&resources=${serviceKode}_${serviceEditionKode}`;
 
-export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
+export const lenkeTilDittNavPerson =
+    'https://www.nav.no/person/dittnav/';
 
 export const lenkeTilTilgangsstyringsInfo =
     'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
-
 
 export const lenkeTilSykefravarsstatistikk = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/sykefravarsstatistikk/',
     labs: 'https://arbeidsgiver.labs.nais.io/sykefravarsstatistikk/',
     other: 'https://arbeidsgiver-q.nav.no/sykefravarsstatistikk/',
 });
-
 
 export const lenkeTilInfoOmDigitaleSoknader =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/altinn-skjemaer-refusjoner-meldinger2/soknader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
@@ -97,29 +99,29 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     other: 'https://arbeidsgiver-q.nav.no/permittering/',
 });
 
-export const lenkeTilPermitteringsInfo = 'https://arbeidsgiver.nav.no/arbeidsgiver-permittering/#narSkalJegUtbetaleLonn'
+export const lenkeTilPermitteringsInfo =
+    'https://arbeidsgiver.nav.no/arbeidsgiver-permittering/#narSkalJegUtbetaleLonn'
 
 export const lenkeTilLonnskompensasjonOgRefusjon = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
     other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/'
 });
 
-export const urlMedBedriftNr = (baseUrl: string) => (orgnr: string) =>
-    baseUrl + (orgnr.length > 0 ? '?bedrift=' + orgnr : '');
+const lenkeTilKlageskjemaBase = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/',
+    other: 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/',
+});
 
-export const lenkeTilKlageskjema = urlMedBedriftNr(
-    gittMiljo({
-        prod: 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/',
-        other: 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/',
-    })
-);
+export const lenkeTilKlageskjema = (orgnr: string) =>
+    `${lenkeTilKlageskjemaBase}?bedrift=${orgnr}`;
 
-export const LenkeTilKoronaSykeRefusjon = urlMedBedriftNr(
-    gittMiljo({
-        prod: 'https://arbeidsgiver.nav.no/nettrefusjon/',
-        other: 'https://arbeidsgiver-q.nav.no/nettrefusjon/',
-    })
-);
+const lenkeTilKoronaSykeRefusjon = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/nettrefusjon/',
+    other: 'https://arbeidsgiver-q.nav.no/nettrefusjon/',
+});
+
+export const LenkeTilKoronaSykeRefusjon = (orgnr: string) =>
+    `${lenkeTilKoronaSykeRefusjon}?bedrift=${orgnr}`;
 
 export const tiltaksgjennomforingLink = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
@@ -127,7 +129,7 @@ export const tiltaksgjennomforingLink = gittMiljo({
     other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
 });
 
-export const lenkeTilInfoOmPermittering =
+export const infoOmPermitteringURL =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
 
 export const lenkeTilInfoOmRefusjonSykepengerKorona =

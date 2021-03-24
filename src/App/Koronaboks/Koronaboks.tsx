@@ -14,6 +14,15 @@ import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
 
+interface KoronalenkeProps {
+    href: string;
+}
+const Koronalenke: FunctionComponent<KoronalenkeProps> = ({children, href}) =>
+    <Lenke className="koronaboks__lenke" href={href}>
+        <span>{children}</span>
+        <HoyreChevron />
+    </Lenke>;
+
 export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
@@ -25,20 +34,15 @@ export const Koronaboks = () => {
 
                 <Element className="koronaboks__tekst">Permittering</Element>
 
-                <Lenke
-                    className="koronaboks__lenke"
-                    href={lenkeTilPermitteringOgMasseoppsigelsesSkjema}
-                >
-                    <span>
-                        Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i
-                        arbeidstiden
-                    </span>
-                    <HoyreChevron />
-                </Lenke>
-                <Lenke className="koronaboks__lenke" href={lenkeTilPermitteringsInfo}>
-                    <span>Nye regler for lønnsplikt ved permittering</span>
-                    <HoyreChevron />
-                </Lenke>
+                <Koronalenke href={lenkeTilPermitteringOgMasseoppsigelsesSkjema}>
+                    Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i
+                    arbeidstiden
+                </Koronalenke>
+
+                <Koronalenke href={lenkeTilPermitteringsInfo}>
+                    Nye regler for lønnsplikt ved permittering
+                </Koronalenke>
+
                 {
                     valgtOrganisasjon?.altinntilgang.inntektsmelding.tilgang === 'ja'
                         ? <LenkerSomKreverInntekstmeldingtilgang orgnr={valgtOrganisasjon.organisasjon.OrganizationNumber} />
@@ -49,23 +53,18 @@ export const Koronaboks = () => {
     );
 };
 const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{orgnr: string}> = ({orgnr}) => <>
-    <Lenke className="koronaboks__lenke" href={lenkeTilLonnskompensasjonOgRefusjon}>
-        <span>Lønnskompensasjon og refusjon – se kvittering</span>
-        <HoyreChevron />
-    </Lenke>
+    <Koronalenke href={lenkeTilLonnskompensasjonOgRefusjon}>
+        Lønnskompensasjon og refusjon – se kvittering
+    </Koronalenke>
 
-    <Lenke className="koronaboks__lenke" href={lenkeTilKlageskjema(orgnr)}>
-        <span>
-            Endring av opplysninger/klage på vedtak for refusjon av lønn ved
-            permittering
-        </span>
-        <HoyreChevron />
-    </Lenke>
+    <Koronalenke href={lenkeTilKlageskjema(orgnr)}>
+        Endring av opplysninger/klage på vedtak for refusjon av lønn ved
+        permittering
+    </Koronalenke>
 
     <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
-    <Lenke className="koronaboks__lenke" href={LenkeTilKoronaSykeRefusjon(orgnr)}>
-        <span>Søk om refusjon av sykepenger relatert til koronavirus</span>
-        <HoyreChevron />
-    </Lenke>
+    <Koronalenke href={LenkeTilKoronaSykeRefusjon(orgnr)}>
+        Søk om refusjon av sykepenger relatert til koronavirus
+    </Koronalenke>
 </>;
 

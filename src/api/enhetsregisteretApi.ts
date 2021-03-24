@@ -3,14 +3,14 @@ import {
     OrganisasjonFraEnhetsregisteret,
     ListeMedJuridiskeEnheter,
 } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
-import { hentOverordnetEnhetApiLink, hentUnderenhetApiLink } from '../lenker';
+import { hentOverordnetEnhetApiLink, hentUnderenhetApiURL } from '../lenker';
 import {
     Organisasjon,
     tomAltinnOrganisasjon,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 
 export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    let respons = await fetch(hentUnderenhetApiLink(orgnr));
+    let respons = await fetch(hentUnderenhetApiURL(orgnr));
     if (respons.ok) {
         return await respons.json();
     }

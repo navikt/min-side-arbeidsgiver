@@ -1,17 +1,17 @@
 import React from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { arbeidsforholdLink } from '../../../../lenker';
+import { innsynAaregURL } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
 
 const Arbeidsforholdboks = () => {
     const loggAtKlikketPaArbeidsfohold = () => {
-        loggTjenesteTrykketPa('Arbeidsforhold', arbeidsforholdLink, 'Arbeidsforhold');
+        loggTjenesteTrykketPa('Arbeidsforhold', innsynAaregURL, 'Arbeidsforhold');
     };
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
-    const href = arbeidsforholdLink + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
+    const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
     return (
         <div className="arbeidsforholdboks tjenesteboks-innhold">
             <TjenesteBoksBanner

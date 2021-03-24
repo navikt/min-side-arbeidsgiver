@@ -1,7 +1,7 @@
-import { pamSettBedriftLenke, pamHentStillingsannonserLenke } from '../lenker';
+import { pamSettBedriftURL, pamHentStillingsannonserURL } from '../lenker';
 
 export const settBedriftIPam = (orgnr: string): Promise<unknown> =>
-    fetch(pamSettBedriftLenke(orgnr), {
+    fetch(pamSettBedriftURL(orgnr), {
         method: "GET",
         credentials: "include"
     })
@@ -20,7 +20,7 @@ interface PamStatusAnnonser {
 //TODO TAG-378: finne ut hvilke annonser som regner som "aktive"
 
 export const hentAntallannonser = async (): Promise<number> => {
-    const respons = await fetch(pamHentStillingsannonserLenke, {
+    const respons = await fetch(pamHentStillingsannonserURL, {
         method: 'GET',
         credentials: 'include',
     });

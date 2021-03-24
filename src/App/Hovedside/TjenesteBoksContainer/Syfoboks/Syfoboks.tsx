@@ -1,6 +1,6 @@
 import React from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { syfoLink } from '../../../../lenker';
+import { syfoURL } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import syfoikon from './syfoikon.svg';
@@ -11,8 +11,8 @@ const Syfoboks = () => {
             <TjenesteBoksBanner tittel="Sykmeldte" imgsource={syfoikon} altTekst="" />
             <Lenkepanel
                 className="syfoboks__sykemeldte"
-                href={syfoLink}
-                onClick={() => loggTjenesteTrykketPa('Syfo', syfoLink, 'Sykmeldte')}
+                href={syfoURL}
+                onClick={() => loggTjenesteTrykketPa('Syfo', syfoURL, 'Sykmeldte')}
                 tittelProps="normaltekst"
                 aria-label="Sykmeldte. Se sykmeldte du har ansvar for å følge opp"
             >

@@ -1,9 +1,9 @@
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
-import { digiSyfoNarmesteLederLink, sjekkInnloggetLenke } from '../lenker';
+import { digiSyfoNarmesteLederURL, sjekkInnloggetURL } from '../lenker';
 
 export async function hentSyfoTilgang(): Promise<boolean> {
-    const respons = await fetch(digiSyfoNarmesteLederLink);
+    const respons = await fetch(digiSyfoNarmesteLederURL);
     if (respons.ok) {
         const syfoTilgang: SyfoKallObjekt = await respons.json();
         return syfoTilgang.tilgang;
@@ -12,7 +12,7 @@ export async function hentSyfoTilgang(): Promise<boolean> {
 }
 
 export const sjekkInnlogget = (signal: any): Promise<boolean> =>
-    fetch(sjekkInnloggetLenke, { signal: signal }).then(_ => _.ok);
+    fetch(sjekkInnloggetURL, { signal: signal }).then(_ => _.ok);
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     const respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
