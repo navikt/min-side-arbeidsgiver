@@ -3,8 +3,13 @@ import { VarslerKnapp } from './varsler-knapp/VarslerKnapp';
 import Varselpanel from './Varselpanel/Varselpanel';
 import { Size, useWindowSize } from './useWindowSize';
 import './Varsler.less';
+import { inkluderVarslerFeatureToggle } from '../../../FeatureToggleProvider';
 
 const Varsler = () => {
+    if (!inkluderVarslerFeatureToggle) {
+        return null
+    }
+
     const size: Size = useWindowSize();
     // console.log('size', size);
 

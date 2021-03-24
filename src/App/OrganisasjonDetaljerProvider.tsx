@@ -5,6 +5,7 @@ import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/a
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 import { settBedriftIPam, hentAntallannonser } from '../api/pamApi';
 import { hentVarsler, Varsel } from '../api/varslerApi';
+import { inkluderVarslerFeatureToggle } from '../FeatureToggleProvider';
 
 interface Props {
     children: React.ReactNode;
@@ -50,16 +51,19 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             setantallAnnonser(0);
         }
 
-        hentVarsler()
-            .then((varsler: Varsel[]) => {
-                console.log("Varsler hentet: ", varsler);
-                setTidspunktHentVarsler('12345');
-                setVarsler(varsler);
-                setAntallUlesteVarsler(finnAntallUlesteVarsler(varsler));
-            })
-            .catch(() => {
-                setVarsler(undefined);
-            });
+        if (inkluderVarslerFeatureToggle) {
+            hentVarsler()
+                .then((varsler: Varsel[]) => {
+                    console.log("Varsler hentet: ", varsler);
+                    setTidspunktHentVarsler('12345');
+                    setVarsler(varsler);
+                    setAntallUlesteVarsler(finnAntallUlesteVarsler(varsler));
+                })
+                .catch(() => {
+                    setVarsler(undefined);
+                });
+        }
+
 
         if (orgInfo.altinntilgang.tilskuddsbrev.tilgang === 'ja') {
             const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
