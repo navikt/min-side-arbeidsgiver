@@ -31,9 +31,6 @@ const Varselpanel = ({
         }
     }, [erApen]);
 
-    const sorterDato = (dato1: Varsel, dato2: Varsel) => {
-        return dato1.dato > dato2.dato ? -1 : dato1.dato < dato2.dato ? 1 : 0;
-    };
 
     return (
         <menu
@@ -56,7 +53,7 @@ const Varselpanel = ({
                             className="varselpanel-elementer__varsler-liste"
                             aria-label={`Liste med ${varsler?.length} beskjeder`}
                         >
-                            {varsler?.sort(sorterDato).map((varsel: Varsel, index: number) => (
+                            {varsler?.map((varsel: Varsel, index: number) => (
                                 <li key={index}>
                                     <VarselLenkepanel
                                         setErApen={setErApen}

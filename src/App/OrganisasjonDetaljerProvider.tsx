@@ -34,7 +34,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [tidspunktHentVarsler, setTidspunktHentVarsler] = useState<string>('');
 
     const finnAntallUlesteVarsler = (varsler: Varsel[]): number => {
-        return varsler.filter((varsel) => !varsel.lest).length;
+        //return varsler.filter((varsel) => !varsel.lest).length;
+        return 0
     };
 
     const endreOrganisasjon = async (org: Organisasjon) => {
@@ -51,6 +52,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
         hentVarsler()
             .then((varsler: Varsel[]) => {
+                console.log("Varsler hentet: ", varsler);
                 setTidspunktHentVarsler('12345');
                 setVarsler(varsler);
                 setAntallUlesteVarsler(finnAntallUlesteVarsler(varsler));

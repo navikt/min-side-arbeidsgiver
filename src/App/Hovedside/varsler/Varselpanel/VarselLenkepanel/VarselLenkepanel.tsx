@@ -46,35 +46,36 @@ export const VarselLenkepanel = (props: Props) => {
             }
         }
     };
-
+    const date = new Date(props.varsel.opprettetTidspunkt)
     return (
         <Lenkepanel
             className="varselpanel__lenkepanel"
             onClick={() => {
-                if (!props.varsel.lest) {
-                    settVarselSomLest(props.varsel.id)
-                }
+                // if (!props.varsel.lest) {
+                //     settVarselSomLest(props.varsel.id)
+                // }
             }}
             onKeyDown={(event) => onArrowpress(event.key)}
-            href={props.varsel.href}
+            href={props.varsel.lenke}
             tittelProps="normaltekst"
             aria-label=""
             id={'varsel-lenkepanel-indeks-' + props.indeks}
         >
             <div className="varsel-innhold">
                 <div className="varsel-dato-type">
-                    <div className="varsel-dato">{datotekst(props.varsel.dato)}</div>
-                    <UndertekstBold className="varsel-type">{props.varsel.type}</UndertekstBold>
+                    <div className="varsel-dato">{datotekst(date)}</div>
+                    <UndertekstBold className="varsel-type">{props.varsel.merkelapp}</UndertekstBold>
                 </div>
                 <div className="varsel-lenketekst">
                     <div className="varsel-ikon">
-                        {props.varsel.varseltype === Varseltype.BESKJED ? (
+                        {/*props.varsel.varseltype === Varseltype.BESKJED ? ( */
                             <VarselpanelIkonBeskjed />
-                        ) : (
+                        /*) : (
                             <VarselpanelIkonOppgave />
-                        )}
+                        )*/
+                        }
                     </div>
-                    <span className={props.varsel.lest ? 'varsel-beskjed--lest' : 'varsel-beskjed--ulest'}>{props.varsel.beskjed}</span>
+                   <span className={/*props.varsel.lest ? 'varsel-beskjed--lest' :*/ 'varsel-beskjed--ulest'}>{props.varsel.tekst}</span>
                 </div>
             </div>
         </Lenkepanel>
