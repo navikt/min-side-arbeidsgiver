@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {
-    OrganisasjonInfo,
-    OrganisasjonerOgTilgangerContext,
-} from './OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo, OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 import { settBedriftIPam, hentAntallannonser } from '../api/pamApi';
+import { hentVarsler, Varsel } from '../api/varslerApi';
+import { inkluderVarslerFeatureToggle } from '../FeatureToggleProvider';
 
 interface Props {
     children: React.ReactNode;
@@ -17,6 +16,10 @@ export type Context = {
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
+    varsler: Varsel[] | undefined;
+    antallUlesteVarsler: number;
+    setAntallUlesteVarsler: (num: number) => void;
+    tidspunktHentVarsler: string;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -26,6 +29,15 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
+
+    const [varsler, setVarsler] = useState<Varsel[] | undefined>(undefined);
+    const [antallUlesteVarsler, setAntallUlesteVarsler] = useState<number>(0);
+    const [tidspunktHentVarsler, setTidspunktHentVarsler] = useState<string>('');
+
+    const finnAntallUlesteVarsler = (varsler: Varsel[]): number => {
+        //return varsler.filter((varsel) => !varsel.lest).length;
+        return 0
+    };
 
     const endreOrganisasjon = async (org: Organisasjon) => {
         const orgInfo = organisasjoner[org.OrganizationNumber];
@@ -38,6 +50,20 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         } else {
             setantallAnnonser(0);
         }
+
+        if (inkluderVarslerFeatureToggle) {
+            hentVarsler()
+                .then((varsler: Varsel[]) => {
+                    console.log("Varsler hentet: ", varsler);
+                    setTidspunktHentVarsler('12345');
+                    setVarsler(varsler);
+                    setAntallUlesteVarsler(finnAntallUlesteVarsler(varsler));
+                })
+                .catch(() => {
+                    setVarsler(undefined);
+                });
+        }
+
 
         if (orgInfo.altinntilgang.tilskuddsbrev.tilgang === 'ja') {
             const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
@@ -64,6 +90,10 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         endreOrganisasjon,
         valgtOrganisasjon,
         altinnMeldingsboks,
+        varsler,
+        antallUlesteVarsler,
+        setAntallUlesteVarsler,
+        tidspunktHentVarsler,
     };
 
     return (

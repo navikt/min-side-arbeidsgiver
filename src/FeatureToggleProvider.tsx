@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
+import environment, { gittMiljo } from './utils/environment';
 // @ts-ignore
 
 const featurePath = '/min-side-arbeidsgiver/api/feature';
@@ -7,6 +8,11 @@ export enum Feature {
     visRefusjon = 'msa.visRefusjon',
 
 }
+
+export const inkluderVarslerFeatureToggle = gittMiljo({
+    prod: false,
+    other: true
+})
 
 const featureTogglePath = (features: Feature[]): string => {
     const query = features.map(feature => `feature=${feature}`).join('&');

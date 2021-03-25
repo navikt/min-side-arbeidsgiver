@@ -1,0 +1,35 @@
+@import '~nav-frontend-core/less/_variabler';
+
+@padding-y: 0.25rem;
+@padding-x: 0.25rem;
+
+.varselbjelle-knapp {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: @padding-y @padding-x;
+    margin: 4px 4px 0 0;
+    background-color: transparent;
+    border: none;
+    color: @navBla;
+    width: 4.5rem;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px @fokusFarge;
+        border-radius: 4px;
+    }
+
+    &:hover {
+        outline: 1px @navMorkGra solid;
+        cursor: pointer;
+    }
+
+    &__understrek {
+        width: 4.5rem;
+        height: 4px;
+        margin-top: 0.5rem;
+        background-color: @navDypBla;
+    }
+}

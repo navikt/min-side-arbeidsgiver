@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { Tilgang } from '../LoginBoundary';
 import * as Record from '../../utils/Record';
@@ -16,6 +16,7 @@ import { AltinnContainer } from './AltinnContainer/AltinnContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
+import Varsler from './varsler/Varsler';
 import './Hovedside.less';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -35,27 +36,30 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding]);
 
     return (
-        <>
+        <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
-            <div className="hovedside">
-                <AdvarselBannerTestversjon />
-                <VarselHvisNedetid />
-                <FeilmeldingContainer
-                    visFeilmelding={visFeilmelding}
-                    visSyfoFeilmelding={visSyfoFeilmelding}
-                />
-                <Koronaboks />
-                <TjenesteBoksContainer />
-                <BrevFraAltinnContainer />
-                <NyttigForDegContainer />
-                <AltinnContainer />
-                <SkjemaveilederContainer />
-                <LinkableFragment fragment="be-om-tilgang">
-                    <BeOmTilgang />
-                </LinkableFragment>
+            <Varsler />
+            <div className="hovedside-container">
+                <div className="hovedside">
+                    <AdvarselBannerTestversjon />
+                    <VarselHvisNedetid />
+                    <FeilmeldingContainer
+                        visFeilmelding={visFeilmelding}
+                        visSyfoFeilmelding={visSyfoFeilmelding}
+                    />
+                    <Koronaboks />
+                    <TjenesteBoksContainer />
+                    <BrevFraAltinnContainer />
+                    <NyttigForDegContainer />
+                    <AltinnContainer />
+                    <SkjemaveilederContainer />
+                    <LinkableFragment fragment="be-om-tilgang">
+                        <BeOmTilgang />
+                    </LinkableFragment>
+                </div>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -1,12 +1,32 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.hovedside {
-    background-color: @navLysGra;
-    margin: 0 1rem;
-    padding-top: 2.5rem;
+.min-side-arbeidsgiver-wrapper {
+    display: flex;
+    flex-direction: column;
 
-    @media (min-width: 1024px) {
-        width: 60rem;
-        margin: 0 auto;
+    .hovedside-container {
+        display: flex;
+        flex-direction: column;
+
+        .hovedside {
+            background-color: @navLysGra;
+            margin: 0 1rem;
+            padding-top: 0.5rem;
+        }
+
+        .varsler {
+            padding: 0 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        @media (min-width: 1024px) {
+            .hovedside {
+                width: 60rem;
+                margin: 0 auto;
+            }
+        }
     }
 }
+
+

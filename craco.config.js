@@ -6,6 +6,11 @@ module.exports = {
             '/min-side-arbeidsgiver/api': {
                 target: 'http://localhost:8080',
                 pathRewrite: {'^/min-side-arbeidsgiver/api' : '/ditt-nav-arbeidsgiver-api/api'}
+            },
+            '/api/graphql': {
+                target: 'https://bruker-api.notifikasjon-ag.dev.nav.no',
+                secure: false,
+                changeOrigin: true
             }
         },
         before: (app) => {
