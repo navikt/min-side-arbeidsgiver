@@ -19,7 +19,7 @@ export interface Varsel {
 
 export async function hentVarsler(): Promise<Varsel[]> {
     const respons = await fetch(
-        '/api/graphql',{
+        'https://bruker-api.notifikasjon-ag.dev.nav.no/api/graphql',{
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
