@@ -6,8 +6,8 @@ import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
-    lenkeTilKlageskjema,
-    LenkeTilKoronaSykeRefusjon,
+    permitteringKlageskjemaURL,
+    koronaSykeRefusjonURL,
     lenkeTilPermitteringsInfo, lenkeTilLonnskompensasjonOgRefusjon,
 } from '../../lenker';
 import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
@@ -54,16 +54,15 @@ export const Koronaboks = () => {
 };
 const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{orgnr: string}> = ({orgnr}) => <>
     <Koronalenke href={lenkeTilLonnskompensasjonOgRefusjon}>
-        Lønnskompensasjon og refusjon – se kvittering
+        Lønnskompensasjon og refusjon for permitterte – se kvittering
     </Koronalenke>
 
-    <Koronalenke href={lenkeTilKlageskjema(orgnr)}>
-        Endring av opplysninger/klage på vedtak for refusjon av lønn ved
-        permittering
+    <Koronalenke href={permitteringKlageskjemaURL(orgnr)}>
+        Lønnskompensasjon og refusjon for permitterte – endre opplysninger eller klag på vedtak
     </Koronalenke>
 
     <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
-    <Koronalenke href={LenkeTilKoronaSykeRefusjon(orgnr)}>
+    <Koronalenke href={koronaSykeRefusjonURL(orgnr)}>
         Søk om refusjon av sykepenger relatert til koronavirus
     </Koronalenke>
 </>;

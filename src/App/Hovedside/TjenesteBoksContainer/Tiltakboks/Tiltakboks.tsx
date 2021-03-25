@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { tiltaksgjennomforingLink } from '../../../../lenker';
+import { tiltaksgjennomforingURL } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
@@ -12,8 +12,8 @@ import tiltakikon from './tiltakboks-ikon.svg';
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const tiltakUrl = valgtOrganisasjon && valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
-        ? `${tiltaksgjennomforingLink}&bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-        : tiltaksgjennomforingLink;
+        ? `${tiltaksgjennomforingURL}&bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
+        : tiltaksgjennomforingURL;
 
     return (
         <div className="tiltakboks tjenesteboks-innhold">
@@ -24,7 +24,7 @@ const Tiltakboks = () => {
             />
             <Lenkepanel
                 href={tiltakUrl}
-                onClick={() => loggTjenesteTrykketPa('Tiltak', tiltaksgjennomforingLink, "Tiltak")}
+                onClick={() => loggTjenesteTrykketPa('Tiltak', tiltaksgjennomforingURL, "Tiltak")}
                 tittelProps="normaltekst"
                 aria-label="Tiltak. Arbeidstrening, midlertidig lønnstilskudd og varig lønnstilskudd. De ulike tiltakene krever egne tilganger i Altinn"
             >

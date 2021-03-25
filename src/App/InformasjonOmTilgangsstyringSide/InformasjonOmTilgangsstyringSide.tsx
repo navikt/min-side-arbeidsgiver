@@ -11,7 +11,7 @@ import {
     lenkeTilInforOmInntekstmelding,
     infoOmSykefraværsstatistikk,
     infoOmPermitteringURL,
-    lenkeTilInfoOmRefusjonSykepengerKorona,
+    infoOmRefusjonSykepengerKoronaURL,
 } from '../../lenker';
 import InfoIkon from '../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
@@ -184,7 +184,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>revisormedarbeider</li>
                             <li>norsk representant for utenlandsk enhet</li>
                         </ul>
-                        <Lenke href={lenkeTilInfoOmRefusjonSykepengerKorona}>
+                        <Lenke href={infoOmRefusjonSykepengerKoronaURL}>
                             Les mer om refusjon av sykepenger relatert til koronavirus
                         </Lenke>
                     </Ekspanderbartpanel>

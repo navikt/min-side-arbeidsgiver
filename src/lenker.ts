@@ -112,18 +112,18 @@ const lenkeTilKlageskjemaBase = gittMiljo({
     other: 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/',
 });
 
-export const lenkeTilKlageskjema = (orgnr: string) =>
+export const permitteringKlageskjemaURL = (orgnr: string) =>
     `${lenkeTilKlageskjemaBase}?bedrift=${orgnr}`;
 
-const lenkeTilKoronaSykeRefusjon = gittMiljo({
+const koronaSykeRefusjonBaseURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/nettrefusjon/',
     other: 'https://arbeidsgiver-q.nav.no/nettrefusjon/',
 });
 
-export const LenkeTilKoronaSykeRefusjon = (orgnr: string) =>
-    `${lenkeTilKoronaSykeRefusjon}?bedrift=${orgnr}`;
+export const koronaSykeRefusjonURL = (orgnr: string) =>
+    `${koronaSykeRefusjonBaseURL}?bedrift=${orgnr}`;
 
-export const tiltaksgjennomforingLink = gittMiljo({
+export const tiltaksgjennomforingURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
     labs: 'https://arbeidsgiver.labs.nais.io/tiltaksgjennomforing/?part=arbeidsgiver',
     other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
@@ -132,5 +132,5 @@ export const tiltaksgjennomforingLink = gittMiljo({
 export const infoOmPermitteringURL =
     'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
 
-export const lenkeTilInfoOmRefusjonSykepengerKorona =
+export const infoOmRefusjonSykepengerKoronaURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/nyheter/refusjon-av-sykepenger-ved-koronavirus--hva-er-status#chapter-2';
