@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { linkTilArbeidsplassen } from '../../../../lenker';
+import { arbeidsplassenURL } from '../../../../lenker';
 import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import PamboksIkon from './pamboks-ikon.svg';
@@ -22,8 +22,8 @@ const Pamboks = () => {
             <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
             <Lenkepanel
                 className="pamboks__lenke"
-                href={linkTilArbeidsplassen}
-                onClick={() => loggTjenesteTrykketPa('PAM', linkTilArbeidsplassen, 'Rekruttere')}
+                href={arbeidsplassenURL}
+                onClick={() => loggTjenesteTrykketPa('PAM', arbeidsplassenURL, 'Rekruttere')}
                 tittelProps="normaltekst"
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >

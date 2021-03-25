@@ -5,13 +5,13 @@ import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
 import {
-    LenkeTilInfoOmAltinnRoller,
+    infoOmAltinnrollerURL,
     lenkeTilInfoOmDigitaleSoknader,
-    LenkeTilInfoOmRettigheterTilSykmelding,
+    infoOmRettigheterTilSykemeldingURL,
     lenkeTilInforOmInntekstmelding,
-    lenkeTilInfoOmSykefravarsstatistikk,
-    lenkeTilInfoOmPermittering,
-    lenkeTilInfoOmRefusjonSykepengerKorona,
+    infoOmSykefraværsstatistikk,
+    infoOmPermitteringURL,
+    infoOmRefusjonSykepengerKoronaURL,
 } from '../../lenker';
 import InfoIkon from '../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
@@ -160,7 +160,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             i din virksomhet. Du vil bare se skjemaer som du selv har opprettet og
                             sendt inn.
                         </Normaltekst>
-                        <Lenke href={lenkeTilInfoOmPermittering}>
+                        <Lenke href={infoOmPermitteringURL}>
                             Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
                             arbeidstid
                         </Lenke>
@@ -184,7 +184,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>revisormedarbeider</li>
                             <li>norsk representant for utenlandsk enhet</li>
                         </ul>
-                        <Lenke href={lenkeTilInfoOmRefusjonSykepengerKorona}>
+                        <Lenke href={infoOmRefusjonSykepengerKoronaURL}>
                             Les mer om refusjon av sykepenger relatert til koronavirus
                         </Lenke>
                     </Ekspanderbartpanel>
@@ -218,7 +218,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
                         </Normaltekst>
-                        <Lenke href={lenkeTilInfoOmSykefravarsstatistikk}>
+                        <Lenke href={infoOmSykefraværsstatistikk}>
                             Les mer om tjenesten sykefraværsstatistikk på nav.no
                         </Lenke>
                     </Ekspanderbartpanel>
@@ -233,7 +233,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
                             skjemaet «Sykmelding – oppgi nærmeste leder».
                         </Normaltekst>
-                        <Lenke href={LenkeTilInfoOmRettigheterTilSykmelding}>
+                        <Lenke href={infoOmRettigheterTilSykemeldingURL}>
                             Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
                         </Lenke>
                     </Ekspanderbartpanel>
@@ -280,7 +280,7 @@ const InformasjonOmTilgangsstyringSide = () => {
 
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         <Normaltekst>
-                            <NyFaneLenke href={LenkeTilInfoOmAltinnRoller}>
+                            <NyFaneLenke href={infoOmAltinnrollerURL}>
                                 Les mer om roller og rettigheter i Altinn
                             </NyFaneLenke>
                         </Normaltekst>

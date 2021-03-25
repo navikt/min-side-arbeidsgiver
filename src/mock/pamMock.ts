@@ -1,9 +1,9 @@
 import fetchMock from 'fetch-mock';
-import { pamSettBedriftLenke, pamHentStillingsannonserLenke } from '../lenker';
+import { pamSettBedriftURL, pamHentStillingsannonserURL } from '../lenker';
 
 export const mock = () => {
-    fetchMock.get(pamSettBedriftLenke('811076422'), 200);
-    fetchMock.get(pamHentStillingsannonserLenke, {
+    fetchMock.get(pamSettBedriftURL('811076422'), 200);
+    fetchMock.get(pamHentStillingsannonserURL, {
         TIL_GODKJENNING: 17,
         GODKJENT: 0,
         PAABEGYNT: 42,
@@ -13,5 +13,5 @@ export const mock = () => {
         PUBLISERT: 0,
     });
 
-    fetchMock.get('begin:' + pamSettBedriftLenke(''), 200).spy();
+    fetchMock.get('begin:' + pamSettBedriftURL(''), 200).spy();
 }

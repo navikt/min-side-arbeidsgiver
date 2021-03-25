@@ -2,7 +2,7 @@ import React from 'react';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
 import Lenke from 'nav-frontend-lenker';
-import { LenkeTilInfoOmNarmesteLeder } from '../../../../lenker';
+import { infoOmNærmesteLederURL } from '../../../../lenker';
 import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../TjenesteInfo/NyFaneIkon';
 import './SyfoBeOmTilgangModalBoks.less';
@@ -46,12 +46,12 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
                         onClick={() =>
                             loggTjenesteTrykketPa(
                                 'Be om tilgang- Dine sykmeldte',
-                                LenkeTilInfoOmNarmesteLeder,
+                                infoOmNærmesteLederURL,
                                 'Les om hvordan nærmeste leder registreres'
                             )
                         }
                         className="syfo-modal__lenke"
-                        href={LenkeTilInfoOmNarmesteLeder}
+                        href={infoOmNærmesteLederURL}
                         target="_blank"
                     >
                         <span>Les om hvordan nærmeste leder registreres</span>
