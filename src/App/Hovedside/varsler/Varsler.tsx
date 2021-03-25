@@ -4,15 +4,18 @@ import Varselpanel from './Varselpanel/Varselpanel';
 import { Size, useWindowSize } from './useWindowSize';
 import './Varsler.less';
 import { inkluderVarslerFeatureToggle } from '../../../FeatureToggleProvider';
+import {useQuery} from "@apollo/client";
+import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
 
 const Varsler = () => {
     if (!inkluderVarslerFeatureToggle) {
         return null
     }
 
+    const { data } = useQuery<HentNotifikasjonerData, undefined>(
+        HENT_NOTIFIKASJONER,
+    );
     const size: Size = useWindowSize();
-    // console.log('size', size);
-
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
     const [indeksVarselIFokus, setIndeksVarselIFokus] = useState(-1);
@@ -51,6 +54,7 @@ const Varsler = () => {
         <div ref={varslernode} className="varsler">
             <VarslerKnapp erApen={erApen} setErApen={setErÅpenOgFokusPåFørsteVarsel} />
             <Varselpanel
+                varsler={data?.notifikasjoner}
                 erApen={erApen}
                 setErApen={setErApen}
                 indeksVarselIFokus={indeksVarselIFokus}

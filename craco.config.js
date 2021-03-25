@@ -1,4 +1,27 @@
 const CracoLessPlugin = require("craco-less");
+const { ApolloServer, gql } = require('apollo-server');
+const casual = require('casual');
+const fs = require('fs');
+const {
+    BRUKER_API_HOST = 'http://localhost:1337',
+} = process.env;
+
+const startApollo = () => {
+    const data = fs.readFileSync('./src/api/bruker.graphql');
+    const typeDefs = gql(data.toString());
+    new ApolloServer({
+        typeDefs,
+        mocks: {
+            Int: () => casual.integer(0, 1000),
+            String: () => casual.catch_phrase,
+        },
+    }).listen({
+        port: 1337,
+        path: '/api/graphql',
+    }).then(({ url }) => {
+        console.log(`🚀 gql server ready at ${url}`)
+    });
+}
 
 module.exports = {
     devServer: {
@@ -8,8 +31,7 @@ module.exports = {
                 pathRewrite: {'^/min-side-arbeidsgiver/api' : '/ditt-nav-arbeidsgiver-api/api'}
             },
             '/api/graphql': {
-                target: 'https://bruker-api.notifikasjon-ag.dev.nav.no',
-                secure: false,
+                target: BRUKER_API_HOST,
                 changeOrigin: true
             }
         },
@@ -18,6 +40,7 @@ module.exports = {
                 const loginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
                 res.redirect(loginUrl);
             });
+            startApollo();
         }
     },
     plugins: [{ plugin: CracoLessPlugin }]

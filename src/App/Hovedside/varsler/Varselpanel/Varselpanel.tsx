@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
-import { Varsel } from '../../../../api/varslerApi';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { VarselLenkepanel } from './VarselLenkepanel/VarselLenkepanel';
+import React, {useEffect} from 'react';
+import {Undertittel} from 'nav-frontend-typografi';
+import {Varsel} from '../../../../api/varslerApi';
+import {VarselLenkepanel} from './VarselLenkepanel/VarselLenkepanel';
 import './Varselpanel.less';
 
 interface Props {
@@ -12,9 +11,11 @@ interface Props {
     indeksVarselIFokus: number;
     dropdownouterheight: number;
     dropdowninnerheight: number;
+    varsler: Varsel[] | undefined;
 }
 
 const Varselpanel = ({
+    varsler,
     erApen,
     setErApen,
     indeksVarselIFokus,
@@ -22,7 +23,6 @@ const Varselpanel = ({
     dropdownouterheight,
     dropdowninnerheight,
 }: Props) => {
-    const { varsler } = useContext(OrganisasjonsDetaljerContext);
 
     useEffect(() => {
         if (erApen) {

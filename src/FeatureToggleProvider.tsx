@@ -1,16 +1,16 @@
 import React, { createContext, useEffect, useState } from 'react';
-import environment, { gittMiljo } from './utils/environment';
+import { gittMiljo } from './utils/environment';
 // @ts-ignore
 
 const featurePath = '/min-side-arbeidsgiver/api/feature';
 
 export enum Feature {
     visRefusjon = 'msa.visRefusjon',
-
 }
 
 export const inkluderVarslerFeatureToggle = gittMiljo({
     prod: false,
+    labs: false,
     other: true
 })
 
