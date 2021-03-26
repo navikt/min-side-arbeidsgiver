@@ -1,20 +1,10 @@
 type Query {
     ping: String
-    notifikasjoner: [Notifikasjon!]!
+    notifikasjoner: [Beskjed!]!
 }
-
-union Notifikasjon = Beskjed | Oppgave
 
 scalar Instant
 type Beskjed {
-    merkelapp: String!
-    tekst: String!
-    lenke: String!
-    opprettetTidspunkt: Instant!
-}
-
-"midlertidig lag til alle felter som en workaround så vi ikke får tomme objekter i mocken"
-type Oppgave {
     merkelapp: String!
     tekst: String!
     lenke: String!
