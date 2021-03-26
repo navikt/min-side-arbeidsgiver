@@ -31,7 +31,8 @@ module.exports = {
                 target: 'http://localhost:8080',
                 pathRewrite: {'^/min-side-arbeidsgiver/api' : '/ditt-nav-arbeidsgiver-api/api'}
             },
-            '/api/graphql': {
+            '/min-side-arbeidsgiver/notifikasjon/': {
+                pathRewrite: {'^/min-side-arbeidsgiver/notifikasjon': ''},
                 target: BRUKER_API_HOST,
                 changeOrigin: true
             }

@@ -48,8 +48,7 @@ const getDecoratorFragments = async () => {
         SCRIPTS: document.getElementById('scripts').innerHTML,
         SETTINGS: `<script type="application/javascript">
             window.environment = {
-                MILJO: '${NAIS_CLUSTER_NAME}',
-                BRUKER_API_URL: '${BRUKER_API_URL}',
+                MILJO: '${NAIS_CLUSTER_NAME}'
             }
         </script>`,
     };
@@ -84,11 +83,13 @@ app.use('/*', (req, res, next) => {
     res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
     next();
 });
+
 app.use(
     apiMetricsMiddleware({
         metricsPath: '/min-side-arbeidsgiver/internal/metrics',
     })
 );
+
 app.use(
     '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
@@ -107,6 +108,26 @@ app.use(
         ...(APIGW_HEADER ? { headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
     })
 );
+
+app.use(
+    '/min-side-arbeidsgiver/notifikasjon/api/graphql',
+    createProxyMiddleware({
+        target: BRUKER_API_URL,
+        changeOrigin: true,
+        pathRewrite: {
+            '^/min-side-arbeidsgiver/notifikasjon': '',
+        },
+        secure: true,
+        xfwd: true,
+
+        logLevel: PROXY_LOG_LEVEL,
+        logProvider: _ => log,
+        onError: (err, req, res) => {
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+        },
+    })
+);
+
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
