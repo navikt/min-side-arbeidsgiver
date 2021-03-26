@@ -82,7 +82,6 @@ app.set('views', BUILD_PATH);
 
 app.use('/*', (req, res, next) => {
     res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
-    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
     next();
 });
 app.use(
