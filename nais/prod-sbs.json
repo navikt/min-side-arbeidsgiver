@@ -1,6 +1,7 @@
 {
   "ingress": "https://arbeidsgiver.nav.no/min-side-arbeidsgiver",
   "api-gw-url": "https://api-gw.oera.no",
+  "bruker-api-url": "https://ag-notifikasjon-bruker-api.nav.no",
   "selvbetjening-login-url": "https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://loginservice.nav.no/slo",
   "decorator-external-url": "https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",

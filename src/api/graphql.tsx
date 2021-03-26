@@ -1,11 +1,11 @@
 import {ApolloClient, InMemoryCache, gql, ApolloProvider} from '@apollo/client';
 import {Beskjed} from './graphql-types';
-import environment from '../utils/environment'
 import {inkluderVarslerFeatureToggle} from "../FeatureToggleProvider";
 import {FC} from "react";
+import { basename } from '../paths';
 
 const createClient = () => new ApolloClient({
-    uri: environment.BRUKER_API_URL ?? '/api/graphql',
+    uri: `${basename}/notifikasjon/api/graphql`,
     cache: new InMemoryCache()
 });
 
