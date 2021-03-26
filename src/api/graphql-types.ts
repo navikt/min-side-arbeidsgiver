@@ -9,6 +9,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Instant: any;
 };
 
 export type Beskjed = {
@@ -16,8 +17,9 @@ export type Beskjed = {
   merkelapp: Scalars['String'];
   tekst: Scalars['String'];
   lenke: Scalars['String'];
-  opprettetTidspunkt: Scalars['String'];
+  opprettetTidspunkt: Scalars['Instant'];
 };
+
 
 export type Notifikasjon = Beskjed | Oppgave;
 

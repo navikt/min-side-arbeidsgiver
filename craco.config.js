@@ -14,6 +14,7 @@ const startApollo = () => {
         mocks: {
             Int: () => casual.integer(0, 1000),
             String: () => casual.catch_phrase,
+            Instant: () => new Date().toISOString()
         },
     }).listen({
         port: 1337,
