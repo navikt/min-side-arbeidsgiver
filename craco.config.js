@@ -1,12 +1,13 @@
 const CracoLessPlugin = require("craco-less");
-const { ApolloServer, gql } = require('apollo-server');
-const casual = require('casual');
-const fs = require('fs');
 const {
     BRUKER_API_HOST = 'http://localhost:1337',
 } = process.env;
 
 const startApollo = () => {
+    const { ApolloServer, gql } = require('apollo-server');
+    const casual = require('casual');
+    const fs = require('fs');
+
     const data = fs.readFileSync('./src/api/bruker.graphql');
     const typeDefs = gql(data.toString());
     new ApolloServer({
