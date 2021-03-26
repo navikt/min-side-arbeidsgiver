@@ -27,6 +27,15 @@ export const HENT_NOTIFIKASJONER = gql`
     query hentNotifikasjoner {
         notifikasjoner {
             ... on Beskjed {
+                __typename
+                tekst
+                lenke
+                merkelapp
+                opprettetTidspunkt
+            }
+            
+            ... on Oppgave {
+                __typename
                 tekst
                 lenke
                 merkelapp

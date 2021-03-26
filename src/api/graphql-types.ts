@@ -26,6 +26,9 @@ export type Notifikasjon = Beskjed | Oppgave;
 export type Oppgave = {
   __typename?: 'Oppgave';
   merkelapp: Scalars['String'];
+  tekst: Scalars['String'];
+  lenke: Scalars['String'];
+  opprettetTidspunkt: Scalars['Instant'];
 };
 
 export type Query = {
