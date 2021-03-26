@@ -1,5 +1,11 @@
-const environment = {
-    MILJO: (window as any)?.appSettings?.MILJO ?? 'local'
+interface Environment {
+    MILJO: string
+    BRUKER_API_URL: string
+}
+
+const environment: Environment = {
+    MILJO: 'local',
+    ...(window as any)?.environment
 };
 
 interface Miljo<T> {

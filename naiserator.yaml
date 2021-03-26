@@ -36,6 +36,8 @@ spec:
       value: '{{{decorator-external-url}}}'
     - name: PROXY_LOG_LEVEL
       value: 'debug'
+    - name: BRUKER_API_URL
+      value: '{{{bruker-api-url}}}'
    {{#if labs}}
   accessPolicy:
     outbound:

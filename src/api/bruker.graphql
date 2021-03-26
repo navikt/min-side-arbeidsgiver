@@ -1,0 +1,18 @@
+type Query {
+    ping: String
+    notifikasjoner: [Notifikasjon!]!
+}
+
+union Notifikasjon = Beskjed | Oppgave
+
+scalar Instant
+type Beskjed {
+    merkelapp: String!
+    tekst: String!
+    lenke: String!
+    opprettetTidspunkt: Instant!
+}
+
+type Oppgave {
+    merkelapp: String!
+}

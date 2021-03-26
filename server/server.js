@@ -22,6 +22,7 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
     APIGW_HEADER,
+    BRUKER_API_URL,
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
 } = process.env;
@@ -46,8 +47,9 @@ const getDecoratorFragments = async () => {
         STYLES: document.getElementById('styles').innerHTML,
         SCRIPTS: document.getElementById('scripts').innerHTML,
         SETTINGS: `<script type="application/javascript">
-            window.appSettings = {
+            window.environment = {
                 MILJO: '${NAIS_CLUSTER_NAME}',
+                BRUKER_API_URL: '${BRUKER_API_URL}',
             }
         </script>`,
     };

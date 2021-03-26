@@ -4,8 +4,7 @@ import { OrganisasjonInfo, OrganisasjonerOgTilgangerContext } from './Organisasj
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
 import { settBedriftIPam, hentAntallannonser } from '../api/pamApi';
-import { hentVarsler, Varsel } from '../api/varslerApi';
-import { inkluderVarslerFeatureToggle } from '../FeatureToggleProvider';
+import { Varsel } from '../api/varslerApi';
 
 interface Props {
     children: React.ReactNode;
@@ -16,7 +15,6 @@ export type Context = {
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
-    varsler: Varsel[] | undefined;
     antallUlesteVarsler: number;
     setAntallUlesteVarsler: (num: number) => void;
     tidspunktHentVarsler: string;
@@ -30,7 +28,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
 
-    const [varsler, setVarsler] = useState<Varsel[] | undefined>(undefined);
     const [antallUlesteVarsler, setAntallUlesteVarsler] = useState<number>(0);
     const [tidspunktHentVarsler, setTidspunktHentVarsler] = useState<string>('');
 
@@ -50,20 +47,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         } else {
             setantallAnnonser(0);
         }
-
-        if (inkluderVarslerFeatureToggle) {
-            hentVarsler()
-                .then((varsler: Varsel[]) => {
-                    console.log("Varsler hentet: ", varsler);
-                    setTidspunktHentVarsler('12345');
-                    setVarsler(varsler);
-                    setAntallUlesteVarsler(finnAntallUlesteVarsler(varsler));
-                })
-                .catch(() => {
-                    setVarsler(undefined);
-                });
-        }
-
 
         if (orgInfo.altinntilgang.tilskuddsbrev.tilgang === 'ja') {
             const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
@@ -90,7 +73,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         endreOrganisasjon,
         valgtOrganisasjon,
         altinnMeldingsboks,
-        varsler,
         antallUlesteVarsler,
         setAntallUlesteVarsler,
         tidspunktHentVarsler,

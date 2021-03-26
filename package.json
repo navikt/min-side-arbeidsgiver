@@ -5,6 +5,7 @@
   "private": true,
   "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
+    "@apollo/client": "^3.3.13",
     "@craco/craco": "^6.1.1",
     "@navikt/bedriftsmeny": "3.0.3",
     "@navikt/fnrvalidator": "^1.1.3",
@@ -90,18 +91,28 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.3",
+    "@graphql-codegen/typescript": "^1.21.1",
+    "@graphql-codegen/typescript-operations": "^1.17.15",
+    "@graphql-codegen/typescript-react-apollo": "^2.2.3",
+    "apollo-server": "^2.21.2",
+    "casual": "^1.6.2",
     "fs-extra": "^9.1.0",
+    "graphql": "^15.5.0",
     "prettier": "^2.2.1"
   },
   "scripts": {
     "start": "craco start",
     "start:mock": "REACT_APP_MOCK=true yarn start",
     "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
+    "prebuild": "yarn gql:generate",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint --ext ts,tsx .",
     "docker:build": "docker build -t minside-arbeidsgiver .",
-    "docker:start": "docker run -p 3000:3000 minside-arbeidsgiver"
+    "docker:start": "docker run -p 3000:3000 minside-arbeidsgiver",
+    "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphqls src/api/bruker.graphql",
+    "gql:generate": "graphql-codegen"
   },
   "eslintConfig": {
     "extends": "react-app"
