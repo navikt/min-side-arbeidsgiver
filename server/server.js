@@ -6,6 +6,7 @@ import httpProxyMiddleware from "http-proxy-middleware";
 import jsdom from "jsdom";
 import Prometheus from "prom-client";
 import require from "./esm-require.js";
+import cookieParser from "cookie-parser"
 
 const {createLogger, transports, format} = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
@@ -78,6 +79,7 @@ app.disable("x-powered-by");
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', BUILD_PATH);
+app.use(cookieParser());
 
 app.use('/*', (req, res, next) => {
     res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
@@ -125,6 +127,9 @@ app.use(
         onError: (err, req, res) => {
             log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
         },
+        onProxyReq: (proxyReq, req, res) => {
+            proxyReq.setHeader('Authorization', `Bearer ${req.cookies['selvbetjening-idtoken']}`);
+        }
     })
 );
 
