@@ -1,0 +1,44 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+  name: ditt-nav-arbeidsgiver
+  namespace: arbeidsgiver
+  labels:
+    team: arbeidsgiver
+spec:
+  image: {{image}}
+  team: arbeidsgiver
+  port: 3000
+  ingresses:
+    - '{{{ingress}}}'
+  liveness:
+    path: /min-side-arbeidsgiver/internal/isAlive
+    initialDelay: 20
+  readiness:
+    path: /min-side-arbeidsgiver/internal/isReady
+    initialDelay: 20
+  prometheus:
+    enabled: true
+    path: /min-side-arbeidsgiver/internal/metrics
+  vault:
+    enabled: {{vault-enabled}}
+  webproxy: {{webproxy-enabled}}
+  env:
+    - name: NODE_EXTRA_CA_CERTS
+      value: /etc/ssl/ca-bundle.pem
+    - name: API_GATEWAY
+      value: '{{{api-gw-url}}}'
+    - name: LOGIN_URL
+      value: '{{{selvbetjening-login-url}}}'
+    - name: Q0API_GATEWAY
+      value: '{{{api-gw-url-q0}}}'
+    - name: DECORATOR_EXTERNAL_URL
+      value: '{{{decorator-external-url}}}'
+    - name: PROXY_LOG_LEVEL
+      value: 'debug'
+    - name: BRUKER_API_URL
+      value: '{{{bruker-api-url}}}'
+      accessPolicy:
+        outbound:
+          rules:
+            - application: ditt-nav-arbeidsgiver-api
