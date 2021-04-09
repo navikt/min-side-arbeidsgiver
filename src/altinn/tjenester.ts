@@ -5,7 +5,8 @@ export type AltinnskjemaId =
     | 'mentortilskudd'
     | 'inkluderingstilskudd'
     | 'ekspertbistand'
-    | 'inntektsmelding';
+    | 'inntektsmelding'
+    | 'utsendtArbeidstakerEØS';
 
 export type NAVtjenesteId =
     | 'arbeidstrening'
@@ -95,6 +96,20 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
              eller opplæringspenger.`,
         skjemaUrl:
             'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/',
+    },
+
+    utsendtArbeidstakerEØS: {
+        sort: 'skjema',
+        navn: 'Utsendt arbeidstaker til EØS/Sveits',
+        tjenestekode: '4826',
+        tjenesteversjon: '1',
+        beOmTilgangBeskrivelse: `
+            Få tilgang til å søke om attest A1 for avklart
+            trygdetilhørighet for arbeidstakere som er midlertidig
+            utsendt til et EØS-land eller Sveits.
+             `,
+        skjemaUrl:
+            'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-a1-for-utsendte-arbeidstakeren-innen-eossveits/'
     },
 };
 
