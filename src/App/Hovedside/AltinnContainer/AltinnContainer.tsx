@@ -10,6 +10,7 @@ const skjemarekkefølge: AltinnskjemaId[] = [
     'inkluderingstilskudd',
     'ekspertbistand',
     'inntektsmelding',
+    'utsendtArbeidstakerEØS'
 ];
 
 export const AltinnContainer: FunctionComponent = () => {
