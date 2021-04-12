@@ -18,17 +18,14 @@ const LoginBoundary: FunctionComponent = props => {
 
     useEffect(() => {
         const signal = new AbortController().signal;
-        if (
-            environment.MILJO === 'prod-sbs' ||
-            environment.MILJO === 'dev-sbs' ||
-            environment.MILJO === 'labs-gcp'
-        ) {
+        if (environment.MILJO === 'local') {
+                const harIdtoken = document.cookie.includes('selvbetjening-idtoken');
+                setInnlogget(tilgangFromTruthy(harIdtoken));
+        }else{
             sjekkInnlogget(signal)
                 .then(tilgangFromTruthy)
                 .then(setInnlogget);
-        } else {
-            const harIdtoken = document.cookie.includes('selvbetjening-idtoken');
-            setInnlogget(tilgangFromTruthy(harIdtoken));
+
         }
     }, []);
 
