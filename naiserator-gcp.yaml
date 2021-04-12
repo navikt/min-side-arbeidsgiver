@@ -40,5 +40,7 @@ spec:
       value: '{{{bruker-api-url}}}'
       accessPolicy:
         outbound:
+          external:
+            - host: min-side-arbeidsgiver-api.dev.nav.no
           rules:
             - application: ditt-nav-arbeidsgiver-api
