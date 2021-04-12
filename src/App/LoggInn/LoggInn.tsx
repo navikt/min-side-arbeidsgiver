@@ -13,11 +13,11 @@ import './Logginn.less';
 export const LoggInn: FunctionComponent = () => {
 
     const redirectTilLogin = () => {
-        if (environment.MILJO === 'prod-sbs' || environment.MILJO === 'dev-sbs'||environment.MILJO === 'labs-gcp') {
-            window.location.href = '/min-side-arbeidsgiver/redirect-til-login';
-        } else {
+        if (environment.MILJO === 'local' || environment.MILJO == undefined ) {
             document.cookie = 'selvbetjening-idtoken =0123456789..*; path=/;';
             window.location.href = '/min-side-arbeidsgiver';
+        } else {
+            window.location.href = '/min-side-arbeidsgiver/redirect-til-login';
         }
     };
 
