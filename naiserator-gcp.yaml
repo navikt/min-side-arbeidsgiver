@@ -38,7 +38,10 @@ spec:
       value: 'debug'
     - name: BRUKER_API_URL
       value: '{{{bruker-api-url}}}'
-      accessPolicy:
-        outbound:
-          rules:
-            - application: ditt-nav-arbeidsgiver-api
+  accessPolicy:
+    outbound:
+      external:
+        - host: min-side-arbeidsgiver-api.dev.nav.no
+        - host: dekoratoren.dev.nav.no
+      rules:
+        - application: ditt-nav-arbeidsgiver-api
