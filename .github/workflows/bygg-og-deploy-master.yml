@@ -109,6 +109,25 @@ jobs:
           PRINT_PAYLOAD: true
           VARS: nais/dev-sbs.json
 
+  deploy-dev-gcp:
+    name: Deploy til dev-gcp
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    needs: bygg
+    steps:
+      - name: Sjekk ut kode
+        uses: actions/checkout@v2
+
+      - name: Deploy til dev-gcp
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: dev-gcp
+          RESOURCE: naiserator-gcp.yaml
+          PRINT_PAYLOAD: true
+          VARS: nais/dev-gcp.json
+
   deploy-prod-sbs:
     name: Deploy til prod-sbs
     runs-on: ubuntu-latest
