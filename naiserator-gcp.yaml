@@ -42,5 +42,6 @@ spec:
     outbound:
       external:
         - host: min-side-arbeidsgiver-api.dev.nav.no
+        - host: dekoratoren.dev.nav.no
       rules:
         - application: ditt-nav-arbeidsgiver-api
