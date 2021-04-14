@@ -61,14 +61,14 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>Velg virksomhet.</li>
                             <li>Lengst nede på Min side – arbeidsgiver finnes en oversikt over tjenester du kan
                                 be om tilgang til.</li>
-                            <li>Klikk på lenken  “- be om tilgang“ på tjenesten du trenger. Du kommer nå til Altinn.</li>
+                            <li>Klikk på lenken  «- be om tilgang» på tjenesten du trenger. Du kommer nå til Altinn.</li>
                         </ul>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             I Altinn velger du hvem i din virksomhet som skal få varslet og legger inn en melding hvis
                             du vil. Du blir selv varslet når forespørselen er behandlet og tilganger er på plass.
                         </Normaltekst>
                         <Normaltekst>
-                            For “Dine sykmeldte“ kan du ikke be om tilgang fra Altinn. Her må du registreres som nærmeste leder for en eller flere ansatte.
+                            For «Dine sykmeldte» kan du ikke be om tilgang fra Altinn. Her må du registreres som nærmeste leder for en eller flere ansatte.
                         </Normaltekst>
                     </Ekspanderbartpanel>
 
@@ -276,6 +276,18 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>Gruppe Fag og yrkesopplæring</li>
                             <li>Enkeltplass arbeidsmarkedsopplæring</li>
                         </ul>
+                    </Ekspanderbartpanel>
+
+                    <Ekspanderbartpanel tittel="Utsendt arbeidstaker til EØS/Sveits" border>
+                        <Normaltekst>
+                            For å få tilgang til skjemaet «Søknad om A1 for utsendte arbeidstakeren innen EØS/Sveits» må du ha Altinn-rollen:
+                        </Normaltekst>
+                        <ul>
+                            <li>Lønn og personalmedarbeider</li>
+                        </ul>
+                        <Normaltekst>
+                            Du kan også ha enkeltrettigheten «Søknad om A1 for utsendte arbeidstakere innen EØS/Sveits».
+                        </Normaltekst>
                     </Ekspanderbartpanel>
 
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
