@@ -44,5 +44,4 @@ spec:
         - host: '{{{dekorator-domain}}}'
       rules:
         - application: ditt-nav-arbeidsgiver-api
-          namespace: arbeidsgiver
 
