@@ -38,11 +38,12 @@ spec:
       value: 'debug'
     - name: BRUKER_API_URL
       value: '{{{bruker-api-url}}}'
+    - name: SECURE_PROXY
+      value : '{{{secure-proxy}}}'
   accessPolicy:
     outbound:
       external:
         - host: '{{{dekorator-domain}}}'
       rules:
-        - application: ditt-nav-arbeidsgiver-api
-          namespace: arbeidsgiver
+        - application: min-side-arbeidsgiver-api
 
