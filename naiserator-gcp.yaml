@@ -45,5 +45,5 @@ spec:
       external:
         - host: '{{{dekorator-domain}}}'
       rules:
-        - application: ditt-nav-arbeidsgiver-api
+        - application: min-side-arbeidsgiver-api
 
