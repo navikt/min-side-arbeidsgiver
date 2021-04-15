@@ -41,7 +41,8 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: '{{{api-domain}}}'
         - host: '{{{dekorator-domain}}}'
       rules:
         - application: ditt-nav-arbeidsgiver-api
+          namespace: arbeidsgiver
+
