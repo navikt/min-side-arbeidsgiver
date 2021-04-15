@@ -9,5 +9,4 @@
   "vault-enabled": false,
   "webproxy-enabled": false,
   "labs": false,
-  "secure-proxy": false
 }

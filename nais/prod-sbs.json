@@ -7,6 +7,5 @@
   "decorator-external-url": "https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
   "vault-enabled": true,
   "webproxy-enabled": true,
-  "labs": false,
-  "secure-proxy": true
+  "labs": false
 }
