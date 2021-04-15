@@ -41,7 +41,7 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: min-side-arbeidsgiver-api.dev.nav.no
-        - host: dekoratoren.dev.nav.no
+        - host: '{{{api-domain}}}'
+        - host: '{{{dekorator-domain}}}'
       rules:
         - application: ditt-nav-arbeidsgiver-api
