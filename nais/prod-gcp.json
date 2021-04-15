@@ -8,5 +8,6 @@
   "dekorator-domain": "www.nav.no",
   "vault-enabled": false,
   "webproxy-enabled": false,
-  "labs": false
+  "labs": false,
+  "secure-proxy": false
 }

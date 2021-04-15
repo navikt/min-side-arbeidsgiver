@@ -26,6 +26,7 @@ const {
     BRUKER_API_URL,
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
+    SECURE_PROXY = true
 } = process.env;
 const log = createLogger({
     transports: [
@@ -104,7 +105,7 @@ app.use(
         pathRewrite: {
             '^/min-side-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
         },
-        secure: true,
+        secure: SECURE_PROXY,
         xfwd: true,
         target: API_GATEWAY,
         ...(APIGW_HEADER ? { headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
