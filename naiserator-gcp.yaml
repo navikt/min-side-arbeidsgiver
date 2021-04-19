@@ -44,7 +44,7 @@ spec:
     outbound:
       external:
         - host: '{{{dekorator-domain}}}'
-        - host: '{{{bruker-api-domain}}}'
+        - host: '{{{bruker-api-url}}}'
       rules:
         - application: min-side-arbeidsgiver-api
 
