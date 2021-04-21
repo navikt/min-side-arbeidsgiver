@@ -134,3 +134,15 @@ export const infoOmPermitteringURL =
 
 export const infoOmRefusjonSykepengerKoronaURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/nyheter/refusjon-av-sykepenger-ved-koronavirus--hva-er-status#chapter-2';
+
+export const grensekompURL = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/grensekomp',
+    labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp',
+    other: 'https://grensekomp-frontend.dev.nav.no/grensekomp',
+});
+
+export const grensekompOversiktURL = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/grensekomp/oversikt/krav',
+    labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
+    other: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
+});
