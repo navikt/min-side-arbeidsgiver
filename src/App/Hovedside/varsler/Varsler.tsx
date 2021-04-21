@@ -1,23 +1,38 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { VarslerKnapp } from './varsler-knapp/VarslerKnapp';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {VarslerKnapp} from './varsler-knapp/VarslerKnapp';
 import Varselpanel from './Varselpanel/Varselpanel';
-import { Size, useWindowSize } from './useWindowSize';
+import {Size, useWindowSize} from './useWindowSize';
 import './Varsler.less';
-import { inkluderVarslerFeatureToggle } from '../../../FeatureToggleProvider';
+import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
 import {useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 const Varsler = () => {
     if (!inkluderVarslerFeatureToggle) {
         return null
     }
 
+    const [sistLest, _setSistLest] = useLocalStorage<string | undefined>("sist_lest", undefined);
     const { data } = useQuery<HentNotifikasjonerData, undefined>(
         HENT_NOTIFIKASJONER,
         {
-            pollInterval: 10_000,
+            pollInterval: 60_000,
         }
     );
+    const setSistLest = useCallback(() => {
+        if (data?.notifikasjoner !== undefined && data?.notifikasjoner.length > 0) {
+            // TODO: naiv impl forutsetter sortering
+            _setSistLest(data.notifikasjoner[0].opprettetTidspunkt)
+        }
+    }, [data]);
+    const antallUleste = (data?.notifikasjoner || []).filter(({opprettetTidspunkt}) => {
+        if (sistLest === undefined) {
+            return true
+        } else {
+            return new Date(opprettetTidspunkt).getTime() > new Date(sistLest).getTime()
+        }
+    }).length;
     const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
@@ -55,7 +70,7 @@ const Varsler = () => {
 
     return (
         <div ref={varslernode} className="varsler">
-            <VarslerKnapp erApen={erApen} setErApen={setErÅpenOgFokusPåFørsteVarsel} />
+            <VarslerKnapp antallUlesteVarsler={antallUleste} erApen={erApen} setErApen={setErÅpenOgFokusPåFørsteVarsel} onApnet={() => setSistLest()} />
             <Varselpanel
                 varsler={data?.notifikasjoner}
                 erApen={erApen}

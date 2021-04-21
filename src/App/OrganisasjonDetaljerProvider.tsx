@@ -15,9 +15,6 @@ export type Context = {
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
-    antallUlesteVarsler: number;
-    setAntallUlesteVarsler: (num: number) => void;
-    tidspunktHentVarsler: string;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -27,14 +24,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
-
-    const [antallUlesteVarsler, setAntallUlesteVarsler] = useState<number>(0);
-    const [tidspunktHentVarsler, setTidspunktHentVarsler] = useState<string>('');
-
-    const finnAntallUlesteVarsler = (varsler: Varsel[]): number => {
-        //return varsler.filter((varsel) => !varsel.lest).length;
-        return 0
-    };
 
     const endreOrganisasjon = async (org: Organisasjon) => {
         const orgInfo = organisasjoner[org.OrganizationNumber];
@@ -73,9 +62,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         endreOrganisasjon,
         valgtOrganisasjon,
         altinnMeldingsboks,
-        antallUlesteVarsler,
-        setAntallUlesteVarsler,
-        tidspunktHentVarsler,
     };
 
     return (

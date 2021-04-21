@@ -1,22 +1,29 @@
-import React, { useEffect } from 'react';
-import { UndertekstBold } from 'nav-frontend-typografi';
+import React, {useEffect} from 'react';
+import {UndertekstBold} from 'nav-frontend-typografi';
 import Lenkepanel from 'nav-frontend-lenkepanel';
-import { datotekst } from '../dato-funksjoner';
-import { settVarselSomLest, Varsel, Varseltype } from '../../../../../api/varslerApi';
+import {datotekst} from '../dato-funksjoner';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
 import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 import './VarselLenkepanel.less';
+import {Beskjed} from "../../../../../api/graphql-types";
 
 interface Props {
-    varsel: Varsel;
+    varsel: Beskjed;
     setIndeksVarselIFokus: (indeks: number) => void;
     indeksVarselIFokus: number;
     indeks: number;
     antallVarsler: number;
     setErApen: (bool: boolean) => void;
+    onKlikketPaaLenke?: (varsel: Beskjed) => void;
 }
 
-export const VarselLenkepanel = (props: Props) => {
+export const VarselLenkepanel = (
+    {
+        onKlikketPaaLenke = () => {
+        },
+        ...props
+    }: Props
+) => {
     useEffect(() => {
         if (props.indeks === props.indeksVarselIFokus) {
             const element = document.getElementById('varsel-lenkepanel-indeks-' + props.indeks);
@@ -51,9 +58,7 @@ export const VarselLenkepanel = (props: Props) => {
         <Lenkepanel
             className="varselpanel__lenkepanel"
             onClick={() => {
-                // if (!props.varsel.lest) {
-                //     settVarselSomLest(props.varsel.id)
-                // }
+                onKlikketPaaLenke(props.varsel)
             }}
             onKeyDown={(event) => onArrowpress(event.key)}
             href={props.varsel.lenke}
@@ -69,13 +74,14 @@ export const VarselLenkepanel = (props: Props) => {
                 <div className="varsel-lenketekst">
                     <div className="varsel-ikon">
                         {/*props.varsel.varseltype === Varseltype.BESKJED ? ( */
-                            <VarselpanelIkonBeskjed />
-                        /*) : (
-                            <VarselpanelIkonOppgave />
-                        )*/
+                            <VarselpanelIkonBeskjed/>
+                            /*) : (
+                                <VarselpanelIkonOppgave />
+                            )*/
                         }
                     </div>
-                   <span className={/*props.varsel.lest ? 'varsel-beskjed--lest' :*/ 'varsel-beskjed--ulest'}>{props.varsel.tekst}</span>
+                    <span
+                        className={/*props.varsel.lest ? 'varsel-beskjed--lest' :*/ 'varsel-beskjed--ulest'}>{props.varsel.tekst}</span>
                 </div>
             </div>
         </Lenkepanel>
