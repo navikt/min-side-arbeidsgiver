@@ -137,3 +137,15 @@ export const infoOmRefusjonSykepengerKoronaURL =
 
 export const infoOmRefusjonInnreiseforbudKoronaURL =
     'https://www.nav.no/no/bedrift/refusjon-ved-innreiseforbud-under-pandemien';
+
+export const grensekompURL = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/grensekomp',
+    labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp',
+    other: 'https://grensekomp-frontend.dev.nav.no/grensekomp',
+});
+
+export const grensekompOversiktURL = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/grensekomp/oversikt/krav',
+    labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
+    other: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
+});

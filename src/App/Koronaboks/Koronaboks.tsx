@@ -9,6 +9,8 @@ import {
     permitteringKlageskjemaURL,
     koronaSykeRefusjonURL,
     lenkeTilPermitteringsInfo, lenkeTilLonnskompensasjonOgRefusjon,
+    grensekompURL,
+    grensekompOversiktURL
 } from '../../lenker';
 import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
@@ -63,7 +65,16 @@ const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{orgnr: string}> 
 
     <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
     <Koronalenke href={koronaSykeRefusjonURL(orgnr)}>
-        Søk om refusjon av sykepenger relatert til koronavirus
+        Søk om refusjon av sykepenger ved koronavirus
+    </Koronalenke>
+
+    <Element className="koronaboks__tekst">Restriksjoner for innreise</Element>
+    <Koronalenke href={grensekompURL}>
+        Søk om refusjon av for utestengte EØS-borgere
+    </Koronalenke>
+
+    <Koronalenke href={grensekompOversiktURL}>
+        Refusjon for utestengte EØS-borgere - se innsendte krav
     </Koronalenke>
 </>;
 
