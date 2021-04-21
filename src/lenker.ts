@@ -135,6 +135,9 @@ export const infoOmPermitteringURL =
 export const infoOmRefusjonSykepengerKoronaURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/nyheter/refusjon-av-sykepenger-ved-koronavirus--hva-er-status#chapter-2';
 
+export const infoOmRefusjonInnreiseforbudKoronaURL =
+    'https://www.nav.no/no/bedrift/refusjon-ved-innreiseforbud-under-pandemien';
+
 export const grensekompURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/grensekomp',
     labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp',
