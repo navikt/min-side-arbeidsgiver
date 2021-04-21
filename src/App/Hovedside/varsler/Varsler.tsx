@@ -14,6 +14,9 @@ const Varsler = () => {
 
     const { data } = useQuery<HentNotifikasjonerData, undefined>(
         HENT_NOTIFIKASJONER,
+        {
+            pollInterval: 10_000,
+        }
     );
     const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
