@@ -12,6 +12,7 @@ import {
     infoOmSykefraværsstatistikk,
     infoOmPermitteringURL,
     infoOmRefusjonSykepengerKoronaURL,
+    infoOmRefusjonInnreiseforbudKoronaURL,
 } from '../../lenker';
 import InfoIkon from '../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
@@ -166,7 +167,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Lenke>
                     </Ekspanderbartpanel>
 
-                    <Ekspanderbartpanel tittel="Refusjon av sykepenger relatert til koronavirus" border>
+                    <Ekspanderbartpanel tittel="Refusjon av sykepenger ved koronavirus" border>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             For å få tilgang til skjema for refusjon av sykepenger relatert til
                             koronavirus må du ha tilgang til å sende inntektsmelding.
@@ -185,7 +186,29 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>norsk representant for utenlandsk enhet</li>
                         </ul>
                         <Lenke href={infoOmRefusjonSykepengerKoronaURL}>
-                            Les mer om refusjon av sykepenger relatert til koronavirus
+                            Les mer om refusjon av sykepenger ved koronavirus
+                        </Lenke>
+                    </Ekspanderbartpanel>
+
+                    <Ekspanderbartpanel tittel="Refusjon for utestengte EØS-borgere" border>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                            For å få tilgang til skjema for refusjon for utestengte EØS-borgere
+                            må du ha tilgang til å sende inntektsmelding.
+                        </Normaltekst>
+                        <Normaltekst>
+                            Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle virksomheten:
+                        </Normaltekst>
+                        <ul>
+                            <li>ansvarlig revisor</li>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>regnskapsfører lønn</li>
+                            <li>regnskapsfører med signeringsrettighet</li>
+                            <li>regnskapsfører uten signeringsrettighet</li>
+                            <li>revisormedarbeider</li>
+                            <li>norsk representant for utenlandsk enhet</li>
+                        </ul>
+                        <Lenke href={infoOmRefusjonInnreiseforbudKoronaURL}>
+                            Les mer om refusjon ved innreiseforbud under pandemien
                         </Lenke>
                     </Ekspanderbartpanel>
 
