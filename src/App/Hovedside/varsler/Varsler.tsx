@@ -7,6 +7,17 @@ import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
 import {useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import {Beskjed} from "../../../api/graphql-types";
+
+const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[] | undefined) : Beskjed[] => {
+    return (notifikasjoner || []).filter(({opprettetTidspunkt}) => {
+        if (sistLest === undefined) {
+            return true
+        } else {
+            return new Date(opprettetTidspunkt).getTime() > new Date(sistLest).getTime()
+        }
+    })
+}
 
 const Varsler = () => {
     if (!inkluderVarslerFeatureToggle) {
@@ -22,17 +33,11 @@ const Varsler = () => {
     );
     const setSistLest = useCallback(() => {
         if (data?.notifikasjoner !== undefined && data?.notifikasjoner.length > 0) {
-            // TODO: naiv impl forutsetter sortering
+            // naiv impl forutsetter sortering
             _setSistLest(data.notifikasjoner[0].opprettetTidspunkt)
         }
     }, [data]);
-    const antallUleste = (data?.notifikasjoner || []).filter(({opprettetTidspunkt}) => {
-        if (sistLest === undefined) {
-            return true
-        } else {
-            return new Date(opprettetTidspunkt).getTime() > new Date(sistLest).getTime()
-        }
-    }).length;
+    const antallUleste = uleste(sistLest, data?.notifikasjoner).length;
     const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);

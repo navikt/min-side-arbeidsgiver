@@ -3,7 +3,6 @@ import {UndertekstBold} from 'nav-frontend-typografi';
 import Lenkepanel from 'nav-frontend-lenkepanel';
 import {datotekst} from '../dato-funksjoner';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
-import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 import './VarselLenkepanel.less';
 import {Beskjed} from "../../../../../api/graphql-types";
 
@@ -20,6 +19,7 @@ interface Props {
 export const VarselLenkepanel = (
     {
         onKlikketPaaLenke = () => {
+            // default noop
         },
         ...props
     }: Props

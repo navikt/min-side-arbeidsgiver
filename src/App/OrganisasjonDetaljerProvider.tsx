@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { OrganisasjonInfo, OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
-import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
-import { loggSidevisningOgTilgangsKombinasjonAvTjenestebokser } from '../utils/funksjonerForAmplitudeLogging';
-import { settBedriftIPam, hentAntallannonser } from '../api/pamApi';
-import { Varsel } from '../api/varslerApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {Organisasjon} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import {OrganisasjonerOgTilgangerContext, OrganisasjonInfo} from './OrganisasjonerOgTilgangerProvider';
+import {autentiserAltinnBruker, hentMeldingsboks, Meldingsboks} from '../api/altinnApi';
+import {loggSidevisningOgTilgangsKombinasjonAvTjenestebokser} from '../utils/funksjonerForAmplitudeLogging';
+import {hentAntallannonser, settBedriftIPam} from '../api/pamApi';
 
 interface Props {
     children: React.ReactNode;

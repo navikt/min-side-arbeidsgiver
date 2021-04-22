@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {VarselIkon} from './varsel-ikon/VarselIkon';
 import './VarslerKnapp.less';
-import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 
 export const varslerKnappId = 'varsler-knapp-id';
 
@@ -17,7 +16,9 @@ export const VarslerKnapp = (
         antallUlesteVarsler = 0,
         erApen,
         setErApen,
-        onApnet = () => {}
+        onApnet = () => {
+            // default noop
+        }
     }: Props
 ) => {
 
