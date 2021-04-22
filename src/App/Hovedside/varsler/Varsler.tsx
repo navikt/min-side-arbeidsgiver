@@ -14,7 +14,7 @@ const Varsler = () => {
     }
 
     const [sistLest, _setSistLest] = useLocalStorage<string | undefined>("sist_lest", undefined);
-    const { data } = useQuery<HentNotifikasjonerData, undefined>(
+    const {data} = useQuery<HentNotifikasjonerData, undefined>(
         HENT_NOTIFIKASJONER,
         {
             pollInterval: 60_000,
@@ -69,18 +69,21 @@ const Varsler = () => {
     }, []);
 
     return (
-        <div ref={varslernode} className="varsler">
-            <VarslerKnapp antallUlesteVarsler={antallUleste} erApen={erApen} setErApen={setErÅpenOgFokusPåFørsteVarsel} onApnet={() => setSistLest()} />
-            <Varselpanel
-                varsler={data?.notifikasjoner}
-                erApen={erApen}
-                setErApen={setErApen}
-                indeksVarselIFokus={indeksVarselIFokus}
-                setIndeksVarselIFokus={setIndeksVarselIFokus}
-                dropdownouterheight={size.dropdown.outerheight}
-                dropdowninnerheight={size.dropdown.innerheight}
-            />
-        </div>
+        data?.notifikasjoner !== undefined && data?.notifikasjoner.length > 0
+            ? <div ref={varslernode} className="varsler">
+                <VarslerKnapp antallUlesteVarsler={antallUleste} erApen={erApen}
+                              setErApen={setErÅpenOgFokusPåFørsteVarsel} onApnet={() => setSistLest()}/>
+                <Varselpanel
+                    varsler={data?.notifikasjoner}
+                    erApen={erApen}
+                    setErApen={setErApen}
+                    indeksVarselIFokus={indeksVarselIFokus}
+                    setIndeksVarselIFokus={setIndeksVarselIFokus}
+                    dropdownouterheight={size.dropdown.outerheight}
+                    dropdowninnerheight={size.dropdown.innerheight}
+                />
+            </div>
+            : null
     );
 };
 
