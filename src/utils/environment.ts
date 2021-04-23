@@ -18,6 +18,8 @@ export const gittMiljo = <T>(e: Miljo<T>): T=> {
     switch (environment.MILJO) {
         case 'prod-sbs':
             return e.prod
+        case 'prod-gcp':
+            return e.prod
         case 'labs-gcp':
             return e.labs ? e.labs : e.other
         default:
