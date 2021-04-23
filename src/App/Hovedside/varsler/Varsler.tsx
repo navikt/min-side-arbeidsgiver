@@ -9,14 +9,14 @@ import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql"
 import useLocalStorage from "../../hooks/useLocalStorage";
 import {Beskjed} from "../../../api/graphql-types";
 
-const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[] | undefined) : Beskjed[] => {
-    return (notifikasjoner || []).filter(({opprettetTidspunkt}) => {
-        if (sistLest === undefined) {
-            return true
-        } else {
-            return new Date(opprettetTidspunkt).getTime() > new Date(sistLest).getTime()
-        }
-    })
+const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[]) : Beskjed[] => {
+    if (sistLest === undefined) {
+        return notifikasjoner;
+    } else {
+        return notifikasjoner.filter(({opprettetTidspunkt}) =>
+            new Date(opprettetTidspunkt).getTime() > new Date(sistLest).getTime()
+        )
+    }
 }
 
 const Varsler = () => {
@@ -37,7 +37,10 @@ const Varsler = () => {
             _setSistLest(data.notifikasjoner[0].opprettetTidspunkt)
         }
     }, [data]);
-    const antallUleste = uleste(sistLest, data?.notifikasjoner).length;
+
+    const notifikasjoner = data?.notifikasjoner ?? [];
+    const antallUleste = uleste(sistLest, data?.notifikasjoner ?? []).length;
+
     const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
@@ -74,12 +77,14 @@ const Varsler = () => {
     }, []);
 
     return (
-        data?.notifikasjoner !== undefined && data?.notifikasjoner.length > 0
+        notifikasjoner.length > 0
             ? <div ref={varslernode} className="varsler">
-                <VarslerKnapp antallUlesteVarsler={antallUleste} erApen={erApen}
-                              setErApen={setErÅpenOgFokusPåFørsteVarsel} onApnet={() => setSistLest()}/>
+                <VarslerKnapp antallUlesteVarsler={antallUleste}
+                              erApen={erApen}
+                              setErApen={setErÅpenOgFokusPåFørsteVarsel}
+                              onApnet={() => setSistLest()} />
                 <Varselpanel
-                    varsler={data?.notifikasjoner}
+                    varsler={notifikasjoner}
                     erApen={erApen}
                     setErApen={setErApen}
                     indeksVarselIFokus={indeksVarselIFokus}
