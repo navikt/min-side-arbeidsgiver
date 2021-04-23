@@ -1,25 +1,32 @@
-import React, { useContext } from 'react';
-import { VarselIkon } from './varsel-ikon/VarselIkon';
+import React from 'react';
+import {VarselIkon} from './varsel-ikon/VarselIkon';
 import './VarslerKnapp.less';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { settTrykketPaaBjelle } from '../../../../api/varslerApi';
 
 export const varslerKnappId = 'varsler-knapp-id';
 
 interface Props {
+    antallUlesteVarsler?: number;
     erApen: boolean;
     setErApen: (bool: boolean) => void;
+    onApnet?: () => void;
 }
 
-export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
-    const { antallUlesteVarsler, setAntallUlesteVarsler, tidspunktHentVarsler } = useContext(OrganisasjonsDetaljerContext);
+export const VarslerKnapp = (
+    {
+        antallUlesteVarsler = 0,
+        erApen,
+        setErApen,
+        onApnet = () => {
+            // default noop
+        }
+    }: Props
+) => {
 
     return (
         <button
             onClick={() => {
                 if (!erApen) {
-                    setAntallUlesteVarsler(0);
-                    settTrykketPaaBjelle(tidspunktHentVarsler);
+                    onApnet()
                 }
                 setErApen(!erApen);
             }}
@@ -31,8 +38,8 @@ export const VarslerKnapp = ({ erApen, setErApen }: Props) => {
             aria-pressed={erApen}
             aria-haspopup="true"
         >
-            <VarselIkon isOpen={erApen} antallUleste={antallUlesteVarsler} />
-            { (antallUlesteVarsler > 0 || (antallUlesteVarsler === 0 && erApen)) && (
+            <VarselIkon isOpen={erApen} antallUleste={antallUlesteVarsler}/>
+            {(antallUlesteVarsler > 0 || (antallUlesteVarsler === 0 && erApen)) && (
                 <div className="varselbjelle-knapp__understrek"/>
             )}
         </button>

@@ -1,20 +1,46 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { VarslerKnapp } from './varsler-knapp/VarslerKnapp';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import {VarslerKnapp} from './varsler-knapp/VarslerKnapp';
 import Varselpanel from './Varselpanel/Varselpanel';
-import { Size, useWindowSize } from './useWindowSize';
+import {Size, useWindowSize} from './useWindowSize';
 import './Varsler.less';
-import { inkluderVarslerFeatureToggle } from '../../../FeatureToggleProvider';
+import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
 import {useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import {Beskjed} from "../../../api/graphql-types";
+
+const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[]) : Beskjed[] => {
+    if (sistLest === undefined) {
+        return notifikasjoner;
+    } else {
+        return notifikasjoner.filter(({opprettetTidspunkt}) =>
+            new Date(opprettetTidspunkt).getTime() > new Date(sistLest).getTime()
+        )
+    }
+}
 
 const Varsler = () => {
     if (!inkluderVarslerFeatureToggle) {
         return null
     }
 
-    const { data } = useQuery<HentNotifikasjonerData, undefined>(
+    const [sistLest, _setSistLest] = useLocalStorage<string | undefined>("sist_lest", undefined);
+    const {data} = useQuery<HentNotifikasjonerData, undefined>(
         HENT_NOTIFIKASJONER,
+        {
+            pollInterval: 60_000,
+        }
     );
+    const setSistLest = useCallback(() => {
+        if (data?.notifikasjoner !== undefined && data?.notifikasjoner.length > 0) {
+            // naiv impl forutsetter sortering
+            _setSistLest(data.notifikasjoner[0].opprettetTidspunkt)
+        }
+    }, [data]);
+
+    const notifikasjoner = data?.notifikasjoner ?? [];
+    const antallUleste = uleste(sistLest, data?.notifikasjoner ?? []).length;
+
     const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
@@ -51,18 +77,23 @@ const Varsler = () => {
     }, []);
 
     return (
-        <div ref={varslernode} className="varsler">
-            <VarslerKnapp erApen={erApen} setErApen={setErÅpenOgFokusPåFørsteVarsel} />
-            <Varselpanel
-                varsler={data?.notifikasjoner}
-                erApen={erApen}
-                setErApen={setErApen}
-                indeksVarselIFokus={indeksVarselIFokus}
-                setIndeksVarselIFokus={setIndeksVarselIFokus}
-                dropdownouterheight={size.dropdown.outerheight}
-                dropdowninnerheight={size.dropdown.innerheight}
-            />
-        </div>
+        notifikasjoner.length > 0
+            ? <div ref={varslernode} className="varsler">
+                <VarslerKnapp antallUlesteVarsler={antallUleste}
+                              erApen={erApen}
+                              setErApen={setErÅpenOgFokusPåFørsteVarsel}
+                              onApnet={() => setSistLest()} />
+                <Varselpanel
+                    varsler={notifikasjoner}
+                    erApen={erApen}
+                    setErApen={setErApen}
+                    indeksVarselIFokus={indeksVarselIFokus}
+                    setIndeksVarselIFokus={setIndeksVarselIFokus}
+                    dropdownouterheight={size.dropdown.outerheight}
+                    dropdowninnerheight={size.dropdown.innerheight}
+                />
+            </div>
+            : null
     );
 };
 
