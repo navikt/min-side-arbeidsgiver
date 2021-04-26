@@ -90,24 +90,6 @@ jobs:
           echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
           docker push $IMAGE
 
-  deploy-dev-sbs:
-    name: Deploy til dev-sbs
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-    needs: bygg
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v2
-
-      - name: Deploy til dev-sbs
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-sbs
-          RESOURCE: naiserator.yaml
-          PRINT_PAYLOAD: true
-          VARS: nais/dev-sbs.json
 
   deploy-dev-gcp:
     name: Deploy til dev-gcp
