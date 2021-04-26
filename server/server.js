@@ -36,7 +36,7 @@ const log = createLogger({
     ]
 })
 
-const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-sbs' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
+const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-gcp' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
 const BUILD_PATH = path.join(process.cwd(), '../build');
 const getDecoratorFragments = async () => {
     const response = await fetch(decoratorUrl);
