@@ -3,8 +3,6 @@ const {
     BRUKER_API_HOST = 'http://localhost:8081',
 } = process.env;
 
-const localhostNotifikasjoner = true
-
 const startApolloMock = () => {
     const { ApolloServer, gql } = require('apollo-server');
     const casual = require('casual');
@@ -37,7 +35,7 @@ module.exports = {
             '/min-side-arbeidsgiver/notifikasjon/': {
                 pathRewrite: {'^/min-side-arbeidsgiver/notifikasjon': ''},
                 target: BRUKER_API_HOST,
-                changeOrigin: true, //!localhostNotifikasjoner,
+                changeOrigin: false,
                 headers: {
                     host: "ag-notifikasjon-bruker-api.localhost",
                     Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJzdWIiOiIwMDAwMDAwMDAwMCIsImlzcyI6ImxvY2FsaG9zdCJ9."

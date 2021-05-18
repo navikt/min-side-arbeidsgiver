@@ -1,12 +1,43 @@
 type Query {
     ping: String
-    notifikasjoner: [Beskjed!]!
+    notifikasjoner: [Notifikasjon!]!
+    whoami: String
 }
 
-scalar Instant
-type Beskjed {
-    merkelapp: String!
-    tekst: String!
+union Notifikasjon = Beskjed | Dummy
+
+scalar ISO8601DateTime
+
+interface Klikkbar {
+    klikketPaa: Boolean!
+}
+
+type Beskjed implements Klikkbar {
+    klikketPaa: Boolean!
+    merkelapp: String! tekst: String!
     lenke: String!
-    opprettetTidspunkt: Instant!
+    opprettetTidspunkt: ISO8601DateTime!
+    id: ID!
+}
+
+type Mutation {
+    notifikasjonKlikketPaa(id: ID!): NotifikasjonKlikketPaaResultat!
+}
+
+type NotifikasjonKlikketPaaResultat {
+    errors: [MutationError!]!
+    id: ID
+    klikketPaa: Boolean
+}
+
+interface MutationError {
+    feilmelding: String!
+}
+
+type UgyldigId implements MutationError {
+    feilmelding: String!
+}
+
+type Dummy {
+    dummy: String
 }

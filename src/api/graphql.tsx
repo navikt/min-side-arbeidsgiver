@@ -26,10 +26,14 @@ export interface HentNotifikasjonerData {
 export const HENT_NOTIFIKASJONER = gql`
     query hentNotifikasjoner {
         notifikasjoner {
-            tekst
-            lenke
-            merkelapp
-            opprettetTidspunkt
+            ...on Beskjed {
+                klikketPaa
+                lenke
+                tekst
+                merkelapp
+                opprettetTidspunkt
+                id
+            }
         }
     }
 `;
