@@ -12,9 +12,9 @@ export type Scalars = {
   ISO8601DateTime: any;
 };
 
-export type Beskjed = Klikkbar & {
+export type Beskjed = {
   __typename?: 'Beskjed';
-  klikketPaa: Scalars['Boolean'];
+  brukerKlikk: BrukerKlikk;
   merkelapp: Scalars['String'];
   tekst: Scalars['String'];
   lenke: Scalars['String'];
@@ -22,15 +22,17 @@ export type Beskjed = Klikkbar & {
   id: Scalars['ID'];
 };
 
+export type BrukerKlikk = {
+  __typename?: 'BrukerKlikk';
+  id: Scalars['ID'];
+  klikketPaa: Scalars['Boolean'];
+};
+
 export type Dummy = {
   __typename?: 'Dummy';
   dummy?: Maybe<Scalars['String']>;
 };
 
-
-export type Klikkbar = {
-  klikketPaa: Scalars['Boolean'];
-};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -42,18 +44,9 @@ export type MutationNotifikasjonKlikketPaaArgs = {
   id: Scalars['ID'];
 };
 
-export type MutationError = {
-  feilmelding: Scalars['String'];
-};
-
 export type Notifikasjon = Beskjed | Dummy;
 
-export type NotifikasjonKlikketPaaResultat = {
-  __typename?: 'NotifikasjonKlikketPaaResultat';
-  errors: Array<MutationError>;
-  id?: Maybe<Scalars['ID']>;
-  klikketPaa?: Maybe<Scalars['Boolean']>;
-};
+export type NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId;
 
 export type Query = {
   __typename?: 'Query';
@@ -62,7 +55,7 @@ export type Query = {
   whoami?: Maybe<Scalars['String']>;
 };
 
-export type UgyldigId = MutationError & {
+export type UgyldigId = {
   __typename?: 'UgyldigId';
   feilmelding: Scalars['String'];
 };

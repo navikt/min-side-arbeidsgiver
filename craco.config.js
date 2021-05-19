@@ -3,6 +3,8 @@ const {
     BRUKER_API_HOST = 'http://localhost:8081',
 } = process.env;
 
+const localhostNotifikasjoner = true;
+
 const startApolloMock = () => {
     const { ApolloServer, gql } = require('apollo-server');
     const casual = require('casual');

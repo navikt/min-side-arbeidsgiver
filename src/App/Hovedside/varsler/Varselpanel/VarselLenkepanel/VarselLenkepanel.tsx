@@ -13,14 +13,11 @@ interface Props {
     indeks: number;
     antallVarsler: number;
     setErApen: (bool: boolean) => void;
-    onKlikketPaaLenke?: (varsel: Beskjed) => void;
+    onKlikketPaaLenke: (varsel: Beskjed) => void;
 }
 
 export const VarselLenkepanel = (
     {
-        onKlikketPaaLenke = () => {
-            // default noop
-        },
         ...props
     }: Props
 ) => {
@@ -64,7 +61,7 @@ export const VarselLenkepanel = (
         <Lenkepanel
             className="varselpanel__lenkepanel"
             onClick={() => {
-                onKlikketPaaLenke(varsel)
+                props.onKlikketPaaLenke(varsel)
             }}
             onKeyDown={(event) => onArrowpress(event.key)}
             href={varsel.lenke}
@@ -87,7 +84,7 @@ export const VarselLenkepanel = (
                         }
                     </div>
                     <span
-                        className={/*props.varsel.lest ? 'varsel-beskjed--lest' :*/ 'varsel-beskjed--ulest'}>{varsel.tekst}</span>
+                        className={varsel.brukerKlikk.klikketPaa ? 'varsel-beskjed--lest' : 'varsel-beskjed--ulest'}>{varsel.tekst}</span>
                 </div>
             </div>
         </Lenkepanel>

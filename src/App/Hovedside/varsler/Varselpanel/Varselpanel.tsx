@@ -3,6 +3,8 @@ import {Undertittel} from 'nav-frontend-typografi';
 import {VarselLenkepanel} from './VarselLenkepanel/VarselLenkepanel';
 import './Varselpanel.less';
 import {Notifikasjon} from "../../../../api/graphql-types";
+import {useMutation} from "@apollo/client";
+import {NOTIFIKASJONER_KLIKKET_PAA} from "../../../../api/graphql";
 
 interface Props {
     erApen: boolean;
@@ -31,6 +33,7 @@ const Varselpanel = ({
         }
     }, [erApen]);
 
+    const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
 
     return (
         <menu
@@ -61,6 +64,10 @@ const Varselpanel = ({
                                         indeks={index}
                                         indeksVarselIFokus={indeksVarselIFokus}
                                         setIndeksVarselIFokus={setIndeksVarselIFokus}
+                                        onKlikketPaaLenke={(notifikasjon) => {
+                                            // noinspection JSIgnoredPromiseFromCall sentry håndterer unhandled promise rejections
+                                            notifikasjonKlikketPaa({variables: {id: notifikasjon.id}})
+                                        }}
                                         varsel={varsel}
                                     />
                                 </li>

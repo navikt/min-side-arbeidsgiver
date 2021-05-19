@@ -27,12 +27,29 @@ export const HENT_NOTIFIKASJONER = gql`
     query hentNotifikasjoner {
         notifikasjoner {
             ...on Beskjed {
-                klikketPaa
+                brukerKlikk {
+                    id
+                    klikketPaa
+                }
                 lenke
                 tekst
                 merkelapp
                 opprettetTidspunkt
                 id
+            }
+        }
+    }
+`;
+
+export const NOTIFIKASJONER_KLIKKET_PAA = gql`
+    mutation NotifikasjonKlikketPaa($id: ID!) {
+        notifikasjonKlikketPaa(id: $id) {
+            ... on BrukerKlikk {
+                id
+                klikketPaa
+            }
+            ... on UgyldigId {
+                feilmelding
             }
         }
     }
