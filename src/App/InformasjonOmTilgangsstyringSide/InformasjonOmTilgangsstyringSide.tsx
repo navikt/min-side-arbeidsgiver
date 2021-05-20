@@ -115,13 +115,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>søknad om tilskudd til ekspertbistand </li>
                         </ul>
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Daglig leder får automatisk tilgang til avtale om midlertidig
-                            lønnstilskudd og avtale om varig lønnstilskudd.
-                        </Normaltekst>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            <b>Enkeltrettighet i Altinn:</b> Trenger du kun tilgang til en av de
-                            nevnte tjenestene ovenfor kan du klare deg med en enkeltrettighet. Navn
-                            på enkeltrettighetene er det samme som navnet på tjenesten.
+                            <b>Enkeltrettighet i Altinn:</b> For å få tilgang til en av de nevnte tjenestene ovenfor må du ha enkeltrettigheten til tjenesten i Altinn.
+                            Navn på enkeltrettighetene er det samme som navnet på tjenesten.
                         </Normaltekst>
                         <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
                             Les om digitale tiltakssøknader
