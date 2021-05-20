@@ -50,9 +50,6 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
         if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
             tilgangsKombinasjon += 'varig lønnstilskudd';
         }
-        if (org.altinntilgang.sommerjobb.tilgang === 'ja') {
-            tilgangsKombinasjon += 'sommerjobb';
-        }
     }
     tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
 
