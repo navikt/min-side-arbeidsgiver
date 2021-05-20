@@ -26,6 +26,7 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'arbeidsforhold',
     'midlertidigLønnstilskudd',
     'varigLønnstilskudd',
+    'sommerjobb',
     'ekspertbistand',
     'inkluderingstilskudd',
     'mentortilskudd',
