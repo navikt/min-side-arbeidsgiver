@@ -13,6 +13,7 @@ export type NAVtjenesteId =
     | 'arbeidsforhold'
     | 'midlertidigLønnstilskudd'
     | 'varigLønnstilskudd'
+    | 'sommerjobb'
     | 'iaweb'
     | 'pam'
     | 'tilskuddsbrev';
@@ -158,6 +159,16 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
                 med å komme inn på arbeidsmarkedet.`,
         tjenestekode: '5516',
         tjenesteversjon: '2',
+    },
+
+    sommerjobb: {
+        sort: 'tjeneste',
+        navn: 'Sommerjobb',
+        beOmTilgangBeskrivelse: `
+                Få tilgang til avtaler om sommerjobb i din virksomhet.
+                Tilskudd til sommerjobb kan gis dersom du kan tilby sommerjobb til unge arbeidsledige som har fått vurdert av NAV at de har behov for arbeidsrettet bistand`,
+        tjenestekode: '5516',
+        tjenesteversjon: '3',
     },
 
     iaweb: {
