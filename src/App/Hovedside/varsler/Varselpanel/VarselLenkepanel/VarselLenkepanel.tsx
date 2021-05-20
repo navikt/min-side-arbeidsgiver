@@ -16,40 +16,36 @@ interface Props {
     onKlikketPaaLenke: (varsel: Beskjed) => void;
 }
 
-export const VarselLenkepanel = (
-    {
-        ...props
-    }: Props
-) => {
+const onArrowpress = (key: string, props: Props) => {
+    if (key === 'Tab' && props.indeks === props.antallVarsler - 1) {
+        props.setErApen(false);
+    }
+    if (key === 'Escape' || key === 'Esc') {
+        props.setErApen(false);
+    }
+    if (key === 'ArrowUp' || key === 'Up') {
+        if (props.indeks === 0) {
+            props.setIndeksVarselIFokus(props.antallVarsler - 1);
+        } else {
+            props.setIndeksVarselIFokus(props.indeks - 1);
+        }
+    }
+    if (key === 'ArrowDown' || key === 'Down') {
+        if (props.indeks === props.antallVarsler - 1) {
+            props.setIndeksVarselIFokus(0);
+        } else {
+            props.setIndeksVarselIFokus(props.indeks + 1);
+        }
+    }
+};
+
+export const VarselLenkepanel = (props: Props) => {
     useEffect(() => {
         if (props.indeks === props.indeksVarselIFokus) {
             const element = document.getElementById('varsel-lenkepanel-indeks-' + props.indeks);
             element?.focus();
         }
     }, [props.indeks, props.indeksVarselIFokus]);
-
-    const onArrowpress = (key: string) => {
-        if (key === 'Tab' && props.indeks === props.antallVarsler - 1) {
-            props.setErApen(false);
-        }
-        if (key === 'Escape' || key === 'Esc') {
-            props.setErApen(false);
-        }
-        if (key === 'ArrowUp' || key === 'Up') {
-            if (props.indeks === 0) {
-                props.setIndeksVarselIFokus(props.antallVarsler - 1);
-            } else {
-                props.setIndeksVarselIFokus(props.indeks - 1);
-            }
-        }
-        if (key === 'ArrowDown' || key === 'Down') {
-            if (props.indeks === props.antallVarsler - 1) {
-                props.setIndeksVarselIFokus(0);
-            } else {
-                props.setIndeksVarselIFokus(props.indeks + 1);
-            }
-        }
-    };
 
     const varsel = props.varsel;
     if (varsel.__typename !== "Beskjed") {
@@ -63,7 +59,7 @@ export const VarselLenkepanel = (
             onClick={() => {
                 props.onKlikketPaaLenke(varsel)
             }}
-            onKeyDown={(event) => onArrowpress(event.key)}
+            onKeyDown={(event) => onArrowpress(event.key, props)}
             href={varsel.lenke}
             tittelProps="normaltekst"
             aria-label=""
