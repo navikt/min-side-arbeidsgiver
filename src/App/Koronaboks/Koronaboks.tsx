@@ -55,12 +55,13 @@ export const Koronaboks = () => {
     );
 };
 const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{orgnr: string}> = ({orgnr}) => <>
-    <Koronalenke href={lenkeTilLonnskompensasjonOgRefusjon}>
-        Lønnskompensasjon og refusjon for permitterte – se kvittering
-    </Koronalenke>
 
+    <Element className="koronaboks__tekst">Lønnskompensasjon</Element>
+    <Koronalenke href={lenkeTilLonnskompensasjonOgRefusjon}>
+        Se kvittering på innsendt skjema om lønnskompensasjon
+    </Koronalenke>
     <Koronalenke href={permitteringKlageskjemaURL(orgnr)}>
-        Lønnskompensasjon og refusjon for permitterte – endre opplysninger eller klag på vedtak
+        Ettersend opplysninger eller klag på vedtak om lønnskom
     </Koronalenke>
 
     <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
