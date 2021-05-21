@@ -9,20 +9,53 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Instant: any;
+  ISO8601DateTime: any;
 };
 
 export type Beskjed = {
   __typename?: 'Beskjed';
+  brukerKlikk: BrukerKlikk;
   merkelapp: Scalars['String'];
   tekst: Scalars['String'];
   lenke: Scalars['String'];
-  opprettetTidspunkt: Scalars['Instant'];
+  opprettetTidspunkt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
 };
 
+export type BrukerKlikk = {
+  __typename?: 'BrukerKlikk';
+  id: Scalars['ID'];
+  klikketPaa: Scalars['Boolean'];
+};
+
+export type Dummy = {
+  __typename?: 'Dummy';
+  dummy?: Maybe<Scalars['String']>;
+};
+
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  notifikasjonKlikketPaa: NotifikasjonKlikketPaaResultat;
+};
+
+
+export type MutationNotifikasjonKlikketPaaArgs = {
+  id: Scalars['ID'];
+};
+
+export type Notifikasjon = Beskjed | Dummy;
+
+export type NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId;
 
 export type Query = {
   __typename?: 'Query';
   ping?: Maybe<Scalars['String']>;
-  notifikasjoner: Array<Beskjed>;
+  notifikasjoner: Array<Notifikasjon>;
+  whoami?: Maybe<Scalars['String']>;
+};
+
+export type UgyldigId = {
+  __typename?: 'UgyldigId';
+  feilmelding: Scalars['String'];
 };
