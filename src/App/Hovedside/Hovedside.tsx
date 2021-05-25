@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import {OrganisasjonerOgTilgangerContext, OrganisasjonInfo} from '../OrganisasjonerOgTilgangerProvider';
-import { Tilgang } from '../LoginBoundary';
-import * as Record from '../../utils/Record';
+import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import Banner from '../HovedBanner/HovedBanner';
