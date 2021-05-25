@@ -26,7 +26,6 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     );
 
     useEffect(() => {
-        console.log("hartilganger:",harTilganger)
         const skalViseManglerTilgangBoks =
             !harTilganger &&
             !visFeilmelding &&
