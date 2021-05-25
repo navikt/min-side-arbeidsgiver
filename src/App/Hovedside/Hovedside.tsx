@@ -1,8 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
-import { Tilgang } from '../LoginBoundary';
-import * as Record from '../../utils/Record';
+import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import Banner from '../HovedBanner/HovedBanner';
@@ -19,21 +17,22 @@ import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer'
 import Varsler from './varsler/Varsler';
 import './Hovedside.less';
 
+
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
-    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(
+    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } = useContext(
         OrganisasjonerOgTilgangerContext
     );
 
     useEffect(() => {
         const skalViseManglerTilgangBoks =
-            !(Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG) &&
+            !harTilganger &&
             !visFeilmelding &&
             !visSyfoFeilmelding;
 
         if (skalViseManglerTilgangBoks) {
             history.replace({ pathname: 'mangler-tilgang' });
         }
-    }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding]);
+    }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding,harTilganger]);
 
     return (
         <div className={'min-side-arbeidsgiver-wrapper'}>

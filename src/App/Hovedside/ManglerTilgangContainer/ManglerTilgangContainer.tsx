@@ -3,15 +3,12 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import { ManglerTilgangLenkePanel } from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
 import { lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo } from '../../../lenker';
 import Banner from '../../HovedBanner/HovedBanner';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
-import { Tilgang } from '../../LoginBoundary';
-import * as Record from '../../../utils/Record';
+import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.less';
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
-    const { organisasjoner, tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
-    const harTilganger = Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG;
+    const { harTilganger } = useContext(OrganisasjonerOgTilgangerContext);
 
     return (
         <>
