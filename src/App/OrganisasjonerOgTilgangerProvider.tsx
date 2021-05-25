@@ -29,6 +29,7 @@ export type Context = {
     visFeilmelding: boolean;
     tilgangTilSyfo: Tilgang;
     visSyfoFeilmelding: boolean;
+    harTilganger:boolean;
 };
 
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
@@ -127,12 +128,18 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             altinntilgang: Record.map(altinntilganger, sjekkTilgang(orgnr)),
         }));
 
+        const detFinnesEnUnderenhetMedParent = (organisasjoner:Record<string, OrganisasjonInfo>) =>{
+            return Record.values(organisasjoner).filter(org=> org.organisasjon.ParentOrganizationNumber!=null && org.organisasjon.ParentOrganizationNumber!="" ).length >0
+        }
+        const harTilganger= detFinnesEnUnderenhetMedParent(organisasjoner) && Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG
+
         const context: Context = {
             organisasjoner,
             reporteeMessagesUrls,
             visFeilmelding,
             visSyfoFeilmelding,
             tilgangTilSyfo,
+            harTilganger
         };
 
         return (

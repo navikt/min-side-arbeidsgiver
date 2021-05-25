@@ -19,25 +19,23 @@ import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer'
 import Varsler from './varsler/Varsler';
 import './Hovedside.less';
 
-export const detFinnesEnUnderenhetMedParent = (organisasjoner:Record<string, OrganisasjonInfo>) =>{
-    return Record.values(organisasjoner).filter(org=> org.organisasjon.ParentOrganizationNumber!=null ).length >0
-}
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
-    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(
+    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } = useContext(
         OrganisasjonerOgTilgangerContext
     );
 
     useEffect(() => {
+        console.log("hartilganger:",harTilganger)
         const skalViseManglerTilgangBoks =
-            !(Record.length(organisasjoner) > 0 && detFinnesEnUnderenhetMedParent(organisasjoner) || tilgangTilSyfo === Tilgang.TILGANG) &&
+            !harTilganger &&
             !visFeilmelding &&
             !visSyfoFeilmelding;
 
         if (skalViseManglerTilgangBoks) {
             history.replace({ pathname: 'mangler-tilgang' });
         }
-    }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding]);
+    }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding,harTilganger]);
 
     return (
         <div className={'min-side-arbeidsgiver-wrapper'}>
