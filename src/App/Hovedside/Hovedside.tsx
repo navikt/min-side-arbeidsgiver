@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import {OrganisasjonerOgTilgangerContext, OrganisasjonInfo} from '../OrganisasjonerOgTilgangerProvider';
 import { Tilgang } from '../LoginBoundary';
 import * as Record from '../../utils/Record';
 import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
@@ -19,6 +19,10 @@ import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer'
 import Varsler from './varsler/Varsler';
 import './Hovedside.less';
 
+export const detFinnesEnUnderenhetMedParent = (organisasjoner:Record<string, OrganisasjonInfo>) =>{
+    return Record.values(organisasjoner).filter(org=> org.organisasjon.ParentOrganizationNumber!=null ).length >0
+}
+
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding } = useContext(
         OrganisasjonerOgTilgangerContext
@@ -26,7 +30,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
 
     useEffect(() => {
         const skalViseManglerTilgangBoks =
-            !(Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG) &&
+            !(Record.length(organisasjoner) > 0 && detFinnesEnUnderenhetMedParent(organisasjoner) || tilgangTilSyfo === Tilgang.TILGANG) &&
             !visFeilmelding &&
             !visSyfoFeilmelding;
 

@@ -3,15 +3,17 @@ import { Innholdstittel } from 'nav-frontend-typografi';
 import { ManglerTilgangLenkePanel } from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
 import { lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo } from '../../../lenker';
 import Banner from '../../HovedBanner/HovedBanner';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
+import {OrganisasjonerOgTilgangerContext, OrganisasjonInfo} from '../../OrganisasjonerOgTilgangerProvider';
 import { Tilgang } from '../../LoginBoundary';
 import * as Record from '../../../utils/Record';
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.less';
+import {detFinnesEnUnderenhetMedParent} from "../Hovedside";
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
     const { organisasjoner, tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
-    const harTilganger = Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG;
+
+    const harTilganger = detFinnesEnUnderenhetMedParent(organisasjoner) && Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG;
 
     return (
         <>
