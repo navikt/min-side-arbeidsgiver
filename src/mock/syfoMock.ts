@@ -9,7 +9,7 @@ export const mock = () => {
             digiSyfoNarmesteLederURL,
             delay.then(() => {
                 return {
-                    tilgang: true,
+                    tilgang: false,
                 };
             })
         )

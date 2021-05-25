@@ -129,7 +129,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         }));
 
         const detFinnesEnUnderenhetMedParent = () =>{
-            return Record.values(organisasjoner).filter(org=> org.organisasjon.ParentOrganizationNumber!=null && org.organisasjon.ParentOrganizationNumber!="" ).length >0
+            return Record.values(organisasjoner).some(org=> org.organisasjon.ParentOrganizationNumber)
         }
         const harTilganger= detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG
 
