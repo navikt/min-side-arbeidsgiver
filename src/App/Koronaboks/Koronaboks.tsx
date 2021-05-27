@@ -61,7 +61,7 @@ const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{orgnr: string}> 
         Se kvittering på innsendt skjema om lønnskompensasjon
     </Koronalenke>
     <Koronalenke href={permitteringKlageskjemaURL(orgnr)}>
-        Ettersend opplysninger eller klag på vedtak om lønnskom
+        Ettersend opplysninger eller klag på vedtak om lønnskompensasjon
     </Koronalenke>
 
     <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
