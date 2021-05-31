@@ -13,8 +13,16 @@ const startApolloMock = () => {
                 notifikasjoner: () => new MockList(200),
             }),
             Int: () => casual.integer(0, 1000),
-            String: () => casual.catch_phrase,
-            ISO8601DateTime: () => new Date().toISOString()
+            String: () => casual.string,
+            ISO8601DateTime: () => new Date().toISOString(),
+            Beskjed: () => ({
+                merkelapp: casual.word,
+                text: casual.short_description,
+                lenke: "#foo"
+            }),
+            Virksomhet: () => ({
+                navn: casual.catch_phrase,
+            }),
         },
     }).listen({
         port: 8081,
