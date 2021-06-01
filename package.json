@@ -103,13 +103,13 @@
     "start": "craco start",
     "start:mock": "REACT_APP_MOCK=true yarn start",
     "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
-    "start:apollo": "cd server && npm run start:apollo",
+    "start:apollo": "node --experimental-modules server/apollo.js",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint --ext ts,tsx .",
     "docker:build": "docker build -t minside-arbeidsgiver .",
     "docker:start": "docker run -p 3000:3000 minside-arbeidsgiver",
-    "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphqls src/api/bruker.graphql",
+    "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphqls bruker.graphql",
     "gql:generate": "graphql-codegen"
   },
   "eslintConfig": {

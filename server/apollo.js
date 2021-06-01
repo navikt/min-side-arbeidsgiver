@@ -4,7 +4,7 @@ import casual from 'casual';
 const {MockList, ApolloServer, gql} = require("apollo-server");
 
 const startApolloMock = () => {
-    const data = fs.readFileSync('../src/api/bruker.graphql');
+    const data = fs.readFileSync('./bruker.graphql');
     const typeDefs = gql(data.toString());
     new ApolloServer({
         typeDefs,
