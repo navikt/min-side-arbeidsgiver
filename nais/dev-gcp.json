@@ -1,9 +1,7 @@
 {
   "ingress": "https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver",
-  "api-url": "http://min-side-arbeidsgiver-api",
   "bruker-api-url": "https://ag-notifikasjon-bruker-api.dev.nav.no",
   "selvbetjening-login-url": "https://loginservice.dev.nav.no/login?redirect=https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://loginservice.dev.nav.no/slo",
-  "decorator-external-url": "https://dekoratoren.dev.nav.no/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
-  "dekorator-domain": "dekoratoren.dev.nav.no"
+  "decorator-external-url": "https://dekoratoren.dev.nav.no/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4"
 }
