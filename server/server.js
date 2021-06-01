@@ -61,9 +61,7 @@ const startApiGWGauge = () => {
 
     setInterval(async () => {
         try {
-            const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/actuator/health`, {
-                ...(APIGW_HEADER ? {headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
-            });
+            const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
             gauge.set(res.ok ? 1 : 0);
             log.info(`healthcheck: ${gauge.name} ${res.ok}`);
         } catch (error) {
@@ -125,7 +123,7 @@ app.use(
         onError: (err, req, res) => {
             log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
         },
-        onProxyReq: (proxyReq, req, res) => {
+        onProxyReq: (proxyReq, req, _res) => {
             proxyReq.setHeader('Authorization', `Bearer ${req.cookies['selvbetjening-idtoken']}`);
         }
     })
