@@ -184,8 +184,6 @@ const serve = async () => {
 
 serve().then(/*noop*/);
 
-console.log("uwot?", NAIS_CLUSTER_NAME)
 if (NAIS_CLUSTER_NAME === 'labs-gcp') {
-    console.log("lolwut")
     import('./apollo.js')
 }
