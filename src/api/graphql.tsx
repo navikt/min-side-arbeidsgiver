@@ -31,6 +31,10 @@ export const HENT_NOTIFIKASJONER = gql`
                     id
                     klikketPaa
                 }
+                virksomhet {
+                    navn
+                    virksomhetsnummer
+                }
                 lenke
                 tekst
                 merkelapp

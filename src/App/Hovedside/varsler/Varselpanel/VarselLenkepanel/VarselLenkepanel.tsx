@@ -68,6 +68,7 @@ export const VarselLenkepanel = (props: Props) => {
             <div className="varsel-innhold">
                 <div className="varsel-dato-type">
                     <div className="varsel-dato">{datotekst(date)}</div>
+                    <div className="varsel-virksomhet">{varsel.virksomhet.navn.toUpperCase()}</div>
                     <UndertekstBold className="varsel-type">{varsel.merkelapp}</UndertekstBold>
                 </div>
                 <div className="varsel-lenketekst">
@@ -80,7 +81,7 @@ export const VarselLenkepanel = (props: Props) => {
                         }
                     </div>
                     <span
-                        className={varsel.brukerKlikk.klikketPaa ? 'varsel-beskjed--lest' : 'varsel-beskjed--ulest'}>{varsel.tekst}</span>
+                        className={varsel.brukerKlikk.klikketPaa ? 'varsel-beskjed varsel-beskjed--lest' : 'varsel-beskjed varsel-beskjed--ulest'}>{varsel.tekst}</span>
                 </div>
             </div>
         </Lenkepanel>

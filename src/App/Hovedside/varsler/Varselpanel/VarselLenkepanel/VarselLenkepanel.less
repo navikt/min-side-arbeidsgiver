@@ -2,23 +2,29 @@
 
 .varselpanel__lenkepanel {
     border-bottom: @navGra40 1px solid;
-    padding-top: 1rem;
-    margin: 3px;
+    padding-top: .75rem;
+    margin: .1rem;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 .1rem @fokusFarge;
+        border-radius: .1rem;
+    }
 
     .varsel-innhold {
-        margin: 0.5rem 0;
+        margin: 0;
 
         .varsel-dato-type {
             position: relative;
 
-            .varsel-dato {
-                margin-bottom: 0.5rem;
+            .varsel-dato, .varsel-virksomhet {
+                margin-bottom: 0.25rem;
             }
 
             .varsel-type {
                 position: absolute;
                 right: -2rem;
-                top: -0.7rem;
+                top: -0.2rem;
                 background-color: @navLysGra;
                 border-radius: 4px;
                 padding: 0.3rem 0.5rem;
@@ -36,6 +42,8 @@
             }
 
             .varsel-beskjed {
+                width: 17rem;
+
                 &--ulest {
                     font-weight: 800;
                 }
