@@ -105,7 +105,7 @@
     "start": "craco start",
     "start:mock": "REACT_APP_MOCK=true yarn start",
     "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
-    "start:apollo": "node apollo-server.js",
+    "start:apollo": "cd server && npm run start:apollo",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint --ext ts,tsx .",

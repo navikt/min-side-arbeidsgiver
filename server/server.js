@@ -23,7 +23,7 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
     APIGW_HEADER,
-    BRUKER_API_URL,
+    BRUKER_API_URL = 'http://localhost:8081',
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
 } = process.env;
@@ -183,3 +183,7 @@ const serve = async () => {
 }
 
 serve().then(/*noop*/);
+
+if (NAIS_CLUSTER_NAME === 'labs-gcp') {
+    import('./apollo.js')
+}
