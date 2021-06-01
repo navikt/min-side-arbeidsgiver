@@ -22,7 +22,6 @@ const {
     DECORATOR_EXTERNAL_URL = defaultDecoratorUrl,
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
-    APIGW_HEADER,
     BRUKER_API_URL = 'http://localhost:8081',
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
@@ -106,8 +105,7 @@ app.use(
         },
         secure: true,
         xfwd: true,
-        target: API_GATEWAY,
-        ...(APIGW_HEADER ? { headers: {'x-nav-apiKey': APIGW_HEADER}} : {})
+        target: API_GATEWAY
     })
 );
 
