@@ -2,7 +2,7 @@
 # https://github.com/dotansimha/graphql-code-generator/blob/master/dev-test/codegen.yml
 generates:
   ./src/api/graphql-types.ts:
-    schema: ./src/api/bruker.graphql
+    schema: bruker.graphql
     plugins:
       - typescript
     config:

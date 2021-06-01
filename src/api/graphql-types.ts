@@ -20,6 +20,7 @@ export type Beskjed = {
   lenke: Scalars['String'];
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
   id: Scalars['ID'];
+  virksomhet: Virksomhet;
 };
 
 export type BrukerKlikk = {
@@ -58,4 +59,10 @@ export type Query = {
 export type UgyldigId = {
   __typename?: 'UgyldigId';
   feilmelding: Scalars['String'];
+};
+
+export type Virksomhet = {
+  __typename?: 'Virksomhet';
+  virksomhetsnummer: Scalars['String'];
+  navn: Scalars['String'];
 };

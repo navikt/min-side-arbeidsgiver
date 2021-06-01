@@ -19,7 +19,6 @@
     "winston": "3.3.3"
   },
   "scripts": {
-    "start": "node --experimental-modules server.js",
-    "start:apollo": "node --experimental-modules apollo.js"
+    "start": "node --experimental-modules server.js"
   }
 }
