@@ -1,10 +1,10 @@
-const {MockList} = require("apollo-server");
-const startApolloMock = () => {
-    const { ApolloServer, gql } = require('apollo-server');
-    const casual = require('casual');
-    const fs = require('fs');
+import fs from 'fs'
+import require from "./esm-require.js";
+import casual from 'casual';
+const {MockList, ApolloServer, gql} = require("apollo-server");
 
-    const data = fs.readFileSync('./src/api/bruker.graphql');
+const startApolloMock = () => {
+    const data = fs.readFileSync('../src/api/bruker.graphql');
     const typeDefs = gql(data.toString());
     new ApolloServer({
         typeDefs,
