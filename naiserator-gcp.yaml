@@ -27,23 +27,19 @@ spec:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
     - name: API_GATEWAY
-      value: '{{{api-gw-url}}}'
+      value: http://min-side-arbeidsgiver-api
     - name: LOGIN_URL
       value: '{{{selvbetjening-login-url}}}'
-    - name: Q0API_GATEWAY
-      value: '{{{api-gw-url-q0}}}'
     - name: DECORATOR_EXTERNAL_URL
       value: '{{{decorator-external-url}}}'
     - name: PROXY_LOG_LEVEL
       value: 'debug'
     - name: BRUKER_API_URL
       value: '{{{bruker-api-url}}}'
-    - name: SECURE_PROXY
-      value : '{{{secure-proxy}}}'
   accessPolicy:
     outbound:
       external:
-        - host: '{{{dekorator-domain}}}'
+        - host: '{{{decorator-external-url}}}'
         - host: '{{{bruker-api-url}}}'
       rules:
         - application: min-side-arbeidsgiver-api
