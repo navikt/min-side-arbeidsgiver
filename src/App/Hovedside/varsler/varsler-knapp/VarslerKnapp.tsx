@@ -39,7 +39,7 @@ export const VarslerKnapp = (
             aria-haspopup="true"
         >
             <VarselIkon isOpen={erApen} antallUleste={antallUlesteVarsler}/>
-            {(antallUlesteVarsler > 0 || (antallUlesteVarsler === 0 && erApen)) && (
+            {erApen && (
                 <div className="varselbjelle-knapp__understrek"/>
             )}
         </button>

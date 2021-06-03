@@ -18,7 +18,7 @@ const startApolloMock = () => {
             Beskjed: () => ({
                 merkelapp: casual.word,
                 text: casual.short_description,
-                lenke: "#foo"
+                lenke: `#${casual.word}`
             }),
             Virksomhet: () => ({
                 navn: casual.catch_phrase,
