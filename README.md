@@ -9,6 +9,8 @@ Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi 
 - Installere avhengigheter: `yarn`
 - Kjøre applikasjonen normalt: `yarn start` (NB! Krever at backend kjører på port 8080)
 - Kjøre applikasjon med mock: `yarn start:mock` eller `yarn start:mock:win` på windows
+- Notifikasjoner vil blir forsøkt hentet via proxy til localhost:8081
+  Enten kjør produsent-api lokalt, eller start apollo mock server med: `yarn start:apollo`
 - Bygge applikasjonen: `yarn build`
 - Kjøre applikasjonen med Node-backend:
     1. `yarn && yarn build`
@@ -19,6 +21,8 @@ Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi 
     2. `yarn docker:build`
     3. `yarn docker:start`
     4. For å stoppe, kjør `docker stop <id>` med id-en fra forrige kommando
+
+
 
 ---
 

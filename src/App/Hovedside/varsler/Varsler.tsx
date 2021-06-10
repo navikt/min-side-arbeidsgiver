@@ -4,7 +4,7 @@ import Varselpanel from './Varselpanel/Varselpanel';
 import {Size, useWindowSize} from './useWindowSize';
 import './Varsler.less';
 import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
-import {useQuery} from "@apollo/client";
+import {ServerError, useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import {Beskjed} from "../../../api/graphql-types";
@@ -25,12 +25,19 @@ const Varsler = () => {
     }
 
     const [sistLest, _setSistLest] = useLocalStorage<string | undefined>("sist_lest", undefined);
-    const {data} = useQuery<HentNotifikasjonerData, undefined>(
+    const {data, stopPolling} = useQuery<HentNotifikasjonerData, undefined>(
         HENT_NOTIFIKASJONER,
         {
             pollInterval: 60_000,
+            onError(e) {
+                if ((e.networkError as ServerError)?.statusCode == 401) {
+                    console.log("stopper poll pga 401 unauthorized");
+                    stopPolling();
+                }
+            }
         }
     );
+
     const setSistLest = useCallback(() => {
         if (data?.notifikasjoner !== undefined && data?.notifikasjoner.length > 0) {
             // naiv impl forutsetter sortering
