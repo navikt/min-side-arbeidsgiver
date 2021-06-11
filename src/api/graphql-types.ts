@@ -29,11 +29,6 @@ export type BrukerKlikk = {
   klikketPaa: Scalars['Boolean'];
 };
 
-export type Dummy = {
-  __typename?: 'Dummy';
-  dummy?: Maybe<Scalars['String']>;
-};
-
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -45,13 +40,28 @@ export type MutationNotifikasjonKlikketPaaArgs = {
   id: Scalars['ID'];
 };
 
-export type Notifikasjon = Beskjed | Dummy;
+export type Notifikasjon = Beskjed | Oppgave;
 
 export type NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId;
 
+export type Oppgave = {
+  __typename?: 'Oppgave';
+  brukerKlikk: BrukerKlikk;
+  tilstand?: Maybe<OppgaveTilstand>;
+  merkelapp: Scalars['String'];
+  tekst: Scalars['String'];
+  lenke: Scalars['String'];
+  opprettetTidspunkt: Scalars['ISO8601DateTime'];
+  id: Scalars['ID'];
+  virksomhet: Virksomhet;
+};
+
+export enum OppgaveTilstand {
+  Ny = 'NY'
+}
+
 export type Query = {
   __typename?: 'Query';
-  ping?: Maybe<Scalars['String']>;
   notifikasjoner: Array<Notifikasjon>;
   whoami?: Maybe<Scalars['String']>;
 };
