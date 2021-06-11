@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import environment from '../utils/environment';
 import { LoggInn } from './LoggInn/LoggInn';
 import { sjekkInnlogget } from '../api/dnaApi';
 import Spinner from './Spinner';
@@ -18,15 +17,10 @@ const LoginBoundary: FunctionComponent = props => {
 
     useEffect(() => {
         const signal = new AbortController().signal;
-        if (environment.MILJO === 'local') {
-                const harIdtoken = document.cookie.includes('selvbetjening-idtoken');
-                setInnlogget(tilgangFromTruthy(harIdtoken));
-        }else{
-            sjekkInnlogget(signal)
-                .then(tilgangFromTruthy)
-                .then(setInnlogget);
+        sjekkInnlogget(signal)
+            .then(tilgangFromTruthy)
+            .then(setInnlogget);
 
-        }
     }, []);
 
     return (

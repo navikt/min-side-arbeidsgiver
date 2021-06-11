@@ -5,6 +5,7 @@ import {datotekst} from '../dato-funksjoner';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
 import './VarselLenkepanel.less';
 import {Beskjed, Notifikasjon} from "../../../../../api/graphql-types";
+import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 
 interface Props {
     varsel: Notifikasjon;
@@ -13,7 +14,7 @@ interface Props {
     indeks: number;
     antallVarsler: number;
     setErApen: (bool: boolean) => void;
-    onKlikketPaaLenke: (varsel: Beskjed) => void;
+    onKlikketPaaLenke: (varsel: Notifikasjon) => void;
 }
 
 const onArrowpress = (key: string, props: Props) => {
@@ -48,11 +49,22 @@ export const VarselLenkepanel = (props: Props) => {
     }, [props.indeks, props.indeksVarselIFokus]);
 
     const varsel = props.varsel;
-    if (varsel.__typename !== "Beskjed") {
-        return null;
-    }
 
     const date = new Date(varsel.opprettetTidspunkt)
+
+    let ikon;
+    switch (props.varsel.__typename) {
+        case "Beskjed":
+            ikon = <VarselpanelIkonBeskjed/>;
+            break;
+        case "Oppgave":
+            ikon = <VarselpanelIkonOppgave />;
+            break;
+        default:
+            console.error(`ukjent notifikasjonstype ${props.varsel.__typename}: ignorerer`)
+            return null;
+    }
+
     return (
         <Lenkepanel
             className="varselpanel__lenkepanel"
@@ -72,14 +84,7 @@ export const VarselLenkepanel = (props: Props) => {
                     <UndertekstBold className="varsel-type">{varsel.merkelapp}</UndertekstBold>
                 </div>
                 <div className="varsel-lenketekst">
-                    <div className="varsel-ikon">
-                        {/*props.varsel.varseltype === Varseltype.BESKJED ? ( */
-                            <VarselpanelIkonBeskjed/>
-                            /*) : (
-                                <VarselpanelIkonOppgave />
-                            )*/
-                        }
-                    </div>
+                    <div className="varsel-ikon"> {ikon} </div>
                     <span
                         className={varsel.brukerKlikk.klikketPaa ? 'varsel-beskjed varsel-beskjed--lest' : 'varsel-beskjed varsel-beskjed--ulest'}>{varsel.tekst}</span>
                 </div>

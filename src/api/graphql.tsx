@@ -26,7 +26,23 @@ export interface HentNotifikasjonerData {
 export const HENT_NOTIFIKASJONER = gql`
     query hentNotifikasjoner {
         notifikasjoner {
+            __typename
             ...on Beskjed {
+                brukerKlikk {
+                    id
+                    klikketPaa
+                }
+                virksomhet {
+                    navn
+                    virksomhetsnummer
+                }
+                lenke
+                tekst
+                merkelapp
+                opprettetTidspunkt
+                id
+            }
+            ...on Oppgave {
                 brukerKlikk {
                     id
                     klikketPaa

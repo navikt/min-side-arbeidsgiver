@@ -39,7 +39,7 @@ const Varsler = () => {
     }, [data]);
 
     const notifikasjoner = data?.notifikasjoner ?? [];
-    const antallUleste = uleste(sistLest, data?.notifikasjoner ?? []).length;
+    const antallUleste = uleste(sistLest, notifikasjoner).length;
 
     const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
