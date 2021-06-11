@@ -4,7 +4,7 @@ import Lenkepanel from 'nav-frontend-lenkepanel';
 import {datotekst} from '../dato-funksjoner';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
 import './VarselLenkepanel.less';
-import {Beskjed, Notifikasjon} from "../../../../../api/graphql-types";
+import {Notifikasjon} from "../../../../../api/graphql-types";
 import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 
 interface Props {

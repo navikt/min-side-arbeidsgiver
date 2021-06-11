@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Lenke from 'nav-frontend-lenker';
-import environment from '../../utils/environment';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
