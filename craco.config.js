@@ -1,5 +1,3 @@
-const fetch = require('node-fetch');
-const cookieParser = require('cookie-parser');
 const CracoLessPlugin = require("craco-less");
 const {
     BRUKER_API_HOST = 'http://localhost:8081',
@@ -22,9 +20,11 @@ module.exports = {
             },
         },
         before: (app) => {
+            const fetch = require('node-fetch');
+            const cookieParser = require('cookie-parser');
             app.use(cookieParser());
             app.get('/min-side-arbeidsgiver/api/innlogget', (req, res) => {
-                const token = req.cookies?.hasOwnProperty('selvbetjening-idtoken')
+                const token = req.cookies.hasOwnProperty('selvbetjening-idtoken')
                 if (token) {
                     console.log("innlogget? ja (cookie selvbetjening-idtoken eksisterer)")
                     res.status(200).send()
