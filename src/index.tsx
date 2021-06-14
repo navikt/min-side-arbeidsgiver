@@ -3,7 +3,7 @@ import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import raf from 'raf'
-import { init as Sentry } from '@sentry/browser';
+import * as Sentry from "@sentry/react";
 import 'unorm/lib/unorm';
 import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
@@ -14,12 +14,12 @@ import App from './App/App';
 raf.polyfill();
 smoothscroll.polyfill();
 
-const commithash = process.env.GIT_COMMIT_HASH ?? ''
+const naisAppImage = process.env.NAIS_APP_IMAGE ?? 'unknown'
 const isMockApp = (process.env.REACT_APP_MOCK ?? '').length > 0
 
-Sentry({
+Sentry.init({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',
-    release: commithash === '' ? 'unknown' : commithash,
+    release: naisAppImage,
     environment: window.location.hostname,
     enabled: gittMiljo({prod: true, other: false})
 });
