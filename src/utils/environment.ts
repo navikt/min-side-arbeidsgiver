@@ -1,10 +1,11 @@
 interface Environment {
-    MILJO: string
-    BRUKER_API_URL: string
+    MILJO: string,
+    NAIS_APP_IMAGE: string,
 }
 
 const environment: Environment = {
     MILJO: 'local',
+    NAIS_APP_IMAGE: 'unknown',
     ...(window as any)?.environment
 };
 

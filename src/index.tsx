@@ -14,14 +14,15 @@ import App from './App/App';
 raf.polyfill();
 smoothscroll.polyfill();
 
-const naisAppImage = process.env.NAIS_APP_IMAGE ?? 'unknown'
+const naisAppImage = environment.NAIS_APP_IMAGE ?? 'unknown'
 const isMockApp = (process.env.REACT_APP_MOCK ?? '').length > 0
 
 Sentry.init({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',
     release: naisAppImage,
     environment: window.location.hostname,
-    enabled: gittMiljo({prod: true, other: false})
+    enabled: gittMiljo({prod: true, other: false}),
+    autoSessionTracking: false,
 });
 
 if (isMockApp) {
