@@ -48,7 +48,8 @@ const getDecoratorFragments = async () => {
         SCRIPTS: document.getElementById('scripts').innerHTML,
         SETTINGS: `<script type="application/javascript">
             window.environment = {
-                MILJO: '${NAIS_CLUSTER_NAME}'
+                MILJO: '${NAIS_CLUSTER_NAME}',
+                NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}'
             }
         </script>`,
     };
