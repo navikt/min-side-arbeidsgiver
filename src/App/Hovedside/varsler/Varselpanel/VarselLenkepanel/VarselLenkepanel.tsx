@@ -86,7 +86,7 @@ export const VarselLenkepanel = (props: Props) => {
                 <div className="varsel-lenketekst">
                     <div className="varsel-ikon"> {ikon} </div>
                     <span
-                        className={varsel.brukerKlikk.klikketPaa ? 'varsel-beskjed varsel-beskjed--lest' : 'varsel-beskjed varsel-beskjed--ulest'}>{varsel.tekst}</span>
+                        className={varsel.brukerKlikk?.klikketPaa ? 'varsel-beskjed varsel-beskjed--lest' : 'varsel-beskjed varsel-beskjed--ulest'}>{varsel.tekst}</span>
                 </div>
             </div>
         </Lenkepanel>
