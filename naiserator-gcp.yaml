@@ -40,7 +40,8 @@ spec:
     outbound:
       external:
         - host: '{{{decorator-external-url}}}'
-        - host: '{{{bruker-api-url}}}'
       rules:
         - application: min-side-arbeidsgiver-api
+        - application: notifikasjon-bruker-api
+          namespace: fager
 
