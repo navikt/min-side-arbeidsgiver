@@ -55,6 +55,7 @@ export const HENT_NOTIFIKASJONER = gql`
                 tekst
                 merkelapp
                 opprettetTidspunkt
+                tilstand
                 id
             }
         }

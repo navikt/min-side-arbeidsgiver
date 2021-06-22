@@ -4,8 +4,9 @@ import Lenkepanel from 'nav-frontend-lenkepanel';
 import {datotekst} from '../dato-funksjoner';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
 import './VarselLenkepanel.less';
-import {Notifikasjon} from "../../../../../api/graphql-types";
+import {Notifikasjon, OppgaveTilstand} from "../../../../../api/graphql-types";
 import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
+import VarselpanelIkonOppgaveUtfoert from "./varselpanel-ikon-oppgave-utfoert";
 
 interface Props {
     varsel: Notifikasjon;
@@ -58,7 +59,9 @@ export const VarselLenkepanel = (props: Props) => {
             ikon = <VarselpanelIkonBeskjed/>;
             break;
         case "Oppgave":
-            ikon = <VarselpanelIkonOppgave />;
+            ikon = props.varsel.tilstand == OppgaveTilstand.Utfoert
+                ? <VarselpanelIkonOppgaveUtfoert/>
+                : <VarselpanelIkonOppgave/>;
             break;
         default:
             console.error(`ukjent notifikasjonstype ${props.varsel.__typename}: ignorerer`)
@@ -79,7 +82,10 @@ export const VarselLenkepanel = (props: Props) => {
         >
             <div className="varsel-innhold">
                 <div className="varsel-dato-type">
-                    <div className="varsel-dato">{datotekst(date)}</div>
+                    <div className="varsel-dato">
+                        <strong>{varsel.__typename == "Oppgave" && varsel.tilstand == OppgaveTilstand.Utfoert ? 'Utført ' : ''}</strong>
+                        {datotekst(date)}
+                    </div>
                     <div className="varsel-virksomhet">{varsel.virksomhet.navn.toUpperCase()}</div>
                     <UndertekstBold className="varsel-type">{varsel.merkelapp}</UndertekstBold>
                 </div>

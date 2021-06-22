@@ -57,7 +57,8 @@ export type Oppgave = {
 };
 
 export enum OppgaveTilstand {
-  Ny = 'NY'
+  Ny = 'NY',
+  Utfoert = 'UTFOERT'
 }
 
 export type Query = {

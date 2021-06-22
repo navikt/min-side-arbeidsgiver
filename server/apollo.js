@@ -11,8 +11,8 @@ const roundDate = (millis) => {
 const startApolloMock = () => {
     const data = fs.readFileSync('./bruker.graphql');
     const typeDefs = gql(data.toString());
-    const Beskjed = () => ({
-        __typename: 'Beskjed',
+    const Notifikasjon = () => ({
+        __typename: casual.boolean ? 'Beskjed' : 'Oppgave',
         merkelapp: casual.word,
         text: casual.short_description,
         lenke: `#${casual.word}`,
@@ -21,12 +21,11 @@ const startApolloMock = () => {
         typeDefs,
         mocks: {
             Query: () =>({
-                notifikasjoner: () => new MockList(200, Beskjed),
+                notifikasjoner: () => new MockList(200, Notifikasjon),
             }),
             Int: () => casual.integer(0, 1000),
             String: () => casual.string,
             ISO8601DateTime: () => roundDate(5000).toISOString(),
-            Beskjed,
             Virksomhet: () => ({
                 navn: casual.catch_phrase,
             }),
