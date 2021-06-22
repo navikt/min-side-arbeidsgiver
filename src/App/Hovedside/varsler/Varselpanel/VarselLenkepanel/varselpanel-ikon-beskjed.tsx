@@ -2,8 +2,8 @@ import React from 'react';
 
 const VarselpanelIkonBeskjed = () => (
     <svg
-        width="48"
-        height="48"
+        width="52"
+        height="52"
         viewBox="0 0 52 52"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
