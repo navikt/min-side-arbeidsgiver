@@ -7,7 +7,7 @@ export const skjemaForArbeidsgiverURL =
 export const innsynAaregURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
     labs: 'https://arbeidsgiver.labs.nais.io/arbeidsforhold/',
-    other: 'https://arbeidsgiver-q.nav.no/arbeidsforhold/',
+    other: 'https://arbeidsforhold.dev.nav.no/arbeidsforhold/',
 });
 
 export const syfoURL = gittMiljo({
