@@ -96,6 +96,7 @@ export const lenkeTilInforOmInntekstmelding =
 
 export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering/',
+    labs: 'https://permitteringsskjema.labs.nais.io/permittering',
     other: 'https://arbeidsgiver-q.nav.no/permittering/',
 });
 
