@@ -2,12 +2,12 @@ apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
   name: ditt-nav-arbeidsgiver
-  namespace: arbeidsgiver
+  namespace: fager
   labels:
-    team: arbeidsgiver
+    team: fager
 spec:
   image: {{image}}
-  team: arbeidsgiver
+  team: fager
   port: 3000
   ingresses:
     - '{{{ingress}}}'
@@ -27,7 +27,7 @@ spec:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
     - name: API_GATEWAY
-      value: http://min-side-arbeidsgiver-api
+      value: http://min-side-arbeidsgiver-api.arbeidsgiver
     - name: LOGIN_URL
       value: '{{{selvbetjening-login-url}}}'
     - name: DECORATOR_EXTERNAL_URL
@@ -42,6 +42,7 @@ spec:
         - host: '{{{decorator-external-url}}}'
       rules:
         - application: min-side-arbeidsgiver-api
+          namespace: arbeidsgiver
         - application: notifikasjon-bruker-api
           namespace: fager
 
