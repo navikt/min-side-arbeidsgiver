@@ -27,7 +27,7 @@ spec:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
     - name: API_GATEWAY
-      value: http://min-side-arbeidsgiver-api.arbeidsgiver
+      value: http://min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
       value: '{{{selvbetjening-login-url}}}'
     - name: DECORATOR_EXTERNAL_URL
@@ -43,6 +43,8 @@ spec:
       rules:
         - application: min-side-arbeidsgiver-api
           namespace: arbeidsgiver
+        - application: min-side-arbeidsgiver-api
+          namespace: fager
         - application: notifikasjon-bruker-api
           namespace: fager
 
