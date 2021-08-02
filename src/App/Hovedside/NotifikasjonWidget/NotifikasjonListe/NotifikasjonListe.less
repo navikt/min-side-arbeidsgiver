@@ -1,11 +1,19 @@
 @import 'node_modules/nav-frontend-core/less/_variabler';
 
+//border-bottom: @navGra40 1px solid;
+//padding-top: .75rem;
+//margin: .1rem;
+
 .varselpanel {
     z-index: 10;
     color: @navMorkGra;
     position: absolute;
     margin: 0;
     padding: 0;
+
+    li:not(:last-child) {
+      border-bottom: @navGra40 1px solid;
+    }
 
     &__dropdown {
         &--lukket,
@@ -26,14 +34,6 @@
 
             .varselpanel-tittel {
                 padding: 1rem 0 1rem 1rem;
-            }
-
-            .varselpanel-elementer-wrapper {
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-                position: relative;
-                border-top: @navGra40 1px solid
             }
 
             .varselpanel-elementer {

@@ -1,5 +1,5 @@
 import React from 'react';
-import './VarslerKnapp.less';
+import './NotifikasjonBjelle.less';
 import {Element} from "nav-frontend-typografi";
 
 export const varslerKnappId = 'varsler-knapp-id';
@@ -11,7 +11,7 @@ interface Props {
     onApnet?: () => void;
 }
 
-export const VarslerKnapp = (
+export const NotifikasjonBjelle = (
     {
         antallUlesteVarsler = 0,
         erApen,

@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {UndertekstBold} from 'nav-frontend-typografi';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import {datotekst} from '../dato-funksjoner';
 import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
-import './VarselLenkepanel.less';
+import './NotifikasjonListeElement.less';
 import {Notifikasjon, OppgaveTilstand} from "../../../../../api/graphql-types";
 import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
 import VarselpanelIkonOppgaveUtfoert from "./varselpanel-ikon-oppgave-utfoert";
+import { HoyreChevron } from 'nav-frontend-chevron';
 
 interface Props {
     varsel: Notifikasjon;
@@ -41,7 +41,7 @@ const onArrowpress = (key: string, props: Props) => {
     }
 };
 
-export const VarselLenkepanel = (props: Props) => {
+export const NotifikasjonListeElement = (props: Props) => {
     useEffect(() => {
         if (props.indeks === props.indeksVarselIFokus) {
             const element = document.getElementById('varsel-lenkepanel-indeks-' + props.indeks);
@@ -68,33 +68,51 @@ export const VarselLenkepanel = (props: Props) => {
             return null;
     }
 
-    return (
-        <Lenkepanel
-            className="varselpanel__lenkepanel"
-            onClick={() => {
-                props.onKlikketPaaLenke(varsel)
-            }}
-            onKeyDown={(event) => onArrowpress(event.key, props)}
-            href={varsel.lenke}
-            tittelProps="normaltekst"
+    return <div className="notifikasjon_liste_element">
+        <div className="notifikasjon_liste_element-metadata">
+            <div className="notifikasjon_liste_element-metadata-dato">
+                <strong>{
+                    varsel.__typename == "Oppgave" && varsel.tilstand == OppgaveTilstand.Utfoert
+                        ? 'Utført '
+                        : ''
+                }</strong>
+                {datotekst(date)}
+            </div>
+
+            <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
+                {varsel.merkelapp}
+            </UndertekstBold>
+        </div>
+
+        <div className="notifikasjon_liste_element-virksomhetsnavn">
+            {varsel.virksomhet.navn.toUpperCase()}
+        </div>
+
+        <div
+            className="notifikasjon_liste_element-lenkepanel"
+            // onClick={() => {
+            //     props.onKlikketPaaLenke(varsel)
+            // }}
+            //onKeyDown={(event) => onArrowpress(event.key, props)}
+            //href={varsel.lenke}
+            //tittelProps="normaltekst"
             aria-label=""
             id={'varsel-lenkepanel-indeks-' + props.indeks}
         >
-            <div className="varsel-innhold">
-                <div className="varsel-dato-type">
-                    <div className="varsel-dato">
-                        <strong>{varsel.__typename == "Oppgave" && varsel.tilstand == OppgaveTilstand.Utfoert ? 'Utført ' : ''}</strong>
-                        {datotekst(date)}
-                    </div>
-                    <div className="varsel-virksomhet">{varsel.virksomhet.navn.toUpperCase()}</div>
-                    <UndertekstBold className="varsel-type">{varsel.merkelapp}</UndertekstBold>
-                </div>
-                <div className="varsel-lenketekst">
-                    <div className="varsel-ikon"> {ikon} </div>
-                    <span
-                        className={varsel.brukerKlikk?.klikketPaa ? 'varsel-beskjed varsel-beskjed--lest' : 'varsel-beskjed varsel-beskjed--ulest'}>{varsel.tekst}</span>
-                </div>
+            <div className="notifikasjon_liste_element-lenkepanel-ikon"> {ikon} </div>
+            <div className="notifikasjon_liste_element-lenkepanel-tekst">
+                <span className={
+                    varsel.brukerKlikk?.klikketPaa
+                        ? 'varsel-beskjed varsel-beskjed--lest'
+                        : 'varsel-beskjed varsel-beskjed--ulest'
+                }
+                >
+                    {varsel.tekst}
+                </span>
             </div>
-        </Lenkepanel>
-    );
+            <div className="notifikasjon_liste_element-lenkepanel-chevron">
+                <HoyreChevron/>
+            </div>
+        </div>
+    </div>;
 };

@@ -13,7 +13,12 @@ const startApolloMock = () => {
     const typeDefs = gql(data.toString());
     const Notifikasjon = () => ({
         __typename: casual.boolean ? 'Beskjed' : 'Oppgave',
-        merkelapp: casual.word,
+        merkelapp: casual.random_element([
+            'Tilskudd',
+            'Rekrutering',
+            'Refusjon',
+            'Sykemeldt'
+        ]),
         text: casual.short_description,
         lenke: `#${casual.word}`,
     })

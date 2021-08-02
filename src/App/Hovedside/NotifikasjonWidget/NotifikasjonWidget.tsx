@@ -1,8 +1,8 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {VarslerKnapp} from './varsler-knapp/VarslerKnapp';
-import Varselpanel from './Varselpanel/Varselpanel';
+import {NotifikasjonBjelle} from './NotifikasjonBjelle/NotifikasjonBjelle';
+import NotifikasjonListe from './NotifikasjonListe/NotifikasjonListe';
 import {Size, useWindowSize} from './useWindowSize';
-import './Varsler.less';
+import './NotifikasjonWidget.less';
 import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
 import {ServerError, useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
@@ -19,7 +19,7 @@ const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[]) : Beskj
     }
 }
 
-const Varsler = () => {
+const NotifikasjonWidget = () => {
     if (!inkluderVarslerFeatureToggle) {
         return null
     }
@@ -86,11 +86,12 @@ const Varsler = () => {
     return (
         notifikasjoner.length > 0
             ? <div ref={varslernode} className="varsler">
-                <VarslerKnapp antallUlesteVarsler={antallUleste}
-                              erApen={erApen}
-                              setErApen={setErÅpenOgFokusPåFørsteVarsel}
-                              onApnet={() => setSistLest()} />
-                <Varselpanel
+                <NotifikasjonBjelle
+                    antallUlesteVarsler={antallUleste}
+                    erApen={erApen}
+                    setErApen={setErÅpenOgFokusPåFørsteVarsel}
+                    onApnet={() => setSistLest()} />
+                <NotifikasjonListe
                     varsler={notifikasjoner}
                     erApen={erApen}
                     setErApen={setErApen}
@@ -104,4 +105,4 @@ const Varsler = () => {
     );
 };
 
-export default Varsler;
+export default NotifikasjonWidget;

@@ -14,7 +14,7 @@ import { AltinnContainer } from './AltinnContainer/AltinnContainer';
 import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
-import Varsler from './varsler/Varsler';
+import NotifikasjonWidget from './NotifikasjonWidget/NotifikasjonWidget';
 import './Hovedside.less';
 
 
@@ -38,7 +38,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
-            <Varsler />
+            <NotifikasjonWidget />
             <div className="hovedside-container">
                 <div className="hovedside">
                     <AdvarselBannerTestversjon />
