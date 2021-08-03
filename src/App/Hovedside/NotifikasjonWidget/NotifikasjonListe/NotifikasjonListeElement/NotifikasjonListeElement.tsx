@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {UndertekstBold} from 'nav-frontend-typografi';
 import {datotekst} from '../dato-funksjoner';
-import VarselpanelIkonBeskjed from './varselpanel-ikon-beskjed';
+import IkonBeskjed from './ikon-beskjed';
 import './NotifikasjonListeElement.less';
 import {Notifikasjon, OppgaveTilstand} from "../../../../../api/graphql-types";
-import VarselpanelIkonOppgave from './varselpanel-ikon-oppgave';
-import VarselpanelIkonOppgaveUtfoert from "./varselpanel-ikon-oppgave-utfoert";
+import IkonOppgave from './ikon-oppgave';
+import IkonOppgaveUtfoert from "./ikon-oppgave-utfoert";
 import { HoyreChevron } from 'nav-frontend-chevron';
 
 interface Props {
@@ -56,12 +56,12 @@ export const NotifikasjonListeElement = (props: Props) => {
     let ikon;
     switch (props.varsel.__typename) {
         case "Beskjed":
-            ikon = <VarselpanelIkonBeskjed/>;
+            ikon = <IkonBeskjed/>;
             break;
         case "Oppgave":
             ikon = props.varsel.tilstand == OppgaveTilstand.Utfoert
-                ? <VarselpanelIkonOppgaveUtfoert/>
-                : <VarselpanelIkonOppgave/>;
+                ? <IkonOppgaveUtfoert/>
+                : <IkonOppgave/>;
             break;
         default:
             console.error(`ukjent notifikasjonstype ${props.varsel.__typename}: ignorerer`)
