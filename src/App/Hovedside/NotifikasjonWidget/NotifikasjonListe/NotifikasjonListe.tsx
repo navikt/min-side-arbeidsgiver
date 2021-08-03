@@ -9,22 +9,22 @@ import {NOTIFIKASJONER_KLIKKET_PAA} from "../../../../api/graphql";
 interface Props {
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    setIndeksVarselIFokus: (indeks: number) => void;
-    indeksVarselIFokus: number;
-    varsler: Notifikasjon[] | undefined;
+    setIndeksIFokus: (indeks: number) => void;
+    indeksIFokus: number;
+    notifikasjoner: Notifikasjon[] | undefined;
 }
 
 const NotifikasjonListe = ({
-                               varsler,
+                               notifikasjoner,
                                erApen,
                                setErApen,
-                               indeksVarselIFokus,
-                               setIndeksVarselIFokus,
+                               indeksIFokus,
+                               setIndeksIFokus,
                            }: Props) => {
 
     useEffect(() => {
         if (erApen) {
-            const containerElement = document.getElementById('varselpanel-elementer');
+            const containerElement = document.getElementById('notifikasjon_liste-elementer');
             containerElement?.scrollTo(0, 0);
         }
     }, [erApen]);
@@ -33,40 +33,39 @@ const NotifikasjonListe = ({
 
     return (
         <div
-            className={`varselpanel varselpanel__dropdown--${erApen ? 'apen' : 'lukket'}`}
-            id="varsler-dropdown"
+            id="notifikasjon_liste"
+            className={`notifikasjon_liste ${erApen ? 'notifikasjon_liste--apen' : ''}`}
         >
-            <div className="varselpanel-tittel">
+            <div className="notifikasjon_liste-header">
                 <Undertittel>Beskjeder og oppgaver</Undertittel>
             </div>
 
             <ul
                 role="feed"
-                id="varselpanel-elementer"
-                className="varselpanel-elementer varselpanel-elementer__varsler-liste"
-                aria-label={`Liste med ${varsler?.length} beskjeder`}
-                style={{ maxHeight: "70vh" }}
+                id="notifikasjon_liste-elementer"
+                className="notifikasjon_liste-elementer"
+                aria-label={`Liste med ${notifikasjoner?.length} beskjeder`}
             >
-                { varsler?.map((varsel: Notifikasjon, index: number) => (
+                { notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
                     <li key={index}>
                         <NotifikasjonListeElement
                             setErApen={setErApen}
-                            antallVarsler={varsler?.length}
+                            antall={notifikasjoner?.length}
                             indeks={index}
-                            indeksVarselIFokus={indeksVarselIFokus}
-                            setIndeksVarselIFokus={setIndeksVarselIFokus}
+                            indeksIFokus={indeksIFokus}
+                            setIndeksIFokus={setIndeksIFokus}
                             onKlikketPaaLenke={(notifikasjon) => {
                                 // noinspection JSIgnoredPromiseFromCall sentry håndterer unhandled promise rejections
                                 notifikasjonKlikketPaa({variables: {id: notifikasjon.id}})
                             }}
-                            varsel={varsel}
+                            notifikasjon={varsel}
                         />
                     </li>
                 ))
                 }
             </ul>
 
-            <div className="varselpanel-tittel">
+            <div className="notifikasjon_liste-footer">
                 <Undertittel>Footer</Undertittel>
             </div>
         </div>

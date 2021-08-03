@@ -4,85 +4,43 @@
 .notifikasjon_liste_element {
   display: flex;
   flex-direction: column;
-
-
+  margin: 0 1rem;
+  padding: 1rem 0;
 
   &-metadata {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: baseline;
+
+    &-merkelapp {
+      background-color: @navLysGra;
+      border-radius: 4px;
+      padding: 0.3rem 0.5rem;
+    }
   }
 
-  &-virksomhet {
-
+  &:hover &-lenkepanel-chevron {
+    transform: translateX(25%);
+    transition: all 100ms linear;
   }
 
   &-lenkepanel {
     display: flex;
     flex-direction: row;
     align-items: center;
-    //justify-content: flex-start;
 
+    &-ikon {
+      margin: .5rem .5rem 0 0;
+      height: 52px; /* får 6 ekstra piksler fra et sted ¯\_(ツ)_/¯ */
+    }
 
     &-tekst {
       margin-right: auto;
-    }
 
-    &-chevron {
-      //justify-self: flex-end;
+      &--ulest {
+        font-weight: 800;
+      }
     }
   }
 }
-
-//.varselpanel__lenkepanel {
-//    border-bottom: @navGra40 1px solid;
-//    padding-top: .75rem;
-//    margin: .1rem;
-//
-//    &:focus {
-//        outline: none;
-//        box-shadow: 0 0 0 .1rem @fokusFarge;
-//        border-radius: .1rem;
-//    }
-//
-//
-//    .varsel-innhold {
-//        margin: 0;
-//
-//        .varsel-dato-type {
-//            position: relative;
-//
-//            .varsel-dato, .varsel-virksomhet {
-//                margin-bottom: 0.25rem;
-//            }
-//
-//            .varsel-type {
-//                position: absolute;
-//                right: 0;
-//                top: -0.2rem;
-//                background-color: @navLysGra;
-//                border-radius: 4px;
-//                padding: 0.3rem 0.5rem;
-//                font-weight: 800;
-//            }
-//        }
-//
-//        .varsel-lenketekst {
-//            display: flex;
-//            padding: 0;
-//
-//            .varsel-ikon {
-//                width: 3.375rem;
-//                margin-right: 1rem;
-//            }
-//
-//            .varsel-beskjed {
-//                width: 17rem;
-//
-//                &--ulest {
-//                    font-weight: 800;
-//                }
-//            }
-//        }
-//    }
-//}

@@ -8,7 +8,7 @@ export enum Feature {
     visRefusjon = 'msa.visRefusjon',
 }
 
-export const inkluderVarslerFeatureToggle = gittMiljo({
+export const inkluderNotifikasjonerFeatureToggle = gittMiljo({
     prod: false,
     labs: false,
     other: true

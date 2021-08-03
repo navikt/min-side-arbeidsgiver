@@ -1,6 +1,6 @@
 import {ApolloClient, InMemoryCache, gql, ApolloProvider} from '@apollo/client';
 import {Beskjed} from './graphql-types';
-import {inkluderVarslerFeatureToggle} from "../FeatureToggleProvider";
+import {inkluderNotifikasjonerFeatureToggle} from "../FeatureToggleProvider";
 import {FC} from "react";
 import { basename } from '../paths';
 
@@ -9,9 +9,8 @@ const createClient = () => new ApolloClient({
     cache: new InMemoryCache()
 });
 
-
 export const ToggledApolloProvider : FC = ({children}) => {
-    if (inkluderVarslerFeatureToggle) {
+    if (inkluderNotifikasjonerFeatureToggle) {
         return <ApolloProvider client={createClient()}>{children}</ApolloProvider>;
     } else {
         return <>{children}</>

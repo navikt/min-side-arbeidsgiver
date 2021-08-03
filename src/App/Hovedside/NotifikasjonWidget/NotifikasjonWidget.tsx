@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NotifikasjonBjelle} from './NotifikasjonBjelle/NotifikasjonBjelle';
 import NotifikasjonListe from './NotifikasjonListe/NotifikasjonListe';
 import './NotifikasjonWidget.less';
-import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
+import {inkluderNotifikasjonerFeatureToggle} from '../../../FeatureToggleProvider';
 import {ServerError, useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -19,7 +19,7 @@ const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[]) : Beskj
 }
 
 const NotifikasjonWidget = () => {
-    if (!inkluderVarslerFeatureToggle) {
+    if (!inkluderNotifikasjonerFeatureToggle) {
         return null
     }
 
@@ -47,14 +47,14 @@ const NotifikasjonWidget = () => {
     const notifikasjoner = data?.notifikasjoner ?? [];
     const antallUleste = uleste(sistLest, notifikasjoner).length;
 
-    const varslernode = useRef<HTMLDivElement>(null);
+    const elementRef = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
-    const [indeksVarselIFokus, setIndeksVarselIFokus] = useState(-1);
+    const [indeksIFokus, setIndeksIFokus] = useState(-1);
 
     const handleOutsideClick: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
     ) => {
-        const node = varslernode.current;
+        const node = elementRef.current;
         // @ts-ignore
         if (node && node.contains(e.target as HTMLElement)) {
             return;
@@ -62,11 +62,11 @@ const NotifikasjonWidget = () => {
         setErApen(false);
     };
 
-    const setErÅpenOgFokusPåFørsteVarsel = (åpen: boolean) => {
+    const setErÅpenOgFokusPåFørsteNotifikasjon = (åpen: boolean) => {
         if (åpen) {
-            setIndeksVarselIFokus(0);
+            setIndeksIFokus(0);
         } else {
-            setIndeksVarselIFokus(-1);
+            setIndeksIFokus(-1);
         }
         setErApen(åpen);
     };
@@ -83,18 +83,18 @@ const NotifikasjonWidget = () => {
 
     return (
         notifikasjoner.length > 0
-            ? <div ref={varslernode} className="varsler">
+            ? <div ref={elementRef} className="notifikasjoner_widget">
                 <NotifikasjonBjelle
-                    antallUlesteVarsler={antallUleste}
+                    antallUleste={antallUleste}
                     erApen={erApen}
-                    setErApen={setErÅpenOgFokusPåFørsteVarsel}
+                    setErApen={setErÅpenOgFokusPåFørsteNotifikasjon}
                     onApnet={() => setSistLest()} />
                 <NotifikasjonListe
-                    varsler={notifikasjoner}
+                    notifikasjoner={notifikasjoner}
                     erApen={erApen}
                     setErApen={setErApen}
-                    indeksVarselIFokus={indeksVarselIFokus}
-                    setIndeksVarselIFokus={setIndeksVarselIFokus}
+                    indeksIFokus={indeksIFokus}
+                    setIndeksIFokus={setIndeksIFokus}
                 />
             </div>
             : null

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {UndertekstBold} from 'nav-frontend-typografi';
+import {UndertekstBold, Undertekst} from 'nav-frontend-typografi';
 import {datotekst} from '../dato-funksjoner';
 import IkonBeskjed from './ikon-beskjed';
 import './NotifikasjonListeElement.less';
@@ -9,17 +9,17 @@ import IkonOppgaveUtfoert from "./ikon-oppgave-utfoert";
 import { HoyreChevron } from 'nav-frontend-chevron';
 
 interface Props {
-    varsel: Notifikasjon;
-    setIndeksVarselIFokus: (indeks: number) => void;
-    indeksVarselIFokus: number;
+    notifikasjon: Notifikasjon;
+    setIndeksIFokus: (indeks: number) => void;
+    indeksIFokus: number;
     indeks: number;
-    antallVarsler: number;
+    antall: number;
     setErApen: (bool: boolean) => void;
-    onKlikketPaaLenke: (varsel: Notifikasjon) => void;
+    onKlikketPaaLenke: (notifikasjon: Notifikasjon) => void;
 }
 
 const onArrowpress = (key: string, props: Props) => {
-    if (key === 'Tab' && props.indeks === props.antallVarsler - 1) {
+    if (key === 'Tab' && props.indeks === props.antall - 1) {
         props.setErApen(false);
     }
     if (key === 'Escape' || key === 'Esc') {
@@ -27,84 +27,78 @@ const onArrowpress = (key: string, props: Props) => {
     }
     if (key === 'ArrowUp' || key === 'Up') {
         if (props.indeks === 0) {
-            props.setIndeksVarselIFokus(props.antallVarsler - 1);
+            props.setIndeksIFokus(props.antall - 1);
         } else {
-            props.setIndeksVarselIFokus(props.indeks - 1);
+            props.setIndeksIFokus(props.indeks - 1);
         }
     }
     if (key === 'ArrowDown' || key === 'Down') {
-        if (props.indeks === props.antallVarsler - 1) {
-            props.setIndeksVarselIFokus(0);
+        if (props.indeks === props.antall - 1) {
+            props.setIndeksIFokus(0);
         } else {
-            props.setIndeksVarselIFokus(props.indeks + 1);
+            props.setIndeksIFokus(props.indeks + 1);
         }
     }
 };
 
 export const NotifikasjonListeElement = (props: Props) => {
     useEffect(() => {
-        if (props.indeks === props.indeksVarselIFokus) {
-            const element = document.getElementById('varsel-lenkepanel-indeks-' + props.indeks);
+        if (props.indeks === props.indeksIFokus) {
+            const element = document.getElementById('notifikasjon_liste_element-lenkepanel-indeks-' + props.indeks);
+            console.log({element, idx: props.indeks});
             element?.focus();
         }
-    }, [props.indeks, props.indeksVarselIFokus]);
+    }, [props.indeks, props.indeksIFokus]);
 
-    const varsel = props.varsel;
+    const notifikasjon = props.notifikasjon;
 
-    const date = new Date(varsel.opprettetTidspunkt)
+    const date = new Date(notifikasjon.opprettetTidspunkt)
 
     let ikon;
-    switch (props.varsel.__typename) {
+    switch (props.notifikasjon.__typename) {
         case "Beskjed":
             ikon = <IkonBeskjed/>;
             break;
         case "Oppgave":
-            ikon = props.varsel.tilstand == OppgaveTilstand.Utfoert
+            ikon = props.notifikasjon.tilstand == OppgaveTilstand.Utfoert
                 ? <IkonOppgaveUtfoert/>
                 : <IkonOppgave/>;
             break;
         default:
-            console.error(`ukjent notifikasjonstype ${props.varsel.__typename}: ignorerer`)
+            console.error(`ukjent notifikasjonstype ${props.notifikasjon.__typename}: ignorerer`)
             return null;
     }
 
-    const erUtfoert = varsel.__typename == "Oppgave" && varsel.tilstand == OppgaveTilstand.Utfoert;
+    const erUtfoert = notifikasjon.__typename == "Oppgave" && notifikasjon.tilstand == OppgaveTilstand.Utfoert;
     return <div className="notifikasjon_liste_element">
         <div className="notifikasjon_liste_element-metadata">
-            <div className="notifikasjon_liste_element-metadata-dato">
-                { erUtfoert ? <strong>'Utført '</strong> : null } { datotekst(date, !erUtfoert) }
-            </div>
+            <Undertekst className="notifikasjon_liste_element-metadata-dato">
+                { erUtfoert ? <strong>Utført </strong> : null } { datotekst(date, !erUtfoert) }
+            </Undertekst>
 
             <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
-                {varsel.merkelapp}
+                {notifikasjon.merkelapp.toUpperCase()}
             </UndertekstBold>
         </div>
 
-        <div className="notifikasjon_liste_element-virksomhetsnavn">
-            {varsel.virksomhet.navn.toUpperCase()}
-        </div>
+        <Undertekst className="notifikasjon_liste_element-virksomhetsnavn">
+            {notifikasjon.virksomhet.navn.toUpperCase()}
+        </Undertekst>
 
         <div
             className="notifikasjon_liste_element-lenkepanel"
             // onClick={() => {
-            //     props.onKlikketPaaLenke(varsel)
+            //     props.onKlikketPaaLenke(notifikasjon)
             // }}
             //onKeyDown={(event) => onArrowpress(event.key, props)}
-            //href={varsel.lenke}
+            //href={notifikasjon.lenke}
             //tittelProps="normaltekst"
             aria-label=""
-            id={'varsel-lenkepanel-indeks-' + props.indeks}
+            id={'notifikasjon_liste_element-lenkepanel-indeks-' + props.indeks}
         >
-            <div className="notifikasjon_liste_element-lenkepanel-ikon"> {ikon} </div>
+            <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
             <div className="notifikasjon_liste_element-lenkepanel-tekst">
-                <span className={
-                    varsel.brukerKlikk?.klikketPaa
-                        ? 'varsel-beskjed varsel-beskjed--lest'
-                        : 'varsel-beskjed varsel-beskjed--ulest'
-                }
-                >
-                    {varsel.tekst}
-                </span>
+                { notifikasjon.brukerKlikk?.klikketPaa ? notifikasjon.tekst : <strong>{notifikasjon.tekst}</strong> }
             </div>
             <div className="notifikasjon_liste_element-lenkepanel-chevron">
                 <HoyreChevron/>
