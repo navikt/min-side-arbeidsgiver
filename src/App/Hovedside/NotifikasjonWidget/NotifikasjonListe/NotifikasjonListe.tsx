@@ -11,8 +11,6 @@ interface Props {
     setErApen: (bool: boolean) => void;
     setIndeksVarselIFokus: (indeks: number) => void;
     indeksVarselIFokus: number;
-    dropdownouterheight: number;
-    dropdowninnerheight: number;
     varsler: Notifikasjon[] | undefined;
 }
 
@@ -22,8 +20,6 @@ const NotifikasjonListe = ({
                                setErApen,
                                indeksVarselIFokus,
                                setIndeksVarselIFokus,
-                               dropdownouterheight,
-                               dropdowninnerheight,
                            }: Props) => {
 
     useEffect(() => {

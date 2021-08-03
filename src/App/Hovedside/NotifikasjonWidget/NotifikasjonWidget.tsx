@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NotifikasjonBjelle} from './NotifikasjonBjelle/NotifikasjonBjelle';
 import NotifikasjonListe from './NotifikasjonListe/NotifikasjonListe';
-import {Size, useWindowSize} from './useWindowSize';
 import './NotifikasjonWidget.less';
 import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
 import {ServerError, useQuery} from "@apollo/client";
@@ -48,7 +47,6 @@ const NotifikasjonWidget = () => {
     const notifikasjoner = data?.notifikasjoner ?? [];
     const antallUleste = uleste(sistLest, notifikasjoner).length;
 
-    const size: Size = useWindowSize();
     const varslernode = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
     const [indeksVarselIFokus, setIndeksVarselIFokus] = useState(-1);
@@ -97,8 +95,6 @@ const NotifikasjonWidget = () => {
                     setErApen={setErApen}
                     indeksVarselIFokus={indeksVarselIFokus}
                     setIndeksVarselIFokus={setIndeksVarselIFokus}
-                    dropdownouterheight={size.dropdown.outerheight}
-                    dropdowninnerheight={size.dropdown.innerheight}
                 />
             </div>
             : null
