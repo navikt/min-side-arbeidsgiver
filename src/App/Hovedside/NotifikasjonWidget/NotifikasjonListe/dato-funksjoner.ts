@@ -53,11 +53,11 @@ export const klokkeslett = (dato: Date) => {
     return hour + '.' + minute;
 };
 
-export const datotekst = (date: Date) => {
+export const datotekst = (date: Date, capitalize = false) => {
     const dato = new Date(date);
     if (isToday(dato)) {
-        return 'I dag ' + klokkeslett(dato);
+        return (capitalize ? 'I' : 'i') + ' dag ' + klokkeslett(dato);
     } else if (isYesterday(date)) {
-        return 'I går ' + klokkeslett(dato);
+        return (capitalize ? 'I' : 'i') + ' går ' + klokkeslett(dato);
     } else return formatterDato(dato);
 };

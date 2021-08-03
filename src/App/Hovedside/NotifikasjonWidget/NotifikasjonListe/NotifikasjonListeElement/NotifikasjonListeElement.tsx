@@ -68,15 +68,14 @@ export const NotifikasjonListeElement = (props: Props) => {
             return null;
     }
 
+    const erUtfoert = varsel.__typename == "Oppgave" && varsel.tilstand == OppgaveTilstand.Utfoert;
     return <div className="notifikasjon_liste_element">
         <div className="notifikasjon_liste_element-metadata">
             <div className="notifikasjon_liste_element-metadata-dato">
                 <strong>{
-                    varsel.__typename == "Oppgave" && varsel.tilstand == OppgaveTilstand.Utfoert
-                        ? 'Utført '
-                        : ''
+                    erUtfoert ? 'Utført ' : ''
                 }</strong>
-                {datotekst(date)}
+                {datotekst(date, !erUtfoert)}
             </div>
 
             <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
