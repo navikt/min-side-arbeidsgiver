@@ -72,10 +72,7 @@ export const NotifikasjonListeElement = (props: Props) => {
     return <div className="notifikasjon_liste_element">
         <div className="notifikasjon_liste_element-metadata">
             <div className="notifikasjon_liste_element-metadata-dato">
-                <strong>{
-                    erUtfoert ? 'Utført ' : ''
-                }</strong>
-                {datotekst(date, !erUtfoert)}
+                { erUtfoert ? <strong>'Utført '</strong> : null } { datotekst(date, !erUtfoert) }
             </div>
 
             <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
