@@ -23,11 +23,11 @@ const klokkeslett = (dato: Date) => {
     return hour + '.' + minute;
 };
 
-export const datotekst = (dato: Date, capitalize = false) => {
+export const datotekst = (dato: Date) => {
     if (isToday(dato)) {
-        return (capitalize ? 'I' : 'i') + ' dag ' + klokkeslett(dato);
+        return 'i dag ' + klokkeslett(dato);
     } else if (isYesterday(dato)) {
-        return (capitalize ? 'I' : 'i') + ' går ' + klokkeslett(dato);
+        return 'i går ' + klokkeslett(dato);
     } else {
         return formatterDato(dato);
     }

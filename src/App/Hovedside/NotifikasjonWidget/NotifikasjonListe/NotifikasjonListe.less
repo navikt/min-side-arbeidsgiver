@@ -20,18 +20,30 @@
   opacity: 0.3;
   transition: 0.4s ease;
 
-  li:not(:last-child) {
-    .notifikasjon_liste_element {
-      border-bottom: @navGra40 1px solid;
-    }
-  }
-
   li {
-    border-left: transparent 3px solid;
+    border: transparent 4px solid;
 
     &:hover {
       background-color: #F0F6FB;
-      border-left: @navDypBla 3px solid;
+      border-left: @navDypBla 4px solid;
+    }
+
+    &:focus {
+      border: @navDypBla 4px solid;
+    }
+
+    &:not(:last-child) {
+      &:focus {
+        .notifikasjon_liste_element {
+          border-bottom: transparent 1px solid;
+        }
+      }
+
+      &:not(:focus) {
+        .notifikasjon_liste_element {
+          border-bottom: @navGra40 1px solid;
+        }
+      }
     }
   }
 

@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import {UndertekstBold, Undertekst} from 'nav-frontend-typografi';
 import {datotekst} from '../dato-funksjoner';
-import IkonBeskjed from './ikon-beskjed';
+import {ReactComponent as IkonBeskjed} from './ikon-beskjed.svg';
 import './NotifikasjonListeElement.less';
 import {Notifikasjon, OppgaveTilstand} from "../../../../../api/graphql-types";
-import IkonOppgave from './ikon-oppgave';
-import IkonOppgaveUtfoert from "./ikon-oppgave-utfoert";
+import {ReactComponent as IkonOppgave} from './ikon-oppgave.svg';
+import {ReactComponent as IkonOppgaveUtfoert} from "./ikon-oppgave-utfoert.svg";
 import { HoyreChevron } from 'nav-frontend-chevron';
 
 interface Props {
@@ -73,7 +73,11 @@ export const NotifikasjonListeElement = (props: Props) => {
     return <div className="notifikasjon_liste_element">
         <div className="notifikasjon_liste_element-metadata">
             <Undertekst className="notifikasjon_liste_element-metadata-dato">
-                { erUtfoert ? <strong>Utført </strong> : null } { datotekst(date, !erUtfoert) }
+                { notifikasjon.__typename }
+                {' '}
+                { erUtfoert ? 'utført' : 'sendt' }
+                {' '}
+                { datotekst(date) }
             </Undertekst>
 
             <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
