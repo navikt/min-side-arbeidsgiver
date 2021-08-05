@@ -32,10 +32,9 @@ export const NotifikasjonBjelle = (
                 }}
                 className={`notifikasjon_bjelle-knapp notifikasjon_bjelle-knapp${erApen ? '--open' : ''}`}
                 aria-label={`Dine notifikasjoner, ${antallUleste} uleste.`}
-                aria-controls="notifikasjon_liste"
-                aria-expanded={erApen}
-                aria-pressed={erApen}
-                aria-haspopup="true"
+                aria-owns="notifikasjon_liste"
+                aria-haspopup="dialog"
+                aria-pressed={erApen ? "true" : "false"}
             >
                 <div className='notifikasjon_bjelle-ikon'>
                     <Ikon />

@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import {UndertekstBold, Undertekst} from 'nav-frontend-typografi';
+import {Undertekst, UndertekstBold} from 'nav-frontend-typografi';
 import {datotekst} from '../dato-funksjoner';
 import {ReactComponent as IkonBeskjed} from './ikon-beskjed.svg';
 import './NotifikasjonListeElement.less';
 import {Notifikasjon, OppgaveTilstand} from "../../../../../api/graphql-types";
 import {ReactComponent as IkonOppgave} from './ikon-oppgave.svg';
 import {ReactComponent as IkonOppgaveUtfoert} from "./ikon-oppgave-utfoert.svg";
-import { HoyreChevron } from 'nav-frontend-chevron';
+import {HoyreChevron} from 'nav-frontend-chevron';
 
 interface Props {
     notifikasjon: Notifikasjon;
@@ -16,30 +16,9 @@ interface Props {
     antall: number;
     setErApen: (bool: boolean) => void;
     onKlikketPaaLenke: (notifikasjon: Notifikasjon) => void;
+    onTabbetUt: () => void;
 }
 
-const onArrowpress = (key: string, props: Props) => {
-    if (key === 'Tab' && props.indeks === props.antall - 1) {
-        props.setErApen(false);
-    }
-    if (key === 'Escape' || key === 'Esc') {
-        props.setErApen(false);
-    }
-    if (key === 'ArrowUp' || key === 'Up') {
-        if (props.indeks === 0) {
-            props.setIndeksIFokus(props.antall - 1);
-        } else {
-            props.setIndeksIFokus(props.indeks - 1);
-        }
-    }
-    if (key === 'ArrowDown' || key === 'Down') {
-        if (props.indeks === props.antall - 1) {
-            props.setIndeksIFokus(0);
-        } else {
-            props.setIndeksIFokus(props.indeks + 1);
-        }
-    }
-};
 
 export const NotifikasjonListeElement = (props: Props) => {
     useEffect(() => {
@@ -71,10 +50,29 @@ export const NotifikasjonListeElement = (props: Props) => {
     const erUtfoert = notifikasjon.__typename == "Oppgave" && notifikasjon.tilstand == OppgaveTilstand.Utfoert;
     return (
         <a
+            tabIndex={props.indeks === props.indeksIFokus ? 0 : -1}
             href={props.notifikasjon.lenke}
             className="notifikasjon_liste_element"
             id={'notifikasjon_liste_element-indeks-' + props.indeks}
-            onKeyDown={(event) => onArrowpress(event.key, props)}
+            onKeyDown={(event) => {
+                if (event.key === 'Tab') {
+                    props.onTabbetUt();
+                }
+                if (event.key === 'ArrowUp' || event.key === 'Up') {
+                    if (props.indeks === 0) {
+                        props.setIndeksIFokus(props.antall - 1);
+                    } else {
+                        props.setIndeksIFokus(props.indeks - 1);
+                    }
+                }
+                if (event.key === 'ArrowDown' || event.key === 'Down') {
+                    if (props.indeks === props.antall - 1) {
+                        props.setIndeksIFokus(0);
+                    } else {
+                        props.setIndeksIFokus(props.indeks + 1);
+                    }
+                }
+            }}
             onClick={() => {
                 props.onKlikketPaaLenke(notifikasjon)
             }}
