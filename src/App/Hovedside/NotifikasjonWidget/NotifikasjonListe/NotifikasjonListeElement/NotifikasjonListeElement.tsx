@@ -97,10 +97,7 @@ export const NotifikasjonListeElement = (props: Props) => {
             {notifikasjon.virksomhet.navn.toUpperCase()}
         </Undertekst>
 
-        <div
-            className="notifikasjon_liste_element-lenkepanel"
-            aria-label=""
-        >
+        <div className="notifikasjon_liste_element-lenkepanel">
             <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
             <div className="notifikasjon_liste_element-lenkepanel-tekst">
                 { notifikasjon.brukerKlikk?.klikketPaa ? notifikasjon.tekst : <strong>{notifikasjon.tekst}</strong> }

@@ -46,7 +46,6 @@ const NotifikasjonListe = ({
                 role="feed"
                 id="notifikasjon_liste-elementer"
                 className="notifikasjon_liste-elementer"
-                aria-label={`Liste med ${notifikasjoner?.length} beskjeder`}
             >
                 { notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
                     <li key={index} role="article">
