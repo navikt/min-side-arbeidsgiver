@@ -14,9 +14,7 @@ interface Props {
     indeksIFokus: number;
     indeks: number;
     antall: number;
-    setErApen: (bool: boolean) => void;
     onKlikketPaaLenke: (notifikasjon: Notifikasjon) => void;
-    onTabbetUt: () => void;
 }
 
 
@@ -56,7 +54,7 @@ export const NotifikasjonListeElement = (props: Props) => {
             id={'notifikasjon_liste_element-indeks-' + props.indeks}
             onKeyDown={(event) => {
                 if (event.key === 'Tab') {
-                    props.onTabbetUt();
+                    props.setIndeksIFokus(-1);
                 }
                 if (event.key === 'ArrowUp' || event.key === 'Up') {
                     if (props.indeks === 0) {
@@ -74,6 +72,7 @@ export const NotifikasjonListeElement = (props: Props) => {
                 }
             }}
             onClick={() => {
+                props.setIndeksIFokus(props.indeks);
                 props.onKlikketPaaLenke(notifikasjon)
             }}
         >

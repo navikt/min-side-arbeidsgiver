@@ -1,6 +1,6 @@
-import React, {LegacyRef, useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {Undertittel} from 'nav-frontend-typografi';
-import { Xknapp } from "nav-frontend-ikonknapper";
+import { Close } from '@navikt/ds-icons'
 import {NotifikasjonListeElement} from './NotifikasjonListeElement/NotifikasjonListeElement';
 import './NotifikasjonListe.less';
 import {Notifikasjon} from "../../../../api/graphql-types";
@@ -29,17 +29,20 @@ const NotifikasjonListe = ({
             containerElement?.scrollTo(0, 0);
         }
     }, [erApen]);
-    const ref = useRef<HTMLDivElement>(null)
-    const focusXKnapp = () => {
-        // TODO: virker ikke...
-        console.log("focus", { curr: ref.current, el: ref.current?.querySelector<HTMLButtonElement>(".notifikasjon_liste-header button")})
-        ref.current?.querySelector<HTMLButtonElement>(".notifikasjon_liste-header button")?.focus()
+    useEffect(() => {
+        if (indeksIFokus === -1) {
+            const element = document.getElementById('notifikasjon_liste-header-xbtn');
+            element?.focus();
+        }
+    }, [indeksIFokus]);
+    const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
+    const lukk = () => {
+        setErApen(false);
+        setIndeksIFokus(-1)
     }
 
-    const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
-
     return (
-        <div ref={ref} role="presentation" onKeyDown={({ key } ) => {
+        <div role="presentation" onKeyDown={({key}) => {
             if (key === 'Escape' || key === 'Esc') {
                 setErApen(false);
             }
@@ -54,7 +57,22 @@ const NotifikasjonListe = ({
             >
                 <div id="notifikasjon_liste-header" className="notifikasjon_liste-header">
                     <Undertittel>Beskjeder og oppgaver</Undertittel>
-                    <Xknapp htmlType="button" onClick={() => setErApen(false)}/>
+                    <button id="notifikasjon_liste-header-xbtn"
+                            className="notifikasjon_liste-header-xbtn"
+                            onKeyDown={(event) => {
+                                if (event.key === 'Tab') {
+                                    if (event.shiftKey) {
+                                        lukk();
+                                    } else {
+                                        setIndeksIFokus(0);
+                                    }
+                                }
+                            }}
+                            onClick={() => {
+                                lukk();
+                            }}>
+                        <Close/>
+                    </button>
                 </div>
 
                 <ul
@@ -62,10 +80,9 @@ const NotifikasjonListe = ({
                     id="notifikasjon_liste-elementer"
                     className="notifikasjon_liste-elementer"
                 >
-                    { notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
+                    {notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
                         <li key={index} role="article">
                             <NotifikasjonListeElement
-                                setErApen={setErApen}
                                 antall={notifikasjoner?.length}
                                 indeks={index}
                                 indeksIFokus={indeksIFokus}
@@ -75,7 +92,6 @@ const NotifikasjonListe = ({
                                     notifikasjonKlikketPaa({variables: {id: notifikasjon.id}})
                                 }}
                                 notifikasjon={varsel}
-                                onTabbetUt={focusXKnapp}
                             />
                         </li>
                     ))

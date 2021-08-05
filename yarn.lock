@@ -1919,6 +1919,11 @@
     prop-types "^15.7.2"
     whatwg-fetch "^3.5.0"
 
+"@navikt/ds-icons@^0.3.3":
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.3.3.tgz#19432cc0b711f4643cba611c5b593ff2b7b67626"
+  integrity sha512-851CJ6GJu4u1iLLhqhGW+jeEB4NpOsoN8Guhy6KZUPSGI1mbN1fGkUcu7p2BC7VF3Rcad/EdHGwTmPPAYZ4vDg==
+
 "@navikt/fnrvalidator@^1.1.3":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@navikt/fnrvalidator/-/fnrvalidator-1.1.3.tgz#1bd136977a708120b6069276b0069b2a9cc9ae73"
@@ -9454,6 +9459,11 @@ nav-frontend-ikoner-assets@^2.0.10:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/nav-frontend-ikoner-assets/-/nav-frontend-ikoner-assets-2.0.10.tgz#8525d171ce81c9444f904374057cd77d98bae82d"
   integrity sha512-n/2qIk29rRkR8OZwZBnSIWRKdC25t/8lAhZXEvFZrqmjAC+U4xHHj5+VlCoN5O5VIzq4xtck1Flwj7mJehAj7g==
+
+nav-frontend-ikonknapper@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/nav-frontend-ikonknapper/-/nav-frontend-ikonknapper-2.0.2.tgz#3fad530ec9d918f2b224e830e10e13f10f5b3d59"
+  integrity sha512-utRZVgFKGrOX36WiM/zL1VqyQeyZ7Fbmu3p6+YCCMUWF8qN6eYAkFZswD9H6cB+FqZayPuVhvZDqHyor+YrtfQ==
 
 nav-frontend-js-utils@^1.0.17:
   version "1.0.17"

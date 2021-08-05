@@ -51,7 +51,7 @@ const NotifikasjonWidget = () => {
     const [erApen, setErApen] = useState(false);
     const [indeksIFokus, setIndeksIFokus] = useState(-1);
 
-    const handleOutsideClick: { (event: MouseEvent | KeyboardEvent): void } = (
+    const handleFocusOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
     ) => {
         const node = elementRef.current;
@@ -72,12 +72,9 @@ const NotifikasjonWidget = () => {
     };
 
     useEffect(() => {
-        document.addEventListener('click', handleOutsideClick, false);
-        document.addEventListener('keydown', handleOutsideClick, false);
-
+        document.addEventListener('click', handleFocusOutside);
         return () => {
-            window.removeEventListener('click', handleOutsideClick, false);
-            window.removeEventListener('keydown', handleOutsideClick, false);
+            document.removeEventListener('click', handleFocusOutside);
         };
     }, []);
 
