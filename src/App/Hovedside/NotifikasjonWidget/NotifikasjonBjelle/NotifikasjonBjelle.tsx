@@ -31,7 +31,7 @@ export const NotifikasjonBjelle = (
                     setErApen(!erApen);
                 }}
                 className={`notifikasjon_bjelle-knapp notifikasjon_bjelle-knapp${erApen ? '--open' : ''}`}
-                aria-label={`Notifikasjoner. Trykk enter for å ${erApen ? 'lukke' : 'åpne'} listen over notifikasjoner`}
+                aria-label={`Du har ${antallUleste} uleste notifikasjoner.`}
                 aria-controls="notifikasjon_liste"
                 aria-expanded={erApen}
                 aria-pressed={erApen}

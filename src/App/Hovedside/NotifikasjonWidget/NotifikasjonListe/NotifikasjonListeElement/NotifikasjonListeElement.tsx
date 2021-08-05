@@ -44,8 +44,7 @@ const onArrowpress = (key: string, props: Props) => {
 export const NotifikasjonListeElement = (props: Props) => {
     useEffect(() => {
         if (props.indeks === props.indeksIFokus) {
-            const element = document.getElementById('notifikasjon_liste_element-lenkepanel-indeks-' + props.indeks);
-            console.log({element, idx: props.indeks});
+            const element = document.getElementById('notifikasjon_liste_element-indeks-' + props.indeks);
             element?.focus();
         }
     }, [props.indeks, props.indeksIFokus]);
@@ -74,6 +73,11 @@ export const NotifikasjonListeElement = (props: Props) => {
         <a
             href={props.notifikasjon.lenke}
             className="notifikasjon_liste_element"
+            id={'notifikasjon_liste_element-indeks-' + props.indeks}
+            onKeyDown={(event) => onArrowpress(event.key, props)}
+            onClick={() => {
+                props.onKlikketPaaLenke(notifikasjon)
+            }}
         >
         <div className="notifikasjon_liste_element-metadata">
             <Undertekst className="notifikasjon_liste_element-metadata-dato">
@@ -95,13 +99,7 @@ export const NotifikasjonListeElement = (props: Props) => {
 
         <div
             className="notifikasjon_liste_element-lenkepanel"
-            // onClick={() => {
-            //     props.onKlikketPaaLenke(notifikasjon)
-            // }}
-            //onKeyDown={(event) => onArrowpress(event.key, props)}
-            //tittelProps="normaltekst"
             aria-label=""
-            id={'notifikasjon_liste_element-lenkepanel-indeks-' + props.indeks}
         >
             <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
             <div className="notifikasjon_liste_element-lenkepanel-tekst">

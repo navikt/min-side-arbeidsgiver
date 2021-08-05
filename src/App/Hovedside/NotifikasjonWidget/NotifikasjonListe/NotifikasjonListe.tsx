@@ -34,9 +34,11 @@ const NotifikasjonListe = ({
     return (
         <div
             id="notifikasjon_liste"
+            role="dialog"
+            aria-labelledby="notifikasjon_liste-header"
             className={`notifikasjon_liste ${erApen ? 'notifikasjon_liste--apen' : ''}`}
         >
-            <div className="notifikasjon_liste-header">
+            <div id="notifikasjon_liste-header" className="notifikasjon_liste-header">
                 <Undertittel>Beskjeder og oppgaver</Undertittel>
             </div>
 
