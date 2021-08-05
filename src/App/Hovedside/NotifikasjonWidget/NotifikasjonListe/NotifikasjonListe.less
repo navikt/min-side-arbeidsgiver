@@ -28,18 +28,18 @@
       border-left: @navDypBla 4px solid;
     }
 
-    &:focus {
+    &:focus-within {
       border: @navDypBla 4px solid;
     }
 
     &:not(:last-child) {
-      &:focus {
+      &:focus-within {
         .notifikasjon_liste_element {
           border-bottom: transparent 1px solid;
         }
       }
 
-      &:not(:focus) {
+      &:not(:focus-within) {
         .notifikasjon_liste_element {
           border-bottom: @navGra40 1px solid;
         }

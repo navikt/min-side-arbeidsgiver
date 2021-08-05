@@ -47,7 +47,7 @@ const NotifikasjonListe = ({
                 aria-label={`Liste med ${notifikasjoner?.length} beskjeder`}
             >
                 { notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
-                    <li key={index}>
+                    <li key={index} role="article">
                         <NotifikasjonListeElement
                             setErApen={setErApen}
                             antall={notifikasjoner?.length}

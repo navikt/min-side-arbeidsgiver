@@ -70,7 +70,11 @@ export const NotifikasjonListeElement = (props: Props) => {
     }
 
     const erUtfoert = notifikasjon.__typename == "Oppgave" && notifikasjon.tilstand == OppgaveTilstand.Utfoert;
-    return <div className="notifikasjon_liste_element">
+    return (
+        <a
+            href={props.notifikasjon.lenke}
+            className="notifikasjon_liste_element"
+        >
         <div className="notifikasjon_liste_element-metadata">
             <Undertekst className="notifikasjon_liste_element-metadata-dato">
                 { notifikasjon.__typename }
@@ -95,7 +99,6 @@ export const NotifikasjonListeElement = (props: Props) => {
             //     props.onKlikketPaaLenke(notifikasjon)
             // }}
             //onKeyDown={(event) => onArrowpress(event.key, props)}
-            //href={notifikasjon.lenke}
             //tittelProps="normaltekst"
             aria-label=""
             id={'notifikasjon_liste_element-lenkepanel-indeks-' + props.indeks}
@@ -108,5 +111,5 @@ export const NotifikasjonListeElement = (props: Props) => {
                 <HoyreChevron/>
             </div>
         </div>
-    </div>;
+    </a>);
 };
