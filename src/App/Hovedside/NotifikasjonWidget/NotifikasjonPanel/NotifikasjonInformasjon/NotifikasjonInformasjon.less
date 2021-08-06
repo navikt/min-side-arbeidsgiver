@@ -1,0 +1,51 @@
+@import 'node_modules/nav-frontend-core/less/_variabler';
+
+.notifikasjon-informasjon {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @knapp-hoyde: 2rem;
+
+  &-knapp {
+    display: flex;
+    align-items: center;
+    height: @knapp-hoyde;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+    color: @navBla;
+
+    svg {
+      margin-right: .4rem;
+    }
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &-popover {
+    position: absolute;
+    top: calc(@knapp-hoyde + .8rem);
+    visibility: hidden;
+    z-index: 300;
+    padding: 1rem;
+    border: @navLysBla 2px solid;
+    border-radius: 5px;
+    background-color: @navLysBlaLighten80;
+
+    .popover__pil {
+      border-top: @navLysBla 2px solid;
+      border-left: @navLysBla 2px solid;
+      background-color: @navLysBlaLighten80;
+    }
+
+    &__vis {
+      visibility: visible;
+    }
+  }
+}

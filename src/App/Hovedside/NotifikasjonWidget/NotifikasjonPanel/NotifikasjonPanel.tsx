@@ -1,26 +1,33 @@
-import React, {useEffect, useState} from 'react';
-import {Undertittel} from 'nav-frontend-typografi';
+import React, { useEffect, useState } from 'react';
+import { Undertittel } from 'nav-frontend-typografi';
 import { Close } from '@navikt/ds-icons'
-import {NotifikasjonListeElement} from './NotifikasjonListeElement/NotifikasjonListeElement';
+import { NotifikasjonListeElement } from './NotifikasjonListeElement/NotifikasjonListeElement';
 import './NotifikasjonPanel.less';
-import {Notifikasjon} from "../../../../api/graphql-types";
-import {useMutation} from "@apollo/client";
-import {NOTIFIKASJONER_KLIKKET_PAA} from "../../../../api/graphql";
+import { Notifikasjon } from '../../../../api/graphql-types';
+import { useMutation } from '@apollo/client';
+import { NOTIFIKASJONER_KLIKKET_PAA } from '../../../../api/graphql';
+import { NotifikasjonInformasjon } from './NotifikasjonInformasjon/NotifikasjonInformasjon';
 
 interface Props {
     erApen: boolean;
-    lukkPanel: () => void;
+    onLukkPanel: () => void;
     notifikasjoner: Notifikasjon[] | undefined;
 }
 
 const NotifikasjonPanel = ({
                                notifikasjoner,
                                erApen,
-                               lukkPanel,
+                               onLukkPanel,
                            }: Props) => {
     
     const [valgtNotifikasjon, setValgtNotifikasjon] = useState(0);
     const [xbtnIFocus, setXbtnIFocus] = useState(false);
+
+    const lukkPanel = () => {
+        setValgtNotifikasjon(0);
+        setXbtnIFocus(false);
+        onLukkPanel();
+    }
     
     useEffect(() => {
         if (erApen) {
@@ -104,7 +111,7 @@ const NotifikasjonPanel = ({
                 </ul>
 
                 <div className="notifikasjon_panel-footer">
-                    <Undertittel>Footer</Undertittel>
+                    <NotifikasjonInformasjon/>
                 </div>
             </div>
         </div>

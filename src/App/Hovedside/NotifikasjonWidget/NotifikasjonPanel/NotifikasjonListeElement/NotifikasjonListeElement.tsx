@@ -41,6 +41,8 @@ export const NotifikasjonListeElement = (props: Props) => {
     }
 
     const erUtfoert = notifikasjon.__typename == "Oppgave" && notifikasjon.tilstand == OppgaveTilstand.Utfoert;
+    // TODO: Strukturen på "feltene" under (tid, merkelapp, tekst, status, osv) er kanskje vanskelig å skille fra
+    // hverandre med skjermleser?
     return (
         <a
             tabIndex={props.erValgt ? 0 : -1}
@@ -62,32 +64,32 @@ export const NotifikasjonListeElement = (props: Props) => {
                 props.onKlikketPaaLenke(notifikasjon);
             }}
         >
-        <div className="notifikasjon_liste_element-metadata">
-            <Undertekst className="notifikasjon_liste_element-metadata-dato">
-                { notifikasjon.__typename }
-                {' '}
-                { erUtfoert ? 'utført' : 'sendt' }
-                {' '}
-                { datotekst(date) }
+            <div className="notifikasjon_liste_element-metadata">
+                <Undertekst className="notifikasjon_liste_element-metadata-dato">
+                    { notifikasjon.__typename }
+                    {' '}
+                    { erUtfoert ? 'utført' : 'sendt' }
+                    {' '}
+                    { datotekst(date) }
+                </Undertekst>
+
+                <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
+                    {notifikasjon.merkelapp.toUpperCase()}
+                </UndertekstBold>
+            </div>
+
+            <Undertekst className="notifikasjon_liste_element-virksomhetsnavn">
+                {notifikasjon.virksomhet.navn.toUpperCase()}
             </Undertekst>
 
-            <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
-                {notifikasjon.merkelapp.toUpperCase()}
-            </UndertekstBold>
-        </div>
-
-        <Undertekst className="notifikasjon_liste_element-virksomhetsnavn">
-            {notifikasjon.virksomhet.navn.toUpperCase()}
-        </Undertekst>
-
-        <div className="notifikasjon_liste_element-lenkepanel">
-            <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
-            <div className="notifikasjon_liste_element-lenkepanel-tekst">
-                { notifikasjon.brukerKlikk?.klikketPaa ? notifikasjon.tekst : <strong>{notifikasjon.tekst}</strong> }
+            <div className="notifikasjon_liste_element-lenkepanel">
+                <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
+                <div className="notifikasjon_liste_element-lenkepanel-tekst">
+                    { notifikasjon.brukerKlikk?.klikketPaa ? notifikasjon.tekst : <strong>{notifikasjon.tekst}</strong> }
+                </div>
+                <div className="notifikasjon_liste_element-lenkepanel-chevron">
+                    <HoyreChevron/>
+                </div>
             </div>
-            <div className="notifikasjon_liste_element-lenkepanel-chevron">
-                <HoyreChevron/>
-            </div>
-        </div>
-    </a>);
+        </a>);
 };
