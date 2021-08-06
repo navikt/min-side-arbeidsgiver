@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Undertekst, UndertekstBold} from 'nav-frontend-typografi';
 import {datotekst} from '../dato-funksjoner';
 import {ReactComponent as IkonBeskjed} from './ikon-beskjed.svg';
@@ -10,22 +10,17 @@ import {HoyreChevron} from 'nav-frontend-chevron';
 
 interface Props {
     notifikasjon: Notifikasjon;
-    setIndeksIFokus: (indeks: number) => void;
-    indeksIFokus: number;
     indeks: number;
     antall: number;
     onKlikketPaaLenke: (notifikasjon: Notifikasjon) => void;
+    onTabEvent: (shiftKey: boolean) => void;
+    gåTilForrige: () => void;
+    gåTilNeste: () => void;
+    erValgt: boolean;
 }
 
 
 export const NotifikasjonListeElement = (props: Props) => {
-    useEffect(() => {
-        if (props.indeks === props.indeksIFokus) {
-            const element = document.getElementById('notifikasjon_liste_element-indeks-' + props.indeks);
-            element?.focus();
-        }
-    }, [props.indeks, props.indeksIFokus]);
-
     const notifikasjon = props.notifikasjon;
 
     const date = new Date(notifikasjon.opprettetTidspunkt)
@@ -48,32 +43,23 @@ export const NotifikasjonListeElement = (props: Props) => {
     const erUtfoert = notifikasjon.__typename == "Oppgave" && notifikasjon.tilstand == OppgaveTilstand.Utfoert;
     return (
         <a
-            tabIndex={props.indeks === props.indeksIFokus ? 0 : -1}
+            tabIndex={props.erValgt ? 0 : -1}
             href={props.notifikasjon.lenke}
             className="notifikasjon_liste_element"
             id={'notifikasjon_liste_element-indeks-' + props.indeks}
             onKeyDown={(event) => {
                 if (event.key === 'Tab') {
-                    props.setIndeksIFokus(-1);
+                    props.onTabEvent(event.shiftKey)
                 }
                 if (event.key === 'ArrowUp' || event.key === 'Up') {
-                    if (props.indeks === 0) {
-                        props.setIndeksIFokus(props.antall - 1);
-                    } else {
-                        props.setIndeksIFokus(props.indeks - 1);
-                    }
+                    props.gåTilForrige()
                 }
                 if (event.key === 'ArrowDown' || event.key === 'Down') {
-                    if (props.indeks === props.antall - 1) {
-                        props.setIndeksIFokus(0);
-                    } else {
-                        props.setIndeksIFokus(props.indeks + 1);
-                    }
+                    props.gåTilNeste()
                 }
             }}
             onClick={() => {
-                props.setIndeksIFokus(props.indeks);
-                props.onKlikketPaaLenke(notifikasjon)
+                props.onKlikketPaaLenke(notifikasjon);
             }}
         >
         <div className="notifikasjon_liste_element-metadata">

@@ -6,30 +6,21 @@ import {ReactComponent as Ikon} from "./NotifikasjonBjelle.svg";
 interface Props {
     antallUleste?: number;
     erApen: boolean;
-    setErApen: (bool: boolean) => void;
-    onApnet?: () => void;
+    onClick?: () => void;
 }
 
 export const NotifikasjonBjelle = (
     {
         antallUleste = 0,
         erApen,
-        setErApen,
-        onApnet = () => {
-            // default noop
-        }
+        onClick,
     }: Props
 ) => {
 
     return (
         <div className="notifikasjon_bjelle">
             <button
-                onClick={() => {
-                    if (!erApen) {
-                        onApnet()
-                    }
-                    setErApen(!erApen);
-                }}
+                onClick={onClick}
                 className={`notifikasjon_bjelle-knapp notifikasjon_bjelle-knapp${erApen ? '--open' : ''}`}
                 aria-label={`Dine notifikasjoner, ${antallUleste} uleste.`}
                 aria-owns="notifikasjon_liste"

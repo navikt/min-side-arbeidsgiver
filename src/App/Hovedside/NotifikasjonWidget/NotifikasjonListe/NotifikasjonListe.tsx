@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Undertittel} from 'nav-frontend-typografi';
 import { Close } from '@navikt/ds-icons'
 import {NotifikasjonListeElement} from './NotifikasjonListeElement/NotifikasjonListeElement';
@@ -10,8 +10,6 @@ import {NOTIFIKASJONER_KLIKKET_PAA} from "../../../../api/graphql";
 interface Props {
     erApen: boolean;
     setErApen: (bool: boolean) => void;
-    setIndeksIFokus: (indeks: number) => void;
-    indeksIFokus: number;
     notifikasjoner: Notifikasjon[] | undefined;
 }
 
@@ -19,27 +17,31 @@ const NotifikasjonListe = ({
                                notifikasjoner,
                                erApen,
                                setErApen,
-                               indeksIFokus,
-                               setIndeksIFokus,
                            }: Props) => {
-
+    
+    const [valgtNotifikasjon, setValgtNotifikasjon] = useState(0);
+    const [xbtnIFocus, setXbtnIFocus] = useState(false);
+    
     useEffect(() => {
         if (erApen) {
             const containerElement = document.getElementById('notifikasjon_liste-elementer');
             containerElement?.scrollTo(0, 0);
         }
     }, [erApen]);
+
     useEffect(() => {
-        if (indeksIFokus === -1) {
+        if (!erApen) {
+            return;
+        }
+        if (xbtnIFocus) {
             const element = document.getElementById('notifikasjon_liste-header-xbtn');
             element?.focus();
+        } else {
+            const element = document.getElementById('notifikasjon_liste_element-indeks-' + valgtNotifikasjon);
+            element?.focus();
         }
-    }, [indeksIFokus]);
+    }, [xbtnIFocus, erApen, valgtNotifikasjon]);
     const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
-    const lukk = () => {
-        setErApen(false);
-        setIndeksIFokus(-1)
-    }
 
     return (
         <div role="presentation" onKeyDown={({key}) => {
@@ -60,16 +62,13 @@ const NotifikasjonListe = ({
                     <button id="notifikasjon_liste-header-xbtn"
                             className="notifikasjon_liste-header-xbtn"
                             onKeyDown={(event) => {
+                                // på sikt håndtere navigasjon basert på om footer er tabbable eller ikke
                                 if (event.key === 'Tab') {
-                                    if (event.shiftKey) {
-                                        lukk();
-                                    } else {
-                                        setIndeksIFokus(0);
-                                    }
+                                    setXbtnIFocus(false);
                                 }
                             }}
                             onClick={() => {
-                                lukk();
+                                setErApen(false);
                             }}>
                         <Close/>
                     </button>
@@ -82,14 +81,21 @@ const NotifikasjonListe = ({
                 >
                     {notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
                         <li key={index} role="article">
+
                             <NotifikasjonListeElement
                                 antall={notifikasjoner?.length}
                                 indeks={index}
-                                indeksIFokus={indeksIFokus}
-                                setIndeksIFokus={setIndeksIFokus}
+                                erValgt={index === valgtNotifikasjon}
+                                gåTilForrige={() => setValgtNotifikasjon(Math.max(0, index - 1))}
+                                gåTilNeste={() => setValgtNotifikasjon(Math.min(index + 1, notifikasjoner?.length - 1))}
                                 onKlikketPaaLenke={(notifikasjon) => {
                                     // noinspection JSIgnoredPromiseFromCall sentry håndterer unhandled promise rejections
-                                    notifikasjonKlikketPaa({variables: {id: notifikasjon.id}})
+                                    notifikasjonKlikketPaa({variables: {id: notifikasjon.id}});
+                                    setValgtNotifikasjon(index);
+                                }}
+                                onTabEvent={(_shift) => {
+                                    // på sikt håndtere navigasjon basert på om footer er tabbable eller ikke
+                                    setXbtnIFocus(true);
                                 }}
                                 notifikasjon={varsel}
                             />

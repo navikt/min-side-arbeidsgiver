@@ -49,7 +49,6 @@ const NotifikasjonWidget = () => {
 
     const elementRef = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
-    const [indeksIFokus, setIndeksIFokus] = useState(-1);
 
     const handleFocusOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
@@ -60,15 +59,6 @@ const NotifikasjonWidget = () => {
             return;
         }
         setErApen(false);
-    };
-
-    const setErÅpenOgFokusPåFørsteNotifikasjon = (åpen: boolean) => {
-        if (åpen) {
-            setIndeksIFokus(0);
-        } else {
-            setIndeksIFokus(-1);
-        }
-        setErApen(åpen);
     };
 
     useEffect(() => {
@@ -84,14 +74,19 @@ const NotifikasjonWidget = () => {
                 <NotifikasjonBjelle
                     antallUleste={antallUleste}
                     erApen={erApen}
-                    setErApen={setErÅpenOgFokusPåFørsteNotifikasjon}
-                    onApnet={() => setSistLest()} />
+                    onClick={() => {
+                        if (erApen) {
+                            setErApen(false);
+                        } else {
+                            setSistLest()
+                            setErApen(true);
+                        }
+                    }}
+                />
                 <NotifikasjonListe
                     notifikasjoner={notifikasjoner}
                     erApen={erApen}
                     setErApen={setErApen}
-                    indeksIFokus={indeksIFokus}
-                    setIndeksIFokus={setIndeksIFokus}
                 />
             </div>
             : null
