@@ -1,9 +1,8 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
-import {VarslerKnapp} from './varsler-knapp/VarslerKnapp';
-import Varselpanel from './Varselpanel/Varselpanel';
-import {Size, useWindowSize} from './useWindowSize';
-import './Varsler.less';
-import {inkluderVarslerFeatureToggle} from '../../../FeatureToggleProvider';
+import {NotifikasjonBjelle} from './NotifikasjonBjelle/NotifikasjonBjelle';
+import NotifikasjonPanel from './NotifikasjonPanel/NotifikasjonPanel';
+import './NotifikasjonWidget.less';
+import {inkluderNotifikasjonerFeatureToggle} from '../../../FeatureToggleProvider';
 import {ServerError, useQuery} from "@apollo/client";
 import {HENT_NOTIFIKASJONER, HentNotifikasjonerData} from "../../../api/graphql";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -19,8 +18,8 @@ const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[]) : Beskj
     }
 }
 
-const Varsler = () => {
-    if (!inkluderVarslerFeatureToggle) {
+const NotifikasjonWidget = () => {
+    if (!inkluderNotifikasjonerFeatureToggle) {
         return null
     }
 
@@ -48,15 +47,13 @@ const Varsler = () => {
     const notifikasjoner = data?.notifikasjoner ?? [];
     const antallUleste = uleste(sistLest, notifikasjoner).length;
 
-    const size: Size = useWindowSize();
-    const varslernode = useRef<HTMLDivElement>(null);
+    const elementRef = useRef<HTMLDivElement>(null);
     const [erApen, setErApen] = useState(false);
-    const [indeksVarselIFokus, setIndeksVarselIFokus] = useState(-1);
 
-    const handleOutsideClick: { (event: MouseEvent | KeyboardEvent): void } = (
+    const handleFocusOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
     ) => {
-        const node = varslernode.current;
+        const node = elementRef.current;
         // @ts-ignore
         if (node && node.contains(e.target as HTMLElement)) {
             return;
@@ -64,44 +61,39 @@ const Varsler = () => {
         setErApen(false);
     };
 
-    const setErÅpenOgFokusPåFørsteVarsel = (åpen: boolean) => {
-        if (åpen) {
-            setIndeksVarselIFokus(0);
-        } else {
-            setIndeksVarselIFokus(-1);
-        }
-        setErApen(åpen);
-    };
-
     useEffect(() => {
-        document.addEventListener('click', handleOutsideClick, false);
-        document.addEventListener('keydown', handleOutsideClick, false);
-
+        document.addEventListener('click', handleFocusOutside);
         return () => {
-            window.removeEventListener('click', handleOutsideClick, false);
-            window.removeEventListener('keydown', handleOutsideClick, false);
+            document.removeEventListener('click', handleFocusOutside);
         };
     }, []);
 
     return (
         notifikasjoner.length > 0
-            ? <div ref={varslernode} className="varsler">
-                <VarslerKnapp antallUlesteVarsler={antallUleste}
-                              erApen={erApen}
-                              setErApen={setErÅpenOgFokusPåFørsteVarsel}
-                              onApnet={() => setSistLest()} />
-                <Varselpanel
-                    varsler={notifikasjoner}
+            ? <div ref={elementRef} className="notifikasjoner_widget">
+                <NotifikasjonBjelle
+                    antallUleste={antallUleste}
                     erApen={erApen}
-                    setErApen={setErApen}
-                    indeksVarselIFokus={indeksVarselIFokus}
-                    setIndeksVarselIFokus={setIndeksVarselIFokus}
-                    dropdownouterheight={size.dropdown.outerheight}
-                    dropdowninnerheight={size.dropdown.innerheight}
+                    onClick={() => {
+                        if (erApen) {
+                            setErApen(false);
+                        } else {
+                            setSistLest()
+                            setErApen(true);
+                        }
+                    }}
+                />
+                <NotifikasjonPanel
+                    notifikasjoner={notifikasjoner}
+                    erApen={erApen}
+                    lukkPanel={() => {
+                        setErApen(false);
+                        // TODO: sett fokus på bjelle
+                    }}
                 />
             </div>
             : null
     );
 };
 
-export default Varsler;
+export default NotifikasjonWidget;
