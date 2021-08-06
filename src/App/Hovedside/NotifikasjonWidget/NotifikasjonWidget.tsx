@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {NotifikasjonBjelle} from './NotifikasjonBjelle/NotifikasjonBjelle';
-import NotifikasjonListe from './NotifikasjonListe/NotifikasjonListe';
+import NotifikasjonPanel from './NotifikasjonPanel/NotifikasjonPanel';
 import './NotifikasjonWidget.less';
 import {inkluderNotifikasjonerFeatureToggle} from '../../../FeatureToggleProvider';
 import {ServerError, useQuery} from "@apollo/client";
@@ -83,10 +83,13 @@ const NotifikasjonWidget = () => {
                         }
                     }}
                 />
-                <NotifikasjonListe
+                <NotifikasjonPanel
                     notifikasjoner={notifikasjoner}
                     erApen={erApen}
-                    setErApen={setErApen}
+                    lukkPanel={() => {
+                        setErApen(false);
+                        // TODO: sett fokus på bjelle
+                    }}
                 />
             </div>
             : null

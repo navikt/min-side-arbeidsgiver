@@ -2,21 +2,21 @@ import React, {useEffect, useState} from 'react';
 import {Undertittel} from 'nav-frontend-typografi';
 import { Close } from '@navikt/ds-icons'
 import {NotifikasjonListeElement} from './NotifikasjonListeElement/NotifikasjonListeElement';
-import './NotifikasjonListe.less';
+import './NotifikasjonPanel.less';
 import {Notifikasjon} from "../../../../api/graphql-types";
 import {useMutation} from "@apollo/client";
 import {NOTIFIKASJONER_KLIKKET_PAA} from "../../../../api/graphql";
 
 interface Props {
     erApen: boolean;
-    setErApen: (bool: boolean) => void;
+    lukkPanel: () => void;
     notifikasjoner: Notifikasjon[] | undefined;
 }
 
-const NotifikasjonListe = ({
+const NotifikasjonPanel = ({
                                notifikasjoner,
                                erApen,
-                               setErApen,
+                               lukkPanel,
                            }: Props) => {
     
     const [valgtNotifikasjon, setValgtNotifikasjon] = useState(0);
@@ -24,7 +24,7 @@ const NotifikasjonListe = ({
     
     useEffect(() => {
         if (erApen) {
-            const containerElement = document.getElementById('notifikasjon_liste-elementer');
+            const containerElement = document.getElementById('notifikasjon_panel-liste');
             containerElement?.scrollTo(0, 0);
         }
     }, [erApen]);
@@ -34,7 +34,7 @@ const NotifikasjonListe = ({
             return;
         }
         if (xbtnIFocus) {
-            const element = document.getElementById('notifikasjon_liste-header-xbtn');
+            const element = document.getElementById('notifikasjon_panel-header-xbtn');
             element?.focus();
         } else {
             const element = document.getElementById('notifikasjon_liste_element-indeks-' + valgtNotifikasjon);
@@ -46,21 +46,20 @@ const NotifikasjonListe = ({
     return (
         <div role="presentation" onKeyDown={({key}) => {
             if (key === 'Escape' || key === 'Esc') {
-                setErApen(false);
+                lukkPanel();
             }
         }}>
             <div
-                id="notifikasjon_liste"
+                id="notifikasjon_panel"
                 role="dialog"
                 aria-modal="true"
-                aria-owns="notifikasjon_liste"
-                aria-labelledby="notifikasjon_liste-header"
-                className={`notifikasjon_liste ${erApen ? 'notifikasjon_liste--apen' : ''}`}
+                aria-labelledby="notifikasjon_panel-header"
+                className={`notifikasjon_panel ${erApen ? 'notifikasjon_panel--apen' : ''}`}
             >
-                <div id="notifikasjon_liste-header" className="notifikasjon_liste-header">
+                <div id="notifikasjon_panel-header" className="notifikasjon_panel-header">
                     <Undertittel>Beskjeder og oppgaver</Undertittel>
-                    <button id="notifikasjon_liste-header-xbtn"
-                            className="notifikasjon_liste-header-xbtn"
+                    <button id="notifikasjon_panel-header-xbtn"
+                            className="notifikasjon_panel-header-xbtn"
                             onKeyDown={(event) => {
                                 // på sikt håndtere navigasjon basert på om footer er tabbable eller ikke
                                 if (event.key === 'Tab') {
@@ -68,7 +67,7 @@ const NotifikasjonListe = ({
                                 }
                             }}
                             onClick={() => {
-                                setErApen(false);
+                                lukkPanel();
                             }}>
                         <Close/>
                     </button>
@@ -76,8 +75,8 @@ const NotifikasjonListe = ({
 
                 <ul
                     role="feed"
-                    id="notifikasjon_liste-elementer"
-                    className="notifikasjon_liste-elementer"
+                    id="notifikasjon_panel-liste"
+                    className="notifikasjon_panel-liste"
                 >
                     {notifikasjoner?.map((varsel: Notifikasjon, index: number) => (
                         <li key={index} role="article">
@@ -104,7 +103,7 @@ const NotifikasjonListe = ({
                     }
                 </ul>
 
-                <div className="notifikasjon_liste-footer">
+                <div className="notifikasjon_panel-footer">
                     <Undertittel>Footer</Undertittel>
                 </div>
             </div>
@@ -112,4 +111,4 @@ const NotifikasjonListe = ({
     );
 };
 
-export default NotifikasjonListe;
+export default NotifikasjonPanel;

@@ -23,7 +23,7 @@ export const NotifikasjonBjelle = (
                 onClick={onClick}
                 className={`notifikasjon_bjelle-knapp notifikasjon_bjelle-knapp${erApen ? '--open' : ''}`}
                 aria-label={`Dine notifikasjoner, ${antallUleste} uleste.`}
-                aria-owns="notifikasjon_liste"
+                aria-owns="notifikasjon_panel"
                 aria-haspopup="dialog"
                 aria-pressed={erApen ? "true" : "false"}
             >
