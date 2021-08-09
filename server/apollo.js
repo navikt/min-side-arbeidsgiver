@@ -33,22 +33,50 @@ const casualDate = () => {
     return date;
 };
 
+const eksempler = {
+    'Tilskudd': [
+        "Avtale om midlertidig lønnstilskudd godkjent av alle",
+        "Avtale om mentortilskudd mangler din godkjenning"
+    ],
+    'Rekrutering': [
+        "Fire nye kandidater lagt til på listen \"Frontdesk medarbeidere\"",
+        "To nye kandidater lagt til på listen \"Lagerarbeidere\"",
+        "Fem nye kandidater lagt til på listen \"CTO\"",
+    ],
+    'Refusjon': [
+        "Send inntekstmelding for søknad om foreldrepenger"
+    ],
+    'Sykemeldt': [
+        "En ny sykmelding venter",
+        "Svar på om du ønsker dialogmøte eller ikke"
+    ]
+};
+
 
 const startApolloMock = () => {
     const data = fs.readFileSync('./bruker.graphql');
     const typeDefs = gql(data.toString());
-    const Notifikasjon = (navn) => ({
-        __typename: navn, //casual.boolean ? 'Beskjed' : 'Oppgave',
-        merkelapp: casual.random_element([
-            'Tilskudd',
-            'Rekrutering',
-            'Refusjon',
-            'Sykemeldt'
-        ]),
-        text: casual.short_description,
-        lenke: `#${casual.word}`,
-        opprettetTidspunkt: casualDate().toISOString(),
-    })
+    const Notifikasjon = (navn) => {
+        const merkelapp = casual.random_key(eksempler);
+        const tekst = casual.random_element(eksempler[merkelapp]);
+
+        return {
+            __typename: navn, //casual.boolean ? 'Beskjed' : 'Oppgave',
+            merkelapp,
+            tekst,
+            lenke: `#${casual.word}`,
+            opprettetTidspunkt: casualDate().toISOString(),
+            virksomhet: {
+                navn: casual.random_element([
+                    "Ballstad og Hamarøy",
+                    "Saltrød og Høneby",
+                    "Arendal og Bønes Revisjon",
+                    "Gravdal og Solli Revisjon",
+                    "Storfonsa og Fredrikstad Regnskap"
+                ])
+            }
+        };
+    };
     new ApolloServer({
         typeDefs,
         mocks: {
