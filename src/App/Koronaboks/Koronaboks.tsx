@@ -71,7 +71,7 @@ const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{orgnr: string}> 
 
     <Element className="koronaboks__tekst">Restriksjoner for innreise</Element>
     <Koronalenke href={grensekompURL}>
-        Søk om refusjon av for utestengte EØS-borgere
+        Søk om refusjon for utestengte EØS-borgere
     </Koronalenke>
 
     <Koronalenke href={grensekompOversiktURL}>
