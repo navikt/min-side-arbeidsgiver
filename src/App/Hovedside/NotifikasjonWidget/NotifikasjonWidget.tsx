@@ -18,7 +18,6 @@ const uleste = (sistLest: string | undefined, notifikasjoner: Beskjed[]) : Beskj
     }
 }
 
-// TODO: Fikse tab-order - info-popup er ignorert, kun kryss og notifikasjon kan tabbes
 const NotifikasjonWidget = () => {
     if (!inkluderNotifikasjonerFeatureToggle) {
         return null
