@@ -13,7 +13,7 @@ interface Props {
     indeks: number;
     antall: number;
     onKlikketPaaLenke: (notifikasjon: Notifikasjon) => void;
-    onTabEvent: (shiftKey: boolean) => void;
+    onTabEvent?: (shiftKey: boolean) => void;
     gåTilForrige: () => void;
     gåTilNeste: () => void;
     erValgt: boolean;
@@ -51,7 +51,7 @@ export const NotifikasjonListeElement = (props: Props) => {
             id={'notifikasjon_liste_element-indeks-' + props.indeks}
             onKeyDown={(event) => {
                 if (event.key === 'Tab') {
-                    props.onTabEvent(event.shiftKey)
+                    props.onTabEvent?.(event.shiftKey)
                 }
                 if (event.key === 'ArrowUp' || event.key === 'Up') {
                     props.gåTilForrige()

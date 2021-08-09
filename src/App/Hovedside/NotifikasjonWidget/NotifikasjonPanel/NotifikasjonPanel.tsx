@@ -14,40 +14,45 @@ interface Props {
     notifikasjoner: Notifikasjon[] | undefined;
 }
 
-const NotifikasjonPanel = ({
-                               notifikasjoner,
-                               erApen,
-                               onLukkPanel,
-                           }: Props) => {
+const NotifikasjonPanel = (
+    {
+        notifikasjoner,
+        erApen,
+        onLukkPanel,
+    }: Props
+) => {
     
     const [valgtNotifikasjon, setValgtNotifikasjon] = useState(0);
-    const [xbtnIFocus, setXbtnIFocus] = useState(false);
 
     const lukkPanel = () => {
         setValgtNotifikasjon(0);
-        setXbtnIFocus(false);
         onLukkPanel();
     }
-    
+
+    const focusXButton = () => {
+        document.getElementById('notifikasjon_panel-header-xbtn')?.focus();
+    }
+    const focusNotifikasjon = () => {
+        document.getElementById('notifikasjon_liste_element-indeks-' + valgtNotifikasjon)?.focus();
+    }
+    const focusMoreInfo = () => {
+        document.getElementById('notifikasjon-informasjon-knapp')?.focus();
+    }
+
     useEffect(() => {
         if (erApen) {
             const containerElement = document.getElementById('notifikasjon_panel-liste');
             containerElement?.scrollTo(0, 0);
+            focusNotifikasjon()
         }
     }, [erApen]);
 
     useEffect(() => {
-        if (!erApen) {
-            return;
+        if (erApen) {
+            focusNotifikasjon();
         }
-        if (xbtnIFocus) {
-            const element = document.getElementById('notifikasjon_panel-header-xbtn');
-            element?.focus();
-        } else {
-            const element = document.getElementById('notifikasjon_liste_element-indeks-' + valgtNotifikasjon);
-            element?.focus();
-        }
-    }, [xbtnIFocus, erApen, valgtNotifikasjon]);
+    }, [erApen, valgtNotifikasjon]);
+
     const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
 
     return (
@@ -68,9 +73,11 @@ const NotifikasjonPanel = ({
                     <button id="notifikasjon_panel-header-xbtn"
                             className="notifikasjon_panel-header-xbtn"
                             onKeyDown={(event) => {
-                                // på sikt håndtere navigasjon basert på om footer er tabbable eller ikke
                                 if (event.key === 'Tab') {
-                                    setXbtnIFocus(false);
+                                    if (event.shiftKey) {
+                                        focusMoreInfo()
+                                        event.preventDefault();
+                                    }
                                 }
                             }}
                             onClick={() => {
@@ -99,10 +106,6 @@ const NotifikasjonPanel = ({
                                     notifikasjonKlikketPaa({variables: {id: notifikasjon.id}});
                                     setValgtNotifikasjon(index);
                                 }}
-                                onTabEvent={(_shift) => {
-                                    // på sikt håndtere navigasjon basert på om footer er tabbable eller ikke
-                                    setXbtnIFocus(true);
-                                }}
                                 notifikasjon={varsel}
                             />
                         </li>
@@ -111,7 +114,14 @@ const NotifikasjonPanel = ({
                 </ul>
 
                 <div className="notifikasjon_panel-footer">
-                    <NotifikasjonInformasjon/>
+                    <NotifikasjonInformasjon
+                        onTabEvent={(shiftKey, event) => {
+                            if (!shiftKey) {
+                                focusXButton();
+                                event.preventDefault();
+                            }
+                        }}
+                    />
                 </div>
             </div>
         </div>
