@@ -47,15 +47,16 @@ const NotifikasjonWidget = () => {
     const notifikasjoner = data?.notifikasjoner ?? [];
     const antallUleste = uleste(sistLest, notifikasjoner).length;
 
-    const elementRef = useRef<HTMLDivElement>(null);
+    const widgetRef = useRef<HTMLDivElement>(null);
+    const bjelleRef = useRef<HTMLButtonElement>(null);
     const [erApen, setErApen] = useState(false);
 
     const handleFocusOutside: { (event: MouseEvent | KeyboardEvent): void } = (
         e: MouseEvent | KeyboardEvent
     ) => {
-        const node = elementRef.current;
+        const node = widgetRef.current;
         // @ts-ignore
-        if (node && node.contains(e.target as HTMLElement)) {
+        if (node && node !== e.target && node.contains(e.target as HTMLElement)) {
             return;
         }
         setErApen(false);
@@ -70,10 +71,11 @@ const NotifikasjonWidget = () => {
 
     return (
         notifikasjoner.length > 0
-            ? <div ref={elementRef} className="notifikasjoner_widget">
+            ? <div ref={widgetRef} className="notifikasjoner_widget">
                 <NotifikasjonBjelle
                     antallUleste={antallUleste}
                     erApen={erApen}
+                    focusableRef={bjelleRef}
                     onClick={() => {
                         if (erApen) {
                             setErApen(false);
@@ -86,11 +88,12 @@ const NotifikasjonWidget = () => {
                 <NotifikasjonPanel
                     notifikasjoner={notifikasjoner}
                     erApen={erApen}
-                    lukkPanel={() => {
+                    onLukkPanel={() => {
                         setErApen(false);
-                        // TODO: sett fokus på bjelle
+                        bjelleRef.current?.focus()
                     }}
                 />
+
             </div>
             : null
     );

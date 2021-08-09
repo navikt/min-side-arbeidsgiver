@@ -17,8 +17,6 @@ interface PamStatusAnnonser {
     PUBLISERT: number;
 }
 
-//TODO TAG-378: finne ut hvilke annonser som regner som "aktive"
-
 export const hentAntallannonser = async (): Promise<number> => {
     const respons = await fetch(pamHentStillingsannonserURL, {
         method: 'GET',
@@ -28,7 +26,6 @@ export const hentAntallannonser = async (): Promise<number> => {
         const responsBody: PamStatusAnnonser = await respons.json();
         return responsBody.PUBLISERT;
     }
-    // TODO TAG-378 Hvordan burde vi håndtere denne feilen? Snakke med resten av teamet
     return 0;
 };
 
