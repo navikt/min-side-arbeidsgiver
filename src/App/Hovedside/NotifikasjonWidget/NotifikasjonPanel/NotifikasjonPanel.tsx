@@ -72,6 +72,7 @@ const NotifikasjonPanel = (
                     <Undertittel>Beskjeder og oppgaver</Undertittel>
                     <button id="notifikasjon_panel-header-xbtn"
                             className="notifikasjon_panel-header-xbtn"
+                            aria-label="lukk"
                             onKeyDown={(event) => {
                                 if (event.key === 'Tab') {
                                     if (event.shiftKey) {

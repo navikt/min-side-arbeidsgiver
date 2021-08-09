@@ -41,8 +41,6 @@ export const NotifikasjonListeElement = (props: Props) => {
     }
 
     const erUtfoert = notifikasjon.__typename == "Oppgave" && notifikasjon.tilstand == OppgaveTilstand.Utfoert;
-    // TODO: Strukturen på "feltene" under (tid, merkelapp, tekst, status, osv) er kanskje vanskelig å skille fra
-    // hverandre med skjermleser?
     return (
         <a
             tabIndex={props.erValgt ? 0 : -1}
@@ -64,6 +62,21 @@ export const NotifikasjonListeElement = (props: Props) => {
                 props.onKlikketPaaLenke(notifikasjon);
             }}
         >
+            <div className="notifikasjon_liste_element-lenkepanel">
+                <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
+                <div className="notifikasjon_liste_element-lenkepanel-tekst">
+                    <div aria-label={notifikasjon.brukerKlikk?.klikketPaa ? "" : "ulest." } />
+                    { notifikasjon.brukerKlikk?.klikketPaa ? notifikasjon.tekst : <strong>{notifikasjon.tekst}</strong> }
+                </div>
+                <div className="notifikasjon_liste_element-lenkepanel-chevron">
+                    <HoyreChevron/>
+                </div>
+            </div>
+
+            <Undertekst className="notifikasjon_liste_element-virksomhetsnavn">
+                {notifikasjon.virksomhet.navn.toUpperCase()}
+            </Undertekst>
+
             <div className="notifikasjon_liste_element-metadata">
                 <Undertekst className="notifikasjon_liste_element-metadata-dato">
                     { notifikasjon.__typename }
@@ -73,23 +86,10 @@ export const NotifikasjonListeElement = (props: Props) => {
                     { datotekst(date) }
                 </Undertekst>
 
-                <UndertekstBold className="notifikasjon_liste_element-metadata-merkelapp">
+                <UndertekstBold aria-label={"merkelapp " + notifikasjon.merkelapp}
+                                className="notifikasjon_liste_element-metadata-merkelapp">
                     {notifikasjon.merkelapp.toUpperCase()}
                 </UndertekstBold>
-            </div>
-
-            <Undertekst className="notifikasjon_liste_element-virksomhetsnavn">
-                {notifikasjon.virksomhet.navn.toUpperCase()}
-            </Undertekst>
-
-            <div className="notifikasjon_liste_element-lenkepanel">
-                <div className="notifikasjon_liste_element-lenkepanel-ikon">{ikon}</div>
-                <div className="notifikasjon_liste_element-lenkepanel-tekst">
-                    { notifikasjon.brukerKlikk?.klikketPaa ? notifikasjon.tekst : <strong>{notifikasjon.tekst}</strong> }
-                </div>
-                <div className="notifikasjon_liste_element-lenkepanel-chevron">
-                    <HoyreChevron/>
-                </div>
             </div>
         </a>);
 };
