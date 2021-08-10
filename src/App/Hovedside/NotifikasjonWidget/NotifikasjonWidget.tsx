@@ -68,6 +68,11 @@ const NotifikasjonWidget = () => {
             document.removeEventListener('click', handleFocusOutside);
         };
     }, []);
+    useEffect(() => {
+        if (erApen) {
+            bjelleRef.current?.scrollIntoView({block: "start", inline: "nearest", behavior: "smooth"});
+        }
+    }, [erApen, bjelleRef]);
 
     return (
         notifikasjoner.length > 0
