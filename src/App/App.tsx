@@ -11,7 +11,6 @@ import { FeatureToggleProvider } from '../FeatureToggleProvider';
 import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
 import { loggBrukerLoggetInn } from '../utils/funksjonerForAmplitudeLogging';
 import './App.less';
-import {ToggledApolloProvider} from "../api/graphql";
 const App: FunctionComponent = () => {
 
     useEffect(() => {
@@ -29,25 +28,23 @@ const App: FunctionComponent = () => {
                     />
                     <LoginBoundary>
                         <FeatureToggleProvider>
-                            <ToggledApolloProvider>
-                                <OrganisasjonerOgTilgangerProvider>
-                                    <OrganisasjonsDetaljerProvider>
-                                        <Switch>
-                                            <Route
-                                                path="/bedriftsinformasjon"
-                                                exact={true}
-                                                component={InformasjonOmBedrift}
-                                            />
-                                            <Route
-                                                path="/mangler-tilgang"
-                                                exact={true}
-                                                component={ManglerTilgangContainer}
-                                            />
-                                            <Route path="/" exact={true} component={Hovedside} />
-                                        </Switch>
-                                    </OrganisasjonsDetaljerProvider>
-                                </OrganisasjonerOgTilgangerProvider>
-                            </ToggledApolloProvider>
+                            <OrganisasjonerOgTilgangerProvider>
+                                <OrganisasjonsDetaljerProvider>
+                                    <Switch>
+                                        <Route
+                                            path="/bedriftsinformasjon"
+                                            exact={true}
+                                            component={InformasjonOmBedrift}
+                                        />
+                                        <Route
+                                            path="/mangler-tilgang"
+                                            exact={true}
+                                            component={ManglerTilgangContainer}
+                                        />
+                                        <Route path="/" exact={true} component={Hovedside} />
+                                    </Switch>
+                                </OrganisasjonsDetaljerProvider>
+                            </OrganisasjonerOgTilgangerProvider>
                         </FeatureToggleProvider>
                     </LoginBoundary>
                 </Switch>
