@@ -40,7 +40,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
-            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget /> : null }
+            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget apiUri="/min-side-arbeidsgiver/notifikasjon/api/graphql" /> : null }
             <div className="hovedside-container">
                 <div className="hovedside">
                     <AdvarselBannerTestversjon />
