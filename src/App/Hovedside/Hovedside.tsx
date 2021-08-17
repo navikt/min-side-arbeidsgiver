@@ -15,10 +15,6 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
-// @ts-ignore
-import {NotifikasjonWidget} from '@navikt/arbeidsgiver-notifikasjon-widget'
-import { inkluderNotifikasjonerFeatureToggle } from '../../FeatureToggleProvider';
-
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } = useContext(
