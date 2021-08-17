@@ -15,10 +15,6 @@ import { SkjemaveilederContainer } from './SkjemaveilederContainer/Skjemaveilede
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
-// @ts-ignore
-import {NotifikasjonWidget} from '@navikt/arbeidsgiver-notifikasjon-widget'
-import { inkluderNotifikasjonerFeatureToggle } from '../../FeatureToggleProvider';
-
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
     const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } = useContext(
@@ -40,7 +36,6 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver" />
-            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget apiUri="/min-side-arbeidsgiver/notifikasjon/api/graphql" /> : null }
             <div className="hovedside-container">
                 <div className="hovedside">
                     <AdvarselBannerTestversjon />
