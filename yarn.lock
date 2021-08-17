@@ -1700,18 +1700,12 @@
     nav-frontend-typografi-style "2"
     prop-types "15"
 
-"@navikt/bedriftsmeny@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.npmjs.org/@navikt/bedriftsmeny/-/bedriftsmeny-3.0.3.tgz"
-  integrity sha512-l83TA2faIhGKKuuPEj0jD+On8OVlDUFO5H+XqkjNv0lrXF14dFLWP0L2B3Oc1PrrcKEq0+2sPwVkjjrYV/1l1A==
+"@navikt/bedriftsmeny@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-3.2.0.tgz#e252a1adb86b7b6d438960c2aa15d918ecda3aeb"
+  integrity sha512-j5b++L3fKCLD/hFjWum2XnxyQ0OlnUsiFF7Fp+YExaMh0LobA2d8ANwDhMd9MIBpcRPuFpSbUvTrhALstqdW5w==
   dependencies:
-    classnames "^2.2.6"
     fuzzysort "^1.1.4"
-    lodash.throttle "^4.1.1"
-    postcss-loader "^3.0.0"
-    postcss-prefix-selector "^1.7.2"
-    prop-types "^15.7.2"
-    whatwg-fetch "^3.5.0"
 
 "@navikt/ds-icons@0", "@navikt/ds-icons@^0.5.1":
   version "0.5.1"
@@ -8753,6 +8747,11 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+
 node-forge@^0.10.0:
   version "0.10.0"
   resolved "https://registry.npmjs.org/node-forge/-/node-forge-0.10.0.tgz"
@@ -9702,7 +9701,7 @@ postcss-load-config@^2.0.0:
     cosmiconfig "^5.0.0"
     import-cwd "^2.0.0"
 
-postcss-loader@3.0.0, postcss-loader@^3.0.0:
+postcss-loader@3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/postcss-loader/-/postcss-loader-3.0.0.tgz"
   integrity sha512-cLWoDEY5OwHcAjDnkyRQzAXfs2jrKjXpO/HQFcc5b5u/r7aa471wdmChmwfnv7x2u840iat/wi0lQ5nbRgSkUA==
@@ -9950,13 +9949,6 @@ postcss-place@^4.0.1:
   dependencies:
     postcss "^7.0.2"
     postcss-values-parser "^2.0.0"
-
-postcss-prefix-selector@^1.7.2:
-  version "1.9.0"
-  resolved "https://registry.npmjs.org/postcss-prefix-selector/-/postcss-prefix-selector-1.9.0.tgz"
-  integrity sha512-tTUHUNP+/Qfgg+fvbljUIeLs1ijICWb8+CT3bZM2joE2pkd+EnuBzSfZNHY2RMmozNRp44yEFv+I+6IIiLcoCg==
-  dependencies:
-    postcss "^7.0.0"
 
 postcss-preset-env@6.7.0:
   version "6.7.0"
@@ -12869,7 +12861,7 @@ whatwg-encoding@^1.0.5:
   dependencies:
     iconv-lite "0.4.24"
 
-whatwg-fetch@^3.4.1, whatwg-fetch@^3.5.0, whatwg-fetch@^3.6.2:
+whatwg-fetch@^3.4.1, whatwg-fetch@^3.6.2:
   version "3.6.2"
   resolved "https://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz"
   integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
