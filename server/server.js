@@ -182,5 +182,5 @@ const serve = async () => {
 serve().then(/*noop*/);
 
 if (NAIS_CLUSTER_NAME === 'labs-gcp') {
-    import('./apollo.js')
+    import('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock')
 }

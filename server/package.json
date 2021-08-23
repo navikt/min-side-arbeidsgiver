@@ -5,6 +5,7 @@
   "type": "module",
   "main": "server.js",
   "dependencies": {
+    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "file:../../arbeidsgiver-notifikasjon-widget/server",
     "apollo-server": "^2.21.2",
     "casual": "^1.6.2",
     "cookie-parser": "^1.4.5",
@@ -19,6 +20,7 @@
     "winston": "3.3.3"
   },
   "scripts": {
-    "start": "node --experimental-modules server.js"
+    "start": "node --experimental-modules server.js",
+    "start:apollo": "node apollo.js"
   }
 }

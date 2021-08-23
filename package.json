@@ -103,7 +103,6 @@
     "start": "craco start",
     "start:mock": "REACT_APP_MOCK=true yarn start",
     "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
-    "start:apollo": "nodemon --experimental-modules server/apollo.js",
     "build": "craco build",
     "test": "craco test",
     "lint": "eslint --ext ts,tsx .",
