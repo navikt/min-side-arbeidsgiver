@@ -1683,12 +1683,13 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@navikt/arbeidsgiver-notifikasjon-widget@0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-0.0.13.tgz#50b0ed9faed3ac016f665a43d303b3d20a93af57"
-  integrity sha512-I3T+xNgnlNDMRjkOjVefnWHdji6zdlbVphjwq67OCHIs/GYSyvJ72WmiJQF/norecNvgNsW05yAHIBvRobiGcw==
+"@navikt/arbeidsgiver-notifikasjon-widget@0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-0.0.14.tgz#3d8fc464d2da3a4c1e7867c13f9c7d458e0a36f0"
+  integrity sha512-5C4EBYz9Yyli67yIFt3kvY47ZQ248yFk2bihQw4H2g3OjRgXfmjP54RDhfhbEce3+ucd5jfJxCZDnsgfodMBYQ==
   dependencies:
     "@apollo/client" "3"
+    "@navikt/ds-css" "0"
     "@navikt/ds-icons" "0"
     "@navikt/ds-react" "0"
     classnames "2"
@@ -1706,6 +1707,11 @@
   integrity sha512-j5b++L3fKCLD/hFjWum2XnxyQ0OlnUsiFF7Fp+YExaMh0LobA2d8ANwDhMd9MIBpcRPuFpSbUvTrhALstqdW5w==
   dependencies:
     fuzzysort "^1.1.4"
+
+"@navikt/ds-css@0":
+  version "0.6.20"
+  resolved "https://registry.yarnpkg.com/@navikt/ds-css/-/ds-css-0.6.20.tgz#bf4e1d897d0964651c46fd1066c6e41a768973b1"
+  integrity sha512-4pu+HkSD63ea4yYntJE4lPjniF/PEwrOEJwNoC66BA8MjCGXuIoGRkoLXPGrC/Eu/eqsRUVmQB+cJkKPN67NBQ==
 
 "@navikt/ds-icons@0", "@navikt/ds-icons@^0.5.1":
   version "0.5.1"
