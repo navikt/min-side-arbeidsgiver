@@ -26,7 +26,7 @@ jobs:
           cache: 'yarn'
 
       - name: Installer avhengigheter (yarn install)
-        run:  yarn install --frozen-lockfile
+        run:  yarn install --frozen-lockfile --verbose
 
       - name: Kjør UU-tester (yarn lint)
         run: yarn lint
