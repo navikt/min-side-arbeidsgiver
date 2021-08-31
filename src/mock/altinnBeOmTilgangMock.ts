@@ -34,22 +34,4 @@ const søknader: AltinnTilgangssøknad[] = [
 
 export const mock = () => {
     fetchMock.get('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', () => søknader);
-
-// fetchMock.post('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', (url, request) => {
-//     const skjema = JSON.parse(request.body?.toString() ?? '') as AltinnTilgangssøknadskjemaDTO;
-//     const søknad: AltinnTilgangssøknad = {
-//         orgnr: skjema.orgnr,
-//         status: 'Created',
-//         submitUrl: `/mock-altinn/skjema${id}/`,
-//         serviceCode: skjema.serviceCode,
-//         serviceEdition: skjema.serviceEdition.toString(),
-//         cratedDateTime: new Date().toString(),
-//         lastChangedDateTime: new Date().toString(),
-//     };
-//
-//     søknader.push([id, søknad, skjema.redirectUrl]);
-//     id += 1;
-//     return søknad;
-// });
-
 }

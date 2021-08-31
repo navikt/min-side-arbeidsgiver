@@ -58,8 +58,7 @@ export const mock = () => {
                     }
                 }
             },
-        )
-        .spy();
+        );
 
     fetchMock
         .get('begin:https://data.brreg.no/enhetsregisteret/api/enheter', {
@@ -120,6 +119,5 @@ export const mock = () => {
                     "href": "https://data.brreg.no/enhetsregisteret/api/enheter/982033268"
                 }
             }
-        })
-        .spy();
+        });
 }
