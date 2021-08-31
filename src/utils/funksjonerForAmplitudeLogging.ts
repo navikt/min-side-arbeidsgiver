@@ -1,6 +1,7 @@
 import amplitude from '../utils/amplitude';
-import { Tilgang } from '../App/LoginBoundary';
-import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerProvider';
+import { Innlogget } from '../App/LoginProvider';
+import { basename } from '../paths';
 
 
 /*
@@ -12,24 +13,26 @@ navigasjon når lenker/knapper trykkes på
 
  */
 
-
-
 interface EventProps {
+    url: string;
+    innlogget?: boolean;
     tilgangskombinasjon?: string;
     tjeneste?: string;
     destinasjon?: string;
     lenketekst?: string;
-    url: string;
     erTilleggssInformasjon:boolean;
     ingenTilganger?: boolean;
 }
 
 interface AndreTilganger {
-    tilgangTilSyfo: Tilgang,
+    tilgangTilSyfo: SyfoTilgang,
 }
 
-export const loggSidevisning = (pathname: string) => {
-    amplitude.logEvent('sidevisning', {});
+export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
+    amplitude.logEvent('sidevisning', {
+        url: `https://arbeidsgiver.nav.no${basename}${pathname}`,
+        innlogget: innlogget === Innlogget.INNLOGGET
+    });
 };
 
 export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
@@ -43,7 +46,7 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
 
     let tilgangsKombinasjon = ''
 
-    if (tilgangTilSyfo === Tilgang.TILGANG) {
+    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
         tilgangsKombinasjon += 'digisyfo ';
     }
 
@@ -73,7 +76,7 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
         tilgangsinfo.ingenTilganger = true;
     }
 
-    amplitude.logEvent('sidevisning', tilgangsinfo);
+    amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
 };
 
 export const loggTjenesteTrykketPa = (

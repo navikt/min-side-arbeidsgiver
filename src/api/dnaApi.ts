@@ -11,7 +11,7 @@ export async function hentSyfoTilgang(): Promise<boolean> {
     throw new Error('Feil ved kontakt mot baksystem.');
 }
 
-export const sjekkInnlogget = (signal: any): Promise<boolean> =>
+export const sjekkInnlogget = (signal: AbortSignal): Promise<boolean> =>
     fetch(sjekkInnloggetURL, { signal: signal }).then(_ => _.ok);
 
 export async function hentOrganisasjoner(): Promise<Organisasjon[]> {

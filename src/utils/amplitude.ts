@@ -15,7 +15,7 @@ const createAmpltiudeInstance = () => {
         saveEvents: false,
         includeUtm: true,
         batchEvents: false,
-        includeReferrer: true,
+        includeReferrer: true
     });
 
     return instance;

@@ -5,6 +5,7 @@ import { Undertittel } from 'nav-frontend-typografi';
 import {
     OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
+    SyfoTilgang
 } from '../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
@@ -14,7 +15,6 @@ import {
     BeOmSyfotilgang,
 } from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.less';
-import { Tilgang } from '../../LoginBoundary';
 import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
@@ -82,7 +82,7 @@ const BeOmTilgang: FunctionComponent = () => {
 
     const tjenesteinfoBokser: JSX.Element[] = [];
 
-    if (tilgangTilSyfo === Tilgang.IKKE_TILGANG) {
+    if (tilgangTilSyfo === SyfoTilgang.IKKE_TILGANG) {
         tjenesteinfoBokser.push(<BeOmSyfotilgang />);
     }
 

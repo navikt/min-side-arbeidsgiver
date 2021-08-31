@@ -1,33 +1,16 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { LoggInn } from './LoggInn/LoggInn';
-import { sjekkInnlogget } from '../api/dnaApi';
 import Spinner from './Spinner';
-
-export enum Tilgang {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
-
-export const tilgangFromTruthy: (e: boolean) => Tilgang = e =>
-    e ? Tilgang.TILGANG : Tilgang.IKKE_TILGANG;
+import { Innlogget, LoginContext } from './LoginProvider';
 
 const LoginBoundary: FunctionComponent = props => {
-    const [innlogget, setInnlogget] = useState(Tilgang.LASTER);
-
-    useEffect(() => {
-        const signal = new AbortController().signal;
-        sjekkInnlogget(signal)
-            .then(tilgangFromTruthy)
-            .then(setInnlogget);
-
-    }, []);
+    const {innlogget} = useContext(LoginContext)
 
     return (
         <>
-            {innlogget === Tilgang.TILGANG ? (
+            {innlogget === Innlogget.INNLOGGET ? (
                 props.children
-            ) : innlogget === Tilgang.IKKE_TILGANG ? (
+            ) : innlogget === Innlogget.IKKE_INNLOGGET ? (
                 <LoggInn />
             ) : (
                 <Spinner />
