@@ -3,6 +3,14 @@ const delay = new Promise(res => setTimeout(res, 500));
 
 export const OrganisasjonerResponse = [
     {
+        Name: 'En Juridisk Ehhet AS',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '874652202',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
         Name: 'BALLSTAD OG HAMARØY',
         Type: 'Business',
         OrganizationNumber: '811076732',
@@ -165,7 +173,7 @@ const mentortilskuddskjemaResponse = [
         OrganizationNumber: '990229023',
         OrganizationForm: 'BEDR',
         Status: 'Active',
-    },
+    }
 ];
 
 const InntektsmeldingSkjemaResponse = [

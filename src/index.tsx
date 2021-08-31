@@ -36,6 +36,7 @@ if (isMockApp) {
     require('./mock/altinnMeldingsboksMock').mock();
     require('./mock/unleashMock').mock();
     require('./mock/altinnBeOmTilgangMock').mock();
+    require('./mock/varslerMock').mock();
 }
 
 if (isMockApp || environment.MILJO === 'dev-gcp' ) {
