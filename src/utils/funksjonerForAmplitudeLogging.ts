@@ -20,8 +20,6 @@ interface EventProps {
     tjeneste?: string;
     destinasjon?: string;
     lenketekst?: string;
-    erTilleggssInformasjon:boolean;
-    ingenTilganger?: boolean;
 }
 
 interface AndreTilganger {
@@ -39,42 +37,37 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     org: OrganisasjonInfo | undefined,
     {tilgangTilSyfo}: AndreTilganger
 ) => {
-    let tilgangsinfo: EventProps = {
-        erTilleggssInformasjon: true,
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
-    };
-
-    let tilgangsKombinasjon = ''
+    let tilgangskombinasjon = ''
 
     if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
-        tilgangsKombinasjon += 'digisyfo ';
+        tilgangskombinasjon += 'digisyfo ';
     }
 
     if (org) {
         if (org.altinntilgang.pam.tilgang === 'ja') {
-            tilgangsKombinasjon += 'arbeidsplassen ';
+            tilgangskombinasjon += 'arbeidsplassen ';
         }
         if (org.altinntilgang.iaweb.tilgang === 'ja') {
-            tilgangsKombinasjon += 'sykefraværsstatistikk ';
+            tilgangskombinasjon += 'sykefraværsstatistikk ';
         }
         if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
-            tilgangsKombinasjon += 'arbeidstrening ';
+            tilgangskombinasjon += 'arbeidstrening ';
         }
         if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
-            tilgangsKombinasjon += 'arbeidsforhold'
+            tilgangskombinasjon += 'arbeidsforhold'
         }
         if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
-            tilgangsKombinasjon += 'midlertidig lønnstilskudd ';
+            tilgangskombinasjon += 'midlertidig lønnstilskudd ';
         }
         if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
-            tilgangsKombinasjon += 'varig lønnstilskudd';
+            tilgangskombinasjon += 'varig lønnstilskudd';
         }
     }
-    tilgangsinfo.tilgangskombinasjon = tilgangsKombinasjon
 
-    if (tilgangsKombinasjon === '') {
-        tilgangsinfo.ingenTilganger = true;
-    }
+    const tilgangsinfo: EventProps = {
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+        tilgangskombinasjon
+    };
 
     amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
 };
@@ -88,9 +81,7 @@ export const loggTjenesteTrykketPa = (
         destinasjon: destinasjon,
         lenketekst: lenketekst,
         tjeneste: tjeneste,
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
-        erTilleggssInformasjon: false
-
+        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
 };
