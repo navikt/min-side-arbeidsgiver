@@ -20,8 +20,8 @@ export const LoginProvider: FunctionComponent = props => {
 
     useEffect(() => {
         sjekkInnlogget()
-            .then(innlogget => {
-                setInnlogget(innlogget ? Innlogget.INNLOGGET : Innlogget.IKKE_INNLOGGET)
+            .then(innloggetResultat => {
+                setInnlogget(innloggetResultat ? Innlogget.INNLOGGET : Innlogget.IKKE_INNLOGGET)
             })
     }, []);
 

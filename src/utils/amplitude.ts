@@ -1,4 +1,4 @@
-import amplitude, { logEvent } from 'amplitude-js';
+import amplitude from 'amplitude-js';
 import { gittMiljo } from './environment';
 
 const getApiKey = () => {
