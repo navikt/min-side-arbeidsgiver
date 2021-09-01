@@ -6,13 +6,20 @@
         margin: 1.5rem 0 1rem;
     }
 
-    .skjemaveileder-lenkepanel {
-        height: 4rem;
-    }
-
     ul {
         list-style: none;
         margin: 0;
         padding: 0;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    ul > li {
+        flex-grow: 1;
+
+        @media (min-width: @screen-sm-min) {
+          max-width: 49%;
+        }
     }
 }
