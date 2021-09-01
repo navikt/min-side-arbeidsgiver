@@ -22,7 +22,7 @@ const createAmpltiudeInstance = () => {
 }
 
 
-const instance = gittMiljo({
+export default gittMiljo({
     prod: () => createAmpltiudeInstance(),
     dev: () => createAmpltiudeInstance(),
     other: () => ({
@@ -31,5 +31,3 @@ const instance = gittMiljo({
         }
     })
 })();
-
-export default instance;
