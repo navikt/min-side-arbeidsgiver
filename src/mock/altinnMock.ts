@@ -1,7 +1,14 @@
 import fetchMock from 'fetch-mock';
-const delay = new Promise(res => setTimeout(res, 500));
 
 export const OrganisasjonerResponse = [
+    {
+        Name: 'En Juridisk Ehhet AS',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '874652202',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
     {
         Name: 'BALLSTAD OG HAMARØY',
         Type: 'Business',
@@ -165,7 +172,7 @@ const mentortilskuddskjemaResponse = [
         OrganizationNumber: '990229023',
         OrganizationForm: 'BEDR',
         Status: 'Active',
-    },
+    }
 ];
 
 const InntektsmeldingSkjemaResponse = [
@@ -190,36 +197,24 @@ export const mock = () => {
     fetchMock
         .get(
             'min-side-arbeidsgiver/api/organisasjoner',
-            delay.then(() => {
-                return OrganisasjonerResponse;
-            })
-        )
-        .spy();
+            () => OrganisasjonerResponse
+        );
 
     fetchMock
         .get(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
-            delay.then(() => {
-                return mentortilskuddskjemaResponse;
-            })
-        )
-        .spy();
+            () => mentortilskuddskjemaResponse
+        );
 
     fetchMock
         .get(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
-            delay.then(() => {
-                return InntektsmeldingSkjemaResponse;
-            })
-        )
-        .spy();
+            () => InntektsmeldingSkjemaResponse
+        );
 
     fetchMock
         .get(
             'begin:/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
-            delay.then(() => {
-                return rettigheterSkjemaDefaultResponse;
-            })
-        )
-        .spy();
+            () => rettigheterSkjemaDefaultResponse
+        );
 }

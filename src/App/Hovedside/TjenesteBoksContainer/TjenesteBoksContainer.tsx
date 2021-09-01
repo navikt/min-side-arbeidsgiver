@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
-import { Tilgang } from '../../LoginBoundary';
+import { OrganisasjonerOgTilgangerContext, SyfoTilgang } from '../../OrganisasjonerOgTilgangerProvider';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
@@ -25,7 +24,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Arbeidsforholdboks)
     }
 
-    if (tilgangTilSyfo === Tilgang.TILGANG) {
+    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
         tjenester.push(Syfoboks);
     }
 

@@ -3,7 +3,6 @@ import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
-import { Tilgang, tilgangFromTruthy } from './LoginBoundary';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import Spinner from './Spinner';
@@ -23,11 +22,20 @@ export type OrganisasjonInfo = {
     altinntilgang: Record<AltinntjenesteId, Altinntilgang>;
 };
 
+export enum SyfoTilgang {
+    LASTER,
+    IKKE_TILGANG,
+    TILGANG,
+}
+
+const syfoTilgangFromTruthy = (tilgang: boolean) =>
+    tilgang ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG;
+
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     reporteeMessagesUrls: ReporteeMessagesUrls;
     visFeilmelding: boolean;
-    tilgangTilSyfo: Tilgang;
+    tilgangTilSyfo: SyfoTilgang;
     visSyfoFeilmelding: boolean;
     harTilganger:boolean;
 };
@@ -40,7 +48,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>(undefined);
 
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
-    const [tilgangTilSyfo, setTilgangTilSyfo] = useState(Tilgang.LASTER);
+    const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
 
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
@@ -83,15 +91,15 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => setAltinnTilgangssøknader([]));
 
         hentSyfoTilgang()
-            .then(tilgangFromTruthy)
+            .then(syfoTilgangFromTruthy)
             .then(setTilgangTilSyfo)
             .catch(() => {
                 setVisSyfoFeilmelding(true);
-                setTilgangTilSyfo(Tilgang.IKKE_TILGANG);
+                setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
             });
     }, []);
 
-    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== Tilgang.LASTER) {
+    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
         const sjekkTilgang = (orgnr: orgnr) => (
             id: AltinntjenesteId,
             orgnrMedTilgang: Set<orgnr>
@@ -131,7 +139,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         const detFinnesEnUnderenhetMedParent = () =>{
             return Record.values(organisasjoner).some(org=> org.organisasjon.ParentOrganizationNumber)
         }
-        const harTilganger= detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0 || tilgangTilSyfo === Tilgang.TILGANG
+        const harTilganger = detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0
+            || tilgangTilSyfo === SyfoTilgang.TILGANG
 
         const context: Context = {
             organisasjoner,

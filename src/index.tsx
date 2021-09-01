@@ -30,19 +30,23 @@ if (isMockApp) {
     console.log('=============== MED MOCK ===============');
     console.log('== DETTE SKAL DU IKKE SE I PRODUKSJON ==');
     console.log('========================================');
+    require('./mock/setupMock').mock();
     require('./mock/pamMock').mock();
     require('./mock/syfoMock').mock();
     require('./mock/altinnMock').mock();
     require('./mock/altinnMeldingsboksMock').mock();
     require('./mock/unleashMock').mock();
     require('./mock/altinnBeOmTilgangMock').mock();
+    require('./mock/enhetsRegisteretMock').mock();
 }
 
-if (isMockApp || environment.MILJO === 'dev-gcp' ) {
+if (environment.MILJO === 'dev-gcp') {
+    require('./mock/setupMock').mock();
     require('./mock/enhetsRegisteretMock').mock();
 }
 
 if (environment.MILJO === 'labs-gcp') {
+    require('./mock/setupMock').mock();
     require('./mock/enhetsRegisteretMock').mock();
     require('./mock/altinnMock').mock();
     require('./mock/altinnMeldingsboksMock').mock();

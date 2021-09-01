@@ -13,5 +13,5 @@ export const mock = () => {
         PUBLISERT: 0,
     });
 
-    fetchMock.get('begin:' + pamSettBedriftURL(''), 200).spy();
+    fetchMock.get('begin:' + pamSettBedriftURL(''), 200);
 }
