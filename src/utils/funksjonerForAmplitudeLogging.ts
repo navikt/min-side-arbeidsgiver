@@ -3,16 +3,6 @@ import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerP
 import { Innlogget } from '../App/LoginProvider';
 import { basename } from '../paths';
 
-
-/*
-
-sidevisning når hoved-component lastes
- - hovedside, ingen-tilgang, logg inn siden, bedriftsinformasjon, informasjon om tilgangsstyring
-byttet-bedrift når bedrift byttes
-navigasjon når lenker/knapper trykkes på
-
- */
-
 interface EventProps {
     url: string;
     innlogget?: boolean;

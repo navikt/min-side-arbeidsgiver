@@ -19,12 +19,10 @@ export const LoginProvider: FunctionComponent = props => {
     const [innlogget, setInnlogget] = useState(Innlogget.LASTER);
 
     useEffect(() => {
-        const abortController = new AbortController()
-        sjekkInnlogget(abortController.signal)
+        sjekkInnlogget()
             .then(innlogget => {
                 setInnlogget(innlogget ? Innlogget.INNLOGGET : Innlogget.IKKE_INNLOGGET)
             })
-        return () => abortController.abort()
     }, []);
 
     const state = {
