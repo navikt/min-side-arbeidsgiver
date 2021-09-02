@@ -10,7 +10,7 @@ export enum Feature {
 
 export const inkluderNotifikasjonerFeatureToggle = gittMiljo({
     prod: false,
-    labs: false,
+    labs: true,
     other: true
 })
 
