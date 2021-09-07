@@ -12,13 +12,16 @@ interface EventProps {
     lenketekst?: string;
 }
 
+
+const baseUrl = `https://arbeidsgiver.nav.no${basename}`
+
 interface AndreTilganger {
     tilgangTilSyfo: SyfoTilgang,
 }
 
 export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
     amplitude.logEvent('sidevisning', {
-        url: `https://arbeidsgiver.nav.no${basename}${pathname}`,
+        url: `${baseUrl}${pathname}`,
         innlogget: innlogget === Innlogget.INNLOGGET
     });
 };
@@ -55,23 +58,33 @@ export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
     }
 
     const tilgangsinfo: EventProps = {
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+        url: baseUrl,
         tilgangskombinasjon
     };
 
     amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
 };
 
-export const loggTjenesteTrykketPa = (
-    tjeneste: string,
-    destinasjon: string,
-    lenketekst: string
+export const loggNavigasjon = (
+    /* hvilken tjeneste navigeringen handler om */
+    tjeneste?: string,
+    destinasjon?: string,
+    /* yterligere informasjon om hva som ble klikket, da det kan være flere
+    * knapper/lenker relatert til en tjeneste. */
+    lenketekst?: string,
+    currentPagePath?: string
 ) => {
+
+    if (destinasjon !== undefined && destinasjon !== '') {
+        const {origin, pathname} = new URL(destinasjon, baseUrl)
+        destinasjon = `${origin}${pathname}`
+    }
+
     const navigasjonsInfo: EventProps = {
         destinasjon: destinasjon,
         lenketekst: lenketekst,
         tjeneste: tjeneste,
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'
+        url: `${baseUrl}${currentPagePath ?? ""}`
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
 };

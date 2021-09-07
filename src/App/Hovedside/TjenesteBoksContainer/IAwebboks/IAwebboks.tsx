@@ -1,14 +1,10 @@
 import React from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import { lenkeTilSykefravarsstatistikk } from '../../../../lenker';
-import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
 import './IAwebboks.less';
+import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
-const loggAtKlikketPaIAeb = () => {
-    loggTjenesteTrykketPa('IA', lenkeTilSykefravarsstatistikk, 'Sykefraværsstatistikk');
-};
 
 const IAwebboks = () => {
     const valgtbedrift = () => {
@@ -19,17 +15,18 @@ const IAwebboks = () => {
     return (
         <div className="IA-web-boks tjenesteboks-innhold">
             <TjenesteBoksBanner tittel="Sykefraværsstatistikk" imgsource={IAwebikon} altTekst="" />
-            <Lenkepanel
+            <LenkepanelMedLogging
                 className="IA-web-boks__info"
                 href={lenkeTilSykefravarsstatistikk + valgtbedrift()}
-                onClick={loggAtKlikketPaIAeb}
                 tittelProps="normaltekst"
+                loggTjeneste="IA"
+                loggTekst="Sykefraværsstatistikk"
             >
                 <div className="IA-web-boks__tekst">
                     Har du høyere eller lavere sykefravær sammenlignet med din bransje? Se tallene
                     og tips om hvordan du kan påvirke sykefraværet ditt
                 </div>
-            </Lenkepanel>
+            </LenkepanelMedLogging>
         </div>
     );
 };

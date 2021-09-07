@@ -1,26 +1,23 @@
 import React from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import iconKontaktNav from './kontaktossikon.svg';
 import './KontaktOss.less';
+import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
 const KontaktOss = () => {
-    const loggAtKlikketPaKontaktskjema = () => {
-        //loggNavigasjonTilTjeneste('kontaktskjema');
-    };
-
     return (
-        <Lenkepanel
+        <LenkepanelMedLogging
             className="kontakt-oss"
             href="https://arbeidsgiver.nav.no/kontakt-oss/"
+            loggTjeneste="kontakt-oss"
+            loggTekst="kontakt oss"
             tittelProps="undertittel"
-            onClick={loggAtKlikketPaKontaktskjema}
         >
             <div className="kontakt-oss__wrapper">
                 <img className="kontakt-oss__ikon" src={iconKontaktNav} alt="" />
                 <Undertittel className="kontakt-oss__tekst">Kontakt NAV</Undertittel>
             </div>
-        </Lenkepanel>
+        </LenkepanelMedLogging>
     );
 };
 

@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import Element from 'nav-frontend-typografi/lib/element';
-import Lenke from 'nav-frontend-lenker';
 import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import {
@@ -15,15 +14,20 @@ import {
 import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 
 interface KoronalenkeProps {
     href: string;
 }
 const Koronalenke: FunctionComponent<KoronalenkeProps> = ({children, href}) =>
-    <Lenke className="koronaboks__lenke" href={href}>
+    <LenkeMedLogging
+        className="koronaboks__lenke"
+        href={href}
+        loggTjeneste="korona"
+    >
         <span>{children}</span>
         <HoyreChevron />
-    </Lenke>;
+    </LenkeMedLogging>;
 
 export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);

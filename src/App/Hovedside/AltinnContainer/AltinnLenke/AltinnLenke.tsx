@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import NyFaneIkon from '../NyFaneIkon';
+import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
 interface Props {
     className?: string;
@@ -10,19 +10,16 @@ interface Props {
 }
 
 const AltinnLenke: FunctionComponent<Props> = props => {
-    const loggAtKlikketPaAltinn = () => {
-        //loggNavigasjonTilTjeneste(props.tekst);
-    };
-
     const nyFaneProp = props.nyFane ? "_blank" : "_self";
 
     return (
         <li className="altinn-lenke">
-            <Lenkepanel
+            <LenkepanelMedLogging
                 href={props.href}
+                loggTekst={`altinnskjema ${props.tekst}`}
+                loggTjeneste={props.tekst}
                 tittelProps={'element'}
                 border={false}
-                onClick={loggAtKlikketPaAltinn}
                 linkCreator={(props: any) => (
                     <a target={nyFaneProp} {...props}>
                         {props.children}
@@ -30,7 +27,7 @@ const AltinnLenke: FunctionComponent<Props> = props => {
                 )}
             >
                 {props.tekst}{props.nyFane && <NyFaneIkon />}
-            </Lenkepanel>
+            </LenkepanelMedLogging>
         </li>
     );
 };

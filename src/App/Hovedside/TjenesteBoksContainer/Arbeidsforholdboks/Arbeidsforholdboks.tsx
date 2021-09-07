@@ -1,14 +1,10 @@
 import React from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import { innsynAaregURL } from '../../../../lenker';
-import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
+import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
 const Arbeidsforholdboks = () => {
-    const loggAtKlikketPaArbeidsfohold = () => {
-        loggTjenesteTrykketPa('Arbeidsforhold', innsynAaregURL, 'Arbeidsforhold');
-    };
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
@@ -19,16 +15,17 @@ const Arbeidsforholdboks = () => {
                 imgsource={arbeidsforholdikon}
                 altTekst=""
             />
-            <Lenkepanel
+            <LenkepanelMedLogging
+                loggTjeneste="Arbeidsforhold"
+                loggTekst="Arbeidsforhold"
                 className="arbeidsforholdboks__arbeidsforhold"
                 href={href}
-                onClick={loggAtKlikketPaArbeidsfohold}
                 tittelProps="normaltekst"
                 aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
             >
                 Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret
                 (Aa-registeret)
-            </Lenkepanel>
+            </LenkepanelMedLogging>
         </div>
     );
 };

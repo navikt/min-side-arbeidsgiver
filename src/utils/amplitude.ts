@@ -27,7 +27,7 @@ export default gittMiljo({
     dev: () => createAmpltiudeInstance(),
     other: () => ({
         logEvent: (event: string, data?: any) => {
-            console.log({event, data})
+            console.log(`${event}: ${JSON.stringify(data)}`, {event, data})
         }
     })
 })();

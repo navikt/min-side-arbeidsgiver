@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.less';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 
 export const LoggInn: FunctionComponent = () => {
 
@@ -53,9 +53,9 @@ export const LoggInn: FunctionComponent = () => {
 
                 <div className="innloggingsside__besok-ditt-nav">
                     <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
-                    <Lenke href={'https://www.nav.no/person/dittnav/'}>
+                    <LenkeMedLogging href={'https://www.nav.no/person/dittnav/'}>
                         Logg inn på Ditt NAV
-                    </Lenke>
+                    </LenkeMedLogging>
                 </div>
             </div>
         </div>

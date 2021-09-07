@@ -7,18 +7,18 @@ import { AltinntjenesteId } from '../../../altinn/tjenester';
 import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';
 import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import Innboksikon from './Innboksikon';
-import { loggTjenesteTrykketPa } from '../../../utils/funksjonerForAmplitudeLogging';
+import { loggNavigasjon } from '../../../utils/funksjonerForAmplitudeLogging';
 import './BrevFraAltinnContainer.less';
 
 const tjenesteNavn: AltinntjenesteId = 'tilskuddsbrev';
 
 const loggNavigering = (href: string, knapp: string) => () => {
     if (href === '') {
-        loggTjenesteTrykketPa(tjenesteNavn, '', knapp);
+        loggNavigasjon(tjenesteNavn, '', knapp);
     } else {
         const {origin, pathname} = new URL(href)
         const url = `${origin}${pathname.replace(/\d/g, 'X')}`
-        loggTjenesteTrykketPa(tjenesteNavn, url, knapp);
+        loggNavigasjon(tjenesteNavn, url, knapp);
     }
 }
 

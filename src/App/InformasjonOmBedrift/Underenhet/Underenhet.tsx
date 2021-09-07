@@ -1,12 +1,12 @@
 import React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { OrganisasjonFraEnhetsregisteret } from '../../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import UnderenhetIkon from '../ikoner/UnderenhetIkon';
 import { enhetsregisteretUnderenhetLink } from '../../../lenker';
 import './Underenhet.less';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 
 interface Props {
     underenhet: OrganisasjonFraEnhetsregisteret;
@@ -63,10 +63,15 @@ const Underenhet = ({ underenhet }: Props) => {
                             : ''}
                     </Normaltekst>
                 </Tekstboks>
-                <Lenke href={enhetsregisteretUnderenhetLink(underenhet.organisasjonsnummer)} target="_blank">
+                <LenkeMedLogging
+                    href={enhetsregisteretUnderenhetLink(underenhet.organisasjonsnummer)}
+                    loggTjeneste="informasjon om virksomhet"
+                    loggTekst="Flere opplysninger om virksomheten hos Enhetsregisteret"
+                    target="_blank"
+                >
                     <span>Flere opplysninger for virksomheten hos Enhetsregisteret</span>
                     <NyFaneIkon />
-                </Lenke>
+                </LenkeMedLogging>
             </div>
             <hr />
         </>
