@@ -61,10 +61,9 @@ export const loggBedriftValgtOgTilganger = (
 };
 
 export const loggNavigasjon = (
-    destinasjon?: string,
-    /* yterligere informasjon om hva som ble klikket, da det kan være flere
-    * knapper/lenker relatert til en tjeneste. */
-    lenketekst?: string,
+    destinasjon: string | undefined,
+    /* hvilken knapp sum ble trykket. burde være unik for siden. */
+    lenketekst: string,
     currentPagePath?: string
 ) => {
 

@@ -12,7 +12,7 @@ import './BrevFraAltinnContainer.less';
 
 const loggNavigering = (href: string, lenketekst: string) => () => {
     if (href === '') {
-        loggNavigasjon('', lenketekst);
+        loggNavigasjon(undefined, lenketekst);
     } else {
         const {origin, pathname} = new URL(href)
         const url = `${origin}${pathname.replace(/\d/g, 'X')}`
