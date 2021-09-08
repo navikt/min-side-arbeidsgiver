@@ -1,9 +1,9 @@
 import React from 'react';
 import { Element } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { basename } from '../../../paths';
 import InfoIkon from './InfoIkon';
 import './TilgangsStyringInfoTekst.less';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 
 export const TilgangsStyringInfoTekst = () => {
     return (
@@ -13,9 +13,9 @@ export const TilgangsStyringInfoTekst = () => {
                 <Element className="informasjonsboks__overskrift">
                     Tildeling av roller foregår i Altinn
                 </Element>
-                <Lenke href={basename + '/informasjon-om-tilgangsstyring'}>
+                <LenkeMedLogging href={basename + '/informasjon-om-tilgangsstyring'} loggLenketekst="Les mer om roller og tilganger">
                     Les mer om roller og tilganger
-                </Lenke>
+                </LenkeMedLogging>
             </div>
         </div>
     );

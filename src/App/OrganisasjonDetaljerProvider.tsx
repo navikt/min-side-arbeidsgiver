@@ -2,7 +2,7 @@ import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {Organisasjon} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import {OrganisasjonerOgTilgangerContext, OrganisasjonInfo} from './OrganisasjonerOgTilgangerProvider';
 import {autentiserAltinnBruker, hentMeldingsboks, Meldingsboks} from '../api/altinnApi';
-import {loggSidevisningOgTilgangsKombinasjonAvTjenestebokser} from '../utils/funksjonerForAmplitudeLogging';
+import {loggBedriftValgtOgTilganger} from '../utils/funksjonerForAmplitudeLogging';
 import {hentAntallannonser, settBedriftIPam} from '../api/pamApi';
 
 interface Props {
@@ -19,7 +19,7 @@ export type Context = {
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const { organisasjoner, reporteeMessagesUrls, tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner, reporteeMessagesUrls} = useContext(OrganisasjonerOgTilgangerContext);
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
@@ -53,8 +53,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     };
 
     useEffect(() => {
-        loggSidevisningOgTilgangsKombinasjonAvTjenestebokser(valgtOrganisasjon, { tilgangTilSyfo });
-    }, [valgtOrganisasjon, tilgangTilSyfo]);
+        loggBedriftValgtOgTilganger(valgtOrganisasjon);
+    }, [valgtOrganisasjon]);
 
     let defaultContext: Context = {
         antallAnnonser,

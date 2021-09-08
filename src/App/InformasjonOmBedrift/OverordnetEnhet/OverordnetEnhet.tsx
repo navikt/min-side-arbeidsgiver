@@ -1,12 +1,12 @@
 import React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import { OrganisasjonFraEnhetsregisteret, } from '../../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
 import JuridiskEnhetIkon from '../ikoner/JuridiskEnhetIkon';
 import './OverordnetEnhet.less';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 
 interface Props {
     overordnetenhet: OrganisasjonFraEnhetsregisteret;
@@ -68,10 +68,14 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
                 </Tekstboks>
             }
 
-            <Lenke href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)} target="_blank">
+            <LenkeMedLogging
+                href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
+                loggLenketekst="Flere opplysinger for overordnet enhet hos Enhetsregisteret"
+                target="_blank"
+            >
                 <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                 <NyFaneIkon />
-            </Lenke>
+            </LenkeMedLogging>
         </div>
     );
 };

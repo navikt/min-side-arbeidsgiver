@@ -1,12 +1,11 @@
 import React from 'react';
 import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
-import Lenke from 'nav-frontend-lenker';
 import { infoOmNærmesteLederURL } from '../../../../lenker';
 import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../TjenesteInfo/NyFaneIkon';
 import './SyfoBeOmTilgangModalBoks.less';
-import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
+import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
 
 interface Props {
     isOpen: boolean;
@@ -15,16 +14,13 @@ interface Props {
 
 const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
     return (
-        // <button
-        //     className="be-om-tilgang__tjenesteinfo__lenke-syfo"
-        // >
-        // </button>
         <Modal
             isOpen={isOpen}
             onRequestClose={onRequestClose}
             closeButton={true}
             contentLabel="digitale sykmeldinger-modal"
             className="syfo-modal"
+            appElement={document.getElementById("root") ?? undefined}
         >
             <div className="syfo-modal__innhold">
                 <div className="syfo-modal__overskrift-og-info">
@@ -42,21 +38,15 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
                         kun baserer seg på om du er nærmeste leder eller ikke.
                     </Normaltekst>
 
-                    <Lenke
-                        onClick={() =>
-                            loggTjenesteTrykketPa(
-                                'Be om tilgang- Dine sykmeldte',
-                                infoOmNærmesteLederURL,
-                                'Les om hvordan nærmeste leder registreres'
-                            )
-                        }
+                    <LenkeMedLogging
+                        loggLenketekst="Be om tilgang - Les om hvordan nærmeste leder registreres"
                         className="syfo-modal__lenke"
                         href={infoOmNærmesteLederURL}
                         target="_blank"
                     >
                         <span>Les om hvordan nærmeste leder registreres</span>
                         <NyFaneIkon />
-                    </Lenke>
+                    </LenkeMedLogging>
                 </div>
             </div>
         </Modal>

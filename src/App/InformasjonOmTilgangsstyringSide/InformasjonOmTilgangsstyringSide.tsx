@@ -1,6 +1,5 @@
 import React from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import Lenke from 'nav-frontend-lenker';
 import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
@@ -17,6 +16,7 @@ import {
 import InfoIkon from '../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
 import './InformasjonOmTilgangsstyringSide.less';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 
 
 const InformasjonOmTilgangsstyringSide = () => {
@@ -118,9 +118,12 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <b>Enkeltrettighet i Altinn:</b> For å få tilgang til en av de nevnte tjenestene ovenfor må du ha enkeltrettigheten til tjenesten i Altinn.
                             Navn på enkeltrettighetene er det samme som navnet på tjenesten.
                         </Normaltekst>
-                        <Lenke href={lenkeTilInfoOmDigitaleSoknader}>
+                        <LenkeMedLogging
+                            href={lenkeTilInfoOmDigitaleSoknader}
+                            loggLenketekst="Les om digitale tiltakssøknader"
+                        >
                             Les om digitale tiltakssøknader
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
@@ -140,9 +143,12 @@ const InformasjonOmTilgangsstyringSide = () => {
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             Du kan også ha rettigheten <b>inntektsmelding</b>
                         </Normaltekst>
-                        <Lenke href={lenkeTilInforOmInntekstmelding}>
+                        <LenkeMedLogging
+                            href={lenkeTilInforOmInntekstmelding}
+                            loggLenketekst="Les om digital inntektsmelding"
+                        >
                             Les om digital inntektsmelding
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Permittering, masseoppsigelse og innskrenking av arbeidstid" border>
@@ -152,10 +158,13 @@ const InformasjonOmTilgangsstyringSide = () => {
                             i din virksomhet. Du vil bare se skjemaer som du selv har opprettet og
                             sendt inn.
                         </Normaltekst>
-                        <Lenke href={infoOmPermitteringURL}>
+                        <LenkeMedLogging
+                            href={infoOmPermitteringURL}
+                            loggLenketekst="les mer om permittering uten lønn osv"
+                        >
                             Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
                             arbeidstid
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Refusjon av sykepenger ved koronavirus" border>
@@ -176,9 +185,12 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>revisormedarbeider</li>
                             <li>norsk representant for utenlandsk enhet</li>
                         </ul>
-                        <Lenke href={infoOmRefusjonSykepengerKoronaURL}>
+                        <LenkeMedLogging
+                            href={infoOmRefusjonSykepengerKoronaURL}
+                            loggLenketekst="Les mer om refusjon av sykepenger ved koronavirus"
+                        >
                             Les mer om refusjon av sykepenger ved koronavirus
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Refusjon for utestengte EØS-borgere" border>
@@ -198,17 +210,23 @@ const InformasjonOmTilgangsstyringSide = () => {
                             <li>revisormedarbeider</li>
                             <li>norsk representant for utenlandsk enhet</li>
                         </ul>
-                        <Lenke href={infoOmRefusjonInnreiseforbudKoronaURL}>
+                        <LenkeMedLogging
+                            href={infoOmRefusjonInnreiseforbudKoronaURL}
+                            loggLenketekst="Les mer om refusjon ved innreiseforbud under pandemien"
+                        >
                             Les mer om refusjon ved innreiseforbud under pandemien
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Rekruttering" border>
                         <Normaltekst>
                             På{' '}
-                            <Lenke href={'https://arbeidsplassen.nav.no/bedrift'}>
+                            <LenkeMedLogging
+                                href="https://arbeidsplassen.nav.no/bedrift"
+                                loggLenketekst="Arbeidsplassen"
+                            >
                                 Arbeidsplassen
-                            </Lenke>{' '}
+                            </LenkeMedLogging>{' '}
                             kan du finne kandidater og lage stillingsannonser. For å få tilgang må
                             du ha en av rollene
                         </Normaltekst>
@@ -232,9 +250,12 @@ const InformasjonOmTilgangsstyringSide = () => {
                         <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
                             <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
                         </Normaltekst>
-                        <Lenke href={infoOmSykefraværsstatistikk}>
+                        <LenkeMedLogging
+                            href={infoOmSykefraværsstatistikk}
+                            loggLenketekst="Les mer om tjenesten sykefraværsstatistikk"
+                        >
                             Les mer om tjenesten sykefraværsstatistikk på nav.no
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Sykmelding/ sykefraværsoppfølging" border>
@@ -247,9 +268,12 @@ const InformasjonOmTilgangsstyringSide = () => {
                             Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
                             skjemaet «Sykmelding – oppgi nærmeste leder».
                         </Normaltekst>
-                        <Lenke href={infoOmRettigheterTilSykemeldingURL}>
+                        <LenkeMedLogging
+                            href={infoOmRettigheterTilSykemeldingURL}
+                            loggLenketekst="Les mer om tjenestene og tilhørende enkeltrettigheter"
+                        >
                             Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
-                        </Lenke>
+                        </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Tilskuddsbrev for NAV-tiltak" border>
@@ -306,7 +330,10 @@ const InformasjonOmTilgangsstyringSide = () => {
 
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         <Normaltekst>
-                            <NyFaneLenke href={infoOmAltinnrollerURL}>
+                            <NyFaneLenke
+                                href={infoOmAltinnrollerURL}
+                                loggLenketekst="Les mer om roller og rettigheter i Altinn"
+                            >
                                 Les mer om roller og rettigheter i Altinn
                             </NyFaneLenke>
                         </Normaltekst>

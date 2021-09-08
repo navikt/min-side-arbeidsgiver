@@ -6,6 +6,7 @@ import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import Spinner from './Spinner';
+import amplitude from "../utils/amplitude";
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -92,7 +93,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
         hentSyfoTilgang()
             .then(syfoTilgangFromTruthy)
-            .then(setTilgangTilSyfo)
+            .then( (syfotilgang) => {
+                setTilgangTilSyfo(syfotilgang);
+                amplitude.setUserProperties({syfotilgang: syfotilgang === SyfoTilgang.TILGANG})
+            })
             .catch(() => {
                 setVisSyfoFeilmelding(true);
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);

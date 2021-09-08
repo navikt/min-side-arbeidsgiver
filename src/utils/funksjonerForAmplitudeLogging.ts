@@ -1,16 +1,19 @@
 import amplitude from '../utils/amplitude';
-import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerProvider';
-import { Innlogget } from '../App/LoginProvider';
-import { basename } from '../paths';
+import {OrganisasjonInfo, SyfoTilgang} from '../App/OrganisasjonerOgTilgangerProvider';
+import {Innlogget} from '../App/LoginProvider';
+import {basename} from '../paths';
 
 interface EventProps {
     url: string;
     innlogget?: boolean;
     tilgangskombinasjon?: string;
-    tjeneste?: string;
+    kategori?: string;
     destinasjon?: string;
     lenketekst?: string;
 }
+
+
+const baseUrl = `https://arbeidsgiver.nav.no${basename}`
 
 interface AndreTilganger {
     tilgangTilSyfo: SyfoTilgang,
@@ -18,60 +21,61 @@ interface AndreTilganger {
 
 export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
     amplitude.logEvent('sidevisning', {
-        url: `https://arbeidsgiver.nav.no${basename}${pathname}`,
+        url: `${baseUrl}${pathname}`,
         innlogget: innlogget === Innlogget.INNLOGGET
     });
 };
 
-export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
-    org: OrganisasjonInfo | undefined,
-    {tilgangTilSyfo}: AndreTilganger
+export const loggBedriftValgtOgTilganger = (
+    org: OrganisasjonInfo | undefined
 ) => {
+    if (org === undefined) return
+
     let tilgangskombinasjon = ''
 
-    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
-        tilgangskombinasjon += 'digisyfo ';
+    if (org.altinntilgang.pam.tilgang === 'ja') {
+        tilgangskombinasjon += 'arbeidsplassen ';
     }
-
-    if (org) {
-        if (org.altinntilgang.pam.tilgang === 'ja') {
-            tilgangskombinasjon += 'arbeidsplassen ';
-        }
-        if (org.altinntilgang.iaweb.tilgang === 'ja') {
-            tilgangskombinasjon += 'sykefraværsstatistikk ';
-        }
-        if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
-            tilgangskombinasjon += 'arbeidstrening ';
-        }
-        if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
-            tilgangskombinasjon += 'arbeidsforhold'
-        }
-        if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
-            tilgangskombinasjon += 'midlertidig lønnstilskudd ';
-        }
-        if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
-            tilgangskombinasjon += 'varig lønnstilskudd';
-        }
+    if (org.altinntilgang.iaweb.tilgang === 'ja') {
+        tilgangskombinasjon += 'sykefraværsstatistikk ';
+    }
+    if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
+        tilgangskombinasjon += 'arbeidstrening ';
+    }
+    if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
+        tilgangskombinasjon += 'arbeidsforhold'
+    }
+    if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
+        tilgangskombinasjon += 'midlertidig lønnstilskudd ';
+    }
+    if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
+        tilgangskombinasjon += 'varig lønnstilskudd';
     }
 
     const tilgangsinfo: EventProps = {
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/',
+        url: baseUrl,
         tilgangskombinasjon
     };
 
     amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
 };
 
-export const loggTjenesteTrykketPa = (
-    tjeneste: string,
-    destinasjon: string,
-    lenketekst: string
+export const loggNavigasjon = (
+    destinasjon: string | undefined,
+    /* hvilken knapp sum ble trykket. burde være unik for siden. */
+    lenketekst: string,
+    currentPagePath?: string
 ) => {
+
+    if (destinasjon !== undefined && destinasjon !== '') {
+        const {origin, pathname} = new URL(destinasjon, baseUrl)
+        destinasjon = `${origin}${pathname}`
+    }
+
     const navigasjonsInfo: EventProps = {
         destinasjon: destinasjon,
-        lenketekst: lenketekst,
-        tjeneste: tjeneste,
-        url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/'
+        lenketekst,
+        url: `${baseUrl}${currentPagePath ?? ""}`
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
 };

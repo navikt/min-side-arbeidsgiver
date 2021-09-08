@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { arbeidsplassenURL } from '../../../../lenker';
-import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import PamboksIkon from './pamboks-ikon.svg';
+import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
 const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
@@ -20,10 +19,10 @@ const Pamboks = () => {
     return (
         <div className="pamboks tjenesteboks-innhold">
             <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
-            <Lenkepanel
+            <LenkepanelMedLogging
                 className="pamboks__lenke"
+                loggLenketekst="Rekruttere"
                 href={arbeidsplassenURL}
-                onClick={() => loggTjenesteTrykketPa('PAM', arbeidsplassenURL, 'Rekruttere')}
                 tittelProps="normaltekst"
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
@@ -31,7 +30,7 @@ const Pamboks = () => {
                     <Normaltekst>Finn kandidater</Normaltekst>
                     {stillingsAnnonseTekst}
                 </div>
-            </Lenkepanel>
+            </LenkepanelMedLogging>
         </div>
     );
 };
