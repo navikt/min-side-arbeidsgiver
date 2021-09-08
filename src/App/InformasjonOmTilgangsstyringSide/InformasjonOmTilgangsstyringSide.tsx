@@ -126,6 +126,13 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </LenkeMedLogging>
                     </Ekspanderbartpanel>
 
+                    <Ekspanderbartpanel tittel="Fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom" border>
+                        <Normaltekst>
+                            For å få tilgang til søknadene «fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom»,
+                            så trenger du kun en vilkårlig Altinn-rolle i din virksomhet eller tilgang til Dine sykemeldte.
+                        </Normaltekst>
+                    </Ekspanderbartpanel>
+
                     <Ekspanderbartpanel tittel="Inntektsmelding" border>
                         <Normaltekst>
                             For å få tilgang til digital inntektsmelding må du ha en av disse
@@ -165,6 +172,27 @@ const InformasjonOmTilgangsstyringSide = () => {
                             Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
                             arbeidstid
                         </LenkeMedLogging>
+                    </Ekspanderbartpanel>
+
+                    <Ekspanderbartpanel tittel="Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt / kronisk sykdom" border>
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                            For å få tilgang til skjemaene «refusjon av sykepenger i
+                            arbeidsgiverperioden - gravid ansatt / kronisk sykdom», så må du ha tilgang
+                            til å sende inntektsmelding.
+                        </Normaltekst>
+
+                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                            Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle virksomheten:
+                        </Normaltekst>
+                        <ul>
+                            <li>ansvarlig revisor</li>
+                            <li>lønn og personalmedarbeider</li>
+                            <li>regnskapsfører lønn</li>
+                            <li>regnskapsfører med signeringsrettighet</li>
+                            <li>regnskapsfører uten signeringsrettighet</li>
+                            <li>revisormedarbeider</li>
+                            <li>norsk representant for utenlandsk enhet</li>
+                        </ul>
                     </Ekspanderbartpanel>
 
                     <Ekspanderbartpanel tittel="Refusjon av sykepenger ved koronavirus" border>
