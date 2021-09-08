@@ -1,13 +1,12 @@
 import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
-import Lenke from 'nav-frontend-lenker';
 import SyfoBeOmTilgangModalBoks from '../SyfoBeOmTilgangModalBoks/SyfoBeOmTilgangModalBoks';
 import './TjenesteInfo.less';
 import { altinntjeneste, AltinntjenesteId } from '../../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import EtikettBase from 'nav-frontend-etiketter';
 import Hjelpetekst from 'nav-frontend-hjelpetekst';
-import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
+import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
 
 interface TjenesteInfo {
     tittel: string;
@@ -40,7 +39,6 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
         if (props.href === undefined) {
             event.preventDefault();
         }
-        loggTjenesteTrykketPa(`Be om tilgang-${tittel}`, '', 'be om tilgang');
         if (props.onClick) {
             props.onClick(event);
         }
@@ -48,10 +46,15 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
 
     return (
         <>
-            <Lenke href={props.href ?? ''} onClick={onClickAction} className="typo-element be-om-tilgang-lenke">
+            <LenkeMedLogging
+                loggLenketekst={`be om tilgang-${tittel}`}
+                href={props.href ?? ''}
+                onClick={onClickAction}
+                className="typo-element be-om-tilgang-lenke"
+            >
                 <span>{tittel} – be om tilgang</span>
                 {props.eksternSide ?? false ? <NyFaneIkon /> : null}
-            </Lenke>
+            </LenkeMedLogging>
             <Normaltekst>{beskrivelse}</Normaltekst>
         </>
     );

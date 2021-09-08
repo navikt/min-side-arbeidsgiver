@@ -2,14 +2,21 @@ import React, { useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import { skjemaForArbeidsgiverURL } from '../../../lenker';
 import './SkjemaveilederContainer.less';
-import Lenke from 'nav-frontend-lenker';
 import { HoyreChevron } from 'nav-frontend-chevron';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { LenkepanelMedLogging } from '../../../GeneriskeElementer/LenkepanelMedLogging';
 
 export const SkjemaveilederContainer = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const tilgangInntektsmelding = valgtOrganisasjon?.altinntilgang?.inntektsmelding?.tilgang === 'ja';
+
+    const lenke = (tekst: string, href: string) =>
+        <li>
+            <LenkepanelMedLogging tittelProps="element" href={href} loggLenketekst={tekst}>
+                {tekst}
+            </LenkepanelMedLogging>
+        </li>;
 
     return (
         <div className="skjemaveileder-container">
@@ -18,42 +25,37 @@ export const SkjemaveilederContainer = () => {
             </Undertittel>
 
             <ul>
-                <li>
-                    <Lenkepanel tittelProps="element" href="https://arbeidsgiver.nav.no/fritak-agp/nb/gravid/soknad">
-                        Fritak fra arbeidsgiverperioden - gravid ansatt
-                    </Lenkepanel>
-                </li>
+                {lenke(
+                    "Fritak fra arbeidsgiverperioden - gravid ansatt",
+                    "https://arbeidsgiver.nav.no/fritak-agp/nb/gravid/soknad"
+                )}
 
-                <li>
-                    <Lenkepanel tittelProps="element" href="https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/soknad">
-                        Fritak fra arbeidsgiverperioden - kronisk sykdom
-                    </Lenkepanel>
-                </li>
+                {lenke(
+                    "Fritak fra arbeidsgiverperioden - kronisk sykdom",
+                    "https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/soknad"
+                )}
 
                 { tilgangInntektsmelding ?
                     <>
-                        <li>
-                            <Lenkepanel tittelProps="element" href="https://arbeidsgiver.nav.no/fritak-agp/nb/gravid/krav">
-                                Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt
-                            </Lenkepanel>
-                        </li>
+                    {lenke(
+                        "Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt",
+                        "https://arbeidsgiver.nav.no/fritak-agp/nb/gravid/krav"
+                    )}
 
-                        <li>
-                            <Lenkepanel tittelProps="element" href="https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/krav">
-                                Refusjon av sykepenger i arbeidsgiverperioden - kronisk sykdom
-                            </Lenkepanel>
-                        </li>
+                    {lenke(
+                        "Refusjon av sykepenger i arbeidsgiverperioden - kronisk sykdom",
+                        "https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/krav"
+                    )}
                     </>
                     : null
                 }
             </ul>
 
 
-            <Lenke href={skjemaForArbeidsgiverURL}>
+            <LenkeMedLogging href={skjemaForArbeidsgiverURL} loggLenketekst="Alle søknader og skjemaer hos NAV">
                 Alle søknader og skjemaer
                 <HoyreChevron />
-            </Lenke>
-
+            </LenkeMedLogging>
         </div>
     );
 };

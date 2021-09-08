@@ -1,7 +1,7 @@
 import React from 'react';
 import AlertStripe from 'nav-frontend-alertstriper';
-import Lenke from 'nav-frontend-lenker';
 import './FeilmeldingContainer.less';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 
 interface Props {
     visFeilmelding: boolean;
@@ -15,9 +15,12 @@ export const FeilmeldingContainer = (props: Props) => {
                 <AlertStripe type="feil" className="feilStripe">
                     Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
                     du prøve å{' '}
-                    <Lenke href={'https://arbeidsgiver.nav.no/min-side-arbeidsgiver'}>
+                    <LenkeMedLogging
+                        loggLenketekst="laste siden på nytt"
+                        href={'https://arbeidsgiver.nav.no/min-side-arbeidsgiver'}
+                    >
                         laste siden på nytt
-                    </Lenke>
+                    </LenkeMedLogging>
                 </AlertStripe>
             )}
             {props.visSyfoFeilmelding && (

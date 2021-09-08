@@ -1,13 +1,12 @@
 import React, { useContext } from 'react';
-import Lenkepanel from 'nav-frontend-lenkepanel';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { tiltaksgjennomforingURL } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { loggTjenesteTrykketPa } from '../../../../utils/funksjonerForAmplitudeLogging';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import './Tiltakboks.less';
 
 import tiltakikon from './tiltakboks-ikon.svg';
+import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -22,9 +21,9 @@ const Tiltakboks = () => {
                 imgsource={tiltakikon}
                 altTekst=""
             />
-            <Lenkepanel
+            <LenkepanelMedLogging
                 href={tiltakUrl}
-                onClick={() => loggTjenesteTrykketPa('Tiltak', tiltaksgjennomforingURL, "Tiltak")}
+                loggLenketekst="Tiltak"
                 tittelProps="normaltekst"
                 aria-label="Tiltak. Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb. De ulike tiltakene krever egne tilganger i Altinn"
             >
@@ -34,7 +33,7 @@ const Tiltakboks = () => {
                 <Normaltekst>
                     De ulike tiltakene krever egne tilganger i Altinn
                 </Normaltekst>
-            </Lenkepanel>
+            </LenkepanelMedLogging>
         </div>
     );
 };

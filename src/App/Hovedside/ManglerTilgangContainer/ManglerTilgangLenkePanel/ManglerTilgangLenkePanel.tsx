@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { LenkepanelBase } from 'nav-frontend-lenkepanel/lib';
+import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
+import { useLocation } from 'react-router-dom';
 
 interface CustomLenkepanel {
     tittel: string;
@@ -8,15 +10,25 @@ interface CustomLenkepanel {
     lenke: string;
 }
 
-export const ManglerTilgangLenkePanel: FunctionComponent<CustomLenkepanel> = props => (
-    <div className={'mangler-tilgang-lenkepanel'}>
-        <LenkepanelBase href={props.lenke} border>
-            <div>
+export const ManglerTilgangLenkePanel: FunctionComponent<CustomLenkepanel> = props =>  {
+    const {pathname} = useLocation()
+
+    return (
+        <div className={'mangler-tilgang-lenkepanel'}>
+            <LenkepanelBase
+                href={props.lenke}
+                border
+                onClick={() =>
+                    loggNavigasjon(props.lenke, props.tittel, pathname)
+                }
+            >
                 <div>
-                    <Systemtittel className="lenkepanel__heading">{props.tittel}</Systemtittel>
-                    <p>{props.infoTekst}</p>
+                    <div>
+                        <Systemtittel className="lenkepanel__heading">{props.tittel}</Systemtittel>
+                        <p>{props.infoTekst}</p>
+                    </div>
                 </div>
-            </div>
-        </LenkepanelBase>
-    </div>
-);
+            </LenkepanelBase>
+        </div>
+    );
+}
