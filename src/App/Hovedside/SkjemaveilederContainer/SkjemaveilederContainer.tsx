@@ -52,7 +52,7 @@ export const SkjemaveilederContainer = () => {
             </ul>
 
 
-            <LenkeMedLogging href={skjemaForArbeidsgiverURL}>
+            <LenkeMedLogging href={skjemaForArbeidsgiverURL} loggLenketekst="Alle søknader og skjemaer hos NAV">
                 Alle søknader og skjemaer
                 <HoyreChevron />
             </LenkeMedLogging>

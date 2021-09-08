@@ -13,7 +13,7 @@ export const TilgangsStyringInfoTekst = () => {
                 <Element className="informasjonsboks__overskrift">
                     Tildeling av roller foregår i Altinn
                 </Element>
-                <LenkeMedLogging href={basename + '/informasjon-om-tilgangsstyring'}>
+                <LenkeMedLogging href={basename + '/informasjon-om-tilgangsstyring'} loggLenketekst="Les mer om roller og tilganger">
                     Les mer om roller og tilganger
                 </LenkeMedLogging>
             </div>

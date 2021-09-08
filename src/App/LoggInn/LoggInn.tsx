@@ -53,7 +53,7 @@ export const LoggInn: FunctionComponent = () => {
 
                 <div className="innloggingsside__besok-ditt-nav">
                     <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
-                    <LenkeMedLogging href={'https://www.nav.no/person/dittnav/'}>
+                    <LenkeMedLogging href={'https://www.nav.no/person/dittnav/'} loggLenketekst="Logg inn som privatperson">
                         Logg inn på Ditt NAV
                     </LenkeMedLogging>
                 </div>

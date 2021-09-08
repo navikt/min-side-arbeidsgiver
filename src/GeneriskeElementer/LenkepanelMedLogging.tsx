@@ -4,7 +4,7 @@ import Lenkepanel, { LenkepanelProps } from 'nav-frontend-lenkepanel';
 import { useLocation } from 'react-router-dom';
 
 interface Props extends LenkepanelProps {
-    loggLenketekst?: string;
+    loggLenketekst: string;
 }
 
 export const LenkepanelMedLogging: FunctionComponent<Props> = props => {

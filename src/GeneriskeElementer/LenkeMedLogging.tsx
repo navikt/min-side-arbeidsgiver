@@ -4,7 +4,7 @@ import { loggNavigasjon } from '../utils/funksjonerForAmplitudeLogging';
 import { useLocation } from 'react-router-dom';
 
 export interface Props extends LenkeProps {
-    loggLenketekst?: string;
+    loggLenketekst: string;
 }
 
 export const LenkeMedLogging: FunctionComponent<Props> = props => {

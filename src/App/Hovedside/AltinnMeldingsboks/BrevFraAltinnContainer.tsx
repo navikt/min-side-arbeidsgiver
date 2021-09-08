@@ -50,6 +50,7 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
                                 altinnMeldingsboks.portalview,
                                 'se flere i altinn meldingsboks'
                             )}
+                            loggLenketekst="Se flere i Altinn meldingsboks"
                         >
                             Se flere i Altinn meldingsboks
                         </NyFaneLenke>
@@ -77,6 +78,7 @@ const BrevContainer = (brev: AltinnBrev) => {
                 href={brev.portalview}
                 ariaLabel={`Sendt ${dato}, ${brev.status}, ${brev.tittel}`}
                 onClick={loggNavigering(brev.portalview, 'åpn tilskuddsbrev i altinn')}
+                loggLenketekst="åpne tilskuddsbrev i altinn"
             >
                 {brev.tittel}
             </NyFaneLenke>
