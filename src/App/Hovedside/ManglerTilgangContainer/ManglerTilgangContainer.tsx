@@ -1,23 +1,21 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { Innholdstittel } from 'nav-frontend-typografi';
-import { ManglerTilgangLenkePanel } from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
-import { lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo } from '../../../lenker';
-import Banner from '../../HovedBanner/HovedBanner';
+import React, {FunctionComponent, useContext} from 'react';
+import {Innholdstittel} from 'nav-frontend-typografi';
+import {ManglerTilgangLenkePanel} from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
+import {lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo} from '../../../lenker';
 import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.less';
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
-    const { harTilganger } = useContext(OrganisasjonerOgTilgangerContext);
+    const {harTilganger} = useContext(OrganisasjonerOgTilgangerContext);
 
     return (
         <>
             {harTilganger && (
                 <Brodsmulesti
-                    brodsmuler={[{ url: '/mangler-tilgang', title: 'Du mangler tilganger', handleInApp: true, }]}
+                    brodsmuler={[{url: '/mangler-tilgang', title: 'Du mangler tilganger', handleInApp: true,}]}
                 />
             )}
-            <Banner sidetittel="Min side – arbeidsgiver" />
             <div className="mangler-tilgang-bakgrunn ">
                 <Innholdstittel className={'mangler-tilgang-bakgrunn__innholdstittel'}>
                     Du mangler tilganger

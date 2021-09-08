@@ -1,7 +1,7 @@
 import amplitude from '../utils/amplitude';
-import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerProvider';
-import { Innlogget } from '../App/LoginProvider';
-import { basename } from '../paths';
+import {OrganisasjonInfo, SyfoTilgang} from '../App/OrganisasjonerOgTilgangerProvider';
+import {Innlogget} from '../App/LoginProvider';
+import {basename} from '../paths';
 
 interface EventProps {
     url: string;
@@ -26,35 +26,30 @@ export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
     });
 };
 
-export const loggSidevisningOgTilgangsKombinasjonAvTjenestebokser = (
-    org: OrganisasjonInfo | undefined,
-    {tilgangTilSyfo}: AndreTilganger
+export const loggBedriftValgtOgTilganger = (
+    org: OrganisasjonInfo | undefined
 ) => {
+    if (org === undefined) return
+
     let tilgangskombinasjon = ''
 
-    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
-        tilgangskombinasjon += 'digisyfo ';
+    if (org.altinntilgang.pam.tilgang === 'ja') {
+        tilgangskombinasjon += 'arbeidsplassen ';
     }
-
-    if (org) {
-        if (org.altinntilgang.pam.tilgang === 'ja') {
-            tilgangskombinasjon += 'arbeidsplassen ';
-        }
-        if (org.altinntilgang.iaweb.tilgang === 'ja') {
-            tilgangskombinasjon += 'sykefraværsstatistikk ';
-        }
-        if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
-            tilgangskombinasjon += 'arbeidstrening ';
-        }
-        if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
-            tilgangskombinasjon += 'arbeidsforhold'
-        }
-        if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
-            tilgangskombinasjon += 'midlertidig lønnstilskudd ';
-        }
-        if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
-            tilgangskombinasjon += 'varig lønnstilskudd';
-        }
+    if (org.altinntilgang.iaweb.tilgang === 'ja') {
+        tilgangskombinasjon += 'sykefraværsstatistikk ';
+    }
+    if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
+        tilgangskombinasjon += 'arbeidstrening ';
+    }
+    if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
+        tilgangskombinasjon += 'arbeidsforhold'
+    }
+    if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
+        tilgangskombinasjon += 'midlertidig lønnstilskudd ';
+    }
+    if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
+        tilgangskombinasjon += 'varig lønnstilskudd';
     }
 
     const tilgangsinfo: EventProps = {
