@@ -1,13 +1,12 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { AltinnBrev, Status } from '../../../api/altinnApi';
-import { AltinntjenesteId } from '../../../altinn/tjenester';
+import {Normaltekst, Undertittel} from 'nav-frontend-typografi';
+import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
+import {AltinnBrev, Status} from '../../../api/altinnApi';
 import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';
 import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import Innboksikon from './Innboksikon';
-import { loggNavigasjon } from '../../../utils/funksjonerForAmplitudeLogging';
+import {loggNavigasjon} from '../../../utils/funksjonerForAmplitudeLogging';
 import './BrevFraAltinnContainer.less';
 
 const loggNavigering = (href: string, lenketekst: string) => () => {
@@ -21,7 +20,7 @@ const loggNavigering = (href: string, lenketekst: string) => () => {
 }
 
 const BrevFraAltinnContainer: React.FunctionComponent = _ => {
-    const { altinnMeldingsboks } = useContext(OrganisasjonsDetaljerContext);
+    const {altinnMeldingsboks} = useContext(OrganisasjonsDetaljerContext);
 
     if (altinnMeldingsboks === undefined || altinnMeldingsboks.brev.length === 0) {
         return null;
@@ -30,8 +29,8 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     const inboksTittel = (
         <Undertittel className="tilskuddsbrev__tittel">
             <div className="tilskuddsbrev__inboxikon">
-                <Innboksikon />
-                <AntallUlest antallUlest={altinnMeldingsboks.antallUleste} />
+                <Innboksikon/>
+                <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>
             </div>
             <span>Tilskuddsbrev om NAV-tiltak fra Altinn innboks</span>
         </Undertittel>
