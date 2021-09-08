@@ -9,8 +9,7 @@ const Syfoboks = () => {
         <div className="syfoboks tjenesteboks-innhold">
             <TjenesteBoksBanner tittel="Sykmeldte" imgsource={syfoikon} altTekst="" />
             <LenkepanelMedLogging
-                loggTjeneste="Syfo"
-                loggTekst="Sykmeldte"
+                loggLenketekst="Sykmeldte"
                 className="syfoboks__sykemeldte"
                 href={syfoURL}
                 tittelProps="normaltekst"

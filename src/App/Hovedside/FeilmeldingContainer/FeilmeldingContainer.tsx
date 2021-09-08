@@ -16,7 +16,7 @@ export const FeilmeldingContainer = (props: Props) => {
                     Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
                     du prøve å{' '}
                     <LenkeMedLogging
-                        loggTekst="laste siden på nytt"
+                        loggLenketekst="laste siden på nytt"
                         href={'https://arbeidsgiver.nav.no/min-side-arbeidsgiver'}
                     >
                         laste siden på nytt

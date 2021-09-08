@@ -19,7 +19,7 @@ export const ManglerTilgangLenkePanel: FunctionComponent<CustomLenkepanel> = pro
                 href={props.lenke}
                 border
                 onClick={() =>
-                    loggNavigasjon('mangler-tilgang', props.lenke, props.tittel, pathname)
+                    loggNavigasjon(props.lenke, props.tittel, pathname)
                 }
             >
                 <div>

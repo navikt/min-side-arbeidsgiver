@@ -10,15 +10,13 @@ import Innboksikon from './Innboksikon';
 import { loggNavigasjon } from '../../../utils/funksjonerForAmplitudeLogging';
 import './BrevFraAltinnContainer.less';
 
-const tjenesteNavn: AltinntjenesteId = 'tilskuddsbrev';
-
-const loggNavigering = (href: string, knapp: string) => () => {
+const loggNavigering = (href: string, lenketekst: string) => () => {
     if (href === '') {
-        loggNavigasjon(tjenesteNavn, '', knapp);
+        loggNavigasjon('', lenketekst);
     } else {
         const {origin, pathname} = new URL(href)
         const url = `${origin}${pathname.replace(/\d/g, 'X')}`
-        loggNavigasjon(tjenesteNavn, url, knapp);
+        loggNavigasjon(url, lenketekst);
     }
 }
 
@@ -41,10 +39,7 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
 
     return (
         <section className="tilskuddsbrev">
-            <Ekspanderbartpanel
-                tittel={inboksTittel}
-                onClick={loggNavigering('', 'ekspander panel')}
-            >
+            <Ekspanderbartpanel tittel={inboksTittel}>
                 <>
                     <ul className="tilskuddsbrev__liste">
                         {altinnMeldingsboks.brev.map(BrevContainer)}

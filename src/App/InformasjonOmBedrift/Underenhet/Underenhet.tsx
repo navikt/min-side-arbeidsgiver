@@ -65,8 +65,7 @@ const Underenhet = ({ underenhet }: Props) => {
                 </Tekstboks>
                 <LenkeMedLogging
                     href={enhetsregisteretUnderenhetLink(underenhet.organisasjonsnummer)}
-                    loggTjeneste="informasjon om virksomhet"
-                    loggTekst="Flere opplysninger om virksomheten hos Enhetsregisteret"
+                    loggLenketekst="Flere opplysninger om virksomheten hos Enhetsregisteret"
                     target="_blank"
                 >
                     <span>Flere opplysninger for virksomheten hos Enhetsregisteret</span>

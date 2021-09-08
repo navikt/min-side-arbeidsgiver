@@ -16,8 +16,7 @@ const Arbeidsforholdboks = () => {
                 altTekst=""
             />
             <LenkepanelMedLogging
-                loggTjeneste="Arbeidsforhold"
-                loggTekst="Arbeidsforhold"
+                loggLenketekst="Arbeidsforhold"
                 className="arbeidsforholdboks__arbeidsforhold"
                 href={href}
                 tittelProps="normaltekst"

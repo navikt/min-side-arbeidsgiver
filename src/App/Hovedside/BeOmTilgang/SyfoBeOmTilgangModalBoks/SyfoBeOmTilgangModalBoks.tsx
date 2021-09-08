@@ -39,8 +39,7 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
                     </Normaltekst>
 
                     <LenkeMedLogging
-                        loggTjeneste="Be om tilgang- Dine sykmeldte"
-                        loggTekst="Les om hvordan nærmeste leder registreres"
+                        loggLenketekst="Be om tilgang - Les om hvordan nærmeste leder registreres"
                         className="syfo-modal__lenke"
                         href={infoOmNærmesteLederURL}
                         target="_blank"

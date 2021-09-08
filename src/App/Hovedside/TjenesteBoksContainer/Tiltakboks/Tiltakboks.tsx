@@ -23,8 +23,7 @@ const Tiltakboks = () => {
             />
             <LenkepanelMedLogging
                 href={tiltakUrl}
-                loggTjeneste="Tiltak"
-                loggTekst="Tiltak"
+                loggLenketekst="Tiltak"
                 tittelProps="normaltekst"
                 aria-label="Tiltak. Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb. De ulike tiltakene krever egne tilganger i Altinn"
             >

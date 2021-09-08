@@ -16,8 +16,7 @@ const AltinnLenke: FunctionComponent<Props> = props => {
         <li className="altinn-lenke">
             <LenkepanelMedLogging
                 href={props.href}
-                loggTekst={`altinnskjema ${props.tekst}`}
-                loggTjeneste={props.tekst}
+                loggLenketekst={props.tekst}
                 tittelProps={'element'}
                 border={false}
                 linkCreator={(props: any) => (

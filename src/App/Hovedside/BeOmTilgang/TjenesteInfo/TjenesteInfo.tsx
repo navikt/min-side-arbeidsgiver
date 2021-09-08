@@ -47,8 +47,7 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
     return (
         <>
             <LenkeMedLogging
-                loggTjeneste={`Be om tilgang-${tittel}`}
-                loggTekst={'be om tilgang'}
+                loggLenketekst={`be om tilgang-${tittel}`}
                 href={props.href ?? ''}
                 onClick={onClickAction}
                 className="typo-element be-om-tilgang-lenke"

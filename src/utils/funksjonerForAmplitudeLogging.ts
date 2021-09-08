@@ -7,7 +7,7 @@ interface EventProps {
     url: string;
     innlogget?: boolean;
     tilgangskombinasjon?: string;
-    tjeneste?: string;
+    kategori?: string;
     destinasjon?: string;
     lenketekst?: string;
 }
@@ -61,8 +61,6 @@ export const loggBedriftValgtOgTilganger = (
 };
 
 export const loggNavigasjon = (
-    /* hvilken tjeneste navigeringen handler om */
-    tjeneste?: string,
     destinasjon?: string,
     /* yterligere informasjon om hva som ble klikket, da det kan være flere
     * knapper/lenker relatert til en tjeneste. */
@@ -77,8 +75,7 @@ export const loggNavigasjon = (
 
     const navigasjonsInfo: EventProps = {
         destinasjon: destinasjon,
-        lenketekst: lenketekst,
-        tjeneste: tjeneste,
+        lenketekst,
         url: `${baseUrl}${currentPagePath ?? ""}`
     };
     amplitude.logEvent('navigere', navigasjonsInfo);

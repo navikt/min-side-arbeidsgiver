@@ -17,7 +17,7 @@ const Bedriftsinfoknapp = () => {
         <LenkepanelMedLogging
             href="/bedriftsinformasjon"
             className="bedriftsinfo-knapp"
-            loggTekst="bedriftsinfoknapp"
+            loggLenketekst="Informasjon om din virksomhet"
             tittelProps="undertittel"
             linkCreator={(props: any) => (
                 <Link

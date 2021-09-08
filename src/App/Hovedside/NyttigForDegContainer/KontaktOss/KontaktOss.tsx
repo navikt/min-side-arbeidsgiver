@@ -9,8 +9,7 @@ const KontaktOss = () => {
         <LenkepanelMedLogging
             className="kontakt-oss"
             href="https://arbeidsgiver.nav.no/kontakt-oss/"
-            loggTjeneste="kontakt-oss"
-            loggTekst="kontakt oss"
+            loggLenketekst="kontakt oss"
             tittelProps="undertittel"
         >
             <div className="kontakt-oss__wrapper">

@@ -21,8 +21,7 @@ const Pamboks = () => {
             <TjenesteBoksBanner tittel="Rekruttere" imgsource={PamboksIkon} altTekst="" />
             <LenkepanelMedLogging
                 className="pamboks__lenke"
-                loggTjeneste="PAM"
-                loggTekst="Rekruttere"
+                loggLenketekst="Rekruttere"
                 href={arbeidsplassenURL}
                 tittelProps="normaltekst"
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}

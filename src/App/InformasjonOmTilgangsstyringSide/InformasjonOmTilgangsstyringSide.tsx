@@ -120,8 +120,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Normaltekst>
                         <LenkeMedLogging
                             href={lenkeTilInfoOmDigitaleSoknader}
-                            loggTjeneste="digitale tiltakssøkander"
-                            loggTekst="Les om digitale tiltakssøknader"
+                            loggLenketekst="Les om digitale tiltakssøknader"
                         >
                             Les om digitale tiltakssøknader
                         </LenkeMedLogging>
@@ -146,8 +145,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Normaltekst>
                         <LenkeMedLogging
                             href={lenkeTilInforOmInntekstmelding}
-                            loggTjeneste="inntektsmelding"
-                            loggTekst="Les om digital inntektsmelding"
+                            loggLenketekst="Les om digital inntektsmelding"
                         >
                             Les om digital inntektsmelding
                         </LenkeMedLogging>
@@ -162,8 +160,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Normaltekst>
                         <LenkeMedLogging
                             href={infoOmPermitteringURL}
-                            loggTjeneste="permittering"
-                            loggTekst="les mer om permittering uten lønn osv"
+                            loggLenketekst="les mer om permittering uten lønn osv"
                         >
                             Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
                             arbeidstid
@@ -190,8 +187,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </ul>
                         <LenkeMedLogging
                             href={infoOmRefusjonSykepengerKoronaURL}
-                            loggTjeneste="refusjon"
-                            loggTekst="Les mer om refusjon av sykepenger ved koronavirus"
+                            loggLenketekst="Les mer om refusjon av sykepenger ved koronavirus"
                         >
                             Les mer om refusjon av sykepenger ved koronavirus
                         </LenkeMedLogging>
@@ -216,8 +212,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </ul>
                         <LenkeMedLogging
                             href={infoOmRefusjonInnreiseforbudKoronaURL}
-                            loggTjeneste="refusjon"
-                            loggTekst="Les mer om refusjon ved innreiseforbud under pandemien"
+                            loggLenketekst="Les mer om refusjon ved innreiseforbud under pandemien"
                         >
                             Les mer om refusjon ved innreiseforbud under pandemien
                         </LenkeMedLogging>
@@ -226,7 +221,10 @@ const InformasjonOmTilgangsstyringSide = () => {
                     <Ekspanderbartpanel tittel="Rekruttering" border>
                         <Normaltekst>
                             På{' '}
-                            <LenkeMedLogging href={'https://arbeidsplassen.nav.no/bedrift'}>
+                            <LenkeMedLogging
+                                href="https://arbeidsplassen.nav.no/bedrift"
+                                loggLenketekst="Arbeidsplassen"
+                            >
                                 Arbeidsplassen
                             </LenkeMedLogging>{' '}
                             kan du finne kandidater og lage stillingsannonser. For å få tilgang må
@@ -254,6 +252,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Normaltekst>
                         <LenkeMedLogging
                             href={infoOmSykefraværsstatistikk}
+                            loggLenketekst="Les mer om tjenesten sykefraværsstatistikk"
                         >
                             Les mer om tjenesten sykefraværsstatistikk på nav.no
                         </LenkeMedLogging>
@@ -269,7 +268,10 @@ const InformasjonOmTilgangsstyringSide = () => {
                             Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
                             skjemaet «Sykmelding – oppgi nærmeste leder».
                         </Normaltekst>
-                        <LenkeMedLogging href={infoOmRettigheterTilSykemeldingURL}>
+                        <LenkeMedLogging
+                            href={infoOmRettigheterTilSykemeldingURL}
+                            loggLenketekst="Les mer om tjenestene og tilhørende enkeltrettigheter"
+                        >
                             Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
                         </LenkeMedLogging>
                     </Ekspanderbartpanel>
@@ -328,7 +330,10 @@ const InformasjonOmTilgangsstyringSide = () => {
 
                     <div className="informasjon-om-tilgangsstyring__bunntekst">
                         <Normaltekst>
-                            <NyFaneLenke href={infoOmAltinnrollerURL}>
+                            <NyFaneLenke
+                                href={infoOmAltinnrollerURL}
+                                loggLenketekst="Les mer om roller og rettigheter i Altinn"
+                            >
                                 Les mer om roller og rettigheter i Altinn
                             </NyFaneLenke>
                         </Normaltekst>

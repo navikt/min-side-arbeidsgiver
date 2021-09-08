@@ -19,8 +19,7 @@ const IAwebboks = () => {
                 className="IA-web-boks__info"
                 href={lenkeTilSykefravarsstatistikk + valgtbedrift()}
                 tittelProps="normaltekst"
-                loggTjeneste="IA"
-                loggTekst="Sykefraværsstatistikk"
+                loggLenketekst="Sykefraværsstatistikk"
             >
                 <div className="IA-web-boks__tekst">
                     Har du høyere eller lavere sykefravær sammenlignet med din bransje? Se tallene
