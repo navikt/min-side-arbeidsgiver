@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEventHandler, useContext } from 'react';
+import React, {FunctionComponent, MouseEventHandler, useContext, useEffect, useState} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -77,18 +77,24 @@ const opprettSøknad = (
 };
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
+    const { tilgangTilSyfo, organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
+    const [organisasjon, setOrganisasjon] = useState<OrganisasjonInfo|undefined>(undefined)
     const tjenesteinfoBokser: JSX.Element[] = [];
+
+    useEffect(()=> {
+        if(valgtOrganisasjon){
+            setOrganisasjon(organisasjoner[valgtOrganisasjon!.organisasjon.OrganizationNumber])
+        } else { setOrganisasjon(undefined)}
+    }, [organisasjoner, valgtOrganisasjon])
 
     if (tilgangTilSyfo === SyfoTilgang.IKKE_TILGANG) {
         tjenesteinfoBokser.push(<BeOmSyfotilgang />);
     }
 
-    if (valgtOrganisasjon) {
+    if (organisasjon) {
         for (let altinnId of altinnIdIRekkefølge) {
-            const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
+            const tilgang = organisasjon.altinntilgang[altinnId];
 
             if (tilgang.tilgang === 'ja') {
                 /* har tilgang -- ingen ting å vise */
@@ -96,7 +102,7 @@ const BeOmTilgang: FunctionComponent = () => {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
                         altinnId={altinnId}
-                        onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
+                        onClick={opprettSøknad(altinnId, organisasjon)}
                         eksternSide={true}
                     />
                 );
@@ -155,10 +161,10 @@ const BeOmTilgang: FunctionComponent = () => {
                                 kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                                 under.
                             </AlertStripeInfo>
-                            {valgtOrganisasjon && (
+                            {organisasjon && (
                                 <Organisasjonsbeskrivelse
-                                    navn={valgtOrganisasjon.organisasjon.Name}
-                                    orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
+                                    navn={organisasjon.organisasjon.Name}
+                                    orgnummer={organisasjon.organisasjon.OrganizationNumber}
                                 />
                             )}
                             <ul className="be-om-tilgang__tjenesteinfo-bokser">

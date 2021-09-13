@@ -46,7 +46,7 @@ export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(undefined);
     const [altinntilganger, setAltinntilganger] = useState<Record<AltinntjenesteId, Set<string>> | undefined>(undefined);
-    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>(undefined);
+    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>([]);
 
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
