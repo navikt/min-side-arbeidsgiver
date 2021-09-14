@@ -18,8 +18,8 @@ export type Context = {
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
-export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const { organisasjoner, reporteeMessagesUrls} = useContext(OrganisasjonerOgTilgangerContext);
+export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({children}: Props) => {
+    const {organisasjoner, reporteeMessagesUrls} = useContext(OrganisasjonerOgTilgangerContext);
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
@@ -51,6 +51,12 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
             }
         }
     };
+
+    useEffect(() => {
+        if (valgtOrganisasjon !== undefined && organisasjoner !== undefined) {
+            setValgtOrganisasjon(organisasjoner[valgtOrganisasjon.organisasjon.OrganizationNumber]);
+        }
+    }, [organisasjoner, valgtOrganisasjon]);
 
     useEffect(() => {
         loggBedriftValgtOgTilganger(valgtOrganisasjon);

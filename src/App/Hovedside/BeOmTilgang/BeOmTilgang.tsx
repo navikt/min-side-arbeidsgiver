@@ -77,24 +77,17 @@ const opprettSøknad = (
 };
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { tilgangTilSyfo, organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const [organisasjon, setOrganisasjon] = useState<OrganisasjonInfo|undefined>(undefined)
     const tjenesteinfoBokser: JSX.Element[] = [];
-
-    useEffect(()=> {
-        if(valgtOrganisasjon){
-            setOrganisasjon(organisasjoner[valgtOrganisasjon!.organisasjon.OrganizationNumber])
-        } else { setOrganisasjon(undefined)}
-    }, [organisasjoner, valgtOrganisasjon])
 
     if (tilgangTilSyfo === SyfoTilgang.IKKE_TILGANG) {
         tjenesteinfoBokser.push(<BeOmSyfotilgang />);
     }
 
-    if (organisasjon) {
+    if (valgtOrganisasjon) {
         for (let altinnId of altinnIdIRekkefølge) {
-            const tilgang = organisasjon.altinntilgang[altinnId];
+            const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
 
             if (tilgang.tilgang === 'ja') {
                 /* har tilgang -- ingen ting å vise */
@@ -102,7 +95,7 @@ const BeOmTilgang: FunctionComponent = () => {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
                         altinnId={altinnId}
-                        onClick={opprettSøknad(altinnId, organisasjon)}
+                        onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
                         eksternSide={true}
                     />
                 );
@@ -161,10 +154,10 @@ const BeOmTilgang: FunctionComponent = () => {
                                 kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                                 under.
                             </AlertStripeInfo>
-                            {organisasjon && (
+                            {valgtOrganisasjon && (
                                 <Organisasjonsbeskrivelse
-                                    navn={organisasjon.organisasjon.Name}
-                                    orgnummer={organisasjon.organisasjon.OrganizationNumber}
+                                    navn={valgtOrganisasjon.organisasjon.Name}
+                                    orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
                                 />
                             )}
                             <ul className="be-om-tilgang__tjenesteinfo-bokser">
