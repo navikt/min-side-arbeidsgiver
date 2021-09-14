@@ -1,4 +1,4 @@
-import React, {FunctionComponent, MouseEventHandler, useContext, useEffect, useState} from 'react';
+import React, {FunctionComponent, MouseEventHandler, useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
