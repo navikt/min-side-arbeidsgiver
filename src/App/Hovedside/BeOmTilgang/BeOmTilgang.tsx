@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEventHandler, useContext } from 'react';
+import React, {FunctionComponent, MouseEventHandler, useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
@@ -79,7 +79,6 @@ const opprettSøknad = (
 const BeOmTilgang: FunctionComponent = () => {
     const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
     const tjenesteinfoBokser: JSX.Element[] = [];
 
     if (tilgangTilSyfo === SyfoTilgang.IKKE_TILGANG) {

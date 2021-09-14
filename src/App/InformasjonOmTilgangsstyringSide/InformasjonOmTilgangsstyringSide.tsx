@@ -128,8 +128,8 @@ const InformasjonOmTilgangsstyringSide = () => {
 
                     <Ekspanderbartpanel tittel="Fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom" border>
                         <Normaltekst>
-                            For å få tilgang til søknadene «fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom»,
-                            så trenger du kun en vilkårlig Altinn-rolle i din virksomhet eller tilgang til Dine sykemeldte.
+                            For at søknadene «fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom» skal vises,
+                            trenger du kun en vilkårlig Altinn-rolle i din virksomhet eller tilgang til Dine sykemeldte.
                         </Normaltekst>
                     </Ekspanderbartpanel>
 
