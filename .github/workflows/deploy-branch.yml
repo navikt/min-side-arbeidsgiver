@@ -50,6 +50,7 @@ jobs:
           RESOURCE: naiserator-gcp.yaml
           PRINT_PAYLOAD: true
           VARS: nais/dev-gcp.json
+          VAR: commit=${{ env.COMMIT }}
           REF: ${{ env.COMMIT }}
           IMAGE: ${{ env.IMAGE }}
 
