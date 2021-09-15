@@ -82,7 +82,7 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
-          yarn install
+          yarn install --prod=false
           sentry-cli releases new "${{ github.sha }}"
           sentry-cli releases files "${{ github.sha }}" upload-sourcemaps build/static/js \
               --url-prefix '~/min-side-arbeidsgiver/static/js'
