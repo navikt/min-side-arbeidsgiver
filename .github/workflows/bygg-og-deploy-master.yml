@@ -106,7 +106,7 @@ jobs:
           RESOURCE: naiserator-gcp.yaml
           PRINT_PAYLOAD: true
           VARS: nais/dev-gcp.json
-          VAR: git_commit=${{ env.GITHUB_SHA }}
+          VAR: commit=${{ env.GITHUB_SHA }}
 
   deploy-prod-gcp:
     name: Deploy til prod-gcp
@@ -123,7 +123,7 @@ jobs:
           RESOURCE: naiserator-gcp.yaml
           PRINT_PAYLOAD: true
           VARS: nais/prod-gcp.json
-          VAR: git_commit=${{ env.GITHUB_SHA }}
+          VAR: commit=${{ env.GITHUB_SHA }}
 
   deploy-labs-gcp:
     name: Deploy til labs-gcp
@@ -141,4 +141,4 @@ jobs:
           RESOURCE: naiserator-gcp.yaml
           PRINT_PAYLOAD: true
           VARS: nais/labs-gcp.json
-          VAR: git_commit=${{ env.GITHUB_SHA }}
+          VAR: commit=${{ env.GITHUB_SHA }}
