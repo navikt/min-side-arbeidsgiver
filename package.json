@@ -105,7 +105,6 @@
     "start:mock": "REACT_APP_MOCK=true yarn start",
     "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
     "build": "craco build",
-    "sentry-release": "(export SENTRY_RELEASE=$(git rev-parse --short HEAD); node sentry-release)",
     "test": "craco test",
     "lint": "eslint --ext ts,tsx .",
     "docker:build": "docker build -t minside-arbeidsgiver .",
