@@ -94,6 +94,7 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
+    "@sentry/cli": "^1.68.0",
     "cookie-parser": "*",
     "fs-extra": "^9.1.0",
     "node-fetch": "^2.6.1",
@@ -104,6 +105,7 @@
     "start:mock": "REACT_APP_MOCK=true yarn start",
     "start:mock:win": "set REACT_APP_MOCK=true && yarn start",
     "build": "craco build",
+    "sentry-release": "(export SENTRY_RELEASE=$(git rev-parse --short HEAD); node sentry-release)",
     "test": "craco test",
     "lint": "eslint --ext ts,tsx .",
     "docker:build": "docker build -t minside-arbeidsgiver .",
