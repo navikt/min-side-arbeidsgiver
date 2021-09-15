@@ -37,7 +37,7 @@ spec:
     - name: BRUKER_API_URL
       value: '{{{bruker-api-url}}}'
     - name: GIT_COMMIT
-      value: '{{{commit}}}'
+      value: {{commit}}
   accessPolicy:
     outbound:
       external:
