@@ -1,11 +1,13 @@
 interface Environment {
     MILJO: string,
     NAIS_APP_IMAGE: string,
+    GIT_COMMIT: string,
 }
 
 const environment: Environment = {
     MILJO: 'local',
     NAIS_APP_IMAGE: 'unknown',
+    GIT_COMMIT: 'unknown',
     ...(window as any)?.environment
 };
 

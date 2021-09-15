@@ -18,6 +18,7 @@ const defaultDecoratorUrl = 'https://www.nav.no/dekoratoren/?context=arbeidsgive
 const {
     PORT = 3000,
     NAIS_APP_IMAGE = '?',
+    GIT_COMMIT = '?',
     LOGIN_URL = defaultLoginUrl,
     DECORATOR_EXTERNAL_URL = defaultDecoratorUrl,
     NAIS_CLUSTER_NAME = 'local',
@@ -49,7 +50,8 @@ const getDecoratorFragments = async () => {
         SETTINGS: `<script type="application/javascript">
             window.environment = {
                 MILJO: '${NAIS_CLUSTER_NAME}',
-                NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}'
+                NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
+                GIT_COMMIT: '${GIT_COMMIT}',
             }
         </script>`,
     };

@@ -1,0 +1,4 @@
+[defaults]
+project=ditt-nav-arbeidsgiver
+url=https://sentry.gc.nav.no/
+org=nav

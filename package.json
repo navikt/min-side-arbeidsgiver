@@ -94,6 +94,7 @@
     "yarn": "^1.22.0"
   },
   "devDependencies": {
+    "@sentry/cli": "^1.68.0",
     "cookie-parser": "*",
     "fs-extra": "^9.1.0",
     "node-fetch": "^2.6.1",

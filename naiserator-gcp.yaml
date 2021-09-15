@@ -36,6 +36,8 @@ spec:
       value: 'debug'
     - name: BRUKER_API_URL
       value: '{{{bruker-api-url}}}'
+    - name: GIT_COMMIT
+      value: {{commit}}
   accessPolicy:
     outbound:
       external:
