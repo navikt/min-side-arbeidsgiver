@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server.js",
   "dependencies": {
-    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "0.0.2",
+    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "0.0.3",
     "casual": "^1.6.2",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
