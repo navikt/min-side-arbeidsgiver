@@ -6,10 +6,10 @@ import AltinnLenke from './AltinnLenke/AltinnLenke';
 import './AltinnContainer.less';
 
 const skjemarekkefølge: AltinnskjemaId[] = [
+    'inntektsmelding',
     'mentortilskudd',
     'inkluderingstilskudd',
     'ekspertbistand',
-    'inntektsmelding',
     'utsendtArbeidstakerEØS'
 ];
 
