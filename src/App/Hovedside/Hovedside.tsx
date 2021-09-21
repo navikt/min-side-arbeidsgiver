@@ -44,10 +44,10 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
                     />
                     <Koronaboks/>
                     <TjenesteBoksContainer/>
-                    <BrevFraAltinnContainer/>
-                    <NyttigForDegContainer/>
-                    <AltinnContainer/>
                     <SkjemaveilederContainer/>
+                    <BrevFraAltinnContainer/>
+                    <AltinnContainer/>
+                    <NyttigForDegContainer/>
                     <LinkableFragment fragment="be-om-tilgang">
                         <BeOmTilgang/>
                     </LinkableFragment>
