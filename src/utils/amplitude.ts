@@ -22,7 +22,7 @@ const createAmpltiudeInstance = () => {
 }
 
 
-export default <amplitude.AmplitudeClient> gittMiljo({
+export default gittMiljo({
     prod: () => createAmpltiudeInstance(),
     dev: () => createAmpltiudeInstance(),
     other: () => ({
@@ -32,5 +32,5 @@ export default <amplitude.AmplitudeClient> gittMiljo({
         setUserProperties:(userProps:object) => {
             console.log(`set userprops: ${JSON.stringify(userProps)}`)
         }
-    })
+    } as amplitude.AmplitudeClient )
 })();
