@@ -22,7 +22,7 @@ const createAmpltiudeInstance = () => {
 }
 
 
-export default gittMiljo({
+export default <amplitude.AmplitudeClient> gittMiljo({
     prod: () => createAmpltiudeInstance(),
     dev: () => createAmpltiudeInstance(),
     other: () => ({

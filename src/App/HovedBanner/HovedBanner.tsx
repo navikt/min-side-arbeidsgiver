@@ -7,6 +7,7 @@ import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerPr
 import * as Record from '../../utils/Record';
 import {inkluderNotifikasjonerFeatureToggle} from "../../FeatureToggleProvider";
 import {NotifikasjonWidget} from "@navikt/arbeidsgiver-notifikasjon-widget";
+import amplitude from "../../utils/amplitude";
 
 interface OwnProps {
     sidetittel: string;
@@ -24,6 +25,7 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
             organisasjoner={orgs}
             onOrganisasjonChange={endreOrganisasjon}
             history={history}
+            amplitudeClient={amplitude}
         >
             { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget apiUri="/min-side-arbeidsgiver/notifikasjon/api/graphql" /> : null }
         </Bedriftsmeny>
