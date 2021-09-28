@@ -1621,11 +1621,12 @@
     nav-frontend-typografi-style "2"
     prop-types "15"
 
-"@navikt/bedriftsmeny@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-3.2.0.tgz#e252a1adb86b7b6d438960c2aa15d918ecda3aeb"
-  integrity sha512-j5b++L3fKCLD/hFjWum2XnxyQ0OlnUsiFF7Fp+YExaMh0LobA2d8ANwDhMd9MIBpcRPuFpSbUvTrhALstqdW5w==
+"@navikt/bedriftsmeny@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@navikt/bedriftsmeny/-/bedriftsmeny-3.3.0.tgz#935532cb402b30909a0619cb1622806be10b96d4"
+  integrity sha512-lzHEsf2kQOmIbO84+QC7irW0pnZSNwPyTS8DEl/iDafeetWafZcWY+ZRw+Cj9692Y9jWoiwqVU/xLMpPn3rSTg==
   dependencies:
+    "@types/amplitude-js" "^8.0.1"
     fuzzysort "^1.1.4"
 
 "@navikt/ds-css@0":
@@ -1973,6 +1974,11 @@
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-7.0.1.tgz#c0b1bc6e508faa513a30ece580c300f0738a9449"
   integrity sha512-xrmhX39GoSBIuOOPWYL5uvVLn6a5Cvea0wb6SkJNW9+2w5GCK6hT0vvMaH1GaaeSqvb1QFjHNsEgXuyQqML0sw==
+
+"@types/amplitude-js@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@types/amplitude-js/-/amplitude-js-8.0.1.tgz#97406436b0ba3b14eba87b01a63b56681364654d"
+  integrity sha512-JrVJ/G8bXEz/b12xKOsSWbQ4C4i4AlPalQprJBCXhUG0loWtPNfV/8Uj53mL0OHa3hfI5javocIsgF33k6cOVQ==
 
 "@types/babel__core@^7.0.0", "@types/babel__core@^7.1.7":
   version "7.1.16"

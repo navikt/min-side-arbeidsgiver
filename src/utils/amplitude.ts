@@ -32,5 +32,5 @@ export default gittMiljo({
         setUserProperties:(userProps:object) => {
             console.log(`set userprops: ${JSON.stringify(userProps)}`)
         }
-    })
+    } as amplitude.AmplitudeClient )
 })();
