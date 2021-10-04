@@ -1,7 +1,7 @@
 import amplitude from '../utils/amplitude';
-import {OrganisasjonInfo, SyfoTilgang} from '../App/OrganisasjonerOgTilgangerProvider';
-import {Innlogget} from '../App/LoginProvider';
-import {basename} from '../paths';
+import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerProvider';
+import { Innlogget } from '../App/LoginProvider';
+import { basename } from '../paths';
 
 interface EventProps {
     url: string;
@@ -13,7 +13,7 @@ interface EventProps {
 }
 
 
-const baseUrl = `https://arbeidsgiver.nav.no${basename}`
+const baseUrl = `https://arbeidsgiver.nav.no${basename}`;
 
 interface AndreTilganger {
     tilgangTilSyfo: SyfoTilgang,
@@ -22,39 +22,39 @@ interface AndreTilganger {
 export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
     amplitude.logEvent('sidevisning', {
         url: `${baseUrl}${pathname}`,
-        innlogget: innlogget === Innlogget.INNLOGGET
+        innlogget: innlogget === Innlogget.INNLOGGET,
     });
 };
 
 export const loggBedriftValgtOgTilganger = (
-    org: OrganisasjonInfo | undefined
+    org: OrganisasjonInfo | undefined,
 ) => {
-    if (org === undefined) return
+    if (org === undefined) return;
 
-    let tilgangskombinasjon = ''
+    let tilgangskombinasjon = '';
 
-    if (org.altinntilgang.pam.tilgang === 'ja') {
+    if (org.altinntilgang.pam) {
         tilgangskombinasjon += 'arbeidsplassen ';
     }
-    if (org.altinntilgang.iaweb.tilgang === 'ja') {
+    if (org.altinntilgang.iaweb) {
         tilgangskombinasjon += 'sykefraværsstatistikk ';
     }
-    if (org.altinntilgang.arbeidstrening.tilgang === 'ja') {
+    if (org.altinntilgang.arbeidstrening) {
         tilgangskombinasjon += 'arbeidstrening ';
     }
-    if (org.altinntilgang.arbeidsforhold.tilgang === 'ja') {
-        tilgangskombinasjon += 'arbeidsforhold'
+    if (org.altinntilgang.arbeidsforhold) {
+        tilgangskombinasjon += 'arbeidsforhold';
     }
-    if (org.altinntilgang.midlertidigLønnstilskudd.tilgang === 'ja') {
+    if (org.altinntilgang.midlertidigLønnstilskudd) {
         tilgangskombinasjon += 'midlertidig lønnstilskudd ';
     }
-    if (org.altinntilgang.varigLønnstilskudd.tilgang === 'ja') {
+    if (org.altinntilgang.varigLønnstilskudd) {
         tilgangskombinasjon += 'varig lønnstilskudd';
     }
 
     const tilgangsinfo: EventProps = {
         url: baseUrl,
-        tilgangskombinasjon
+        tilgangskombinasjon,
     };
 
     amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
@@ -64,18 +64,18 @@ export const loggNavigasjon = (
     destinasjon: string | undefined,
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
-    currentPagePath?: string
+    currentPagePath?: string,
 ) => {
 
     if (destinasjon !== undefined && destinasjon !== '') {
-        const {origin, pathname} = new URL(destinasjon, baseUrl)
-        destinasjon = `${origin}${pathname}`
+        const { origin, pathname } = new URL(destinasjon, baseUrl);
+        destinasjon = `${origin}${pathname}`;
     }
 
     const navigasjonsInfo: EventProps = {
         destinasjon: destinasjon,
         lenketekst,
-        url: `${baseUrl}${currentPagePath ?? ""}`
+        url: `${baseUrl}${currentPagePath ?? ''}`,
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
 };

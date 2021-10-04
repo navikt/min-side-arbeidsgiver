@@ -1,9 +1,9 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {Organisasjon} from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import {OrganisasjonerOgTilgangerContext, OrganisasjonInfo} from './OrganisasjonerOgTilgangerProvider';
-import {autentiserAltinnBruker, hentMeldingsboks, Meldingsboks} from '../api/altinnApi';
-import {loggBedriftValgtOgTilganger} from '../utils/funksjonerForAmplitudeLogging';
-import {hentAntallannonser, settBedriftIPam} from '../api/pamApi';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { OrganisasjonerOgTilgangerContext, OrganisasjonInfo } from './OrganisasjonerOgTilgangerProvider';
+import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
+import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
+import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 
 interface Props {
     children: React.ReactNode;
@@ -18,8 +18,8 @@ export type Context = {
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
-export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({children}: Props) => {
-    const {organisasjoner, reporteeMessagesUrls} = useContext(OrganisasjonerOgTilgangerContext);
+export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
+    const { organisasjoner, reporteeMessagesUrls } = useContext(OrganisasjonerOgTilgangerContext);
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
@@ -28,15 +28,15 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({childre
         const orgInfo = organisasjoner[org.OrganizationNumber];
         setValgtOrganisasjon(orgInfo);
 
-        if (orgInfo.altinntilgang.pam.tilgang === 'ja') {
+        if (orgInfo.altinntilgang.pam) {
             settBedriftIPam(orgInfo.organisasjon.OrganizationNumber).then(() =>
-                hentAntallannonser().then(setantallAnnonser)
+                hentAntallannonser().then(setantallAnnonser),
             );
         } else {
             setantallAnnonser(0);
         }
 
-        if (orgInfo.altinntilgang.tilskuddsbrev.tilgang === 'ja') {
+        if (orgInfo.altinntilgang.tilskuddsbrev) {
             const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
             if (messagesUrl === undefined) {
                 setAltinnMeldingsboks(undefined);
