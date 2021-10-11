@@ -1,11 +1,11 @@
-import React, {FunctionComponent, MouseEventHandler, useContext } from 'react';
+import React, { FunctionComponent, MouseEventHandler, useContext } from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import { Undertittel } from 'nav-frontend-typografi';
 import {
     OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
-    SyfoTilgang
+    SyfoTilgang,
 } from '../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
@@ -36,19 +36,19 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
 
 const beOmTilgangUrlFallback = (
     altinnId: AltinntjenesteId,
-    valgtOrganisasjon: OrganisasjonInfo
+    valgtOrganisasjon: OrganisasjonInfo,
 ): string => {
     const tjeneste = altinntjeneste[altinnId];
     return beOmTilgangIAltinnLink(
         valgtOrganisasjon.organisasjon.OrganizationNumber,
         tjeneste.tjenestekode,
-        tjeneste.tjenesteversjon
+        tjeneste.tjenesteversjon,
     );
 };
 
 const opprettSøknad = (
     altinnId: AltinntjenesteId,
-    valgtOrganisasjon: OrganisasjonInfo
+    valgtOrganisasjon: OrganisasjonInfo,
 ): MouseEventHandler<unknown> => {
     let harTrykket = false; /* ikke opprett to søknader hvis bruker klikker raskt på knappen. */
     return () => {
@@ -56,7 +56,7 @@ const opprettSøknad = (
             return;
         }
         harTrykket = true;
-        const redirectUrl = new URL(window.location.href)
+        const redirectUrl = new URL(window.location.href);
         redirectUrl.searchParams.set('fragment', 'be-om-tilgang');
         opprettAltinnTilgangssøknad({
             orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
@@ -88,44 +88,44 @@ const BeOmTilgang: FunctionComponent = () => {
     if (valgtOrganisasjon) {
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
-
-            if (tilgang.tilgang === 'ja') {
+            const tilgangsøknad = valgtOrganisasjon.altinnsøknad[altinnId];
+            if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            } else if (tilgang.tilgang === 'nei') {
+            } else if (tilgangsøknad.tilgang === 'ikke søkt') {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
                         altinnId={altinnId}
                         onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
                         eksternSide={true}
-                    />
+                    />,
                 );
-            } else if (tilgang.tilgang === 'søknad opprettet') {
+            } else if (tilgangsøknad.tilgang === 'søknad opprettet') {
                 tjenesteinfoBokser.push(
-                    <BeOmTilgangBoks altinnId={altinnId} href={tilgang.url} eksternSide={true} />
+                    <BeOmTilgangBoks altinnId={altinnId} href={tilgangsøknad.url} eksternSide={true} />,
                 );
-            } else if (tilgang.tilgang === 'søkt') {
+            } else if (tilgangsøknad.tilgang === 'søkt') {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
                         altinnId={altinnId}
-                        type="info"
-                        status="Tilgang etterspurt"
+                        type='info'
+                        status='Tilgang etterspurt'
                         statusBeskrivelse={`
                             Du vil motta et varsel fra Altinn når
                             forespørselen er behandlet og tilganger er på plass.
                     `}
-                    />
+                    />,
                 );
-            } else if (tilgang.tilgang === 'godkjent') {
+            } else if (tilgangsøknad.tilgang === 'godkjent') {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
                         altinnId={altinnId}
-                        type="suksess"
-                        status="Forespørsel godkjent"
+                        type='suksess'
+                        status='Forespørsel godkjent'
                         statusBeskrivelse={`
                         Forespørselen er behandlet og er godkjent. Det kan
                         ta litt tid før tjenesten blir tilgjengelig for deg.
                     `}
-                    />
+                    />,
                 );
             }
         }
@@ -133,23 +133,23 @@ const BeOmTilgang: FunctionComponent = () => {
 
     const skalViseInnhold = tjenesteinfoBokser.length > 0;
     return (
-        <div className="be-om-tilgang">
+        <div className='be-om-tilgang'>
             {skalViseInnhold && (
                 <>
-                    <div className="be-om-tilgang__tittel">
-                        <div className="divider" />
-                        <Undertittel className="tekst">
+                    <div className='be-om-tilgang__tittel'>
+                        <div className='divider' />
+                        <Undertittel className='tekst'>
                             Trenger du tilgang til flere tjenester?
                         </Undertittel>
-                        <div className="divider" />
+                        <div className='divider' />
                     </div>
                     <Ekspanderbartpanel
-                        className="be-om-tilgang__container"
-                        tittel="Tjenester du kan be om tilgang til"
+                        className='be-om-tilgang__container'
+                        tittel='Tjenester du kan be om tilgang til'
                         apen={new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'}
                     >
-                        <div className="be-om-tilgang__innhold">
-                            <AlertStripeInfo className="be-om-tilgang__info">
+                        <div className='be-om-tilgang__innhold'>
+                            <AlertStripeInfo className='be-om-tilgang__info'>
                                 Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du
                                 kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                                 under.
@@ -160,9 +160,9 @@ const BeOmTilgang: FunctionComponent = () => {
                                     orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
                                 />
                             )}
-                            <ul className="be-om-tilgang__tjenesteinfo-bokser">
+                            <ul className='be-om-tilgang__tjenesteinfo-bokser'>
                                 {tjenesteinfoBokser.map((tjenesteinfoboks, index) => (
-                                    <li key={index} className="be-om-tilgang__tjenesteinfo">
+                                    <li key={index} className='be-om-tilgang__tjenesteinfo'>
                                         {tjenesteinfoboks}
                                     </li>
                                 ))}

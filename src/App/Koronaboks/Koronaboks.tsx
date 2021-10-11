@@ -9,7 +9,7 @@ import {
     koronaSykeRefusjonURL,
     lenkeTilPermitteringsInfo, lenkeTilLonnskompensasjonOgRefusjon,
     grensekompURL,
-    grensekompOversiktURL
+    grensekompOversiktURL,
 } from '../../lenker';
 import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
@@ -21,75 +21,75 @@ interface KoronalenkeProps {
     tekst: string;
 }
 
-const Koronalenke: FunctionComponent<KoronalenkeProps> = ({href, tekst}) =>
+const Koronalenke: FunctionComponent<KoronalenkeProps> = ({ href, tekst }) =>
     <LenkeMedLogging
-        className="koronaboks__lenke"
+        className='koronaboks__lenke'
         href={href}
         loggLenketekst={tekst}
     >
         <span>{tekst}</span>
-        <HoyreChevron/>
+        <HoyreChevron />
     </LenkeMedLogging>;
 
 export const Koronaboks = () => {
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     return (
-        <div className="koronaboks">
-            <Innholdsboks classname="koronaboks__innhold">
-                <KoronaboksIkon/>
+        <div className='koronaboks'>
+            <Innholdsboks classname='koronaboks__innhold'>
+                <KoronaboksIkon />
                 <Undertittel>Koronarelaterte tjenester</Undertittel>
 
-                <Element className="koronaboks__tekst">Permittering</Element>
+                <Element className='koronaboks__tekst'>Permittering</Element>
 
                 <Koronalenke
                     href={lenkeTilPermitteringOgMasseoppsigelsesSkjema}
-                    tekst="Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden"
+                    tekst='Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden'
                 />
 
                 <Koronalenke
                     href={lenkeTilPermitteringsInfo}
-                    tekst="Nye regler for lønnsplikt ved permittering"
+                    tekst='Nye regler for lønnsplikt ved permittering'
                 />
 
                 {
-                    valgtOrganisasjon?.altinntilgang.inntektsmelding.tilgang === 'ja'
+                    valgtOrganisasjon?.altinntilgang.inntektsmelding === true
                         ? <LenkerSomKreverInntekstmeldingtilgang
-                            orgnr={valgtOrganisasjon.organisasjon.OrganizationNumber}/>
+                            orgnr={valgtOrganisasjon.organisasjon.OrganizationNumber} />
                         : null
                 }
             </Innholdsboks>
         </div>
     );
 };
-const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{ orgnr: string }> = ({orgnr}) => <>
+const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{ orgnr: string }> = ({ orgnr }) => <>
 
-    <Element className="koronaboks__tekst">Lønnskompensasjon</Element>
+    <Element className='koronaboks__tekst'>Lønnskompensasjon</Element>
     <Koronalenke
         href={lenkeTilLonnskompensasjonOgRefusjon}
-        tekst="Se kvittering på innsendt skjema om lønnskompensasjon"
+        tekst='Se kvittering på innsendt skjema om lønnskompensasjon'
     />
 
     <Koronalenke
         href={permitteringKlageskjemaURL(orgnr)}
-        tekst="Ettersend opplysninger eller klag på vedtak om lønnskompensasjon"
+        tekst='Ettersend opplysninger eller klag på vedtak om lønnskompensasjon'
     />
 
-    <Element className="koronaboks__tekst">Refusjon sykepenger</Element>
+    <Element className='koronaboks__tekst'>Refusjon sykepenger</Element>
     <Koronalenke
         href={koronaSykeRefusjonURL(orgnr)}
-        tekst="Søk om refusjon av sykepenger ved koronavirus"
+        tekst='Søk om refusjon av sykepenger ved koronavirus'
     />
 
-    <Element className="koronaboks__tekst">Restriksjoner for innreise</Element>
+    <Element className='koronaboks__tekst'>Restriksjoner for innreise</Element>
     <Koronalenke
         href={grensekompURL}
-        tekst="Søk om refusjon for utestengte EØS-borgere"
+        tekst='Søk om refusjon for utestengte EØS-borgere'
     />
 
     <Koronalenke
         href={grensekompOversiktURL}
-        tekst="Refusjon for utestengte EØS-borgere - se innsendte krav"
+        tekst='Refusjon for utestengte EØS-borgere - se innsendte krav'
     />
 </>;
 

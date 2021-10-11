@@ -16,12 +16,12 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const tilgang = valgtOrganisasjon?.altinntilgang;
 
     const harTilgang = (altinnId: AltinntjenesteId): boolean =>
-        tilgang !== undefined && tilgang[altinnId].tilgang === 'ja';
+        tilgang !== undefined && tilgang[altinnId];
 
     const tjenester: FunctionComponent[] = [];
 
     if (harTilgang('arbeidsforhold')) {
-        tjenester.push(Arbeidsforholdboks)
+        tjenester.push(Arbeidsforholdboks);
     }
 
     if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
@@ -29,10 +29,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     }
 
     if (harTilgang('iaweb')) {
-        tjenester.push(IAwebboks)
+        tjenester.push(IAwebboks);
     }
     if (harTilgang('pam')) {
-        tjenester.push(Pamboks)
+        tjenester.push(Pamboks);
     }
     if (harTilgang('midlertidigLønnstilskudd') || harTilgang('varigLønnstilskudd') || harTilgang('arbeidstrening')) {
         tjenester.push(Tiltakboks);
@@ -50,9 +50,9 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     return (
         <div className={'tjenesteboks-container ' + antallClassname}>
             {tjenester.map((Tjeneste, indeks) =>
-                <Innholdsboks classname="tjenesteboks" key={indeks}>
-                    <Tjeneste/>
-                </Innholdsboks>
+                <Innholdsboks classname='tjenesteboks' key={indeks}>
+                    <Tjeneste />
+                </Innholdsboks>,
             )}
         </div>
     );

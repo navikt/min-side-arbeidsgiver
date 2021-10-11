@@ -10,7 +10,7 @@ const skjemarekkefølge: AltinnskjemaId[] = [
     'mentortilskudd',
     'inkluderingstilskudd',
     'ekspertbistand',
-    'utsendtArbeidstakerEØS'
+    'utsendtArbeidstakerEØS',
 ];
 
 export const AltinnContainer: FunctionComponent = () => {
@@ -21,7 +21,7 @@ export const AltinnContainer: FunctionComponent = () => {
     }
 
     const skjemaliste = skjemarekkefølge.flatMap(navn =>
-        valgtOrganisasjon.altinntilgang[navn].tilgang === 'ja' ? [altinnskjema[navn]] : []
+        valgtOrganisasjon.altinntilgang[navn] ? [altinnskjema[navn]] : [],
     );
 
     const antall = skjemaliste.length;
@@ -42,18 +42,18 @@ export const AltinnContainer: FunctionComponent = () => {
 
     return (
         <div className={'altinn-container ' + className}>
-            <Undertittel id="altinn-container-tittel" className="altinn-container__tittel">
+            <Undertittel id='altinn-container-tittel' className='altinn-container__tittel'>
                 Søknader og skjemaer på Altinn
             </Undertittel>
 
             <ul
                 className={'altinn-container__bokser ' + className}
-                aria-labelledby="altinn-container-tittel"
+                aria-labelledby='altinn-container-tittel'
             >
                 {skjemaliste.map(skjema => (
                     <AltinnLenke
                         key={skjema.navn}
-                        className="altinn-lenke"
+                        className='altinn-lenke'
                         href={skjema.skjemaUrl}
                         tekst={skjema.navn}
                         nyFane={true}
