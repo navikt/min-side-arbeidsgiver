@@ -101,7 +101,7 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
 });
 
 export const lenkeTilPermitteringsInfo =
-    'https://arbeidsgiver.nav.no/arbeidsgiver-permittering/#narSkalJegUtbetaleLonn'
+    'https://arbeidsgiver.nav.no/permittering-og-omstilling/permittering#lonnsplikt'
 
 export const lenkeTilLonnskompensasjonOgRefusjon = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
