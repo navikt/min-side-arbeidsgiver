@@ -2,16 +2,16 @@ import path from 'path';
 import fetch from 'node-fetch';
 import express from 'express';
 import mustacheExpress from 'mustache-express';
-import httpProxyMiddleware from "http-proxy-middleware";
-import jsdom from "jsdom";
-import Prometheus from "prom-client";
-import require from "./esm-require.js";
-import cookieParser from "cookie-parser"
+import httpProxyMiddleware from 'http-proxy-middleware';
+import jsdom from 'jsdom';
+import Prometheus from 'prom-client';
+import require from './esm-require.js';
+import cookieParser from 'cookie-parser';
 
-const {createLogger, transports, format} = require('winston');
+const { createLogger, transports, format } = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
-const {JSDOM} = jsdom;
-const {createProxyMiddleware} = httpProxyMiddleware;
+const { JSDOM } = jsdom;
+const { createProxyMiddleware } = httpProxyMiddleware;
 
 const defaultLoginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
 const defaultDecoratorUrl = 'https://www.nav.no/dekoratoren/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4';
@@ -31,17 +31,17 @@ const log = createLogger({
     transports: [
         new transports.Console({
             timestamp: true,
-            format: format.json()
-        })
-    ]
-})
+            format: format.json(),
+        }),
+    ],
+});
 
 const decoratorUrl = NAIS_CLUSTER_NAME === 'prod-gcp' ? defaultDecoratorUrl : DECORATOR_EXTERNAL_URL;
 const BUILD_PATH = path.join(process.cwd(), '../build');
 const getDecoratorFragments = async () => {
     const response = await fetch(decoratorUrl);
     const body = await response.text();
-    const {document} = new JSDOM(body).window;
+    const { document } = new JSDOM(body).window;
     return {
         HEADER: document.getElementById('header-withmenu').innerHTML,
         FOOTER: document.getElementById('footer-withmenu').innerHTML,
@@ -55,7 +55,7 @@ const getDecoratorFragments = async () => {
             }
         </script>`,
     };
-}
+};
 const startApiGWGauge = () => {
     const gauge = new Prometheus.Gauge({
         name: 'backend_api_gw',
@@ -68,14 +68,14 @@ const startApiGWGauge = () => {
             gauge.set(res.ok ? 1 : 0);
             log.info(`healthcheck: ${gauge.name} ${res.ok}`);
         } catch (error) {
-            log.error(`healthcheck error: ${gauge.name} ${error}`)
+            log.error(`healthcheck error: ${gauge.name} ${error}`);
             gauge.set(0);
         }
     }, 60 * 1000);
-}
+};
 
 const app = express();
-app.disable("x-powered-by");
+app.disable('x-powered-by');
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', BUILD_PATH);
@@ -89,7 +89,7 @@ app.use('/*', (req, res, next) => {
 app.use(
     apiMetricsMiddleware({
         metricsPath: '/min-side-arbeidsgiver/internal/metrics',
-    })
+    }),
 );
 
 app.use(
@@ -106,8 +106,26 @@ app.use(
         },
         secure: true,
         xfwd: true,
-        target: API_GATEWAY
-    })
+        target: API_GATEWAY,
+    }),
+);
+
+app.use(
+    '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+    createProxyMiddleware({
+        logLevel: PROXY_LOG_LEVEL,
+        logProvider: _ => log,
+        onError: (err, req, res) => {
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+        },
+        changeOrigin: true,
+        pathRewrite: {
+            '^/min-side-arbeidsgiver': 'arbeidsforhold/arbeidsgiver-arbeidsforhold/',
+        },
+        secure: true,
+        xfwd: true,
+        target: 'https://arbeidsforhold.dev.nav.no/',
+    }),
 );
 
 app.use(
@@ -128,8 +146,8 @@ app.use(
         },
         onProxyReq: (proxyReq, req, _res) => {
             proxyReq.setHeader('Authorization', `Bearer ${req.cookies['selvbetjening-idtoken']}`);
-        }
-    })
+        },
+    }),
 );
 
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
@@ -139,11 +157,11 @@ app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
 });
 app.get(
     '/min-side-arbeidsgiver/internal/isAlive',
-    (req, res) => res.sendStatus(200)
+    (req, res) => res.sendStatus(200),
 );
 app.get(
     '/min-side-arbeidsgiver/internal/isReady',
-    (req, res) => res.sendStatus(200)
+    (req, res) => res.sendStatus(200),
 );
 
 const serve = async () => {
@@ -179,10 +197,10 @@ const serve = async () => {
                 log.warn(`oppdatering av dekoratør feilet: ${error}`);
             });
     }, DECORATOR_UPDATE_MS);
-}
+};
 
 serve().then(/*noop*/);
 
 if (NAIS_CLUSTER_NAME === 'labs-gcp') {
-    import('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock')
+    import('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
 }

@@ -1,12 +1,9 @@
 import fetchMock from 'fetch-mock';
-import { hentAntallArbeidsforholdLink } from '../lenker';
 import { delayed, randomInt } from '../utils/util';
-
 
 export const mock = () => {
     fetchMock
-        .get(
-            hentAntallArbeidsforholdLink,
+        .get('/min-side-arbeidsgiver/api/antall-arbeidsforhold/api/antall-arbeidsforhold',
             (url, request) => {
                 const antall = 502;
                 const missing = randomInt(10) === 0;

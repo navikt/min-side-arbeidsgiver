@@ -1,5 +1,3 @@
-import { hentAntallArbeidsforholdLink } from '../lenker';
-
 export type overSiktPerUnderenhetPar = {
     first: string;
     second: number;
@@ -7,10 +5,12 @@ export type overSiktPerUnderenhetPar = {
 
 export async function hentAntallArbeidsforholdFraAareg(
     underenhet: string,
-    enhet: string
+    enhet: string,
 ): Promise<number> {
     const headere = lagHeadere(enhet, underenhet);
-    let respons = await fetch(hentAntallArbeidsforholdLink, { headers: headere});
+    let respons = await fetch(
+        '/min-side-arbeidsgiver/api/antall-arbeidsforhold/api/antall-arbeidsforhold'
+        , { headers: headere });
     if (respons.ok) {
         const jsonRespons: overSiktPerUnderenhetPar = await respons.json();
         if (jsonRespons.second === 0) {
@@ -25,7 +25,7 @@ export async function hentAntallArbeidsforholdFraAareg(
 const lagHeadere = (jurenhet: string, orgnr?: string) => {
     const headere = new Headers();
     headere.set('jurenhet', jurenhet);
-    orgnr!=null && headere.set('orgnr', orgnr);
+    orgnr != null && headere.set('orgnr', orgnr);
     return headere;
 };
 

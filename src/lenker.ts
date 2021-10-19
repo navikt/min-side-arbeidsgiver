@@ -150,9 +150,3 @@ export const grensekompOversiktURL = gittMiljo({
     labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
     other: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
 });
-
-export const hentAntallArbeidsforholdLink = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/arbeidsgiver-arbeidsforhold/api/antall-arbeidsforhold',
-    labs: 'https://arbeidsgiver.labs.nais.io/arbeidsforhold/arbeidsgiver-arbeidsforhold/api/antall-arbeidsforhold',
-    other: 'https://arbeidsforhold.dev.nav.no/arbeidsforhold/arbeidsgiver-arbeidsforhold/api/antall-arbeidsforhold',
-});
