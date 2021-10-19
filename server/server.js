@@ -91,6 +91,23 @@ app.use(
         metricsPath: '/min-side-arbeidsgiver/internal/metrics',
     }),
 );
+app.use(
+    '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+    createProxyMiddleware({
+        logLevel: PROXY_LOG_LEVEL,
+        logProvider: _ => log,
+        onError: (err, req, res) => {
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+        },
+        changeOrigin: true,
+        pathRewrite: {
+            '^/min-side-arbeidsgiver': 'arbeidsforhold/arbeidsgiver-arbeidsforhold/',
+        },
+        secure: true,
+        xfwd: true,
+        target: 'https://arbeidsforhold.dev.nav.no/',
+    }),
+);
 
 app.use(
     '/min-side-arbeidsgiver/api',
@@ -110,23 +127,6 @@ app.use(
     }),
 );
 
-app.use(
-    '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
-    createProxyMiddleware({
-        logLevel: PROXY_LOG_LEVEL,
-        logProvider: _ => log,
-        onError: (err, req, res) => {
-            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-        },
-        changeOrigin: true,
-        pathRewrite: {
-            '^/min-side-arbeidsgiver': 'arbeidsforhold/arbeidsgiver-arbeidsforhold/',
-        },
-        secure: true,
-        xfwd: true,
-        target: 'https://arbeidsforhold.dev.nav.no/',
-    }),
-);
 
 app.use(
     '/min-side-arbeidsgiver/notifikasjon/api/graphql',
