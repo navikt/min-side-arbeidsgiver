@@ -13,7 +13,7 @@ export const innsynAaregURL = gittMiljo({
 export const syfoURL = gittMiljo({
     prod: 'https://tjenester.nav.no/sykefravaerarbeidsgiver',
     other: 'https://tjenester-q1.nav.no/sykefravaerarbeidsgiver',
-    labs: 'https://sykefravaerarbeidsgiver.labs.nais.io/sykefravaerarbeidsgiver/'
+    labs: 'https://sykefravaerarbeidsgiver.labs.nais.io/sykefravaerarbeidsgiver/',
 });
 
 export const arbeidsplassenURL = gittMiljo({
@@ -72,7 +72,7 @@ export const altinnUrl = gittMiljo({
 export const beOmTilgangIAltinnLink = (
     orgnr: string,
     serviceKode: string,
-    serviceEditionKode: string
+    serviceEditionKode: string,
 ) =>
     `${altinnUrl}/ui/DelegationRequest?offeredBy=${orgnr}&resources=${serviceKode}_${serviceEditionKode}`;
 
@@ -101,11 +101,11 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
 });
 
 export const lenkeTilPermitteringsInfo =
-    'https://arbeidsgiver.nav.no/permittering-og-omstilling/permittering#lonnsplikt'
+    'https://arbeidsgiver.nav.no/permittering-og-omstilling/permittering#lonnsplikt';
 
 export const lenkeTilLonnskompensasjonOgRefusjon = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
-    other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/'
+    other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/',
 });
 
 const lenkeTilKlageskjemaBase = gittMiljo({
@@ -149,4 +149,10 @@ export const grensekompOversiktURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/grensekomp/oversikt/krav',
     labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
     other: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
+});
+
+export const hentAntallArbeidsforholdLink = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/arbeidsgiver-arbeidsforhold/api/antall-arbeidsforhold',
+    labs: 'https://arbeidsgiver.labs.nais.io/arbeidsforhold/arbeidsgiver-arbeidsforhold/api/antall-arbeidsforhold',
+    other: 'https://arbeidsforhold.dev.nav.no/arbeidsforhold/arbeidsgiver-arbeidsforhold/api/antall-arbeidsforhold',
 });

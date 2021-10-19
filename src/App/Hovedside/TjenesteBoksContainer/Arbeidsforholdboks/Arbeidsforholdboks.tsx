@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { innsynAaregURL } from '../../../../lenker';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
+import { hentAntallArbeidsforholdFraAareg } from '../../../../api/arbeidsforholdApi';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Arbeidsforholdboks = () => {
-
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const [antallArbeidsforhold,setAntallArbeidsforhold] = useState(0)
+    useEffect(()=>{
+        if(valgtOrganisasjon)
+        hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber ).then( antallArbeidsforholdRespons =>
+            setAntallArbeidsforhold(antallArbeidsforholdRespons)
+        )
+    },[valgtOrganisasjon])
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
     return (
@@ -24,6 +33,7 @@ const Arbeidsforholdboks = () => {
             >
                 Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret
                 (Aa-registeret)
+                {antallArbeidsforhold}
             </LenkepanelMedLogging>
         </div>
     );
