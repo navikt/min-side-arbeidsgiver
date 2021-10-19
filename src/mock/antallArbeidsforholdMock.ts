@@ -3,7 +3,7 @@ import { delayed, randomInt } from '../utils/util';
 
 export const mock = () => {
     fetchMock
-        .get('/min-side-arbeidsgiver/api/antall-arbeidsforhold/api/antall-arbeidsforhold',
+        .get('/min-side-arbeidsgiver/api/antall-arbeidsforhold',
             (url, request) => {
                 const antall = 502;
                 const missing = randomInt(10) === 0;

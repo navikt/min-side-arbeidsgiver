@@ -92,7 +92,7 @@ app.use(
     }),
 );
 app.use(
-    '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+    '/min-side-arbeidsgiver/api/antall-arbeidsforhold/',
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
@@ -101,7 +101,7 @@ app.use(
         },
         changeOrigin: true,
         pathRewrite: {
-            '^/min-side-arbeidsgiver': 'arbeidsforhold/arbeidsgiver-arbeidsforhold/',
+            '^/min-side-arbeidsgiver': 'arbeidsforhold/arbeidsgiver-arbeidsforhold',
         },
         secure: true,
         xfwd: true,
