@@ -26,6 +26,7 @@ const {
     BRUKER_API_URL = 'http://localhost:8081',
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
+    ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
 } = process.env;
 const log = createLogger({
     transports: [
@@ -91,6 +92,7 @@ app.use(
         metricsPath: '/min-side-arbeidsgiver/internal/metrics',
     }),
 );
+
 app.use(
     '/min-side-arbeidsgiver/api/antall-arbeidsforhold/',
     createProxyMiddleware({
@@ -105,7 +107,7 @@ app.use(
         },
         secure: true,
         xfwd: true,
-        target: 'https://arbeidsforhold.dev.nav.no/',
+        target: ARBEIDSFORHOLD_DOMAIN,
     }),
 );
 
