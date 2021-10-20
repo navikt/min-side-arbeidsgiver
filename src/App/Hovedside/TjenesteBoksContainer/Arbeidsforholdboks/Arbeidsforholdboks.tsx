@@ -5,14 +5,15 @@ import arbeidsforholdikon from './arbeidsforholdikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import { hentAntallArbeidsforholdFraAareg } from '../../../../api/arbeidsforholdApi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import './ArbeidsforholdBoks.less'
 
 const Arbeidsforholdboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const [antallArbeidsforhold,setAntallArbeidsforhold] = useState(0)
+    const [antallArbeidsforhold,setAntallArbeidsforhold] = useState("–")
     useEffect(()=>{
         if(valgtOrganisasjon)
         hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber ).then( antallArbeidsforholdRespons =>
-            setAntallArbeidsforhold(antallArbeidsforholdRespons)
+            setAntallArbeidsforhold(antallArbeidsforholdRespons.toString())
         )
     },[valgtOrganisasjon])
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
@@ -31,9 +32,8 @@ const Arbeidsforholdboks = () => {
                 tittelProps="normaltekst"
                 aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
             >
-                Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret
-                (Aa-registeret)
-                {antallArbeidsforhold}
+                <span className={'topptekst'}> <span className={'antall-arbeidsforhold'}>{antallArbeidsforhold}</span> arbeidsforhold (aktive og avsluttede) </span>
+                <div className={'bunntekst'}>Innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)</div>
             </LenkepanelMedLogging>
         </div>
     );
