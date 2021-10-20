@@ -9,7 +9,6 @@ export async function hentAntallArbeidsforholdFraAareg(
 ): Promise<number> {
     const headere = lagHeadere(enhet, underenhet);
     let respons = await fetch(
-
         '/min-side-arbeidsgiver/api/antall-arbeidsforhold'
         , { headers: headere });
     if (respons.ok) {
