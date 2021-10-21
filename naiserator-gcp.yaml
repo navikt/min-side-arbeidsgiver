@@ -39,6 +39,8 @@ spec:
       value: '{{{bruker-api-url}}}'
     - name: GIT_COMMIT
       value: {{commit}}
+    - name: ARBEIDSFORHOLD_DOMAIN
+      value: '{{{arbeidsforhold-domain}}}'
   accessPolicy:
     outbound:
       external:
