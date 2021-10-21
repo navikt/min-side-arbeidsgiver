@@ -108,7 +108,7 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
         },
         secure: true,
         xfwd: true,
-        target:  TILTAK_API_GATEWAY,
+        target: NAIS_CLUSTER_NAME === 'prod-gcp' ? 'https://api-gw.oera.no': 'https://api-gw-q0.oera.no',
         ...(APIGW_TILTAK_HEADER ? {headers: {'x-nav-apiKey': APIGW_TILTAK_HEADER}} : {})
     }),
 );
