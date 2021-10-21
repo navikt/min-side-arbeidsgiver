@@ -13,7 +13,7 @@ const Arbeidsforholdboks = () => {
     useEffect(() => {
         if (valgtOrganisasjon)
             hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber).then(antallArbeidsforholdRespons =>
-                setAntallArbeidsforhold(antallArbeidsforholdRespons.toString()),
+                antallArbeidsforholdRespons > 0 ? setAntallArbeidsforhold(antallArbeidsforholdRespons.toString()) : setAntallArbeidsforhold('–')
             );
     }, [valgtOrganisasjon]);
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
