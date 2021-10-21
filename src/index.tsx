@@ -38,6 +38,7 @@ if (isMockApp) {
     require('./mock/altinnBeOmTilgangMock').mock();
     require('./mock/enhetsRegisteretMock').mock();
     require('./mock/antallArbeidsforholdMock').mock();
+    require('./mock/tiltakApiMock').mock();
 }
 
 if (environment.MILJO === 'dev-gcp') {

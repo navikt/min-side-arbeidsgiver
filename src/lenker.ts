@@ -150,3 +150,6 @@ export const grensekompOversiktURL = gittMiljo({
     labs: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
     other: 'https://grensekomp-frontend.dev.nav.no/grensekomp/oversikt/krav',
 });
+
+export const hentArbeidsavtalerApiLink =
+    '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
