@@ -8,10 +8,17 @@ import * as Record from '../../utils/Record';
 import {inkluderNotifikasjonerFeatureToggle} from "../../FeatureToggleProvider";
 import {NotifikasjonWidget} from "@navikt/arbeidsgiver-notifikasjon-widget";
 import amplitude from "../../utils/amplitude";
+import { gittMiljo } from '../../utils/environment';
 
 interface OwnProps {
     sidetittel: string;
 }
+
+const miljø = gittMiljo<"local" | "dev-gcp" | "prod-gcp">({
+    prod: 'prod-gcp',
+    dev: 'dev-gcp',
+    other: 'local',
+});
 
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
@@ -27,7 +34,7 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
             history={history}
             amplitudeClient={amplitude}
         >
-            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget apiUri="/min-side-arbeidsgiver/notifikasjon/api/graphql" /> : null }
+            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget apiUri="/min-side-arbeidsgiver/notifikasjon/api/graphql" miljo={miljø}/> : null }
         </Bedriftsmeny>
     );
 };
