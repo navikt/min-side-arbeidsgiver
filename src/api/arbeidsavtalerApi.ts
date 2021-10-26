@@ -7,13 +7,13 @@ export interface Arbeidsavtale {
 }
 
 export async function hentArbeidsavtaler(
-    valgtOrganisasjon: Organisasjon
+    valgtOrganisasjon: Organisasjon,
 ): Promise<Array<Arbeidsavtale>> {
     const respons = await fetch(
-        hentArbeidsavtalerApiLink + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber
+        hentArbeidsavtalerApiLink + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber,
     );
     if (respons.ok) {
-        return await respons.json();
+        return respons.json();
     }
     return [];
 }
