@@ -1,15 +1,40 @@
+@import '~nav-frontend-core/less/_variabler';
+
 .tiltakboks {
+
+
+    @media (min-width: 520px  ) {
+        .tekstMedTallContainer {
+            height: 6rem;
+        }
+    }
+    @media (min-width: @screen-sm  ) {
+        .tekstMedTallContainer {
+            height: auto;
+        }
+    }
+    @media (min-width: @screen-md  ) {
+        .tekstMedTallContainer {
+            height: 6rem;
+        }
+    }
+    .tekstMedTallContainer {
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: space-between;
+            .antall {
+                font-size: 32px;
+                line-height: 36px;
+                font-weight: 600;
+                margin-right: 0.5rem;
+            }
+        }
+
     .avsnitt {
         margin-bottom: 1rem;
     }
-    .antall{
-        font-size: 32px;
-        line-height: 36px;
-        font-weight: 600;
-        margin-right: 0.5rem;
-    }
 
-    .bunntekst {
-        margin-top: 0.5rem;
+    .tekst {
+        margin-right: 2rem;
     }
 }

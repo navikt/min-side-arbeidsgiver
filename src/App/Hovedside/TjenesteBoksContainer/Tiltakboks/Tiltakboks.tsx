@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { tiltaksgjennomforingURL } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
@@ -8,47 +8,61 @@ import './Tiltakboks.less';
 import tiltakikon from './tiltakboks-ikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import { Arbeidsavtale, hentArbeidsavtaler } from '../../../../api/arbeidsavtalerApi';
+import Innholdsboks from '../../Innholdsboks/Innholdsboks';
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const [arbeidstreningsavtaler, setArbeidstreningsavtaler] = useState(Array<Arbeidsavtale>());
-    const [midlertidigLonnstilskuddAvtaler, setMidlertidigLonnstilskuddAvtaler] = useState(
-        Array<Arbeidsavtale>()
+    const [tiltaksAvtaler, setTiltaksavtaler] = useState(Array<Arbeidsavtale>());
+    const [arbeidstreningsavtaler, setArbeidstreningsavtaler] = useState(0);
+    const [midlertidigLonnstilskuddAvtaler, setMidlertidigLonnstilskuddAvtaler] = useState(0
     );
-    const [varigLonnstilskuddAvtaler, setVarigLonnstilskuddAvtaler] = useState(
-        Array<Arbeidsavtale>()
+    const [varigLonnstilskuddAvtaler, setVarigLonnstilskuddAvtaler] = useState(0
     );
+    const [sommerjobbAvtaler, setSommerjobbAvtaler] = useState(
+       0
+    );
+
+    let avtaletyperTekster: JSX.Element[] = [];
+
     useEffect(()=>{
         if(valgtOrganisasjon)
         hentArbeidsavtaler(valgtOrganisasjon.organisasjon)
             .then((avtaler: Arbeidsavtale[]) => {
+                setTiltaksavtaler(avtaler)
                 const avtalerMedTiltaktype = (tiltaktype: string) =>
                     avtaler.filter(
                         (avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype
-                    );
+                    ).length;
                 setArbeidstreningsavtaler(avtalerMedTiltaktype('ARBEIDSTRENING'));
                 setMidlertidigLonnstilskuddAvtaler(
                     avtalerMedTiltaktype('MIDLERTIDIG_LONNSTILSKUDD')
                 );
                 setVarigLonnstilskuddAvtaler(avtalerMedTiltaktype('VARIG_LONNSTILSKUDD'));
+                setSommerjobbAvtaler(avtalerMedTiltaktype('SOMMERJOBB'));
             })
             .catch(_ => {
-                setArbeidstreningsavtaler([]);
-                setMidlertidigLonnstilskuddAvtaler([]);
-                setVarigLonnstilskuddAvtaler([]);
+                setArbeidstreningsavtaler(0);
+                setMidlertidigLonnstilskuddAvtaler(0);
+                setVarigLonnstilskuddAvtaler(0);
+                setSommerjobbAvtaler(0);
             });
     }, [valgtOrganisasjon])
 
     const tiltakUrl = valgtOrganisasjon && valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
         ? `${tiltaksgjennomforingURL}&bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
         : tiltaksgjennomforingURL;
-    const TekstMedAlleTall = () =>
-        <>
-            <div><span className={'topptekst'}> <span className={'antall'}>{midlertidigLonnstilskuddAvtaler.length}</span> midlertidig lønnstilskudd </span>
-                <span className={'topptekst'}> <span className={'antall'}>{arbeidstreningsavtaler.length}</span> arbeidstrening </span></div>
-            <div><span className={'topptekst'}> <span className={'antall'}>{varigLonnstilskuddAvtaler.length}</span> varig lønnstilskudd </span>
-                <span className={'topptekst'}> <span className={'antall'}>{3}</span> sommerjobb </span></div>
-        </>
+
+    const lagTekstMedTallElement = (antall:number, tekst:string) =>
+        <div className={'tekst'}> <span className={'antall'}>{antall}</span>{tekst}</div>
+
+    const TekstMedTall = () =>
+        <div className={'tekstMedTallContainer'}>
+            {midlertidigLonnstilskuddAvtaler>0 ? lagTekstMedTallElement( midlertidigLonnstilskuddAvtaler, 'midlertildig lønnstilskudd') : null }
+            {arbeidstreningsavtaler>0 ? lagTekstMedTallElement( arbeidstreningsavtaler, 'arbeidstrening') : null }
+            {varigLonnstilskuddAvtaler>0 ? lagTekstMedTallElement( varigLonnstilskuddAvtaler, 'varig lønnstilskudd') : null }
+            {sommerjobbAvtaler>0 ? lagTekstMedTallElement(sommerjobbAvtaler, 'sommerjobb') : null }
+        </div>
+
     const TekstUtenTall = () =>
         <>
             <Normaltekst className="avsnitt">
@@ -71,7 +85,7 @@ const Tiltakboks = () => {
                 tittelProps="normaltekst"
                 aria-label="Tiltak. Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb. De ulike tiltakene krever egne tilganger i Altinn"
             >
-                {arbeidstreningsavtaler.length>0 ? TekstMedAlleTall() : TekstUtenTall()}
+                {tiltaksAvtaler.length>0 ? TekstMedTall() : TekstUtenTall()}
             </LenkepanelMedLogging>
         </div>
     );
