@@ -40,6 +40,7 @@ const Tiltakboks = () => {
                     setSommerjobbAvtaler(avtalerMedTiltaktype('SOMMERJOBB'));
                 })
                 .catch(_ => {
+                    setTiltaksavtaler([]);
                     setArbeidstreningsavtaler(0);
                     setMidlertidigLonnstilskuddAvtaler(0);
                     setVarigLonnstilskuddAvtaler(0);

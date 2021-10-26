@@ -10,7 +10,7 @@ export async function hentArbeidsavtaler(
     valgtOrganisasjon: Organisasjon,
 ): Promise<Array<Arbeidsavtale>> {
     const respons = await fetch(
-        hentArbeidsavtalerApiLink + '&bedriftNr=' + valgtOrganisasjon.OrganizationNumber,
+        hentArbeidsavtalerApiLink + 'bedriftNr=' + valgtOrganisasjon.OrganizationNumber,
     );
     if (respons.ok) {
         return respons.json();
