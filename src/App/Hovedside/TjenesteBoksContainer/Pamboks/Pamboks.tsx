@@ -4,8 +4,7 @@ import { arbeidsplassenURL } from '../../../../lenker';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import PamboksIkon from './pamboks-ikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
-import './Pamboks.less'
-
+import './Pamboks.less';
 
 
 const Pamboks = () => {
@@ -16,9 +15,9 @@ const Pamboks = () => {
         <>Finn nye kandidater
             <br />Lag en stillingsannonse</>;
 
-    const TekstMedTall =(antallAnnonser:number) =>
+    const TekstMedTall = (antallAnnonser: number) =>
         <div className={'bunntekst'}>
-            <span className={'topptekst'}> <span className={'antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
+            <span> <span className={'antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
             <div className={'bunntekst'}>Finn nye kandidater
             </div>
         </div>;
@@ -41,7 +40,7 @@ const Pamboks = () => {
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
                 <div className='pamboks-tekst'>
-                    { antallAnnonser > 0 ? TekstMedTall(antallAnnonser) : TekstUtenTall()}
+                    {antallAnnonser > 0 ? TekstMedTall(antallAnnonser) : TekstUtenTall()}
                 </div>
             </LenkepanelMedLogging>
         </div>
