@@ -27,7 +27,6 @@ const {
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
-    TILTAK_API_GATEWAY = 'http://localhost:8080',
     APIGW_TILTAK_HEADER
 } = process.env;
 const log = createLogger({
