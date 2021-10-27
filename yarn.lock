@@ -12,6 +12,11 @@
   resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.24.tgz#2ce605af7d2c38d4a01313fb2385df55fbbd69aa"
   integrity sha512-VbQuJymJ20WEw0HtI2np7EdC3NJGUWi8+Xdbc7uk8WfMIF308T0howpzkQ3JFMN7ejnrcSM/OyNGveeE3TP3TA==
 
+"@amplitude/ua-parser-js@0.7.25":
+  version "0.7.25"
+  resolved "https://registry.yarnpkg.com/@amplitude/ua-parser-js/-/ua-parser-js-0.7.25.tgz#ccbeb0bd24fca3759cfc09a3b9ba95a23ea32756"
+  integrity sha512-AUeO9T6vLkUNw0iYxchFBw3FylJAMv5g2sPUsS5XCulAP3TpZg9Y/QESOl+oCLGqTQYumUJZHfoQBemN22eghw==
+
 "@amplitude/utils@^1.0.5":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@amplitude/utils/-/utils-1.8.2.tgz#77a614e0921ee5b57b994bb82dc3f9a81a0e493d"
@@ -1603,15 +1608,16 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@navikt/arbeidsgiver-notifikasjon-widget@0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-0.0.16.tgz#343b4eccde45dfbef5722dc62b31e63f2cee916e"
-  integrity sha512-LVl0f54rVjHGF6g8MT/AbhMVRsGmadxe48DPfgPxO1aFqYFYQvgCiFhAR+cjtI+b0QZqI17GEYloje2O7PlTVQ==
+"@navikt/arbeidsgiver-notifikasjon-widget@0.0.19-rc":
+  version "0.0.19-rc"
+  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-0.0.19-rc.tgz#09757aaf36ac925d83bbe447ddaa145e64403ce0"
+  integrity sha512-kfcKEFzM1cVqIEMBTyvH9G0NixpQ4BC2IEgytjYmOLgmL4RYUEGV9D/3ycumDwqCNEFD+0ChqBVVi95Ku19Wmw==
   dependencies:
     "@apollo/client" "3"
     "@navikt/ds-css" "0"
     "@navikt/ds-icons" "0"
     "@navikt/ds-react" "0"
+    amplitude-js "^8.8.0"
     classnames "2"
     graphql "^15.5.1"
     nav-frontend-core "6"
@@ -2733,6 +2739,16 @@ amplitude-js@^7.4.1:
   integrity sha512-3Ojj1draRcXvfxi5P+Ye/6Y4roxtf1lQEjczcLDnHU9vxbPtT4fDblC9+cdJy7XmlJkGoq+KvnItlWfLuHV9GQ==
   dependencies:
     "@amplitude/ua-parser-js" "0.7.24"
+    "@amplitude/utils" "^1.0.5"
+    blueimp-md5 "^2.10.0"
+    query-string "5"
+
+amplitude-js@^8.8.0:
+  version "8.8.0"
+  resolved "https://registry.yarnpkg.com/amplitude-js/-/amplitude-js-8.8.0.tgz#bb520fcce0315db352e78032e9c79f3fcc58e3b4"
+  integrity sha512-CYPW2QI0X9F5omeZ/dE+vfll0RKb3fTYfLvsaV3vOhJIGuVkVIc8NydRtkMWtZOXTRcW9XJi0HNLx3u/NuvGrA==
+  dependencies:
+    "@amplitude/ua-parser-js" "0.7.25"
     "@amplitude/utils" "^1.0.5"
     blueimp-md5 "^2.10.0"
     query-string "5"
