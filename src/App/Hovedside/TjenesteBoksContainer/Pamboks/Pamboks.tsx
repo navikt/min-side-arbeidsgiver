@@ -4,7 +4,7 @@ import { arbeidsplassenURL } from '../../../../lenker';
 import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import PamboksIkon from './pamboks-ikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
-
+import './Pamboks.less'
 
 
 
@@ -18,7 +18,7 @@ const Pamboks = () => {
 
     const TekstMedTall =(antallAnnonser:number) =>
         <div className={'bunntekst'}>
-            <span className={'topptekst'}> <span className={'antall'}> {antallAnnonser} </span> stillingsannonser </span>
+            <span className={'topptekst'}> <span className={'antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
             <div className={'bunntekst'}>Finn nye kandidater
             </div>
         </div>;
