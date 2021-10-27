@@ -21,8 +21,6 @@ const Tiltakboks = () => {
         0,
     );
 
-    let avtaletyperTekster: JSX.Element[] = [];
-
     useEffect(() => {
         if (valgtOrganisasjon)
             hentArbeidsavtaler(valgtOrganisasjon.organisasjon)
