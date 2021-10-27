@@ -27,6 +27,7 @@ const {
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
+    APIGW_TILTAK_HEADER
 } = process.env;
 const log = createLogger({
     transports: [
@@ -90,6 +91,24 @@ app.use('/*', (req, res, next) => {
 app.use(
     apiMetricsMiddleware({
         metricsPath: '/min-side-arbeidsgiver/internal/metrics',
+    }),
+);
+
+app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
+    createProxyMiddleware({
+        logLevel: PROXY_LOG_LEVEL,
+        logProvider: _ => log,
+        onError: (err, req, res) => {
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+        },
+        changeOrigin: true,
+        pathRewrite: {
+            '^/min-side-arbeidsgiver/': '/',
+        },
+        secure: true,
+        xfwd: true,
+        target: NAIS_CLUSTER_NAME === 'prod-gcp' ? 'https://api-gw.oera.no': 'https://api-gw-q0.oera.no',
+        ...(APIGW_TILTAK_HEADER ? {headers: {'x-nav-apiKey': APIGW_TILTAK_HEADER}} : {})
     }),
 );
 
