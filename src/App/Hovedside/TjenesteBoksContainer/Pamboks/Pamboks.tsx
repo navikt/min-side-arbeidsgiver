@@ -15,7 +15,7 @@ const Pamboks = () => {
         <>Finn nye kandidater
             <br />Lag en stillingsannonse</>;
 
-    const TekstMedTall = (antallAnnonser: number) =>
+    const TekstMedTall = () =>
         <div className={'bunntekst'}>
             <span> <span className={'antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
             <div className={'bunntekst'}>Finn nye kandidater
@@ -40,7 +40,7 @@ const Pamboks = () => {
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
                 <div className='pamboks-tekst'>
-                    {antallAnnonser > 0 ? TekstMedTall(antallAnnonser) : TekstUtenTall()}
+                    {antallAnnonser > 0 ? TekstMedTall() : TekstUtenTall()}
                 </div>
             </LenkepanelMedLogging>
         </div>
