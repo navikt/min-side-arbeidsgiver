@@ -2,9 +2,9 @@ import { pamSettBedriftURL, pamHentStillingsannonserURL } from '../lenker';
 
 export const settBedriftIPam = (orgnr: string): Promise<unknown> =>
     fetch(pamSettBedriftURL(orgnr), {
-        method: "GET",
-        credentials: "include"
-    })
+        method: 'GET',
+        credentials: 'include',
+    });
 
 
 interface PamStatusAnnonser {

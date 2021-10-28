@@ -32,7 +32,7 @@ const Arbeidsforholdboks = () => {
                 tittelProps='normaltekst'
                 aria-label='Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)'
             >
-                <span className={'topptekst'}> <span className={'antall-arbeidsforhold'}>{antallArbeidsforhold}</span> arbeidsforhold (aktive og avsluttede) </span>
+                <span> <span className={'antall-arbeidsforhold'}>{antallArbeidsforhold}</span>arbeidsforhold (aktive og avsluttede) </span>
                 <div className={'bunntekst'}>Innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
                 </div>
             </LenkepanelMedLogging>
