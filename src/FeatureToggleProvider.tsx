@@ -5,7 +5,7 @@ import { gittMiljo } from './utils/environment';
 const featurePath = '/min-side-arbeidsgiver/api/feature';
 
 export enum Feature {
-    visRefusjon = 'msa.visRefusjon',
+    visKalender = 'msa.visMoteKalender'
 }
 
 export const inkluderNotifikasjonerFeatureToggle = gittMiljo({
