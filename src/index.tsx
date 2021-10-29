@@ -51,6 +51,9 @@ if (environment.MILJO === 'labs-gcp') {
     require('./mock/enhetsRegisteretMock').mock();
     require('./mock/altinnMock').mock();
     require('./mock/altinnMeldingsboksMock').mock();
+    require('./mock/antallArbeidsforholdMock').mock();
+    require('./mock/pamMock').mock();
+    require('./mock/tiltakApiMock').mock();
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
