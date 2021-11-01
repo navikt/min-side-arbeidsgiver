@@ -153,3 +153,5 @@ export const grensekompOversiktURL = gittMiljo({
 
 export const hentArbeidsavtalerApiLink =
     '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
+
+export const møteBookingLenke='https://outlook.office365.com/owa/calendar/Minsidearbeidsgiver@nav.no/bookings/s/njkDNAYTM0aRtre0oKiKuQ2'
