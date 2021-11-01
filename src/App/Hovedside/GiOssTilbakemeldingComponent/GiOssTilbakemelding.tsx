@@ -27,8 +27,8 @@ export const GiOssTilbakemelding = () => {
         <Panel border
                className={'panel'}>
             <div className={'innhold'}>
-                <Normaltekst> Vi som lager siden vil gjerne høre om dine erfaringer som arbeidsgiver.<LenkeMedLogging
-                    loggLenketekst={'Møtebooking'} className={'mote-lenke'} href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
+                <Normaltekst> Vi som lager siden vil gjerne høre om dine erfaringer som arbeidsgiver. <LenkeMedLogging
+                    loggLenketekst={'Møtebooking'} href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
                 <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
                 </div>
 
