@@ -7,6 +7,7 @@ import jsdom from 'jsdom';
 import Prometheus from 'prom-client';
 import require from './esm-require.js';
 import cookieParser from 'cookie-parser';
+const jwt = require('jsonwebtoken')
 
 const { createLogger, transports, format } = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
@@ -170,6 +171,15 @@ app.use(
         },
     }),
 );
+
+app.get('/min-side-arbeidsgiver/api/abtest', (req, res) => {
+    const idtoken = req.cookies['selvbetjening-idtoken']
+    const decoded = jwt.decode(idtoken);
+    const fnr = decoded.sub
+    console.log('fnr substring',fnr.substring(8, 11))
+    return parseInt(fnr.substring(8)) % 2 === 0;
+
+});
 
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
 
