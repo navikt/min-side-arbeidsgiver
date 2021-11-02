@@ -42,8 +42,8 @@ if (isMockApp) {
 }
 
 if (environment.MILJO === 'dev-gcp') {
-    require('./mock/setupMock').mock();
-    require('./mock/enhetsRegisteretMock').mock();
+    //require('./mock/setupMock').mock();
+    //require('./mock/enhetsRegisteretMock').mock();
 }
 
 if (environment.MILJO === 'labs-gcp') {
