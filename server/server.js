@@ -177,7 +177,8 @@ app.get('/min-side-arbeidsgiver/abtest', (req, res) => {
     const decoded = jwt.decode(idtoken);
     const fnr = decoded.sub
     console.log('fnr substring',fnr.substring(8, 11))
-    return parseInt(fnr.substring(8)) % 2 === 0;
+    const utfall = parseInt(fnr.substring(8)) % 2 === 0;
+    res.send(utfall);
 
 });
 
