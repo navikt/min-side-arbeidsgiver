@@ -1,12 +1,8 @@
-
 import React, { createContext, useEffect, useState } from 'react';
 
-
-
 export interface Eksperimenter {
-    tallIBoks?: boolean;
+    visTall?: boolean;
 }
-
 export const EksperimentContext = createContext<Eksperimenter>({});
 
 const henteksperimentVedier = async (): Promise<boolean> => {
@@ -14,17 +10,17 @@ const henteksperimentVedier = async (): Promise<boolean> => {
     return response.json();
 };
 
-export const ABTestProvider = (props: any) => {
+export const EksperimentProvider = (props: any) => {
     const [eksperimenter, setEksperimenter] = useState<Eksperimenter>({});
 
-    const fåutfall = () => {
-        henteksperimentVedier().then( eksperiment => {
-            setEksperimenter({tallIBoks:eksperiment});
+    const hentUtfall = () => {
+        henteksperimentVedier().then( utfall => {
+            setEksperimenter({visTall:utfall});
         });
     };
 
     useEffect(() => {
-        fåutfall();
+        hentUtfall();
     }, []);
 
     return (
