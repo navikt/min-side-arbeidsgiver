@@ -172,7 +172,7 @@ app.use(
     }),
 );
 
-app.get('/min-side-arbeidsgiver/api/abtest', (req, res) => {
+app.get('/min-side-arbeidsgiver/abtest', (req, res) => {
     const idtoken = req.cookies['selvbetjening-idtoken']
     const decoded = jwt.decode(idtoken);
     const fnr = decoded.sub
