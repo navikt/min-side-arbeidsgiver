@@ -14,11 +14,15 @@ import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederC
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
+import { Feature, FeatureToggleContext } from '../../FeatureToggleProvider';
+import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
     const {organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger} = useContext(
         OrganisasjonerOgTilgangerContext
     );
+    const featureToggleContext = useContext(FeatureToggleContext);
+    const visKalender = featureToggleContext[Feature.visKalender];
 
     useEffect(() => {
         const skalViseManglerTilgangBoks =
@@ -38,6 +42,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
                 <div className="hovedside">
                     <AdvarselBannerTestversjon/>
                     <VarselHvisNedetid/>
+                    {visKalender ? <GiOssTilbakemelding/> : null}
                     <FeilmeldingContainer
                         visFeilmelding={visFeilmelding}
                         visSyfoFeilmelding={visSyfoFeilmelding}
