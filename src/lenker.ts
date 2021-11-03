@@ -25,7 +25,7 @@ export const pamSettBedriftURL = gittMiljo({
     prod: (orgnr: string) =>
         `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
     other: (orgnr: string) =>
-        `https://arbeidsplassen.dev.nav.no//stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
+        `https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
 });
 
 export const sjekkInnloggetURL =

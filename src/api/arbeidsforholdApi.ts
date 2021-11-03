@@ -7,10 +7,14 @@ export async function hentAntallArbeidsforholdFraAareg(
     underenhet: string,
     enhet: string,
 ): Promise<number> {
-    const headere = lagHeadere(enhet, underenhet);
     let respons = await fetch(
         '/min-side-arbeidsgiver/api/antall-arbeidsforhold'
-        , { headers: headere });
+        , {
+            headers: {
+                'jurenhet': enhet,
+                'orgnr': underenhet,
+            },
+        });
     if (respons.ok) {
         const jsonRespons: overSiktPerUnderenhetPar = await respons.json();
         if (jsonRespons.second === 0) {
@@ -21,11 +25,4 @@ export async function hentAntallArbeidsforholdFraAareg(
         return -1;
     }
 }
-
-const lagHeadere = (jurenhet: string, orgnr?: string) => {
-    const headere = new Headers();
-    headere.set('jurenhet', jurenhet);
-    orgnr != null && headere.set('orgnr', orgnr);
-    return headere;
-};
 

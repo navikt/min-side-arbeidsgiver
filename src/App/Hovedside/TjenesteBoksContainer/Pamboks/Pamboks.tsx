@@ -5,10 +5,12 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import PamboksIkon from './pamboks-ikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import './Pamboks.less';
+import { EksperimentContext } from '../../../EksperimentProvider';
 
 
 const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
+    const { visTall } = useContext(EksperimentContext);
     const [stillingsAnnonseTekst, setStillingsAnnonseTekst] = useState('Lag ny stillingsannonse');
 
     const TekstUtenTall = () =>
@@ -40,7 +42,7 @@ const Pamboks = () => {
                 aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
             >
                 <div className='pamboks-tekst'>
-                    {antallAnnonser > 0 ? TekstMedTall() : TekstUtenTall()}
+                    {antallAnnonser > 0 && visTall === true ? TekstMedTall() : TekstUtenTall()}
                 </div>
             </LenkepanelMedLogging>
         </div>

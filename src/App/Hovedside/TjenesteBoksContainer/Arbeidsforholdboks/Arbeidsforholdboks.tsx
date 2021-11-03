@@ -6,18 +6,33 @@ import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelM
 import { hentAntallArbeidsforholdFraAareg } from '../../../../api/arbeidsforholdApi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './ArbeidsforholdBoks.less';
+import { EksperimentContext } from '../../../EksperimentProvider';
 
 const Arbeidsforholdboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { visTall } = useContext(EksperimentContext);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
     useEffect(() => {
         if (valgtOrganisasjon)
             hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber).then(antallArbeidsforholdRespons =>
-                antallArbeidsforholdRespons > 0 ? setAntallArbeidsforhold(antallArbeidsforholdRespons.toString()) : setAntallArbeidsforhold('–')
+                setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
             );
     }, [valgtOrganisasjon]);
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
+
+    const TekstMedTall = () =>
+        <>
+            <span> <span className={'antall-arbeidsforhold'}>{antallArbeidsforhold}</span>arbeidsforhold (aktive og avsluttede) </span>
+            <div className={'bunntekst'}> innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+            </div>
+        </>;
+
+    const TekstUtenTall = () =>
+        <>
+            Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+        </>;
+
     return (
         <div className='arbeidsforholdboks tjenesteboks-innhold'>
             <TjenesteBoksBanner
@@ -32,9 +47,7 @@ const Arbeidsforholdboks = () => {
                 tittelProps='normaltekst'
                 aria-label='Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)'
             >
-                <span> <span className={'antall-arbeidsforhold'}>{antallArbeidsforhold}</span>arbeidsforhold (aktive og avsluttede) </span>
-                <div className={'bunntekst'}>Innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
-                </div>
+                {visTall === true ? TekstMedTall() : TekstUtenTall()}
             </LenkepanelMedLogging>
         </div>
     );

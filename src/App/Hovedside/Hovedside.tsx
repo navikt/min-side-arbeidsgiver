@@ -17,6 +17,7 @@ import './Hovedside.less';
 import { Feature, FeatureToggleContext } from '../../FeatureToggleProvider';
 import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 
+
 const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
     const {organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger} = useContext(
         OrganisasjonerOgTilgangerContext

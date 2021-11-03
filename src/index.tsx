@@ -39,11 +39,13 @@ if (isMockApp) {
     require('./mock/enhetsRegisteretMock').mock();
     require('./mock/antallArbeidsforholdMock').mock();
     require('./mock/tiltakApiMock').mock();
+    require('./mock/eksperimentMock').mock();
+
 }
 
 if (environment.MILJO === 'dev-gcp') {
-    require('./mock/setupMock').mock();
-    require('./mock/enhetsRegisteretMock').mock();
+    //require('./mock/setupMock').mock();
+    //require('./mock/enhetsRegisteretMock').mock();
 }
 
 if (environment.MILJO === 'labs-gcp') {
