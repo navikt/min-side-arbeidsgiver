@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
 import amplitude from '../utils/amplitude';
-import { SyfoTilgang } from './OrganisasjonerOgTilgangerProvider';
 
 export interface Eksperimenter {
     visTall?: boolean;

@@ -8,13 +8,12 @@ import './Tiltakboks.less';
 import tiltakikon from './tiltakboks-ikon.svg';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import { Arbeidsavtale, hentArbeidsavtaler } from '../../../../api/arbeidsavtalerApi';
-import { Feature, FeatureToggleContext } from '../../../../FeatureToggleProvider';
 import { EksperimentContext } from '../../../EksperimentProvider';
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const eksperimentContext = useContext(EksperimentContext);
-    const visTall = eksperimentContext.visTall
+    const visTall = eksperimentContext.visTall;
     const [tiltaksAvtaler, setTiltaksavtaler] = useState(Array<Arbeidsavtale>());
     const [arbeidstreningsavtaler, setArbeidstreningsavtaler] = useState(0);
     const [midlertidigLonnstilskuddAvtaler, setMidlertidigLonnstilskuddAvtaler] = useState(0,
@@ -87,7 +86,7 @@ const Tiltakboks = () => {
                 tittelProps='normaltekst'
                 aria-label='Tiltak. Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb. De ulike tiltakene krever egne tilganger i Altinn'
             >
-                {tiltaksAvtaler.length > 0 && visTall===true ? TekstMedTall() : TekstUtenTall()}
+                {tiltaksAvtaler.length > 0 && visTall === true ? TekstMedTall() : TekstUtenTall()}
             </LenkepanelMedLogging>
         </div>
     );
