@@ -10,8 +10,7 @@ import { EksperimentContext } from '../../../EksperimentProvider';
 
 const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
-    const eksperimentContext = useContext(EksperimentContext);
-    const visTall = eksperimentContext.visTall;
+    const { visTall } = useContext(EksperimentContext);
     const [stillingsAnnonseTekst, setStillingsAnnonseTekst] = useState('Lag ny stillingsannonse');
 
     const TekstUtenTall = () =>

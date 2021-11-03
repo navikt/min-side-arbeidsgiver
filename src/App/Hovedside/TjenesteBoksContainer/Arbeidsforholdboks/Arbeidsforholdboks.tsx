@@ -10,13 +10,12 @@ import { EksperimentContext } from '../../../EksperimentProvider';
 
 const Arbeidsforholdboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const eksperimentContext = useContext(EksperimentContext);
-    const visTall = eksperimentContext.visTall;
+    const { visTall } = useContext(EksperimentContext);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
     useEffect(() => {
         if (valgtOrganisasjon)
             hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber).then(antallArbeidsforholdRespons =>
-                antallArbeidsforholdRespons > 0 ? setAntallArbeidsforhold(antallArbeidsforholdRespons.toString()) : setAntallArbeidsforhold('–'),
+                setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
             );
     }, [valgtOrganisasjon]);
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';

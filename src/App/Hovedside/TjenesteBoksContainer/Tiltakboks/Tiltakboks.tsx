@@ -12,8 +12,7 @@ import { EksperimentContext } from '../../../EksperimentProvider';
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const eksperimentContext = useContext(EksperimentContext);
-    const visTall = eksperimentContext.visTall;
+    const { visTall } = useContext(EksperimentContext);
     const [tiltaksAvtaler, setTiltaksavtaler] = useState(Array<Arbeidsavtale>());
     const [arbeidstreningsavtaler, setArbeidstreningsavtaler] = useState(0);
     const [midlertidigLonnstilskuddAvtaler, setMidlertidigLonnstilskuddAvtaler] = useState(0,
