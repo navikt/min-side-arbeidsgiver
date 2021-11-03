@@ -39,6 +39,8 @@ if (isMockApp) {
     require('./mock/enhetsRegisteretMock').mock();
     require('./mock/antallArbeidsforholdMock').mock();
     require('./mock/tiltakApiMock').mock();
+    require('./mock/eksperimentMock').mock();
+
 }
 
 if (environment.MILJO === 'dev-gcp') {

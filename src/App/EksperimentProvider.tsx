@@ -1,4 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
+import amplitude from '../utils/amplitude';
+import { SyfoTilgang } from './OrganisasjonerOgTilgangerProvider';
 
 export interface Eksperimenter {
     visTall?: boolean;
@@ -16,9 +18,9 @@ export const EksperimentProvider = (props: any) => {
     const hentUtfall = () => {
         henteksperimentVedier().then( utfall => {
             setEksperimenter({visTall:utfall});
+            amplitude.setUserProperties({visTall:utfall});
         });
     };
-
     useEffect(() => {
         hentUtfall();
     }, []);
