@@ -40,6 +40,7 @@ if (isMockApp) {
     require('./mock/antallArbeidsforholdMock').mock();
     require('./mock/tiltakApiMock').mock();
     require('./mock/eksperimentMock').mock();
+    require('./mock/sykefraværMock').mock();
 
 }
 
