@@ -8,6 +8,7 @@ import {
     Organisasjon,
     tomAltinnOrganisasjon,
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
+import { gittMiljo } from '../utils/environment';
 
 export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
     let respons = await fetch(hentUnderenhetApiURL(orgnr));
@@ -30,7 +31,10 @@ export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFr
 export async function hentAlleJuridiskeEnheter(
     listeMedJuridiskeOrgNr: string[]
 ): Promise<Organisasjon[]> {
-    let url: string = 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=';
+    let url: string = gittMiljo({
+        prod: 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
+        other: '/mock/data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
+    });
     const distinkteJuridiskeEnhetsnr: string[] = listeMedJuridiskeOrgNr.filter(
         (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index
     );

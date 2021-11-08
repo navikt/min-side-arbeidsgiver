@@ -23,6 +23,7 @@ module.exports = {
             const fetch = require('node-fetch');
             const cookieParser = require('cookie-parser');
             app.use(cookieParser());
+
             app.get('/min-side-arbeidsgiver/api/innlogget', (req, res) => {
                 const token = req.cookies.hasOwnProperty('selvbetjening-idtoken')
                 if (token) {
@@ -46,6 +47,17 @@ module.exports = {
                 console.log(`login: setter selvbetjening-idtoken til ${token}`)
                 res.redirect("http://localhost:3000/min-side-arbeidsgiver");
             });
+
+            require('./src/mock/pamMock').mock(app);
+            require('./src/mock/syfoMock').mock(app);
+            require('./src/mock/altinnMock').mock(app);
+            require('./src/mock/altinnMeldingsboksMock').mock(app);
+            require('./src/mock/unleashMock').mock(app);
+            require('./src/mock/altinnBeOmTilgangMock').mock(app);
+            require('./src/mock/enhetsRegisteretMock').mock(app);
+            require('./src/mock/antallArbeidsforholdMock').mock(app);
+            require('./src/mock/tiltakApiMock').mock(app);
+            require('./src/mock/eksperimentMock').mock(app);
         }
     },
     plugins: [{ plugin: CracoLessPlugin }]

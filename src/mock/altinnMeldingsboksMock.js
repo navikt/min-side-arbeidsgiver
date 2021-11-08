@@ -1,6 +1,4 @@
-import fetchMock from 'fetch-mock';
-import { altinnUrl } from '../lenker';
-import { OrganisasjonerResponse } from './altinnMock';
+const {OrganisasjonerResponse} = require('./altinnMock');
 
 const reportees = {
     _links: {},
@@ -19,7 +17,7 @@ const reportees = {
     },
 };
 
-let getRandomInt = (min: number, max: number): number => {
+let getRandomInt = (min, max) => {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min) + min);
@@ -32,7 +30,7 @@ const uniqueMessageId = (id => () => {
     return `r${id}`;
 })(0);
 
-const randomMessage = (org: any): any => {
+const randomMessage = (org) => {
     let måned = getRandomInt(1, 11).toString();
     let dag = getRandomInt(1, 28).toString();
 
@@ -71,16 +69,16 @@ const randomMessage = (org: any): any => {
     };
 };
 
-const randomMessages = (org: any): any[] => {
+const randomMessages = (org) => {
     const length = getRandomInt(0, 15);
-    const result: any[] = [];
+    const result = [];
     for (let i = 0; i < length; i++) {
         result.push(randomMessage(org));
     }
     return result;
 };
 
-let allMessages: { [key: string]: any } = {};
+let allMessages = {};
 OrganisasjonerResponse.forEach(org => {
     allMessages[`reportee${org.OrganizationNumber}`] = {
         _links: {
@@ -94,17 +92,20 @@ OrganisasjonerResponse.forEach(org => {
     };
 });
 
-const getMessagesForReportee = (url: string): any => {
-    const match = new RegExp('.*/api/([^/]+)/messages?.*$')?.exec(url);
-    const reporteeId = match ? match[1] : '';
+const getMessagesForReportee = (reporteeId) => {
     if (reporteeId in allMessages) {
         return allMessages[reporteeId];
     }
     return {};
 };
 
-export const mock = () => {
-    fetchMock.get(`${altinnUrl}/api/reportees`, reportees);
-
-    fetchMock.get(`glob:${altinnUrl}/api/*/messages*`, getMessagesForReportee);
+module.exports = {
+    mock: (app) => {
+        app.use('https://tt02.altinn.no/api/reportees', (req, res) => {
+            res.send(reportees);
+        });
+        app.use(`https://tt02.altinn.no/api/:id/messages`, (req, res) => {
+            res.send(getMessagesForReportee(req.params.id));
+        });
+    }
 }

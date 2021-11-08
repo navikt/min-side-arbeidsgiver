@@ -24,8 +24,10 @@ export const arbeidsplassenURL = gittMiljo({
 export const pamSettBedriftURL = gittMiljo({
     prod: (orgnr: string) =>
         `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
-    other: (orgnr: string) =>
+    dev: (orgnr: string) =>
         `https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
+    other: (orgnr: string) =>
+        `/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
 });
 
 export const sjekkInnloggetURL =
@@ -33,8 +35,8 @@ export const sjekkInnloggetURL =
 
 export const pamHentStillingsannonserURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
-    other:
-        'https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+    dev: 'https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+    other: '/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
 });
 
 export const digiSyfoNarmesteLederURL =

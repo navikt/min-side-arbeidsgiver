@@ -131,6 +131,18 @@ app.use(
     }),
 );
 
+if (NAIS_CLUSTER_NAME === 'dev-gcp') {
+    require('../src/mock/enhetsRegisteretMock').mock(app)
+}
+if (NAIS_CLUSTER_NAME === 'labs-gcp') {
+    require('../src/mock/enhetsRegisteretMock').mock(app);
+    require('../src/mock/altinnMock').mock(app);
+    require('../src/mock/altinnMeldingsboksMock').mock(app);
+    require('../src/mock/antallArbeidsforholdMock').mock(app);
+    require('../src/mock/pamMock').mock(app);
+    require('../src/mock/tiltakApiMock').mock(app);
+}
+
 app.use(
     '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
@@ -148,7 +160,6 @@ app.use(
         target: API_GATEWAY,
     }),
 );
-
 
 app.use(
     '/min-side-arbeidsgiver/notifikasjon/api/graphql',
