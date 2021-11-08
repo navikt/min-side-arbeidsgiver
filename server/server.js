@@ -172,6 +172,29 @@ app.use(
     }),
 );
 
+app.use(
+    '/min-side-arbeidsgiver/sykefravaer',
+
+    createProxyMiddleware({
+        target: 'https://arbeidsgiver.dev.nav.no',
+        changeOrigin: true,
+        pathRewrite: {
+            '^/min-side-arbeidsgiver/sykefravaer': '/sykefravarsstatistikk/api/',
+        },
+        secure: true,
+        xfwd: true,
+
+        logLevel: PROXY_LOG_LEVEL,
+        logProvider: _ => log,
+        onError: (err, req, res) => {
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+        },
+        onProxyReq: (proxyReq, req, _res) => {
+            proxyReq.setHeader('Authorization', `Bearer ${req.cookies['selvbetjening-idtoken']}`);
+        },
+    }),
+);
+
 app.get('/min-side-arbeidsgiver/abtest', (req, res) => {
     const idtoken = req.cookies['selvbetjening-idtoken']
     const decoded = jwt.decode(idtoken);

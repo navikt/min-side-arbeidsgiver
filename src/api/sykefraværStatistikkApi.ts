@@ -6,14 +6,13 @@ export type Sykefraværsrespons = {
 
 
 export async function hentSykefravær(
-    orgnr: string
-
+    orgnr: string,
 ): Promise<Sykefraværsrespons> {
     let respons = await fetch(
-        '/min-side-arbeidsgiver/api/sykefravaer'
-);
+        `/min-side-arbeidsgiver/sykefravaer/${orgnr}/sykefravarshistorikk/legemeldtsykefravarsprosent`,
+    );
     if (respons.ok) {
-      return respons.json();
+        return respons.json();
     }
     throw new Error('Feil ved kontakt med sykefravær.');
 }
