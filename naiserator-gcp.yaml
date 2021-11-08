@@ -43,7 +43,7 @@ spec:
       value: {{commit}}
     - name: ARBEIDSFORHOLD_DOMAIN
       value: '{{{arbeidsforhold-domain}}}'
-    - name: SYKEFRAVÆÆR_DOMAIN
+    - name: SYKEFRAVAER_DOMAIN
       value: '{{{sykefravær-domain}}}'
   accessPolicy:
     outbound:

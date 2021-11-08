@@ -29,7 +29,7 @@ const {
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
-    SYKEFRAVÆÆR_DOMAIN,
+    SYKEFRAVAER_DOMAIN,
 } = process.env;
 const log = createLogger({
     transports: [
@@ -175,9 +175,8 @@ app.use(
 
 app.use(
     '/min-side-arbeidsgiver/sykefravaer',
-
     createProxyMiddleware({
-        target: 'https://arbeidsgiver.dev.nav.no',
+        target: SYKEFRAVAER_DOMAIN,
         changeOrigin: true,
         pathRewrite: {
             '^/min-side-arbeidsgiver/sykefravaer': '/sykefravarsstatistikk/api/',
