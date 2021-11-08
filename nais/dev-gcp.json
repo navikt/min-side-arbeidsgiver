@@ -5,5 +5,6 @@
   "logout-url": "https://loginservice.dev.nav.no/slo",
   "decorator-external-url": "https://dekoratoren.dev.nav.no/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
   "idporten": true,
-  "arbeidsforhold-domain": "https://arbeidsforhold.dev.nav.no"
+  "arbeidsforhold-domain": "https://arbeidsforhold.dev.nav.no",
+  "sykefravær-domain": "https://arbeidsgiver.dev.nav.no"
 }

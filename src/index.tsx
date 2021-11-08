@@ -57,6 +57,7 @@ if (environment.MILJO === 'labs-gcp') {
     require('./mock/antallArbeidsforholdMock').mock();
     require('./mock/pamMock').mock();
     require('./mock/tiltakApiMock').mock();
+    require('./mock/sykefraværMock').mock();
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
