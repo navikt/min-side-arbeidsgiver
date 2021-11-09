@@ -33,7 +33,7 @@ export async function hentAlleJuridiskeEnheter(
 ): Promise<Organisasjon[]> {
     let url: string = gittMiljo({
         prod: 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
-        other: '/mock/data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
+        other: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
     });
     const distinkteJuridiskeEnhetsnr: string[] = listeMedJuridiskeOrgNr.filter(
         (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index

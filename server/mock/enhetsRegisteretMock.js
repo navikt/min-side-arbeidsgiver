@@ -1,7 +1,7 @@
 module.exports = {
     mock: (app) => {
         app.use(
-            '/mock/data.brreg.no/enhetsregisteret/api/underenheter',
+            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter',
             (req, res) => {
                 res.send({
                     "organisasjonsnummer": "974491850",
@@ -11,7 +11,7 @@ module.exports = {
                         "beskrivelse": "Bedrift",
                         "_links": {
                             "self": {
-                                "href": "/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/BEDR"
+                                "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/BEDR"
                             }
                         }
                     },
@@ -49,17 +49,17 @@ module.exports = {
                     },
                     "_links": {
                         "self": {
-                            "href": "/mock/data.brreg.no/enhetsregisteret/api/underenheter/974491850"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/974491850"
                         },
                         "overordnetEnhet": {
-                            "href": "/mock/data.brreg.no/enhetsregisteret/api/enheter/982033268"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/982033268"
                         }
                     }
                 });
             });
 
         app.use(
-            '/mock/data.brreg.no/enhetsregisteret/api/enheter',
+            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter',
             (req, res) => {
                 res.send({
                     "organisasjonsnummer": "982033268",
@@ -69,7 +69,7 @@ module.exports = {
                         "beskrivelse": "Enkeltpersonforetak",
                         "_links": {
                             "self": {
-                                "href": "/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/ENK"
+                                "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/ENK"
                             }
                         }
                     },
@@ -116,7 +116,7 @@ module.exports = {
                     "maalform": "Bokmål",
                     "_links": {
                         "self": {
-                            "href": "/mock/data.brreg.no/enhetsregisteret/api/enheter/982033268"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/982033268"
                         }
                     }
                 });
