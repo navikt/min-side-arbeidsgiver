@@ -10,7 +10,7 @@ const reportees = {
                     href: 'someUrl',
                 },
                 messages: {
-                    href: `/mock/tt02.altinn.no/api/reportee${org.OrganizationNumber}/messages`,
+                    href: `/min-side-arbeidsgiver/mock/tt02.altinn.no/api/reportee${org.OrganizationNumber}/messages`,
                 },
             },
         })),
@@ -56,14 +56,14 @@ const randomMessage = (org) => {
         ServiceEdition: 1,
         _links: {
             self: {
-                href: '/mock/tt02.altinn.no/api/r50179335/messages/a9069768',
+                href: '/min-side-arbeidsgiver/mock/tt02.altinn.no/api/r50179335/messages/a9069768',
             },
             portalview: {
                 href:
-                    '/mock/tt02.altinn.no/Pages/ServiceEngine/Correspondence/Correspondences.aspx?ReporteeElementID=9069768&ESC=5562&ESEC=1',
+                    '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Correspondence/Correspondences.aspx?ReporteeElementID=9069768&ESC=5562&ESEC=1',
             },
             metadata: {
-                href: '/mock/tt02.altinn.no/api/metadata/correspondence/5562/1',
+                href: '/min-side-arbeidsgiver/mock/tt02.altinn.no/api/metadata/correspondence/5562/1',
             },
         },
     };
@@ -101,10 +101,10 @@ const getMessagesForReportee = (reporteeId) => {
 
 module.exports = {
     mock: (app) => {
-        app.use('/mock/tt02.altinn.no/api/reportees', (req, res) => {
+        app.use('/min-side-arbeidsgiver/mock/tt02.altinn.no/api/reportees', (req, res) => {
             res.send(reportees);
         });
-        app.use(`/mock/tt02.altinn.no/api/:id/messages`, (req, res) => {
+        app.use(`/min-side-arbeidsgiver/mock/tt02.altinn.no/api/:id/messages`, (req, res) => {
             res.send(getMessagesForReportee(req.params.id));
         });
     }
