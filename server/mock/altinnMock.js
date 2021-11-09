@@ -1,6 +1,4 @@
-import fetchMock from 'fetch-mock';
-
-export const OrganisasjonerResponse = [
+const OrganisasjonerResponse = [
     {
         Name: 'En Juridisk Ehhet AS',
         Type: 'Enterprise',
@@ -103,15 +101,15 @@ export const OrganisasjonerResponse = [
         OrganizationNumber: '910825555',
         OrganizationForm: 'AS',
         Status: 'Active',
-      },
-      {
+    },
+    {
         Name: 'SALTRØD OG HØNEBY',
         Type: 'Business',
         OrganizationNumber: '999999999',
         ParentOrganizationNumber: '910825555',
         OrganizationForm: 'BEDR',
         Status: 'Active',
-      }
+    }
 ];
 
 const organisasjonerMedRettigheter = [
@@ -193,28 +191,21 @@ const InntektsmeldingSkjemaResponse = [
     },
 ];
 
-export const mock = () => {
-    fetchMock
-        .get(
-            'min-side-arbeidsgiver/api/organisasjoner',
-            () => OrganisasjonerResponse
-        );
-
-    fetchMock
-        .get(
+module.exports = {
+    OrganisasjonerResponse,
+    mock: (app) => {
+        app.use('/min-side-arbeidsgiver/api/organisasjoner', (req, res) => res.send(OrganisasjonerResponse));
+        app.use(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
-            () => mentortilskuddskjemaResponse
+            (req, res) => res.send(mentortilskuddskjemaResponse)
         );
-
-    fetchMock
-        .get(
+        app.use(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
-            () => InntektsmeldingSkjemaResponse
+            (req, res) => res.send(InntektsmeldingSkjemaResponse)
         );
-
-    fetchMock
-        .get(
-            'begin:/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
-            () => rettigheterSkjemaDefaultResponse
+        app.use(
+            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
+            (req, res) => res.send(rettigheterSkjemaDefaultResponse)
         );
+    }
 }

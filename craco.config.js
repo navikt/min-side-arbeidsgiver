@@ -13,7 +13,7 @@ module.exports = {
                 headers: {
                     host: "ag-notifikasjon-bruker-api.localhost",
                 },
-                onProxyReq: (proxyReq, req, res) => {
+                onProxyReq: (proxyReq, req, _res) => {
                     const token = req.cookies['selvbetjening-idtoken']
                     proxyReq.setHeader('Authorization', `Bearer ${token}`);
                 }
@@ -23,6 +23,7 @@ module.exports = {
             const fetch = require('node-fetch');
             const cookieParser = require('cookie-parser');
             app.use(cookieParser());
+
             app.get('/min-side-arbeidsgiver/api/innlogget', (req, res) => {
                 const token = req.cookies.hasOwnProperty('selvbetjening-idtoken')
                 if (token) {
@@ -46,6 +47,17 @@ module.exports = {
                 console.log(`login: setter selvbetjening-idtoken til ${token}`)
                 res.redirect("http://localhost:3000/min-side-arbeidsgiver");
             });
+
+            require('./server/mock/pamMock').mock(app);
+            require('./server/mock/syfoMock').mock(app);
+            require('./server/mock/altinnMock').mock(app);
+            require('./server/mock/altinnMeldingsboksMock').mock(app);
+            require('./server/mock/unleashMock').mock(app);
+            require('./server/mock/altinnBeOmTilgangMock').mock(app);
+            require('./server/mock/enhetsRegisteretMock').mock(app);
+            require('./server/mock/antallArbeidsforholdMock').mock(app);
+            require('./server/mock/tiltakApiMock').mock(app);
+            require('./server/mock/eksperimentMock').mock(app);
         }
     },
     plugins: [{ plugin: CracoLessPlugin }]
