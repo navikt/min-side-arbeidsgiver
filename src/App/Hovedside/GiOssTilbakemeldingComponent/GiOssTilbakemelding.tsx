@@ -10,9 +10,9 @@ import { møteBookingLenke } from '../../../lenker';
 export const GiOssTilbakemelding = () => {
     const dato = new Date();
 
-    const erMandagEllerTirsdag = ():boolean => {
-        return dato.getDay()<=2
-    }
+    const erMandagEllerTirsdag = (): boolean => {
+        return dato.getDay() <= 2;
+    };
     const hentLukketStatusFraLocalStorage = (): boolean => {
         const lukketFraLocalstorage = window.localStorage.getItem('GiOssTilbakemeldingLukket');
         return lukketFraLocalstorage != null;
@@ -31,7 +31,8 @@ export const GiOssTilbakemelding = () => {
                className={'panel'}>
             <div className={'innhold'}>
                 <Normaltekst> Vi som lager siden vil gjerne høre om dine erfaringer som arbeidsgiver. <LenkeMedLogging
-                    loggLenketekst={'Møtebooking'} href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
+                    loggLenketekst={'Møtebooking'}
+                    href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
                 <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
                 </div>
 
