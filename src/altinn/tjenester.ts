@@ -52,8 +52,10 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
         skjemaUrl: gittMiljo({
             prod:
                 'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/',
-            other:
+            dev:
                 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
+            other:
+                '/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
         }),
     },
 
@@ -69,8 +71,10 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
         skjemaUrl: gittMiljo({
             prod:
                 'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/',
-            other:
+            dev:
                 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
+            other:
+                '/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
         }),
     },
 

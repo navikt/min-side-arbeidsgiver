@@ -68,7 +68,8 @@ export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
 
 export const altinnUrl = gittMiljo({
     prod: 'https://altinn.no',
-    other: 'https://tt02.altinn.no',
+    dev: 'https://tt02.altinn.no',
+    other: '/mock/tt02.altinn.no',
 });
 
 export const beOmTilgangIAltinnLink = (
