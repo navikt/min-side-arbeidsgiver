@@ -55,7 +55,7 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
             dev:
                 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
             other:
-                '/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
+                '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
         }),
     },
 
@@ -74,7 +74,7 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
             dev:
                 'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
             other:
-                '/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
+                '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
         }),
     },
 

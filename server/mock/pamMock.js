@@ -1,11 +1,11 @@
 module.exports = {
     mock: (app) => {
         app.use(
-            '/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/:id',
+            '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/:id',
             (req, res) => res.sendStatus(200)
         );
         app.use(
-            '/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+            '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
             (req, res) => {
                 res.send({
                     TIL_GODKJENNING: 17,
