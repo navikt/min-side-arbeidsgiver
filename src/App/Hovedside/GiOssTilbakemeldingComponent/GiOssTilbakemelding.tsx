@@ -10,6 +10,9 @@ import { møteBookingLenke } from '../../../lenker';
 export const GiOssTilbakemelding = () => {
     const dato = new Date();
 
+    const erMandagEllerTirsdag = ():boolean => {
+        return dato.getDay()<=2
+    }
     const hentLukketStatusFraLocalStorage = (): boolean => {
         const lukketFraLocalstorage = window.localStorage.getItem('GiOssTilbakemeldingLukket');
         return lukketFraLocalstorage != null;
@@ -21,7 +24,7 @@ export const GiOssTilbakemelding = () => {
         setErLukketTidligere(true);
     };
 
-    if (!erLukketTidligere) {
+    if (!erLukketTidligere && erMandagEllerTirsdag()) {
         return (
             <span className={'tilbakemelding-banner'}>
         <Panel border
