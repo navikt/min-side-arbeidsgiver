@@ -24,8 +24,10 @@ export const arbeidsplassenURL = gittMiljo({
 export const pamSettBedriftURL = gittMiljo({
     prod: (orgnr: string) =>
         `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
-    other: (orgnr: string) =>
+    dev: (orgnr: string) =>
         `https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
+    other: (orgnr: string) =>
+        `/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
 });
 
 export const sjekkInnloggetURL =
@@ -33,8 +35,8 @@ export const sjekkInnloggetURL =
 
 export const pamHentStillingsannonserURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
-    other:
-        'https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+    dev: 'https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+    other: '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
 });
 
 export const digiSyfoNarmesteLederURL =
@@ -66,7 +68,8 @@ export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
 
 export const altinnUrl = gittMiljo({
     prod: 'https://altinn.no',
-    other: 'https://tt02.altinn.no',
+    dev: 'https://tt02.altinn.no',
+    other: '/min-side-arbeidsgiver/mock/tt02.altinn.no',
 });
 
 export const beOmTilgangIAltinnLink = (

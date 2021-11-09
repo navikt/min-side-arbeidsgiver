@@ -1,6 +1,3 @@
-import fetchMock from 'fetch-mock';
-import { digiSyfoNarmesteLederURL, hentArbeidsavtalerApiLink } from '../lenker';
-
 const arbeidsavtalermock = [ {
     'deltakerFnr': '00000000000',
     'bedriftNr': '910825526',
@@ -1347,6 +1344,8 @@ const arbeidsavtalermock = [ {
     'innholdType': 'INNGÅ',
 }];
 
-export const mock = () => {
-    fetchMock.get('begin:' + hentArbeidsavtalerApiLink, arbeidsavtalermock);
+module.exports = {
+    mock: (app) => {
+        app.use("/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?", (req, res) => res.send(arbeidsavtalermock));
+    }
 };
