@@ -57,7 +57,7 @@ const IAwebboks = () => {
                 loggLenketekst='Sykefraværsstatistikk'
             >
                 <div className='IA-web-boks__tekst'>
-                    {visTall != true ? TekstMedTall() : TekstUtenTall()}
+                    {visTall === true ? TekstMedTall() : TekstUtenTall()}
                 </div>
             </LenkepanelMedLogging>
         </div>
