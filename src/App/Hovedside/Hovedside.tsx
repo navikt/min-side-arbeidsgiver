@@ -1,30 +1,26 @@
-import React, {FunctionComponent, useContext, useEffect} from 'react';
-import {RouteComponentProps, withRouter} from 'react-router';
-import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
-import {LinkableFragment} from '../../GeneriskeElementer/LinkableFragment';
+import React, { FunctionComponent, useContext, useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router';
+import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import {VarselHvisNedetid} from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
-import {FeilmeldingContainer} from './FeilmeldingContainer/FeilmeldingContainer';
-import {Koronaboks} from '../Koronaboks/Koronaboks';
+import { VarselHvisNedetid } from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
+import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
+import { Koronaboks } from '../Koronaboks/Koronaboks';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
-import {AltinnContainer} from './AltinnContainer/AltinnContainer';
-import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederContainer';
+import { AltinnContainer } from './AltinnContainer/AltinnContainer';
+import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
-import { Feature, FeatureToggleContext } from '../../FeatureToggleProvider';
 import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 
 
-const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
-    const {organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger} = useContext(
-        OrganisasjonerOgTilgangerContext
+const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
+    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } = useContext(
+        OrganisasjonerOgTilgangerContext,
     );
-    const featureToggleContext = useContext(FeatureToggleContext);
-    const visKalender = featureToggleContext[Feature.visKalender];
-
     useEffect(() => {
         const skalViseManglerTilgangBoks =
             !harTilganger &&
@@ -32,30 +28,30 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
             !visSyfoFeilmelding;
 
         if (skalViseManglerTilgangBoks) {
-            history.replace({pathname: 'mangler-tilgang'});
+            history.replace({ pathname: 'mangler-tilgang' });
         }
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
 
     return (
         <div className={'min-side-arbeidsgiver-wrapper'}>
-            <Brodsmulesti brodsmuler={[]}/>
-            <div className="hovedside-container">
-                <div className="hovedside">
-                    <AdvarselBannerTestversjon/>
-                    <VarselHvisNedetid/>
-                    {visKalender ? <GiOssTilbakemelding/> : null}
+            <Brodsmulesti brodsmuler={[]} />
+            <div className='hovedside-container'>
+                <div className='hovedside'>
+                    <AdvarselBannerTestversjon />
+                    <VarselHvisNedetid />
+                    <GiOssTilbakemelding />
                     <FeilmeldingContainer
                         visFeilmelding={visFeilmelding}
                         visSyfoFeilmelding={visSyfoFeilmelding}
                     />
-                    <Koronaboks/>
-                    <TjenesteBoksContainer/>
-                    <SkjemaveilederContainer/>
-                    <BrevFraAltinnContainer/>
-                    <AltinnContainer/>
-                    <NyttigForDegContainer/>
-                    <LinkableFragment fragment="be-om-tilgang">
-                        <BeOmTilgang/>
+                    <Koronaboks />
+                    <TjenesteBoksContainer />
+                    <SkjemaveilederContainer />
+                    <BrevFraAltinnContainer />
+                    <AltinnContainer />
+                    <NyttigForDegContainer />
+                    <LinkableFragment fragment='be-om-tilgang'>
+                        <BeOmTilgang />
                     </LinkableFragment>
                 </div>
             </div>
