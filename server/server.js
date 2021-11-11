@@ -183,14 +183,6 @@ app.use(
     }),
 );
 
-app.get('/min-side-arbeidsgiver/abtest', (req, res) => {
-    const idtoken = req.cookies['selvbetjening-idtoken']
-    const decoded = jwt.decode(idtoken);
-    const fnr = decoded.sub
-    const utfall = parseInt(fnr.substring(8)) % 2 === 0;
-    res.send(utfall);
-});
-
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {

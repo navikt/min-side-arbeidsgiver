@@ -57,7 +57,6 @@ module.exports = {
             require('./server/mock/enhetsRegisteretMock').mock(app);
             require('./server/mock/antallArbeidsforholdMock').mock(app);
             require('./server/mock/tiltakApiMock').mock(app);
-            require('./server/mock/eksperimentMock').mock(app);
         }
     },
     plugins: [{ plugin: CracoLessPlugin }]
