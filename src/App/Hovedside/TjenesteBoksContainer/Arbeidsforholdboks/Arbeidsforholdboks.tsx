@@ -26,11 +26,6 @@ const Arbeidsforholdboks = () => {
             </div>
         </>;
 
-    const TekstUtenTall = () =>
-        <>
-            Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
-        </>;
-
     return (
         <div className='arbeidsforholdboks tjenesteboks-innhold'>
             <TjenesteBoksBanner
