@@ -22,7 +22,7 @@ const IAwebboks = () => {
     }, [valgtOrganisasjon]);
 
     const TekstMedTall = () => {
-        if (sykefravær != undefined) {
+        if (sykefravær !== undefined) {
             return (
                 <span>
                 <span className={'legemeldt-sykefravær-prosent'}>
