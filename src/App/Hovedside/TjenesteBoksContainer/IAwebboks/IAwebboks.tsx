@@ -11,14 +11,25 @@ import { hentSykefravær, Sykefraværsrespons } from '../../../../api/sykefravæ
 
 const IAwebboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { visTall } = useContext(EksperimentContext);
     const [sykefravær, setSykefravær] = useState<Sykefraværsrespons | undefined>(undefined);
+
+    const statistikktype = (type:string)=>{
+        switch (type) {
+            case 'BRANSJE':
+                return 'bransje'
+                break;
+            default :
+                return 'bedrift'
+                break;
+        }
+    }
+
 
     useEffect(() => {
         if (valgtOrganisasjon)
             hentSykefravær(valgtOrganisasjon.organisasjon.OrganizationNumber).then(sykefraværsrespons =>
                 setSykefravær(sykefraværsrespons),
-            );
+            ).catch(error => setSykefravær(undefined));
     }, [valgtOrganisasjon]);
 
     const TekstMedTall = () => {
@@ -26,9 +37,9 @@ const IAwebboks = () => {
             return (
                 <span>
                 <span className={'legemeldt-sykefravær-prosent'}>
-                    {sykefravær.prosent.toString()}
+                    {sykefravær.prosent.toString()} %
                 </span>
-                legemeldt sykefravær i din bedrift. Slik kan du forebygge sykefravær.
+                <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge sykefravær.   </>
             </span>
             );
         }
@@ -57,7 +68,7 @@ const IAwebboks = () => {
                 loggLenketekst='Sykefraværsstatistikk'
             >
                 <div className='IA-web-boks__tekst'>
-                    {visTall === true ? TekstMedTall() : TekstUtenTall()}
+                    {sykefravær !== undefined? TekstMedTall() : TekstUtenTall()}
                 </div>
             </LenkepanelMedLogging>
         </div>
