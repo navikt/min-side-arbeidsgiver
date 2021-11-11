@@ -194,14 +194,10 @@ app.use(
         },
         secure: true,
         xfwd: true,
-
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
         onError: (err, req, res) => {
             log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-        },
-        onProxyReq: (proxyReq, req, _res) => {
-            proxyReq.setHeader('Authorization', `Bearer ${req.cookies['selvbetjening-idtoken']}`);
         },
     }),
 );
