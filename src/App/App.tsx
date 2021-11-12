@@ -13,7 +13,6 @@ import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
 import './App.less';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
 import Banner from "./HovedBanner/HovedBanner";
-import { EksperimentProvider } from './EksperimentProvider';
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -56,7 +55,6 @@ const App: FunctionComponent = () => {
                             />
                             <LoginBoundary>
                                 <FeatureToggleProvider>
-                                    <EksperimentProvider>
                                         <OrganisasjonerOgTilgangerProvider>
                                         <OrganisasjonsDetaljerProvider>
                                             <Banner sidetittel={sidetittel}/>
@@ -82,7 +80,6 @@ const App: FunctionComponent = () => {
                                             </Switch>
                                         </OrganisasjonsDetaljerProvider>
                                     </OrganisasjonerOgTilgangerProvider>
-                                    </EksperimentProvider>
                                 </FeatureToggleProvider>
                             </LoginBoundary>
                         </Switch>
