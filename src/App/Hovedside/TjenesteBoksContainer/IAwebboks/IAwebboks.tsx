@@ -4,7 +4,6 @@ import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
 import './IAwebboks.less';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
-import { EksperimentContext } from '../../../EksperimentProvider';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { hentSykefravær, Sykefraværsrespons } from '../../../../api/sykefraværStatistikkApi';
 

@@ -6,11 +6,9 @@ import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelM
 import { hentAntallArbeidsforholdFraAareg } from '../../../../api/arbeidsforholdApi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './ArbeidsforholdBoks.less';
-import { EksperimentContext } from '../../../EksperimentProvider';
 
 const Arbeidsforholdboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { visTall } = useContext(EksperimentContext);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
     useEffect(() => {
         if (valgtOrganisasjon)
@@ -28,11 +26,6 @@ const Arbeidsforholdboks = () => {
             </div>
         </>;
 
-    const TekstUtenTall = () =>
-        <>
-            Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
-        </>;
-
     return (
         <div className='arbeidsforholdboks tjenesteboks-innhold'>
             <TjenesteBoksBanner
@@ -47,7 +40,7 @@ const Arbeidsforholdboks = () => {
                 tittelProps='normaltekst'
                 aria-label='Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)'
             >
-                {visTall === true ? TekstMedTall() : TekstUtenTall()}
+                {TekstMedTall()}
             </LenkepanelMedLogging>
         </div>
     );
