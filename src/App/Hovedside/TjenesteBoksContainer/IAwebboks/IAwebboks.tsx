@@ -16,6 +16,8 @@ const IAwebboks = () => {
         switch (type) {
             case 'BRANSJE':
                 return 'bransje'
+            case 'NÆRING':
+                return 'næring'
             default :
                 return 'bedrift'
         }
