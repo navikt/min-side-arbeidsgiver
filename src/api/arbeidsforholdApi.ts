@@ -1,5 +1,3 @@
-import { arbeidsforholdApiURL } from '../lenker';
-
 export type overSiktPerUnderenhetPar = {
     first: string;
     second: number;
@@ -10,7 +8,7 @@ export async function hentAntallArbeidsforholdFraAareg(
     enhet: string,
 ): Promise<number> {
     let respons = await fetch(
-        arbeidsforholdApiURL
+        '/min-side-arbeidsgiver/api/antall-arbeidsforhold'
         , {
             headers: {
                 'jurenhet': enhet,
