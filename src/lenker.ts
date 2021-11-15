@@ -158,3 +158,15 @@ export const hentArbeidsavtalerApiLink =
     '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
 
 export const møteBookingLenke='https://outlook.office365.com/owa/calendar/Minsidearbeidsgiver@nav.no/bookings/s/njkDNAYTM0aRtre0oKiKuQ2'
+
+export const sykefraværsstatisikkApiURL = gittMiljo({
+    prod: '/min-side-arbeidsgiver/sykefravaer',
+    labs: '/min-side-arbeidsgiver/mock/sykefravaer',
+    other: '/min-side-arbeidsgiver/sykefravaer',
+});
+
+export const arbeidsforholdApiURL = gittMiljo({
+    prod: '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+    labs: '/min-side-arbeidsgiver/mock/antall-arbeidsforhold',
+    other: '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+});

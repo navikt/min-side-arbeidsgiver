@@ -7,7 +7,6 @@ import jsdom from 'jsdom';
 import Prometheus from 'prom-client';
 import require from './esm-require.js';
 import cookieParser from 'cookie-parser';
-const jwt = require('jsonwebtoken')
 
 const { createLogger, transports, format } = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
