@@ -1346,6 +1346,6 @@ const arbeidsavtalermock = [ {
 
 module.exports = {
     mock: (app) => {
-        app.use("/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?", (req, res) => res.send(arbeidsavtalermock));
+        app.use("/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/", (req, res) => res.send(arbeidsavtalermock));
     }
 };
