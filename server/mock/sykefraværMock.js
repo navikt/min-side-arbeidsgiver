@@ -1,7 +1,6 @@
-const { randomInt } = require('crypto');
 
 const bedriftEllerBransjeRespons = () => {
-    return randomInt(2) > 0 ?
+    return Math.floor(Math.random() * 2) > 0 ?
         {
             'type': 'BRANSJE',
             'label': 'Barnehager',
