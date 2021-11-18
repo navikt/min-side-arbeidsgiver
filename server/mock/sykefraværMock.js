@@ -1,7 +1,6 @@
-const { randomInt } = require('crypto');
 
 const bedriftEllerBransjeRespons = () => {
-    return randomInt(2) > 0 ?
+    return Math.floor(Math.random() * 2) > 0 ?
         {
             'type': 'BRANSJE',
             'label': 'Barnehager',
@@ -18,7 +17,7 @@ const bedriftEllerBransjeRespons = () => {
 module.exports = {
     mock: (app) => {
         app.use(
-            '/min-side-arbeidsgiver/sykefravaer',
+            `/min-side-arbeidsgiver/sykefravaer/:orgnr/sykefravarshistorikk/legemeldtsykefravarsprosent`,
             (req, res) => {
                 res.send(bedriftEllerBransjeRespons());
             },

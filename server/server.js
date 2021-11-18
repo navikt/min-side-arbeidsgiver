@@ -7,7 +7,6 @@ import jsdom from 'jsdom';
 import Prometheus from 'prom-client';
 import require from './esm-require.js';
 import cookieParser from 'cookie-parser';
-const jwt = require('jsonwebtoken')
 
 const { createLogger, transports, format } = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
@@ -96,6 +95,21 @@ app.use(
     }),
 );
 
+
+
+if (NAIS_CLUSTER_NAME === 'dev-gcp') {
+    require('./mock/enhetsRegisteretMock').mock(app)
+}
+if (NAIS_CLUSTER_NAME === 'labs-gcp') {
+    require('./mock/enhetsRegisteretMock').mock(app);
+    require('./mock/altinnMock').mock(app);
+    require('./mock/altinnMeldingsboksMock').mock(app);
+    require('./mock/antallArbeidsforholdMock').mock(app);
+    require('./mock/pamMock').mock(app);
+    require('./mock/tiltakApiMock').mock(app);
+    require('./mock/sykefraværMock').mock(app);
+}
+
 app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
@@ -114,6 +128,7 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
     }),
 );
 
+
 app.use(
     '/min-side-arbeidsgiver/api/antall-arbeidsforhold/',
     createProxyMiddleware({
@@ -131,18 +146,6 @@ app.use(
         target: ARBEIDSFORHOLD_DOMAIN,
     }),
 );
-
-if (NAIS_CLUSTER_NAME === 'dev-gcp') {
-    require('./mock/enhetsRegisteretMock').mock(app)
-}
-if (NAIS_CLUSTER_NAME === 'labs-gcp') {
-    require('./mock/enhetsRegisteretMock').mock(app);
-    require('./mock/altinnMock').mock(app);
-    require('./mock/altinnMeldingsboksMock').mock(app);
-    require('./mock/antallArbeidsforholdMock').mock(app);
-    require('./mock/pamMock').mock(app);
-    require('./mock/tiltakApiMock').mock(app);
-}
 
 app.use(
     '/min-side-arbeidsgiver/api',
