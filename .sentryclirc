@@ -1,4 +1,4 @@
 [defaults]
-project=ditt-nav-arbeidsgiver
+project=min-side-arbeidsgiver
 url=https://sentry.gc.nav.no/
 org=nav
