@@ -34,7 +34,7 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
             history={history}
             amplitudeClient={amplitude}
         >
-            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget apiUri="https://ag-notifikasjon-proxy.dev.nav.no/api/graphql" miljo={miljø}/> : null }
+            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget miljo={miljø}/> : null }
         </Bedriftsmeny>
     );
 };
