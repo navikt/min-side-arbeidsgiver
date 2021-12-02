@@ -166,28 +166,6 @@ app.use(
 );
 
 app.use(
-    '/min-side-arbeidsgiver/notifikasjon/api/graphql',
-    createProxyMiddleware({
-        target: BRUKER_API_URL,
-        changeOrigin: true,
-        pathRewrite: {
-            '^/min-side-arbeidsgiver/notifikasjon': '',
-        },
-        secure: true,
-        xfwd: true,
-
-        logLevel: PROXY_LOG_LEVEL,
-        logProvider: _ => log,
-        onError: (err, req, res) => {
-            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-        },
-        onProxyReq: (proxyReq, req, _res) => {
-            proxyReq.setHeader('Authorization', `Bearer ${req.cookies['selvbetjening-idtoken']}`);
-        },
-    }),
-);
-
-app.use(
     '/min-side-arbeidsgiver/sykefravaer',
     createProxyMiddleware({
         target: SYKEFRAVAER_DOMAIN,
