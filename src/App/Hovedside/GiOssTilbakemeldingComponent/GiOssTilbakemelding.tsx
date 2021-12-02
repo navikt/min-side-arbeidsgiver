@@ -30,7 +30,7 @@ export const GiOssTilbakemelding = () => {
         <Panel border
                className={'panel'}>
             <div className={'innhold'}>
-                <Normaltekst> Vi som lager siden vil gjerne høre om dine erfaringer som arbeidsgiver. <LenkeMedLogging
+                <Normaltekst> Er du arbeidsgiver og vil dele dine erfaringer med oss som lager tjenesten? <LenkeMedLogging
                     loggLenketekst={'Møtebooking'}
                     href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
                 <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
