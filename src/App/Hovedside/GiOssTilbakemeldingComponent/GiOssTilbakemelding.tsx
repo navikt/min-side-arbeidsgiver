@@ -24,7 +24,7 @@ export const GiOssTilbakemelding = () => {
         setErLukketTidligere(true);
     };
 
-    if (!erLukketTidligere ) {
+    if (!erLukketTidligere && erMandagEllerTirsdag()) {
         return (
             <span className={'tilbakemelding-banner'}>
         <Panel border
