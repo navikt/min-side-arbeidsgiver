@@ -1,6 +1,6 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {OrganisasjonsDetaljerContext} from '../OrganisasjonDetaljerProvider';
-import {hentOverordnetEnhet, hentUnderenhet} from '../../api/enhetsregisteretApi';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
 import {
     OrganisasjonFraEnhetsregisteret,
     tomEnhetsregOrg,
@@ -11,32 +11,35 @@ import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.less';
 
 const InformasjonOmBedrift: FunctionComponent = () => {
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const [underenhet, setUnderenhet] = useState<OrganisasjonFraEnhetsregisteret>(tomEnhetsregOrg);
-    const [overordnetEnhet, setOverordnetEnhet] = useState<OrganisasjonFraEnhetsregisteret>(
-        tomEnhetsregOrg
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const [underenhet, setUnderenhet] = useState<OrganisasjonFraEnhetsregisteret | undefined>(undefined);
+    const [overordnetEnhet, setOverordnetEnhet] = useState<OrganisasjonFraEnhetsregisteret | undefined>(
+        undefined,
     );
     const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
 
     useEffect(() => {
-        const setEnheter = async () => {
-            if (orgnr !== '') {
-                setUnderenhet(await hentUnderenhet(orgnr));
-                setOverordnetEnhet(await hentOverordnetEnhet(underenhet.overordnetEnhet));
-            }
-        };
-        setEnheter();
-    }, [orgnr, underenhet.overordnetEnhet]);
+        if(orgnr!=='') {
+            hentUnderenhet(orgnr).then(
+                underenhetRespons => {
+                    setUnderenhet(underenhetRespons);
+                        hentOverordnetEnhet(underenhetRespons.overordnetEnhet).then(
+                            overordnetEnhetRespons => setOverordnetEnhet(overordnetEnhetRespons));
+                },
+            ).catch(e => console.log(e))
+        }
+    }, [orgnr]);
 
     return (
         <>
-            <Brodsmulesti brodsmuler={[{url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true}]}/>
-            <div className="informasjon-om-bedrift">
-                <div className="informasjon-om-bedrift__hvitboks">
-                    {underenhet !== tomEnhetsregOrg ? (
-                        <div className="informasjon-om-bedrift__info">
-                            <Underenhet underenhet={underenhet}/>
-                            <OverordnetEnhet overordnetenhet={overordnetEnhet}/>
+            <Brodsmulesti brodsmuler={[{ url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true }]} />
+            <div className='informasjon-om-bedrift'>
+                <div className='informasjon-om-bedrift__hvitboks'>
+                    {underenhet !== undefined  && overordnetEnhet !== undefined ? (
+                        <div className='informasjon-om-bedrift__info'>
+                            <Underenhet underenhet={underenhet} />
+                            her hvis underenhet er undefined
+                            <OverordnetEnhet overordnetenhet={overordnetEnhet} />
                         </div>
                     ) : (
                         <div>Kunne ikke hente informasjon</div>

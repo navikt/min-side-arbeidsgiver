@@ -35,7 +35,6 @@ export const GiOssTilbakemelding = () => {
                     href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
                 <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
                 </div>
-
         </Panel>
 </span>
         );

@@ -19,6 +19,10 @@ interface EventProps {
     sektor?: string;
 }
 
+interface EregInfo {
+    antallAnsatte: string;
+    sektor?: string;
+}
 
 const baseUrl = `https://arbeidsgiver.nav.no${basename}`;
 
@@ -33,57 +37,59 @@ export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
     });
 };
 
-const finnAntallAsattebøtte = (antall: number) => {
+const finnAntallAnsattebøtte = (antall: number) => {
     switch (true) {
         case antall === 0:
-            return '0'
+            return '0';
         case antall < 5:
-            return 'mindre en 5'
+            return 'mindre en 5';
         case antall < 20:
-            return 'mellom 5 og 20'
+            return 'mellom 5 og 20';
         case antall < 50:
-            return 'mellom 20 og 50'
+            return 'mellom 20 og 50';
         case antall < 100:
-            return 'mellom 50 og 100'
+            return 'mellom 50 og 100';
         case antall < 500:
-            return 'mellom 100 og 500'
+            return 'mellom 100 og 500';
         case antall > 500:
-            return 'over 500'
+            return 'over 500';
         default:
-            return 'kunne ikke finne bucket for antall ansatte'
+            return 'kunne ikke finne bucket for antall ansatte';
     }
 };
 
-const finnSektorNavn = (eregOrg: OrganisasjonFraEnhetsregisteret ) =>{
-    if (eregOrg !== tomEnhetsregOrg) {
-    if (eregOrg?.naeringskode1?.kode.startsWith('84')) {
-            return'OFFENTLIG'
-        if (
-            eregOrg?.institusjonellSektorkode?.kode === '6500'
-        ) {
-           return 'Kommuneforvaltningen'
-        }
-        if (
-            eregOrg?.institusjonellSektorkode?.kode === '6100'
-        ) {
-            return 'Statsforvaltningen';
+const finnSektorNavn = (eregOrg: OrganisasjonFraEnhetsregisteret) => {
+    if (eregOrg.naeringskode1) {
+        if (eregOrg.naeringskode1.kode.startsWith('84')) {
+            return 'OFFENTLIG';
+            if (
+                eregOrg?.institusjonellSektorkode?.kode === '6500'
+            ) {
+                return 'Kommuneforvaltningen';
+            }
+            if (
+                eregOrg?.institusjonellSektorkode?.kode === '6100'
+            ) {
+                return 'Statsforvaltningen';
+            }
         }
     } else {
         return 'PRIVAT';
     }
-}
+};
 
-export const hentInfoFraEreg = async (organisasjon: OrganisasjonInfo) => {
-    let eregOrg: OrganisasjonFraEnhetsregisteret = tomEnhetsregOrg;
-    await hentUnderenhet(organisasjon.organisasjon.OrganizationNumber).then(underenhet => {
-        eregOrg = underenhet;
-    });
-    const antallAnsatte = finnAntallAsattebøtte(Number(eregOrg.antallAnsatte))
-    const sektor = finnSektorNavn(eregOrg)
-    return {antallAnsatte,sektor}
-}
+const hentInfoFraEreg = async (organisasjon: OrganisasjonInfo): Promise<EregInfo | undefined> => {
+    try {
+        const underenhet = await hentUnderenhet(organisasjon.organisasjon.OrganizationNumber);
+        const antallAnsatte = finnAntallAnsattebøtte(Number(underenhet.antallAnsatte));
+        const sektor = finnSektorNavn(underenhet);
+        return { antallAnsatte, sektor };
+    } catch (e) {
+        console.log(e);
+    }
+};
 
-export const loggBedriftValgtOgTilganger = (
+export const loggBedriftValgtOgTilganger = async (
     org: OrganisasjonInfo | undefined,
 ) => {
     if (org === undefined) return;
@@ -108,17 +114,18 @@ export const loggBedriftValgtOgTilganger = (
     if (org.altinntilgang.varigLønnstilskudd) {
         tilgangskombinasjon += 'varig lønnstilskudd';
     }
-    const eregInfo = await hentInfoFraEreg(org)
-    const sektor = eregInfo.sektor
-    const antallAnsatte = eregInfo.antallAnsatte
-    const tilgangsinfo: EventProps = {
+    const eregInfo = await hentInfoFraEreg(org);
+    const tilgangsinfo: any = {
         url: baseUrl,
         tilgangskombinasjon,
-        antallAnsatte,
-        sektor
     };
-
-    amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
+    if (eregInfo == undefined) {
+        amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
+    } else {
+        tilgangsinfo.sektor = eregInfo.sektor;
+        tilgangsinfo.antallAnsatte = eregInfo.antallAnsatte;
+        amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
+    }
 };
 
 export const loggNavigasjon = (
