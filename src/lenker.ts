@@ -55,10 +55,20 @@ export const infoOmSykefraværsstatistikk =
     'https://arbeidsgiver.nav.no/forebygge-sykefravaer/#digitale-tjenester';
 
 export const hentUnderenhetApiURL = (orgnr: string) =>
-    `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`;
+    gittMiljo({
+        prod: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+        dev: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+    });
+
 
 export const hentOverordnetEnhetApiLink = (orgnr: string) =>
-    `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`;
+    gittMiljo({
+        prod:  `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+        dev:  `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+    });
+
 
 export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${orgnr}`;

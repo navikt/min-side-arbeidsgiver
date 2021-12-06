@@ -10,34 +10,33 @@ import {
 import { gittMiljo } from '../utils/environment';
 
 export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    console.log("hentUnderenhet orgnr: ", orgnr)
+    console.log('hentUnderenhet orgnr: ', orgnr);
     let respons = await fetch(hentUnderenhetApiURL(orgnr));
     if (respons.ok) {
         return await respons.json();
-    }else {
+    } else {
         throw new Error(`Klarte ikke hente underenhetenhet fra ereg. Fikk statuskode: ${respons.status}, melding: ${respons.statusText}`);
     }
 }
 
 export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-        let respons = await fetch(hentOverordnetEnhetApiLink(orgnr));
-        if (respons.ok) {
-            return await respons.json();
-        }
-        else {
-            throw new Error(`Klarte ikke hente overenhet fra ereg. Fikk statuskode: ${respons.status}, melding: ${respons.statusText}`);
-        }
+    let respons = await fetch(hentOverordnetEnhetApiLink(orgnr));
+    if (respons.ok) {
+        return await respons.json();
+    } else {
+        throw new Error(`Klarte ikke hente overenhet fra ereg. Fikk statuskode: ${respons.status}, melding: ${respons.statusText}`);
+    }
 }
 
 export async function hentAlleJuridiskeEnheter(
-    listeMedJuridiskeOrgNr: string[]
+    listeMedJuridiskeOrgNr: string[],
 ): Promise<Organisasjon[]> {
     let url: string = gittMiljo({
         prod: 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
         other: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
     });
     const distinkteJuridiskeEnhetsnr: string[] = listeMedJuridiskeOrgNr.filter(
-        (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index
+        (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index,
     );
     distinkteJuridiskeEnhetsnr.forEach(orgnr => {
         if (distinkteJuridiskeEnhetsnr.indexOf(orgnr) === 0) {
