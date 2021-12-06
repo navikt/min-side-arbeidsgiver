@@ -1,7 +1,7 @@
 apiVersion: 'nais.io/v1alpha1'
 kind: 'Application'
 metadata:
-  name: ditt-nav-arbeidsgiver
+  name: min-side-arbeidsgiver
   namespace: fager
   labels:
     team: fager
@@ -51,9 +51,4 @@ spec:
         - host: '{{{decorator-external-url}}}'
       rules:
         - application: min-side-arbeidsgiver-api
-          namespace: arbeidsgiver
-        - application: min-side-arbeidsgiver-api
-          namespace: fager
         - application: notifikasjon-bruker-api
-          namespace: fager
-

@@ -4,15 +4,15 @@ Min side – arbeidsgiver er en samleside for digitale tjenester for arbeidsgive
 
 ## Komme i gang
 
-Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi alle sammen med fetchmock
+Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi alle i express-serveren
 
 - Installere avhengigheter: `yarn`
-- Kjøre applikasjonen normalt: `yarn start` (NB! Krever at backend kjører på port 8080)
-- Kjøre applikasjon med mock: `yarn start:mock` eller `yarn start:mock:win` på windows
-- Notifikasjoner vil blir forsøkt hentet via proxy til localhost:8081
-  Enten kjør produsent-api lokalt, eller start apollo mock server med: `yarn start:apollo`
+- Kjøre applikasjon med mock: 
+  1. `yarn start`
+- Notifikasjoner vil blir forsøkt hentet via proxy til localhost:8081.
+  Enten kjør notifikasjon-bruker-api lokalt, eller start apollo mock server med: `cd server && npm run start:apollo`
 - Bygge applikasjonen: `yarn build`
-- Kjøre applikasjonen med Node-backend:
+- Kjøre applikasjonen med Node-backend (uten mocking). Dette fungerer ikke ut av boksen, du må endre `server/server.js` til å proxye/mocke riktig. For å kjøre applikasjonen:
     1. `yarn && yarn build`
     2. `cd server`
     3. `npm i && npm start`
