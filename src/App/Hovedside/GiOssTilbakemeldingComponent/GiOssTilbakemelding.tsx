@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './GiOssTilbakemelding.less';
 import Panel from 'nav-frontend-paneler';
 import { Normaltekst } from 'nav-frontend-typografi';
 import Lukknapp from 'nav-frontend-lukknapp';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { møteBookingLenke } from '../../../lenker';
+import { Feature, FeatureToggleContext } from '../../../FeatureToggleProvider';
 
 
 export const GiOssTilbakemelding = () => {
     const dato = new Date();
-
+    const visKalender = useContext(FeatureToggleContext)[Feature.visKalender];
     const erMandagEllerTirsdag = (): boolean => {
         return dato.getDay() <= 2;
     };
@@ -24,7 +25,7 @@ export const GiOssTilbakemelding = () => {
         setErLukketTidligere(true);
     };
 
-    if (!erLukketTidligere && erMandagEllerTirsdag()) {
+    if (!erLukketTidligere && erMandagEllerTirsdag() && visKalender) {
         return (
             <span className={'tilbakemelding-banner'}>
         <Panel border
