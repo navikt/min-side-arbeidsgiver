@@ -19,14 +19,14 @@ const InformasjonOmBedrift: FunctionComponent = () => {
     const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
 
     useEffect(() => {
-        if(orgnr!=='') {
+        if (orgnr !== '') {
             hentUnderenhet(orgnr).then(
                 underenhetRespons => {
                     setUnderenhet(underenhetRespons);
-                        hentOverordnetEnhet(underenhetRespons.overordnetEnhet).then(
-                            overordnetEnhetRespons => setOverordnetEnhet(overordnetEnhetRespons));
+                    hentOverordnetEnhet(underenhetRespons.overordnetEnhet).then(
+                        overordnetEnhetRespons => setOverordnetEnhet(overordnetEnhetRespons));
                 },
-            ).catch(e => console.log(e))
+            );
         }
     }, [orgnr]);
 
@@ -35,7 +35,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
             <Brodsmulesti brodsmuler={[{ url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true }]} />
             <div className='informasjon-om-bedrift'>
                 <div className='informasjon-om-bedrift__hvitboks'>
-                    {underenhet !== undefined  && overordnetEnhet !== undefined ? (
+                    {underenhet !== undefined && overordnetEnhet !== undefined ? (
                         <div className='informasjon-om-bedrift__info'>
                             <Underenhet underenhet={underenhet} />
                             her hvis underenhet er undefined
