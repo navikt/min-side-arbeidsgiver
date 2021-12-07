@@ -17,7 +17,7 @@ interface OwnProps {
 const miljø = gittMiljo<"local" | "labs-gcp" | "dev-gcp" | "prod-gcp">({
     prod: 'prod-gcp',
     dev: 'dev-gcp',
-    labs: 'dev-gcp',
+    labs: 'labs-gcp',
     other: 'local',
 });
 
