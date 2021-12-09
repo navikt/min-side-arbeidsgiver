@@ -21,7 +21,7 @@ jobs:
               issue_number: ${{ github.event.client_payload.github.payload.issue.number }},
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Deploy satt i gang: https://github.com/navikt/ditt-nav-arbeidsgiver/actions/runs/${{ github.run_id }}'
+              body: 'Deploy satt i gang: https://github.com/navikt/min-side-arbeidsgiver/actions/runs/${{ github.run_id }}'
             })
 
       - name: Sjekk ut kode
