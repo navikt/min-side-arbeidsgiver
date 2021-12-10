@@ -54,7 +54,7 @@ module.exports = {
             require('./server/mock/altinnMeldingsboksMock').mock(app);
             require('./server/mock/unleashMock').mock(app);
             require('./server/mock/altinnBeOmTilgangMock').mock(app);
-           // require('./server/mock/enhetsRegisteretMock').mock(app);
+            require('./server/mock/enhetsRegisteretMock').mock(app);
             require('./server/mock/antallArbeidsforholdMock').mock(app);
             require('./server/mock/tiltakApiMock').mock(app);
             require('./server/mock/sykefraværMock').mock(app);

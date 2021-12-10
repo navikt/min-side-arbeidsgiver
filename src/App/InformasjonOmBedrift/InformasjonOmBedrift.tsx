@@ -26,7 +26,11 @@ const InformasjonOmBedrift: FunctionComponent = () => {
                     hentOverordnetEnhet(underenhetRespons.overordnetEnhet).then(
                         overordnetEnhetRespons => setOverordnetEnhet(overordnetEnhetRespons));
                 },
-            );
+            ).catch((e) => {
+                setUnderenhet(undefined);
+                setOverordnetEnhet(undefined);
+                console.log(e);
+            });
         }
     }, [orgnr]);
 
