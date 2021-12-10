@@ -14,10 +14,10 @@ interface OwnProps {
     sidetittel: string;
 }
 
-const miljø = gittMiljo<"local" | "labs-gcp" | "dev-gcp" | "prod-gcp">({
-    prod: 'prod-gcp',
-    dev: 'dev-gcp',
-    labs: 'labs-gcp',
+const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
+    prod: 'prod',
+    dev: 'dev',
+    labs: 'labs',
     other: 'local',
 });
 
