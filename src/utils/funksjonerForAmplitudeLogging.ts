@@ -19,7 +19,7 @@ interface EventProps {
 }
 
 interface EregInfo {
-    antallAnsatte: string;
+    antallAnsatte?: string;
     sektor?: string;
 }
 
@@ -41,39 +41,39 @@ const finnAntallAnsattebøtte = (antall: number) => {
         case antall === 0:
             return '0';
         case antall < 5:
-            return 'mindre en 5';
+            return '1-4';
         case antall < 20:
-            return 'mellom 5 og 20';
+            return '5-19';
         case antall < 50:
-            return 'mellom 20 og 50';
+            return '20-49';
         case antall < 100:
-            return 'mellom 50 og 100';
+            return '50-99';
         case antall < 500:
-            return 'mellom 100 og 500';
+            return '100-499';
         case antall > 500:
-            return 'over 500';
+            return '500>';
         default:
-            return 'kunne ikke finne bucket for antall ansatte';
+            return undefined;
     }
 };
 
 const finnSektorNavn = (eregOrg: OrganisasjonFraEnhetsregisteret) => {
     if (eregOrg.naeringskode1) {
         if (eregOrg.naeringskode1.kode.startsWith('84')) {
-            return 'OFFENTLIG';
             if (
                 eregOrg?.institusjonellSektorkode?.kode === '6500'
             ) {
-                return 'Kommuneforvaltningen';
+                return 'Offentlig Kommuneforvaltningen';
             }
             if (
                 eregOrg?.institusjonellSektorkode?.kode === '6100'
             ) {
-                return 'Statsforvaltningen';
+                return 'Offentlig Statsforvaltningen';
             }
         }
-    } else {
-        return 'PRIVAT';
+        else {
+            return 'privat';
+        }
     }
 };
 
@@ -83,7 +83,6 @@ const hentInfoFraEreg = async (organisasjon: OrganisasjonInfo): Promise<EregInfo
         const sektor = finnSektorNavn(underenhet);
         return { antallAnsatte, sektor };
     }).catch(e => {
-        console.log(e);
         return undefined;
     });
 };
@@ -113,6 +112,7 @@ export const loggBedriftValgtOgTilganger = async (
     if (org.altinntilgang.varigLønnstilskudd) {
         tilgangskombinasjon += 'varig lønnstilskudd';
     }
+
     const eregInfo = await hentInfoFraEreg(org);
     const virksomhetsinfo: any = {
         url: baseUrl,

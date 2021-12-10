@@ -28,7 +28,6 @@ const InformasjonOmBedrift: FunctionComponent = () => {
             ).catch((e) => {
                 setUnderenhet(undefined);
                 setOverordnetEnhet(undefined);
-                console.log(e);
             });
         }
     }, [orgnr]);
@@ -41,7 +40,6 @@ const InformasjonOmBedrift: FunctionComponent = () => {
                     {underenhet !== undefined && overordnetEnhet !== undefined ? (
                         <div className='informasjon-om-bedrift__info'>
                             <Underenhet underenhet={underenhet} />
-                            her hvis underenhet er undefined
                             <OverordnetEnhet overordnetenhet={overordnetEnhet} />
                         </div>
                     ) : (
