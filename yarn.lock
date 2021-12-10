@@ -1761,6 +1761,7 @@
     react-is "^16.8.0 || ^17.0.0"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 "@navikt/arbeidsgiver-notifikasjon-widget@0.1.3":
   version "0.1.3"
   resolved "https://registry.npmjs.org/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-0.1.3.tgz"
@@ -1771,6 +1772,12 @@
   resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-1.0.0-rc0.tgz#b09c4db3ef4964eb0b6d182c03342d110a8fe102"
   integrity sha512-Y2+gDZ5KpmAarpty8UUpP4uR1jqw3thBmbNHqrxbFaJHwX8hgHBAwXBGcrROp3gPn9vUvnLuVEtJ+hjOZBlUSA==
 >>>>>>> b96b952 (bump)
+=======
+"@navikt/arbeidsgiver-notifikasjon-widget@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-1.0.0.tgz#1b2d3b270deb02a66315caeb186e9ab31453e05e"
+  integrity sha512-Z6dZ2OuhOfusWzNX+Gd73CEEDUTYWlLYQXLrsIEaN9FBaRyIUpTYZptnIzJzmdVJy1e9jrAdPAJ/OBKuqX1l+w==
+>>>>>>> 2fc3500 (bump til release 1.0.0 av wizart)
   dependencies:
     "@apollo/client" "3"
     "@navikt/ds-css" "0"
