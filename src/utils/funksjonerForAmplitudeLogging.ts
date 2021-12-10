@@ -4,7 +4,6 @@ import { Innlogget } from '../App/LoginProvider';
 import { basename } from '../paths';
 import {
     OrganisasjonFraEnhetsregisteret,
-    tomEnhetsregOrg,
 } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import { hentUnderenhet } from '../api/enhetsregisteretApi';
 
@@ -115,16 +114,16 @@ export const loggBedriftValgtOgTilganger = async (
         tilgangskombinasjon += 'varig lønnstilskudd';
     }
     const eregInfo = await hentInfoFraEreg(org);
-    const tilgangsinfo: any = {
+    const virksomhetsinfo: any = {
         url: baseUrl,
         tilgangskombinasjon,
     };
     if (eregInfo == undefined) {
-        amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
+        amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
     } else {
-        tilgangsinfo.sektor = eregInfo.sektor;
-        tilgangsinfo.antallAnsatte = eregInfo.antallAnsatte;
-        amplitude.logEvent('virksomhet-valgt', tilgangsinfo);
+        virksomhetsinfo.sektor = eregInfo.sektor;
+        virksomhetsinfo.antallAnsatte = eregInfo.antallAnsatte;
+        amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
     }
 };
 

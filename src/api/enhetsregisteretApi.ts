@@ -10,7 +10,6 @@ import {
 import { gittMiljo } from '../utils/environment';
 
 export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    console.log('hentUnderenhet orgnr: ', orgnr);
     let respons = await fetch(hentUnderenhetApiURL(orgnr));
     if (respons.ok) {
         return await respons.json();

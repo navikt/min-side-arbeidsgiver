@@ -3,7 +3,6 @@ import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
 import {
     OrganisasjonFraEnhetsregisteret,
-    tomEnhetsregOrg,
 } from '../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import Underenhet from './Underenhet/Underenhet';
 import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
