@@ -78,13 +78,17 @@ const finnSektorNavn = (eregOrg: OrganisasjonFraEnhetsregisteret) => {
 };
 
 const hentInfoFraEreg = async (organisasjon: OrganisasjonInfo): Promise<EregInfo | undefined> => {
-    return hentUnderenhet(organisasjon.organisasjon.OrganizationNumber).then(underenhet => {
+    try {
+        const underenhet = await hentUnderenhet(organisasjon.organisasjon.OrganizationNumber)
+        if (underenhet === undefined) {
+            return undefined
+        }
         const antallAnsatte = finnAntallAnsattebøtte(Number(underenhet.antallAnsatte));
         const sektor = finnSektorNavn(underenhet);
         return { antallAnsatte, sektor };
-    }).catch(e => {
+    } catch(e) {
         return undefined;
-    });
+    }
 };
 
 export const loggBedriftValgtOgTilganger = async (

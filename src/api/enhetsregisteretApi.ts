@@ -9,21 +9,21 @@ import {
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { gittMiljo } from '../utils/environment';
 
-export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    let respons = await fetch(hentUnderenhetApiURL(orgnr));
-    if (respons.ok) {
+export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret | undefined> {
+    const respons = await fetch(hentUnderenhetApiURL(orgnr)).catch(_ => undefined);
+    if (respons !== undefined && respons.ok) {
         return await respons.json();
     } else {
-        throw new Error(`Klarte ikke hente underenhetenhet fra ereg. Fikk statuskode: ${respons.status}, melding: ${respons.statusText}`);
+        return undefined
     }
 }
 
-export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    let respons = await fetch(hentOverordnetEnhetApiLink(orgnr));
-    if (respons.ok) {
+export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret | undefined> {
+    const respons = await fetch(hentOverordnetEnhetApiLink(orgnr)).catch(_ => undefined);
+    if (respons !== undefined && respons.ok) {
         return await respons.json();
     } else {
-        throw new Error(`Klarte ikke hente overenhet fra ereg. Fikk statuskode: ${respons.status}, melding: ${respons.statusText}`);
+        return undefined
     }
 }
 

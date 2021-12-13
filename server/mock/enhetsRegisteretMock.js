@@ -4,7 +4,7 @@ module.exports = {
             '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": "811076732",
+                    "organisasjonsnummer": req.params.orgnr,
                     "navn": "Gunnars bakeri Storgata",
                     "organisasjonsform": {
                         "kode": "BEDR",
@@ -62,7 +62,7 @@ module.exports = {
             '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": "982033268",
+                    "organisasjonsnummer": req.params.orgnr,
                     "navn": "Gunnar og co bakeimperium",
                     "organisasjonsform": {
                         "kode": "ENK",

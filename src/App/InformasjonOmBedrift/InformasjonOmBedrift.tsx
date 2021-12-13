@@ -9,26 +9,33 @@ import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.less';
 
+interface Enheter {
+    underenhet: OrganisasjonFraEnhetsregisteret;
+    hovedenhet: OrganisasjonFraEnhetsregisteret;
+}
+
+const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
+    const underenhet = await hentUnderenhet(orgnr)
+    if (underenhet === undefined) {
+        return undefined
+    }
+    const hovedenhet = await hentOverordnetEnhet(underenhet?.overordnetEnhet)
+    if (hovedenhet === undefined) {
+        return undefined
+    }
+    return {underenhet, hovedenhet}
+}
+
 const InformasjonOmBedrift: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const [underenhet, setUnderenhet] = useState<OrganisasjonFraEnhetsregisteret | undefined>(undefined);
-    const [overordnetEnhet, setOverordnetEnhet] = useState<OrganisasjonFraEnhetsregisteret | undefined>(
-        undefined,
-    );
+    const [enheter, setEnheter] = useState<Enheter | undefined>(undefined);
     const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
 
     useEffect(() => {
         if (orgnr !== '') {
-            hentUnderenhet(orgnr).then(
-                underenhetRespons => {
-                    setUnderenhet(underenhetRespons);
-                    hentOverordnetEnhet(underenhetRespons.overordnetEnhet).then(
-                        overordnetEnhetRespons => setOverordnetEnhet(overordnetEnhetRespons));
-                },
-            ).catch((e) => {
-                setUnderenhet(undefined);
-                setOverordnetEnhet(undefined);
-            });
+            hentEnheter(orgnr).then(setEnheter)
+        } else {
+            setEnheter(undefined)
         }
     }, [orgnr]);
 
@@ -37,10 +44,10 @@ const InformasjonOmBedrift: FunctionComponent = () => {
             <Brodsmulesti brodsmuler={[{ url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true }]} />
             <div className='informasjon-om-bedrift'>
                 <div className='informasjon-om-bedrift__hvitboks'>
-                    {underenhet !== undefined && overordnetEnhet !== undefined ? (
+                    {enheter !== undefined ? (
                         <div className='informasjon-om-bedrift__info'>
-                            <Underenhet underenhet={underenhet} />
-                            <OverordnetEnhet overordnetenhet={overordnetEnhet} />
+                            <Underenhet underenhet={enheter.underenhet} />
+                            <OverordnetEnhet overordnetenhet={enheter.hovedenhet} />
                         </div>
                     ) : (
                         <div>Kunne ikke hente informasjon</div>
