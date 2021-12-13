@@ -1,10 +1,10 @@
 module.exports = {
     mock: (app) => {
         app.use(
-            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter',
+            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": "974491850",
+                    "organisasjonsnummer": req.params.orgnr,
                     "navn": "Gunnars bakeri Storgata",
                     "organisasjonsform": {
                         "kode": "BEDR",
@@ -32,7 +32,7 @@ module.exports = {
                         "beskrivelse": "Xyz",
                         "kode": "85.522"
                     },
-                    "antallAnsatte": 0,
+                    "antallAnsatte": 42,
                     "overordnetEnhet": "982033268",
                     "oppstartsdato": "1995-03-01",
                     "datoEierskifte": "2000-07-01",
@@ -59,10 +59,10 @@ module.exports = {
             });
 
         app.use(
-            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter',
+            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": "982033268",
+                    "organisasjonsnummer": req.params.orgnr,
                     "navn": "Gunnar og co bakeimperium",
                     "organisasjonsform": {
                         "kode": "ENK",

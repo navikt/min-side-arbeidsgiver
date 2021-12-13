@@ -1,5 +1,4 @@
 import {
-    tomEnhetsregOrg,
     OrganisasjonFraEnhetsregisteret,
     ListeMedJuridiskeEnheter,
 } from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
@@ -10,33 +9,33 @@ import {
 } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { gittMiljo } from '../utils/environment';
 
-export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    let respons = await fetch(hentUnderenhetApiURL(orgnr));
-    if (respons.ok) {
+export async function hentUnderenhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret | undefined> {
+    const respons = await fetch(hentUnderenhetApiURL(orgnr)).catch(_ => undefined);
+    if (respons !== undefined && respons.ok) {
         return await respons.json();
+    } else {
+        return undefined
     }
-    return tomEnhetsregOrg;
 }
 
-export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret> {
-    if (orgnr !== '') {
-        let respons = await fetch(hentOverordnetEnhetApiLink(orgnr));
-        if (respons.ok) {
-            return await respons.json();
-        }
+export async function hentOverordnetEnhet(orgnr: string): Promise<OrganisasjonFraEnhetsregisteret | undefined> {
+    const respons = await fetch(hentOverordnetEnhetApiLink(orgnr)).catch(_ => undefined);
+    if (respons !== undefined && respons.ok) {
+        return await respons.json();
+    } else {
+        return undefined
     }
-    return tomEnhetsregOrg;
 }
 
 export async function hentAlleJuridiskeEnheter(
-    listeMedJuridiskeOrgNr: string[]
+    listeMedJuridiskeOrgNr: string[],
 ): Promise<Organisasjon[]> {
     let url: string = gittMiljo({
         prod: 'https://data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
         other: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/?organisasjonsnummer=',
     });
     const distinkteJuridiskeEnhetsnr: string[] = listeMedJuridiskeOrgNr.filter(
-        (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index
+        (jurOrg, index) => listeMedJuridiskeOrgNr.indexOf(jurOrg) === index,
     );
     distinkteJuridiskeEnhetsnr.forEach(orgnr => {
         if (distinkteJuridiskeEnhetsnr.indexOf(orgnr) === 0) {

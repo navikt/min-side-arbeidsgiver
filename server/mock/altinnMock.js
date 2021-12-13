@@ -24,14 +24,6 @@ const OrganisasjonerResponse = [
         Status: 'Active',
     },
     {
-        Name: 'DIGITAL JUNKIES AS ',
-        Type: 'Business',
-        OrganizationNumber: '922658986',
-        ParentOrganizationNumber: '822565212',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
         Name: 'TEST AV AAFY ',
         Type: 'Business',
         OrganizationNumber: '973610015',
@@ -137,22 +129,6 @@ const mentortilskuddskjemaResponse = [
         Type: 'Enterprise',
         OrganizationNumber: '811076112',
         OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'DIGITAL JUNKIES AS ',
-        Type: 'Enterprise',
-        OrganizationNumber: '822565212',
-        ParentOrganizationNumber: null,
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'DIGITAL JUNKIES AS ',
-        Type: 'Business',
-        OrganizationNumber: '922658986',
-        ParentOrganizationNumber: '822565212',
-        OrganizationForm: 'BEDR',
         Status: 'Active',
     },
     {
