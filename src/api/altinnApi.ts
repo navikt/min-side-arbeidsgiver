@@ -81,7 +81,7 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
         });
         return result;
     } catch (error) {
-        return error;
+        return error instanceof Error ? error : new Error(`ukjent feil: ${error}`);
     }
 };
 
@@ -125,6 +125,6 @@ export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Melding
         const [brev, antallUleste] = await Promise.all([hentBrev(), hentAntallUleste()]);
         return { ...brev, ...antallUleste };
     } catch (error) {
-        return error;
+        return error instanceof Error ? error : new Error(`ukjent feil: ${error}`);
     }
 };
