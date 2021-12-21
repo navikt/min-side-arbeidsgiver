@@ -60,18 +60,8 @@ const finnAntallAnsattebøtte = (antall: number) => {
 const finnSektorNavn = (eregOrg: OrganisasjonFraEnhetsregisteret) => {
     if (eregOrg.naeringskode1) {
         if (eregOrg.naeringskode1.kode.startsWith('84')) {
-            if (
-                eregOrg?.institusjonellSektorkode?.kode === '6500'
-            ) {
-                return 'Offentlig Kommuneforvaltningen';
-            }
-            if (
-                eregOrg?.institusjonellSektorkode?.kode === '6100'
-            ) {
-                return 'Offentlig Statsforvaltningen';
-            }
-        }
-        else {
+            return 'offentlig';
+        } else {
             return 'privat';
         }
     }
