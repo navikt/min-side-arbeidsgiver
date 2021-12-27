@@ -1,10 +1,34 @@
 const CracoLessPlugin = require("craco-less");
+const {ProvidePlugin} = require("webpack");
 const {
     BRUKER_API_HOST = 'http://localhost:8081',
 } = process.env;
 
 
 module.exports = {
+    webpack: {
+        configure: (webpackConfig, { env, paths }) => ({
+            ...webpackConfig,
+            ...{
+                plugins: [
+                    ...webpackConfig.plugins,
+                    new ProvidePlugin({
+                        Buffer: [require.resolve("buffer/"), "Buffer"],
+                        process: require.resolve("process/browser")
+                    })
+                ],
+                resolve: {
+                    ...webpackConfig.resolve,
+                    fallback: {
+                        "buffer": require.resolve("buffer/"),
+                        "crypto": require.resolve("crypto-browserify"),
+                        "process": require.resolve("process/browser"),
+                        "stream": require.resolve("stream-browserify"),
+                    }
+                }
+            }
+        }),
+    },
     devServer: {
         proxy: {
             '/min-side-arbeidsgiver/notifikasjon/': {
@@ -19,7 +43,7 @@ module.exports = {
                 }
             },
         },
-        before: (app) => {
+        setupMiddlewares: (middlewares, {app}) => {
             const fetch = require('node-fetch');
             const cookieParser = require('cookie-parser');
             app.use(cookieParser());
@@ -58,6 +82,7 @@ module.exports = {
             require('./server/mock/antallArbeidsforholdMock').mock(app);
             require('./server/mock/tiltakApiMock').mock(app);
             require('./server/mock/sykefraværMock').mock(app);
+            return middlewares
         }
     },
     plugins: [{ plugin: CracoLessPlugin }]
