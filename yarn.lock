@@ -1467,13 +1467,6 @@
   dependencies:
     uuid "^8.3.2"
 
-"@navikt/ds-icons@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.6.3.tgz#95dd8b7568ce770736859014cffa1571739323b7"
-  integrity sha512-sNmgP8a/V8PLccewcEc7+fy+HfA6vDf1zDbgbQ0ypW/OMf6rGsg43EoCnU/txuuh5cRWbmzbbTQnoNHHmUT58w==
-  dependencies:
-    uuid "^8.3.2"
-
 "@navikt/ds-icons@^0.7.0":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.7.1.tgz#e65f26884f56cba6a98dc80bf2c02c22b3b1aa91"
