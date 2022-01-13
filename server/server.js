@@ -28,7 +28,7 @@ const {
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
-    SYKEFRAVAER_DOMAIN= 'http://localhost:8080',
+    SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
 } = process.env;
 const log = createLogger({
     transports: [
