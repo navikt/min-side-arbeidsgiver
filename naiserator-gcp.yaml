@@ -49,6 +49,7 @@ spec:
     outbound:
       external:
         - host: '{{{decorator-external-url}}}'
+        - host: '{{{ sykefravær-domain }}}'
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
