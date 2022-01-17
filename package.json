@@ -17,7 +17,7 @@
     "@types/express-serve-static-core": "^4.17.24",
     "@types/jest": "26.0.24",
     "@types/jest-axe": "^3.5.1",
-    "@types/node": "14.18.2",
+    "@types/node": "14.18.3",
     "@types/raf": "^3.4.0",
     "@types/react": "17.0.38",
     "@types/react-collapse": "^5.0.0",
