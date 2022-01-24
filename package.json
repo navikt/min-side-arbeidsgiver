@@ -100,7 +100,7 @@
     "@sentry/cli": "^1.68.0",
     "cookie-parser": "*",
     "fs-extra": "^9.1.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "prettier": "^2.2.1"
   },
   "scripts": {
