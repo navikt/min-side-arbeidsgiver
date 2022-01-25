@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { gittMiljo } from './utils/environment';
 // @ts-ignore
 
 const featurePath = '/min-side-arbeidsgiver/api/feature';
@@ -7,12 +6,6 @@ const featurePath = '/min-side-arbeidsgiver/api/feature';
 export enum Feature {
     visKalender = 'msa.visMoteKalender'
 }
-
-export const inkluderNotifikasjonerFeatureToggle = gittMiljo({
-    prod: true,
-    labs: true,
-    other: true
-})
 
 const featureTogglePath = (features: Feature[]): string => {
     const query = features.map(feature => `feature=${feature}`).join('&');
