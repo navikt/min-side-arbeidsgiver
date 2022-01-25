@@ -1,21 +1,107 @@
-type Query {
-    notifikasjoner: [Notifikasjon!]!
-    whoami: String
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
 }
+
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on OBJECT | FIELD_DEFINITION | INTERFACE
 
 union Notifikasjon = Beskjed | Oppgave
 
-scalar ISO8601DateTime
+union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
+
+union Status = EgendefinertStatus | PredefinertStatus
+
+type Beskjed {
+    brukerKlikk: BrukerKlikk!
+    id: ID!
+    lenke: String!
+    merkelapp: String!
+    opprettetTidspunkt: ISO8601DateTime!
+    tekst: String!
+    virksomhet: Virksomhet!
+}
+
+type BrukerKlikk {
+    id: ID!
+    klikketPaa: Boolean!
+}
+
+type EgendefinertStatus {
+    egendefinertVerdi: String!
+}
+
+type Mutation {
+    notifikasjonKlikketPaa(id: ID!): NotifikasjonKlikketPaaResultat!
+}
+
+type NotifikasjonerResultat {
+    feilAltinn: Boolean!
+    feilDigiSyfo: Boolean!
+    notifikasjoner: [Notifikasjon!]!
+}
 
 type Oppgave {
     brukerKlikk: BrukerKlikk!
-    tilstand: OppgaveTilstand
-    merkelapp: String!
-    tekst: String!
-    lenke: String!
-    opprettetTidspunkt: ISO8601DateTime!
     id: ID!
+    lenke: String!
+    merkelapp: String!
+    opprettetTidspunkt: ISO8601DateTime!
+    tekst: String!
+    tilstand: OppgaveTilstand
     virksomhet: Virksomhet!
+}
+
+type PageInfo {
+    endCursor: String!
+    hasNextPage: Boolean!
+}
+
+type PredefinertStatus {
+    predefinertVerdi: StatusEnum!
+}
+
+type Query {
+    notifikasjoner: NotifikasjonerResultat!
+    saker(after: String, first: Int, virksomhetsnummer: String!): SakConnection!
+    whoami: String
+}
+
+type Sak {
+    sisteStatus: Statusoppdatering!
+    virksomhet: Virksomhet!
+}
+
+type SakConnection {
+    edges: [SakEdge!]!
+    pageInfo: PageInfo!
+}
+
+type SakEdge {
+    cursor: String!
+    node: Sak!
+}
+
+type Statusoppdatering {
+    lenke: String!
+    status: Status!
+    tidspunkt: ISO8601DateTime!
+    tittel: String!
+}
+
+type UgyldigId {
+    feilmelding: String!
+}
+
+type Virksomhet {
+    navn: String!
+    virksomhetsnummer: String!
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
 }
 
 enum OppgaveTilstand {
@@ -23,32 +109,11 @@ enum OppgaveTilstand {
     UTFOERT
 }
 
-type Beskjed {
-    brukerKlikk: BrukerKlikk!
-    merkelapp: String!
-    tekst: String!
-    lenke: String!
-    opprettetTidspunkt: ISO8601DateTime!
-    id: ID!
-    virksomhet: Virksomhet!
+enum StatusEnum {
+    MOTTATT
+    UNDER_BEHANDLING
 }
 
-type Virksomhet {
-    virksomhetsnummer: String!
-    navn: String!
-}
+scalar ISO8601DateTime
 
-type Mutation {
-    notifikasjonKlikketPaa(id: ID!): NotifikasjonKlikketPaaResultat!
-}
-
-union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
-
-type BrukerKlikk {
-    id: ID!
-    klikketPaa: Boolean!
-}
-
-type UgyldigId {
-    feilmelding: String!
-}
+scalar Upload

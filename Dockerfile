@@ -6,7 +6,6 @@ COPY build/ build/
 
 WORKDIR /usr/src/app/server
 COPY server/ .
-COPY bruker.graphql .
 
 USER root
 RUN npm ci
