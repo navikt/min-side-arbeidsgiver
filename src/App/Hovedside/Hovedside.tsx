@@ -15,6 +15,7 @@ import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
 import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
+import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
 import InnsynISak from "./InnsynISak/InnsynISak";
 
 
@@ -46,7 +47,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                         visSyfoFeilmelding={visSyfoFeilmelding}
                     />
                     <Koronaboks />
-                    <InnsynISak />
+                    { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
                     <TjenesteBoksContainer />
                     <SkjemaveilederContainer />
                     <BrevFraAltinnContainer />
