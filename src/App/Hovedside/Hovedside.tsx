@@ -15,6 +15,8 @@ import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
 import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
+import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
+import InnsynISak from "./InnsynISak/InnsynISak";
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -32,6 +34,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         }
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
@@ -45,6 +48,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                         visSyfoFeilmelding={visSyfoFeilmelding}
                     />
                     <Koronaboks />
+                    { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
                     <TjenesteBoksContainer />
                     <SkjemaveilederContainer />
                     <BrevFraAltinnContainer />

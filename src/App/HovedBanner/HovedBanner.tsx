@@ -5,21 +5,12 @@ import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
-import {inkluderNotifikasjonerFeatureToggle} from "../../FeatureToggleProvider";
 import {NotifikasjonWidget} from "@navikt/arbeidsgiver-notifikasjon-widget";
 import amplitude from "../../utils/amplitude";
-import { gittMiljo } from '../../utils/environment';
 
 interface OwnProps {
     sidetittel: string;
 }
-
-const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
-    prod: 'prod',
-    dev: 'dev',
-    labs: 'labs',
-    other: 'local',
-});
 
 const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
@@ -35,7 +26,7 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
             history={history}
             amplitudeClient={amplitude}
         >
-            { inkluderNotifikasjonerFeatureToggle ? <NotifikasjonWidget miljo={miljø}/> : null }
+            <NotifikasjonWidget />
         </Bedriftsmeny>
     );
 };

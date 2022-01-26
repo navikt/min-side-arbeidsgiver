@@ -1,0 +1,15 @@
+{
+  "name": "BrukerAPI GraphQL Schema",
+  "schemaPath": "bruker.graphql",
+  "extensions": {
+    "endpoints": {
+      "BrukerAPI GraphQL Endpoint": {
+        "url": "http://localhost:8081/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      }
+    }
+  }
+}

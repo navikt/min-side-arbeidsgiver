@@ -12,6 +12,8 @@ import {ManglerTilgangContainer} from './Hovedside/ManglerTilgangContainer/Mangl
 import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
 import './App.less';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
+import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { gittMiljo } from '../utils/environment';
 import Banner from "./HovedBanner/HovedBanner";
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
@@ -26,6 +28,12 @@ const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
 
     return <>{props.children}</>;
 }
+const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
+    prod: 'prod',
+    dev: 'dev',
+    labs: 'labs',
+    other: 'local',
+});
 
 interface SideTittelProps {
     tittel: string,
@@ -45,46 +53,48 @@ const App: FunctionComponent = () => {
     return (
         <div className="typo-normal bakgrunnsside">
             <LoginProvider>
-                <BrowserRouter basename={basename}>
-                    <AmplitudeSidevisningEventLogger>
-                        <Switch>
-                            <Route
-                                path="/informasjon-om-tilgangsstyring"
-                                exact={true}
-                                component={InformasjonOmTilgangsstyringSide}
-                            />
-                            <LoginBoundary>
-                                <FeatureToggleProvider>
+                <NotifikasjonWidgetProvider miljo={miljø}>
+                    <BrowserRouter basename={basename}>
+                        <AmplitudeSidevisningEventLogger>
+                            <Switch>
+                                <Route
+                                    path="/informasjon-om-tilgangsstyring"
+                                    exact={true}
+                                    component={InformasjonOmTilgangsstyringSide}
+                                />
+                                <LoginBoundary>
+                                    <FeatureToggleProvider>
                                         <OrganisasjonerOgTilgangerProvider>
-                                        <OrganisasjonsDetaljerProvider>
-                                            <Banner sidetittel={sidetittel}/>
-                                            <Switch>
-                                                <Route path="/bedriftsinformasjon" exact={true}>
-                                                    <SideTittelWrapper tittel={"Virksomhetsprofil"}
-                                                                       setTittel={setSidetittel}>
-                                                        <InformasjonOmBedrift/>
-                                                    </SideTittelWrapper>
-                                                </Route>
-                                                <Route path="/" exact={true}>
-                                                    <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
-                                                                       setTittel={setSidetittel}>
-                                                        <Hovedside/>
-                                                    </SideTittelWrapper>
-                                                </Route>
-                                                <Route path="/mangler-tilgang" exact={true}>
-                                                    <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
-                                                                       setTittel={setSidetittel}>
-                                                        <ManglerTilgangContainer/>
-                                                    </SideTittelWrapper>
-                                                </Route>
-                                            </Switch>
-                                        </OrganisasjonsDetaljerProvider>
-                                    </OrganisasjonerOgTilgangerProvider>
-                                </FeatureToggleProvider>
-                            </LoginBoundary>
-                        </Switch>
-                    </AmplitudeSidevisningEventLogger>
-                </BrowserRouter>
+                                            <OrganisasjonsDetaljerProvider>
+                                                <Banner sidetittel={sidetittel}/>
+                                                <Switch>
+                                                    <Route path="/bedriftsinformasjon" exact={true}>
+                                                        <SideTittelWrapper tittel={"Virksomhetsprofil"}
+                                                                           setTittel={setSidetittel}>
+                                                            <InformasjonOmBedrift/>
+                                                        </SideTittelWrapper>
+                                                    </Route>
+                                                    <Route path="/" exact={true}>
+                                                        <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
+                                                                           setTittel={setSidetittel}>
+                                                            <Hovedside/>
+                                                        </SideTittelWrapper>
+                                                    </Route>
+                                                    <Route path="/mangler-tilgang" exact={true}>
+                                                        <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
+                                                                           setTittel={setSidetittel}>
+                                                            <ManglerTilgangContainer/>
+                                                        </SideTittelWrapper>
+                                                    </Route>
+                                                </Switch>
+                                            </OrganisasjonsDetaljerProvider>
+                                        </OrganisasjonerOgTilgangerProvider>
+                                    </FeatureToggleProvider>
+                                </LoginBoundary>
+                            </Switch>
+                        </AmplitudeSidevisningEventLogger>
+                    </BrowserRouter>
+                </NotifikasjonWidgetProvider>
             </LoginProvider>
         </div>
     );
