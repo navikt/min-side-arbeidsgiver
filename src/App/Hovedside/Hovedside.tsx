@@ -34,6 +34,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         }
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
