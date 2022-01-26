@@ -19,10 +19,7 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
                         navn
                     }
                     sisteStatus {
-                        status {
-                            ... on PredefinertStatus { predefinertVerdi }
-                            ... on EgendefinertStatus { egendefinertVerdi }
-                        }
+                        status
                         tittel
                         lenke
                         tidspunkt
@@ -42,25 +39,6 @@ const dateFormat = new Intl.DateTimeFormat('no', {
     day: '2-digit',
 });
 
-const statusVerdi = (status: GQL.PredefinertStatus | GQL.EgendefinertStatus) => {
-    let verdi;
-    switch (status.__typename) {
-        case 'EgendefinertStatus':
-            verdi = status.egendefinertVerdi;
-            break;
-        case 'PredefinertStatus':
-            switch (status.predefinertVerdi) {
-                case GQL.StatusEnum.Mottatt:
-                    verdi = 'mottatt';
-                    break;
-                case GQL.StatusEnum.UnderBehandling:
-                    verdi = 'under behandling';
-                    break;
-            }
-    }
-    return verdi;
-}
-
 const InnsynISak = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
@@ -76,18 +54,18 @@ const InnsynISak = () => {
 
     return (
         <div className='innsynisak'>
-            <Undertittel className='innsynisak-tittel'>
-                <FolderFilled color='#3386E0'/> Siste saker
+            <Undertittel className='innsynisak__tittel'>
+                <FolderFilled color='#3386E0' className='folder-icon'/>Siste saker
             </Undertittel>
 
             <ul>
                 {data?.saker.edges.map(({node}) => (
                     <li>
-                        <Lenkepanel tittelProps='element' className={'sak-lenkepanel'} href={node.sisteStatus.lenke}>
+                        <Lenkepanel tittelProps='element' href={node.sisteStatus.lenke}>
                             <Undertekst>{node.virksomhet.navn.toUpperCase()}</Undertekst>
-                            <Lenke href={node.sisteStatus.lenke}>{node.sisteStatus.tittel}</Lenke>
+                            <Lenke className='innsynisak__lenke' href={node.sisteStatus.lenke}>{node.sisteStatus.tittel}</Lenke>
                             <UndertekstBold>
-                                {statusVerdi(node.sisteStatus.status)}{' '}{dateFormat.format(new Date(node.sisteStatus.tidspunkt))}
+                                {node.sisteStatus.status}{' '}{dateFormat.format(new Date(node.sisteStatus.tidspunkt))}
                             </UndertekstBold>
                         </Lenkepanel>
                     </li>

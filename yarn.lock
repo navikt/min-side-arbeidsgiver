@@ -1428,10 +1428,10 @@
     prop-types "^15.7.2"
     react-is "^16.8.0 || ^17.0.0"
 
-"@navikt/arbeidsgiver-notifikasjon-widget@1.1.0-sak-rc5":
-  version "1.1.0-sak-rc5"
-  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-1.1.0-sak-rc5.tgz#eec5a42dd906637456aaa745dfed9173485fa603"
-  integrity sha512-mDRmcv4OXiYbkcMDiJlL6SgaMUHltR/Pae1dafADk8QSqeS81H7CZzYVGrvdT2vkJLRdTjgyfgdBsMdNs6dbIw==
+"@navikt/arbeidsgiver-notifikasjon-widget@1.1.0-rc3":
+  version "1.1.0-rc3"
+  resolved "https://registry.yarnpkg.com/@navikt/arbeidsgiver-notifikasjon-widget/-/arbeidsgiver-notifikasjon-widget-1.1.0-rc3.tgz#cc8c79d5f0dcd554a7e4823b7034ba0b216c5413"
+  integrity sha512-cyWBjZTqgYPtJKhGTVy31l01l9fMMQZKKRlaDhxlX1tlYt5pyDHP7d+6tIYUhQEWIvbzoazr0KvVlz/eHKsfmQ==
   dependencies:
     "@apollo/client" "3.5.6"
     "@navikt/ds-css" "0.12.6"
@@ -1445,7 +1445,7 @@
     nav-frontend-popover-style "2"
     nav-frontend-typografi "4"
     nav-frontend-typografi-style "2"
-    prop-types "15.8.0"
+    prop-types "15.8.1"
 
 "@navikt/bedriftsmeny@3.5.2":
   version "3.5.2"
@@ -8505,7 +8505,16 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@15.8.0, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.8.1:
+  version "15.8.1"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
+  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
+  dependencies:
+    loose-envify "^1.4.0"
+    object-assign "^4.1.1"
+    react-is "^16.13.1"
+
+prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.8.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.0.tgz#d237e624c45a9846e469f5f31117f970017ff588"
   integrity sha512-fDGekdaHh65eI3lMi5OnErU6a8Ighg2KjcjQxO7m8VHyWjcPyj5kiOgV1LQDOOOgVy3+5FgjXvdSSX7B8/5/4g==

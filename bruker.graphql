@@ -11,8 +11,6 @@ union Notifikasjon = Beskjed | Oppgave
 
 union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
 
-union Status = EgendefinertStatus | PredefinertStatus
-
 type Beskjed {
     brukerKlikk: BrukerKlikk!
     id: ID!
@@ -26,10 +24,6 @@ type Beskjed {
 type BrukerKlikk {
     id: ID!
     klikketPaa: Boolean!
-}
-
-type EgendefinertStatus {
-    egendefinertVerdi: String!
 }
 
 type Mutation {
@@ -58,10 +52,6 @@ type PageInfo {
     hasNextPage: Boolean!
 }
 
-type PredefinertStatus {
-    predefinertVerdi: StatusEnum!
-}
-
 type Query {
     notifikasjoner: NotifikasjonerResultat!
     saker(after: String, first: Int, virksomhetsnummer: String!): SakConnection!
@@ -85,7 +75,7 @@ type SakEdge {
 
 type Statusoppdatering {
     lenke: String!
-    status: Status!
+    status: String!
     tidspunkt: ISO8601DateTime!
     tittel: String!
 }
@@ -107,11 +97,6 @@ enum CacheControlScope {
 enum OppgaveTilstand {
     NY
     UTFOERT
-}
-
-enum StatusEnum {
-    MOTTATT
-    UNDER_BEHANDLING
 }
 
 scalar ISO8601DateTime
