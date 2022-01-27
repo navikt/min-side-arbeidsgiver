@@ -11,7 +11,7 @@ const createAmpltiudeInstance = () => {
     const instance = amplitude.getInstance();
 
     instance.init(getApiKey(), '', {
-        apiEndpoint: 'amplitude.nav.no/collect-auto',
+        apiEndpoint: 'amplitude.nav.no/collect',
         saveEvents: false,
         includeUtm: true,
         batchEvents: false,
