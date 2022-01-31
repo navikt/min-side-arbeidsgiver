@@ -1,100 +1,103 @@
 @import '../../../node_modules/nav-frontend-core/less/_variabler';
 
+.copy-link {
+    display: flex;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    a {
+        cursor: pointer;
+        margin-right: 1rem;
+    }
+
+    .alert {
+        &-show {
+            animation: fadeInOut 3s linear 1 forwards;
+        }
+        &-hide {
+            opacity:0;
+        }
+    }
+}
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 .informasjon-om-tilgangsstyring {
     flex-direction: column;
     display: flex;
     background-color: @navLysGra;
     min-height: 100vh;
 
-    &__innhold {
+    .navds-accordion__header {
+        // TODO: kanskje ikke så heldig å binde seg navds klasse her?
+        color: @navBla
+    }
+
+    &__banner {
+        display: flex;
+        justify-content: center;
+        background-color: white;
+        border-bottom: 4px solid @navBlaLighten60;
         width: 100%;
-        margin: 0;
-        padding: 0 0 3rem 0;
+
+        &-heading {
+            display: flex;
+            align-items: center;
+            width: 60rem;
+
+            img {
+                margin: 1rem;
+                width: 15vw;
+                max-width: 5rem;
+            }
+        }
+    }
+
+
+    &__container {
+        display: flex;
+        justify-content: center;
+
+        @media (max-width: @screen-sm-min) {
+            flex-direction: column;
+        }
+    }
+
+    &__sidepanel {
+        display: flex;
+        align-items: flex-start;
+
+        &-meny {
+            position: sticky;
+            top: 0;
+            margin: 1.5rem 1rem 0 0;
+            padding: 1rem;
+            width: 15rem;
+
+            .lenke {
+                display: block;
+                padding: 0.5rem 0;
+            }
+
+            @media (max-width: @screen-sm-min) {
+                position: relative;
+                margin: 1.5rem 0 0 0;
+                max-width: 44rem;
+                width: 100%;
+            }
+        }
+
+    }
+
+    &__innhold {
     }
 
     &__tekst {
-        background-color: white;
-        margin: 1rem 0 0 0;
-        padding: 2.5rem 1rem;
-        border-radius: 4px;
-
-        .ekspanderbartPanel {
-            margin-bottom: 1rem;
-        }
-    }
-
-    &__lenke {
-        margin: 0.5rem 1rem 1rem;
-    }
-
-    &__systemtittel {
-        margin-bottom: 1rem;
-    }
-
-    &__avsnitt {
-        margin-bottom: 1rem;
-    }
-
-    &__tittel {
-        margin: 1.5rem 0 1rem;
-    }
-
-    &__bunntekst {
-        margin-top: 2rem;
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .be-om-tilgang-info {
-        margin: 2rem 0;
-
-        .ekspanderbartPanel__hode {
-            padding: 1rem;
-
-            @media (min-width: @screen-sm-min) {
-                padding: 2rem 1rem;
-            }
-        }
-
-        ul {
-            margin-block-start: 0;
-        }
-
-        &__tittel {
-            display: flex;
-
-            .logo {
-                width: 3rem;
-                display: flex;
-                justify-content: center;
-                margin-right: 0.5rem;
-
-                svg {
-                    width: 1.5rem;
-                    height: 1.5rem;
-                }
-
-                @media (min-width: @screen-sm-min) {
-                    width: 5rem;
-
-                    svg {
-                        width: 3rem;
-                        height: 3rem;
-                    }
-                }
-            }
-        }
-    }
-
-    @media (min-width: @screen-sm-min) {
-        &__tekst {
-            margin: 0 auto;
-            width: 44rem;
-            padding: 2.5rem;
-        }
-
-        &__lenke {
-            margin: 1rem 2rem 2rem;
-        }
+        margin: 1.5rem 0 0 0;
+        padding: 2rem;
+        max-width: 44rem;
     }
 }

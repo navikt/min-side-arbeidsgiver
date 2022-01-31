@@ -1,371 +1,547 @@
-import React from 'react';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Normaltekst, Systemtittel, Undertittel } from 'nav-frontend-typografi';
+import React, {FunctionComponent, useState} from 'react';
+import {Accordion, Alert, BodyLong, BodyShort, Heading, Link, Panel} from '@navikt/ds-react';
+import {Link as LinkIcon} from "@navikt/ds-icons";
+import "@navikt/ds-css";
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
-import LoggInnBanner from '../LoggInn/LoggInnBanner/LoggInnBanner';
 import {
     infoOmAltinnrollerURL,
-    lenkeTilInfoOmDigitaleSoknader,
-    infoOmRettigheterTilSykemeldingURL,
-    lenkeTilInforOmInntekstmelding,
-    infoOmSykefraværsstatistikk,
     infoOmPermitteringURL,
-    infoOmRefusjonSykepengerKoronaURL,
     infoOmRefusjonInnreiseforbudKoronaURL,
+    infoOmRefusjonSykepengerKoronaURL,
+    infoOmRettigheterTilSykemeldingURL,
+    infoOmSykefraværsstatistikk,
+    lenkeTilInfoOmDigitaleSoknader,
+    lenkeTilInforOmInntekstmelding,
 } from '../../lenker';
-import InfoIkon from '../LoggInn/TilgangsStyringInfoTekst/InfoIkon';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
+import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
 import './InformasjonOmTilgangsstyringSide.less';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import icon from './icon_tilgang.svg';
 
+interface ClipBoardLinkProps {
+    hash: string;
+}
+
+const ClipBoardLink: FunctionComponent<ClipBoardLinkProps> = props => {
+    if (navigator.clipboard === undefined) {
+        return null;
+    }
+    const targetUrl = new URL(window.location.href)
+    targetUrl.hash = props.hash
+    const [showAlert, setShowAlert] = useState<boolean>(false);
+    const copyLink = () => {
+        navigator.clipboard.write([
+            new ClipboardItem({
+                'text/plain': new Blob([targetUrl.toString()], {type: "text/plain"})
+            })
+        ]).then(
+            function () {
+                setShowAlert(true);
+            },
+            function () {
+                /* err */
+            }
+        );
+    }
+    return (
+        <div className='copy-link'>
+            <Link onClick={copyLink}><LinkIcon/> Kopier lenke</Link>
+            <Alert variant='success' size='small' className={showAlert ? 'alert-show' : 'alert-hide'}
+                   onAnimationEnd={() => setShowAlert(false)}>
+                Lenken er kopiert
+            </Alert>
+        </div>
+    )
+}
+
+interface HeadingMedClipBoardLinkProps {
+    id: string;
+    title: string;
+}
+
+const HeadingMedClipBoardLink: FunctionComponent<HeadingMedClipBoardLinkProps> = ({id, title}) => {
+    return <>
+        <Heading id={id} size='large' spacing>
+            {title}
+        </Heading>
+        <ClipBoardLink hash={id}/>
+    </>
+}
+
+interface SmoothLinkProps {
+    anchor: string;
+    title: string;
+}
+
+const SmoothLink: FunctionComponent<SmoothLinkProps> = ({anchor, title}) => {
+    return <LenkeMedLogging
+        href={anchor}
+        loggLenketekst={title}
+        onClick={(e) => {
+            document.querySelector(anchor)?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+                inline: "nearest"
+            });
+            e.preventDefault();
+        }}
+    >
+        {title}
+    </LenkeMedLogging>
+}
 
 const InformasjonOmTilgangsstyringSide = () => {
-    const tittelBeTilgangInfo = (
-            <div className="be-om-tilgang-info__tittel">
-                <div className="logo">
-                    <InfoIkon size="48" />
-                </div>
-                <div className="tekst">
-                    <Undertittel>Har du allerede tilgang til noen tjenester?</Undertittel>
-                    <Normaltekst>Slik kan du be om tilgang til flere tjenester fra Min side – arbeidsgiver.</Normaltekst>
+    return (
+        <div className='informasjon-om-tilgangsstyring'>
+            <Brodsmulesti brodsmuler={[{
+                url: '/informasjon-om-tilgangsstyring',
+                title: 'Tilganger i Altinn',
+                handleInApp: true
+            }]}/>
+            <div className='informasjon-om-tilgangsstyring__banner'>
+                <div className='informasjon-om-tilgangsstyring__banner-heading'>
+                    <img src={icon} alt={''}/>
+                    <Heading size='xlarge'>
+                        Tilganger og varslinger i Altinn
+                    </Heading>
                 </div>
             </div>
-        );
+            <div className='informasjon-om-tilgangsstyring__container'>
+                <aside className='informasjon-om-tilgangsstyring__sidepanel'>
+                    <Panel className='informasjon-om-tilgangsstyring__sidepanel-meny'>
+                        <Heading size='medium' spacing>
+                            Innhold
+                        </Heading>
 
-    return (
-        <div className="informasjon-om-tilgangsstyring">
-            <Brodsmulesti brodsmuler={[ { url: '/informasjon-om-tilgangsstyring', title: 'Tilganger i Altinn', handleInApp: true }]} />
-            <LoggInnBanner />
-            <div className="informasjon-om-tilgangsstyring__innhold">
-                <div className="informasjon-om-tilgangsstyring__tekst">
-                    <Systemtittel className="informasjon-om-tilgangsstyring__systemtittel">
-                        Tilganger i Altinn
-                    </Systemtittel>
-                    <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                        For å få tilgang til NAVs tjenester til arbeidsgiver må du ha blitt tildelt
-                        nødvendige Altinn-rettigheter av din arbeidsgiver. Administrator for Altinn
-                        i virksomheten er ofte daglig leder, men det kan også være andre.
-                    </Normaltekst>
-                    <ul className="informasjon-om-tilgangsstyring__avsnitt">
-                        <li>
-                            En <b>Altinn-rolle</b> gir som regel tilgang til <u>flere</u> tjenester,
-                            også fra andre enn NAV. Vi sier at en rolle gir såkalt «vide tilganger».{' '}
-                        </li>
-                        <li>
-                            En <b>enkeltrettighet</b> gir tilgang til <u>en</u> enkelt tjeneste.
-                        </li>
-                    </ul>
+                        <SmoothLink anchor="#kortomtilgangerialtinn"
+                                    title='Kort om tilganger i Altinn'/>
 
-                    <Ekspanderbartpanel tittel={tittelBeTilgangInfo} className="be-om-tilgang-info" border>
+                        <SmoothLink anchor="#hardualleredetilgangtilnoentjenester"
+                                    title='Har du allerede tilgang til noen tjenester?'/>
+
+                        <SmoothLink anchor="#hvilketilgangerkreves"
+                                    title='Hvilke tilganger kreves?'/>
+
+                        <SmoothLink anchor="#manglerduvarslerialtinnellerkommerdetilfeiladresse"
+                                    title='Mangler du varsler i Altinn eller kommer de til feil adresse?'/>
+                    </Panel>
+                </aside>
+                <div className='informasjon-om-tilgangsstyring__innhold'>
+                    <Panel className='informasjon-om-tilgangsstyring__tekst'>
+                        <HeadingMedClipBoardLink id='kortomtilgangerialtinn'
+                                                 title='Kort om tilganger i Altinn'/>
+
+                        <BodyLong size='small' spacing>
+                            For å få tilgang til NAVs tjenester til arbeidsgiver må du ha blitt tildelt
+                            nødvendige Altinn-rettigheter av din arbeidsgiver. Administrator for Altinn
+                            i virksomheten er ofte daglig leder, men det kan også være andre.
+                        </BodyLong>
+
+                        <ul>
+                            <li>
+                                <BodyShort spacing>
+                                    En <b>Altinn-rolle</b> gir som regel tilgang til <u>flere</u> tjenester,
+                                    også fra andre enn NAV. Vi sier at en rolle gir såkalt «vide tilganger».{' '}
+                                </BodyShort>
+                            </li>
+                            <li>
+                                <BodyShort spacing>
+                                    En <b>enkeltrettighet</b> gir tilgang til <u>en</u> enkelt tjeneste.
+                                </BodyShort>
+                            </li>
+                        </ul>
+                    </Panel>
+                    <Panel className='informasjon-om-tilgangsstyring__tekst'>
+                        <HeadingMedClipBoardLink id='hardualleredetilgangtilnoentjenester'
+                                                 title='Har du allerede tilgang til noen tjenester?'/>
+
+                        <BodyLong size='small' spacing>
+                            Hvis du allerede har tilgang til noen tjenester i en virksomhet kan du
+                            be om tilgang til flere.
+                        </BodyLong>
                         <ul>
                             <li>Logg inn på Min side – arbeidsgiver.</li>
                             <li>Velg virksomhet.</li>
                             <li>Lengst nede på Min side – arbeidsgiver finnes en oversikt over tjenester du kan
-                                be om tilgang til.</li>
-                            <li>Klikk på lenken  «- be om tilgang» på tjenesten du trenger. Du kommer nå til Altinn.</li>
+                                be om tilgang til.
+                            </li>
+                            <li>Klikk på lenken «- be om tilgang» på tjenesten du trenger. Du kommer nå til Altinn.</li>
                         </ul>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
+                        <BodyLong size='small' spacing>
                             I Altinn velger du hvem i din virksomhet som skal få varslet og legger inn en melding hvis
                             du vil. Du blir selv varslet når forespørselen er behandlet og tilganger er på plass.
-                        </Normaltekst>
-                        <Normaltekst>
-                            For «Dine sykmeldte» kan du ikke be om tilgang fra Altinn. Her må du registreres som nærmeste leder for en eller flere ansatte.
-                        </Normaltekst>
-                    </Ekspanderbartpanel>
+                        </BodyLong>
+                        <BodyLong size='small' spacing>
+                            For «Dine sykmeldte» kan du ikke be om tilgang fra Altinn. Her må du registreres som
+                            nærmeste leder for en eller flere ansatte.
+                        </BodyLong>
+                    </Panel>
+                    <Panel className='informasjon-om-tilgangsstyring__tekst'>
+                        <HeadingMedClipBoardLink id='hvilketilgangerkreves'
+                                                 title='Hvilke tilganger kreves?'/>
+                        <BodyLong size='small' spacing>
+                            Forskjellige tjenester og skjemaer i NAV krever forskjellige tilganger i Altinn.
+                        </BodyLong>
+                        <Accordion>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Arbeidsforhold
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        Tilgang til innsynstjeneste for arbeidsforhold innrapportert via
+                                        a-meldingen gis automatisk til:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>daglig leder/administrerende direktør</li>
+                                        <li>styrets leder</li>
+                                        <li>innehaver av enkeltpersonsforetak</li>
+                                        <li>deltaker i ansvarlig selskap (ANS og DA)</li>
+                                        <li>bestyrende reder</li>
+                                        <li>
+                                            bostyrer i konkursbo (omfatter ikke foretaket som er gått konkurs)
+                                            og andre bo
+                                        </li>
+                                        <li>komplementar (kun fødselsnummer)</li>
+                                        <li>norsk representant for utenlandsk enhet</li>
+                                    </ul>
+                                    <BodyLong size='small'>
+                                        Du kan også ha rettigheten{' '}<b>Innsyn i Aa-registeret for arbeidsgivere.</b>
+                                    </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Avtaler/søknader om NAV-tiltak
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        Vi tilbyr følgende digitale tjenester om NAV-tiltak:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>avtale om arbeidstrening</li>
+                                        <li>avtale om midlertidig lønnstilskudd</li>
+                                        <li>avtale om varig lønnstilskudd</li>
+                                        <li>avtale om sommerjobb</li>
+                                        <li>søknad om inkluderingstilskudd</li>
+                                        <li>søknad om tilskudd til mentor</li>
+                                        <li>søknad om tilskudd til ekspertbistand</li>
+                                    </ul>
+                                    <BodyLong size='small' spacing>
+                                        <b>Enkeltrettighet i Altinn:</b> For å få tilgang til en av de nevnte tjenestene
+                                        ovenfor må du ha enkeltrettigheten til tjenesten i Altinn.
+                                        Navn på enkeltrettighetene er det samme som navnet på tjenesten.
+                                    </BodyLong>
+                                    <LenkeMedLogging
+                                        href={lenkeTilInfoOmDigitaleSoknader}
+                                        loggLenketekst='Les om digitale tiltakssøknader'
+                                    >
+                                        Les om digitale tiltakssøknader
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small'>
+                                        For at søknadene «fritak fra arbeidsgiverperioden – gravid ansatt / kronisk
+                                        sykdom» skal vises,
+                                        trenger du kun en vilkårlig Altinn-rolle i din virksomhet eller tilgang til Dine
+                                        sykemeldte.
+                                    </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Inntektsmelding
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til digital inntektsmelding må du ha en av disse
+                                        Altinn-rollene:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>ansvarlig revisor</li>
+                                        <li>lønn og personalmedarbeider</li>
+                                        <li>regnskapsfører lønn</li>
+                                        <li>regnskapsfører med signeringsrettighet</li>
+                                        <li>regnskapsfører uten signeringsrettighet</li>
+                                        <li>revisormedarbeider</li>
+                                        <li>norsk representant for utenlandsk enhet</li>
+                                    </ul>
+                                    <BodyLong size='small' spacing>
+                                        Du kan også ha rettigheten <b>inntektsmelding</b>
+                                    </BodyLong>
+                                    <LenkeMedLogging
+                                        href={lenkeTilInforOmInntekstmelding}
+                                        loggLenketekst='Les om digital inntektsmelding'
+                                    >
+                                        Les om digital inntektsmelding
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Permittering, masseoppsigelse og innskrenking av arbeidstid
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til digitalt skjema om permittering uten lønn,
+                                        masseoppsigelse og innskrenking av arbeidstid, trenger du kun en vilkårlig
+                                        Altinn-rolle
+                                        i din virksomhet. Du vil bare se skjemaer som du selv har opprettet og
+                                        sendt inn.
+                                    </BodyLong>
+                                    <LenkeMedLogging
+                                        href={infoOmPermitteringURL}
+                                        loggLenketekst='les mer om permittering uten lønn osv'
+                                    >
+                                        Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
+                                        arbeidstid
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt / kronisk sykdom
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til skjemaene «refusjon av sykepenger i
+                                        arbeidsgiverperioden - gravid ansatt / kronisk sykdom», så må du ha tilgang
+                                        til å sende inntektsmelding.
+                                    </BodyLong>
 
-                    <Undertittel className="informasjon-om-tilgangsstyring__tittel">
-                        Slik får du tilgang til:
-                    </Undertittel>
-
-                    <Ekspanderbartpanel tittel="Arbeidsforhold" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Tilgang til innsynstjeneste for arbeidsforhold innrapportert via
-                            a-meldingen gis automatisk til:
-                        </Normaltekst>
-                        <ul>
-                            <li>daglig leder/administrerende direktør</li>
-                            <li>styrets leder</li>
-                            <li>innehaver av enkeltpersonsforetak</li>
-                            <li>deltaker i ansvarlig selskap (ANS og DA)</li>
-                            <li>bestyrende reder</li>
-                            <li>
-                                bostyrer i konkursbo (omfatter ikke foretaket som er gått konkurs)
-                                og andre bo
-                            </li>
-                            <li>komplementar (kun fødselsnummer)</li>
-                            <li>norsk representant for utenlandsk enhet</li>
-                        </ul>
-                        <Normaltekst>
-                            Du kan også ha rettigheten{' '}
-                            <b>Innsyn i Aa-registeret for arbeidsgivere.</b>
-                        </Normaltekst>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Avtaler/søknader om NAV-tiltak" border>
-                        <Normaltekst>
-                            Vi tilbyr følgende digitale tjenester om NAV-tiltak:
-                        </Normaltekst>
-                        <ul>
-                            <li>avtale om arbeidstrening </li>
-                            <li>avtale om midlertidig lønnstilskudd</li>
-                            <li>avtale om varig lønnstilskudd</li>
-                            <li>avtale om sommerjobb</li>
-                            <li>søknad om inkluderingstilskudd</li>
-                            <li>søknad om tilskudd til mentor</li>
-                            <li>søknad om tilskudd til ekspertbistand </li>
-                        </ul>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            <b>Enkeltrettighet i Altinn:</b> For å få tilgang til en av de nevnte tjenestene ovenfor må du ha enkeltrettigheten til tjenesten i Altinn.
-                            Navn på enkeltrettighetene er det samme som navnet på tjenesten.
-                        </Normaltekst>
-                        <LenkeMedLogging
-                            href={lenkeTilInfoOmDigitaleSoknader}
-                            loggLenketekst="Les om digitale tiltakssøknader"
-                        >
-                            Les om digitale tiltakssøknader
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom" border>
-                        <Normaltekst>
-                            For at søknadene «fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom» skal vises,
-                            trenger du kun en vilkårlig Altinn-rolle i din virksomhet eller tilgang til Dine sykemeldte.
-                        </Normaltekst>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Inntektsmelding" border>
-                        <Normaltekst>
-                            For å få tilgang til digital inntektsmelding må du ha en av disse
-                            Altinn-rollene:
-                        </Normaltekst>
-                        <ul>
-                            <li>ansvarlig revisor</li>
-                            <li>lønn og personalmedarbeider</li>
-                            <li>regnskapsfører lønn</li>
-                            <li>regnskapsfører med signeringsrettighet</li>
-                            <li>regnskapsfører uten signeringsrettighet</li>
-                            <li>revisormedarbeider</li>
-                            <li>norsk representant for utenlandsk enhet</li>
-                        </ul>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Du kan også ha rettigheten <b>inntektsmelding</b>
-                        </Normaltekst>
-                        <LenkeMedLogging
-                            href={lenkeTilInforOmInntekstmelding}
-                            loggLenketekst="Les om digital inntektsmelding"
-                        >
-                            Les om digital inntektsmelding
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Permittering, masseoppsigelse og innskrenking av arbeidstid" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            For å få tilgang til digitalt skjema om permittering uten lønn,
-                            masseoppsigelse og innskrenking av arbeidstid, trenger du kun en vilkårlig Altinn-rolle
-                            i din virksomhet. Du vil bare se skjemaer som du selv har opprettet og
-                            sendt inn.
-                        </Normaltekst>
-                        <LenkeMedLogging
-                            href={infoOmPermitteringURL}
-                            loggLenketekst="les mer om permittering uten lønn osv"
-                        >
-                            Les mer om permittering uten lønn, masseoppsigelse og innskrenking av
-                            arbeidstid
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt / kronisk sykdom" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            For å få tilgang til skjemaene «refusjon av sykepenger i
-                            arbeidsgiverperioden - gravid ansatt / kronisk sykdom», så må du ha tilgang
-                            til å sende inntektsmelding.
-                        </Normaltekst>
-
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle virksomheten:
-                        </Normaltekst>
-                        <ul>
-                            <li>ansvarlig revisor</li>
-                            <li>lønn og personalmedarbeider</li>
-                            <li>regnskapsfører lønn</li>
-                            <li>regnskapsfører med signeringsrettighet</li>
-                            <li>regnskapsfører uten signeringsrettighet</li>
-                            <li>revisormedarbeider</li>
-                            <li>norsk representant for utenlandsk enhet</li>
-                        </ul>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Refusjon av sykepenger ved koronavirus" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            For å få tilgang til skjema for refusjon av sykepenger relatert til
-                            koronavirus må du ha tilgang til å sende inntektsmelding.
-                        </Normaltekst>
-                        <Normaltekst>
-                            Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle
-                            virksomheten:
-                        </Normaltekst>
-                        <ul>
-                            <li>ansvarlig revisor</li>
-                            <li>lønn og personalmedarbeider</li>
-                            <li>regnskapsfører lønn</li>
-                            <li>regnskapsfører med signeringsrettighet</li>
-                            <li>regnskapsfører uten signeringsrettighet</li>
-                            <li>revisormedarbeider</li>
-                            <li>norsk representant for utenlandsk enhet</li>
-                        </ul>
-                        <LenkeMedLogging
-                            href={infoOmRefusjonSykepengerKoronaURL}
-                            loggLenketekst="Les mer om refusjon av sykepenger ved koronavirus"
-                        >
-                            Les mer om refusjon av sykepenger ved koronavirus
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Refusjon for utestengte EØS-borgere" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            For å få tilgang til skjema for refusjon for utestengte EØS-borgere
-                            må du ha tilgang til å sende inntektsmelding.
-                        </Normaltekst>
-                        <Normaltekst>
-                            Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle virksomheten:
-                        </Normaltekst>
-                        <ul>
-                            <li>ansvarlig revisor</li>
-                            <li>lønn og personalmedarbeider</li>
-                            <li>regnskapsfører lønn</li>
-                            <li>regnskapsfører med signeringsrettighet</li>
-                            <li>regnskapsfører uten signeringsrettighet</li>
-                            <li>revisormedarbeider</li>
-                            <li>norsk representant for utenlandsk enhet</li>
-                        </ul>
-                        <LenkeMedLogging
-                            href={infoOmRefusjonInnreiseforbudKoronaURL}
-                            loggLenketekst="Les mer om refusjon ved innreiseforbud under pandemien"
-                        >
-                            Les mer om refusjon ved innreiseforbud under pandemien
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Rekruttering" border>
-                        <Normaltekst>
-                            På{' '}
-                            <LenkeMedLogging
-                                href="https://arbeidsplassen.nav.no/bedrift"
-                                loggLenketekst="Arbeidsplassen"
-                            >
-                                Arbeidsplassen
-                            </LenkeMedLogging>{' '}
-                            kan du finne kandidater og lage stillingsannonser. For å få tilgang må
-                            du ha en av rollene
-                        </Normaltekst>
-                        <ul>
-                            <li>lønn og personalmedarbeider</li>
-                            <li>utfyller/innsender</li>
-                        </ul>
-                        <Normaltekst>
-                            Du kan også ha enkeltrettigheten <b>rekruttering</b>
-                        </Normaltekst>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Sykefraværsstatistikk" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra
-                            NAV Arbeidslivssenter må du ha
-                        </Normaltekst>
-                        <Normaltekst>
-                            <b>Rolle i Altinn:</b> helse-, sosial- og velferdstjenester
-                        </Normaltekst>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
-                        </Normaltekst>
-                        <LenkeMedLogging
-                            href={infoOmSykefraværsstatistikk}
-                            loggLenketekst="Les mer om tjenesten sykefraværsstatistikk"
-                        >
-                            Les mer om tjenesten sykefraværsstatistikk på nav.no
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Sykmelding/ sykefraværsoppfølging" border>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            HR og lønn trenger følgende fire enkeltrettigheter: Sykmelding – oppgi
-                            leder, Sykmelding, Søknad om sykepenger og Digital oppfølgingsplan for
-                            sykmeldte.
-                        </Normaltekst>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
-                            skjemaet «Sykmelding – oppgi nærmeste leder».
-                        </Normaltekst>
-                        <LenkeMedLogging
-                            href={infoOmRettigheterTilSykemeldingURL}
-                            loggLenketekst="Les mer om tjenestene og tilhørende enkeltrettigheter"
-                        >
-                            Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
-                        </LenkeMedLogging>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Tilskuddsbrev for NAV-tiltak" border>
-                        <Normaltekst>
-                            For å få tilgang til digitale tilskuddsbrev om NAV-tiltak må du ha en av
-                            disse lederrollene i Altinn:
-                        </Normaltekst>
-                        <ul>
-                            <li>daglig leder/administrerende direktør</li>
-                            <li>styrets leder</li>
-                            <li>innehaver</li>
-                            <li>komplementar</li>
-                            <li>deltaker med delt ansvar</li>
-                            <li>deltaker med fullt ansvar</li>
-                            <li>bestyrende reder</li>
-                            <li>norsk representant for utenlandsk enhet</li>
-                            <li>bostyrer</li>
-                        </ul>
-                        <Normaltekst className="informasjon-om-tilgangsstyring__avsnitt">
-                            Enkeltansatte får tilgang ved å bli tildelt enkeltrettigheten:{' '}
-                            <b>Tilskuddsbrev NAV-tiltak</b>
-                        </Normaltekst>
-                        <Normaltekst>
-                            NAV sender digitale tilskuddsbrev for følgende tiltak:
-                        </Normaltekst>
-                        <ul>
-                            <li>Midlertidig lønnstilskudd</li>
-                            <li>Varig lønnstilskudd</li>
-                            <li>Tilskudd til mentor</li>
-                            <li>Inkluderingstilskudd</li>
-                            <li>Tilskudd til ekspertbistand</li>
-                            <li>Funksjonsassistanse</li>
-                            <li>Varig tilrettelagt arbeid i ordinær virksomhet</li>
-                            <li>Arbeidsforberedende trening</li>
-                            <li>Varig tilrettelagt arbeid i skjermet virksomhet</li>
-                            <li>Høyere utdanning</li>
-                            <li>Enkeltplass Fag og yrkesopplæring</li>
-                            <li>Gruppe Fag og yrkesopplæring</li>
-                            <li>Enkeltplass arbeidsmarkedsopplæring</li>
-                        </ul>
-                    </Ekspanderbartpanel>
-
-                    <Ekspanderbartpanel tittel="Utsendt arbeidstaker til EØS/Sveits" border>
-                        <Normaltekst>
-                            For å få tilgang til skjemaet «Søknad om A1 for utsendte arbeidstakeren innen EØS/Sveits» må du ha Altinn-rollen:
-                        </Normaltekst>
-                        <ul>
-                            <li>Lønn og personalmedarbeider</li>
-                        </ul>
-                        <Normaltekst>
-                            Du kan også ha enkeltrettigheten «Søknad om A1 for utsendte arbeidstakere innen EØS/Sveits».
-                        </Normaltekst>
-                    </Ekspanderbartpanel>
-
-                    <div className="informasjon-om-tilgangsstyring__bunntekst">
-                        <Normaltekst>
+                                    <BodyLong size='small' spacing>
+                                        Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle
+                                        virksomheten:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>ansvarlig revisor</li>
+                                        <li>lønn og personalmedarbeider</li>
+                                        <li>regnskapsfører lønn</li>
+                                        <li>regnskapsfører med signeringsrettighet</li>
+                                        <li>regnskapsfører uten signeringsrettighet</li>
+                                        <li>revisormedarbeider</li>
+                                        <li>norsk representant for utenlandsk enhet</li>
+                                    </ul>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Refusjon av sykepenger ved koronavirus
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til skjema for refusjon av sykepenger relatert til
+                                        koronavirus må du ha tilgang til å sende inntektsmelding.
+                                    </BodyLong>
+                                    <BodyLong size='small' spacing>
+                                        Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle
+                                        virksomheten:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>ansvarlig revisor</li>
+                                        <li>lønn og personalmedarbeider</li>
+                                        <li>regnskapsfører lønn</li>
+                                        <li>regnskapsfører med signeringsrettighet</li>
+                                        <li>regnskapsfører uten signeringsrettighet</li>
+                                        <li>revisormedarbeider</li>
+                                        <li>norsk representant for utenlandsk enhet</li>
+                                    </ul>
+                                    <LenkeMedLogging
+                                        href={infoOmRefusjonSykepengerKoronaURL}
+                                        loggLenketekst='Les mer om refusjon av sykepenger ved koronavirus'
+                                    >
+                                        Les mer om refusjon av sykepenger ved koronavirus
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Refusjon for utestengte EØS-borgere
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til skjema for refusjon for utestengte EØS-borgere
+                                        må du ha tilgang til å sende inntektsmelding.
+                                    </BodyLong>
+                                    <BodyLong size='small' spacing>
+                                        Det betyr at du må ha en av disse tilgangene (rollene) for den aktuelle
+                                        virksomheten:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>ansvarlig revisor</li>
+                                        <li>lønn og personalmedarbeider</li>
+                                        <li>regnskapsfører lønn</li>
+                                        <li>regnskapsfører med signeringsrettighet</li>
+                                        <li>regnskapsfører uten signeringsrettighet</li>
+                                        <li>revisormedarbeider</li>
+                                        <li>norsk representant for utenlandsk enhet</li>
+                                    </ul>
+                                    <LenkeMedLogging
+                                        href={infoOmRefusjonInnreiseforbudKoronaURL}
+                                        loggLenketekst='Les mer om refusjon ved innreiseforbud under pandemien'
+                                    >
+                                        Les mer om refusjon ved innreiseforbud under pandemien
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Rekruttering
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        På{' '}
+                                        <LenkeMedLogging
+                                            href='https://arbeidsplassen.nav.no/bedrift'
+                                            loggLenketekst='Arbeidsplassen'
+                                        >
+                                            Arbeidsplassen
+                                        </LenkeMedLogging>{' '}
+                                        kan du finne kandidater og lage stillingsannonser. For å få tilgang må
+                                        du ha en av rollene
+                                    </BodyLong>
+                                    <ul>
+                                        <li>lønn og personalmedarbeider</li>
+                                        <li>utfyller/innsender</li>
+                                    </ul>
+                                    <BodyLong size='small'>
+                                        Du kan også ha enkeltrettigheten <b>rekruttering</b>
+                                    </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Sykefraværsstatistikk
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til legemeldt sykefraværsstatistikk og tjenester fra
+                                        NAV Arbeidslivssenter må du ha
+                                    </BodyLong>
+                                    <BodyLong size='small' spacing>
+                                        <b>Rolle i Altinn:</b> helse-, sosial- og velferdstjenester
+                                    </BodyLong>
+                                    <BodyLong size='small' spacing>
+                                        <b>Eller enkeltrettigheten:</b> sykefraværsstatistikk for virksomheter
+                                    </BodyLong>
+                                    <LenkeMedLogging
+                                        href={infoOmSykefraværsstatistikk}
+                                        loggLenketekst='Les mer om tjenesten sykefraværsstatistikk'
+                                    >
+                                        Les mer om tjenesten sykefraværsstatistikk på nav.no
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Sykmelding/ sykefraværsoppfølging
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        HR og lønn trenger følgende fire enkeltrettigheter: Sykmelding – oppgi
+                                        leder, Sykmelding, Søknad om sykepenger og Digital oppfølgingsplan for
+                                        sykmeldte.
+                                    </BodyLong>
+                                    <BodyLong size='small' spacing>
+                                        Nærmeste leder trenger ikke Altinn-tilgang. Bedriften må ha fylt ut
+                                        skjemaet «Sykmelding – oppgi nærmeste leder».
+                                    </BodyLong>
+                                    <LenkeMedLogging
+                                        href={infoOmRettigheterTilSykemeldingURL}
+                                        loggLenketekst='Les mer om tjenestene og tilhørende enkeltrettigheter'
+                                    >
+                                        Les mer om tjenestene og tilhørende enkeltrettigheter (nav.no)
+                                    </LenkeMedLogging>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Tilskuddsbrev for NAV-tiltak
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til digitale tilskuddsbrev om NAV-tiltak må du ha en av
+                                        disse lederrollene i Altinn:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>daglig leder/administrerende direktør</li>
+                                        <li>styrets leder</li>
+                                        <li>innehaver</li>
+                                        <li>komplementar</li>
+                                        <li>deltaker med delt ansvar</li>
+                                        <li>deltaker med fullt ansvar</li>
+                                        <li>bestyrende reder</li>
+                                        <li>norsk representant for utenlandsk enhet</li>
+                                        <li>bostyrer</li>
+                                    </ul>
+                                    <BodyLong size='small' spacing>
+                                        Enkeltansatte får tilgang ved å bli tildelt enkeltrettigheten:{' '}
+                                        <b>Tilskuddsbrev NAV-tiltak</b>
+                                    </BodyLong>
+                                    <BodyLong size='small' spacing>
+                                        NAV sender digitale tilskuddsbrev for følgende tiltak:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>Midlertidig lønnstilskudd</li>
+                                        <li>Varig lønnstilskudd</li>
+                                        <li>Tilskudd til mentor</li>
+                                        <li>Inkluderingstilskudd</li>
+                                        <li>Tilskudd til ekspertbistand</li>
+                                        <li>Funksjonsassistanse</li>
+                                        <li>Varig tilrettelagt arbeid i ordinær virksomhet</li>
+                                        <li>Arbeidsforberedende trening</li>
+                                        <li>Varig tilrettelagt arbeid i skjermet virksomhet</li>
+                                        <li>Høyere utdanning</li>
+                                        <li>Enkeltplass Fag og yrkesopplæring</li>
+                                        <li>Gruppe Fag og yrkesopplæring</li>
+                                        <li>Enkeltplass arbeidsmarkedsopplæring</li>
+                                    </ul>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Utsendt arbeidstaker til EØS/Sveits
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong size='small' spacing>
+                                        For å få tilgang til skjemaet «Søknad om A1 for utsendte arbeidstakeren innen
+                                        EØS/Sveits» må du ha Altinn-rollen:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>Lønn og personalmedarbeider</li>
+                                    </ul>
+                                    <BodyLong size='small'>
+                                        Du kan også ha enkeltrettigheten «Søknad om A1 for utsendte arbeidstakere innen
+                                        EØS/Sveits».
+                                    </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+                        </Accordion>
+                    </Panel>
+                    <Panel className='informasjon-om-tilgangsstyring__tekst'>
+                        <HeadingMedClipBoardLink id='manglerduvarslerialtinnellerkommerdetilfeiladresse'
+                                                 title='Mangler du varsler i Altinn eller kommer de til feil adresse?'/>
+                        <Heading size='xlarge' spacing>
+                            Mangler du varsler i Altinn eller kommer de til feil adresse?
+                        </Heading>
+                        <BodyLong size='small' spacing>
+                            Husk å oppdatere din kontaktinformasjon som arbeidsgiver i Altinn. Hvis du ønsker varsling
+                            kun på spesifikke tjenester kan du også ordne det i Altinn.
+                        </BodyLong>
+                        <BodyLong size='small' spacing>
                             <NyFaneLenke
                                 href={infoOmAltinnrollerURL}
-                                loggLenketekst="Les mer om roller og rettigheter i Altinn"
+                                loggLenketekst='Les mer på Altinn om hvordan du kan velge hvor du ønsker å bli varslet, og for hva'
                             >
-                                Les mer om roller og rettigheter i Altinn
+                                Les mer på Altinn om hvordan du kan velge hvor du ønsker å bli varslet, og for hva
                             </NyFaneLenke>
-                        </Normaltekst>
-                    </div>
+                        </BodyLong>
+                    </Panel>
                 </div>
             </div>
         </div>
