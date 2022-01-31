@@ -1460,14 +1460,14 @@
   resolved "https://registry.yarnpkg.com/@navikt/ds-css/-/ds-css-0.12.6.tgz#fecaa5996413aa9526932ef07b6ba71c8dc44066"
   integrity sha512-nf65d6LEpI8a9y1QB56/rXgotvJH8uCkTk93n5AoybUF53tuflXe2BhNXUYKqKnRhVSIiPz+/ZUYGEC7PZ4c/g==
 
-"@navikt/ds-icons@0.7.1", "@navikt/ds-icons@^0.7.0":
+"@navikt/ds-icons@0.7.1":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.7.1.tgz#e65f26884f56cba6a98dc80bf2c02c22b3b1aa91"
   integrity sha512-Uqegt1RzyQOUSk3SAqtKBuPRlAjNCJZcBNNoIrSyL5NOifiij/JEr/ysKh8ngQZd+T0bDDlwZdcVRSXkW3S9xg==
   dependencies:
     uuid "^8.3.2"
 
-"@navikt/ds-icons@^0.7.1":
+"@navikt/ds-icons@^0.7.1", "@navikt/ds-icons@^0.7.2":
   version "0.7.3"
   resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.7.3.tgz#ffe37e32cc5a0b3e640b9db0f95ff4c5f18c4002"
   integrity sha512-fixTpRhYWB+DGG7LGsnNeIvHuO95uubaAH9YkSW3AsaoNQMaYtIKRCbGzqNcDTvfYiJvGQe++wIZCLAarCZfMA==
@@ -8505,7 +8505,7 @@ prompts@^2.0.1, prompts@^2.4.2:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-prop-types@15.8.1:
+prop-types@15.8.1, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -8518,15 +8518,6 @@ prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.8.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.0.tgz#d237e624c45a9846e469f5f31117f970017ff588"
   integrity sha512-fDGekdaHh65eI3lMi5OnErU6a8Ighg2KjcjQxO7m8VHyWjcPyj5kiOgV1LQDOOOgVy3+5FgjXvdSSX7B8/5/4g==
-  dependencies:
-    loose-envify "^1.4.0"
-    object-assign "^4.1.1"
-    react-is "^16.13.1"
-
-prop-types@^15.8.1:
-  version "15.8.1"
-  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.8.1.tgz#67d87bf1a694f48435cf332c24af10214a3140b5"
-  integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
   dependencies:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
