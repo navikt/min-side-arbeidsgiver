@@ -55,7 +55,6 @@
         }
     }
 
-
     &__container {
         display: flex;
         justify-content: center;
@@ -73,19 +72,18 @@
             position: sticky;
             top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
             margin: 1.5rem 1rem 0 0;
-            padding: 1rem;
+            padding: 1rem 0;
             width: 15rem;
-
-            .lenke {
-                display: block;
-                padding: 0.5rem 0;
-            }
 
             @media (max-width: @screen-sm-min) {
                 position: relative;
                 margin: 1.5rem 0 0 0;
                 max-width: 44rem;
                 width: 100%;
+            }
+
+            &head {
+                margin-left: 0.5rem;
             }
         }
 

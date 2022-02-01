@@ -20,11 +20,12 @@ import icon from './icon_tilgang.svg';
 
 const InformasjonOmTilgangsstyringSide = () => {
     const [activeAnchor, setActiveAnchor] = useState<string | undefined>(undefined);
-    const setActiveAnchorOnClick = (anchor: string): MouseEventHandler<any> => {
+    const setActiveAnchorOnClick = (anchor: string): MouseEventHandler<HTMLAnchorElement> => {
         return (e) => {
             setActiveAnchor(anchor);
             history.pushState(null, '', anchor);
             e.preventDefault();
+            e.currentTarget.blur();
         }
     }
     useEffect(() => {
@@ -89,7 +90,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                 <aside className='informasjon-om-tilgangsstyring__sidepanel'>
                     <Panel className='informasjon-om-tilgangsstyring__sidepanel-meny'>
                         <Menu>
-                            <Heading level='2' size="small" spacing>
+                            <Heading className='informasjon-om-tilgangsstyring__sidepanel-menyhead' level='2' size="small" spacing>
                                 Innhold
                             </Heading>
                             <Menu.Item
