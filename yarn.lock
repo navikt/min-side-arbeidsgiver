@@ -1461,10 +1461,10 @@
   resolved "https://registry.yarnpkg.com/@navikt/ds-css/-/ds-css-0.12.6.tgz#fecaa5996413aa9526932ef07b6ba71c8dc44066"
   integrity sha512-nf65d6LEpI8a9y1QB56/rXgotvJH8uCkTk93n5AoybUF53tuflXe2BhNXUYKqKnRhVSIiPz+/ZUYGEC7PZ4c/g==
 
-"@navikt/ds-css@^0.14.1-rc.search.0":
-  version "0.14.1-rc.search.0"
-  resolved "https://registry.yarnpkg.com/@navikt/ds-css/-/ds-css-0.14.1-rc.search.0.tgz#62b59aaae2ee0d9b19b212ac308bc63ed63035f5"
-  integrity sha512-94QOhpT0HdqQWDXo43LzDTB5RLoZICYsJZbm6NQnXgoPYo2APL1GUSd5rAN/f3aylcC811KB8sgHgSpCNMcf3w==
+"@navikt/ds-css@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@navikt/ds-css/-/ds-css-0.14.1.tgz#0e3a37b802043106ecdca7ed154b82d7384b0441"
+  integrity sha512-mkbrnUcXIfQSCGoydmr3Vo5/1qRlWX9/s50nlKz6GviV+7b75XiG0CL/wf1QIqfmdbYtCMLRqPVoW9TQbfuleA==
 
 "@navikt/ds-icons@0.7.1":
   version "0.7.1"
@@ -1480,10 +1480,10 @@
   dependencies:
     uuid "^8.3.2"
 
-"@navikt/ds-icons@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.8.0.tgz#84577f8df17be4a1c7c85cdab4206c2c1762002d"
-  integrity sha512-3pYfJqASlyzz+Fysw4rCFRFJwOuLezKfLKtCRpJNmHNBKJqvbdvaXzY/73+BR85ZfEdqEMfuiwHEJyaunbmjlQ==
+"@navikt/ds-icons@^0.8.1":
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/@navikt/ds-icons/-/ds-icons-0.8.1.tgz#9ec3e06957661db303518a9b71808e9690ba26a6"
+  integrity sha512-Te7r2wE2xZiEBusf0QToyhB2MCigH0y3xqDWnPXpuF4V6AoUSjlsPDpIm9Gu6MK82eJDy0UnJEMXe9ldRPRoxg==
   dependencies:
     uuid "^8.3.2"
 
@@ -1502,13 +1502,13 @@
     react-popper "^2.2.5"
     uuid "^8.3.2"
 
-"@navikt/ds-react@^0.15.1-rc.search.0":
-  version "0.15.1-rc.search.0"
-  resolved "https://registry.yarnpkg.com/@navikt/ds-react/-/ds-react-0.15.1-rc.search.0.tgz#f4f9765f7874d70666fc38674f7a9ff5038fa7e6"
-  integrity sha512-SVXY7+whnPfHFnoyDfdzIjv+4pWBL93Ijd1kuvq0zgLcsEf8HGLwRzetu8xOp55AKHZVYPi9oCv4DjN8VB9PlQ==
+"@navikt/ds-react@^0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@navikt/ds-react/-/ds-react-0.15.2.tgz#27b24e49565e012319477eba31cda2315a4db5c8"
+  integrity sha512-Dv5iQc/Qo1DhDIbf7Mt8quf/MHdClcQ1kXTGGVnxazBFQIdpS52vTyTjU5XrQVZasn6FzyokcwcRb4C/6GE+8A==
   dependencies:
     "@material-ui/core" "^4.12.3"
-    "@navikt/ds-icons" "^0.8.0"
+    "@navikt/ds-icons" "^0.8.1"
     "@popperjs/core" "^2.10.1"
     classnames "^2.2.6"
     react-collapse "^5.1.0"

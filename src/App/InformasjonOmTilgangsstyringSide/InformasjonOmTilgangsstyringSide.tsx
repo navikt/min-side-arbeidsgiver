@@ -1,6 +1,5 @@
-import React, {FunctionComponent, useState} from 'react';
-import {Accordion, Alert, BodyLong, BodyShort, Heading, Link, Panel} from '@navikt/ds-react';
-import {Link as LinkIcon} from "@navikt/ds-icons";
+import React, {MouseEventHandler, useEffect, useState} from 'react';
+import {Accordion, BodyLong, BodyShort, Heading, Menu, Panel} from '@navikt/ds-react';
 import "@navikt/ds-css";
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import {
@@ -15,82 +14,56 @@ import {
 } from '../../lenker';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
 import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
+import {HeadingMedClipBoardLink} from "./helpers/HeadingMedClipBoardLink";
 import './InformasjonOmTilgangsstyringSide.less';
 import icon from './icon_tilgang.svg';
 
-interface ClipBoardLinkProps {
-    hash: string;
-}
-
-const ClipBoardLink: FunctionComponent<ClipBoardLinkProps> = props => {
-    if (navigator.clipboard === undefined) {
-        return null;
+const InformasjonOmTilgangsstyringSide = () => {
+    const [activeAnchor, setActiveAnchor] = useState<string | undefined>(undefined);
+    const setActiveAnchorOnClick = (anchor: string): MouseEventHandler<any> => {
+        return (e) => {
+            setActiveAnchor(anchor);
+            history.pushState(null, '', anchor);
+            e.preventDefault();
+        }
     }
-    const targetUrl = new URL(window.location.href)
-    targetUrl.hash = props.hash
-    const [showAlert, setShowAlert] = useState<boolean>(false);
-    const copyLink = () => {
-        navigator.clipboard.write([
-            new ClipboardItem({
-                'text/plain': new Blob([targetUrl.toString()], {type: "text/plain"})
-            })
-        ]).then(
-            function () {
-                setShowAlert(true);
-            },
-            function () {
-                /* err */
+    useEffect(() => {
+        const hash = document.location.hash;
+        if (hash.length > 0) {
+            setActiveAnchor(hash);
+        }
+    }, []);
+    useEffect(() => {
+        const scrollListener = () => {
+            const distances: [string, number][] = [
+                '#kortomtilgangerialtinn',
+                '#hardualleredetilgangtilnoentjenester',
+                '#hvilketilgangerkreves',
+                '#manglerduvarslerialtinnellerkommerdetilfeiladresse',
+            ].map(id => {
+                const rect = document.querySelector(id)?.getBoundingClientRect();
+                const distance = Math.abs(rect?.top ?? 10000000);
+                return [id, distance];
+            });
+            distances.sort(([_a, distanceA], [_b, distanceB]) => distanceA - distanceB)
+            const nearest = distances[0][0];
+            if (nearest !== undefined && nearest !== activeAnchor) {
+                setActiveAnchor(nearest);
             }
-        );
-    }
-    return (
-        <div className='copy-link'>
-            <Link onClick={copyLink}><LinkIcon/> Kopier lenke</Link>
-            <Alert variant='success' size='small' className={showAlert ? 'alert-show' : 'alert-hide'}
-                   onAnimationEnd={() => setShowAlert(false)}>
-                Lenken er kopiert
-            </Alert>
-        </div>
-    )
-}
-
-interface HeadingMedClipBoardLinkProps {
-    id: string;
-    title: string;
-}
-
-const HeadingMedClipBoardLink: FunctionComponent<HeadingMedClipBoardLinkProps> = ({id, title}) => {
-    return <>
-        <Heading id={id} size='large' spacing>
-            {title}
-        </Heading>
-        <ClipBoardLink hash={id}/>
-    </>
-}
-
-interface SmoothLinkProps {
-    anchor: string;
-    title: string;
-}
-
-const SmoothLink: FunctionComponent<SmoothLinkProps> = ({anchor, title}) => {
-    return <LenkeMedLogging
-        href={anchor}
-        loggLenketekst={title}
-        onClick={(e) => {
-            document.querySelector(anchor)?.scrollIntoView({
+        };
+        window.addEventListener('scroll', scrollListener);
+        return () => window.removeEventListener('scroll', scrollListener);
+    }, []);
+    useEffect(() => {
+        if (activeAnchor !== undefined) {
+            document.querySelector(activeAnchor)?.scrollIntoView({
                 behavior: "smooth",
                 block: "start",
                 inline: "nearest"
             });
-            e.preventDefault();
-        }}
-    >
-        {title}
-    </LenkeMedLogging>
-}
+        }
+    }, [activeAnchor]);
 
-const InformasjonOmTilgangsstyringSide = () => {
     return (
         <div className='informasjon-om-tilgangsstyring'>
             <Brodsmulesti brodsmuler={[{
@@ -109,21 +82,43 @@ const InformasjonOmTilgangsstyringSide = () => {
             <div className='informasjon-om-tilgangsstyring__container'>
                 <aside className='informasjon-om-tilgangsstyring__sidepanel'>
                     <Panel className='informasjon-om-tilgangsstyring__sidepanel-meny'>
-                        <Heading size='medium' spacing>
-                            Innhold
-                        </Heading>
-
-                        <SmoothLink anchor="#kortomtilgangerialtinn"
-                                    title='Kort om tilganger i Altinn'/>
-
-                        <SmoothLink anchor="#hardualleredetilgangtilnoentjenester"
-                                    title='Har du allerede tilgang til noen tjenester?'/>
-
-                        <SmoothLink anchor="#hvilketilgangerkreves"
-                                    title='Hvilke tilganger kreves?'/>
-
-                        <SmoothLink anchor="#manglerduvarslerialtinnellerkommerdetilfeiladresse"
-                                    title='Mangler du varsler i Altinn eller kommer de til feil adresse?'/>
+                        <Menu>
+                            <Heading size="small" spacing>
+                                Innhold
+                            </Heading>
+                            <Menu.Item
+                                active={activeAnchor === '#kortomtilgangerialtinn'}
+                                onClick={setActiveAnchorOnClick('#kortomtilgangerialtinn')}
+                                href='#kortomtilgangerialtinn'
+                                key='#kortomtilgangerialtinn'
+                            >
+                                Kort om tilganger i Altinn
+                            </Menu.Item>
+                            <Menu.Item
+                                active={activeAnchor === '#hardualleredetilgangtilnoentjenester'}
+                                onClick={setActiveAnchorOnClick('#hardualleredetilgangtilnoentjenester')}
+                                href='#hardualleredetilgangtilnoentjenester'
+                                key='#hardualleredetilgangtilnoentjenester'
+                            >
+                                Har du allerede tilgang til noen tjenester?
+                            </Menu.Item>
+                            <Menu.Item
+                                active={activeAnchor === '#hvilketilgangerkreves'}
+                                onClick={setActiveAnchorOnClick('#hvilketilgangerkreves')}
+                                href='#hvilketilgangerkreves'
+                                key='#hvilketilgangerkreves'
+                            >
+                                Hvilke tilganger kreves?
+                            </Menu.Item>
+                            <Menu.Item
+                                active={activeAnchor === '#manglerduvarslerialtinnellerkommerdetilfeiladresse'}
+                                onClick={setActiveAnchorOnClick('#manglerduvarslerialtinnellerkommerdetilfeiladresse')}
+                                href='#manglerduvarslerialtinnellerkommerdetilfeiladresse'
+                                key='#manglerduvarslerialtinnellerkommerdetilfeiladresse'
+                            >
+                                Mangler du varsler i Altinn eller kommer de til feil adresse?
+                            </Menu.Item>
+                        </Menu>
                     </Panel>
                 </aside>
                 <div className='informasjon-om-tilgangsstyring__innhold'>
@@ -526,9 +521,6 @@ const InformasjonOmTilgangsstyringSide = () => {
                     <Panel className='informasjon-om-tilgangsstyring__tekst'>
                         <HeadingMedClipBoardLink id='manglerduvarslerialtinnellerkommerdetilfeiladresse'
                                                  title='Mangler du varsler i Altinn eller kommer de til feil adresse?'/>
-                        <Heading size='xlarge' spacing>
-                            Mangler du varsler i Altinn eller kommer de til feil adresse?
-                        </Heading>
                         <BodyLong size='small' spacing>
                             Husk å oppdatere din kontaktinformasjon som arbeidsgiver i Altinn. Hvis du ønsker varsling
                             kun på spesifikke tjenester kan du også ordne det i Altinn.
