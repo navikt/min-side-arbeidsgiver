@@ -31,8 +31,7 @@
     background-color: @navLysGra;
     min-height: 100vh;
 
-    .navds-accordion__header {
-        // TODO: kanskje ikke så heldig å binde seg navds klasse her?
+    .navds-accordion__header { // TODO: kanskje ikke så heldig å binde seg navds klasse her?
         color: @navBla
     }
 
@@ -72,7 +71,7 @@
 
         &-meny {
             position: sticky;
-            top: 0;
+            top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
             margin: 1.5rem 1rem 0 0;
             padding: 1rem;
             width: 15rem;

@@ -51,8 +51,14 @@ const InformasjonOmTilgangsstyringSide = () => {
                 setActiveAnchor(nearest);
             }
         };
-        ['wheel', 'touchmove'].forEach(e => window.addEventListener(e, scrollListener));
-        return () => ['wheel', 'touchmove'].forEach(e => window.removeEventListener(e, scrollListener));
+        /**
+         * obs: lytter til wheel og touchmove i stedet for scroll
+         * Dette slik at det fungerer på touch og mouse uten å kollidere med
+         * Element.scrollIntoView som også trigger en scroll
+         */
+        const events = ['wheel', 'touchmove'];
+        events.forEach(e => window.addEventListener(e, scrollListener));
+        return () => events.forEach(e => window.removeEventListener(e, scrollListener));
     }, []);
     useEffect(() => {
         if (activeAnchor !== undefined) {
