@@ -80,7 +80,7 @@ const InformasjonOmTilgangsstyringSide = () => {
             <div className='informasjon-om-tilgangsstyring__banner'>
                 <div className='informasjon-om-tilgangsstyring__banner-heading'>
                     <img src={icon} alt={''}/>
-                    <Heading size='xlarge'>
+                    <Heading level='1' size='xlarge'>
                         Tilganger og varslinger i Altinn
                     </Heading>
                 </div>
@@ -89,7 +89,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                 <aside className='informasjon-om-tilgangsstyring__sidepanel'>
                     <Panel className='informasjon-om-tilgangsstyring__sidepanel-meny'>
                         <Menu>
-                            <Heading size="small" spacing>
+                            <Heading level='2' size="small" spacing>
                                 Innhold
                             </Heading>
                             <Menu.Item
@@ -129,7 +129,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                 </aside>
                 <div className='informasjon-om-tilgangsstyring__innhold'>
                     <Panel className='informasjon-om-tilgangsstyring__tekst'>
-                        <HeadingMedClipBoardLink id='kortomtilgangerialtinn'
+                        <HeadingMedClipBoardLink level='2'
+                                                 id='kortomtilgangerialtinn'
                                                  title='Kort om tilganger i Altinn'/>
 
                         <BodyLong size='small' spacing>
@@ -153,7 +154,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </ul>
                     </Panel>
                     <Panel className='informasjon-om-tilgangsstyring__tekst'>
-                        <HeadingMedClipBoardLink id='hardualleredetilgangtilnoentjenester'
+                        <HeadingMedClipBoardLink level='2'
+                                                 id='hardualleredetilgangtilnoentjenester'
                                                  title='Har du allerede tilgang til noen tjenester?'/>
 
                         <BodyLong size='small' spacing>
@@ -178,7 +180,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </BodyLong>
                     </Panel>
                     <Panel className='informasjon-om-tilgangsstyring__tekst'>
-                        <HeadingMedClipBoardLink id='hvilketilgangerkreves'
+                        <HeadingMedClipBoardLink level='2'
+                                                 id='hvilketilgangerkreves'
                                                  title='Hvilke tilganger kreves?'/>
                         <BodyLong size='small' spacing>
                             Forskjellige tjenester og skjemaer i NAV krever forskjellige tilganger i Altinn.
@@ -525,7 +528,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </Accordion>
                     </Panel>
                     <Panel className='informasjon-om-tilgangsstyring__tekst'>
-                        <HeadingMedClipBoardLink id='manglerduvarslerialtinnellerkommerdetilfeiladresse'
+                        <HeadingMedClipBoardLink level='2'
+                                                 id='manglerduvarslerialtinnellerkommerdetilfeiladresse'
                                                  title='Mangler du varsler i Altinn eller kommer de til feil adresse?'/>
                         <BodyLong size='small' spacing>
                             Husk å oppdatere din kontaktinformasjon som arbeidsgiver i Altinn. Hvis du ønsker varsling
