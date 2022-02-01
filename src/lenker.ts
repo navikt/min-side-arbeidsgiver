@@ -48,8 +48,8 @@ export const infoOmNærmesteLederURL =
 export const infoOmRettigheterTilSykemeldingURL =
     'https://www.nav.no/no/Bedrift/Oppfolging/Sykmeldt+arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/om-tilganger-i-altinn';
 
-export const infoOmAltinnrollerURL =
-    'https://www.altinn.no/hjelp/profil/roller-og-rettigheter/';
+export const infoOmAltinnVarslerURL =
+    'https://www.altinn.no/hjelp/profil/kontaktinformasjon/';
 
 export const infoOmSykefraværsstatistikk =
     'https://arbeidsgiver.nav.no/forebygge-sykefravaer/#digitale-tjenester';
