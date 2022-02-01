@@ -47,12 +47,12 @@ const InformasjonOmTilgangsstyringSide = () => {
             });
             distances.sort(([_a, distanceA], [_b, distanceB]) => distanceA - distanceB)
             const nearest = distances[0][0];
-            if (nearest !== undefined && nearest !== activeAnchor) {
+            if (nearest !== undefined) {
                 setActiveAnchor(nearest);
             }
         };
-        window.addEventListener('scroll', scrollListener);
-        return () => window.removeEventListener('scroll', scrollListener);
+        ['wheel', 'touchmove'].forEach(e => window.addEventListener(e, scrollListener));
+        return () => ['wheel', 'touchmove'].forEach(e => window.removeEventListener(e, scrollListener));
     }, []);
     useEffect(() => {
         if (activeAnchor !== undefined) {
