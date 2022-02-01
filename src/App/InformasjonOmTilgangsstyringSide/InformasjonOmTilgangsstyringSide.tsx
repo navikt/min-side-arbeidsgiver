@@ -3,7 +3,7 @@ import {Accordion, BodyLong, BodyShort, Heading, Menu, Panel} from '@navikt/ds-r
 import "@navikt/ds-css";
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import {
-    infoOmAltinnrollerURL,
+    infoOmAltinnVarslerURL,
     infoOmPermitteringURL,
     infoOmRefusjonInnreiseforbudKoronaURL,
     infoOmRefusjonSykepengerKoronaURL,
@@ -538,7 +538,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                         </BodyLong>
                         <BodyLong size='small' spacing>
                             <NyFaneLenke
-                                href={infoOmAltinnrollerURL}
+                                href={infoOmAltinnVarslerURL}
                                 loggLenketekst='Les mer på Altinn om hvordan du kan velge hvor du ønsker å bli varslet, og for hva'
                             >
                                 Les mer på Altinn om hvordan du kan velge hvor du ønsker å bli varslet, og for hva
