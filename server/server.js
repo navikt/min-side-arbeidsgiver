@@ -5,10 +5,10 @@ import mustacheExpress from 'mustache-express';
 import httpProxyMiddleware from 'http-proxy-middleware';
 import jsdom from 'jsdom';
 import Prometheus from 'prom-client';
-import require from './esm-require.js';
+import { createLogger, transports, format } from 'winston';
 import cookieParser from 'cookie-parser';
+import require from './esm-require.js';
 
-const { createLogger, transports, format } = require('winston');
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { JSDOM } = jsdom;
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -23,7 +23,6 @@ const {
     DECORATOR_EXTERNAL_URL = defaultDecoratorUrl,
     NAIS_CLUSTER_NAME = 'local',
     API_GATEWAY = 'http://localhost:8080',
-    BRUKER_API_URL = 'http://localhost:8081',
     DECORATOR_UPDATE_MS = 30 * 60 * 1000,
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
