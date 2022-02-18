@@ -17,6 +17,8 @@ import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbake
 import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
 import InnsynISak from "./InnsynISak/InnsynISak";
 import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
+import {LenkeMedLogging} from "../../GeneriskeElementer/LenkeMedLogging";
+import {lenkeTilTilgangsstyringsInfo} from "../../lenker";
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -55,6 +57,9 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <AltinnContainer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />
+                <LenkeMedLogging href={lenkeTilTilgangsstyringsInfo} loggLenketekst='Lær om tilganger og varsler i Altinn'>
+                    Lær om tilganger og varsler i Altinn
+                </LenkeMedLogging>
             </div>
         </div>
     );
