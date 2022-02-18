@@ -39,24 +39,22 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <div className='hovedside-container'>
-                {/*<div className='hovedside'>*/}
-                    <AdvarselBannerTestversjon />
-                    <VarselHvisNedetid />
-                    <GiOssTilbakemelding />
-                    <UndersokelseInntektsmelding />
-                    <FeilmeldingContainer
-                        visFeilmelding={visFeilmelding}
-                        visSyfoFeilmelding={visSyfoFeilmelding}
-                    />
-                    <Koronaboks />
-                    { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
-                    <TjenesteBoksContainer />
-                    <SkjemaveilederContainer />
-                    <BrevFraAltinnContainer />
-                    <AltinnContainer />
-                    <NyttigForDegContainer />
-                    <BeOmTilgang />
-                {/*</div>*/}
+                <AdvarselBannerTestversjon />
+                <VarselHvisNedetid />
+                <GiOssTilbakemelding />
+                <UndersokelseInntektsmelding />
+                <FeilmeldingContainer
+                    visFeilmelding={visFeilmelding}
+                    visSyfoFeilmelding={visSyfoFeilmelding}
+                />
+                <Koronaboks />
+                { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
+                <TjenesteBoksContainer />
+                <SkjemaveilederContainer />
+                <BrevFraAltinnContainer />
+                <AltinnContainer />
+                <NyttigForDegContainer />
+                <BeOmTilgang />
             </div>
         </div>
     );
