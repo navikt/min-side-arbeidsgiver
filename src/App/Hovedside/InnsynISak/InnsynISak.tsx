@@ -50,7 +50,7 @@ const InnsynISak = () => {
         },
     })
 
-    if (loading || data?.saker.edges.length == 0) return null;
+    if (loading || !data || data?.saker.edges.length == 0) return null;
 
     return (
         <div className='innsynisak'>

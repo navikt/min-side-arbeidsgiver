@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
-import { LinkableFragment } from '../../GeneriskeElementer/LinkableFragment';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import { VarselHvisNedetid } from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
 import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
-import { Koronaboks } from '../Koronaboks/Koronaboks';
+import { Koronaboks } from './Koronaboks/Koronaboks';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import { AltinnContainer } from './AltinnContainer/AltinnContainer';
@@ -17,6 +16,7 @@ import './Hovedside.less';
 import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
 import InnsynISak from "./InnsynISak/InnsynISak";
+import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -39,25 +39,22 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
         <div className={'min-side-arbeidsgiver-wrapper'}>
             <Brodsmulesti brodsmuler={[]} />
             <div className='hovedside-container'>
-                <div className='hovedside'>
-                    <AdvarselBannerTestversjon />
-                    <VarselHvisNedetid />
-                    <GiOssTilbakemelding />
-                    <FeilmeldingContainer
-                        visFeilmelding={visFeilmelding}
-                        visSyfoFeilmelding={visSyfoFeilmelding}
-                    />
-                    <Koronaboks />
-                    { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
-                    <TjenesteBoksContainer />
-                    <SkjemaveilederContainer />
-                    <BrevFraAltinnContainer />
-                    <AltinnContainer />
-                    <NyttigForDegContainer />
-                    <LinkableFragment fragment='be-om-tilgang'>
-                        <BeOmTilgang />
-                    </LinkableFragment>
-                </div>
+                <AdvarselBannerTestversjon />
+                <VarselHvisNedetid />
+                <GiOssTilbakemelding />
+                <UndersokelseInntektsmelding />
+                <FeilmeldingContainer
+                    visFeilmelding={visFeilmelding}
+                    visSyfoFeilmelding={visSyfoFeilmelding}
+                />
+                <Koronaboks />
+                { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
+                <TjenesteBoksContainer />
+                <SkjemaveilederContainer />
+                <BrevFraAltinnContainer />
+                <AltinnContainer />
+                <NyttigForDegContainer />
+                <BeOmTilgang />
             </div>
         </div>
     );

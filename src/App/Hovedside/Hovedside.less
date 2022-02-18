@@ -1,32 +1,22 @@
 @import '~nav-frontend-core/less/_variabler';
 
-.min-side-arbeidsgiver-wrapper {
+.hovedside-container {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
-    .hovedside-container {
-        display: flex;
-        flex-direction: column;
+    background-color: @navLysGra;
+    margin: 1rem;
+    padding: 1rem 0;
 
-        .hovedside {
-            background-color: @navLysGra;
-            margin: 0 1rem;
-            padding-top: 0.5rem;
-        }
+    .notifikasjoner_widget {
+        padding: 0 1rem;
+        margin: 1rem 0;
+        position: relative;
+    }
 
-        .notifikasjoner_widget {
-            padding: 0 1rem;
-            margin: 1rem 0;
-            position: relative;
-        }
-
-        @media (min-width: 1024px) {
-            .hovedside {
-                width: 60rem;
-                margin: 0 auto;
-            }
-        }
+    @media (min-width: 1024px) {
+        width: 60rem;
+        margin: 0 auto;
     }
 }
-
-
