@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
 import Element from 'nav-frontend-typografi/lib/element';
 import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     permitteringKlageskjemaURL,
@@ -10,11 +10,11 @@ import {
     lenkeTilPermitteringsInfo, lenkeTilLonnskompensasjonOgRefusjon,
     grensekompURL,
     grensekompOversiktURL,
-} from '../../lenker';
-import Innholdsboks from '../Hovedside/Innholdsboks/Innholdsboks';
+} from '../../../lenker';
+import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 
 interface KoronalenkeProps {
     href: string;

@@ -10,8 +10,8 @@ export const VarselHvisNedetid: FunctionComponent = () => {
     const showUntil = new Date('2021-05-15T10:00:00+02:00');
 
     return (
-        <div className={'nedetid'}>
-            <DisplayBetween showFrom={showFrom} showUntil={showUntil}>
+        <DisplayBetween showFrom={showFrom} showUntil={showUntil}>
+            <div className={'nedetid'}>
                 <AlertStripe type="advarsel" className={'nedetid__varsel'}>
                     <Element className={'nedetid__varsel-overskrift'}>
                         Tjenester for arbeidsgivere kan være utilgjengelig
@@ -32,7 +32,7 @@ export const VarselHvisNedetid: FunctionComponent = () => {
                         Vi beklager ulempene dette medfører.
                     </p>
                 </AlertStripe>
-            </DisplayBetween>
-        </div>
+            </div>
+        </DisplayBetween>
     );
 };
