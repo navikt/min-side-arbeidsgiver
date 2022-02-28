@@ -15,15 +15,11 @@ export const ClipBoardLink: FunctionComponent<ClipBoardLinkProps> = ({hash}) => 
     targetUrl.hash = hash
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const copyLink = () => {
-        navigator.clipboard.write([
-            new ClipboardItem({
-                'text/plain': new Blob([targetUrl.toString()], {type: "text/plain"})
-            })
-        ]).then(
-            function () {
+        navigator.clipboard.writeText(targetUrl.toString()).then(
+            () => {
                 setShowAlert(true);
             },
-            function () {
+            () => {
                 /* err */
             }
         );
