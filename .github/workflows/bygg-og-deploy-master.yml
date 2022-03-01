@@ -22,10 +22,10 @@ jobs:
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-          cache: 'yarn'
+          cache: 'npm'
 
-      - name: Installer avhengigheter (yarn install)
-        run:  yarn install --ignore-scripts --no-optional
+      - name: Installer avhengigheter
+        run:  npm ci --ignore-scripts --no-optional
 
 
   bygg:
@@ -61,16 +61,13 @@ jobs:
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-          cache: 'yarn'
+          cache: 'npm'
 
-      - name: Installer avhengigheter (yarn install)
-        run:  yarn install --production --ignore-scripts --no-optional
+      - name: Installer avhengigheter
+        run:  npm ci --production --ignore-scripts --no-optional
 
-      - name: Kjør UU-tester (yarn lint)
-        run: yarn lint
 
-      - name: Bygg (yarn build)
-        run: yarn build
+      - run: npm run build
 
       - name: Bygg, tag og push Docker-image
         run: |
