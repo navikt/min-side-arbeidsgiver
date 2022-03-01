@@ -66,6 +66,7 @@ jobs:
       - name: Installer avhengigheter
         run:  npm ci --production --ignore-scripts --no-optional
 
+      - run: npm run lint
 
       - run: npm run build
 
