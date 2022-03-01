@@ -1,17 +1,14 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
-import { hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
-import {
-    OrganisasjonFraEnhetsregisteret,
-} from '../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
+import { Enhet, hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet/Underenhet';
 import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.less';
 
 interface Enheter {
-    underenhet: OrganisasjonFraEnhetsregisteret;
-    hovedenhet: OrganisasjonFraEnhetsregisteret;
+    underenhet: Enhet;
+    hovedenhet: Enhet;
 }
 
 const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
@@ -19,7 +16,10 @@ const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
     if (underenhet === undefined) {
         return undefined
     }
-    const hovedenhet = await hentOverordnetEnhet(underenhet?.overordnetEnhet)
+    if (underenhet.overordnetEnhet === undefined) {
+        return undefined
+    }
+    const hovedenhet = await hentOverordnetEnhet(underenhet.overordnetEnhet)
     if (hovedenhet === undefined) {
         return undefined
     }
