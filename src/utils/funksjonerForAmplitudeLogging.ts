@@ -1,5 +1,5 @@
 import amplitude from '../utils/amplitude';
-import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 import { Innlogget } from '../App/LoginProvider';
 import { basename } from '../paths';
 import { Enhet, hentUnderenhet } from '../api/enhetsregisteretApi';
