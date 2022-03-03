@@ -1,18 +1,19 @@
 import React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { OrganisasjonFraEnhetsregisteret, } from '../../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
 import JuridiskEnhetIkon from '../ikoner/JuridiskEnhetIkon';
 import './OverordnetEnhet.less';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { Enhet } from '../../../api/enhetsregisteretApi';
 
 interface Props {
-    overordnetenhet: OrganisasjonFraEnhetsregisteret;
+    overordnetenhet: Enhet;
 }
 
 const OverordnetEnhet = ({overordnetenhet}: Props) => {
+    const { forretningsadresse, postadresse } = overordnetenhet;
     return (
         <div className="overordnet-enhet-info">
             <Tekstboks className="overordnetenhet-navn">
@@ -33,17 +34,21 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
 
                 <Tekstboks className="overordnetenhet-adresse1">
                     <Normaltekst>Forretningsadresse</Normaltekst>
-                    <Normaltekst> { overordnetenhet.forretningsadresse ? overordnetenhet.forretningsadresse.adresse[0] : ''}</Normaltekst>
+                    <Normaltekst> { forretningsadresse ? forretningsadresse.adresse?.[0] : ''}</Normaltekst>
                     <Normaltekst>
-                        {overordnetenhet.forretningsadresse ? `${overordnetenhet.forretningsadresse.postnummer} ${overordnetenhet.forretningsadresse.poststed}` : ''}
+                        {forretningsadresse?.postnummer ?? ''}
+                        {' '}
+                        {forretningsadresse?.poststed ?? ''}
                     </Normaltekst>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse2">
                     <Normaltekst>Postadresse</Normaltekst>
-                    <Normaltekst> { overordnetenhet.postadresse ? overordnetenhet.postadresse.adresse[0] : ''}</Normaltekst>
+                    <Normaltekst> { postadresse?.adresse?.[0] ?? '' } </Normaltekst>
                     <Normaltekst>
-                        {overordnetenhet.postadresse ? `${overordnetenhet.postadresse.postnummer} ${overordnetenhet.postadresse.poststed}` : ''}
+                        {postadresse?.postnummer ?? ''}
+                        {' '}
+                        {postadresse?.poststed ?? ''}
                     </Normaltekst>
                 </Tekstboks>
             </div>

@@ -1,11 +1,8 @@
 import amplitude from '../utils/amplitude';
-import { OrganisasjonInfo, SyfoTilgang } from '../App/OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 import { Innlogget } from '../App/LoginProvider';
 import { basename } from '../paths';
-import {
-    OrganisasjonFraEnhetsregisteret,
-} from '../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
-import { hentUnderenhet } from '../api/enhetsregisteretApi';
+import { Enhet, hentUnderenhet } from '../api/enhetsregisteretApi';
 
 interface EventProps {
     url: string;
@@ -24,10 +21,6 @@ interface EregInfo {
 }
 
 const baseUrl = `https://arbeidsgiver.nav.no${basename}`;
-
-interface AndreTilganger {
-    tilgangTilSyfo: SyfoTilgang,
-}
 
 export const loggSidevisning = (pathname: string, innlogget: Innlogget) => {
     amplitude.logEvent('sidevisning', {
@@ -57,7 +50,7 @@ const finnAntallAnsattebøtte = (antall: number) => {
     }
 };
 
-const finnSektorNavn = (eregOrg: OrganisasjonFraEnhetsregisteret) => {
+const finnSektorNavn = (eregOrg: Enhet) => {
     if (eregOrg.naeringskode1) {
         if (eregOrg.naeringskode1.kode.startsWith('84')) {
             return 'offentlig';

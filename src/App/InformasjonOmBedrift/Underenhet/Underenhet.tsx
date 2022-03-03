@@ -1,18 +1,19 @@
 import React from 'react';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
-import { OrganisasjonFraEnhetsregisteret } from '../../../Objekter/Organisasjoner/OrganisasjonFraEnhetsregisteret';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import UnderenhetIkon from '../ikoner/UnderenhetIkon';
 import { enhetsregisteretUnderenhetLink } from '../../../lenker';
 import './Underenhet.less';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { Enhet } from '../../../api/enhetsregisteretApi';
 
 interface Props {
-    underenhet: OrganisasjonFraEnhetsregisteret;
+    underenhet: Enhet;
 }
 
 const Underenhet = ({ underenhet }: Props) => {
+    const adresse = underenhet?.beliggenhetsadresse
     return (
         <>
             <div className="underenhet-info">
@@ -33,13 +34,12 @@ const Underenhet = ({ underenhet }: Props) => {
                 <Tekstboks  className="underenhet-adresse">
                     <Normaltekst>Beliggenhetsadresse</Normaltekst>
                     <Normaltekst>
-                        {underenhet.beliggenhetsadresse
-                            ? underenhet.beliggenhetsadresse.adresse[0] : ''}
+                        { adresse?.adresse?.[0] ?? '' }
                     </Normaltekst>
                     <Normaltekst>
-                        {underenhet.beliggenhetsadresse
-                            ? `${underenhet.beliggenhetsadresse.postnummer} ${underenhet.beliggenhetsadresse.poststed}`
-                            : ''}
+                        { adresse?.postnummer ?? '' }
+                        { ' ' }
+                        { adresse?.poststed ?? '' }
                     </Normaltekst>
                 </Tekstboks>
 
