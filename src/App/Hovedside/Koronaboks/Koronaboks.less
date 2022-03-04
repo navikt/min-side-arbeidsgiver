@@ -4,11 +4,10 @@
   background-color: transparent;
 
   &__ikon {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
+    vertical-align: bottom;
     width: 1.5rem;
     height: 1.5rem;
+    margin-right: 1.5rem;
   }
 
   &__tekst {
@@ -20,15 +19,9 @@
   }
 
   &__innhold {
-    padding: 1rem 1rem 1rem 3rem;
     display: flex;
     flex-direction: column;
     position: relative;
-  }
-
-  @media (min-width: @screen-sm-min) {
-    &__innhold {
-      padding: 1rem 3.5rem;
-    }
+    padding-left: 1rem;
   }
 }
