@@ -10,25 +10,24 @@ import {FolderFilled} from "@navikt/ds-icons";
 
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer:String!, $first: Int = 3, $after:String) {
-        saker(virksomhetsnummer: $virksomhetsnummer, first: $first, after: $after) {
-            edges {
-                node {
-                    virksomhet {
-                        virksomhetsnummer
-                        navn
-                    }
-                    sisteStatus {
-                        status
-                        tittel
-                        lenke
-                        tidspunkt
-                    }
+    query hentSaker($virksomhetsnummer: String!) {
+        saker(virksomhetsnummer: $virksomhetsnummer) {
+            saker {
+                id
+                tittel
+                lenke
+                merkelapp
+                virksomhet {
+                    navn
+                    virksomhetsnummer
+                }
+                sisteStatus {
+                    type
+                    tekst
+                    tidspunkt
                 }
             }
-            pageInfo {
-                endCursor
-            }
+            feilAltinn
         }
     }
 `
@@ -50,7 +49,7 @@ const InnsynISak = () => {
         },
     })
 
-    if (loading || !data || data?.saker.edges.length == 0) return null;
+    if (loading || !data || data?.saker.saker.length == 0) return null;
 
     return (
         <div className='innsynisak'>
@@ -59,13 +58,13 @@ const InnsynISak = () => {
             </Undertittel>
 
             <ul>
-                {data?.saker.edges.map(({node}) => (
-                    <li>
-                        <Lenkepanel tittelProps='element' href={node.sisteStatus.lenke}>
-                            <Undertekst>{node.virksomhet.navn.toUpperCase()}</Undertekst>
-                            <Lenke className='innsynisak__lenke' href={node.sisteStatus.lenke}>{node.sisteStatus.tittel}</Lenke>
+                {data?.saker.saker.map(({id, tittel, lenke, sisteStatus, virksomhet, merkelapp}) => (
+                    <li key={id}>
+                        <Lenkepanel tittelProps='element' href={lenke}>
+                            <Undertekst>{virksomhet.navn.toUpperCase()}</Undertekst>
+                            <Lenke className='innsynisak__lenke' href={lenke}>{tittel}</Lenke>
                             <UndertekstBold>
-                                {node.sisteStatus.status}{' '}{dateFormat.format(new Date(node.sisteStatus.tidspunkt))}
+                                {sisteStatus.tekst}{' '}{dateFormat.format(new Date(sisteStatus.tidspunkt))}
                             </UndertekstBold>
                         </Lenkepanel>
                     </li>
