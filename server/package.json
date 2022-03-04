@@ -5,7 +5,7 @@
   "type": "module",
   "main": "server.js",
   "dependencies": {
-    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "0.0.7",
+    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "0.0.9",
     "casual": "^1.6.2",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
@@ -19,7 +19,7 @@
     "winston": "3.4.0"
   },
   "scripts": {
-    "start": "node --experimental-modules server.js",
+    "start": "node server.js",
     "start:apollo": "node apollo.js"
   }
 }

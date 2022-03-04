@@ -5,8 +5,6 @@ schema {
     mutation: Mutation
 }
 
-directive @cacheControl(maxAge: Int, scope: CacheControlScope) on OBJECT | FIELD_DEFINITION | INTERFACE
-
 union Notifikasjon = Beskjed | Oppgave
 
 union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
@@ -47,37 +45,30 @@ type Oppgave {
     virksomhet: Virksomhet!
 }
 
-type PageInfo {
-    endCursor: String!
-    hasNextPage: Boolean!
-}
-
 type Query {
     notifikasjoner: NotifikasjonerResultat!
-    saker(after: String, first: Int, virksomhetsnummer: String!): SakConnection!
+    saker(virksomhetsnummer: String!): SakerResultat!
     whoami: String
 }
 
 type Sak {
-    sisteStatus: Statusoppdatering!
+    id: ID!
+    lenke: String!
+    merkelapp: String!
+    sisteStatus: SakStatus!
+    tittel: String!
     virksomhet: Virksomhet!
 }
 
-type SakConnection {
-    edges: [SakEdge!]!
-    pageInfo: PageInfo!
-}
-
-type SakEdge {
-    cursor: String!
-    node: Sak!
-}
-
-type Statusoppdatering {
-    lenke: String!
-    status: String!
+type SakStatus {
+    tekst: String!
     tidspunkt: ISO8601DateTime!
-    tittel: String!
+    type: SakStatusType!
+}
+
+type SakerResultat {
+    feilAltinn: Boolean!
+    saker: [Sak!]!
 }
 
 type UgyldigId {
@@ -89,16 +80,15 @@ type Virksomhet {
     virksomhetsnummer: String!
 }
 
-enum CacheControlScope {
-    PRIVATE
-    PUBLIC
-}
-
 enum OppgaveTilstand {
     NY
     UTFOERT
 }
 
-scalar ISO8601DateTime
+enum SakStatusType {
+    FERDIG
+    MOTTATT
+    UNDER_BEHANDLING
+}
 
-scalar Upload
+scalar ISO8601DateTime
