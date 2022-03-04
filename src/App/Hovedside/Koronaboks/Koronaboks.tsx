@@ -15,6 +15,7 @@ import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 
 interface KoronalenkeProps {
     href: string;
@@ -35,34 +36,27 @@ export const Koronaboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     return (
-        <div className='koronaboks'>
-            <Innholdsboks classname='koronaboks__innhold'>
-                <KoronaboksIkon />
-                <Undertittel>Koronarelaterte tjenester</Undertittel>
-
-                <Element className='koronaboks__tekst'>Permittering</Element>
-
-                <Koronalenke
-                    href={lenkeTilPermitteringOgMasseoppsigelsesSkjema}
-                    tekst='Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden'
-                />
-
-                <Koronalenke
-                    href={lenkeTilPermitteringsInfo}
-                    tekst='Nye regler for lønnsplikt ved permittering'
-                />
-
+            <Ekspanderbartpanel className='koronaboks' border={false} apen={true} tittel={<>
+                <KoronaboksIkon/>Koronaspesifikke tjenester
+            </>}>
+                <span className='koronaboks__innhold'>
                 {
                     valgtOrganisasjon?.altinntilgang.inntektsmelding === true
                         ? <LenkerSomKreverInntekstmeldingtilgang
                             orgnr={valgtOrganisasjon.organisasjon.OrganizationNumber} />
                         : null
                 }
-            </Innholdsboks>
-        </div>
+                </span>
+            </Ekspanderbartpanel>
     );
 };
 const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{ orgnr: string }> = ({ orgnr }) => <>
+
+    <Element className='koronaboks__tekst'>Refusjon sykepenger</Element>
+    <Koronalenke
+        href={koronaSykeRefusjonURL(orgnr)}
+        tekst='Søk om refusjon av sykepenger ved koronavirus'
+    />
 
     <Element className='koronaboks__tekst'>Lønnskompensasjon</Element>
     <Koronalenke
@@ -73,12 +67,6 @@ const LenkerSomKreverInntekstmeldingtilgang: FunctionComponent<{ orgnr: string }
     <Koronalenke
         href={permitteringKlageskjemaURL(orgnr)}
         tekst='Ettersend opplysninger eller klag på vedtak om lønnskompensasjon'
-    />
-
-    <Element className='koronaboks__tekst'>Refusjon sykepenger</Element>
-    <Koronalenke
-        href={koronaSykeRefusjonURL(orgnr)}
-        tekst='Søk om refusjon av sykepenger ved koronavirus'
     />
 
     <Element className='koronaboks__tekst'>Restriksjoner for innreise</Element>

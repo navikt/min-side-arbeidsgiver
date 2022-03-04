@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Undertittel } from 'nav-frontend-typografi';
-import { skjemaForArbeidsgiverURL } from '../../../lenker';
+import {lenkeTilPermitteringOgMasseoppsigelsesSkjema, skjemaForArbeidsgiverURL} from '../../../lenker';
 import './SkjemaveilederContainer.less';
 import { HoyreChevron } from 'nav-frontend-chevron';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
@@ -49,6 +49,12 @@ export const SkjemaveilederContainer = () => {
                     </>
                     : null
                 }
+
+
+                {lenke(
+                    'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
+                    lenkeTilPermitteringOgMasseoppsigelsesSkjema
+                )}
             </ul>
 
 
