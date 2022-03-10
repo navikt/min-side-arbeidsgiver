@@ -1,12 +1,14 @@
 import React, {useContext} from 'react';
+import { Link } from 'react-router-dom';
 import {gql, TypedDocumentNode, useQuery,} from '@apollo/client'
 import {GQL} from "@navikt/arbeidsgiver-notifikasjon-widget";
-import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
-import './InnsynISak.less';
+import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
+import './SisteSaker.less';
 import Lenkepanel from "nav-frontend-lenkepanel";
 import Lenke from "nav-frontend-lenker";
 import {Undertekst, UndertekstBold, Undertittel} from "nav-frontend-typografi";
 import {FolderFilled} from "@navikt/ds-icons";
+import {HoyreChevron} from "nav-frontend-chevron";
 
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
@@ -28,6 +30,7 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
                 }
             }
             feilAltinn
+            totaltAntallSaker
         }
     }
 `
@@ -38,7 +41,7 @@ const dateFormat = new Intl.DateTimeFormat('no', {
     day: '2-digit',
 });
 
-const InnsynISak = () => {
+const SisteSaker = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) return null;
@@ -53,9 +56,15 @@ const InnsynISak = () => {
 
     return (
         <div className='innsynisak'>
-            <Undertittel className='innsynisak__tittel'>
-                <FolderFilled color='#3386E0' className='folder-icon'/>Siste saker
-            </Undertittel>
+            <div className='innsynisak__header'>
+                <Undertittel className='innsynisak__tittel'>
+                    <FolderFilled color='#3386E0' className='folder-icon'/>Siste saker
+                </Undertittel>
+                <Link className="lenke" to='saksoversikt'>
+                    Se alle ({data?.saker.totaltAntallSaker})
+                    <HoyreChevron />
+                </Link>
+            </div>
 
             <ul>
                 {data?.saker.saker.map(({id, tittel, lenke, sisteStatus, virksomhet, merkelapp}) => (
@@ -75,4 +84,4 @@ const InnsynISak = () => {
     );
 };
 
-export default InnsynISak;
+export default SisteSaker;

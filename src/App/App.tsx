@@ -15,6 +15,7 @@ import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { gittMiljo } from '../utils/environment';
 import Banner from "./HovedBanner/HovedBanner";
+import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -84,6 +85,12 @@ const App: FunctionComponent = () => {
                                                         <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
                                                                            setTittel={setSidetittel}>
                                                             <ManglerTilgangContainer/>
+                                                        </SideTittelWrapper>
+                                                    </Route>
+                                                    <Route path="/saksoversikt" exact={true}>
+                                                        <SideTittelWrapper tittel={"Saksoversikt"}
+                                                                           setTittel={setSidetittel}>
+                                                            <Saksoversikt />
                                                         </SideTittelWrapper>
                                                     </Route>
                                                 </Switch>
