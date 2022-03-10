@@ -8,22 +8,25 @@ interface Props {
 }
 
 const SideBytter = ({ antallSider }: Props) => {
+    const [nåVærendeSidetall, settNåværendeSideTall] = useState(1);
     const chevronOverst = document.getElementById('sidebytter-chevron-hoyre-overst');
     const chevronNederst = document.getElementById('sidebytter-chevron-hoyre-nederst');
     const plassering = '';
 
     const sideKlikketPå = (side: number) => {
-        console.log("valgt side", side);
+        settNåværendeSideTall(side)
     };
     const gåTilForrigeSide = () => {
-        console.log("gå til forrige");
+        if (nåVærendeSidetall > 1) {
+            settNåværendeSideTall(nåVærendeSidetall - 1)
+        }
     };
     const gåTilNesteSide = () => {
-        console.log("gå til neste");
+        if (nåVærendeSidetall < antallSider) {
+            settNåværendeSideTall(nåVærendeSidetall + 1)
+        }
     };
 
-    const nåVærendeSidetallParameter = '1';
-    const nåVærendeSidetall = parseInt(nåVærendeSidetallParameter);
 
     if (chevronOverst && chevronNederst) {
         if (nåVærendeSidetall !== antallSider) {
