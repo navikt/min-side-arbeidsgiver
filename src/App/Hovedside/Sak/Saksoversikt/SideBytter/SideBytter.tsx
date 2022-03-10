@@ -1,17 +1,59 @@
 import React, { useState } from 'react';
 import { HoyreChevron, VenstreChevron } from 'nav-frontend-chevron';
 import './SideBytter.less';
-import PagineringsKnapp from "./PagineringsKnapp/PagineringsKnapp";
+import {Element} from "nav-frontend-typografi";
 
-interface Props {
+interface PagineringsknappProps {
+    erValgt: boolean,
+    sidetall: number;
+    siderTilsammen: number;
+    gåTil: (side: number) => void;
+    gåTilNeste: () => void;
+    gåTilForrige: () => void;
+}
+
+const Pagineringsknapp = (props: PagineringsknappProps) => {
+
+    let ariaLabel = `Gå til side ${props.sidetall}`;
+    if (props.erValgt) {
+        ariaLabel = `side ${props.sidetall} valgt`;
+        if (props.sidetall === props.siderTilsammen) {
+            ariaLabel += ' ,dette er siste side';
+        }
+    }
+
+    return (
+        <button
+            onKeyDown={({key}) => {
+                if (key === 'ArrowRight' || key === 'Right') {
+                    props.gåTilNeste()
+                }
+                if (key === 'ArrowLeft' || key === 'Left') {
+                    props.gåTilForrige()
+                }
+            }}
+            id={'pagineringsknapp-' + props.sidetall}
+            key={props.sidetall}
+            className={props.erValgt ? 'sidebytter__valg er-valgt' : 'sidebytter__valg'}
+            onClick={() => props.gåTil(props.sidetall)}
+            aria-label={ariaLabel}
+            aria-current={props.erValgt}
+        >
+            <Element className="valg__sidetall">{props.sidetall}</Element>
+        </button>
+    );
+};
+
+interface SideBytterProps {
     antallSider: number;
 }
 
-const SideBytter = ({ antallSider }: Props) => {
+const SideBytter = ({ antallSider }: SideBytterProps) => {
+    if (antallSider < 2) {
+        return null;
+    }
+
     const [nåVærendeSidetall, settNåværendeSideTall] = useState(1);
-    const chevronOverst = document.getElementById('sidebytter-chevron-hoyre-overst');
-    const chevronNederst = document.getElementById('sidebytter-chevron-hoyre-nederst');
-    const plassering = '';
 
     const sideKlikketPå = (side: number) => {
         settNåværendeSideTall(side)
@@ -28,16 +70,6 @@ const SideBytter = ({ antallSider }: Props) => {
     };
 
 
-    if (chevronOverst && chevronNederst) {
-        if (nåVærendeSidetall !== antallSider) {
-            chevronOverst.style.visibility = 'initial';
-            chevronNederst.style.visibility = 'initial';
-        } else {
-            chevronOverst.style.visibility = 'hidden';
-            chevronNederst.style.visibility = 'hidden';
-        }
-    }
-
     return (
         <nav
             className="sidebytter"
@@ -45,136 +77,85 @@ const SideBytter = ({ antallSider }: Props) => {
             aria-label={`Sidebytter, Nåværende side er ${nåVærendeSidetall}, bruk piltastene til å navigere`}
         >
             <div role={'toolbar'}>
-                {nåVærendeSidetall !== 1 && (
+                {nåVærendeSidetall > 1 && (
                     <button
                         onKeyDown={(e) => gåTilForrigeSide()}
                         className="sidebytter__chevron"
                         onClick={() => gåTilForrigeSide()}
                         aria-label={'Gå til forrige side'}
                     >
-                        <VenstreChevron type={'venstre'} />
+                        <VenstreChevron />
                     </button>
                 )}
 
-                {(nåVærendeSidetall < 3 || antallSider < 4) && (
-                    <>
-                        <PagineringsKnapp
-                            sidetall={1}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={nåVærendeSidetall === 1}
-                        />
-
-                        <PagineringsKnapp
-                            sidetall={2}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={nåVærendeSidetall === 2}
-                        />
-
-                        {antallSider > 2 && (
-                            <PagineringsKnapp
-                                sidetall={3}
-                                siderTilsammen={antallSider}
-                                onKlikketPåSide={sideKlikketPå}
-                                erValgt={nåVærendeSidetall === 3}
-                            />
-                        )}
-
-                        {antallSider > 3 && (
-                            <>
-                                ...
-                                <PagineringsKnapp
-                                    sidetall={4}
-                                    siderTilsammen={antallSider}
-                                    onKlikketPåSide={sideKlikketPå}
-                                    erValgt={nåVærendeSidetall === 4}
-                                />
-                            </>
-                        )}
-                    </>
+                {nåVærendeSidetall > 1 && (
+                    <Pagineringsknapp
+                        sidetall={1}
+                        siderTilsammen={antallSider}
+                        gåTil={sideKlikketPå}
+                        gåTilNeste={gåTilNesteSide}
+                        gåTilForrige={gåTilForrigeSide}
+                        erValgt={false}
+                    />
                 )}
 
+                {nåVærendeSidetall > 3 && ('...')}
 
-                {antallSider > 3 && nåVærendeSidetall > 2 && nåVærendeSidetall < antallSider - 1 && (
-                    <>
-                        <PagineringsKnapp
-                            sidetall={1}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={false}
-                        />
-                        ...
-                        <PagineringsKnapp
-                            sidetall={nåVærendeSidetall - 1}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={false}
-                        />
-                        <PagineringsKnapp
-                            sidetall={nåVærendeSidetall}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={true}
-                        />
-                        <PagineringsKnapp
-                            sidetall={nåVærendeSidetall + 1}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={false}
-                        />
-                        {nåVærendeSidetall < antallSider - 1 && (
-                            <>
-                                ...
-                                <PagineringsKnapp
-                                    sidetall={antallSider}
-                                    siderTilsammen={antallSider}
-                                    onKlikketPåSide={sideKlikketPå}
-                                    erValgt={false}
-                                />
-                            </>
-                        )}
-                    </>
+                {nåVærendeSidetall > 2 && (
+                    <Pagineringsknapp
+                        sidetall={nåVærendeSidetall - 1}
+                        siderTilsammen={antallSider}
+                        gåTil={sideKlikketPå}
+                        gåTilNeste={gåTilNesteSide}
+                        gåTilForrige={gåTilForrigeSide}
+                        erValgt={false}
+                    />
                 )}
-                {antallSider > 3 && nåVærendeSidetall >= antallSider - 1 && (
-                    <>
-                        <PagineringsKnapp
-                            sidetall={1}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={false}
-                        />
-                        ...
-                        <PagineringsKnapp
-                            sidetall={antallSider - 2}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={false}
-                        />
 
-                        <PagineringsKnapp
-                            sidetall={antallSider - 1}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={nåVærendeSidetall === antallSider - 1}
-                        />
-                        <PagineringsKnapp
-                            sidetall={antallSider}
-                            siderTilsammen={antallSider}
-                            onKlikketPåSide={sideKlikketPå}
-                            erValgt={nåVærendeSidetall === antallSider}
-                        />
-                    </>
+                <Pagineringsknapp
+                    sidetall={nåVærendeSidetall}
+                    siderTilsammen={antallSider}
+                    gåTil={sideKlikketPå}
+                    gåTilNeste={gåTilNesteSide}
+                    gåTilForrige={gåTilForrigeSide}
+                    erValgt={true}
+                />
+
+                {nåVærendeSidetall < antallSider - 1 && (
+                    <Pagineringsknapp
+                        sidetall={nåVærendeSidetall + 1}
+                        siderTilsammen={antallSider}
+                        gåTil={sideKlikketPå}
+                        gåTilNeste={gåTilNesteSide}
+                        gåTilForrige={gåTilForrigeSide}
+                        erValgt={false}
+                    />
                 )}
-                <button
-                    onKeyDown={(e) => gåTilNesteSide()}
-                    className={'sidebytter__chevron'}
-                    onClick={() => gåTilNesteSide()}
-                    aria-label={'Gå til neste side'}
-                    id={'sidebytter-chevron-hoyre-' + plassering}
-                >
-                    <HoyreChevron />
-                </button>
+
+                {nåVærendeSidetall < antallSider - 2 && ('...')}
+
+
+                {nåVærendeSidetall < antallSider && (
+                    <Pagineringsknapp
+                        sidetall={antallSider}
+                        siderTilsammen={antallSider}
+                        gåTil={sideKlikketPå}
+                        gåTilNeste={gåTilNesteSide}
+                        gåTilForrige={gåTilForrigeSide}
+                        erValgt={false}
+                    />
+                )}
+
+                {nåVærendeSidetall < antallSider && (
+                    <button
+                        onKeyDown={(e) => gåTilNesteSide()}
+                        className={'sidebytter__chevron'}
+                        onClick={() => gåTilNesteSide()}
+                        aria-label={'Gå til neste side'}
+                    >
+                        <HoyreChevron />
+                    </button>
+                )}
             </div>
         </nav>
     );

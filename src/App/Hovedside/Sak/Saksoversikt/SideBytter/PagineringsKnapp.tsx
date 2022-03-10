@@ -2,14 +2,16 @@ import React from 'react';
 import {Element} from 'nav-frontend-typografi';
 import './PagineringsKnapp.less';
 
-interface Props {
+interface PagineringsknappProps {
     erValgt: boolean,
     sidetall: number;
     siderTilsammen: number;
-    onKlikketPåSide: (side: number) => void;
+    gåTil: (side: number) => void;
+    gåTilNeste: () => void;
+    gåTilForrige: () => void;
 }
 
-const PagineringsKnapp = (props: Props) => {
+const Pagineringsknapp = (props: PagineringsknappProps) => {
 
     let ariaLabel = `Gå til side ${props.sidetall}`;
     if (props.erValgt) {
@@ -23,22 +25,22 @@ const PagineringsKnapp = (props: Props) => {
         <button
             onKeyDown={({key}) => {
                 if (key === 'ArrowRight' || key === 'Right') {
-                    // props.gåTilNeste()
+                    props.gåTilNeste()
                 }
                 if (key === 'ArrowLeft' || key === 'Left') {
-                    // props.gåTilForrige()
+                    props.gåTilForrige()
                 }
             }}
             id={'pagineringsknapp-' + props.sidetall}
             key={props.sidetall}
             className={props.erValgt ? 'sidebytter__valg er-valgt' : 'sidebytter__valg'}
-            onClick={() => props.onKlikketPåSide(props.sidetall)}
+            onClick={() => props.gåTil(props.sidetall)}
             aria-label={ariaLabel}
             aria-current={props.erValgt}
         >
-            <Element className="valg__sidetall">{props.sidetall.toString()}</Element>
+            <Element className="valg__sidetall">{props.sidetall}</Element>
         </button>
     );
 };
 
-export default PagineringsKnapp;
+export default Pagineringsknapp;

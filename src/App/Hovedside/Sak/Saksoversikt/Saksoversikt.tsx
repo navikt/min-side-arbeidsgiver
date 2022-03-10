@@ -65,7 +65,7 @@ const Saksoversikt = () => {
                     <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
                 </div>
 
-                <SideBytter antallSider={20} />
+                <SideBytter antallSider={5} />
             </div>
 
             <ul>
