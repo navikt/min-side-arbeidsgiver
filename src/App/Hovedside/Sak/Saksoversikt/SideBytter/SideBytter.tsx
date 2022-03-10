@@ -1,45 +1,52 @@
-import React, { useState } from 'react';
-import { HoyreChevron, VenstreChevron } from 'nav-frontend-chevron';
+import React, {useState} from 'react';
+import {HoyreChevron, VenstreChevron} from 'nav-frontend-chevron';
 import './SideBytter.less';
 import {Element} from "nav-frontend-typografi";
 
 interface PagineringsknappProps {
-    erValgt: boolean,
+    erValgt?: boolean,
+    erSisteSide?: boolean;
     sidetall: number;
-    siderTilsammen: number;
     gåTil: (side: number) => void;
     gåTilNeste: () => void;
     gåTilForrige: () => void;
 }
 
-const Pagineringsknapp = (props: PagineringsknappProps) => {
+const Pagineringsknapp = ({
+                              erValgt = false,
+                              erSisteSide = false,
+                              sidetall,
+                              gåTil,
+                              gåTilNeste,
+                              gåTilForrige,
+                          }: PagineringsknappProps) => {
 
-    let ariaLabel = `Gå til side ${props.sidetall}`;
-    if (props.erValgt) {
-        ariaLabel = `side ${props.sidetall} valgt`;
-        if (props.sidetall === props.siderTilsammen) {
+    let ariaLabel = `Gå til side ${sidetall}`;
+    if (erValgt) {
+        ariaLabel = `side ${sidetall} valgt`;
+        if (erSisteSide) {
             ariaLabel += ' ,dette er siste side';
         }
     }
 
     return (
         <button
+            onClick={() => gåTil(sidetall)}
             onKeyDown={({key}) => {
                 if (key === 'ArrowRight' || key === 'Right') {
-                    props.gåTilNeste()
+                    gåTilNeste()
                 }
                 if (key === 'ArrowLeft' || key === 'Left') {
-                    props.gåTilForrige()
+                    gåTilForrige()
                 }
             }}
-            id={'pagineringsknapp-' + props.sidetall}
-            key={props.sidetall}
-            className={props.erValgt ? 'sidebytter__valg er-valgt' : 'sidebytter__valg'}
-            onClick={() => props.gåTil(props.sidetall)}
+            id={'pagineringsknapp-' + sidetall}
+            key={sidetall}
+            className={`sidebytter__valg ${erValgt && 'er-valgt'}`}
             aria-label={ariaLabel}
-            aria-current={props.erValgt}
+            aria-current={erValgt}
         >
-            <Element className="valg__sidetall">{props.sidetall}</Element>
+            <Element className="valg__sidetall">{sidetall}</Element>
         </button>
     );
 };
@@ -48,7 +55,7 @@ interface SideBytterProps {
     antallSider: number;
 }
 
-const SideBytter = ({ antallSider }: SideBytterProps) => {
+const SideBytter = ({antallSider}: SideBytterProps) => {
     if (antallSider < 2) {
         return null;
     }
@@ -84,18 +91,16 @@ const SideBytter = ({ antallSider }: SideBytterProps) => {
                         onClick={() => gåTilForrigeSide()}
                         aria-label={'Gå til forrige side'}
                     >
-                        <VenstreChevron />
+                        <VenstreChevron/>
                     </button>
                 )}
 
                 {nåVærendeSidetall > 1 && (
                     <Pagineringsknapp
                         sidetall={1}
-                        siderTilsammen={antallSider}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
-                        erValgt={false}
                     />
                 )}
 
@@ -104,17 +109,14 @@ const SideBytter = ({ antallSider }: SideBytterProps) => {
                 {nåVærendeSidetall > 2 && (
                     <Pagineringsknapp
                         sidetall={nåVærendeSidetall - 1}
-                        siderTilsammen={antallSider}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
-                        erValgt={false}
                     />
                 )}
 
                 <Pagineringsknapp
                     sidetall={nåVærendeSidetall}
-                    siderTilsammen={antallSider}
                     gåTil={sideKlikketPå}
                     gåTilNeste={gåTilNesteSide}
                     gåTilForrige={gåTilForrigeSide}
@@ -124,11 +126,9 @@ const SideBytter = ({ antallSider }: SideBytterProps) => {
                 {nåVærendeSidetall < antallSider - 1 && (
                     <Pagineringsknapp
                         sidetall={nåVærendeSidetall + 1}
-                        siderTilsammen={antallSider}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
-                        erValgt={false}
                     />
                 )}
 
@@ -138,11 +138,10 @@ const SideBytter = ({ antallSider }: SideBytterProps) => {
                 {nåVærendeSidetall < antallSider && (
                     <Pagineringsknapp
                         sidetall={antallSider}
-                        siderTilsammen={antallSider}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
-                        erValgt={false}
+                        erSisteSide={true}
                     />
                 )}
 
@@ -153,7 +152,7 @@ const SideBytter = ({ antallSider }: SideBytterProps) => {
                         onClick={() => gåTilNesteSide()}
                         aria-label={'Gå til neste side'}
                     >
-                        <HoyreChevron />
+                        <HoyreChevron/>
                     </button>
                 )}
             </div>
