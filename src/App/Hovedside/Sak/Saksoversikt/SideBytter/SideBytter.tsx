@@ -53,9 +53,10 @@ const Pagineringsknapp = ({
 
 interface SideBytterProps {
     antallSider: number;
+    onSideValgt: (side: number) => void;
 }
 
-const SideBytter = ({antallSider}: SideBytterProps) => {
+const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
     if (antallSider < 2) {
         return null;
     }
@@ -63,16 +64,19 @@ const SideBytter = ({antallSider}: SideBytterProps) => {
     const [nåVærendeSidetall, settNåværendeSideTall] = useState(1);
 
     const sideKlikketPå = (side: number) => {
-        settNåværendeSideTall(side)
+        settNåværendeSideTall(side);
+        onSideValgt(side);
     };
     const gåTilForrigeSide = () => {
         if (nåVærendeSidetall > 1) {
             settNåværendeSideTall(nåVærendeSidetall - 1)
+            onSideValgt(nåVærendeSidetall - 1);
         }
     };
     const gåTilNesteSide = () => {
         if (nåVærendeSidetall < antallSider) {
             settNåværendeSideTall(nåVærendeSidetall + 1)
+            onSideValgt(nåVærendeSidetall + 1);
         }
     };
 

@@ -47,9 +47,16 @@ const Saksoversikt = () => {
 
     if (valgtOrganisasjon === undefined) return null;
 
-    const {loading, data} = useQuery(HENT_SAKER, {
+    const sideStørrelse = 10;
+    const nåværendeSide = 1;
+    const offset = (nåværendeSide - 1) * sideStørrelse;
+    const limit = sideStørrelse;
+
+    const {loading, data, fetchMore} = useQuery(HENT_SAKER, {
         variables: {
             virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
+            offset: 0,
+            limit: sideStørrelse
         },
     })
 
@@ -65,7 +72,18 @@ const Saksoversikt = () => {
                     <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
                 </div>
 
-                <SideBytter antallSider={5} />
+                <SideBytter
+                    antallSider={Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)}
+                    onSideValgt={(side) => {
+                        fetchMore({
+                            variables: {
+                                virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
+                                offset: (side - 1) * sideStørrelse,
+                                limit: sideStørrelse
+                            }
+                        })
+                    }}
+                />
             </div>
 
             <ul>
