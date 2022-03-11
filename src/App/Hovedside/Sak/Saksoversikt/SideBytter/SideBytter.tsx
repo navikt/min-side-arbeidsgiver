@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {HoyreChevron, VenstreChevron} from 'nav-frontend-chevron';
 import './SideBytter.less';
 import {Element} from "nav-frontend-typografi";
@@ -53,27 +53,27 @@ const Pagineringsknapp = ({
 
 interface SideBytterProps {
     antallSider: number;
-    valgtSide: number;
     onSideValgt: (side: number) => void;
 }
 
-const SideBytter = ({antallSider, valgtSide, onSideValgt}: SideBytterProps) => {
+const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
     if (antallSider < 2) {
         return null;
     }
-
+    const [valgtSide, settValgtSide] = useState(1);
 
     const sideKlikketPå = (side: number) => {
+        settValgtSide(side);
         onSideValgt(side);
     };
     const gåTilForrigeSide = () => {
         if (valgtSide > 1) {
-            onSideValgt(valgtSide - 1);
+            sideKlikketPå(valgtSide - 1);
         }
     };
     const gåTilNesteSide = () => {
         if (valgtSide < antallSider) {
-            onSideValgt(valgtSide + 1);
+            sideKlikketPå(valgtSide + 1);
         }
     };
 

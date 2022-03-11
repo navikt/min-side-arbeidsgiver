@@ -48,6 +48,7 @@ const Saksoversikt = () => {
     const {loading, data, fetchMore} = useQuery(HENT_SAKER, {
         variables: {
             virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+            offset: 0,
             limit: sideStørrelse
         },
     })
@@ -60,8 +61,8 @@ const Saksoversikt = () => {
                 offset: (valgtSide - 1) * sideStørrelse,
                 limit: sideStørrelse
             }
-        })
-    }, [valgtSide])
+        });
+    }, [valgtSide]);
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
     const antallSider = Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)
@@ -77,7 +78,6 @@ const Saksoversikt = () => {
                 </div>
 
                 <SideBytter
-                    valgtSide={valgtSide}
                     antallSider={antallSider}
                     onSideValgt={settValgtSide}
                 />
