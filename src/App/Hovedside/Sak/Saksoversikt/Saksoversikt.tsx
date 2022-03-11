@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {gql, TypedDocumentNode, useQuery,} from '@apollo/client'
 import {GQL} from "@navikt/arbeidsgiver-notifikasjon-widget";
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './Saksoversikt.less';
 import Lenkepanel from "nav-frontend-lenkepanel";
 import Lenke from "nav-frontend-lenker";
-import { Search } from "@navikt/ds-icons";
+import {Search} from "@navikt/ds-icons";
 import {Undertekst, UndertekstBold} from "nav-frontend-typografi";
 import Brodsmulesti from "../../../Brodsmulesti/Brodsmulesti";
 import {TextField} from "@navikt/ds-react";
@@ -13,8 +13,8 @@ import SideBytter from "./SideBytter/SideBytter";
 
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer: String!) {
-        saker(virksomhetsnummer: $virksomhetsnummer) {
+    query hentSaker($virksomhetsnummer: String!, $offset: Int, $limit: Int) {
+        saker(virksomhetsnummer: $virksomhetsnummer, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -41,26 +41,30 @@ const dateFormat = new Intl.DateTimeFormat('no', {
     month: '2-digit',
     day: '2-digit',
 });
+const sideStørrelse = 10;
 
 const Saksoversikt = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-
-    if (valgtOrganisasjon === undefined) return null;
-
-    const sideStørrelse = 10;
-    const nåværendeSide = 1;
-    const offset = (nåværendeSide - 1) * sideStørrelse;
-    const limit = sideStørrelse;
-
     const {loading, data, fetchMore} = useQuery(HENT_SAKER, {
         variables: {
-            virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
-            offset: 0,
+            virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
             limit: sideStørrelse
         },
     })
 
+    const [valgtSide, settValgtSide] = useState(1);
+    useEffect(() => {
+        const _ = fetchMore({
+            variables: {
+                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+                offset: (valgtSide - 1) * sideStørrelse,
+                limit: sideStørrelse
+            }
+        })
+    }, [valgtSide])
+
     if (loading || !data || data?.saker.saker.length == 0) return null;
+    const antallSider = Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)
 
     return (
         <div className='saksoversikt'>
@@ -73,16 +77,9 @@ const Saksoversikt = () => {
                 </div>
 
                 <SideBytter
-                    antallSider={Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)}
-                    onSideValgt={(side) => {
-                        fetchMore({
-                            variables: {
-                                virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
-                                offset: (side - 1) * sideStørrelse,
-                                limit: sideStørrelse
-                            }
-                        })
-                    }}
+                    valgtSide={valgtSide}
+                    antallSider={antallSider}
+                    onSideValgt={settValgtSide}
                 />
             </div>
 

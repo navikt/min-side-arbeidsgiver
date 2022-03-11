@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {HoyreChevron, VenstreChevron} from 'nav-frontend-chevron';
 import './SideBytter.less';
 import {Element} from "nav-frontend-typografi";
@@ -53,30 +53,27 @@ const Pagineringsknapp = ({
 
 interface SideBytterProps {
     antallSider: number;
+    valgtSide: number;
     onSideValgt: (side: number) => void;
 }
 
-const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
+const SideBytter = ({antallSider, valgtSide, onSideValgt}: SideBytterProps) => {
     if (antallSider < 2) {
         return null;
     }
 
-    const [nåVærendeSidetall, settNåværendeSideTall] = useState(1);
 
     const sideKlikketPå = (side: number) => {
-        settNåværendeSideTall(side);
         onSideValgt(side);
     };
     const gåTilForrigeSide = () => {
-        if (nåVærendeSidetall > 1) {
-            settNåværendeSideTall(nåVærendeSidetall - 1)
-            onSideValgt(nåVærendeSidetall - 1);
+        if (valgtSide > 1) {
+            onSideValgt(valgtSide - 1);
         }
     };
     const gåTilNesteSide = () => {
-        if (nåVærendeSidetall < antallSider) {
-            settNåværendeSideTall(nåVærendeSidetall + 1)
-            onSideValgt(nåVærendeSidetall + 1);
+        if (valgtSide < antallSider) {
+            onSideValgt(valgtSide + 1);
         }
     };
 
@@ -85,12 +82,12 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
         <nav
             className="sidebytter"
             role={'navigation'}
-            aria-label={`Sidebytter, Nåværende side er ${nåVærendeSidetall}, bruk piltastene til å navigere`}
+            aria-label={`Sidebytter, Nåværende side er ${valgtSide}, bruk piltastene til å navigere`}
         >
             <div role={'toolbar'}>
-                {nåVærendeSidetall > 1 && (
+                {valgtSide > 1 && (
                     <button
-                        onKeyDown={(e) => gåTilForrigeSide()}
+                        onKeyDown={(_) => gåTilForrigeSide()}
                         className="sidebytter__chevron"
                         onClick={() => gåTilForrigeSide()}
                         aria-label={'Gå til forrige side'}
@@ -99,7 +96,7 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                     </button>
                 )}
 
-                {nåVærendeSidetall > 1 && (
+                {valgtSide > 1 && (
                     <Pagineringsknapp
                         sidetall={1}
                         gåTil={sideKlikketPå}
@@ -108,11 +105,11 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                     />
                 )}
 
-                {nåVærendeSidetall > 3 && ('...')}
+                {valgtSide > 3 && ('...')}
 
-                {nåVærendeSidetall > 2 && (
+                {valgtSide > 2 && (
                     <Pagineringsknapp
-                        sidetall={nåVærendeSidetall - 1}
+                        sidetall={valgtSide - 1}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
@@ -120,26 +117,26 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                 )}
 
                 <Pagineringsknapp
-                    sidetall={nåVærendeSidetall}
+                    sidetall={valgtSide}
                     gåTil={sideKlikketPå}
                     gåTilNeste={gåTilNesteSide}
                     gåTilForrige={gåTilForrigeSide}
                     erValgt={true}
                 />
 
-                {nåVærendeSidetall < antallSider - 1 && (
+                {valgtSide < antallSider - 1 && (
                     <Pagineringsknapp
-                        sidetall={nåVærendeSidetall + 1}
+                        sidetall={valgtSide + 1}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
                 )}
 
-                {nåVærendeSidetall < antallSider - 2 && ('...')}
+                {valgtSide < antallSider - 2 && ('...')}
 
 
-                {nåVærendeSidetall < antallSider && (
+                {valgtSide < antallSider && (
                     <Pagineringsknapp
                         sidetall={antallSider}
                         gåTil={sideKlikketPå}
@@ -149,9 +146,9 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                     />
                 )}
 
-                {nåVærendeSidetall < antallSider && (
+                {valgtSide < antallSider && (
                     <button
-                        onKeyDown={(e) => gåTilNesteSide()}
+                        onKeyDown={(_) => gåTilNesteSide()}
                         className={'sidebytter__chevron'}
                         onClick={() => gåTilNesteSide()}
                         aria-label={'Gå til neste side'}
