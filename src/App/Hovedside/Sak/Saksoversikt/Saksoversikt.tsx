@@ -5,10 +5,8 @@ import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvide
 import './Saksoversikt.less';
 import Lenkepanel from "nav-frontend-lenkepanel";
 import Lenke from "nav-frontend-lenker";
-import {Search} from "@navikt/ds-icons";
 import {Undertekst, UndertekstBold} from "nav-frontend-typografi";
 import Brodsmulesti from "../../../Brodsmulesti/Brodsmulesti";
-import {TextField} from "@navikt/ds-react";
 import SideBytter from "./SideBytter/SideBytter";
 
 
@@ -72,10 +70,10 @@ const Saksoversikt = () => {
             <Brodsmulesti brodsmuler={[{ url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true }]} />
 
             <div className="saksoversikt__header">
-                <div className="saksoversikt__sokefelt">
+                {/*<div className="saksoversikt__sokefelt">
                     <TextField label="" placeholder="Søk" hideLabel />
                     <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
-                </div>
+                </div>*/}
 
                 <SideBytter
                     antallSider={antallSider}
@@ -84,7 +82,7 @@ const Saksoversikt = () => {
             </div>
 
             <ul>
-                {data?.saker.saker.map(({id, tittel, lenke, sisteStatus, virksomhet, merkelapp}) => (
+                {data?.saker.saker.map(({id, tittel, lenke, sisteStatus, virksomhet}) => (
                     <li key={id}>
                         <Lenkepanel tittelProps='element' href={lenke}>
                             <Undertekst>{virksomhet.navn.toUpperCase()}</Undertekst>
