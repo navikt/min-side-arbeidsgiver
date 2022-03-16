@@ -15,7 +15,7 @@ import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer'
 import './Hovedside.less';
 import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
-import InnsynISak from "./InnsynISak/InnsynISak";
+import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
 import {LenkeMedLogging} from "../../GeneriskeElementer/LenkeMedLogging";
 import {lenkeTilTilgangsstyringsInfo} from "../../lenker";
@@ -50,7 +50,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                     visSyfoFeilmelding={visSyfoFeilmelding}
                 />
                 <Koronaboks />
-                { inkluderInnsynISakFeatureToggle ? <InnsynISak /> : null }
+                { inkluderInnsynISakFeatureToggle ? <SisteSaker /> : null }
                 <TjenesteBoksContainer />
                 <SkjemaveilederContainer />
                 <BrevFraAltinnContainer />

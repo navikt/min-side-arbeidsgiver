@@ -10,7 +10,7 @@ export enum Feature {
 
 export const inkluderInnsynISakFeatureToggle = gittMiljo({
     prod: false,
-    dev: false,
+    dev: true,
     labs: false,
     other: true
 })
