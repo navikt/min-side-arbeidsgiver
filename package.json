@@ -6,7 +6,7 @@
   "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
     "@craco/craco": "^6.4.3",
-    "@navikt/arbeidsgiver-notifikasjon-widget": "2.0.1-rc3",
+    "@navikt/arbeidsgiver-notifikasjon-widget": "2.0.1",
     "@navikt/bedriftsmeny": "3.5.3",
     "@navikt/ds-css": "^0.14.1",
     "@navikt/ds-icons": "^0.7.2",
