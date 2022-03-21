@@ -18,7 +18,7 @@ export interface AltinnBrev {
 export interface Meldingsboks {
     brev: AltinnBrev[];
     finnesFlereBrev: boolean;
-    antallUleste: string;
+    antallUleste: number;
     portalview: string;
 }
 
@@ -117,8 +117,7 @@ export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Melding
         const ulesteTiltaksbrevUrl = `${meldingsboksUrl}?$top=10&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`;
         const ulesteTiltaksbrev = await altinnFetch(ulesteTiltaksbrevUrl);
         const antallUlesteIRespons: number = ulesteTiltaksbrev._embedded.messages.length;
-        const antallUleste = antallUlesteIRespons <= 9 ? antallUlesteIRespons.toString() : '9+';
-        return { antallUleste };
+        return { antallUleste: antallUlesteIRespons };
     };
 
     try {
