@@ -2,11 +2,17 @@ import React from 'react';
 import './AntallUlest.less';
 
 export interface Props {
-    antallUlest: string;
+    antallUlest: number;
 }
 
-const AntallUlest = (props: Props) => (
-    <span className="antall-ulest-sirkel">{props.antallUlest}</span>
-);
+const AntallUlest = ({antallUlest}: Props) => {
+    if (antallUlest == null) {
+        return null;
+    }
+
+    return (
+        <span className="antall-ulest-sirkel">{antallUlest <= 9 ? antallUlest : '9+'}</span>
+    );
+};
 
 export default AntallUlest;
