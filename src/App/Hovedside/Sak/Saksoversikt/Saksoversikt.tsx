@@ -8,11 +8,16 @@ import Lenke from "nav-frontend-lenker";
 import {Undertekst, UndertekstBold} from "nav-frontend-typografi";
 import Brodsmulesti from "../../../Brodsmulesti/Brodsmulesti";
 import SideBytter from "./SideBytter/SideBytter";
+import {Search} from "@navikt/ds-icons";
+import {Button, SearchField, TextField} from "@navikt/ds-react";
+import SearchFieldButton from "@navikt/ds-react/esm/form/search-field/SearchFieldButton";
+import SearchFieldInput from "@navikt/ds-react/esm/form/search-field/SearchFieldInput";
+import sideBytter from "./SideBytter/SideBytter";
 
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer: String!, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, offset: $offset, limit: $limit) {
+    query hentSaker($virksomhetsnummer: String!, $filter: String, $offset: Int, $limit: Int) {
+        saker(virksomhetsnummer: $virksomhetsnummer, filter: $filter, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -46,21 +51,16 @@ const Saksoversikt = () => {
     const {loading, data, fetchMore} = useQuery(HENT_SAKER, {
         variables: {
             virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+            filter: null,
             offset: 0,
             limit: sideStørrelse
         },
     })
 
-    const [valgtSide, settValgtSide] = useState(1);
-    useEffect(() => {
-        const _ = fetchMore({
-            variables: {
-                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-                offset: (valgtSide - 1) * sideStørrelse,
-                limit: sideStørrelse
-            }
-        });
-    }, [valgtSide]);
+    const [filter, settFilter] = useState("");
+
+
+
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
     const antallSider = Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)
@@ -70,14 +70,38 @@ const Saksoversikt = () => {
             <Brodsmulesti brodsmuler={[{ url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true }]} />
 
             <div className="saksoversikt__header">
-                {/*<div className="saksoversikt__sokefelt">
-                    <TextField label="" placeholder="Søk" hideLabel />
-                    <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
-                </div>*/}
+                <div className="saksoversikt__sokefelt">
+                    <SearchField  label='Søk' hideLabel>
+                        <SearchFieldInput value={filter} onChange={(e)=> {settFilter(e.target.value)}}/>
+                        <SearchFieldButton variant="primary" onClick={()=>{
+                            const _ = fetchMore({
+                                variables: {
+                                    virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+                                    filter,
+                                    offset: 0,
+                                    limit: sideStørrelse
+                                }
+                            });
+                        }}>
+                            <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
+                        </SearchFieldButton>
+                    </SearchField>
+                    
+
+                </div>
 
                 <SideBytter
                     antallSider={antallSider}
-                    onSideValgt={settValgtSide}
+                    onSideValgt={(side)=>{
+                        const _ = fetchMore({
+                            variables: {
+                                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+                                filter,
+                                offset: (side - 1) * sideStørrelse,
+                                limit: sideStørrelse
+                            }
+                        });
+                    }}
                 />
             </div>
 
