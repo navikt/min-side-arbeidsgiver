@@ -96,9 +96,9 @@ const Saksoversikt = () => {
                 <SideBytter
                     side={side}
                     antallSider={antallSider}
-                    onSideValgt={(side) => {
-                        settSide(side)
-                        oppdaterSaker({filter, side})
+                    onSideValgt={(valgtSide) => {
+                        settSide(valgtSide)
+                        oppdaterSaker({filter, side: valgtSide})
                     }}
                 />
             </div>
