@@ -6,7 +6,7 @@ import httpProxyMiddleware from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
-import * as FS from 'fs';
+import {readFileSync} from 'fs';
 import require from './esm-require.js';
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
@@ -38,7 +38,7 @@ const log = createLogger({
 const BUILD_PATH = path.join(process.cwd(), '../build');
 
 const indexHtml = Mustache.render(
-    FS.readFileSync("/usr/src/app/build/index.html"),
+    readFileSync(path.join(BUILD_PATH, "index.html")).toString(),
     {
         SETTINGS: `<script type="application/javascript">
             window.environment = {
@@ -49,24 +49,6 @@ const indexHtml = Mustache.render(
         </script>`
     }
 );
-
-const startApiGWGauge = () => {
-    const gauge = new Prometheus.Gauge({
-        name: 'backend_api_gw',
-        help: 'Status til backend via API-Gateway (sonekrysning). up=1, down=0',
-    });
-
-    setInterval(async () => {
-        try {
-            const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
-            gauge.set(res.ok ? 1 : 0);
-            log.info(`healthcheck: ${gauge.name} ${res.ok}`);
-        } catch (error) {
-            log.error(`healthcheck error: ${gauge.name} ${error}`);
-            gauge.set(0);
-        }
-    }, 60 * 1000);
-};
 
 const app = express();
 app.disable('x-powered-by');
@@ -183,25 +165,29 @@ app.get(
     '/min-side-arbeidsgiver/internal/isReady',
     (req, res) => res.sendStatus(200),
 );
+app.get('/min-side-arbeidsgiver/*', (req, res) => {
+    res.send(indexHtml);
+});
 
-const serve = async () => {
+const gauge = new Prometheus.Gauge({
+    name: 'backend_api_gw',
+    help: 'Hvorvidt frontend-server naar backend-server. up=1, down=0',
+});
+
+setInterval(async () => {
     try {
-        app.get('/min-side-arbeidsgiver/*', indexHtml);
-        // (req, res) => {
-        //     res.send(indexHtml);
-        // });
-        app.listen(PORT, () => {
-            log.info(`Server listening on port ${PORT}`);
-        });
+        const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
+        gauge.set(res.ok ? 1 : 0);
     } catch (error) {
-        log.error(`Server failed to start ${error}`);
-        process.exit(1);
+        log.error(`healthcheck error: ${gauge.name} ${error}`);
+        gauge.set(0);
     }
+}, 60 * 1000);
 
-    startApiGWGauge();
-};
+app.listen(PORT, () => {
+    log.info(`Server listening on port ${PORT}`);
+});
 
-serve().then(/*noop*/);
 
 if (NAIS_CLUSTER_NAME === 'labs-gcp') {
     import('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
