@@ -87,8 +87,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                 </div>
             </div>
             <div className='informasjon-om-tilgangsstyring__container'>
-                <aside className='informasjon-om-tilgangsstyring__sidepanel'>
-                    <Panel className='informasjon-om-tilgangsstyring__sidepanel-meny'>
+                <aside>
+                    <Panel className='informasjon-om-tilgangsstyring__sidepanel'>
                         <Menu>
                             <Heading className='informasjon-om-tilgangsstyring__sidepanel-menyhead' level='2' size="small" spacing>
                                 Innhold

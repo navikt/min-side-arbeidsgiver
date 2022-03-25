@@ -26,10 +26,11 @@
 }
 
 .informasjon-om-tilgangsstyring {
-    flex-direction: column;
     display: flex;
+    flex-direction: column;
     background-color: @navLysGra;
     min-height: 100vh;
+    gap: 1.5rem;
 
     .navds-accordion__header { // 🤔 kanskje ikke så heldig å binde seg navds klasse her?
         color: @navBla
@@ -57,41 +58,41 @@
 
     &__container {
         display: flex;
+        flex-direction: column;
         justify-content: center;
+        gap: 1.5rem;
 
-        @media (max-width: @screen-sm-min) {
-            flex-direction: column;
+        @media (min-width: @screen-sm-min) {
+            flex-direction: row;
+        }
+
+        & > * {
+            max-width: 44rem;
         }
     }
 
-    &__sidepanel {
-        display: flex;
-        align-items: flex-start;
+    &__sidepanel{
+        padding-left: 0;
 
-        &-meny {
+        @media (min-width: @screen-sm-min) {
             position: sticky;
             top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
-            margin: 1.5rem 1rem 0 0;
-            padding: 1rem 0;
             width: 15rem;
-
-            @media (max-width: @screen-sm-min) {
-                position: relative;
-                margin: 1.5rem 0 0 0;
-                max-width: 44rem;
-                width: 100%;
-            }
-
-            &head {
-                margin-left: 0.5rem;
-            }
         }
 
+        &head {
+            margin-left: 0.5rem;
+        }
+    }
+
+
+    &__innhold {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
     }
 
     &__tekst {
-        margin: 1.5rem 0 0 0;
         padding: 2rem;
-        max-width: 44rem;
     }
 }
