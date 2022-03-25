@@ -56,11 +56,18 @@ const Saksoversikt = () => {
             limit: sideStørrelse
         },
     })
-
+    const oppdaterSaker = ({filter, side}: { filter: string, side: number }) => {
+        const _ = fetchMore({
+            variables: {
+                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+                filter: filter !== "" ? filter : null,
+                offset: (side - 1) * sideStørrelse,
+                limit: sideStørrelse
+            }
+        });
+    }
     const [filter, settFilter] = useState("");
-
-
-
+    const [side, settSide] = useState(1);
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
     const antallSider = Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)
@@ -71,36 +78,28 @@ const Saksoversikt = () => {
 
             <div className="saksoversikt__header">
                 <div className="saksoversikt__sokefelt">
+                    <form onSubmit={(e)=>{
+                        settSide(1)
+                        oppdaterSaker({filter: filter, side: 1})
+                        e.preventDefault()
+                    }}>
                     <SearchField  label='Søk' hideLabel>
-                        <SearchFieldInput value={filter} onChange={(e)=> {settFilter(e.target.value)}}/>
-                        <SearchFieldButton variant="primary" onClick={()=>{
-                            const _ = fetchMore({
-                                variables: {
-                                    virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-                                    filter,
-                                    offset: 0,
-                                    limit: sideStørrelse
-                                }
-                            });
-                        }}>
+                        <SearchFieldInput value={filter} onChange={(e) => settFilter(e.target.value)}/>
+                        <SearchFieldButton variant="primary" type='submit'>
                             <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
                         </SearchFieldButton>
                     </SearchField>
+                    </form>
                     
 
                 </div>
 
                 <SideBytter
+                    side={side}
                     antallSider={antallSider}
-                    onSideValgt={(side)=>{
-                        const _ = fetchMore({
-                            variables: {
-                                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-                                filter,
-                                offset: (side - 1) * sideStørrelse,
-                                limit: sideStørrelse
-                            }
-                        });
+                    onSideValgt={(side) => {
+                        settSide(side)
+                        oppdaterSaker({filter, side})
                     }}
                 />
             </div>

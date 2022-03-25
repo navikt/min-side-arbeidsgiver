@@ -53,27 +53,26 @@ const Pagineringsknapp = ({
 
 interface SideBytterProps {
     antallSider: number;
+    side: number;
     onSideValgt: (side: number) => void;
 }
 
-const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
+const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
     if (antallSider < 2) {
         return null;
     }
-    const [valgtSide, settValgtSide] = useState(1);
 
     const sideKlikketPå = (side: number) => {
-        settValgtSide(side);
         onSideValgt(side);
     };
     const gåTilForrigeSide = () => {
-        if (valgtSide > 1) {
-            sideKlikketPå(valgtSide - 1);
+        if (side > 1) {
+            sideKlikketPå(side - 1);
         }
     };
     const gåTilNesteSide = () => {
-        if (valgtSide < antallSider) {
-            sideKlikketPå(valgtSide + 1);
+        if (side < antallSider) {
+            sideKlikketPå(side + 1);
         }
     };
 
@@ -82,10 +81,10 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
         <nav
             className="sidebytter"
             role={'navigation'}
-            aria-label={`Sidebytter, Nåværende side er ${valgtSide}, bruk piltastene til å navigere`}
+            aria-label={`Sidebytter, Nåværende side er ${side}, bruk piltastene til å navigere`}
         >
             <div role={'toolbar'}>
-                {valgtSide > 1 && (
+                {side > 1 && (
                     <button
                         onKeyDown={(_) => gåTilForrigeSide()}
                         className="sidebytter__chevron"
@@ -96,7 +95,7 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                     </button>
                 )}
 
-                {valgtSide > 1 && (
+                {side > 1 && (
                     <Pagineringsknapp
                         sidetall={1}
                         gåTil={sideKlikketPå}
@@ -105,11 +104,11 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                     />
                 )}
 
-                {valgtSide > 3 && ('...')}
+                {side > 3 && ('...')}
 
-                {valgtSide > 2 && (
+                {side > 2 && (
                     <Pagineringsknapp
-                        sidetall={valgtSide - 1}
+                        sidetall={side - 1}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
@@ -117,26 +116,26 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                 )}
 
                 <Pagineringsknapp
-                    sidetall={valgtSide}
+                    sidetall={side}
                     gåTil={sideKlikketPå}
                     gåTilNeste={gåTilNesteSide}
                     gåTilForrige={gåTilForrigeSide}
                     erValgt={true}
                 />
 
-                {valgtSide < antallSider - 1 && (
+                {side < antallSider - 1 && (
                     <Pagineringsknapp
-                        sidetall={valgtSide + 1}
+                        sidetall={side + 1}
                         gåTil={sideKlikketPå}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
                 )}
 
-                {valgtSide < antallSider - 2 && ('...')}
+                {side < antallSider - 2 && ('...')}
 
 
-                {valgtSide < antallSider && (
+                {side < antallSider && (
                     <Pagineringsknapp
                         sidetall={antallSider}
                         gåTil={sideKlikketPå}
@@ -146,7 +145,7 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
                     />
                 )}
 
-                {valgtSide < antallSider && (
+                {side < antallSider && (
                     <button
                         onKeyDown={(_) => gåTilNesteSide()}
                         className={'sidebytter__chevron'}
