@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {gql, TypedDocumentNode, useQuery,} from '@apollo/client'
 import {GQL} from "@navikt/arbeidsgiver-notifikasjon-widget";
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
@@ -9,10 +9,9 @@ import {Undertekst, UndertekstBold} from "nav-frontend-typografi";
 import Brodsmulesti from "../../../Brodsmulesti/Brodsmulesti";
 import SideBytter from "./SideBytter/SideBytter";
 import {Search} from "@navikt/ds-icons";
-import {Button, SearchField, TextField} from "@navikt/ds-react";
+import {SearchField} from "@navikt/ds-react";
 import SearchFieldButton from "@navikt/ds-react/esm/form/search-field/SearchFieldButton";
 import SearchFieldInput from "@navikt/ds-react/esm/form/search-field/SearchFieldInput";
-import sideBytter from "./SideBytter/SideBytter";
 
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`

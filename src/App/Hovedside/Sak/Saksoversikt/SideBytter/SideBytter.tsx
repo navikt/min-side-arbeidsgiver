@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {HoyreChevron, VenstreChevron} from 'nav-frontend-chevron';
 import './SideBytter.less';
 import {Element} from "nav-frontend-typografi";
@@ -62,17 +62,14 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
         return null;
     }
 
-    const sideKlikketPå = (side: number) => {
-        onSideValgt(side);
-    };
     const gåTilForrigeSide = () => {
         if (side > 1) {
-            sideKlikketPå(side - 1);
+            onSideValgt(side - 1);
         }
     };
     const gåTilNesteSide = () => {
         if (side < antallSider) {
-            sideKlikketPå(side + 1);
+            onSideValgt(side + 1);
         }
     };
 
@@ -86,9 +83,9 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
             <div role={'toolbar'}>
                 {side > 1 && (
                     <button
-                        onKeyDown={(_) => gåTilForrigeSide()}
+                        onKeyDown={gåTilForrigeSide}
                         className="sidebytter__chevron"
-                        onClick={() => gåTilForrigeSide()}
+                        onClick={gåTilForrigeSide}
                         aria-label={'Gå til forrige side'}
                     >
                         <VenstreChevron/>
@@ -98,7 +95,7 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
                 {side > 1 && (
                     <Pagineringsknapp
                         sidetall={1}
-                        gåTil={sideKlikketPå}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
@@ -109,7 +106,7 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
                 {side > 2 && (
                     <Pagineringsknapp
                         sidetall={side - 1}
-                        gåTil={sideKlikketPå}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
@@ -117,7 +114,7 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
 
                 <Pagineringsknapp
                     sidetall={side}
-                    gåTil={sideKlikketPå}
+                    gåTil={onSideValgt}
                     gåTilNeste={gåTilNesteSide}
                     gåTilForrige={gåTilForrigeSide}
                     erValgt={true}
@@ -126,7 +123,7 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
                 {side < antallSider - 1 && (
                     <Pagineringsknapp
                         sidetall={side + 1}
-                        gåTil={sideKlikketPå}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
@@ -134,11 +131,10 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
 
                 {side < antallSider - 2 && ('...')}
 
-
                 {side < antallSider && (
                     <Pagineringsknapp
                         sidetall={antallSider}
-                        gåTil={sideKlikketPå}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                         erSisteSide={true}
@@ -147,9 +143,9 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
 
                 {side < antallSider && (
                     <button
-                        onKeyDown={(_) => gåTilNesteSide()}
+                        onKeyDown={gåTilNesteSide}
                         className={'sidebytter__chevron'}
-                        onClick={() => gåTilNesteSide()}
+                        onClick={gåTilNesteSide}
                         aria-label={'Gå til neste side'}
                     >
                         <HoyreChevron/>
