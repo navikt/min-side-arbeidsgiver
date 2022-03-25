@@ -3,7 +3,6 @@
   "bruker-api-url": "http://notifikasjon-bruker-api.fager.svc.cluster.local",
   "selvbetjening-login-url": "https://loginservice.dev.nav.no/login?redirect=https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver",
   "logout-url": "https://loginservice.dev.nav.no/slo",
-  "decorator-external-url": "https://dekoratoren.dev.nav.no/?context=arbeidsgiver&redirectToApp=true&chatbot=true&level=Level4",
   "idporten": true,
   "arbeidsforhold-domain": "https://arbeidsforhold.dev.nav.no",
   "sykefravær-domain": "https://arbeidsgiver-gcp.dev.nav.no"
