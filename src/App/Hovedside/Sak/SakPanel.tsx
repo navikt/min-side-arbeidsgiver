@@ -1,4 +1,4 @@
-import { BodyShort, Label, LinkPanel } from '@navikt/ds-react';
+import { BodyShort, LinkPanel } from '@navikt/ds-react';
 import React from 'react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 

@@ -4,7 +4,7 @@ import './Saksoversikt.less';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
 import SideBytter from './SideBytter/SideBytter';
 import { Search } from '@navikt/ds-icons';
-import { Alert, BodyShort, SearchField } from '@navikt/ds-react';
+import { BodyShort, SearchField } from '@navikt/ds-react';
 import SearchFieldButton from '@navikt/ds-react/esm/form/search-field/SearchFieldButton';
 import SearchFieldInput from '@navikt/ds-react/esm/form/search-field/SearchFieldInput';
 import { SaksListe } from '../SaksListe';

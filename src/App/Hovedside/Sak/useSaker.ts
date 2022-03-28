@@ -49,7 +49,7 @@ export function useSaker(pageSize: number, {tekstsoek, side = 1, virksomhetsnumm
     useEffect(()=>{
         if (virksomhetsnummer !== null) {
             fetchSaker({ variables })
-                .then(_ => {})
+                .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);
         }
 
