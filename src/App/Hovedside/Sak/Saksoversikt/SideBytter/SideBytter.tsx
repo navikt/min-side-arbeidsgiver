@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {HoyreChevron, VenstreChevron} from 'nav-frontend-chevron';
 import './SideBytter.less';
 import {Element} from "nav-frontend-typografi";
@@ -53,27 +53,23 @@ const Pagineringsknapp = ({
 
 interface SideBytterProps {
     antallSider: number;
+    side: number;
     onSideValgt: (side: number) => void;
 }
 
-const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
+const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
     if (antallSider < 2) {
         return null;
     }
-    const [valgtSide, settValgtSide] = useState(1);
 
-    const sideKlikketPå = (side: number) => {
-        settValgtSide(side);
-        onSideValgt(side);
-    };
     const gåTilForrigeSide = () => {
-        if (valgtSide > 1) {
-            sideKlikketPå(valgtSide - 1);
+        if (side > 1) {
+            onSideValgt(side - 1);
         }
     };
     const gåTilNesteSide = () => {
-        if (valgtSide < antallSider) {
-            sideKlikketPå(valgtSide + 1);
+        if (side < antallSider) {
+            onSideValgt(side + 1);
         }
     };
 
@@ -82,75 +78,74 @@ const SideBytter = ({antallSider, onSideValgt}: SideBytterProps) => {
         <nav
             className="sidebytter"
             role={'navigation'}
-            aria-label={`Sidebytter, Nåværende side er ${valgtSide}, bruk piltastene til å navigere`}
+            aria-label={`Sidebytter, Nåværende side er ${side}, bruk piltastene til å navigere`}
         >
             <div role={'toolbar'}>
-                {valgtSide > 1 && (
+                {side > 1 && (
                     <button
-                        onKeyDown={(_) => gåTilForrigeSide()}
+                        onKeyDown={gåTilForrigeSide}
                         className="sidebytter__chevron"
-                        onClick={() => gåTilForrigeSide()}
+                        onClick={gåTilForrigeSide}
                         aria-label={'Gå til forrige side'}
                     >
                         <VenstreChevron/>
                     </button>
                 )}
 
-                {valgtSide > 1 && (
+                {side > 1 && (
                     <Pagineringsknapp
                         sidetall={1}
-                        gåTil={sideKlikketPå}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
                 )}
 
-                {valgtSide > 3 && ('...')}
+                {side > 3 && ('...')}
 
-                {valgtSide > 2 && (
+                {side > 2 && (
                     <Pagineringsknapp
-                        sidetall={valgtSide - 1}
-                        gåTil={sideKlikketPå}
+                        sidetall={side - 1}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
                 )}
 
                 <Pagineringsknapp
-                    sidetall={valgtSide}
-                    gåTil={sideKlikketPå}
+                    sidetall={side}
+                    gåTil={onSideValgt}
                     gåTilNeste={gåTilNesteSide}
                     gåTilForrige={gåTilForrigeSide}
                     erValgt={true}
                 />
 
-                {valgtSide < antallSider - 1 && (
+                {side < antallSider - 1 && (
                     <Pagineringsknapp
-                        sidetall={valgtSide + 1}
-                        gåTil={sideKlikketPå}
+                        sidetall={side + 1}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                     />
                 )}
 
-                {valgtSide < antallSider - 2 && ('...')}
+                {side < antallSider - 2 && ('...')}
 
-
-                {valgtSide < antallSider && (
+                {side < antallSider && (
                     <Pagineringsknapp
                         sidetall={antallSider}
-                        gåTil={sideKlikketPå}
+                        gåTil={onSideValgt}
                         gåTilNeste={gåTilNesteSide}
                         gåTilForrige={gåTilForrigeSide}
                         erSisteSide={true}
                     />
                 )}
 
-                {valgtSide < antallSider && (
+                {side < antallSider && (
                     <button
-                        onKeyDown={(_) => gåTilNesteSide()}
+                        onKeyDown={gåTilNesteSide}
                         className={'sidebytter__chevron'}
-                        onClick={() => gåTilNesteSide()}
+                        onClick={gåTilNesteSide}
                         aria-label={'Gå til neste side'}
                     >
                         <HoyreChevron/>

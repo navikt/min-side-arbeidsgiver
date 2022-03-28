@@ -11,6 +11,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 import environment, { gittMiljo } from './utils/environment';
 import App from './App/App';
 import * as SentryTypes from '@sentry/types';
+import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler'
 
 raf.polyfill();
 smoothscroll.polyfill();
@@ -39,5 +40,16 @@ Sentry.init({
         }
     }),
 });
+
+injectDecoratorClientSide({
+    env: gittMiljo({
+        prod: "prod",
+        other: "dev",
+    }),
+    context: 'arbeidsgiver',
+    redirectToApp: true,
+    chatbot: true,
+    level: 'Level4'
+}).catch(Sentry.captureException);
 
 ReactDOM.render(<App />, document.getElementById('root'));

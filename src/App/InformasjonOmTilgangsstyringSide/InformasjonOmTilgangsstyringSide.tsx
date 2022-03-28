@@ -87,47 +87,45 @@ const InformasjonOmTilgangsstyringSide = () => {
                 </div>
             </div>
             <div className='informasjon-om-tilgangsstyring__container'>
-                <aside className='informasjon-om-tilgangsstyring__sidepanel'>
-                    <Panel className='informasjon-om-tilgangsstyring__sidepanel-meny'>
-                        <Menu>
-                            <Heading className='informasjon-om-tilgangsstyring__sidepanel-menyhead' level='2' size="small" spacing>
-                                Innhold
-                            </Heading>
-                            <Menu.Item
-                                active={activeAnchor === '#kortomtilgangerialtinn'}
-                                onClick={setActiveAnchorOnClick('#kortomtilgangerialtinn')}
-                                href='#kortomtilgangerialtinn'
-                                key='#kortomtilgangerialtinn'
-                            >
-                                Kort om tilganger i Altinn
-                            </Menu.Item>
-                            <Menu.Item
-                                active={activeAnchor === '#hardualleredetilgangtilnoentjenester'}
-                                onClick={setActiveAnchorOnClick('#hardualleredetilgangtilnoentjenester')}
-                                href='#hardualleredetilgangtilnoentjenester'
-                                key='#hardualleredetilgangtilnoentjenester'
-                            >
-                                Har du allerede tilgang til noen tjenester?
-                            </Menu.Item>
-                            <Menu.Item
-                                active={activeAnchor === '#hvilketilgangerkreves'}
-                                onClick={setActiveAnchorOnClick('#hvilketilgangerkreves')}
-                                href='#hvilketilgangerkreves'
-                                key='#hvilketilgangerkreves'
-                            >
-                                Hvilke tilganger kreves?
-                            </Menu.Item>
-                            <Menu.Item
-                                active={activeAnchor === '#manglerduvarslerialtinnellerkommerdetilfeiladresse'}
-                                onClick={setActiveAnchorOnClick('#manglerduvarslerialtinnellerkommerdetilfeiladresse')}
-                                href='#manglerduvarslerialtinnellerkommerdetilfeiladresse'
-                                key='#manglerduvarslerialtinnellerkommerdetilfeiladresse'
-                            >
-                                Mangler du varsler i Altinn eller kommer de til feil adresse?
-                            </Menu.Item>
-                        </Menu>
-                    </Panel>
-                </aside>
+
+                <Panel as={Menu} className='informasjon-om-tilgangsstyring__sidepanel'>
+                    <Heading className='informasjon-om-tilgangsstyring__sidepanel-menyhead' level='2' size="small" spacing>
+                        Innhold
+                    </Heading>
+                    <Menu.Item
+                        active={activeAnchor === '#kortomtilgangerialtinn'}
+                        onClick={setActiveAnchorOnClick('#kortomtilgangerialtinn')}
+                        href='#kortomtilgangerialtinn'
+                        key='#kortomtilgangerialtinn'
+                    >
+                        Kort om tilganger i Altinn
+                    </Menu.Item>
+                    <Menu.Item
+                        active={activeAnchor === '#hardualleredetilgangtilnoentjenester'}
+                        onClick={setActiveAnchorOnClick('#hardualleredetilgangtilnoentjenester')}
+                        href='#hardualleredetilgangtilnoentjenester'
+                        key='#hardualleredetilgangtilnoentjenester'
+                    >
+                        Har du allerede tilgang til noen tjenester?
+                    </Menu.Item>
+                    <Menu.Item
+                        active={activeAnchor === '#hvilketilgangerkreves'}
+                        onClick={setActiveAnchorOnClick('#hvilketilgangerkreves')}
+                        href='#hvilketilgangerkreves'
+                        key='#hvilketilgangerkreves'
+                    >
+                        Hvilke tilganger kreves?
+                    </Menu.Item>
+                    <Menu.Item
+                        active={activeAnchor === '#manglerduvarslerialtinnellerkommerdetilfeiladresse'}
+                        onClick={setActiveAnchorOnClick('#manglerduvarslerialtinnellerkommerdetilfeiladresse')}
+                        href='#manglerduvarslerialtinnellerkommerdetilfeiladresse'
+                        key='#manglerduvarslerialtinnellerkommerdetilfeiladresse'
+                    >
+                        Mangler du varsler i Altinn eller kommer de til feil adresse?
+                    </Menu.Item>
+                </Panel>
+
                 <div className='informasjon-om-tilgangsstyring__innhold'>
                     <Panel className='informasjon-om-tilgangsstyring__tekst'>
                         <HeadingMedClipBoardLink level='2'
