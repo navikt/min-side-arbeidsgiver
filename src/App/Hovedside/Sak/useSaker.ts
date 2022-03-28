@@ -36,7 +36,7 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
 export function useSaker(pageSize: number, {tekstsoek, side = 1, virksomhetsnummer} : filter) {
     const variables = {
         virksomhetsnummer,
-        tekstsoek: (tekstsoek ?? "") === "" ? (tekstsoek ?? "") : null,
+        tekstsoek: (tekstsoek ?? "") !== "" ? null : tekstsoek,
         offset: (side - 1) * pageSize,
         limit: pageSize
     }
