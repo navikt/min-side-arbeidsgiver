@@ -1,5 +1,5 @@
-import React, {useContext, useState} from 'react';
-import {gql, TypedDocumentNode, useQuery,} from '@apollo/client'
+import React, {useContext, useEffect, useState} from 'react';
+import {gql, TypedDocumentNode, useLazyQuery,} from '@apollo/client'
 import {GQL} from "@navikt/arbeidsgiver-notifikasjon-widget";
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './Saksoversikt.less';
@@ -16,7 +16,7 @@ import SearchFieldInput from "@navikt/ds-react/esm/form/search-field/SearchField
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
     query hentSaker($virksomhetsnummer: String!, $filter: String, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, filter: $filter, offset: $offset, limit: $limit) {
+        saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $filter, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -37,6 +37,34 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
         }
     }
 `
+function useSaker({filter, side, virksomhetsnummer}:{filter: string|null, side: number, virksomhetsnummer: string|null
+}){
+    const [fetchSaker, {loading, data}] = useLazyQuery(HENT_SAKER, {
+        variables: {
+            virksomhetsnummer: '',
+            filter: filter,
+            offset: 0,
+            limit: sideStørrelse,
+        },
+    })
+
+    useEffect(()=>{
+        if (virksomhetsnummer !== null) {
+            const _ = fetchSaker({
+                variables:{
+                    virksomhetsnummer: virksomhetsnummer,
+                    filter: filter !== "" ? filter : null,
+                    offset: (side - 1) * sideStørrelse,
+                    limit: sideStørrelse
+                }
+            });
+        }
+
+    }, [virksomhetsnummer, filter, side])
+
+    return {loading, data}
+}
+
 
 const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
@@ -47,26 +75,13 @@ const sideStørrelse = 10;
 
 const Saksoversikt = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const {loading, data, fetchMore} = useQuery(HENT_SAKER, {
-        variables: {
-            virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-            filter: null,
-            offset: 0,
-            limit: sideStørrelse
-        },
-    })
-    const oppdaterSaker = ({filter, side}: { filter: string, side: number }) => {
-        const _ = fetchMore({
-            variables: {
-                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-                filter: filter !== "" ? filter : null,
-                offset: (side - 1) * sideStørrelse,
-                limit: sideStørrelse
-            }
-        });
-    }
     const [filter, settFilter] = useState("");
     const [side, settSide] = useState(1);
+    const {loading, data} = useSaker({
+        filter,
+        side,
+        virksomhetsnummer: valgtOrganisasjon?.organisasjon.OrganizationNumber??null
+    })
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
     const antallSider = Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)
@@ -79,7 +94,6 @@ const Saksoversikt = () => {
                 <div className="saksoversikt__sokefelt">
                     <form onSubmit={(e)=>{
                         settSide(1)
-                        oppdaterSaker({filter: filter, side: 1})
                         e.preventDefault()
                     }}>
                     <SearchField  label='Søk' hideLabel>
@@ -98,7 +112,6 @@ const Saksoversikt = () => {
                     antallSider={antallSider}
                     onSideValgt={(valgtSide) => {
                         settSide(valgtSide)
-                        oppdaterSaker({filter, side: valgtSide})
                     }}
                 />
             </div>
