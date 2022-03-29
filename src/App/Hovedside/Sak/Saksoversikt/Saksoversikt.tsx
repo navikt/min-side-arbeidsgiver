@@ -47,21 +47,12 @@ const FilterWidget = ({onChange}: UseFilterProps) => {
     </div>
 }
 
-const initDesiredState = (): desiredState => ({
-    filter: {
-        tekstsoek: "",
-        virksomhetsnummer: null,
-    },
-    side: 1,
-    innhold: { vis: 'laster', startTid: new Date() },
-})
-
 type innhold =
     | { vis: 'content', saker: Array<GQL.Sak>, totaltAntallSaker: number }
     | { vis: 'error' }
     | { vis: 'laster', forrigeSaker?: Array<GQL.Sak>, startTid: Date }
 
-type desiredState = {
+type State = {
     filter: Filter;
     side: number;
     sider?: number;
@@ -84,7 +75,7 @@ type action =
     | { action: 'lasting-feilet' }
 
 const useOversiktReducer = () => {
-    const reduce = (current: desiredState, action: action): desiredState => {
+    const reduce = (current: State, action: action): State => {
         switch (action.action) {
             case 'bytt-filter':
                 return {
@@ -148,7 +139,17 @@ const useOversiktReducer = () => {
         }
     }
 
-    const [initState] = useState(() => initDesiredState())
+    const [initState] = useState<State>(() => ({
+        filter: {
+            tekstsoek: "",
+            virksomhetsnummer: null,
+        },
+        side: 1,
+        innhold: {
+            vis: 'laster',
+            startTid: new Date(),
+        },
+    }))
     const [state, dispatch] = useReducer(reduce, initState)
 
     return {
@@ -204,7 +205,6 @@ type LasterProps = {
 const Laster: FC<LasterProps> = ({forrigeSaker, startTid}) => {
     const nåtid = useCurrentDate(50)
     const lasteTid = nåtid.getTime() - startTid.getTime()
-    console.log("Loading", {startTid, nåtid, lasteTid})
 
     if (lasteTid < 200 && forrigeSaker !== undefined) {
         return <SaksListe saker={forrigeSaker} />
