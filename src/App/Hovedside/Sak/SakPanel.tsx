@@ -8,15 +8,22 @@ const dateFormat = new Intl.DateTimeFormat('no', {
     day: '2-digit',
 });
 
-export const SakPanel = ({sak: {lenke, tittel, virksomhet, sisteStatus}}: {sak: GQL.Sak}) => {
-    return <LinkPanel href={lenke}>
-        <BodyShort>
-            {virksomhet.navn.toUpperCase() }
+type SakPanelProps = {
+    sak: GQL.Sak;
+    placeholder?: boolean;
+}
+
+export const SakPanel = ({placeholder, sak: {lenke, tittel, virksomhet, sisteStatus}}: SakPanelProps) => {
+    const fake = placeholder ?? false
+    const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
+    return <LinkPanel href={lenke} as={fake ? 'div' : 'a'}>
+        <BodyShort style={style}>
+            {virksomhet.navn.toUpperCase()}
         </BodyShort>
-        <LinkPanel.Title style={{margin: "0.2rem 0", fontSize: "1.3rem"}} >
+        <LinkPanel.Title style={{...style, margin: "0.2rem 0", fontSize: "1.3rem"}} >
             {tittel}
         </LinkPanel.Title>
-        <BodyShort>
+        <BodyShort style={style}>
             {sisteStatus.tekst}{' '}{dateFormat.format(new Date(sisteStatus.tidspunkt))}
         </BodyShort>
     </LinkPanel>

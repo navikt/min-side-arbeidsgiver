@@ -7,10 +7,10 @@ import { Search } from '@navikt/ds-icons';
 import { BodyShort, SearchField } from '@navikt/ds-react';
 import SearchFieldButton from '@navikt/ds-react/esm/form/search-field/SearchFieldButton';
 import SearchFieldInput from '@navikt/ds-react/esm/form/search-field/SearchFieldInput';
-import { SaksListe } from '../SaksListe';
-import { Filter, useSaker } from '../useSaker';
 import { Spinner } from '../../../Spinner';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { Filter, useSaker } from '../useSaker';
+import { SaksListe } from '../SaksListe';
 
 const SIDE_SIZE = 30;
 
@@ -47,25 +47,24 @@ const FilterWidget = ({onChange}: UseFilterProps) => {
     </div>
 }
 
-const initDesiredState: desiredState = {
-    filter: {
-        tekstsoek: "",
-        virksomhetsnummer: null,
-    },
-    side: 1,
-    innhold: { vis: 'laster' },
-}
-
 type innhold =
     | { vis: 'content', saker: Array<GQL.Sak>, totaltAntallSaker: number }
     | { vis: 'error' }
-    | { vis: 'laster', forrigeSaker?: Array<GQL.Sak> }
+    | { vis: 'laster', forrigeSaker?: Array<GQL.Sak>, startTid: Date }
 
-type desiredState = {
+type State = {
     filter: Filter;
     side: number;
     sider?: number;
     innhold: innhold
+}
+
+const finnForrigeSaker = (innhold: innhold) => {
+    switch (innhold.vis) {
+        case 'content': return innhold.saker;
+        case 'laster': return innhold.forrigeSaker
+        case 'error': return undefined
+    }
 }
 
 type action =
@@ -76,25 +75,37 @@ type action =
     | { action: 'lasting-feilet' }
 
 const useOversiktReducer = () => {
-    const reduce = (current: desiredState, action: action): desiredState => {
+    const reduce = (current: State, action: action): State => {
         switch (action.action) {
             case 'bytt-filter':
                 return {
                     filter: action.filter,
                     side: 1,
                     sider: undefined,
-                    innhold: { vis: 'laster' }
+                    innhold: {
+                        vis: 'laster',
+                        startTid: new Date(),
+                        forrigeSaker: finnForrigeSaker(current.innhold),
+                    }
                 }
             case 'bytt-side':
                 return {
                     ...current,
                     side: action.side,
-                    innhold: { vis: 'laster' }
+                    innhold: {
+                        vis: 'laster',
+                        startTid: new Date(),
+                        forrigeSaker: finnForrigeSaker(current.innhold),
+                    }
                 }
             case 'lasting-pågår':
                 return {
                     ...current,
-                    innhold: { vis: 'laster' }
+                    innhold: {
+                        vis: 'laster',
+                        startTid: new Date(),
+                        forrigeSaker: finnForrigeSaker(current.innhold),
+                    }
                 }
             case 'lasting-feilet':
                 return {
@@ -112,7 +123,7 @@ const useOversiktReducer = () => {
                         ...current,
                         side: Math.max(1, sider - 1),
                         sider,
-                        innhold: { vis: 'laster' }
+                        innhold: { vis: 'laster', startTid: new Date() }
                     }
                 } else {
                     return {
@@ -128,7 +139,18 @@ const useOversiktReducer = () => {
         }
     }
 
-    const [state, dispatch] = useReducer(reduce, initDesiredState)
+    const [initState] = useState<State>(() => ({
+        filter: {
+            tekstsoek: "",
+            virksomhetsnummer: null,
+        },
+        side: 1,
+        innhold: {
+            vis: 'laster',
+            startTid: new Date(),
+        },
+    }))
+    const [state, dispatch] = useReducer(reduce, initState)
 
     return {
         state,
@@ -160,7 +182,7 @@ const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
     }
 
     if (innhold.vis === 'laster') {
-        return <Spinner/>
+        return <Laster {...innhold} />
     }
     const {totaltAntallSaker, saker } = innhold
 
@@ -173,6 +195,33 @@ const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
     }
 
     return <SaksListe saker={saker}/>
+}
+
+type LasterProps = {
+    forrigeSaker?: Array<GQL.Sak>;
+    startTid: Date;
+}
+
+const Laster: FC<LasterProps> = ({forrigeSaker, startTid}) => {
+    const nåtid = useCurrentDate(50)
+    const lasteTid = nåtid.getTime() - startTid.getTime()
+
+    if (lasteTid < 200 && forrigeSaker !== undefined) {
+        return <SaksListe saker={forrigeSaker} />
+    } else if (lasteTid < 3000 && forrigeSaker !== undefined) {
+        return <SaksListe saker={forrigeSaker} placeholder={true} />
+    } else {
+        return <Spinner />
+    }
+}
+
+const useCurrentDate = (pollInterval: number) => {
+    const [currentDate, setCurrentDate] = useState(() => new Date())
+    useEffect(() => {
+        const timer = setInterval(() => setCurrentDate(new Date()), pollInterval)
+        return () => clearInterval(timer)
+    })
+    return currentDate
 }
 
 const Saksoversikt = () => {
