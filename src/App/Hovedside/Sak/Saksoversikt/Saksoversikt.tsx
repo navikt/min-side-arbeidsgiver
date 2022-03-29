@@ -102,7 +102,7 @@ const useOversiktReducer = () => {
                     innhold: { vis: 'error' }
                 }
             case 'lasting-ferdig':
-                const { totaltAntallSaker, saker} = action.resultat
+                const { totaltAntallSaker, saker } = action.resultat
                 const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE)
                 if (totaltAntallSaker > 0 && saker.length === 0) {
                     // på et eller annet vis er det saker (totaltAntallSaker > 0), men
@@ -110,7 +110,7 @@ const useOversiktReducer = () => {
                     // å gå til siste side.
                     return {
                         ...current,
-                        side: Math.max(1, totaltAntallSaker - 1),
+                        side: Math.max(1, sider - 1),
                         sider,
                         innhold: { vis: 'laster' }
                     }
@@ -161,6 +161,13 @@ const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
 
     if (innhold.vis === 'laster') {
         return <Spinner/>
+        // const {lasteStart} = innhold
+        // const currentTime = useCurrentTime(resolution: 100ms)
+        // if (currentTime - lasteStart > 250ms) {
+        //     return <Placeholder/>
+        // } else {
+        //     return <SaksListe saker={saker}/>
+        // }
     }
     const {totaltAntallSaker, saker } = innhold
 

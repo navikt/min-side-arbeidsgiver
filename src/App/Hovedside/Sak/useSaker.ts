@@ -36,7 +36,7 @@ export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, v
     const variables = {
         virksomhetsnummer: virksomhetsnummer,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
-        offset: (side ?? 0 - 1) * pageSize, /* if undefined, we should not send */
+        offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
 
