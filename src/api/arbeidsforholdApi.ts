@@ -1,13 +1,16 @@
-export type overSiktPerUnderenhetPar = {
-    first: string;
-    second: number;
-};
+import { z } from 'zod';
+import * as Sentry from '@sentry/browser';
+import { Severity } from '@sentry/react';
+
+const Oversikt = z.object({
+    second: z.number(),
+})
 
 export async function hentAntallArbeidsforholdFraAareg(
     underenhet: string,
     enhet: string,
 ): Promise<number> {
-    let respons = await fetch(
+    const respons = await fetch(
         '/min-side-arbeidsgiver/api/antall-arbeidsforhold'
         , {
             headers: {
@@ -15,14 +18,18 @@ export async function hentAntallArbeidsforholdFraAareg(
                 'orgnr': underenhet,
             },
         });
-    if (respons.ok) {
-        const jsonRespons: overSiktPerUnderenhetPar = await respons.json();
-        if (jsonRespons.second === 0) {
-            return -1;
-        }
-        return jsonRespons.second;
-    } else {
-        return -1;
+
+    if (!respons.ok) {
+        Sentry.captureMessage(`hent antall arbeidsforhold fra aareg feilet med ${respons.status}`, Severity.Warning)
+        return -1
+    }
+
+    try {
+        const {second} = Oversikt.parse(await respons.json())
+        return (second === 0) ? -1 : second
+    } catch (error) {
+        Sentry.captureException(error)
+        return -1
     }
 }
 
