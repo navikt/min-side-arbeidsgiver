@@ -4,13 +4,14 @@ import "./SaksListe.less";
 
 type Props = {
     saker: Array<GQL.Sak>;
+    placeholder?: boolean;
 }
 
-export const SaksListe = ({saker}: Props) =>
+export const SaksListe = ({saker, placeholder}: Props) =>
     <ul className="saks-liste">
         {saker.map(sak =>
             <li key={sak.id}>
-                <SakPanel sak={sak}/>
+                <SakPanel sak={sak} placeholder={placeholder} />
             </li>
         )}
     </ul>
