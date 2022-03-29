@@ -40,10 +40,7 @@ export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, v
         limit: pageSize
     }
 
-    const [fetchSaker, {loading, data, previousData}] = useLazyQuery(HENT_SAKER,  {
-        fetchPolicy: "network-only", /* TODO: Fix caching */
-        variables
-    })
+    const [fetchSaker, {loading, data, previousData}] = useLazyQuery(HENT_SAKER,  { variables })
 
     useEffect(() => {
         if (virksomhetsnummer !== null && side !== undefined) {
