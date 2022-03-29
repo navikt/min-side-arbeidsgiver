@@ -14,8 +14,9 @@ const SisteSaker = () => {
 
     if (valgtOrganisasjon === undefined) return null;
 
-    const {loading, data} = useSaker(3, {
+    const {loading, data} = useSaker(3, 1, {
         virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
+        tekstsoek: "",
     })
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
