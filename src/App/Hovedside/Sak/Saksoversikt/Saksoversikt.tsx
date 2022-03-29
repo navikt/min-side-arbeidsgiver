@@ -59,11 +59,11 @@ type State = {
     innhold: innhold
 }
 
-const forrigeSaker = (innhold: innhold) => {
+const finnForrigeSaker = (innhold: innhold) => {
     switch (innhold.vis) {
         case 'content': return innhold.saker;
-        case 'error': return undefined
         case 'laster': return innhold.forrigeSaker
+        case 'error': return undefined
     }
 }
 
@@ -85,7 +85,7 @@ const useOversiktReducer = () => {
                     innhold: {
                         vis: 'laster',
                         startTid: new Date(),
-                        forrigeSaker: forrigeSaker(current.innhold),
+                        forrigeSaker: finnForrigeSaker(current.innhold),
                     }
                 }
             case 'bytt-side':
@@ -95,7 +95,7 @@ const useOversiktReducer = () => {
                     innhold: {
                         vis: 'laster',
                         startTid: new Date(),
-                        forrigeSaker: forrigeSaker(current.innhold),
+                        forrigeSaker: finnForrigeSaker(current.innhold),
                     }
                 }
             case 'lasting-pågår':
@@ -104,7 +104,7 @@ const useOversiktReducer = () => {
                     innhold: {
                         vis: 'laster',
                         startTid: new Date(),
-                        forrigeSaker: forrigeSaker(current.innhold),
+                        forrigeSaker: finnForrigeSaker(current.innhold),
                     }
                 }
             case 'lasting-feilet':
