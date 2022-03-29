@@ -12,7 +12,7 @@ import { Filter, useSaker } from '../useSaker';
 import { Spinner } from '../../../Spinner';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 
-const SIDE_SIZE = 10;
+const SIDE_SIZE = 30;
 
 type UseFilterProps = {
     onChange: (filter: Filter) => void;
@@ -61,7 +61,6 @@ type innhold =
     | { vis: 'error' }
     | { vis: 'laster', forrigeSaker?: Array<GQL.Sak> }
 
-/* If you add any fields here or in filter, you have to update `useMemo` below. */
 type desiredState = {
     filter: Filter;
     side: number;
@@ -163,7 +162,6 @@ const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
     if (innhold.vis === 'laster') {
         return <Spinner/>
     }
-
     const {totaltAntallSaker, saker } = innhold
 
     if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
