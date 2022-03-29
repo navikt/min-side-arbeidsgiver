@@ -17,7 +17,7 @@ type UseFilterProps = {
     onChange: (filter: Filter) => void;
 }
 
-const useFilter = ({onChange}: UseFilterProps) => {
+const FilterWidget = ({onChange}: UseFilterProps) => {
     const [tekstsoek, setTekstsoek] = useState("")
     const [virksomhetsnummer, setVirksomhetsnummer] = useState<string | null>(null)
     const searchElem = useRef<HTMLInputElement>(null)
@@ -31,7 +31,7 @@ const useFilter = ({onChange}: UseFilterProps) => {
         })
     }, [tekstsoek, virksomhetsnummer])
 
-    const html = <div className="saksoversikt__sokefelt">
+    return <div className="saksoversikt__sokefelt">
         <form onSubmit={(e) => {
             e.preventDefault()
             setTekstsoek(searchElem?.current?.value ?? "")
@@ -44,8 +44,6 @@ const useFilter = ({onChange}: UseFilterProps) => {
             </SearchField>
         </form>
     </div>
-
-    return {html}
 }
 
 const initDesiredState: desiredState = {
@@ -87,9 +85,8 @@ const useOversiktReducer = () => {
     const [state, dispatch] = useReducer(reduce, initDesiredState)
 
     const memoState = useMemo(
-        () => {
-            return state
-        }, [state.filter.tekstsoek, state.filter.virksomhetsnummer, state.side, state.sider]
+        () => state,
+        [state.filter.tekstsoek, state.filter.virksomhetsnummer, state.side, state.sider]
     )
 
     return {
@@ -100,7 +97,7 @@ const useOversiktReducer = () => {
     }
 }
 
-const noFilterApplied = (filter: Filter) => (filter.tekstsoek ?? "").trim() === ""
+const noFilterApplied = (filter: Filter) => filter.tekstsoek.trim() === ""
 
 const useVirksomhetsnummer = (onVirksomhetsnummerChange: (virksomhetsnummer: string) => void) => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
@@ -114,7 +111,6 @@ const useVirksomhetsnummer = (onVirksomhetsnummerChange: (virksomhetsnummer: str
 
 const Saksoversikt = () => {
     const {state, byttFilter, byttSide, sakerLastet} = useOversiktReducer()
-    const {html: filterElement} = useFilter({ onChange: byttFilter })
     const {loading, data} = useSaker(SIDE_SIZE, state?.side, state.filter);
     const [body, setBody] = useState<JSX.Element>(() => <Spinner />)
 
@@ -159,7 +155,7 @@ const Saksoversikt = () => {
         <Brodsmulesti brodsmuler={[{ url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true }]} />
 
         <div className="saksoversikt__header">
-            {filterElement}
+            <FilterWidget onChange={byttFilter}/>
 
             <SideBytter
                 side={state.side}
