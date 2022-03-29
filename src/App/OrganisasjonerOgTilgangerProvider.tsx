@@ -5,7 +5,7 @@ import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessages
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import Spinner from './Spinner';
+import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
 
 type orgnr = string;
@@ -169,7 +169,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         );
     } else {
         return (
-            <Spinner />
+            <SpinnerMedBanner />
         );
     }
 };

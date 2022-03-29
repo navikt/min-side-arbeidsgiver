@@ -3,16 +3,17 @@ import NavFrontendSpinner from 'nav-frontend-spinner';
 import Brodsmulesti from './Brodsmulesti/Brodsmulesti';
 import Banner from './HovedBanner/HovedBanner';
 
-const Spinner = () => {
+export const Spinner = () =>
+    <div className="app-laster-spinner">
+        <NavFrontendSpinner type="XL"/>
+    </div>
+
+export const SpinnerMedBanner = () => {
     return (
         <>
             <Brodsmulesti brodsmuler={[]} />
             <Banner sidetittel="Min side – arbeidsgiver"/>
-            <div className="app-laster-spinner">
-                <NavFrontendSpinner type="XL"/>
-            </div>
+            <Spinner />
         </>
     );
-};
-
-export default Spinner;
+}

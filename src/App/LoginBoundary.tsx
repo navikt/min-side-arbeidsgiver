@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { LoggInn } from './LoggInn/LoggInn';
-import Spinner from './Spinner';
+import { SpinnerMedBanner } from './Spinner';
 import { Innlogget, LoginContext } from './LoginProvider';
 
 const LoginBoundary: FunctionComponent = props => {
@@ -11,7 +11,7 @@ const LoginBoundary: FunctionComponent = props => {
     } else if (innlogget === Innlogget.IKKE_INNLOGGET) {
         return <LoggInn />
     } else {
-        return <Spinner />
+        return <SpinnerMedBanner />
     }
 };
 

@@ -1,55 +1,22 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import {gql, TypedDocumentNode, useQuery,} from '@apollo/client'
-import {GQL} from "@navikt/arbeidsgiver-notifikasjon-widget";
-import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.less';
-import Lenkepanel from "nav-frontend-lenkepanel";
-import Lenke from "nav-frontend-lenker";
-import {Undertekst, UndertekstBold, Undertittel} from "nav-frontend-typografi";
-import {FolderFilled} from "@navikt/ds-icons";
-import {HoyreChevron} from "nav-frontend-chevron";
+import { Undertittel } from 'nav-frontend-typografi';
+import { FolderFilled } from '@navikt/ds-icons';
+import { HoyreChevron } from 'nav-frontend-chevron';
+import { SaksListe } from '../SaksListe';
+import { useSaker } from '../useSaker';
 
-
-const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer: String!) {
-        saker(virksomhetsnummer: $virksomhetsnummer) {
-            saker {
-                id
-                tittel
-                lenke
-                merkelapp
-                virksomhet {
-                    navn
-                    virksomhetsnummer
-                }
-                sisteStatus {
-                    type
-                    tekst
-                    tidspunkt
-                }
-            }
-            feilAltinn
-            totaltAntallSaker
-        }
-    }
-`
-
-const dateFormat = new Intl.DateTimeFormat('no', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-});
 
 const SisteSaker = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) return null;
 
-    const {loading, data} = useQuery(HENT_SAKER, {
-        variables: {
-            virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
-        },
+    const {loading, data} = useSaker(3, 1, {
+        virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
+        tekstsoek: "",
     })
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
@@ -66,20 +33,7 @@ const SisteSaker = () => {
                 </Link>
             </div>
 
-            <ul>
-                {data?.saker.saker.map(({id, tittel, lenke, sisteStatus, virksomhet, merkelapp}) => (
-                    <li key={id}>
-                        <Lenkepanel tittelProps='element' href={lenke}>
-                            <Undertekst>{virksomhet.navn.toUpperCase()}</Undertekst>
-                            <Lenke className='innsynisak__lenke' href={lenke}>{tittel}</Lenke>
-                            <UndertekstBold>
-                                {sisteStatus.tekst}{' '}{dateFormat.format(new Date(sisteStatus.tidspunkt))}
-                            </UndertekstBold>
-                        </Lenkepanel>
-                    </li>
-                ))}
-
-            </ul>
+            <SaksListe saker={data?.saker.saker}/>
         </div>
     );
 };

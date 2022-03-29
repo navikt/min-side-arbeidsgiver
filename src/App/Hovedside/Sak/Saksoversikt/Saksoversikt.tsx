@@ -1,124 +1,209 @@
-import React, {useContext, useState} from 'react';
-import {gql, TypedDocumentNode, useQuery,} from '@apollo/client'
-import {GQL} from "@navikt/arbeidsgiver-notifikasjon-widget";
-import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
+import React, { FC, useContext, useEffect, useReducer, useRef, useState } from 'react';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './Saksoversikt.less';
-import Lenkepanel from "nav-frontend-lenkepanel";
-import Lenke from "nav-frontend-lenker";
-import {Undertekst, UndertekstBold} from "nav-frontend-typografi";
-import Brodsmulesti from "../../../Brodsmulesti/Brodsmulesti";
-import SideBytter from "./SideBytter/SideBytter";
-import {Search} from "@navikt/ds-icons";
-import {SearchField} from "@navikt/ds-react";
-import SearchFieldButton from "@navikt/ds-react/esm/form/search-field/SearchFieldButton";
-import SearchFieldInput from "@navikt/ds-react/esm/form/search-field/SearchFieldInput";
+import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
+import SideBytter from './SideBytter/SideBytter';
+import { Search } from '@navikt/ds-icons';
+import { BodyShort, SearchField } from '@navikt/ds-react';
+import SearchFieldButton from '@navikt/ds-react/esm/form/search-field/SearchFieldButton';
+import SearchFieldInput from '@navikt/ds-react/esm/form/search-field/SearchFieldInput';
+import { SaksListe } from '../SaksListe';
+import { Filter, useSaker } from '../useSaker';
+import { Spinner } from '../../../Spinner';
+import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 
+const SIDE_SIZE = 30;
 
-const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer: String!, $filter: String, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, filter: $filter, offset: $offset, limit: $limit) {
-            saker {
-                id
-                tittel
-                lenke
-                merkelapp
-                virksomhet {
-                    navn
-                    virksomhetsnummer
+type UseFilterProps = {
+    onChange: (filter: Filter) => void;
+}
+
+const FilterWidget = ({onChange}: UseFilterProps) => {
+    const [tekstsoek, setTekstsoek] = useState("")
+    const [virksomhetsnummer, setVirksomhetsnummer] = useState<string | null>(null)
+    const searchElem = useRef<HTMLInputElement>(null)
+
+    useVirksomhetsnummer(setVirksomhetsnummer)
+
+    useEffect(() => {
+        onChange({
+            tekstsoek,
+            virksomhetsnummer
+        })
+    }, [tekstsoek, virksomhetsnummer])
+
+    return <div className="saksoversikt__sokefelt">
+        <form onSubmit={(e) => {
+            e.preventDefault()
+            setTekstsoek(searchElem?.current?.value ?? "")
+        }}>
+            <SearchField label='Søk' hideLabel>
+                <SearchFieldInput ref={searchElem} />
+                <SearchFieldButton variant="primary" type='submit'>
+                    <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
+                </SearchFieldButton>
+            </SearchField>
+        </form>
+    </div>
+}
+
+const initDesiredState: desiredState = {
+    filter: {
+        tekstsoek: "",
+        virksomhetsnummer: null,
+    },
+    side: 1,
+    innhold: { vis: 'laster' },
+}
+
+type innhold =
+    | { vis: 'content', saker: Array<GQL.Sak>, totaltAntallSaker: number }
+    | { vis: 'error' }
+    | { vis: 'laster', forrigeSaker?: Array<GQL.Sak> }
+
+type desiredState = {
+    filter: Filter;
+    side: number;
+    sider?: number;
+    innhold: innhold
+}
+
+type action =
+    | { action: 'bytt-side', side: number }
+    | { action: 'bytt-filter', filter: Filter }
+    | { action: 'lasting-pågår' }
+    | { action: 'lasting-ferdig', resultat: GQL.SakerResultat }
+    | { action: 'lasting-feilet' }
+
+const useOversiktReducer = () => {
+    const reduce = (current: desiredState, action: action): desiredState => {
+        switch (action.action) {
+            case 'bytt-filter':
+                return {
+                    filter: action.filter,
+                    side: 1,
+                    sider: undefined,
+                    innhold: { vis: 'laster' }
                 }
-                sisteStatus {
-                    type
-                    tekst
-                    tidspunkt
+            case 'bytt-side':
+                return {
+                    ...current,
+                    side: action.side,
+                    innhold: { vis: 'laster' }
                 }
-            }
-            feilAltinn
-            totaltAntallSaker
+            case 'lasting-pågår':
+                return {
+                    ...current,
+                    innhold: { vis: 'laster' }
+                }
+            case 'lasting-feilet':
+                return {
+                    ...current,
+                    innhold: { vis: 'error' }
+                }
+            case 'lasting-ferdig':
+                const { totaltAntallSaker, saker } = action.resultat
+                const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE)
+                if (totaltAntallSaker > 0 && saker.length === 0) {
+                    // på et eller annet vis er det saker (totaltAntallSaker > 0), men
+                    // vi mottok ingen. Kan det være fordi vi er forbi siste side? Prøv
+                    // å gå til siste side.
+                    return {
+                        ...current,
+                        side: Math.max(1, sider - 1),
+                        sider,
+                        innhold: { vis: 'laster' }
+                    }
+                } else {
+                    return {
+                        ...current,
+                        sider,
+                        innhold: {
+                            vis: 'content',
+                            saker: action.resultat.saker,
+                            totaltAntallSaker: action.resultat.totaltAntallSaker,
+                        }
+                    }
+                }
         }
     }
-`
 
-const dateFormat = new Intl.DateTimeFormat('no', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-});
-const sideStørrelse = 10;
+    const [state, dispatch] = useReducer(reduce, initDesiredState)
+
+    return {
+        state,
+        byttFilter: (filter: Filter) => dispatch({action: 'bytt-filter', filter}),
+        byttSide: (side: number) => dispatch({action: 'bytt-side', side}),
+        lastingPågår: () => dispatch({action: 'lasting-pågår'}),
+        lastingFerdig: (resultat: GQL.SakerResultat) => dispatch({action: 'lasting-ferdig', resultat}),
+        lastingFeilet: () => dispatch({action: 'lasting-feilet'}),
+    }
+}
+
+const noFilterApplied = (filter: Filter) => filter.tekstsoek.trim() === ""
+
+const useVirksomhetsnummer = (onVirksomhetsnummerChange: (virksomhetsnummer: string) => void) => {
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const virksomhetsnummer = valgtOrganisasjon?.organisasjon?.OrganizationNumber ?? null
+    useEffect(() => {
+        if (virksomhetsnummer !== null) {
+            onVirksomhetsnummerChange(virksomhetsnummer)
+        }
+    }, [virksomhetsnummer])
+}
+
+type InnholdProps = { filter: Filter, innhold: innhold }
+
+const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
+    if (innhold.vis === 'error') {
+        return <BodyShort>Feil ved lasting av saker.</BodyShort>
+    }
+
+    if (innhold.vis === 'laster') {
+        return <Spinner/>
+    }
+    const {totaltAntallSaker, saker } = innhold
+
+    if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
+        return <BodyShort>Ingen saker å vise på valgt virksomhet.</BodyShort>
+    }
+
+    if (totaltAntallSaker === 0) {
+        return <BodyShort>Ingen treff.</BodyShort>
+    }
+
+    return <SaksListe saker={saker}/>
+}
 
 const Saksoversikt = () => {
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const {loading, data, fetchMore} = useQuery(HENT_SAKER, {
-        variables: {
-            virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-            filter: null,
-            offset: 0,
-            limit: sideStørrelse
-        },
-    })
-    const oppdaterSaker = ({filter, side}: { filter: string, side: number }) => {
-        const _ = fetchMore({
-            variables: {
-                virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
-                filter: filter !== "" ? filter : null,
-                offset: (side - 1) * sideStørrelse,
-                limit: sideStørrelse
-            }
-        });
-    }
-    const [filter, settFilter] = useState("");
-    const [side, settSide] = useState(1);
+    const {state, byttFilter, byttSide, lastingPågår, lastingFerdig, lastingFeilet } = useOversiktReducer()
+    const {loading, data} = useSaker(SIDE_SIZE, state?.side, state.filter);
 
-    if (loading || !data || data?.saker.saker.length == 0) return null;
-    const antallSider = Math.ceil(data?.saker.totaltAntallSaker / sideStørrelse)
+    useEffect(() => {
+        if (loading) {
+            lastingPågår()
+        } else if (data?.saker?.__typename !== "SakerResultat") {
+            lastingFeilet()
+        } else {
+            lastingFerdig(data.saker)
+        }
+    }, [loading, data])
 
-    return (
-        <div className='saksoversikt'>
-            <Brodsmulesti brodsmuler={[{ url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true }]} />
+    return <div className='saksoversikt'>
+        <Brodsmulesti brodsmuler={[{ url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true }]} />
 
-            <div className="saksoversikt__header">
-                <div className="saksoversikt__sokefelt">
-                    <form onSubmit={(e)=>{
-                        settSide(1)
-                        oppdaterSaker({filter: filter, side: 1})
-                        e.preventDefault()
-                    }}>
-                    <SearchField  label='Søk' hideLabel>
-                        <SearchFieldInput value={filter} onChange={(e) => settFilter(e.target.value)}/>
-                        <SearchFieldButton variant="primary" type='submit'>
-                            <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
-                        </SearchFieldButton>
-                    </SearchField>
-                    </form>
-                    
+        <div className="saksoversikt__header">
+            <FilterWidget onChange={byttFilter}/>
 
-                </div>
-
-                <SideBytter
-                    side={side}
-                    antallSider={antallSider}
-                    onSideValgt={(valgtSide) => {
-                        settSide(valgtSide)
-                        oppdaterSaker({filter, side: valgtSide})
-                    }}
-                />
-            </div>
-
-            <ul>
-                {data?.saker.saker.map(({id, tittel, lenke, sisteStatus, virksomhet}) => (
-                    <li key={id}>
-                        <Lenkepanel tittelProps='element' href={lenke}>
-                            <Undertekst>{virksomhet.navn.toUpperCase()}</Undertekst>
-                            <Lenke className='saksoversikt__lenke' href={lenke}>{tittel}</Lenke>
-                            <UndertekstBold>
-                                {sisteStatus.tekst}{' '}{dateFormat.format(new Date(sisteStatus.tidspunkt))}
-                            </UndertekstBold>
-                        </Lenkepanel>
-                    </li>
-                ))}
-
-            </ul>
+            <SideBytter
+                side={state.side}
+                antallSider={state.sider}
+                onSideValgt={byttSide}
+            />
         </div>
-    );
+
+        <Innhold filter={state.filter} innhold={state.innhold}/>
+    </div>
 };
 
 export default Saksoversikt;

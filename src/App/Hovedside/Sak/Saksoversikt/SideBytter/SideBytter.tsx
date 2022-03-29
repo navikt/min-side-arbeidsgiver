@@ -52,12 +52,15 @@ const Pagineringsknapp = ({
 };
 
 interface SideBytterProps {
-    antallSider: number;
-    side: number;
+    antallSider?: number;
+    side?: number;
     onSideValgt: (side: number) => void;
 }
 
 const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
+    if (antallSider === undefined || side === undefined)
+        return null;
+
     if (antallSider < 2) {
         return null;
     }
