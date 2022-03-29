@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './Saksoversikt.less';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
@@ -10,6 +10,7 @@ import SearchFieldInput from '@navikt/ds-react/esm/form/search-field/SearchField
 import { SaksListe } from '../SaksListe';
 import { Filter, useSaker } from '../useSaker';
 import { Spinner } from '../../../Spinner';
+import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 
 const SIDE_SIZE = 10;
 
@@ -52,19 +53,28 @@ const initDesiredState: desiredState = {
         virksomhetsnummer: null,
     },
     side: 1,
+    innhold: { vis: 'laster' },
 }
+
+type innhold =
+    | { vis: 'content', saker: Array<GQL.Sak>, totaltAntallSaker: number }
+    | { vis: 'error' }
+    | { vis: 'laster', forrigeSaker?: Array<GQL.Sak> }
 
 /* If you add any fields here or in filter, you have to update `useMemo` below. */
 type desiredState = {
     filter: Filter;
     side: number;
     sider?: number;
+    innhold: innhold
 }
 
 type action =
     | { action: 'bytt-side', side: number }
     | { action: 'bytt-filter', filter: Filter }
-    | { action: 'saker-lastet', sider: number }
+    | { action: 'lasting-pågår' }
+    | { action: 'lasting-ferdig', resultat: GQL.SakerResultat }
+    | { action: 'lasting-feilet' }
 
 const useOversiktReducer = () => {
     const reduce = (current: desiredState, action: action): desiredState => {
@@ -74,26 +84,60 @@ const useOversiktReducer = () => {
                     filter: action.filter,
                     side: 1,
                     sider: undefined,
+                    innhold: { vis: 'laster' }
                 }
             case 'bytt-side':
-                return { ...current, side: action.side}
-            case 'saker-lastet':
-                return { ...current, sider: action.sider }
+                return {
+                    ...current,
+                    side: action.side,
+                    innhold: { vis: 'laster' }
+                }
+            case 'lasting-pågår':
+                return {
+                    ...current,
+                    innhold: { vis: 'laster' }
+                }
+            case 'lasting-feilet':
+                return {
+                    ...current,
+                    innhold: { vis: 'error' }
+                }
+            case 'lasting-ferdig':
+                const { totaltAntallSaker, saker} = action.resultat
+                const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE)
+                if (totaltAntallSaker > 0 && saker.length === 0) {
+                    // på et eller annet vis er det saker (totaltAntallSaker > 0), men
+                    // vi mottok ingen. Kan det være fordi vi er forbi siste side? Prøv
+                    // å gå til siste side.
+                    return {
+                        ...current,
+                        side: Math.max(1, totaltAntallSaker - 1),
+                        sider,
+                        innhold: { vis: 'laster' }
+                    }
+                } else {
+                    return {
+                        ...current,
+                        sider,
+                        innhold: {
+                            vis: 'content',
+                            saker: action.resultat.saker,
+                            totaltAntallSaker: action.resultat.totaltAntallSaker,
+                        }
+                    }
+                }
         }
     }
 
     const [state, dispatch] = useReducer(reduce, initDesiredState)
 
-    const memoState = useMemo(
-        () => state,
-        [state.filter.tekstsoek, state.filter.virksomhetsnummer, state.side, state.sider]
-    )
-
     return {
-        state: memoState,
+        state,
         byttFilter: (filter: Filter) => dispatch({action: 'bytt-filter', filter}),
         byttSide: (side: number) => dispatch({action: 'bytt-side', side}),
-        sakerLastet: (sider: number) => dispatch({action: 'saker-lastet', sider}),
+        lastingPågår: () => dispatch({action: 'lasting-pågår'}),
+        lastingFerdig: (resultat: GQL.SakerResultat) => dispatch({action: 'lasting-ferdig', resultat}),
+        lastingFeilet: () => dispatch({action: 'lasting-feilet'}),
     }
 }
 
@@ -109,46 +153,42 @@ const useVirksomhetsnummer = (onVirksomhetsnummerChange: (virksomhetsnummer: str
     }, [virksomhetsnummer])
 }
 
-const Saksoversikt = () => {
-    const {state, byttFilter, byttSide, sakerLastet} = useOversiktReducer()
-    const {loading, data} = useSaker(SIDE_SIZE, state?.side, state.filter);
-    const [body, setBody] = useState<JSX.Element>(() => <Spinner />)
+type InnholdProps = { filter: Filter, innhold: innhold }
 
+const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
+    if (innhold.vis === 'error') {
+        return <BodyShort>Feil ved lasting av saker.</BodyShort>
+    }
+
+    if (innhold.vis === 'laster') {
+        return <Spinner/>
+    }
+
+    const {totaltAntallSaker, saker } = innhold
+
+    if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
+        return <BodyShort>Ingen saker å vise på valgt virksomhet.</BodyShort>
+    }
+
+    if (totaltAntallSaker === 0) {
+        return <BodyShort>Ingen treff.</BodyShort>
+    }
+
+    return <SaksListe saker={saker}/>
+}
+
+const Saksoversikt = () => {
+    const {state, byttFilter, byttSide, lastingPågår, lastingFerdig, lastingFeilet } = useOversiktReducer()
+    const {loading, data} = useSaker(SIDE_SIZE, state?.side, state.filter);
 
     useEffect(() => {
         if (loading) {
-            setBody(<Spinner />)
-            return
+            lastingPågår()
+        } else if (data?.saker?.__typename !== "SakerResultat") {
+            lastingFeilet()
+        } else {
+            lastingFerdig(data.saker)
         }
-
-        if (data === undefined) {
-            setBody(<BodyShort>Feil ved lasting av saker.</BodyShort>)
-            return
-        }
-
-        const {saker, totaltAntallSaker} = data.saker
-        const antallSider = Math.ceil(totaltAntallSaker / SIDE_SIZE)
-        sakerLastet(antallSider)
-
-        if (totaltAntallSaker === 0 && noFilterApplied(state.filter)) {
-            setBody(<BodyShort>Ingen saker å vise på valgt virksomhet.</BodyShort>)
-            return
-        }
-
-        if (totaltAntallSaker === 0) {
-            setBody(<BodyShort>Ingen treff.</BodyShort>)
-            return
-        }
-
-        if (saker.length === 0) {
-            // på et eller annet vis er det saker (totaltAntallSaker > 0), men
-            // vi mottok ingen. Kan det være fordi vi er forbi siste side? Prøv
-            // å gå til siste side.
-            byttSide(Math.max(1, antallSider - 1))
-            return
-        }
-
-        setBody(<SaksListe saker={saker}/>)
     }, [loading, data])
 
     return <div className='saksoversikt'>
@@ -164,7 +204,7 @@ const Saksoversikt = () => {
             />
         </div>
 
-        {body}
+        <Innhold filter={state.filter} innhold={state.innhold}/>
     </div>
 };
 
