@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useReducer, useRef, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './Saksoversikt.less';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
@@ -161,13 +161,6 @@ const Innhold: FC<InnholdProps> = ({filter, innhold}) => {
 
     if (innhold.vis === 'laster') {
         return <Spinner/>
-        // const {lasteStart} = innhold
-        // const currentTime = useCurrentTime(resolution: 100ms)
-        // if (currentTime - lasteStart > 250ms) {
-        //     return <Placeholder/>
-        // } else {
-        //     return <SaksListe saker={saker}/>
-        // }
     }
     const {totaltAntallSaker, saker } = innhold
 
