@@ -17,29 +17,19 @@ const Pagineringsknapp = ({
                               erSisteSide = false,
                               sidetall,
                               gåTil,
-                              gåTilNeste,
-                              gåTilForrige,
                           }: PagineringsknappProps) => {
 
     let ariaLabel = `Gå til side ${sidetall}`;
     if (erValgt) {
         ariaLabel = `side ${sidetall} valgt`;
         if (erSisteSide) {
-            ariaLabel += ' ,dette er siste side';
+            ariaLabel += ', dette er siste side';
         }
     }
 
     return (
         <button
             onClick={() => gåTil(sidetall)}
-            onKeyDown={({key}) => {
-                if (key === 'ArrowRight' || key === 'Right') {
-                    gåTilNeste()
-                }
-                if (key === 'ArrowLeft' || key === 'Left') {
-                    gåTilForrige()
-                }
-            }}
             id={'pagineringsknapp-' + sidetall}
             key={sidetall}
             className={`sidebytter__valg ${erValgt && 'er-valgt'}`}
@@ -80,13 +70,12 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
     return (
         <nav
             className="sidebytter"
-            role={'navigation'}
-            aria-label={`Sidebytter, Nåværende side er ${side}, bruk piltastene til å navigere`}
+            role="navigation"
+            aria-label={`Sidebytter. Nåværende side er ${side}.`}
         >
             <div role={'toolbar'}>
                 {side > 1 && (
                     <button
-                        onKeyDown={gåTilForrigeSide}
                         className="sidebytter__chevron"
                         onClick={gåTilForrigeSide}
                         aria-label={'Gå til forrige side'}
@@ -146,7 +135,6 @@ const SideBytter = ({antallSider, onSideValgt, side}: SideBytterProps) => {
 
                 {side < antallSider && (
                     <button
-                        onKeyDown={gåTilNesteSide}
                         className={'sidebytter__chevron'}
                         onClick={gåTilNesteSide}
                         aria-label={'Gå til neste side'}
