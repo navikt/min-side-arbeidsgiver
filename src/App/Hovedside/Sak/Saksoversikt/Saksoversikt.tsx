@@ -89,6 +89,9 @@ const useOversiktReducer = () => {
                     }
                 }
             case 'bytt-side':
+                if (current.side === action.side) {
+                    return current
+                }
                 return {
                     ...current,
                     side: action.side,
