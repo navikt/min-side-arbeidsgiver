@@ -221,9 +221,18 @@ const Laster: FC<LasterProps> = ({forrigeSaker, startTid}) => {
 const useCurrentDate = (pollInterval: number) => {
     const [currentDate, setCurrentDate] = useState(() => new Date())
     useEffect(() => {
-        const timer = setInterval(() => setCurrentDate(new Date()), pollInterval)
-        return () => clearInterval(timer)
-    })
+        /* We are unsure if the `mounted`-check is really necessary. */
+        let mounted = true
+        const timer = setInterval(() => {
+            if (mounted) {
+                setCurrentDate(new Date())
+            }
+        }, pollInterval)
+        return () => {
+            mounted = false
+            clearInterval(timer)
+        }
+    }, [pollInterval])
     return currentDate
 }
 
