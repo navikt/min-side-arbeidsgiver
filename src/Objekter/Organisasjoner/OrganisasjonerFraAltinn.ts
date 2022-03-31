@@ -6,12 +6,3 @@ export interface Organisasjon {
     Status: string;
     ParentOrganizationNumber: string;
 }
-
-export const tomAltinnOrganisasjon: Organisasjon = {
-    Name: '',
-    Type: '',
-    OrganizationNumber: '',
-    OrganizationForm: '',
-    Status: '',
-    ParentOrganizationNumber: '',
-};

@@ -1,6 +1,9 @@
 import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
-import { SyfoKallObjekt } from '../Objekter/Organisasjoner/syfoKallObjekt';
 import { digiSyfoNarmesteLederURL, sjekkInnloggetURL } from '../lenker';
+
+interface SyfoKallObjekt {
+    tilgang: boolean;
+}
 
 export async function hentSyfoTilgang(): Promise<boolean> {
     const respons = await fetch(digiSyfoNarmesteLederURL);
