@@ -1,5 +1,5 @@
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { digiSyfoNarmesteLederURL, sjekkInnloggetURL } from '../lenker';
+import { Organisasjon } from '../altinn/organisasjon';
 
 interface SyfoKallObjekt {
     tilgang: boolean;

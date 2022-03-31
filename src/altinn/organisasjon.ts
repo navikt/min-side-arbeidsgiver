@@ -1,3 +1,4 @@
+
 export interface Organisasjon {
     Name: string;
     Type: string;
@@ -6,3 +7,4 @@ export interface Organisasjon {
     Status: string;
     ParentOrganizationNumber: string;
 }
+

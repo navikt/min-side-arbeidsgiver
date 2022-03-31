@@ -1,6 +1,6 @@
 import { altinntjeneste, AltinnFellesInfo, AltinntjenesteId } from './tjenester';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import * as Record from '../utils/Record';
+import { Organisasjon } from './organisasjon';
 
 type Orgnr = string;
 

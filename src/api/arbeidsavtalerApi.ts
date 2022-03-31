@@ -1,5 +1,5 @@
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { hentArbeidsavtalerApiLink } from '../lenker';
+import { Organisasjon } from '../altinn/organisasjon';
 
 export interface Arbeidsavtale {
     status: string;

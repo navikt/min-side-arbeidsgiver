@@ -1,5 +1,5 @@
 import { altinnUrl } from '../lenker';
-import environment from '../utils/environment';
+import { gittMiljo } from '../utils/environment';
 import { navtjenester } from '../altinn/tjenester';
 
 export enum Status {
@@ -53,10 +53,10 @@ const altinnFetch = async (info: RequestInfo) => {
             accept: 'application/hal+json',
             /* Apikeys av typen 'nettleserapplikasjon' er ikke hemmeligheter.
              * se https://altinn.github.io/docs/api/#api-key  */
-            apikey:
-                environment.MILJO === 'prod-gcp'
-                    ? 'DE7173AF-3A43-47E3-A7A2-E8AB4D88C253'
-                    : '2C585F91-5741-4568-8FD7-3807A45AFDD7',
+            apikey: gittMiljo({
+                prod: 'DE7173AF-3A43-47E3-A7A2-E8AB4D88C253',
+                other: '2C585F91-5741-4568-8FD7-3807A45AFDD7',
+            })
         },
     };
     const response = await fetch(info, props);
