@@ -1,6 +1,6 @@
-import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
-import {Accordion, BodyLong, BodyShort, Heading, Menu, Panel} from '@navikt/ds-react';
-import "@navikt/ds-css";
+import React from 'react';
+import { Accordion, BodyLong, BodyShort, Heading } from '@navikt/ds-react';
+import '@navikt/ds-css';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import {
     infoOmAltinnVarslerURL,
@@ -13,7 +13,7 @@ import {
     lenkeTilInforOmInntekstmelding,
 } from '../../lenker';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
-import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './InformasjonOmTilgangsstyringSide.less';
 import icon from './icon_tilgang.svg';
 import { PanelerMedInnholdsfortegnelse } from './PanelerMedInnholdsfortegnelse';
