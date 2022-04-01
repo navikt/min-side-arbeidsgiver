@@ -1,31 +1,5 @@
 @import '../../../node_modules/nav-frontend-core/less/_variabler';
 
-.copy-link {
-    display: flex;
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    a {
-        cursor: pointer;
-        margin-right: 1rem;
-    }
-
-    .alert {
-        &-show {
-            animation: fadeInOut 3s linear 1 forwards;
-        }
-        &-hide {
-            opacity:0;
-        }
-    }
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
 @content-width: 60rem;
 
 .informasjon-om-tilgangsstyring {
@@ -34,10 +8,6 @@
     background-color: @navLysGra;
     min-height: 100vh;
     gap: 1.5rem;
-
-    .navds-accordion__header { // 🤔 kanskje ikke så heldig å binde seg navds klasse her?
-        color: @navBla
-    }
 
     &__banner {
         display: flex;
@@ -56,46 +26,5 @@
                 max-width: 5rem;
             }
         }
-    }
-
-    &__container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: stretch;
-        gap: 1.5rem;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: @content-width;
-
-        @media (min-width: @screen-sm-min) {
-            gap: 1.0rem;
-            flex-direction: row;
-            align-items: flex-start;
-        }
-    }
-
-    &__sidepanel{
-        padding-left: 0;
-
-        @media (min-width: @screen-sm-min) {
-            position: sticky;
-            top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
-        }
-
-        &head {
-            margin-left: 0.5rem;
-        }
-    }
-
-
-    &__innhold {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-
-    &__tekst {
-        padding: 2rem;
     }
 }
