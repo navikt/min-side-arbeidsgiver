@@ -38,7 +38,7 @@ const IAwebboks = () => {
                 <span className={'legemeldt-sykefravær-prosent'}>
                     {sykefravær.prosent.toString()} %
                 </span>
-                <> Legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge fravær.   </>
+                <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge fravær.   </>
             </span>
             );
         }
