@@ -1,7 +1,5 @@
-import {lenkeTilSykefravarsstatistikk} from '../../../../lenker';
+import {lenkeTilForebyggefravar} from '../../../../lenker';
 import React, { useContext, useEffect, useState } from 'react';
-import { lenkeTilForebyggefravar } from '../../../../lenker';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
 import './IAwebboks.less';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
@@ -17,16 +15,15 @@ const IAwebboks = () => {
 
     return <Tjenesteboks
         ikon={IAwebikon}
-        href={lenkeTilSykefravarsstatistikk + valgtbedrift()}
-        tittel={'Sykefraværsstatistikk'}
+        href={lenkeTilForebyggefravar + valgtbedrift()}
+        tittel='Forebygge fravær'
         aria-label={beskrivelse}
         >
         <Beskrivelse/>
     </Tjenesteboks>;
 };
 
-const beskrivelse = 'Har du høyere eller lavere sykefravær sammenlignet med din bransje? Se tallene ' +
-    'og tips om hvordan du kan påvirke sykefraværet ditt'
+const beskrivelse = 'Verktøy for å forebygge fravær i din virksomhet.'
 
 const Beskrivelse = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
