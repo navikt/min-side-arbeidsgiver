@@ -7,6 +7,7 @@ import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
+import TiltakRefusjonboks from "./TiltakRefusjonboks/TiltakRefusjonboks";
 import './TjenesteBoksContainer.less';
 import { AltinntjenesteId } from '../../../altinn/tjenester';
 
@@ -31,11 +32,16 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     if (harTilgang('iaweb')) {
         tjenester.push(IAwebboks);
     }
+
     if (harTilgang('pam')) {
         tjenester.push(Pamboks);
     }
     if (harTilgang('midlertidigLønnstilskudd') || harTilgang('varigLønnstilskudd') || harTilgang('arbeidstrening')) {
         tjenester.push(Tiltakboks);
+    }
+
+    if (false){
+        tjenester.push(TiltakRefusjonboks);
     }
 
     let antallClassname;
