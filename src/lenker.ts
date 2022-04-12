@@ -16,6 +16,12 @@ export const syfoURL = gittMiljo({
     labs: 'https://sykefravaerarbeidsgiver.labs.nais.io/sykefravaerarbeidsgiver/',
 });
 
+export const refosoURL = gittMiljo({
+    prod: '#',
+    other: '#',
+
+})
+
 export const arbeidsplassenURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/bedrift',
     other: 'https://arbeidsplassen.dev.nav.no/bedrift',
