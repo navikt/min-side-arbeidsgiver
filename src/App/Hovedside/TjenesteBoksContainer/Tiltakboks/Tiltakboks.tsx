@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
-import { tiltaksgjennomforingURL } from '../../../../lenker';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import React, {useContext, useEffect, useState} from 'react';
+import {Normaltekst} from 'nav-frontend-typografi';
+import {tiltaksgjennomforingURL} from '../../../../lenker';
+import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './Tiltakboks.less';
 
 import tiltakikon from './tiltakboks-ikon.svg';
-import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
-import { Arbeidsavtale, hentArbeidsavtaler } from '../../../../api/arbeidsavtalerApi';
+import {Arbeidsavtale, hentArbeidsavtaler} from '../../../../api/arbeidsavtalerApi';
 import {Tjenesteboks} from "../Tjenesteboks";
 
 const Tiltakboks = () => {
