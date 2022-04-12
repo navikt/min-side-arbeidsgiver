@@ -1,7 +1,6 @@
-import { FunctionComponent, MouseEventHandler } from 'react';
-import { loggNavigasjon } from '../utils/funksjonerForAmplitudeLogging';
-import { useLocation } from 'react-router-dom';
-import { Link, LinkProps } from 'react-router-dom';
+import {FunctionComponent, MouseEventHandler} from 'react';
+import {loggNavigasjon} from '../utils/funksjonerForAmplitudeLogging';
+import {Link, LinkProps, useLocation} from 'react-router-dom';
 
 export interface Props extends LinkProps {
     loggLenketekst: string;
