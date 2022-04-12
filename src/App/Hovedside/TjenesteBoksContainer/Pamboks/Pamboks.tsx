@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import { arbeidsplassenURL } from '../../../../lenker';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import React, {useContext, useEffect, useState} from 'react';
+import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
+import {arbeidsplassenURL} from '../../../../lenker';
 import PamboksIkon from './pamboks-ikon.svg';
-import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import './Pamboks.less';
+import {Tjenesteboks} from "../Tjenesteboks";
 
 const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
@@ -15,9 +14,9 @@ const Pamboks = () => {
             <br />Lag en stillingsannonse</>;
 
     const TekstMedTall = () =>
-        <div className={'bunntekst'}>
-            <span> <span className={'antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
-            <div className={'bunntekst'}>Finn nye kandidater
+        <div className={'pamboks__bunntekst'}>
+            <span> <span className={'pamboks__antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
+            <div className={'pamboks__bunntekst'}>Finn nye kandidater
             </div>
         </div>;
 
@@ -28,22 +27,13 @@ const Pamboks = () => {
         }
     }, [antallAnnonser]);
 
-    return (
-        <div className='pamboks tjenesteboks-innhold'>
-            <TjenesteBoksBanner tittel='Rekruttere' imgsource={PamboksIkon} altTekst='' />
-            <LenkepanelMedLogging
-                className='pamboks__lenke'
-                loggLenketekst='Rekruttere'
-                href={arbeidsplassenURL}
-                tittelProps='normaltekst'
-                aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}
-            >
-                <div className='pamboks-tekst'>
-                    {antallAnnonser > 0 ? TekstMedTall() : TekstUtenTall()}
-                </div>
-            </LenkepanelMedLogging>
-        </div>
-    );
+    return <Tjenesteboks
+        ikon={PamboksIkon}
+        href={arbeidsplassenURL}
+        tittel={'Rekruttere'}
+        aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}>
+            {antallAnnonser > 0 ? TekstMedTall() : TekstUtenTall()}
+        </Tjenesteboks>;
 };
 
 export default Pamboks;
