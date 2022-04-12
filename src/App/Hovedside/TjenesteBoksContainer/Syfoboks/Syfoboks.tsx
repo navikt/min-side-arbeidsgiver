@@ -1,24 +1,17 @@
 import React from 'react';
-import { syfoURL } from '../../../../lenker';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import {syfoURL} from '../../../../lenker';
 import syfoikon from './syfoikon.svg';
-import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
+import {Tjenesteboks} from "../Tjenesteboks";
 
-const Syfoboks = () => {
-    return (
-        <div className="syfoboks tjenesteboks-innhold">
-            <TjenesteBoksBanner tittel="Sykmeldte" imgsource={syfoikon} altTekst="" />
-            <LenkepanelMedLogging
-                loggLenketekst="Sykmeldte"
-                className="syfoboks__sykemeldte"
-                href={syfoURL}
-                tittelProps="normaltekst"
-                aria-label="Sykmeldte. Se sykmeldte du har ansvar for å følge opp"
-            >
-                Se sykmeldte du har ansvar for å følge opp
-            </LenkepanelMedLogging>
-        </div>
-    );
-};
+const Syfoboks = () =>
+    <Tjenesteboks
+        ikon={syfoikon}
+        href={syfoURL}
+        tittel="Sykmeldte"
+        aria-label="Sykmeldte. Se sykmeldte du har ansvar for å følge opp"
+    >
+        Se sykmeldte du har ansvar for å følge opp
+    </Tjenesteboks>;
 
-export default Syfoboks;
+
+export default Syfoboks

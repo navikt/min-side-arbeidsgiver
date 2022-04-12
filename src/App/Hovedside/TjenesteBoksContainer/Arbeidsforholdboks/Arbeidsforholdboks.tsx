@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { innsynAaregURL } from '../../../../lenker';
-import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
+import React, {useContext, useEffect, useState} from 'react';
+import {innsynAaregURL} from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
-import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
-import { hentAntallArbeidsforholdFraAareg } from '../../../../api/arbeidsforholdApi';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import {hentAntallArbeidsforholdFraAareg} from '../../../../api/arbeidsforholdApi';
+import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './ArbeidsforholdBoks.less';
+import {Tjenesteboks} from "../Tjenesteboks";
 
 const Arbeidsforholdboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -19,31 +18,18 @@ const Arbeidsforholdboks = () => {
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
 
-    const TekstMedTall = () =>
-        <>
-            <span> <span className={'antall-arbeidsforhold'}>{antallArbeidsforhold}</span>arbeidsforhold (aktive og avsluttede) </span>
-            <div className={'bunntekst'}> innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+    return <Tjenesteboks
+        ikon={arbeidsforholdikon}
+        href={href}
+        tittel='Arbeidsforhold'
+        aria-label='Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)'
+    >
+        <div className='arbeidsforholdboks'>
+            <span> <span className='antall-arbeidsforhold'>{antallArbeidsforhold}</span>arbeidsforhold (aktive og avsluttede) </span>
+            <div className='bunntekst'> innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
             </div>
-        </>;
-
-    return (
-        <div className='arbeidsforholdboks tjenesteboks-innhold'>
-            <TjenesteBoksBanner
-                tittel='Arbeidsforhold'
-                imgsource={arbeidsforholdikon}
-                altTekst=''
-            />
-            <LenkepanelMedLogging
-                loggLenketekst='Arbeidsforhold'
-                className='arbeidsforholdboks__arbeidsforhold'
-                href={href}
-                tittelProps='normaltekst'
-                aria-label='Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)'
-            >
-                {TekstMedTall()}
-            </LenkepanelMedLogging>
         </div>
-    );
+    </Tjenesteboks>;
 };
 
 export default Arbeidsforholdboks;
