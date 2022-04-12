@@ -15,6 +15,13 @@ export const inkluderInnsynISakFeatureToggle = gittMiljo({
     other: true
 })
 
+export const inkluderRefusjonSommerjobbeToggle = gittMiljo({
+    prod: false,
+    dev: true,
+    labs: false,
+    other: true
+})
+
 const featureTogglePath = (features: Feature[]): string => {
     const query = features.map(feature => `feature=${feature}`).join('&');
     return `${featurePath}?${query}`;

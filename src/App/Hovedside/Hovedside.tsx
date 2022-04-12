@@ -1,24 +1,23 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import React, {FunctionComponent, useContext, useEffect} from 'react';
+import {RouteComponentProps, withRouter} from 'react-router';
+import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import { VarselHvisNedetid } from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
-import { FeilmeldingContainer } from './FeilmeldingContainer/FeilmeldingContainer';
-import { Koronaboks } from './Koronaboks/Koronaboks';
+import {VarselHvisNedetid} from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
+import {FeilmeldingContainer} from './FeilmeldingContainer/FeilmeldingContainer';
+import {Koronaboks} from './Koronaboks/Koronaboks';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
-import { AltinnContainer } from './AltinnContainer/AltinnContainer';
-import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
+import {AltinnContainer} from './AltinnContainer/AltinnContainer';
+import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
-import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
+import {GiOssTilbakemelding} from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
 import SisteSaker from "./Sak/SisteSaker/SisteSaker";
-import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
-import {LenkeMedLogging} from "../../GeneriskeElementer/LenkeMedLogging";
-import {lenkeTilTilgangsstyringsInfo} from "../../lenker";
+import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
+import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -57,9 +56,9 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <AltinnContainer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />
-                <LenkeMedLogging href={lenkeTilTilgangsstyringsInfo} loggLenketekst='Lær om tilganger og varsler i Altinn'>
+                <LinkMedLogging to={'/informasjon-om-tilgangsstyring'} loggLenketekst='Lær om tilganger og varsler i Altinn'>
                     Lær om tilganger og varsler i Altinn
-                </LenkeMedLogging>
+                </LinkMedLogging>
             </div>
         </div>
     );
