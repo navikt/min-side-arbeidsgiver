@@ -10,6 +10,7 @@ import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from "./TiltakRefusjonboks/TiltakRefusjonboks";
 import './TjenesteBoksContainer.less';
 import { AltinntjenesteId } from '../../../altinn/tjenester';
+import {inkluderRefusjonSommerjobbeToggle} from "../../../FeatureToggleProvider";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -40,7 +41,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Tiltakboks);
     }
 
-    if (false){
+    if (harTilgang("inntektsmelding") && inkluderRefusjonSommerjobbeToggle){
         tjenester.push(TiltakRefusjonboks);
     }
 
