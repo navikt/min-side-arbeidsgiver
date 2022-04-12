@@ -13,5 +13,4 @@ const TiltakRefusjonboks = () =>
         Søk og se refusjon for tilskudd til sommerjobb
     </Tjenesteboks>;
 
-
 export default TiltakRefusjonboks;

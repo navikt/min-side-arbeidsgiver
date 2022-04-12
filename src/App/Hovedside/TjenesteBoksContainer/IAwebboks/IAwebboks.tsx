@@ -1,5 +1,7 @@
-import React, {useContext, useEffect, useState} from 'react';
 import {lenkeTilSykefravarsstatistikk} from '../../../../lenker';
+import React, { useContext, useEffect, useState } from 'react';
+import { lenkeTilForebyggefravar } from '../../../../lenker';
+import TjenesteBoksBanner from '../TjenesteBoksBanner/TjenesteBoksBanner';
 import IAwebikon from './IawebIkon.svg';
 import './IAwebboks.less';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
@@ -53,8 +55,9 @@ const Beskrivelse = () => {
                 <span className={'legemeldt-sykefravær-prosent'}>
                     {sykefravær.prosent.toString()} %
                 </span>
-                <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge sykefravær.   </>
+                <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge fravær.   </>
             </span>
+
         );
     }
     return <span>{beskrivelse}</span>;

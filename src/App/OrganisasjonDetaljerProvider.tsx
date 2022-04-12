@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { OrganisasjonerOgTilgangerContext, OrganisasjonInfo } from './OrganisasjonerOgTilgangerProvider';
 import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/altinnApi';
 import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
+import { Organisasjon } from '../altinn/organisasjon';
 
 interface Props {
     children: React.ReactNode;

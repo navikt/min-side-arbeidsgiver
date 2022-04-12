@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
-import { Organisasjon } from '../Objekter/Organisasjoner/OrganisasjonerFraAltinn';
 import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
+import { Organisasjon } from '../altinn/organisasjon';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
