@@ -17,9 +17,9 @@ export const syfoURL = gittMiljo({
 });
 
 export const refosoURL = gittMiljo({
-    prod: '#',
-    other: '#',
-
+    prod: 'https://tiltak-refusjon.nav.no/refusjon?bedrift=811306932',
+    other: 'https://tiltak-refusjon.dev.nav.no/refusjon?bedrift=811306932',
+    labs: 'https://tiltak-refusjon-arbeidsgiver.labs.nais.io',
 })
 
 export const arbeidsplassenURL = gittMiljo({
