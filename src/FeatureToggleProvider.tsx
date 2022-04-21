@@ -15,7 +15,7 @@ export const inkluderInnsynISakFeatureToggle = gittMiljo({
     other: true
 })
 
-export const inkluderRefusjonSommerjobbeToggle = gittMiljo({
+export const inkluderRefusjonSommerjobberToggle = gittMiljo({
     prod: false,
     dev: true,
     labs: false,
