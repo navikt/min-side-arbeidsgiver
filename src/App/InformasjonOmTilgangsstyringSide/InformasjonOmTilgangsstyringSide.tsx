@@ -20,6 +20,7 @@ import { PanelerMedInnholdsfortegnelse } from './PanelerMedInnholdsfortegnelse';
 import {inkluderRefusjonSommerjobbeToggle} from "../../FeatureToggleProvider";
 
 const InformasjonOmTilgangsstyringSide = () => {
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div className='informasjon-om-tilgangsstyring'>
             <Brodsmulesti brodsmuler={[{
