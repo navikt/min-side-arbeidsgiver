@@ -17,10 +17,9 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './InformasjonOmTilgangsstyringSide.less';
 import icon from './icon_tilgang.svg';
 import { PanelerMedInnholdsfortegnelse } from './PanelerMedInnholdsfortegnelse';
-import {inkluderRefusjonSommerjobbeToggle} from "../../FeatureToggleProvider";
+import {inkluderRefusjonSommerjobberToggle} from "../../FeatureToggleProvider";
 
 const InformasjonOmTilgangsstyringSide = () => {
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div className='informasjon-om-tilgangsstyring'>
             <Brodsmulesti brodsmuler={[{
@@ -277,7 +276,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         </LenkeMedLogging>
                                     </Accordion.Content>
                                 </Accordion.Item>
-                                {inkluderRefusjonSommerjobbeToggle ?
+                                {inkluderRefusjonSommerjobberToggle ?
                                     <Accordion.Item>
                                         <Accordion.Header>
                                             Refusjon for sommerjobb
