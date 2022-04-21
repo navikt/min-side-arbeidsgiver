@@ -57,6 +57,9 @@ export const infoOmRettigheterTilSykemeldingURL =
 export const infoOmAltinnVarslerURL =
     'https://www.altinn.no/hjelp/profil/kontaktinformasjon/';
 
+export const spørreOmRettigheterAltinnURL=
+    'https://www.altinn.no/hjelp/profil/sporre-om-rettighet/';
+
 export const infoOmSykefraværsstatistikk =
     'https://arbeidsgiver.nav.no/forebygge-sykefravaer/#digitale-tjenester';
 
@@ -108,7 +111,7 @@ export const lenkeTilForebyggefravar = gittMiljo({
 });
 
 export const lenkeTilInfoOmDigitaleSoknader =
-    'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/altinn-skjemaer-refusjoner-meldinger2/soknader-om-arbeidsmarkedstiltak-og-tilskudd-fra-nav';
+    'https://arbeidsgiver.nav.no/veiviserarbeidsgiver/tema/hvordan-kan-nav-hjelpe-med-inkludering';
 
 export const lenkeTilInforOmInntekstmelding =
     'https://www.nav.no/no/bedrift/tjenester-og-skjemaer/nav-og-altinn-tjenester/inntektsmelding';
