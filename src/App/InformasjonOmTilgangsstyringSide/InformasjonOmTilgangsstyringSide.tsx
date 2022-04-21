@@ -11,6 +11,7 @@ import {
     infoOmSykefraværsstatistikk,
     lenkeTilInfoOmDigitaleSoknader,
     lenkeTilInforOmInntekstmelding,
+    spørreOmRettigheterAltinnURL,
 } from '../../lenker';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
@@ -85,6 +86,14 @@ const InformasjonOmTilgangsstyringSide = () => {
                                 For «Dine sykmeldte» kan du ikke be om tilgang fra Altinn. Her må du registreres som
                                 nærmeste leder for en eller flere ansatte.
                             </BodyLong>
+                            <BodyLong size='small' spacing>
+                                <NyFaneLenke
+                                    href={spørreOmRettigheterAltinnURL}
+                                    loggLenketekst='Du kan også be om tilgang direkte fra Altinn'
+                                >
+                                    Du kan også be om tilgang direkte fra Altinn
+                                </NyFaneLenke>
+                            </BodyLong>
                         </>
                     },
                     {
@@ -147,7 +156,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         </BodyLong>
                                         <LenkeMedLogging
                                             href={lenkeTilInfoOmDigitaleSoknader}
-                                            loggLenketekst='Les om digitale tiltakssøknader'
+                                            loggLenketekst='Les mer om støtteordningerne fra NAV'
                                         >
                                             Les om digitale tiltakssøknader
                                         </LenkeMedLogging>
