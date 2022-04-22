@@ -7,7 +7,7 @@ import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
 import {SpinnerMedBanner} from './Spinner';
 import amplitude from '../utils/amplitude';
 import {Organisasjon} from '../altinn/organisasjon';
-import {AlertContext} from "./Alerts/Alerts";
+import {AlertContext, ALERTS} from "./Alerts/Alerts";
 import {LenkeMedLogging} from "../GeneriskeElementer/LenkeMedLogging";
 
 type orgnr = string;
@@ -81,20 +81,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => {
                 setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
-                addAlert({
-                    id:"altinn",
-                    variant: "error",
-                    content: <>
-                        Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
-                        du prøve å{' '}
-                        <LenkeMedLogging
-                            loggLenketekst="laste siden på nytt"
-                            href={'https://arbeidsgiver.nav.no/min-side-arbeidsgiver'}
-                        >
-                            laste siden på nytt
-                        </LenkeMedLogging>
-                    </>
-                });
+                addAlert(ALERTS.Altinn);
             });
 
         hentAltinntilganger()
@@ -113,12 +100,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             })
             .catch(() => {
                 setVisSyfoFeilmelding(true);
-                addAlert({
-                    id:"digisyfo",
-                    variant: "error",
-                    content: <>Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge
-                        opp. Vi jobber med å løse saken så raskt som mulig</>
-                });
+                addAlert(ALERTS.DigiSyfo);
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
             });
     }, []);
