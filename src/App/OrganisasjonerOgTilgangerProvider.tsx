@@ -82,6 +82,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
                 addAlert({
+                    id:"altinn",
                     variant: "error",
                     content: <>
                         Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
@@ -113,6 +114,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => {
                 setVisSyfoFeilmelding(true);
                 addAlert({
+                    id:"digisyfo",
                     variant: "error",
                     content: <>Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge
                         opp. Vi jobber med å løse saken så raskt som mulig</>

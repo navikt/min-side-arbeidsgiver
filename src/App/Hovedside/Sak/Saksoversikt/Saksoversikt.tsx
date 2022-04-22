@@ -11,6 +11,7 @@ import { Spinner } from '../../../Spinner';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { Filter, useSaker } from '../useSaker';
 import { SaksListe } from '../SaksListe';
+import {Alerts} from "../../../Alerts/Alerts";
 
 const SIDE_SIZE = 30;
 
@@ -261,8 +262,9 @@ const Saksoversikt = () => {
                 antallSider={state.sider}
                 onSideValgt={byttSide}
             />
-        </div>
 
+        </div>
+        <Alerts/>
         <Innhold filter={state.filter} innhold={state.innhold}/>
     </div>
 };

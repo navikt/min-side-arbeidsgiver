@@ -1,7 +1,9 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
-import { useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import {LenkeMedLogging} from "../../../GeneriskeElementer/LenkeMedLogging";
+import {AlertContext} from "../../Alerts/Alerts";
 
 export type Filter = {
     tekstsoek: string,
@@ -54,6 +56,26 @@ export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, v
 
     }, [virksomhetsnummer, tekstsoek, side])
 
+    const {addAlert} = useContext(AlertContext);
+
+    useEffect(()=>{
+        if(data?.saker.feilAltinn ?? false){
+            addAlert({
+                id:"altinn",
+                variant: "error",
+                content: <>
+                    Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
+                du prøve å{' '}
+                    <LenkeMedLogging
+                loggLenketekst="laste siden på nytt"
+                href={'https://arbeidsgiver.nav.no/min-side-arbeidsgiver'}
+                >
+                laste siden på nytt
+                    </LenkeMedLogging>
+            </>
+        });
+        }
+    }, [data])
     return {loading, data, previousData}
 }
 
