@@ -3,6 +3,7 @@ import {BrowserRouter, Route, Switch, useLocation} from 'react-router-dom';
 import {basename} from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
+import {AlertsProvider} from './Alerts/Alerts';
 import {OrganisasjonerOgTilgangerProvider} from './OrganisasjonerOgTilgangerProvider';
 import {OrganisasjonsDetaljerProvider} from './OrganisasjonDetaljerProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
@@ -65,37 +66,39 @@ const App: FunctionComponent = () => {
                                 />
                                 <LoginBoundary>
                                     <FeatureToggleProvider>
-                                        <OrganisasjonerOgTilgangerProvider>
-                                            <OrganisasjonsDetaljerProvider>
-                                                <Banner sidetittel={sidetittel}/>
-                                                <Switch>
-                                                    <Route path="/bedriftsinformasjon" exact={true}>
-                                                        <SideTittelWrapper tittel={"Virksomhetsprofil"}
-                                                                           setTittel={setSidetittel}>
-                                                            <InformasjonOmBedrift/>
-                                                        </SideTittelWrapper>
-                                                    </Route>
-                                                    <Route path="/" exact={true}>
-                                                        <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
-                                                                           setTittel={setSidetittel}>
-                                                            <Hovedside/>
-                                                        </SideTittelWrapper>
-                                                    </Route>
-                                                    <Route path="/mangler-tilgang" exact={true}>
-                                                        <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
-                                                                           setTittel={setSidetittel}>
-                                                            <ManglerTilgangContainer/>
-                                                        </SideTittelWrapper>
-                                                    </Route>
-                                                    <Route path="/saksoversikt" exact={true}>
-                                                        <SideTittelWrapper tittel={"Saksoversikt"}
-                                                                           setTittel={setSidetittel}>
-                                                            <Saksoversikt />
-                                                        </SideTittelWrapper>
-                                                    </Route>
-                                                </Switch>
-                                            </OrganisasjonsDetaljerProvider>
-                                        </OrganisasjonerOgTilgangerProvider>
+                                        <AlertsProvider>
+                                            <OrganisasjonerOgTilgangerProvider>
+                                                <OrganisasjonsDetaljerProvider>
+                                                    <Banner sidetittel={sidetittel}/>
+                                                    <Switch>
+                                                        <Route path="/bedriftsinformasjon" exact={true}>
+                                                            <SideTittelWrapper tittel={"Virksomhetsprofil"}
+                                                                               setTittel={setSidetittel}>
+                                                                <InformasjonOmBedrift/>
+                                                            </SideTittelWrapper>
+                                                        </Route>
+                                                        <Route path="/" exact={true}>
+                                                            <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
+                                                                               setTittel={setSidetittel}>
+                                                                <Hovedside/>
+                                                            </SideTittelWrapper>
+                                                        </Route>
+                                                        <Route path="/mangler-tilgang" exact={true}>
+                                                            <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
+                                                                               setTittel={setSidetittel}>
+                                                                <ManglerTilgangContainer/>
+                                                            </SideTittelWrapper>
+                                                        </Route>
+                                                        <Route path="/saksoversikt" exact={true}>
+                                                            <SideTittelWrapper tittel={"Saksoversikt"}
+                                                                               setTittel={setSidetittel}>
+                                                                <Saksoversikt />
+                                                            </SideTittelWrapper>
+                                                        </Route>
+                                                    </Switch>
+                                                </OrganisasjonsDetaljerProvider>
+                                            </OrganisasjonerOgTilgangerProvider>
+                                        </AlertsProvider>
                                     </FeatureToggleProvider>
                                 </LoginBoundary>
                             </Switch>

@@ -1,12 +1,14 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
-import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {hentOrganisasjoner, hentSyfoTilgang} from '../api/dnaApi';
+import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
 import * as Record from '../utils/Record';
-import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
-import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import { SpinnerMedBanner } from './Spinner';
+import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
+import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
+import {SpinnerMedBanner} from './Spinner';
 import amplitude from '../utils/amplitude';
-import { Organisasjon } from '../altinn/organisasjon';
+import {Organisasjon} from '../altinn/organisasjon';
+import {AlertContext} from "./Alerts/Alerts";
+import {LenkeMedLogging} from "../GeneriskeElementer/LenkeMedLogging";
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -50,11 +52,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
-
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
-
-
+    const {addAlert} = useContext(AlertContext)
     useEffect(() => {
         hentOrganisasjoner()
             .then(orgs => {
@@ -81,6 +81,19 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => {
                 setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
+                addAlert({
+                    variant: "error",
+                    content: <>
+                        Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
+                        du prøve å{' '}
+                        <LenkeMedLogging
+                            loggLenketekst="laste siden på nytt"
+                            href={'https://arbeidsgiver.nav.no/min-side-arbeidsgiver'}
+                        >
+                            laste siden på nytt
+                        </LenkeMedLogging>
+                    </>
+                });
             });
 
         hentAltinntilganger()
@@ -99,6 +112,11 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             })
             .catch(() => {
                 setVisSyfoFeilmelding(true);
+                addAlert({
+                    variant: "error",
+                    content: <>Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge
+                        opp. Vi jobber med å løse saken så raskt som mulig</>
+                });
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
             });
     }, []);
