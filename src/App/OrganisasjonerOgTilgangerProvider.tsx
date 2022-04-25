@@ -8,7 +8,6 @@ import {SpinnerMedBanner} from './Spinner';
 import amplitude from '../utils/amplitude';
 import {Organisasjon} from '../altinn/organisasjon';
 import {AlertContext, ALERTS} from "./Alerts/Alerts";
-import {LenkeMedLogging} from "../GeneriskeElementer/LenkeMedLogging";
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };

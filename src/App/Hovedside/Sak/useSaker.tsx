@@ -2,7 +2,6 @@ import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {LenkeMedLogging} from "../../../GeneriskeElementer/LenkeMedLogging";
 import {AlertContext, ALERTS} from "../../Alerts/Alerts";
 
 export type Filter = {
