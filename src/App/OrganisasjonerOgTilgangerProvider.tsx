@@ -80,7 +80,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => {
                 setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
-                addAlert(ALERTS.Altinn);
+                addAlert("TilgangerAltinn");
             });
 
         hentAltinntilganger()
@@ -99,7 +99,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             })
             .catch(() => {
                 setVisSyfoFeilmelding(true);
-                addAlert(ALERTS.DigiSyfo);
+                addAlert("TilgangerDigiSyfo");
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
             });
     }, []);
@@ -108,12 +108,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         const sjekkTilgang = (orgnr: orgnr) => (
             id: AltinntjenesteId,
             orgnrMedTilgang: Set<orgnr>,
-        ): boolean => {
-            if (orgnrMedTilgang.has(orgnr)) {
-                return true;
-            }
-            return false;
-        };
+        ): boolean => orgnrMedTilgang.has(orgnr);
 
         const sjekkTilgangssøknader = (orgnr: orgnr) => (
             id: AltinntjenesteId,

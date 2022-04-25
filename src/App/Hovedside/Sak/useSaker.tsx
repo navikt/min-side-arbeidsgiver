@@ -55,11 +55,13 @@ export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, v
 
     }, [virksomhetsnummer, tekstsoek, side])
 
-    const {addAlert} = useContext(AlertContext);
+    const {addAlert, clearAlert} = useContext(AlertContext);
 
     useEffect(()=>{
-        if(data?.saker.feilAltinn ?? false){
-            addAlert(ALERTS.Altinn);
+        if(data?.saker.feilAltinn ?? false) {
+            addAlert("Saker");
+        } else {
+            clearAlert("Saker");
         }
     }, [data])
     return {loading, data, previousData}
