@@ -7,7 +7,7 @@ import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
 import {SpinnerMedBanner} from './Spinner';
 import amplitude from '../utils/amplitude';
 import {Organisasjon} from '../altinn/organisasjon';
-import {AlertContext, ALERTS} from "./Alerts/Alerts";
+import {AlertContext} from "./Alerts/Alerts";
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };

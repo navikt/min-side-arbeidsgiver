@@ -2,7 +2,7 @@ import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {AlertContext, ALERTS} from "../../Alerts/Alerts";
+import {AlertContext} from "../../Alerts/Alerts";
 
 export type Filter = {
     tekstsoek: string,

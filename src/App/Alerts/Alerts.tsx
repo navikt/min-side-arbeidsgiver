@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {Alert} from "@navikt/ds-react";
 
-export type AlertProps = {
+type AlertProps = {
     content: React.ReactNode
 }
 type Context = {
@@ -10,7 +10,7 @@ type Context = {
     clearAlert: (subsystem: SubSystem) => void
 }
 
-export const ALERTS: Record<AlertType, AlertProps> = {
+const ALERTS: Record<AlertType, AlertProps> = {
     Altinn: {
         content: <>
             Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan
@@ -23,7 +23,7 @@ export const ALERTS: Record<AlertType, AlertProps> = {
     }
 }
 
-export type AlertType = "Altinn" | "DigiSyfo"
+type AlertType = "Altinn" | "DigiSyfo"
 export type SubSystem = "TilgangerAltinn" | "TilgangerDigiSyfo" | "Saker"
 
 export const AlertContext = React.createContext<Context>({} as Context);
