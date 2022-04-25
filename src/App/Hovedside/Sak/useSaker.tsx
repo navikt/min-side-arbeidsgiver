@@ -1,7 +1,8 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
-import { useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import {AlertContext} from "../../Alerts/Alerts";
 
 export type Filter = {
     tekstsoek: string,
@@ -54,6 +55,15 @@ export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, v
 
     }, [virksomhetsnummer, tekstsoek, side])
 
+    const {addAlert, clearAlert} = useContext(AlertContext);
+
+    useEffect(()=>{
+        if(data?.saker.feilAltinn ?? false) {
+            addAlert("Saker");
+        } else {
+            clearAlert("Saker");
+        }
+    }, [data])
     return {loading, data, previousData}
 }
 

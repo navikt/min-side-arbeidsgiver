@@ -1,12 +1,13 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
-import { hentOrganisasjoner, hentSyfoTilgang } from '../api/dnaApi';
-import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {hentOrganisasjoner, hentSyfoTilgang} from '../api/dnaApi';
+import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
 import * as Record from '../utils/Record';
-import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
-import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import { SpinnerMedBanner } from './Spinner';
+import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
+import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
+import {SpinnerMedBanner} from './Spinner';
 import amplitude from '../utils/amplitude';
-import { Organisasjon } from '../altinn/organisasjon';
+import {Organisasjon} from '../altinn/organisasjon';
+import {AlertContext} from "./Alerts/Alerts";
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -50,11 +51,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
-
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
-
-
+    const {addAlert} = useContext(AlertContext)
     useEffect(() => {
         hentOrganisasjoner()
             .then(orgs => {
@@ -81,6 +80,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .catch(() => {
                 setAltinnorganisasjoner({});
                 setVisFeilmelding(true);
+                addAlert("TilgangerAltinn");
             });
 
         hentAltinntilganger()
@@ -99,6 +99,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             })
             .catch(() => {
                 setVisSyfoFeilmelding(true);
+                addAlert("TilgangerDigiSyfo");
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
             });
     }, []);
@@ -107,12 +108,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         const sjekkTilgang = (orgnr: orgnr) => (
             id: AltinntjenesteId,
             orgnrMedTilgang: Set<orgnr>,
-        ): boolean => {
-            if (orgnrMedTilgang.has(orgnr)) {
-                return true;
-            }
-            return false;
-        };
+        ): boolean => orgnrMedTilgang.has(orgnr);
 
         const sjekkTilgangssøknader = (orgnr: orgnr) => (
             id: AltinntjenesteId,

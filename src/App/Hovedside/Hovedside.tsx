@@ -4,7 +4,7 @@ import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProv
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import {VarselHvisNedetid} from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
-import {FeilmeldingContainer} from './FeilmeldingContainer/FeilmeldingContainer';
+import {Alerts} from '../Alerts/Alerts';
 import {Koronaboks} from './Koronaboks/Koronaboks';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
@@ -44,10 +44,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <VarselHvisNedetid />
                 <GiOssTilbakemelding />
                 <UndersokelseInntektsmelding />
-                <FeilmeldingContainer
-                    visFeilmelding={visFeilmelding}
-                    visSyfoFeilmelding={visSyfoFeilmelding}
-                />
+                <Alerts />
                 <Koronaboks />
                 { inkluderInnsynISakFeatureToggle ? <SisteSaker /> : null }
                 <TjenesteBoksContainer />
