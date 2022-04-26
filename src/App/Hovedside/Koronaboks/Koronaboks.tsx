@@ -5,9 +5,7 @@ import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider
 import {
     permitteringKlageskjemaURL,
     koronaSykeRefusjonURL,
-    lenkeTilLonnskompensasjonOgRefusjon,
-    grensekompURL,
-    grensekompOversiktURL,
+    lenkeTilLonnskompensasjonOgRefusjon
 } from '../../../lenker';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
@@ -39,7 +37,6 @@ export const Koronaboks = () => {
     const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
     return (<Ekspanderbartpanel className='koronaboks'
                                 border={false}
-                                apen={true}
                                 tittel={
                                     <><KoronaboksIkon/>Koronaspesifikke tjenester</>
                                 }>
@@ -59,17 +56,6 @@ export const Koronaboks = () => {
                     <Koronalenke
                         href={permitteringKlageskjemaURL(orgnr)}
                         tekst='Ettersend opplysninger eller klag på vedtak om lønnskompensasjon'
-                    />
-
-                    <Element className='koronaboks__tekst'>Restriksjoner for innreise</Element>
-                    <Koronalenke
-                        href={grensekompURL}
-                        tekst='Søk om refusjon for utestengte EØS-borgere'
-                    />
-
-                    <Koronalenke
-                        href={grensekompOversiktURL}
-                        tekst='Refusjon for utestengte EØS-borgere - se innsendte krav'
                     />
                 </span>
         </Ekspanderbartpanel>

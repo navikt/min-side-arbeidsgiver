@@ -45,10 +45,10 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <GiOssTilbakemelding />
                 <UndersokelseInntektsmelding />
                 <Alerts />
-                <Koronaboks />
                 { inkluderInnsynISakFeatureToggle ? <SisteSaker /> : null }
                 <TjenesteBoksContainer />
                 <SkjemaveilederContainer />
+                <Koronaboks />
                 <BrevFraAltinnContainer />
                 <AltinnContainer />
                 <NyttigForDegContainer />

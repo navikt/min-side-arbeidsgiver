@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Undertittel } from 'nav-frontend-typografi';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import bedriftinfoikon from './infoombedriftikon.svg';
 import './Bedriftsinfoknapp.less';
 import { LenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
+import {TittelMedIkon} from "../../../../GeneriskeElementer/TittelMedIkon";
 
 const Bedriftsinfoknapp = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -28,12 +28,7 @@ const Bedriftsinfoknapp = () => {
                 </Link>
             )}
         >
-            <div className="bedriftsinfo-knapp__wrapper">
-                <img className="bedriftsinfo-knapp__ikon" src={bedriftinfoikon} alt="" />
-                <Undertittel className="bedriftsinfo-knapp__tekst">
-                    Informasjon fra enhetsregisteret
-                </Undertittel>
-            </div>
+            <TittelMedIkon tittel={"Informasjon fra enhetsregisteret"} ikon={bedriftinfoikon}/>
         </LenkepanelMedLogging>
     );
 };
