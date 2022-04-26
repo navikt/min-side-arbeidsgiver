@@ -5,51 +5,51 @@
   margin-bottom: 2.5rem;
 
   .ekspanderbartPanel__hode {
-        padding: 1.5rem 1rem 1rem;
+    padding: 1.5rem 1rem 1rem;
+  }
+
+  &__tittel {
+    display: flex;
+    justify-items: center;
+  }
+
+  &__inboxikon {
+
+    svg {
+      fill: @navDypBlaDarken20;
     }
 
-    &__tittel {
-        display: flex;
-        justify-items: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+
+    @media (min-width: @screen-sm-min) {
+      flex-direction: row;
+      justify-content: left;
     }
 
-    &__inboxikon {
+    padding-right: 1rem;
+  }
 
-        svg {
-            fill: @navDypBlaDarken20;
-        }
+  &__liste {
+    padding: 0;
+  }
 
-        display: flex;
-        flex-direction: column-reverse;
-        justify-content: flex-end;
+  &__liste-element {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
 
-        @media (min-width: @screen-sm-min) {
-            flex-direction: row;
-            justify-content: left;
-        }
-
-        padding-right: 0.2em;
+    @media (min-width: @screen-md-min) {
+      flex-direction: row;
     }
+  }
 
-    &__liste {
-        padding: 0;
-    }
+  &__dato {
+    width: 8rem;
+  }
 
-    &__liste-element {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 0.5rem;
-
-        @media (min-width: @screen-md-min) {
-            flex-direction: row;
-        }
-    }
-
-    &__dato {
-        width: 8rem;
-    }
-
-    &__ulest-lenke {
-        font-weight: bold;
-    }
+  &__ulest-lenke {
+    font-weight: bold;
+  }
 }
