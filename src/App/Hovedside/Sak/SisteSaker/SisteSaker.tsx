@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useContext, useEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.less';
@@ -22,11 +22,16 @@ const SisteSaker = () => {
         tekstsoek: "",
     })
 
-    if (loading || !data || data?.saker.saker.length == 0) return null;
+    useEffect(() => {
+        if (!loading && data) {
+            amplitude.logEvent('komponent-lastet', {
+                komponent: 'siste-saker',
+                totaltAntallSaker: data.saker.totaltAntallSaker
+            })
+        }
+    }, [loading, data])
 
-    amplitude.logEvent('sistesaker-lastet', {
-        totaltAntallSaker: data.saker.totaltAntallSaker
-    })
+    if (loading || !data || data?.saker.saker.length == 0) return null;
 
     return (
         <div className='innsynisak'>

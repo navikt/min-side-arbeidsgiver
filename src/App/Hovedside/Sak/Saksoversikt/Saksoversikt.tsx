@@ -248,9 +248,10 @@ const Saksoversikt = () => {
         } else if (data?.saker?.__typename !== "SakerResultat") {
             lastingFeilet()
         } else {
-            amplitude.logEvent('saksoversikt-lastet', {
+            amplitude.logEvent('komponent-lastet', {
+                komponent: 'saksoversikt',
                 side: state.side,
-                filter: state.filter,
+                tekstsoek: state.filter.tekstsoek.trim() !== '',
                 totaltAntallSaker: data.saker.totaltAntallSaker
             })
             lastingFerdig(data.saker)
