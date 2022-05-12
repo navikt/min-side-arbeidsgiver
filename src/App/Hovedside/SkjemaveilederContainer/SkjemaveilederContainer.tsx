@@ -20,7 +20,7 @@ export const SkjemaveilederContainer = () => {
             return null;
         }
         const skjema = altinnskjema[altinnSkjemaId]
-        return lenke(skjema.navn, skjema.skjemaUrl, "_blank")
+        return lenke(`${skjema.navn} (Altinn)`, skjema.skjemaUrl, "_blank")
     }
 
     const lenke = (tekst: string, href: string, target?: string) =>
