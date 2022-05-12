@@ -42,7 +42,6 @@ export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, v
     }
 
     const [fetchSaker, {loading, data, previousData}] = useLazyQuery(HENT_SAKER,  {
-        fetchPolicy: "network-only", /* TODO: Fix caching */
         variables
     })
 

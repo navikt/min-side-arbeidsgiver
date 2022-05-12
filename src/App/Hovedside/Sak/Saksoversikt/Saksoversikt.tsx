@@ -12,6 +12,7 @@ import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { Filter, useSaker } from '../useSaker';
 import { SaksListe } from '../SaksListe';
 import {Alerts} from "../../../Alerts/Alerts";
+import amplitude from "../../../../utils/amplitude";
 
 const SIDE_SIZE = 30;
 
@@ -239,7 +240,7 @@ const useCurrentDate = (pollInterval: number) => {
 
 const Saksoversikt = () => {
     const {state, byttFilter, byttSide, lastingPågår, lastingFerdig, lastingFeilet } = useOversiktReducer()
-    const {loading, data} = useSaker(SIDE_SIZE, state?.side, state.filter);
+    const {loading, data} = useSaker(SIDE_SIZE, state.side, state.filter);
 
     useEffect(() => {
         if (loading) {
@@ -247,6 +248,11 @@ const Saksoversikt = () => {
         } else if (data?.saker?.__typename !== "SakerResultat") {
             lastingFeilet()
         } else {
+            amplitude.logEvent('saksoversikt-lastet', {
+                side: state.side,
+                filter: state.filter,
+                totaltAntallSaker: data.saker.totaltAntallSaker
+            })
             lastingFerdig(data.saker)
         }
     }, [loading, data])
