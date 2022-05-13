@@ -8,7 +8,6 @@ import {Alerts} from '../Alerts/Alerts';
 import {Koronaboks} from './Koronaboks/Koronaboks';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
-import {AltinnContainer} from './AltinnContainer/AltinnContainer';
 import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
@@ -50,7 +49,6 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <SkjemaveilederContainer />
                 <Koronaboks />
                 <BrevFraAltinnContainer />
-                <AltinnContainer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />
                 <LinkMedLogging to={'/informasjon-om-tilgangsstyring'} loggLenketekst='Lær om tilganger og varsler i Altinn'>

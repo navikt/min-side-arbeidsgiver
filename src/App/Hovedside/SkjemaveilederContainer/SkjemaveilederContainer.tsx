@@ -1,19 +1,31 @@
-import React, { useContext } from 'react';
-import { Undertittel } from 'nav-frontend-typografi';
+import React, {useContext} from 'react';
+import {Undertittel} from 'nav-frontend-typografi';
 import {lenkeTilPermitteringOgMasseoppsigelsesSkjema, skjemaForArbeidsgiverURL} from '../../../lenker';
 import './SkjemaveilederContainer.less';
-import { HoyreChevron } from 'nav-frontend-chevron';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { LenkepanelMedLogging } from '../../../GeneriskeElementer/LenkepanelMedLogging';
+import {HoyreChevron} from 'nav-frontend-chevron';
+import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
+import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
+import {LenkepanelMedLogging} from '../../../GeneriskeElementer/LenkepanelMedLogging';
+import {altinnskjema, AltinnskjemaId} from "../../../altinn/tjenester";
 
 export const SkjemaveilederContainer = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const tilgangInntektsmelding = valgtOrganisasjon?.altinntilgang?.inntektsmelding;
+    if (valgtOrganisasjon === undefined) {
+        return null
+    }
 
-    const lenke = (tekst: string, href: string) =>
+    const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
+        if (!valgtOrganisasjon.altinntilgang[altinnSkjemaId]) {
+            return null;
+        }
+        const skjema = altinnskjema[altinnSkjemaId]
+        return lenke(`${skjema.navn} (Altinn)`, skjema.skjemaUrl, "_blank")
+    }
+
+    const lenke = (tekst: string, href: string, target?: string) =>
         <li>
-            <LenkepanelMedLogging tittelProps='element' href={href} loggLenketekst={tekst}>
+            <LenkepanelMedLogging tittelProps='element' href={href} loggLenketekst={tekst} target={target}>
                 {tekst}
             </LenkepanelMedLogging>
         </li>;
@@ -50,17 +62,20 @@ export const SkjemaveilederContainer = () => {
                     : null
                 }
 
-
                 {lenke(
                     'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
                     lenkeTilPermitteringOgMasseoppsigelsesSkjema
                 )}
+                {altinnSkjemaLenke('inntektsmelding')}
+                {altinnSkjemaLenke('mentortilskudd')}
+                {altinnSkjemaLenke('inkluderingstilskudd')}
+                {altinnSkjemaLenke('ekspertbistand')}
+                {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
-
 
             <LenkeMedLogging href={skjemaForArbeidsgiverURL} loggLenketekst='Alle søknader og skjemaer hos NAV'>
                 Alle søknader og skjemaer
-                <HoyreChevron />
+                <HoyreChevron/>
             </LenkeMedLogging>
         </div>
     );
