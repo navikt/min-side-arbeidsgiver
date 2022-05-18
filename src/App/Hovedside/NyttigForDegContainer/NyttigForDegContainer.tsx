@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
-import KontaktOss from './KontaktOss/KontaktOss';
 import './NyttigForDegContainer.less';
 
 const NyttigForDegContainer = () => {
@@ -15,9 +14,6 @@ const NyttigForDegContainer = () => {
                         <Bedriftsinfoknapp />
                     </div>
                 )}
-                <div className="boks">
-                    <KontaktOss />
-                </div>
             </div>
         </div>
     );
