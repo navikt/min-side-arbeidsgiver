@@ -4,6 +4,17 @@ import {BodyLong, Heading, Ingress} from "@navikt/ds-react";
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Dialog, Send, Telephone} from "@navikt/ds-icons";
 
+const selector = ["button", "[href]", "input", "select", "textarea", "[tabindex]"]
+    .map(e => `#nav-chatbot ${e}:not([tabindex="-1"])`)
+    .join(",")
+
+function showFrida(event: React.MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    const chatbot = document.getElementById("nav-chatbot")
+    if (chatbot != null) chatbot.style.visibility="visible";
+    document.getElementById("chatbot-frida-knapp")?.click();
+    (document.querySelector(selector) as HTMLElement)?.focus();
+}
 
 export const KontaktFelt = () => (
     <div className={"kontaktfelt"}>
@@ -14,7 +25,7 @@ export const KontaktFelt = () => (
 
             <ul>
                 <li>
-                    <LenkeMedLogging loggLenketekst={"Chat med Frida"} href={"/foo"}>
+                    <LenkeMedLogging href={"#"} loggLenketekst={"Chat med Frida"} onClick={showFrida}>
                         <Dialog style={{height: "1.5rem", width: "1.5rem"}}/>
                         <Ingress>Chat med Frida</Ingress>
                     </LenkeMedLogging>
