@@ -45,6 +45,16 @@ export const pamHentStillingsannonserURL = gittMiljo({
     other: '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
 });
 
+export const kontaktskjemaURL = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/kontakt-oss/kontaktskjema',
+    other: 'https://arbeidsgiver-kontakt-oss.dev.nav.no/kontakt-oss/kontaktskjema',
+})
+
+export const ringOssTLF = gittMiljo({
+    prod: "tel:55553336",
+    other: "tel:00000000"
+})
+
 export const digiSyfoNarmesteLederURL =
     '/min-side-arbeidsgiver/api/narmesteleder';
 

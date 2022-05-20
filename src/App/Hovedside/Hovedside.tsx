@@ -17,6 +17,7 @@ import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
 import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
 import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
+import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
@@ -36,7 +37,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
-        <div className={'min-side-arbeidsgiver-wrapper'}>
+        <div>
             <Brodsmulesti brodsmuler={[]} />
             <div className='hovedside-container'>
                 <AdvarselBannerTestversjon />
@@ -54,7 +55,9 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <LinkMedLogging to={'/informasjon-om-tilgangsstyring'} loggLenketekst='Lær om tilganger og varsler i Altinn'>
                     Lær om tilganger og varsler i Altinn
                 </LinkMedLogging>
+
             </div>
+            <KontaktFelt/>
         </div>
     );
 };
