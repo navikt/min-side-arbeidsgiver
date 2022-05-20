@@ -26,7 +26,7 @@ const ChatMedFrida =
             <Ingress>Chat med Frida</Ingress>
         </LenkeMedLogging>
         <BodyLong spacing>
-            Du møter først en chatbot, men kan gå videre og chatte med en veileder (hverdager 09.00–14.30).
+            Du møter først en chatbot, men kan gå videre og chatte med en veileder (hverdager 09.00&ndash;15.00).
         </BodyLong>
     </li>
 
@@ -53,8 +53,8 @@ export const KontaktFelt = () => {
     return (
         <div className="kontaktfelt">
             <div className="kontaktfelt__content">
-                <Heading size="xlarge" level="2">
-                    Noe du ikke finner svar på her?
+                <Heading size="large" level="2">
+                    Trenger du hjelp?
                 </Heading>
 
                 <ul>
@@ -76,7 +76,7 @@ export const KontaktFelt = () => {
                             <Ingress>Ring oss på 55 55 33 36</Ingress>
                         </LenkeMedLogging>
                         <BodyLong spacing>
-                            Åpningstider: hverdager 09.00 - 15.00. <br/>
+                            Åpningstider: hverdager 09.00&ndash;15.00. <br/>
                             Generell informasjon, status i en sak og veileding i selvbetjente løsninger.
                         </BodyLong>
                     </li>
