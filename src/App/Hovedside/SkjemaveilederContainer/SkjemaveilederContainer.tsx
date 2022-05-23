@@ -25,6 +25,7 @@ export const SkjemaveilederContainer = () => {
 
     const lenke = (tekst: string, href: string, target?: string) =>
         <li>
+
             <LenkepanelMedLogging tittelProps='element' href={href} loggLenketekst={tekst} target={target}>
                 {tekst}
             </LenkepanelMedLogging>
@@ -72,11 +73,12 @@ export const SkjemaveilederContainer = () => {
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
-
-            <LenkeMedLogging href={skjemaForArbeidsgiverURL} loggLenketekst='Alle søknader og skjemaer hos NAV'>
-                Alle søknader og skjemaer
-                <HoyreChevron/>
-            </LenkeMedLogging>
+            <div>
+                <LenkeMedLogging href={skjemaForArbeidsgiverURL} loggLenketekst='Alle søknader og skjemaer hos NAV'>
+                    Alle søknader og skjemaer
+                    <HoyreChevron/>
+                </LenkeMedLogging>
+            </div>
         </div>
     );
 };
