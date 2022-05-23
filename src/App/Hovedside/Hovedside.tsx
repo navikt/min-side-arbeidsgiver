@@ -20,8 +20,8 @@ import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
 import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
 
 
-const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
-    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } = useContext(
+const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
+    const {organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger} = useContext(
         OrganisasjonerOgTilgangerContext,
     );
     useEffect(() => {
@@ -31,31 +31,33 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
             !visSyfoFeilmelding;
 
         if (skalViseManglerTilgangBoks) {
-            history.replace({ pathname: 'mangler-tilgang' });
+            history.replace({pathname: 'mangler-tilgang'});
         }
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div>
-            <Brodsmulesti brodsmuler={[]} />
+            <Brodsmulesti brodsmuler={[]}/>
             <div className='hovedside-container'>
-                <AdvarselBannerTestversjon />
-                <VarselHvisNedetid />
-                <GiOssTilbakemelding />
-                <UndersokelseInntektsmelding />
-                <Alerts />
-                { inkluderInnsynISakFeatureToggle ? <SisteSaker /> : null }
-                <TjenesteBoksContainer />
-                <SkjemaveilederContainer />
-                <Koronaboks />
-                <BrevFraAltinnContainer />
-                <NyttigForDegContainer />
-                <BeOmTilgang />
-                <LinkMedLogging className={"link-med-logging"} to={'/informasjon-om-tilgangsstyring'} loggLenketekst='Lær om tilganger og varsler i Altinn'>
-                    Lær om tilganger og varsler i Altinn
-                </LinkMedLogging>
-
+                <AdvarselBannerTestversjon/>
+                <VarselHvisNedetid/>
+                <GiOssTilbakemelding/>
+                <UndersokelseInntektsmelding/>
+                <Alerts/>
+                {inkluderInnsynISakFeatureToggle ? <SisteSaker/> : null}
+                <TjenesteBoksContainer/>
+                <SkjemaveilederContainer/>
+                <Koronaboks/>
+                <BrevFraAltinnContainer/>
+                <NyttigForDegContainer/>
+                <BeOmTilgang/>
+                <div> {/*Legger inn en ekstra div for at linken ikke skal strekkes ut av flex*/}
+                    <LinkMedLogging to={'/informasjon-om-tilgangsstyring'}
+                                    loggLenketekst='Lær om tilganger og varsler i Altinn'>
+                        Lær om tilganger og varsler i Altinn
+                    </LinkMedLogging>
+                </div>
             </div>
             <KontaktFelt/>
         </div>
