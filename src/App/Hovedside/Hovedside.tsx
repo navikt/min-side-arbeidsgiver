@@ -52,7 +52,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({ history }) => {
                 <BrevFraAltinnContainer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />
-                <LinkMedLogging to={'/informasjon-om-tilgangsstyring'} loggLenketekst='Lær om tilganger og varsler i Altinn'>
+                <LinkMedLogging className={"link-med-logging"} to={'/informasjon-om-tilgangsstyring'} loggLenketekst='Lær om tilganger og varsler i Altinn'>
                     Lær om tilganger og varsler i Altinn
                 </LinkMedLogging>
 

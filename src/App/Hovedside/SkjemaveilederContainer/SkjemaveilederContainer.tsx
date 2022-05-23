@@ -73,7 +73,7 @@ export const SkjemaveilederContainer = () => {
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
 
-            <LenkeMedLogging href={skjemaForArbeidsgiverURL} loggLenketekst='Alle søknader og skjemaer hos NAV'>
+            <LenkeMedLogging className={"link-med-logging"} href={skjemaForArbeidsgiverURL} loggLenketekst='Alle søknader og skjemaer hos NAV'>
                 Alle søknader og skjemaer
                 <HoyreChevron/>
             </LenkeMedLogging>
