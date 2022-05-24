@@ -13,7 +13,6 @@ import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
 import './Hovedside.less';
 import {GiOssTilbakemelding} from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
-import {inkluderInnsynISakFeatureToggle} from "../../FeatureToggleProvider";
 import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
 import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
@@ -45,7 +44,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
                 <GiOssTilbakemelding/>
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
-                {inkluderInnsynISakFeatureToggle ? <SisteSaker/> : null}
+                <SisteSaker/>
                 <TjenesteBoksContainer/>
                 <SkjemaveilederContainer/>
                 <Koronaboks/>
