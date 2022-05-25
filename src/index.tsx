@@ -9,6 +9,7 @@ import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 import smoothscroll from 'smoothscroll-polyfill';
 import environment, { gittMiljo } from './utils/environment';
+import '@navikt/ds-css';
 import App from './App/App';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler'
