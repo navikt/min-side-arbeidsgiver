@@ -38,7 +38,7 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
 
     return (
         <section className="tilskuddsbrev">
-            <Ekspanderbartpanel tittel={inboksTittel} border={false}>
+            <Ekspanderbartpanel tittel={inboksTittel}>
                 <>
                     <ul className="tilskuddsbrev__liste">
                         {altinnMeldingsboks.brev.map(BrevContainer)}
