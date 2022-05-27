@@ -8,13 +8,6 @@ export enum Feature {
     visKalender = 'msa.visMoteKalender'
 }
 
-export const inkluderInnsynISakFeatureToggle = gittMiljo({
-    prod: false,
-    dev: true,
-    labs: false,
-    other: true
-})
-
 export const inkluderRefusjonSommerjobberToggle = gittMiljo({
     prod: false,
     dev: true,
