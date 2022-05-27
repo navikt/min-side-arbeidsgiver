@@ -1,6 +1,5 @@
 import React from 'react';
 import { Accordion, BodyLong, BodyShort, Heading } from '@navikt/ds-react';
-import '@navikt/ds-css';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import {
     infoOmAltinnVarslerURL,
