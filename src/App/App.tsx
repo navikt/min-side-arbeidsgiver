@@ -17,6 +17,7 @@ import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-wi
 import { gittMiljo } from '../utils/environment';
 import Banner from "./HovedBanner/HovedBanner";
 import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
+import { SaksoversiktRestoreSession } from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -93,6 +94,12 @@ const App: FunctionComponent = () => {
                                                             <SideTittelWrapper tittel={"Saksoversikt"}
                                                                                setTittel={setSidetittel}>
                                                                 <Saksoversikt />
+                                                            </SideTittelWrapper>
+                                                        </Route>
+                                                        <Route path="/saksoversikt-restore-session" exact={true}>
+                                                            <SideTittelWrapper tittel={"Saksoversikt"}
+                                                                               setTittel={setSidetittel}>
+                                                                <SaksoversiktRestoreSession />
                                                             </SideTittelWrapper>
                                                         </Route>
                                                     </Switch>

@@ -75,3 +75,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         </OrganisasjonsDetaljerContext.Provider>
     );
 };
+
+export const useValgtOrganisasjon = (): OrganisasjonInfo | undefined =>
+    useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon

@@ -17,6 +17,7 @@ import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
 import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
 import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
+import { useOversiktsfilterClearing } from './Sak/Saksoversikt/useOversiktSessionStorage';
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
@@ -33,6 +34,8 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
             history.replace({pathname: 'mangler-tilgang'});
         }
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
+
+    useOversiktsfilterClearing()
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (

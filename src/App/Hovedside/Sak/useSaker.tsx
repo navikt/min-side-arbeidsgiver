@@ -3,11 +3,8 @@ import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {AlertContext} from "../../Alerts/Alerts";
+import { Filter } from './Saksoversikt/Filter';
 
-export type Filter = {
-    tekstsoek: string,
-    virksomhetsnummer: string | null
-}
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
     query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $offset: Int, $limit: Int) {
@@ -33,7 +30,7 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
     }
 `
 
-export function useSaker(pageSize: number, side: number|undefined, {tekstsoek, virksomhetsnummer}: Filter) {
+export function useSaker(pageSize: number, {side, tekstsoek, virksomhetsnummer}: Filter) {
     const variables = {
         virksomhetsnummer: virksomhetsnummer,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
