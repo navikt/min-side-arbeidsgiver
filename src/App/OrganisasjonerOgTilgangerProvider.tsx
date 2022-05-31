@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {hentOrganisasjoner, hentSyfoTilgang} from '../api/dnaApi';
+import {hentOrganisasjonerOgSyfoVirksomheter, hentSyfoTilgang} from '../api/dnaApi';
 import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
@@ -55,8 +55,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const {addAlert} = useContext(AlertContext)
     useEffect(() => {
-        hentOrganisasjoner()
+        hentOrganisasjonerOgSyfoVirksomheter()
             .then(orgs => {
+                console.log({orgs})
                 const gyldigeOrganisasjoner = orgs.filter(
                     org =>
                         org.OrganizationForm === 'BEDR' ||

@@ -58,6 +58,9 @@ export const ringOssTLF = gittMiljo({
 export const digiSyfoNarmesteLederURL =
     '/min-side-arbeidsgiver/api/narmesteleder';
 
+export const digiSyfoVirksomheterURL =
+    '/min-side-arbeidsgiver/api/narmesteleder/virksomheter';
+
 export const infoOmNærmesteLederURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
 
