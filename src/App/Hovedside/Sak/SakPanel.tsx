@@ -22,13 +22,14 @@ export const SakPanel = ({placeholder, sak: {lenke, tittel, virksomhet, sisteSta
     return <LinkPanel href={lenke} as={fake ? 'div' : 'a'} onClick={() => {
         loggNavigasjon(lenke, tittel, pathname)
     }}>
-        <BodyShort style={style}>
+        <BodyShort size="small" style={style}>
             {virksomhet.navn.toUpperCase()}
         </BodyShort>
-        <LinkPanel.Title style={{...style, margin: "0.2rem 0", fontSize: "1.3rem"}} >
+
+        <LinkPanel.Title style={{...style, fontSize: "1.1rem"}} >
             {tittel}
         </LinkPanel.Title>
-        <BodyShort style={style}>
+        <BodyShort size="small" style={style}>
             {sisteStatus.tekst}{' '}{dateFormat.format(new Date(sisteStatus.tidspunkt))}
         </BodyShort>
     </LinkPanel>
