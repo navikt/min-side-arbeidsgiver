@@ -1,5 +1,5 @@
 import {digiSyfoNarmesteLederURL, digiSyfoVirksomheterURL, sjekkInnloggetURL} from '../lenker';
-import { Organisasjon } from '../altinn/organisasjon';
+import {Organisasjon} from '../altinn/organisasjon';
 
 interface SyfoKallObjekt {
     tilgang: boolean;
@@ -37,5 +37,8 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
 }
 
 export async function hentOrganisasjonerOgSyfoVirksomheter(): Promise<Organisasjon[]> {
-    return Promise.all([hentOrganisasjoner(), hentSyfoVirksomheter()]).then(r => r.flat());
+    return [
+        await hentOrganisasjoner(),
+        await hentSyfoVirksomheter()
+    ].flat();
 }
