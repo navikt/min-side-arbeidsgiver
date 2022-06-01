@@ -95,9 +95,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         hentSyfoTilgang()
             .then(syfoTilgangFromTruthy)
             .then((syfotilgang) => {
-                if (syfotilgang) {
-                    addAlert("DigiSyfoVirksomhetsvelger");
-                }
                 setTilgangTilSyfo(syfotilgang);
                 amplitude.setUserProperties({ syfotilgang: syfotilgang === SyfoTilgang.TILGANG });
             })

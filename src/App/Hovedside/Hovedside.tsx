@@ -18,6 +18,7 @@ import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/Underso
 import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
 import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
 import { useOversiktsfilterClearing } from './Sak/Saksoversikt/useOversiktSessionStorage';
+import {DigiSyfoBedriftsmenyInfo} from "./DigiSyfoBedriftsmenyInfo";
 
 
 const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
@@ -47,6 +48,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
                 <GiOssTilbakemelding/>
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
+                <DigiSyfoBedriftsmenyInfo />
                 <SisteSaker/>
                 <TjenesteBoksContainer/>
                 <SkjemaveilederContainer/>
