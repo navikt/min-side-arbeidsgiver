@@ -10,7 +10,15 @@ module.exports = {
                         ParentOrganizationNumber: "982033268",
                         OrganizationForm: "BEDR",
                         Status: "Active",
-                    }
+                    },
+                    {
+                        OrganizationNumber: "999999999",
+                        Name: "Saltrød og Høneby",
+                        Type: "Business",
+                        ParentOrganizationNumber: "910825555",
+                        OrganizationForm: "BEDR",
+                        Status: "Active",
+                    },
                 ])
             }
         );

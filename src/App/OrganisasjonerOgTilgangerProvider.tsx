@@ -1,17 +1,13 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {
-    hentOrganisasjoner,
-    hentSyfoTilgang,
-    hentSyfoVirksomheter
-} from '../api/dnaApi';
-import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { hentOrganisasjoner, hentSyfoTilgang, hentSyfoVirksomheter } from '../api/dnaApi';
+import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
-import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
-import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
-import {SpinnerMedBanner} from './Spinner';
+import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
+import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
-import {Organisasjon} from '../altinn/organisasjon';
-import {AlertContext} from "./Alerts/Alerts";
+import { Organisasjon } from '../altinn/organisasjon';
+import { AlertContext } from './Alerts/Alerts';
 
 type orgnr = string;
 type OrgnrMap<T> = { [orgnr: string]: T };
@@ -50,7 +46,7 @@ export type Context = {
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
-    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(undefined);
+    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<Organisasjon[] | undefined>(undefined);
     const [altinntilganger, setAltinntilganger] = useState<Record<AltinntjenesteId, Set<string>> | undefined>(undefined);
     const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>([]);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
@@ -70,11 +66,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                         org.OrganizationForm === 'AAFY' ||
                         org.Type === 'Enterprise',
                 );
-                setAltinnorganisasjoner(
-                    Record.fromEntries(
-                        gyldigeOrganisasjoner.map(org => [org.OrganizationNumber, org]),
-                    ),
-                );
+                setAltinnorganisasjoner(gyldigeOrganisasjoner);
                 hentAltinnRaporteeIdentiteter().then(result => {
                     if (result instanceof Error) {
                         autentiserAltinnBruker(window.location.href);
@@ -85,7 +77,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 });
             })
             .catch(() => {
-                setAltinnorganisasjoner({});
+                setAltinnorganisasjoner([]);
                 setVisFeilmelding(true);
                 addAlert("TilgangerAltinn");
             });
@@ -121,45 +113,24 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     }, []);
 
     if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
-        const sjekkTilgang = (orgnr: orgnr) => (
-            id: AltinntjenesteId,
-            orgnrMedTilgang: Set<orgnr>,
-        ): boolean => orgnrMedTilgang.has(orgnr);
-
-        const sjekkTilgangssøknader = (orgnr: orgnr) => (
-            id: AltinntjenesteId,
-            _orgnrMedTilgang: Set<orgnr>,
-        ): Søknadsstatus => {
-            const { tjenestekode, tjenesteversjon } = altinntjeneste[id];
-            const søknader = altinnTilgangssøknader.filter(
-                s =>
-                    s.orgnr === orgnr &&
-                    s.serviceCode === tjenestekode &&
-                    s.serviceEdition.toString() === tjenesteversjon,
-            );
-
-            if (søknader.some(_ => _.status === 'Unopened')) {
-                return { tilgang: 'søkt' };
-            }
-
-            const søknad = søknader.find(_ => _.status === 'Created');
-            if (søknad) {
-                return { tilgang: 'søknad opprettet', url: søknad.submitUrl };
-            }
-
-            if (søknader.some(_ => _.status === 'Accepted')) {
-                return { tilgang: 'godkjent' };
-            }
-            return { tilgang: 'ikke søkt' };
-
-        };
-
-        const organisasjoner = Record.map(altinnorganisasjoner, (orgnr, org) => ({
-            organisasjon: org,
-            altinntilgang: Record.map(altinntilganger, sjekkTilgang(orgnr)),
-            altinnsøknad: Record.map(altinntilganger, sjekkTilgangssøknader(orgnr)),
-            syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber)
-        }));
+        const organisasjoner = Record.fromEntries(
+            [...altinnorganisasjoner, ...syfoVirksomheter].map((org) => {
+                return [
+                    org.OrganizationNumber,
+                    {
+                        organisasjon: org,
+                        altinntilgang:
+                            Record.map(altinntilganger, (id: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): boolean =>
+                                orgnrMedTilgang.has(org.OrganizationNumber)
+                            ),
+                        altinnsøknad: Record.map(altinntilganger,
+                            (id: AltinntjenesteId, _orgnrMedTilgang: Set<orgnr>) =>
+                                sjekkTilgangssøknader(org.OrganizationNumber, id, _orgnrMedTilgang, altinnTilgangssøknader)
+                        ),
+                        syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber)
+                    }
+                ]
+            }));
 
         const detFinnesEnUnderenhetMedParent = () => {
             return Record.values(organisasjoner).some(org => org.organisasjon.ParentOrganizationNumber);
@@ -186,4 +157,33 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             <SpinnerMedBanner />
         );
     }
+};
+
+const sjekkTilgangssøknader = (
+    orgnr: orgnr,
+    id: AltinntjenesteId,
+    _orgnrMedTilgang: Set<orgnr>,
+    altinnTilgangssøknader: AltinnTilgangssøknad[],
+): Søknadsstatus => {
+    const { tjenestekode, tjenesteversjon } = altinntjeneste[id];
+    const søknader = altinnTilgangssøknader.filter(
+        s =>
+            s.orgnr === orgnr &&
+            s.serviceCode === tjenestekode &&
+            s.serviceEdition.toString() === tjenesteversjon,
+    );
+
+    if (søknader.some(_ => _.status === 'Unopened')) {
+        return { tilgang: 'søkt' };
+    }
+
+    const søknad = søknader.find(_ => _.status === 'Created');
+    if (søknad) {
+        return { tilgang: 'søknad opprettet', url: søknad.submitUrl };
+    }
+
+    if (søknader.some(_ => _.status === 'Accepted')) {
+        return { tilgang: 'godkjent' };
+    }
+    return { tilgang: 'ikke søkt' };
 };
