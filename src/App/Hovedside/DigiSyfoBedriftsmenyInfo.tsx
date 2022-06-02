@@ -1,18 +1,27 @@
-import React, {FunctionComponent, useContext, useState} from 'react';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {OrganisasjonerOgTilgangerContext, SyfoTilgang} from '../OrganisasjonerOgTilgangerProvider';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import "./DigiSyfoBedriftsmenyInfo.less";
 import Lukknapp from "nav-frontend-lukknapp";
+import amplitude from "../../utils/amplitude";
 
 const localStorageKey = 'DigiSyfoBedriftsmenyInfoLukket';
 export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
-    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
+    const {tilgangTilSyfo} = useContext(OrganisasjonerOgTilgangerContext);
     const [erLukketTidligere, setErLukketTidligere] = useState(window.localStorage.getItem(localStorageKey) != null);
 
     const lukkOgSkrivTilLocalstorage = () => {
         window.localStorage.setItem(localStorageKey, new Date().toDateString());
         setErLukketTidligere(true);
     };
+
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'DigiSyfoBedriftsmenyInfo',
+            erLukket: erLukketTidligere,
+            tilgangTilSyfo: SyfoTilgang[tilgangTilSyfo]
+        })
+    }, [tilgangTilSyfo, erLukketTidligere]);
 
     if (erLukketTidligere || tilgangTilSyfo !== SyfoTilgang.TILGANG) {
         return null;
@@ -21,7 +30,7 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
     return (
         <div className={"digisyfo-bedriftsmeny-info"}>
             <Alert variant="info" className={"digisyfo-bedriftsmeny-info__alert"}>
-                <Heading size="small" spacing={true} >
+                <Heading size="small" spacing={true}>
                     Sykemeldte er nå koblet til virksomhetsvelgeren
                 </Heading>
                 <BodyShort>
