@@ -35,10 +35,3 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
         throw new Error('Feil ved kontakt mot baksystem.');
     }
 }
-
-export async function hentOrganisasjonerOgSyfoVirksomheter(): Promise<Organisasjon[]> {
-    return [
-        await hentOrganisasjoner(),
-        await hentSyfoVirksomheter()
-    ].flat();
-}

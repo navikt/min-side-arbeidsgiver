@@ -1,5 +1,9 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {hentOrganisasjonerOgSyfoVirksomheter, hentSyfoTilgang} from '../api/dnaApi';
+import {
+    hentOrganisasjoner,
+    hentSyfoTilgang,
+    hentSyfoVirksomheter
+} from '../api/dnaApi';
 import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
@@ -22,6 +26,7 @@ export type OrganisasjonInfo = {
     organisasjon: Organisasjon;
     altinntilgang: Record<AltinntjenesteId, boolean>;
     altinnsøknad: Record<AltinntjenesteId, Søknadsstatus>;
+    syfotilgang: boolean;
 };
 
 export enum SyfoTilgang {
@@ -48,14 +53,15 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<OrgnrMap<Organisasjon> | undefined>(undefined);
     const [altinntilganger, setAltinntilganger] = useState<Record<AltinntjenesteId, Set<string>> | undefined>(undefined);
     const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>([]);
-
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
+
+    const [syfoVirksomheter, setSyfoVirksomheter] = useState<Organisasjon[] | undefined>(undefined);
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
     const {addAlert} = useContext(AlertContext)
     useEffect(() => {
-        hentOrganisasjonerOgSyfoVirksomheter()
+        hentOrganisasjoner()
             .then(orgs => {
                 console.log({orgs})
                 const gyldigeOrganisasjoner = orgs.filter(
@@ -103,9 +109,18 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 addAlert("TilgangerDigiSyfo");
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
             });
+        hentSyfoVirksomheter()
+            .then(virksomheter => {
+                setSyfoVirksomheter(virksomheter);
+            })
+            .catch(() => {
+                setSyfoVirksomheter([]);
+                setVisSyfoFeilmelding(true);
+                addAlert("TilgangerDigiSyfo");
+            });
     }, []);
 
-    if (altinnorganisasjoner && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
+    if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
         const sjekkTilgang = (orgnr: orgnr) => (
             id: AltinntjenesteId,
             orgnrMedTilgang: Set<orgnr>,
@@ -113,7 +128,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
         const sjekkTilgangssøknader = (orgnr: orgnr) => (
             id: AltinntjenesteId,
-            orgnrMedTilgang: Set<orgnr>,
+            _orgnrMedTilgang: Set<orgnr>,
         ): Søknadsstatus => {
             const { tjenestekode, tjenesteversjon } = altinntjeneste[id];
             const søknader = altinnTilgangssøknader.filter(
@@ -138,10 +153,12 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             return { tilgang: 'ikke søkt' };
 
         };
+
         const organisasjoner = Record.map(altinnorganisasjoner, (orgnr, org) => ({
             organisasjon: org,
             altinntilgang: Record.map(altinntilganger, sjekkTilgang(orgnr)),
             altinnsøknad: Record.map(altinntilganger, sjekkTilgangssøknader(orgnr)),
+            syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber)
         }));
 
         const detFinnesEnUnderenhetMedParent = () => {
