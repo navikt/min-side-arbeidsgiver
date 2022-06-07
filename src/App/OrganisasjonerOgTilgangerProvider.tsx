@@ -23,6 +23,7 @@ export type OrganisasjonInfo = {
     altinntilgang: Record<AltinntjenesteId, boolean>;
     altinnsøknad: Record<AltinntjenesteId, Søknadsstatus>;
     syfotilgang: boolean;
+    reporteetilgang: boolean;
 };
 
 export enum SyfoTilgang {
@@ -112,6 +113,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             });
     }, []);
 
+
     if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
         const organisasjoner = Record.fromEntries(
             [...altinnorganisasjoner, ...syfoVirksomheter].map((org) => {
@@ -127,7 +129,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                             (id: AltinntjenesteId, _orgnrMedTilgang: Set<orgnr>) =>
                                 sjekkTilgangssøknader(org.OrganizationNumber, id, _orgnrMedTilgang, altinnTilgangssøknader)
                         ),
-                        syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber)
+                        syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber),
+                        reporteetilgang: altinnorganisasjoner.some(({OrganizationNumber})=> OrganizationNumber === org.OrganizationNumber)
                     }
                 ]
             }));

@@ -1,4 +1,4 @@
-import React, {FunctionComponent, MouseEventHandler, useContext} from 'react';
+import React, {FC, FunctionComponent, MouseEventHandler, useContext} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import {Undertittel} from 'nav-frontend-typografi';
@@ -17,6 +17,7 @@ import {altinntjeneste, AltinntjenesteId} from '../../../altinn/tjenester';
 import {opprettAltinnTilgangssøknad} from '../../../altinn/tilganger';
 import {beOmTilgangIAltinnLink} from '../../../lenker';
 import {LinkableFragment} from '../../../GeneriskeElementer/LinkableFragment';
+import {BodyShort} from "@navikt/ds-react";
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'pam',
@@ -78,17 +79,28 @@ const opprettSøknad = (
 const BeOmTilgang: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const tjenesteinfoBokser: JSX.Element[] = [];
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
 
-    if (valgtOrganisasjon) {
-        if (!valgtOrganisasjon.syfotilgang) {
-            tjenesteinfoBokser.push(<BeOmSyfotilgang/>);
-        }
+    if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang){
+        return <TilgangContainer>
+            <BodyShort>Noen i virksomheten må gi deg riktig tilgang i Altinn. Nå er du kun satt opp som nærmeste leder.</BodyShort>
+        </TilgangContainer>
+    }
+
+    if (!valgtOrganisasjon.syfotilgang) {
+        tjenesteinfoBokser.push(<BeOmSyfotilgang/>);
+    }
+
+
+    if (valgtOrganisasjon.reporteetilgang) {
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
             const tilgangsøknad = valgtOrganisasjon.altinnsøknad[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-                console.log("Har tilgang til "+ altinnId);
+                console.log("Har tilgang til " + altinnId);
             } else if (tilgangsøknad.tilgang === 'ikke søkt') {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
@@ -133,15 +145,7 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     return (
-        <LinkableFragment fragment='be-om-tilgang'>
-            <div className='be-om-tilgang'>
-                <div className='be-om-tilgang__tittel'>
-                    <div className='divider'/>
-                    <Undertittel className='tekst'>
-                        Trenger du tilgang til flere tjenester?
-                    </Undertittel>
-                    <div className='divider'/>
-                </div>
+        <TilgangContainer>
                 <Ekspanderbartpanel
                     className='be-om-tilgang__container'
                     tittel='Tjenester du kan be om tilgang til'
@@ -153,12 +157,10 @@ const BeOmTilgang: FunctionComponent = () => {
                             kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                             under.
                         </AlertStripeInfo>
-                        {valgtOrganisasjon && (
-                            <Organisasjonsbeskrivelse
-                                navn={valgtOrganisasjon.organisasjon.Name}
-                                orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
-                            />
-                        )}
+                        <Organisasjonsbeskrivelse
+                            navn={valgtOrganisasjon.organisasjon.Name}
+                            orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
+                        />
                         <ul className='be-om-tilgang__tjenesteinfo-bokser'>
                             {tjenesteinfoBokser.map((tjenesteinfoboks, index) => (
                                 <li key={index} className='be-om-tilgang__tjenesteinfo'>
@@ -168,9 +170,26 @@ const BeOmTilgang: FunctionComponent = () => {
                         </ul>
                     </div>
                 </Ekspanderbartpanel>
-            </div>
-        </LinkableFragment>
+        </TilgangContainer>
     );
 };
+
+interface props{
+    children: JSX.Element
+}
+
+const TilgangContainer: FC<props>= ({children}) =>
+    <LinkableFragment fragment='be-om-tilgang'>
+        <div className='be-om-tilgang'>
+            <div className='be-om-tilgang__tittel'>
+                <div className='divider'/>
+                <Undertittel className='tekst'>
+                    Trenger du tilgang til flere tjenester?
+                </Undertittel>
+                <div className='divider'/>
+            </div>
+            {children}
+        </div>
+    </LinkableFragment>
 
 export default BeOmTilgang;
