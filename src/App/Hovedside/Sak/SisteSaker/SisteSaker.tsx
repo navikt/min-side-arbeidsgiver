@@ -3,7 +3,6 @@ import {Link, useLocation} from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.less';
 import { Undertittel } from 'nav-frontend-typografi';
-import { FolderFilled } from '@navikt/ds-icons';
 import { HoyreChevron } from 'nav-frontend-chevron';
 import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
@@ -38,7 +37,7 @@ const SisteSaker = () => {
         <div className='innsynisak'>
             <div className='innsynisak__header'>
                 <Undertittel className='innsynisak__tittel'>
-                    <FolderFilled color='#3386E0' className='folder-icon'/>Siste saker
+                    Siste permitteringer
                 </Undertittel>
                 <Link className="lenke" to='saksoversikt' onClick={() => {
                     loggNavigasjon("saksoversikt", "se alle saker", pathname)
