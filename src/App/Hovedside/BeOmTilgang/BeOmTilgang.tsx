@@ -1,13 +1,11 @@
-import React, { FunctionComponent, MouseEventHandler, useContext } from 'react';
+import React, {FunctionComponent, MouseEventHandler, useContext} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
-import { Undertittel } from 'nav-frontend-typografi';
+import {Undertittel} from 'nav-frontend-typografi';
 import {
-    OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
-    SyfoTilgang,
 } from '../../OrganisasjonerOgTilgangerProvider';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import {
     AltinntilgangAlleredeSøkt,
@@ -15,10 +13,10 @@ import {
     BeOmSyfotilgang,
 } from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.less';
-import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
-import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
-import { beOmTilgangIAltinnLink } from '../../../lenker';
-import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
+import {altinntjeneste, AltinntjenesteId} from '../../../altinn/tjenester';
+import {opprettAltinnTilgangssøknad} from '../../../altinn/tilganger';
+import {beOmTilgangIAltinnLink} from '../../../lenker';
+import {LinkableFragment} from '../../../GeneriskeElementer/LinkableFragment';
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'pam',
@@ -78,20 +76,19 @@ const opprettSøknad = (
 };
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const tjenesteinfoBokser: JSX.Element[] = [];
 
-    if (tilgangTilSyfo === SyfoTilgang.IKKE_TILGANG) {
-        tjenesteinfoBokser.push(<BeOmSyfotilgang />);
-    }
-
     if (valgtOrganisasjon) {
+        if (!valgtOrganisasjon.syfotilgang) {
+            tjenesteinfoBokser.push(<BeOmSyfotilgang/>);
+        }
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
             const tilgangsøknad = valgtOrganisasjon.altinnsøknad[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
+                console.log("Har tilgang til "+ altinnId);
             } else if (tilgangsøknad.tilgang === 'ikke søkt') {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
@@ -102,7 +99,7 @@ const BeOmTilgang: FunctionComponent = () => {
                 );
             } else if (tilgangsøknad.tilgang === 'søknad opprettet') {
                 tjenesteinfoBokser.push(
-                    <BeOmTilgangBoks altinnId={altinnId} href={tilgangsøknad.url} eksternSide={true} />,
+                    <BeOmTilgangBoks altinnId={altinnId} href={tilgangsøknad.url} eksternSide={true}/>,
                 );
             } else if (tilgangsøknad.tilgang === 'søkt') {
                 tjenesteinfoBokser.push(
@@ -131,7 +128,6 @@ const BeOmTilgang: FunctionComponent = () => {
             }
         }
     }
-
     if (tjenesteinfoBokser.length <= 0) {
         return null
     }
@@ -140,11 +136,11 @@ const BeOmTilgang: FunctionComponent = () => {
         <LinkableFragment fragment='be-om-tilgang'>
             <div className='be-om-tilgang'>
                 <div className='be-om-tilgang__tittel'>
-                    <div className='divider' />
+                    <div className='divider'/>
                     <Undertittel className='tekst'>
                         Trenger du tilgang til flere tjenester?
                     </Undertittel>
-                    <div className='divider' />
+                    <div className='divider'/>
                 </div>
                 <Ekspanderbartpanel
                     className='be-om-tilgang__container'
