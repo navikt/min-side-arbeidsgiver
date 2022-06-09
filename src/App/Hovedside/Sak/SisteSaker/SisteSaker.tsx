@@ -8,6 +8,7 @@ import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
+import {HelpText} from "@navikt/ds-react";
 
 
 const SisteSaker = () => {
@@ -36,9 +37,14 @@ const SisteSaker = () => {
     return (
         <div className='innsynisak'>
             <div className='innsynisak__header'>
-                <Undertittel className='innsynisak__tittel'>
-                    Siste permitteringer
-                </Undertittel>
+                <div className='innsynisak__tittel'>
+                    <Undertittel>
+                        Siste saker
+                    </Undertittel>
+                    <HelpText title="Hva vises her?">
+                        Her vises meldinger for permitteringer, oppsigelser <br/>eller innskrenkning i arbeidstid. Vi jobber med at <br/>flere saker skal vises her etterhvert.
+                    </HelpText>
+                </div>
                 <Link className="lenke" to='saksoversikt' onClick={() => {
                     loggNavigasjon("saksoversikt", "se alle saker", pathname)
                 }}>
