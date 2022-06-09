@@ -1,17 +1,17 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.less';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
 import SideBytter from './SideBytter/SideBytter';
-import { BodyShort } from '@navikt/ds-react';
-import { Spinner } from '../../../Spinner';
-import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useSaker } from '../useSaker';
-import { SaksListe } from '../SaksListe';
-import { Alerts } from '../../../Alerts/Alerts';
+import {BodyShort, HelpText} from '@navikt/ds-react';
+import {Spinner} from '../../../Spinner';
+import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
+import {useSaker} from '../useSaker';
+import {SaksListe} from '../SaksListe';
+import {Alerts} from '../../../Alerts/Alerts';
 import amplitude from '../../../../utils/amplitude';
-import { useOversiktStateTransitions } from './useOversiktStateTransitions';
-import { State } from './useOversiktStateTransitions';
-import { Filter } from './Filter';
+import {useOversiktStateTransitions} from './useOversiktStateTransitions';
+import {State} from './useOversiktStateTransitions';
+import {Filter} from './Filter';
 
 export const SIDE_SIZE = 30;
 
@@ -35,8 +35,11 @@ const Saksoversikt = () => {
         }
     }, [loading, data])
 
+    const hjelpetekstButton = useRef<HTMLButtonElement>(null);
+
+
     return <div className='saksoversikt'>
-        <Brodsmulesti brodsmuler={[{ url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true }]} />
+        <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
 
         <div className="saksoversikt__header">
             <Filter filter={state.filter} onChange={byttFilter}/>
@@ -44,12 +47,26 @@ const Saksoversikt = () => {
             <SideBytter
                 side={state.filter.side}
                 antallSider={state.sider}
-                onSideValgt={side => byttFilter({ ...state.filter, side})}
+                onSideValgt={side => byttFilter({...state.filter, side})}
             />
 
         </div>
         <Alerts/>
-        <FilterOgSøkResultat state={state} />
+        <FilterOgSøkResultat state={state}/>
+        <div className="saksoversikt__hjelpetekst">
+            <HelpText id="hjelptekst" ref={hjelpetekstButton} title="Hva vises her?">
+                Her vises meldinger for permitteringer, oppsigelser <br/>eller innskrenkning i arbeidstid. Vi jobber med
+                at <br/>flere saker skal vises her etterhvert.
+            </HelpText>
+            <button
+                className={"saksoversikt__knapp"}
+                onClick={(e) => {
+                     e.stopPropagation();
+                     e.preventDefault();
+                    hjelpetekstButton.current?.focus();
+                    hjelpetekstButton.current?.click();
+                }}> Hva vises her? </button>
+        </div>
     </div>
 };
 
@@ -88,7 +105,7 @@ const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state}) => {
         return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined}/>
     }
 
-    const {totaltAntallSaker, saker, filter } = state
+    const {totaltAntallSaker, saker, filter} = state
 
     if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
         return <BodyShort>Ingen saker å vise på valgt virksomhet.</BodyShort>
@@ -114,11 +131,11 @@ const Laster: FC<LasterProps> = ({forrigeSaker, startTid}) => {
     const lasteTid = nåtid.getTime() - startTid.getTime()
 
     if (lasteTid < 200 && forrigeSaker !== undefined) {
-        return <SaksListe saker={forrigeSaker} />
+        return <SaksListe saker={forrigeSaker}/>
     } else if (lasteTid < 3000 && forrigeSaker !== undefined) {
-        return <SaksListe saker={forrigeSaker} placeholder={true} />
+        return <SaksListe saker={forrigeSaker} placeholder={true}/>
     } else {
-        return <Spinner />
+        return <Spinner/>
     }
 }
 
