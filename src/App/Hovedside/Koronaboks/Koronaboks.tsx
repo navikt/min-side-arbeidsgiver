@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useContext } from 'react';
+import React, {FunctionComponent, useContext} from 'react';
 import Element from 'nav-frontend-typografi/lib/element';
 import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {
     permitteringKlageskjemaURL,
     koronaSykeRefusjonURL,
@@ -9,22 +9,23 @@ import {
 } from '../../../lenker';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import {Undertittel} from "nav-frontend-typografi";
 
 interface KoronalenkeProps {
     href: string;
     tekst: string;
 }
 
-const Koronalenke: FunctionComponent<KoronalenkeProps> = ({ href, tekst }) =>
+const Koronalenke: FunctionComponent<KoronalenkeProps> = ({href, tekst}) =>
     <LenkeMedLogging
         className='koronaboks__lenke'
         href={href}
         loggLenketekst={tekst}
     >
         <span>{tekst}</span>
-        <HoyreChevron />
+        <HoyreChevron/>
     </LenkeMedLogging>;
 
 export const Koronaboks = () => {
@@ -37,7 +38,12 @@ export const Koronaboks = () => {
     const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
     return (<Ekspanderbartpanel className='koronaboks'
                                 tittel={
-                                    <><KoronaboksIkon/>Koronaspesifikke tjenester</>
+                                    <Undertittel className={"koronaboks__tittel"}>
+                                        <div className={"koronaboks__ikon"}>
+                                            <KoronaboksIkon/>
+                                        </div>
+                                        <span>Koronaspesifikke tjenester</span>
+                                    </Undertittel>
                                 }>
                 <span className='koronaboks__innhold'>
                     <Element className='koronaboks__tekst'>Refusjon sykepenger</Element>
