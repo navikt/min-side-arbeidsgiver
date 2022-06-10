@@ -4,19 +4,19 @@ module.exports = {
             '/min-side-arbeidsgiver/api/narmesteleder/virksomheter', (req, res) => {
                 res.send([
                     {
-                        OrganizationNumber: "974491850",
-                        Name: "Gunnars bakeri Storgata",
-                        Type: "Business",
-                        ParentOrganizationNumber: "982033268",
-                        OrganizationForm: "BEDR",
-                        Status: "Active",
-                    },
-                    {
                         OrganizationNumber: "999999999",
                         Name: "Saltrød og Høneby",
                         Type: "Business",
                         ParentOrganizationNumber: "910825555",
                         OrganizationForm: "BEDR",
+                        Status: "Active",
+                    },
+                    {
+                        OrganizationNumber: "910825555",
+                        Name: "BIRTAVARRE OG VÆRLANDET FORELDER",
+                        Type: "Enterprise",
+                        ParentOrganizationNumber: null,
+                        OrganizationForm: "AS",
                         Status: "Active",
                     },
                 ])
