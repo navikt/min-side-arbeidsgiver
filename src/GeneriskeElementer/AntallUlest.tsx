@@ -6,7 +6,7 @@ export interface Props {
 }
 
 const AntallUlest = ({antallUlest}: Props) => {
-    if (antallUlest == null) {
+    if (antallUlest == null || antallUlest === 0) {
         return null;
     }
 
