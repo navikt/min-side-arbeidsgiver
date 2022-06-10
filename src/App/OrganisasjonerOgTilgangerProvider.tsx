@@ -60,7 +60,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     useEffect(() => {
         hentOrganisasjoner()
             .then(orgs => {
-                console.log({orgs})
                 const gyldigeOrganisasjoner = orgs.filter(
                     org =>
                         org.OrganizationForm === 'BEDR' ||
