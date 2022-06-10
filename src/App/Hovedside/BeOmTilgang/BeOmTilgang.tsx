@@ -100,7 +100,6 @@ const BeOmTilgang: FunctionComponent = () => {
             const tilgangsøknad = valgtOrganisasjon.altinnsøknad[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-                console.log("Har tilgang til " + altinnId);
             } else if (tilgangsøknad.tilgang === 'ikke søkt') {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
