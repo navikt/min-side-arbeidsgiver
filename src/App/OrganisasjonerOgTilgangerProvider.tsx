@@ -67,14 +67,19 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                         org.Type === 'Enterprise',
                 );
                 setAltinnorganisasjoner(gyldigeOrganisasjoner);
-                hentAltinnRaporteeIdentiteter().then(result => {
-                    if (result instanceof Error) {
-                        autentiserAltinnBruker(window.location.href);
-                        setReporteeMessagesUrls({});
-                    } else {
-                        setReporteeMessagesUrls(result);
-                    }
-                });
+
+                if (gyldigeOrganisasjoner.length !== 0) {
+                    hentAltinnRaporteeIdentiteter().then(result => {
+                        if (result instanceof Error) {
+                            autentiserAltinnBruker(window.location.href);
+                            setReporteeMessagesUrls({});
+                        } else {
+                            setReporteeMessagesUrls(result);
+                        }
+                    });
+                } else {
+                    setReporteeMessagesUrls({});
+                }
             })
             .catch(() => {
                 setAltinnorganisasjoner([]);
