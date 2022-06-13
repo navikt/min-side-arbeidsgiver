@@ -9,10 +9,8 @@ import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
 import './TjenesteBoksContainer.less';
 import { inkluderRefusjonSommerjobberToggle } from '../../../FeatureToggleProvider';
-import { OrganisasjonerOgTilgangerContext, SyfoTilgang } from '../../OrganisasjonerOgTilgangerProvider';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
-    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext)
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) {
@@ -25,7 +23,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Arbeidsforholdboks);
     }
 
-    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
+    if (valgtOrganisasjon.syfotilgang) {
         tjenester.push(Syfoboks);
     }
 
