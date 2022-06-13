@@ -20,7 +20,7 @@ const ALERTS: Record<AlertType, AlertProps> = {
     DigiSyfo: {
         content: <>Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge
             opp. Vi jobber med å løse saken så raskt som mulig</>
-    }
+    },
 }
 
 type AlertType = "Altinn" | "DigiSyfo"

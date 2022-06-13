@@ -1,6 +1,5 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import { OrganisasjonerOgTilgangerContext, SyfoTilgang } from '../../OrganisasjonerOgTilgangerProvider';
+import React, {FunctionComponent, useContext} from 'react';
+import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
@@ -9,39 +8,37 @@ import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from "./TiltakRefusjonboks/TiltakRefusjonboks";
 import './TjenesteBoksContainer.less';
-import { AltinntjenesteId } from '../../../altinn/tjenester';
 import {inkluderRefusjonSommerjobberToggle} from "../../../FeatureToggleProvider";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext);
-    const tilgang = valgtOrganisasjon?.altinntilgang;
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
-    const harTilgang = (altinnId: AltinntjenesteId): boolean =>
-        tilgang !== undefined && tilgang[altinnId];
+    if (valgtOrganisasjon === undefined) {
+        return null;
+    }
 
     const tjenester: FunctionComponent[] = [];
 
-    if (harTilgang('arbeidsforhold')) {
+    if (valgtOrganisasjon.altinntilgang.arbeidsforhold) {
         tjenester.push(Arbeidsforholdboks);
     }
 
-    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
+    if (valgtOrganisasjon.syfotilgang) {
         tjenester.push(Syfoboks);
     }
 
-    if (harTilgang('iaweb')) {
+    if (valgtOrganisasjon.altinntilgang.iaweb) {
         tjenester.push(IAwebboks);
     }
 
-    if (harTilgang('pam')) {
+    if (valgtOrganisasjon.altinntilgang.pam) {
         tjenester.push(Pamboks);
     }
-    if (harTilgang('midlertidigLønnstilskudd') || harTilgang('varigLønnstilskudd') || harTilgang('arbeidstrening')) {
+    if (valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd || valgtOrganisasjon.altinntilgang.varigLønnstilskudd || valgtOrganisasjon.altinntilgang.arbeidstrening) {
         tjenester.push(Tiltakboks);
     }
 
-    if (harTilgang("inntektsmelding") && inkluderRefusjonSommerjobberToggle){
+    if (valgtOrganisasjon.altinntilgang.inntektsmelding && inkluderRefusjonSommerjobberToggle) {
         tjenester.push(TiltakRefusjonboks);
     }
 
@@ -58,7 +55,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         <div className={'tjenesteboks-container ' + antallClassname}>
             {tjenester.map((Tjeneste, indeks) =>
                 <Innholdsboks classname='tjenesteboks' key={indeks}>
-                    <Tjeneste />
+                    <Tjeneste/>
                 </Innholdsboks>,
             )}
         </div>
