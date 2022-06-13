@@ -61,7 +61,7 @@ jobs:
         with:
           node-version: '16.14.2'
           registry-url: 'https://registry.npmjs.org'
-          cache: 'npm'
+#          cache: 'npm'
 
       - name: Installer avhengigheter
         run:  npm ci --production --ignore-scripts --no-optional
