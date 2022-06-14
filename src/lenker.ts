@@ -11,9 +11,9 @@ export const innsynAaregURL = gittMiljo({
 });
 
 export const syfoURL = gittMiljo({
-    prod: 'https://tjenester.nav.no/sykefravaerarbeidsgiver',
-    other: 'https://tjenester-q1.nav.no/sykefravaerarbeidsgiver',
-    labs: 'https://sykefravaerarbeidsgiver.labs.nais.io/sykefravaerarbeidsgiver/',
+    prod: 'https://www.nav.no/arbeidsgiver/sykmeldte',
+    other: 'https://www-gcp.dev.nav.no/arbeidsgiver/sykmeldte',
+    labs: 'https://dinesykmeldte.labs.nais.io/arbeidsgiver/sykmeldte',
 });
 
 export const refosoURL = gittMiljo({
