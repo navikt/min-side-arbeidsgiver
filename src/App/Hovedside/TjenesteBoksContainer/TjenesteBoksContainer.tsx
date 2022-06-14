@@ -1,16 +1,18 @@
-import React, {FunctionComponent, useContext} from 'react';
-import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
+import React, { FunctionComponent, useContext } from 'react';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
-import TiltakRefusjonboks from "./TiltakRefusjonboks/TiltakRefusjonboks";
+import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
 import './TjenesteBoksContainer.less';
-import {inkluderRefusjonSommerjobberToggle} from "../../../FeatureToggleProvider";
+import { inkluderRefusjonSommerjobberToggle } from '../../../FeatureToggleProvider';
+import { OrganisasjonerOgTilgangerContext, SyfoTilgang } from '../../OrganisasjonerOgTilgangerProvider';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
+    const { tilgangTilSyfo } = useContext(OrganisasjonerOgTilgangerContext)
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
     if (valgtOrganisasjon === undefined) {
@@ -23,7 +25,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Arbeidsforholdboks);
     }
 
-    if (valgtOrganisasjon.syfotilgang) {
+    if (tilgangTilSyfo === SyfoTilgang.TILGANG) {
         tjenester.push(Syfoboks);
     }
 
