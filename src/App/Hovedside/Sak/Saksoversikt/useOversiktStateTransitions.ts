@@ -2,7 +2,7 @@ import { useEffect, useReducer } from 'react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { SIDE_SIZE } from './Saksoversikt'
 import { useSessionState } from './useOversiktSessionStorage';
-import {equalFilter, Filter} from './Filter';
+import { Filter } from './Filter';
 
 export type State = {
     state: 'loading';
@@ -32,18 +32,15 @@ export const useOversiktStateTransitions = () => {
     const [sessionState, setSessionState] = useSessionState()
 
     const reduce = (current: State, action: Action): State => {
+        console.log(`transition change ${action.action}`, action)
         switch (action.action) {
             case 'bytt-filter':
-                if (equalFilter(action.filter, current.filter)) {
-                    return current
-                } else {
-                    return {
-                        state: 'loading',
-                        filter: action.filter,
-                        sider: undefined,
-                        startTid: new Date(),
-                        forrigeSaker: finnForrigeSaker(current),
-                    }
+                return {
+                    state: 'loading',
+                    filter: action.filter,
+                    sider: undefined,
+                    startTid: new Date(),
+                    forrigeSaker: finnForrigeSaker(current),
                 }
             case 'lasting-pågår':
                 return {

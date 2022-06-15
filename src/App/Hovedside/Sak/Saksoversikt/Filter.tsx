@@ -1,5 +1,8 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Search} from '@navikt/ds-react';
+import { SearchField } from '@navikt/ds-react';
+import SearchFieldInput from '@navikt/ds-react/esm/form/search-field/SearchFieldInput';
+import SearchFieldButton from '@navikt/ds-react/esm/form/search-field/SearchFieldButton';
+import { Search } from '@navikt/ds-icons';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 export type Filter = {
@@ -12,10 +15,6 @@ export type FilterProps = {
     filter: Filter;
     onChange: (filter: Filter) => void;
 }
-
-export const equalFilter = (a:Filter, b:Filter):boolean =>
-    a.side === b.side && a.tekstsoek === b.tekstsoek && a.virksomhetsnummer === b.virksomhetsnummer
-
 
 export const Filter = ({filter, onChange}: FilterProps) => {
     const searchElem = useRef<HTMLInputElement>(null)
@@ -34,14 +33,14 @@ export const Filter = ({filter, onChange}: FilterProps) => {
         <form onSubmit={(e) => {
             e.preventDefault()
             const tekstsoek = searchElem?.current?.value ?? ''
-            onChange({...filter, tekstsoek})
+            onChange({...filter, tekstsoek })
         }}>
-            <Search
-                label="Søk"
-                size="medium"
-                variant="primary"
-                ref={searchElem}
-            />
+            <SearchField label="Søk" hideLabel>
+                <SearchFieldInput ref={searchElem} />
+                <SearchFieldButton variant="primary" type="submit">
+                    <Search height="1.5rem" width="1.5rem" className="saksoversikt__sokefelt-ikon"/>
+                </SearchFieldButton>
+            </SearchField>
         </form>
     </div>
 }
