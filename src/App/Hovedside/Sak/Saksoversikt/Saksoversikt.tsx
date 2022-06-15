@@ -1,8 +1,7 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.less';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
-import SideBytter from './SideBytter/SideBytter';
-import {BodyShort, HelpText} from '@navikt/ds-react';
+import {BodyShort, HelpText, Pagination} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {useSaker} from '../useSaker';
@@ -44,10 +43,14 @@ const Saksoversikt = () => {
         <div className="saksoversikt__header">
             <Filter filter={state.filter} onChange={byttFilter}/>
 
-            <SideBytter
-                side={state.filter.side}
-                antallSider={state.sider}
-                onSideValgt={side => byttFilter({...state.filter, side})}
+            <Pagination
+                count={state.sider == undefined ? 0 : state.sider}
+                page={state.filter.side}
+                onPageChange={
+                    side =>{
+                        byttFilter({...state.filter, side})
+                    }
+                }
             />
 
         </div>
@@ -61,11 +64,12 @@ const Saksoversikt = () => {
             <button
                 className={"saksoversikt__knapp"}
                 onClick={(e) => {
-                     e.stopPropagation();
-                     e.preventDefault();
+                    e.stopPropagation();
+                    e.preventDefault();
                     hjelpetekstButton.current?.focus();
                     hjelpetekstButton.current?.click();
-                }}> Hva vises her? </button>
+                }}> Hva vises her?
+            </button>
         </div>
     </div>
 };
