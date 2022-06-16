@@ -83,6 +83,7 @@ jobs:
           docker push $IMAGE
 
       - name: Lag sentry release
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |
