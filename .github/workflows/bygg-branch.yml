@@ -42,6 +42,12 @@ jobs:
         run: |
           echo ::set-output name=branch::"$(echo ${GITHUB_REF#refs/heads/})"
 
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Bygg, tag og push Docker-image
         run: |
           docker build --tag $IMAGE_BASE:$GITHUB_SHA .

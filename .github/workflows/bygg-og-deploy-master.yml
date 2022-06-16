@@ -70,6 +70,12 @@ jobs:
 
       - run: npm run build
 
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Bygg, tag og push Docker-image
         run: |
           docker build --tag $IMAGE --tag $IMAGE_BASE:latest .
