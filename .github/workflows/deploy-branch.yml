@@ -4,7 +4,7 @@ on:
     types: [deploy-command]
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
+  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api
 
 jobs:
   deploy-branch:
