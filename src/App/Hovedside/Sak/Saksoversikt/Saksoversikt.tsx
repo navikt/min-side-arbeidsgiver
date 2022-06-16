@@ -36,6 +36,13 @@ const Saksoversikt = () => {
 
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
 
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const setSize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", setSize);
+        return () => window.removeEventListener("resize", setSize);
+    }, [setWidth]);
 
     return <div className='saksoversikt'>
         <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
@@ -46,6 +53,8 @@ const Saksoversikt = () => {
             <Pagination
                 count={state.sider == undefined ? 0 : state.sider}
                 page={state.filter.side}
+                siblingCount={width < 420 ? 0 : 1}
+                boundaryCount={width < 370 ? 0 : 1}
                 onPageChange={
                     side =>{
                         byttFilter({...state.filter, side})

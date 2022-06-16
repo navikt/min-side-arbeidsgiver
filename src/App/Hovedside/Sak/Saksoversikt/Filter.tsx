@@ -30,8 +30,7 @@ export const Filter = ({filter, onChange}: FilterProps) => {
         }
     }, [searchElem.current, filter.tekstsoek])
 
-    return <div className="saksoversikt__sokefelt">
-        <form onSubmit={(e) => {
+    return <form onSubmit={(e) => {
             e.preventDefault()
             const tekstsoek = searchElem?.current?.value ?? ''
             onChange({...filter, tekstsoek})
@@ -41,9 +40,10 @@ export const Filter = ({filter, onChange}: FilterProps) => {
                 size="medium"
                 variant="primary"
                 ref={searchElem}
+
             />
         </form>
-    </div>
+
 }
 
 const useVirksomhetsnummer = (onVirksomhetsnummerChange: (virksomhetsnummer: string) => void) => {
