@@ -7,8 +7,8 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
-  IMAGE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}:${{ github.sha }}
+  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api
+  IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api:${{ github.sha }}
 
 jobs:
   test:
@@ -70,6 +70,12 @@ jobs:
 
       - run: npm run build
 
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Bygg, tag og push Docker-image
         run: |
           docker build --tag $IMAGE --tag $IMAGE_BASE:latest .
@@ -77,6 +83,7 @@ jobs:
           docker push $IMAGE
 
       - name: Lag sentry release
+        continue-on-error: true
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         run: |

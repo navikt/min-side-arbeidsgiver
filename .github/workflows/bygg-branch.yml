@@ -7,7 +7,7 @@ on:
       - '!master'
 
 env:
-  IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
+  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api
 
 jobs:
   bygg:
@@ -41,6 +41,12 @@ jobs:
         id: variable
         run: |
           echo ::set-output name=branch::"$(echo ${GITHUB_REF#refs/heads/})"
+
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Bygg, tag og push Docker-image
         run: |
