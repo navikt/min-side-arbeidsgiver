@@ -1,44 +1,47 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import * as Record from '../../../utils/Record';
 import './GiOssTilbakemelding.less';
-import Panel from 'nav-frontend-paneler';
-import { Normaltekst } from 'nav-frontend-typografi';
-import Lukknapp from 'nav-frontend-lukknapp';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { møteBookingLenke } from '../../../lenker';
-import { Feature, FeatureToggleContext } from '../../../FeatureToggleProvider';
-
+import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
+import { gittMiljo } from '../../../utils/environment';
 
 export const GiOssTilbakemelding = () => {
-    const dato = new Date();
-    const visKalender = useContext(FeatureToggleContext)[Feature.visKalender];
-    const erMandagEllerTirsdag = (): boolean => {
-        return dato.getDay() <= 2;
-    };
-    const hentLukketStatusFraLocalStorage = (): boolean => {
-        const lukketFraLocalstorage = window.localStorage.getItem('GiOssTilbakemeldingLukket');
-        return lukketFraLocalstorage != null;
-    };
-    const [erLukketTidligere, setErLukketTidligere] = useState(hentLukketStatusFraLocalStorage());
+    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    const harInntektsmeldingPåTvers = Record
+        .values(organisasjoner)
+        .some(org => org.altinntilgang.inntektsmelding);
 
-    const lukkOgSkrivTilLocalstorage = () => {
-        window.localStorage.setItem('GiOssTilbakemeldingLukket', dato.toDateString());
-        setErLukketTidligere(true);
-    };
-
-    if (!erLukketTidligere && erMandagEllerTirsdag() && visKalender) {
-        return (
-            <span className={'tilbakemelding-banner'}>
-        <Panel border
-               className={'panel'}>
-            <div className={'innhold'}>
-                <Normaltekst> Er du arbeidsgiver og vil dele dine erfaringer med oss som lager tjenesten? <LenkeMedLogging
-                    loggLenketekst={'Møtebooking'}
-                    href={møteBookingLenke}>Avtal et digitalt møte med oss. </LenkeMedLogging> </Normaltekst>
-                <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
-                </div>
-        </Panel>
-</span>
-        );
+    if (harInntektsmeldingPåTvers) {
+        return <UXSignals />
+    } else {
+        return null;
     }
-    return <></>;
 };
+
+const UXSignals = () => {
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = "https://uxsignals-frontend.uxsignals.app.iterate.no/embed.js";
+        document.body.appendChild(script);
+
+        return () => {
+            try {
+                document.body.removeChild(script);
+            } catch {
+            }
+        };
+    }, []);
+
+    return <div
+        key="tilbakemelding-banner"
+        className="tilbakemelding-banner"
+        data-uxsignals-embed="study-txkx5lqsqk"
+        {...(gittMiljo({
+            prod: {},
+            other: {
+                "data-uxsignals-mode": "demo"
+            },
+        }))}
+    />
+};
+
