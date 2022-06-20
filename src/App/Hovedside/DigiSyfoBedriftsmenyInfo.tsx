@@ -31,11 +31,11 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
         <div className={"digisyfo-bedriftsmeny-info"}>
             <Alert variant="info" className={"digisyfo-bedriftsmeny-info__alert"}>
                 <Heading size="small" spacing={true}>
-                    Sykemeldte er nå koblet til virksomhetsvelgeren
+                    Sykmeldte er nå koblet til virksomhetsvelgeren
                 </Heading>
                 <BodyShort>
-                    Velg virksomhet for å se sykemeldte du skal følge opp der. Boksen “Sykemeldte” vises bare når du har
-                    noen sykemeldt å følge opp på valgt virksomhet.
+                    Velg virksomhet for å se sykmeldte du skal følge opp der. Boksen “Sykmeldte” vises bare når du har
+                    noen sykmeldt å følge opp på valgt virksomhet.
                 </BodyShort>
             </Alert>
             <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>

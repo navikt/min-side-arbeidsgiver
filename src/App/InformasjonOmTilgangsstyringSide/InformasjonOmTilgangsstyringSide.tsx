@@ -170,7 +170,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                             For at søknadene «fritak fra arbeidsgiverperioden – gravid ansatt / kronisk
                                             sykdom» skal vises,
                                             trenger du kun en vilkårlig Altinn-rolle i din virksomhet eller tilgang til Dine
-                                            sykemeldte.
+                                            sykmeldte.
                                         </BodyLong>
                                     </Accordion.Content>
                                 </Accordion.Item>
