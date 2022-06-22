@@ -16,7 +16,12 @@
 
   &__header {
     display: flex;
+    flex-wrap: wrap;
+    column-gap: 4rem;
+    row-gap: 1rem;
     justify-content: space-between;
+    align-items: center;
+
   }
 
   &__hjelpetekst{
@@ -25,16 +30,6 @@
     align-items: center;
     font-size: 1.2rem;
   }
-
-  &__sokefelt {
-    position:relative;
-    width: 100%;
-
-    @media (min-width: @screen-sm-min) {
-      width: 22rem;
-    }
-  }
-
 
   &__knapp {
     display: flex;
