@@ -1,0 +1,9 @@
+{
+  "ingress": "https://experimental-arbeidsgiver.labs.nais.io/min-side-arbeidsgiver",
+  "bruker-api-url": "http://localhost:8081",
+  "selvbetjening-login-url": "https://min-side-ag-fakelogin.labs.nais.io/login?issuer=selvbetjening&sub=123456789&domain=labs.nais.io&redirect=https://experimental-arbeidsgiver.labs.nais.io/min-side-arbeidsgiver/",
+  "logout-url": "https://min-side-ag-fakelogin.labs.nais.io/logout?domain=labs.nais.io",
+  "idporten": false,
+  "arbeidsforhold-domain": "https://arbeidsgiver.labs.nais.io",
+  "sykefravær-domain": "https://arbeidsgiver.labs.nav.no"
+}
