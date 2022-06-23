@@ -17,7 +17,6 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './InformasjonOmTilgangsstyringSide.less';
 import icon from './icon_tilgang.svg';
 import { PanelerMedInnholdsfortegnelse } from './PanelerMedInnholdsfortegnelse';
-import {inkluderRefusjonSommerjobberToggle} from "../../FeatureToggleProvider";
 
 const InformasjonOmTilgangsstyringSide = () => {
     return (
@@ -284,34 +283,31 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         </LenkeMedLogging>
                                     </Accordion.Content>
                                 </Accordion.Item>
-                                {inkluderRefusjonSommerjobberToggle ?
-                                    <Accordion.Item>
-                                        <Accordion.Header>
-                                            Refusjon for sommerjobb
-                                        </Accordion.Header>
-                                        <Accordion.Content>
-                                            <BodyLong size='small' spacing>
-                                                For å få tilgang til refusjon for sommerjobb må du ha tilgang til å
-                                                sende
-                                                inntektsmelding.
-                                            </BodyLong>
-                                            <BodyLong size='small' spacing>
-                                                Du må ha enkeltrettigheten inntektsmelding eller en av følgende
-                                                Altinn-rollene for å få tilgang til løsningen:
-                                            </BodyLong>
-                                            <ul>
-                                                <li>ansvarlig revisor</li>
-                                                <li>lønn og personalmedarbeider</li>
-                                                <li>regnskapsfører lønn</li>
-                                                <li>regnskapsfører med signeringsrettighet</li>
-                                                <li>regnskapsfører uten signeringsrettighet</li>
-                                                <li>revisormedarbeider</li>
-                                                <li>norsk representant for utenlandsk enhet</li>
-                                            </ul>
-                                        </Accordion.Content>
-                                    </Accordion.Item>
-                                    : null
-                                }
+                                <Accordion.Item>
+                                    <Accordion.Header>
+                                        Refusjon for sommerjobb
+                                    </Accordion.Header>
+                                    <Accordion.Content>
+                                        <BodyLong size='small' spacing>
+                                            For å få tilgang til refusjon for sommerjobb må du ha tilgang til å
+                                            sende
+                                            inntektsmelding.
+                                        </BodyLong>
+                                        <BodyLong size='small' spacing>
+                                            Du må ha enkeltrettigheten inntektsmelding eller en av følgende
+                                            Altinn-rollene for å få tilgang til løsningen:
+                                        </BodyLong>
+                                        <ul>
+                                            <li>ansvarlig revisor</li>
+                                            <li>lønn og personalmedarbeider</li>
+                                            <li>regnskapsfører lønn</li>
+                                            <li>regnskapsfører med signeringsrettighet</li>
+                                            <li>regnskapsfører uten signeringsrettighet</li>
+                                            <li>revisormedarbeider</li>
+                                            <li>norsk representant for utenlandsk enhet</li>
+                                        </ul>
+                                    </Accordion.Content>
+                                </Accordion.Item>
                                 <Accordion.Item>
                                     <Accordion.Header>
                                         Refusjon for utestengte EØS-borgere

@@ -8,7 +8,6 @@ import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
 import './TjenesteBoksContainer.less';
-import { inkluderRefusjonSommerjobberToggle } from '../../../FeatureToggleProvider';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
@@ -38,7 +37,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Tiltakboks);
     }
 
-    if (valgtOrganisasjon.altinntilgang.inntektsmelding && inkluderRefusjonSommerjobberToggle) {
+    if (valgtOrganisasjon.altinntilgang.inntektsmelding && valgtOrganisasjon.refusjonstatustilgang) {
         tjenester.push(TiltakRefusjonboks);
     }
 
