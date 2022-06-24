@@ -123,6 +123,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             })
             .catch(() => {
                 setRefusjonstatus([]);
+                // har ikke egen alert type på dette, da det mest sannsynlig er altinn som feiler
+                setVisFeilmelding(true);
+                addAlert("TilgangerAltinn");
             });
     }, []);
 
