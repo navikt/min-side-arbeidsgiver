@@ -1,15 +1,20 @@
 import {digiSyfoNarmesteLederURL, digiSyfoVirksomheterURL, refusjonstatusURL, sjekkInnloggetURL} from '../lenker';
 import {Organisasjon} from '../altinn/organisasjon';
+import {z} from "zod";
+import * as Sentry from "@sentry/browser";
 
 interface SyfoKallObjekt {
     tilgang: boolean;
 }
 
-export interface RefusjonStatus {
-    virksomhetsnummer: string;
-    statusoversikt: Record<string, number>;
-    tilgang: boolean;
-}
+const RefusjonStatus = z.object({
+    virksomhetsnummer: z.string(),
+    statusoversikt: z.map(z.string(), z.number()),
+    tilgang: z.boolean()
+});
+const RefusjonStatusResponse = z.array(RefusjonStatus);
+export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
+
 
 export async function hentSyfoTilgang(): Promise<boolean> {
     const respons = await fetch(digiSyfoNarmesteLederURL);
@@ -31,7 +36,13 @@ export async function hentSyfoVirksomheter(): Promise<Organisasjon[]> {
 export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
     const respons = await fetch(refusjonstatusURL);
     if (respons.ok) {
-        return await respons.json();
+        const data = await respons.json();
+        try {
+            return RefusjonStatusResponse.parse(data);
+        } catch (error) {
+            Sentry.captureException(error)
+            return data
+        }
     }
     throw new Error('Feil ved kontakt mot baksystem.');
 }
