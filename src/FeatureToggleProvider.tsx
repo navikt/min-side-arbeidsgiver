@@ -8,13 +8,6 @@ export enum Feature {
     visKalender = 'msa.visMoteKalender'
 }
 
-export const inkluderRefusjonSommerjobberToggle = gittMiljo({
-    prod: false,
-    dev: true,
-    labs: false,
-    other: true
-})
-
 const featureTogglePath = (features: Feature[]): string => {
     const query = features.map(feature => `feature=${feature}`).join('&');
     return `${featurePath}?${query}`;
