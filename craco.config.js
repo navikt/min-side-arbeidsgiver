@@ -82,6 +82,7 @@ module.exports = {
             require('./server/mock/antallArbeidsforholdMock').mock(app);
             require('./server/mock/tiltakApiMock').mock(app);
             require('./server/mock/sykefraværMock').mock(app);
+            require('./server/mock/refusjonsStatusMock').mock(app);
             return middlewares
         }
     },

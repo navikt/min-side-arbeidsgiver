@@ -61,6 +61,9 @@ export const digiSyfoNarmesteLederURL =
 export const digiSyfoVirksomheterURL =
     '/min-side-arbeidsgiver/api/narmesteleder/virksomheter';
 
+export const refusjonstatusURL =
+    '/min-side-arbeidsgiver/api/refusjon_status';
+
 export const infoOmNærmesteLederURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
 

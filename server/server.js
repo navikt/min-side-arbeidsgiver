@@ -78,6 +78,7 @@ if (NAIS_CLUSTER_NAME === 'labs-gcp') {
     require('./mock/tiltakApiMock').mock(app);
     require('./mock/sykefraværMock').mock(app);
     require('./mock/syfoMock').mock(app);
+    require('./mock/refusjonsStatusMock').mock(app);
 }
 
 app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
