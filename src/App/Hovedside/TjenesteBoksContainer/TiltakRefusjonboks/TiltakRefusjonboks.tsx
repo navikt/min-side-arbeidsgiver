@@ -16,8 +16,7 @@ const TiltakRefusjonboks = () => {
         ? `${refosoURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
         : refosoURL;
 
-    console.log("refusjonsstatus:", {statuser: valgtOrganisasjon.refusjonstatus})
-    const klareForInnsending = valgtOrganisasjon.refusjonstatus.get("KLAR_FOR_INNSENDING")
+    const klareForInnsending = valgtOrganisasjon.refusjonstatus["KLAR_FOR_INNSENDING"]
 
     if (klareForInnsending === undefined) {
         return <Tjenesteboks
