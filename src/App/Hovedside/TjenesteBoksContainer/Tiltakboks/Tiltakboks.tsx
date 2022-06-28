@@ -6,7 +6,7 @@ import './Tiltakboks.less';
 
 import tiltakikon from './tiltakboks-ikon.svg';
 import {Arbeidsavtale, hentArbeidsavtaler} from '../../../../api/arbeidsavtalerApi';
-import {Tjenesteboks} from "../Tjenesteboks";
+import {StortTall, Tjenesteboks} from "../Tjenesteboks";
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -50,7 +50,7 @@ const Tiltakboks = () => {
         : tiltaksgjennomforingURL;
 
     const lagTekstMedTallElement = (antall: number, tekst: string) =>
-        <div className='tekst'><span className='antall'>{antall}</span>{tekst}</div>;
+        <div className='tekst'><StortTall>{antall}</StortTall>{tekst}</div>;
 
     const TekstMedTall = () =>
         <div className='tekstMedTallContainer'>

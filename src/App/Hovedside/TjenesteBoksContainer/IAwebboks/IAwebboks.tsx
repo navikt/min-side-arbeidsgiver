@@ -1,10 +1,9 @@
 import {lenkeTilForebyggefravar} from '../../../../lenker';
 import React, { useContext, useEffect, useState } from 'react';
 import IAwebikon from './IawebIkon.svg';
-import './IAwebboks.less';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import {hentSykefravær, Sykefraværsrespons} from '../../../../api/sykefraværStatistikkApi';
-import {Tjenesteboks} from "../Tjenesteboks";
+import {StortTall, Tjenesteboks} from "../Tjenesteboks";
 
 
 const IAwebboks = () => {
@@ -49,9 +48,9 @@ const Beskrivelse = () => {
     if (sykefravær !== undefined) {
         return (
             <span>
-                <span className={'legemeldt-sykefravær-prosent'}>
+                <StortTall>
                     {sykefravær.prosent.toString()} %
-                </span>
+                </StortTall>
                 <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge fravær.   </>
             </span>
 

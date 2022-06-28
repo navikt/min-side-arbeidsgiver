@@ -4,15 +4,21 @@ import arbeidsforholdikon from './arbeidsforholdikon.svg';
 import {hentAntallArbeidsforholdFraAareg} from '../../../../api/arbeidsforholdApi';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './ArbeidsforholdBoks.less';
-import {Tjenesteboks} from "../Tjenesteboks";
+import {StortTall, Tjenesteboks} from "../Tjenesteboks";
 
 const Arbeidsforholdboks = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
     useEffect(() => {
         if (valgtOrganisasjon)
-            hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber).then(antallArbeidsforholdRespons =>
-                setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
+            hentAntallArbeidsforholdFraAareg(
+                valgtOrganisasjon.organisasjon.OrganizationNumber,
+                valgtOrganisasjon.organisasjon.ParentOrganizationNumber
+            ).then(
+                antallArbeidsforholdRespons =>
+                    setAntallArbeidsforhold(
+                        antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–'
+                    )
             );
     }, [valgtOrganisasjon]);
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
@@ -25,7 +31,9 @@ const Arbeidsforholdboks = () => {
         aria-label='Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)'
     >
         <div className='arbeidsforholdboks'>
-            <span> <span className='antall-arbeidsforhold'>{antallArbeidsforhold}</span>arbeidsforhold (aktive og avsluttede) </span>
+            <span>
+                <StortTall>{antallArbeidsforhold}</StortTall>
+                arbeidsforhold (aktive og avsluttede) </span>
             <div className='bunntekst'> innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
             </div>
         </div>

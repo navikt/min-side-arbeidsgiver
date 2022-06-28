@@ -3,7 +3,7 @@ import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvide
 import {arbeidsplassenURL} from '../../../../lenker';
 import PamboksIkon from './pamboks-ikon.svg';
 import './Pamboks.less';
-import {Tjenesteboks} from "../Tjenesteboks";
+import {StortTall, Tjenesteboks} from "../Tjenesteboks";
 
 const Pamboks = () => {
     const { antallAnnonser } = useContext(OrganisasjonsDetaljerContext);
@@ -15,7 +15,9 @@ const Pamboks = () => {
 
     const TekstMedTall = () =>
         <div className={'pamboks__bunntekst'}>
-            <span> <span className={'pamboks__antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
+            <span>
+                <StortTall>{antallAnnonser}</StortTall>
+                stillingsannonser (aktive)</span>
             <div className={'pamboks__bunntekst'}>Finn nye kandidater
             </div>
         </div>;
