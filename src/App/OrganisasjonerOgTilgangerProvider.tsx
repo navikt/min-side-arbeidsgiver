@@ -10,7 +10,6 @@ import { Organisasjon } from '../altinn/organisasjon';
 import { AlertContext } from './Alerts/Alerts';
 
 type orgnr = string;
-type OrgnrMap<T> = { [orgnr: string]: T };
 
 export type Søknadsstatus =
     { tilgang: 'søknad opprettet'; url: string }
@@ -25,6 +24,7 @@ export type OrganisasjonInfo = {
     syfotilgang: boolean;
     reporteetilgang: boolean;
     refusjonstatustilgang: boolean;
+    refusjonstatus: Map<string, number>
 };
 
 export enum SyfoTilgang {
@@ -130,9 +130,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     }, []);
 
 
-    if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
+    if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER  && refusjonstatus !== undefined) {
         const organisasjoner = Record.fromEntries(
             [...altinnorganisasjoner, ...syfoVirksomheter].map((org) => {
+                const r = refusjonstatus.find(({virksomhetsnummer}) => virksomhetsnummer === org.OrganizationNumber)
                 return [
                     org.OrganizationNumber,
                     {
@@ -147,7 +148,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                         ),
                         syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber),
                         reporteetilgang: altinnorganisasjoner.some(({OrganizationNumber})=> OrganizationNumber === org.OrganizationNumber),
-                        refusjonstatustilgang: refusjonstatus?.some(({virksomhetsnummer, tilgang})=> tilgang && virksomhetsnummer === org.OrganizationNumber) ?? false
+                        refusjonstatus: r?.statusoversikt ?? new Map<string, number>(),
+                        refusjonstatustilgang: r?.tilgang ?? false,
                     }
                 ]
             }));
