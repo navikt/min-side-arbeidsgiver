@@ -22,3 +22,10 @@ export const Tjenesteboks:FC<Props> = (props) =>
 
         </LenkepanelMedLogging>
     </div>;
+
+
+export const StortTall:FC = (props) => {
+    return <span className={"tjenesteboks__storttall"}>
+        {props.children}
+    </span>
+}

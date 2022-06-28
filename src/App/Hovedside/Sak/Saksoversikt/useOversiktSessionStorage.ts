@@ -72,7 +72,7 @@ const updateSearchParameters = (current: string, sessionState: Filter): string =
     }
 
     query.set("side", sessionState.side.toString())
-    if (sessionState.virksomhetsnummer !== null) {
+    if (sessionState.virksomhetsnummer !== undefined) {
         query.set("bedrift", sessionState.virksomhetsnummer)
     }
 

@@ -1,5 +1,11 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import {hentOrganisasjoner, hentRefusjonstatus, hentSyfoTilgang, hentSyfoVirksomheter, RefusjonStatus} from '../api/dnaApi';
+import {
+    hentOrganisasjoner,
+    hentRefusjonstatus,
+    hentSyfoTilgang,
+    hentSyfoVirksomheter,
+    RefusjonStatus
+} from '../api/dnaApi';
 import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
@@ -10,7 +16,6 @@ import { Organisasjon } from '../altinn/organisasjon';
 import { AlertContext } from './Alerts/Alerts';
 
 type orgnr = string;
-type OrgnrMap<T> = { [orgnr: string]: T };
 
 export type Søknadsstatus =
     { tilgang: 'søknad opprettet'; url: string }
@@ -25,6 +30,9 @@ export type OrganisasjonInfo = {
     syfotilgang: boolean;
     reporteetilgang: boolean;
     refusjonstatustilgang: boolean;
+    refusjonstatus: {
+        "KLAR_FOR_INNSENDING"?: number,
+    },
 };
 
 export enum SyfoTilgang {
@@ -57,7 +65,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
-    const [refusjonstatus, setRefusjonstatus] = useState<RefusjonStatus[] | undefined>(undefined);
+    const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(undefined);
     const {addAlert} = useContext(AlertContext)
     useEffect(() => {
         hentOrganisasjoner()
@@ -119,10 +127,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             });
         hentRefusjonstatus()
             .then(refusjonstatus => {
-                setRefusjonstatus(refusjonstatus);
+                setAlleRefusjonsstatus(refusjonstatus);
             })
             .catch(() => {
-                setRefusjonstatus([]);
+                setAlleRefusjonsstatus([]);
                 // har ikke egen alert type på dette, da det mest sannsynlig er altinn som feiler
                 setVisFeilmelding(true);
                 addAlert("TilgangerAltinn");
@@ -130,9 +138,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     }, []);
 
 
-    if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER) {
-        const organisasjoner = Record.fromEntries(
+    if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER  && alleRefusjonsstatus !== undefined) {
+        const organisasjoner: Record<orgnr, OrganisasjonInfo> = Record.fromEntries(
             [...altinnorganisasjoner, ...syfoVirksomheter].map((org) => {
+                const refusjonstatus = alleRefusjonsstatus.find(({virksomhetsnummer}) => virksomhetsnummer === org.OrganizationNumber)
                 return [
                     org.OrganizationNumber,
                     {
@@ -147,7 +156,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                         ),
                         syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber),
                         reporteetilgang: altinnorganisasjoner.some(({OrganizationNumber})=> OrganizationNumber === org.OrganizationNumber),
-                        refusjonstatustilgang: refusjonstatus?.some(({virksomhetsnummer, tilgang})=> tilgang && virksomhetsnummer === org.OrganizationNumber) ?? false
+                        refusjonstatus: refusjonstatus?.statusoversikt ?? {},
+                        refusjonstatustilgang: refusjonstatus?.tilgang ?? false,
                     }
                 ]
             }));

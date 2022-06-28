@@ -9,12 +9,13 @@ interface SyfoKallObjekt {
 
 const RefusjonStatus = z.object({
     virksomhetsnummer: z.string(),
-    statusoversikt: z.map(z.string(), z.number()),
+    statusoversikt: z.object({
+        "KLAR_FOR_INNSENDING": z.number().optional(),
+    }),
     tilgang: z.boolean()
 });
 const RefusjonStatusResponse = z.array(RefusjonStatus);
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
-
 
 export async function hentSyfoTilgang(): Promise<boolean> {
     const respons = await fetch(digiSyfoNarmesteLederURL);
@@ -41,7 +42,6 @@ export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
             return RefusjonStatusResponse.parse(data);
         } catch (error) {
             Sentry.captureException(error)
-            return data
         }
     }
     throw new Error('Feil ved kontakt mot baksystem.');

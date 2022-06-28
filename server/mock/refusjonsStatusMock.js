@@ -19,6 +19,13 @@ module.exports = {
                         },
                         tilgang: true,
                     },
+                    {
+                        virksomhetsnummer: "811076732",
+                        statusoversikt: {
+                            "FOR_TIDLIG": 2,
+                        },
+                        tilgang: true,
+                    },
                 ])
             }
         );

@@ -5,7 +5,7 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomhetsnummer: string | null
+    virksomhetsnummer: string | undefined
 }
 
 export type FilterProps = {
