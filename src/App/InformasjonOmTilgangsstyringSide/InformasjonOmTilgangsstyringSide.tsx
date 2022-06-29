@@ -210,8 +210,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         For å få tilgang til digitalt skjema om permittering uten lønn,
                                         masseoppsigelse og innskrenking av arbeidstid, trenger du kun en vilkårlig
                                         Altinn-rolle
-                                        i din virksomhet. Du vil bare se skjemaer som du selv har opprettet og
-                                        sendt inn.
+                                        i din virksomhet.
                                     </BodyLong>
                                     <BodyLong>
                                         Tilgang til å kunne se innsendte meldinger gis automatisk til
@@ -311,7 +310,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                             <li>norsk representant for utenlandsk enhet</li>
                                         </ul>
                                         Boksen for «Refusjon for sommerjobb» vises kun om
-                                        det finnes sommerjobb-tiltak som er aktuelle for refusjon for eller
+                                        det finnes sommerjobb-tiltak som er aktuelle for refusjon eller
                                         tidligere refusjonssøknader.
                                     </BodyLong>
                                 </Accordion.Content>
