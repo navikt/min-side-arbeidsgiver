@@ -2,7 +2,6 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import {
     hentOrganisasjoner,
     hentRefusjonstatus,
-    hentSyfoTilgang,
     hentSyfoVirksomheter,
     RefusjonStatus
 } from '../api/dnaApi';
@@ -40,9 +39,6 @@ export enum SyfoTilgang {
     IKKE_TILGANG,
     TILGANG,
 }
-
-const syfoTilgangFromTruthy = (tilgang: boolean) =>
-    tilgang ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG;
 
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
@@ -105,24 +101,16 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .then(setAltinnTilgangssøknader)
             .catch(() => setAltinnTilgangssøknader([]));
 
-        hentSyfoTilgang()
-            .then(syfoTilgangFromTruthy)
-            .then((syfotilgang) => {
-                setTilgangTilSyfo(syfotilgang);
-                amplitude.setUserProperties({ syfotilgang: syfotilgang === SyfoTilgang.TILGANG });
-            })
-            .catch(() => {
-                setVisSyfoFeilmelding(true);
-                addAlert("TilgangerDigiSyfo");
-                setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
-            });
         hentSyfoVirksomheter()
             .then(virksomheter => {
                 setSyfoVirksomheter(virksomheter);
+                setTilgangTilSyfo(virksomheter.length > 0 ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG)
+                amplitude.setUserProperties({ syfotilgang: virksomheter.length > 0 });
             })
             .catch(() => {
                 setSyfoVirksomheter([]);
                 setVisSyfoFeilmelding(true);
+                setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
                 addAlert("TilgangerDigiSyfo");
             });
         hentRefusjonstatus()
@@ -165,8 +153,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         const detFinnesEnUnderenhetMedParent = () => {
             return Record.values(organisasjoner).some(org => org.organisasjon.ParentOrganizationNumber);
         };
-        const harTilganger = detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0
-            || tilgangTilSyfo === SyfoTilgang.TILGANG;
+        const harTilganger = detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0;
 
         const context: Context = {
             organisasjoner,

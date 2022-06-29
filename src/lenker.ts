@@ -55,9 +55,6 @@ export const ringOssTLF = gittMiljo({
     other: "tel:00000000"
 })
 
-export const digiSyfoNarmesteLederURL =
-    '/min-side-arbeidsgiver/api/narmesteleder';
-
 export const digiSyfoVirksomheterURL =
     '/min-side-arbeidsgiver/api/narmesteleder/virksomheter';
 
