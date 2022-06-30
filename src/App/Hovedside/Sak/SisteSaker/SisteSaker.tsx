@@ -47,7 +47,7 @@ const SisteSaker = () => {
                         jobber med at <br/>flere saker skal vises her etterhvert.
                     </HelpText>
                 </div>
-                {data?.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
+                {data.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
                     <Link className="lenke" to='saksoversikt' onClick={() => {
                         loggNavigasjon("saksoversikt", "se alle saker", pathname)
                     }}>
