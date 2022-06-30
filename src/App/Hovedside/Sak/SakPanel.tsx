@@ -15,12 +15,12 @@ type SakPanelProps = {
     placeholder?: boolean;
 }
 
-export const SakPanel = ({placeholder, sak: {lenke, tittel, virksomhet, sisteStatus}}: SakPanelProps) => {
+export const SakPanel = ({placeholder, sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp}}: SakPanelProps) => {
     const fake = placeholder ?? false
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const { pathname } = useLocation()
     return <LinkPanel href={lenke} as={fake ? 'div' : 'a'} onClick={() => {
-        loggNavigasjon(lenke, tittel, pathname)
+        loggNavigasjon(lenke, merkelapp, pathname)
     }}>
         <BodyShort size="small" style={style}>
             {virksomhet.navn.toUpperCase()}
