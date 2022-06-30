@@ -120,7 +120,16 @@ export const loggNavigasjon = (
     lenketekst: string,
     currentPagePath?: string,
 ) => {
+    loggNavigasjonTags(destinasjon, lenketekst, currentPagePath ?? '', {});
+};
 
+export const loggNavigasjonTags = (
+    destinasjon: string | undefined,
+    /* hvilken knapp sum ble trykket. burde være unik for siden. */
+    lenketekst: string,
+    currentPagePath: string,
+    tags: Record<string, string>,
+) => {
     if (destinasjon !== undefined && destinasjon !== '') {
         const { origin, pathname } = new URL(destinasjon, baseUrl);
         destinasjon = `${origin}${pathname}`;
@@ -129,7 +138,8 @@ export const loggNavigasjon = (
     const navigasjonsInfo: EventProps = {
         destinasjon: destinasjon,
         lenketekst,
-        url: `${baseUrl}${currentPagePath ?? ''}`,
+        url: `${baseUrl}${currentPagePath}`,
+        ...tags,
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
-};
+}

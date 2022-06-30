@@ -1,7 +1,7 @@
 import { BodyShort, LinkPanel } from '@navikt/ds-react';
 import React from 'react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {loggNavigasjon} from "../../../utils/funksjonerForAmplitudeLogging";
+import { loggNavigasjonTags } from '../../../utils/funksjonerForAmplitudeLogging';
 import {useLocation} from "react-router-dom";
 
 const dateFormat = new Intl.DateTimeFormat('no', {
@@ -20,7 +20,7 @@ export const SakPanel = ({placeholder, sak: {lenke, tittel, virksomhet, sisteSta
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const { pathname } = useLocation()
     return <LinkPanel href={lenke} as={fake ? 'div' : 'a'} onClick={() => {
-        loggNavigasjon(lenke, merkelapp, pathname)
+        loggNavigasjonTags(lenke, merkelapp, pathname, {component: 'sak'})
     }}>
         <BodyShort size="small" style={style}>
             {virksomhet.navn.toUpperCase()}
