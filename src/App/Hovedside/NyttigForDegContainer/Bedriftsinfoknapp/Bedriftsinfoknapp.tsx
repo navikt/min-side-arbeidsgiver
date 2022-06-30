@@ -16,6 +16,7 @@ const Bedriftsinfoknapp = () => {
     return (
         <LenkepanelMedLogging
             href="/bedriftsinformasjon"
+            onClick={()=>scroll(0,0)}
             className="bedriftsinfo-knapp"
             loggLenketekst="Informasjon om din virksomhet"
             tittelProps="undertittel"
