@@ -49,6 +49,7 @@ const SisteSaker = () => {
                 </div>
                 {data?.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
                     <Link className="lenke" to='saksoversikt' onClick={() => {
+                        scroll(0,0);
                         loggNavigasjon("saksoversikt", "se alle saker", pathname)
                     }}>
                         Se alle ({data?.saker.totaltAntallSaker})
