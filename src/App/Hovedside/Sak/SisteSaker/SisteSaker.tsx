@@ -42,15 +42,18 @@ const SisteSaker = () => {
                         Siste saker
                     </Undertittel>
                     <HelpText title="Hva vises her?">
-                        Her vises meldinger for permitteringer, oppsigelser <br/>eller innskrenkning i arbeidstid. Vi jobber med at <br/>flere saker skal vises her etterhvert.
+                        Her vises meldinger for permitteringer, oppsigelser <br/>eller innskrenkning i arbeidstid. Vi
+                        jobber med at <br/>flere saker skal vises her etterhvert.
                     </HelpText>
                 </div>
-                <Link className="lenke" to='saksoversikt' onClick={() => {
-                    loggNavigasjon("saksoversikt", "se alle saker", pathname)
-                }}>
-                    Se alle ({data?.saker.totaltAntallSaker})
-                    <HoyreChevron />
-                </Link>
+                {data?.saker.totaltAntallSaker > 0 ?
+                    <Link className="lenke" to='saksoversikt' onClick={() => {
+                        loggNavigasjon("saksoversikt", "se alle saker", pathname)
+                    }}>
+                        Se alle ({data?.saker.totaltAntallSaker})
+                        <HoyreChevron/>
+                    </Link>
+                    : null}
             </div>
 
             <SaksListe saker={data?.saker.saker}/>
