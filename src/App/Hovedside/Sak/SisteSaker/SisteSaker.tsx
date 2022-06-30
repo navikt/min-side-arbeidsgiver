@@ -10,12 +10,13 @@ import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
 import {HelpText} from "@navikt/ds-react";
 
+const ANTALL_FORSIDESAKER: number = 3;
 
 const SisteSaker = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const { pathname } = useLocation()
 
-    const {loading, data} = useSaker(3, {
+    const {loading, data} = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
         virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
         tekstsoek: "",
@@ -46,7 +47,7 @@ const SisteSaker = () => {
                         jobber med at <br/>flere saker skal vises her etterhvert.
                     </HelpText>
                 </div>
-                {data?.saker.totaltAntallSaker > 0 ?
+                {data?.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
                     <Link className="lenke" to='saksoversikt' onClick={() => {
                         loggNavigasjon("saksoversikt", "se alle saker", pathname)
                     }}>
