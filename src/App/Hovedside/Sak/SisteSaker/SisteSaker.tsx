@@ -43,8 +43,10 @@ const SisteSaker = () => {
                         Siste saker
                     </Undertittel>
                     <HelpText title="Hva vises her?">
-                        Her vises meldinger for permitteringer, oppsigelser <br/>eller innskrenkning i arbeidstid. Vi
-                        jobber med at <br/>flere saker skal vises her etterhvert.
+                        <div style={{maxWidth:"25rem"}}>
+                        Her vises meldinger for permitteringer, oppsigelser eller innskrenkning i arbeidstid. Vi
+                        jobber med at flere saker skal vises her etterhvert.
+                        </div>
                     </HelpText>
                 </div>
                 {data.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
