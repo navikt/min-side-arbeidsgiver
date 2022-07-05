@@ -1,5 +1,4 @@
 import React, {FunctionComponent, useContext, useEffect} from 'react';
-import {RouteComponentProps, withRouter} from 'react-router';
 import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
@@ -17,22 +16,25 @@ import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
 import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
 import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
-import { useOversiktsfilterClearing } from './Sak/Saksoversikt/useOversiktSessionStorage';
+import {useOversiktsfilterClearing} from './Sak/Saksoversikt/useOversiktSessionStorage';
 import {DigiSyfoBedriftsmenyInfo} from "./DigiSyfoBedriftsmenyInfo";
+import {useNavigate} from "react-router-dom";
 
 
-const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
+const Hovedside: FunctionComponent = () => {
     const {organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger} = useContext(
         OrganisasjonerOgTilgangerContext,
     );
+    const navigate = useNavigate()
     useEffect(() => {
+
         const skalViseManglerTilgangBoks =
             !harTilganger &&
             !visFeilmelding &&
             !visSyfoFeilmelding;
 
         if (skalViseManglerTilgangBoks) {
-            history.replace({pathname: 'mangler-tilgang'});
+            navigate({pathname: 'mangler-tilgang'}, {replace: true})
         }
     }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
 
@@ -48,7 +50,7 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
                 <GiOssTilbakemelding/>
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
-                <DigiSyfoBedriftsmenyInfo />
+                <DigiSyfoBedriftsmenyInfo/>
                 <SisteSaker/>
                 <TjenesteBoksContainer/>
                 <SkjemaveilederContainer/>
@@ -68,4 +70,4 @@ const Hovedside: FunctionComponent<RouteComponentProps> = ({history}) => {
     );
 };
 
-export default withRouter(Hovedside);
+export default Hovedside;

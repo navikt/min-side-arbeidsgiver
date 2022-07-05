@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
@@ -12,7 +11,7 @@ interface OwnProps {
     sidetittel: string;
 }
 
-const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sidetittel}) => {
+const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -23,7 +22,6 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
             sidetittel={sidetittel}
             organisasjoner={orgs}
             onOrganisasjonChange={endreOrganisasjon}
-            history={history}
             amplitudeClient={amplitude}
         >
             <NotifikasjonWidget />
@@ -31,4 +29,4 @@ const Banner: FunctionComponent<RouteComponentProps & OwnProps> = ({history, sid
     );
 };
 
-export default withRouter(Banner);
+export default Banner;

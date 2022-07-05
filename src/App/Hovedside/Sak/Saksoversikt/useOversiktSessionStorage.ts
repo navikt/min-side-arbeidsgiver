@@ -1,13 +1,11 @@
-
-
 // Keep oversiktsfilter up to date with query parameters.
 // Store copy of oversikts-filter in sessionStorage
 
-import { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 
-import { useSessionStorage } from '../../../hooks/useStorage';
-import { Filter } from './Filter';
+import {useSessionStorage} from '../../../hooks/useStorage';
+import {Filter} from './Filter';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -23,7 +21,7 @@ export const useSessionState = (): UseSessionState => {
     const [sessionState, setSessionState] = useState<Filter>(loadFilterFromUrl)
 
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const newSessionState = extractSeachParameters(location.search)
@@ -40,7 +38,7 @@ export const useSessionState = (): UseSessionState => {
         if (!sessionStateEqual(sessionState, newSessionState)) {
             const search = updateSearchParameters(location.search, newSessionState)
             if (search !== location.search) {
-                history.replace({search})
+                navigate({search}, {replace: true});
             }
             setSessionState(newSessionState)
         }
@@ -81,7 +79,7 @@ const updateSearchParameters = (current: string, sessionState: Filter): string =
 
 // Clear sessionStorage with oversikts-filter.
 export const useOversiktsfilterClearing = () => {
-    const [ , , deleteFromSession] = useSessionStorage<Filter | undefined>(SESSION_STORAGE_KEY, undefined)
+    const [, , deleteFromSession] = useSessionStorage<Filter | undefined>(SESSION_STORAGE_KEY, undefined)
     useEffect(() => {
         deleteFromSession()
     }, [])
@@ -90,14 +88,14 @@ export const useOversiktsfilterClearing = () => {
 export const useRestoreSessionFromStorage = () => {
     const [storedSession] = useSessionStorage<Filter | undefined>(SESSION_STORAGE_KEY, undefined)
     const location = useLocation()
-    const history = useHistory()
+    const navigate = useNavigate();
 
     return () => {
         if (storedSession === undefined) {
-            history.replace({pathname: '/saksoversikt'})
+            navigate({pathname: "/saksoversikt"}, {replace: true})
         } else {
             const search = updateSearchParameters(location.search, storedSession)
-            history.replace({pathname: '/saksoversikt', search})
+            navigate({pathname: "/saksoversikt", search}, {replace: true})
         }
     }
 }
