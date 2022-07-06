@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {BrowserRouter, Route, Routes, useLocation} from 'react-router-dom';
+import {BrowserRouter, Route, Router, Link as RouterLink, Routes, useLocation} from 'react-router-dom';
 import {basename} from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
@@ -18,6 +18,7 @@ import {gittMiljo} from '../utils/environment';
 import Banner from "./HovedBanner/HovedBanner";
 import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
+import {Alert, Link} from "@navikt/ds-react";
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -116,6 +117,10 @@ const App: FunctionComponent = () => {
                                                                             <SaksoversiktRestoreSession/>
                                                                         </SideTittelWrapper>
                                                                     }/>
+                                                                <Route
+                                                                    path="*"
+                                                                    element={<Alert style={{width:"calc(clamp(15rem, 50rem, 100vw - 2rem))" ,margin:"2rem auto"}} variant={"error"}> Finner ikke siden. <Link as={RouterLink} to={"/"}> Gå til Min side arbeidsgiver</Link> </Alert>}
+                                                                />
                                                             </Routes>
                                                         </OrganisasjonsDetaljerProvider>
                                                     </OrganisasjonerOgTilgangerProvider>

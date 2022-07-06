@@ -68,7 +68,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         valgtOrganisasjon,
         altinnMeldingsboks,
     };
-
     return (
         <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
             {children}

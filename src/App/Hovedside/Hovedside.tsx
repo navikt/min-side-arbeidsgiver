@@ -36,7 +36,7 @@ const Hovedside: FunctionComponent = () => {
         if (skalViseManglerTilgangBoks) {
             navigate({pathname: 'mangler-tilgang'}, {replace: true})
         }
-    }, [organisasjoner, tilgangTilSyfo, history, visFeilmelding, visSyfoFeilmelding, harTilganger]);
+    }, [organisasjoner, tilgangTilSyfo, visFeilmelding, visSyfoFeilmelding, harTilganger]);
 
     useOversiktsfilterClearing()
 
