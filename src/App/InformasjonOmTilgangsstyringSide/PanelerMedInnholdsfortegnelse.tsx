@@ -96,7 +96,7 @@ export const PanelerMedInnholdsfortegnelse = ({toc} : PanelerMedInnholdsfortegne
 
             <div className='paneler-med-innholdsfortegnelse__innhold'>
                 { toc.map(({title, id, content}) =>
-                    <Panel className='paneler-med-innholdsfortegnelse__tekst'>
+                    <Panel className='paneler-med-innholdsfortegnelse__tekst' key={id}>
                         <HeadingMedClipBoardLink level='2' id={id} title={title} />
                         {content}
                     </Panel>
