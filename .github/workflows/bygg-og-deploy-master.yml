@@ -108,9 +108,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: nais/dev-gcp.yaml
           PRINT_PAYLOAD: true
-          VARS: nais/dev-gcp.json
           VAR: commit=${{ github.sha }}
 
   deploy-prod-gcp:
@@ -125,9 +124,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: nais/prod-gcp.yaml
           PRINT_PAYLOAD: true
-          VARS: nais/prod-gcp.json
           VAR: commit=${{ github.sha }}
 
   deploy-labs-gcp:
@@ -143,7 +141,6 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: labs-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: nais/labs-gcp.yaml
           PRINT_PAYLOAD: true
-          VARS: nais/labs-gcp.json
           VAR: commit=${{ github.sha }}
