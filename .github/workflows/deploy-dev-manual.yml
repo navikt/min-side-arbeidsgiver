@@ -1,6 +1,6 @@
 on: workflow_dispatch
 
-name: Deploy experimental labs
+name: Deploy dev og experimental labs
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api:${{github.sha}}
