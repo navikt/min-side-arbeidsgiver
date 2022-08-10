@@ -1,55 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import './KontaktFelt.less';
 import {BodyLong, Heading, Ingress} from "@navikt/ds-react";
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Dialog, Send, Telephone} from "@navikt/ds-icons";
-import { kontaktskjemaURL, ringOssTLF } from '../../../lenker';
-
-
-const selector = ["button", "[href]", "input", "select", "textarea", "[tabindex]"]
-    .map(e => `#nav-chatbot ${e}:not([tabindex="-1"])`)
-    .join(",")
+import {kontaktskjemaURL, ringOssTLF} from '../../../lenker';
+import {openChatbot} from "@navikt/nav-dekoratoren-moduler";
 
 const showFrida = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    openChatbot();
     event.preventDefault();
-    const chatbot = document.getElementById("nav-chatbot")
-    if (chatbot != null) chatbot.style.visibility = "visible";
-    document.getElementById("chatbot-frida-knapp")?.click();
-    (document.querySelector(selector) as HTMLElement)?.focus();
+    event.stopPropagation();
 };
 
-
-const ChatMedFrida =
-     <li>
-        <LenkeMedLogging href={"#"} loggLenketekst={"Chat med Frida"} onClick={showFrida}>
-            <Dialog style={{height: "1.5rem", width: "1.5rem"}}/>
-            <Ingress>Chat med Frida</Ingress>
-        </LenkeMedLogging>
-        <BodyLong spacing>
-            Du møter først en chatbot, men kan gå videre og chatte med en veileder (hverdager 09.00&ndash;15.00).
-        </BodyLong>
-    </li>
-
-
 export const KontaktFelt = () => {
-    const [frida, setFrida] = useState<null|HTMLElement>(null)
-    useEffect(()=>{
-        const startTime = Date.now()
-        const timer = setInterval(()=>{
-            const fridaElm = document.getElementById("chatbot-frida-knapp");
-            if (fridaElm !== null) {
-                setFrida(fridaElm);
-                clearInterval(timer);
-            }
-            if (Date.now() - startTime > 10_000){
-                clearInterval(timer);
-            }
-        }, 50)
-        return ()=>{
-            clearInterval(timer)
-        }
-    },[])
-
     return (
         <div className="kontaktfelt">
             <div className="kontaktfelt__content">
@@ -58,9 +21,16 @@ export const KontaktFelt = () => {
                 </Heading>
 
                 <ul>
-                    {
-                        frida !== null ? ChatMedFrida : null
-                    }
+                    <li>
+                        <LenkeMedLogging href={"#"} loggLenketekst={"Chat med Frida"} onClick={showFrida}>
+                            <Dialog style={{height: "1.5rem", width: "1.5rem"}}/>
+                            <Ingress>Chat med Frida</Ingress>
+                        </LenkeMedLogging>
+                        <BodyLong spacing>
+                            Du møter først en chatbot, men kan gå videre og chatte med en veileder (hverdager
+                            09.00&ndash;15.00).
+                        </BodyLong>
+                    </li>
                     <li>
                         <LenkeMedLogging loggLenketekst={"Kontaktskjema"} href={kontaktskjemaURL}>
                             <Send style={{height: "1.5rem", width: "1.5rem"}}/>
