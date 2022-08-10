@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '16.14.2'
           registry-url: https://npm.pkg.github.com/
-          #cache: 'npm'
+          cache: 'npm'
 
       - run: npm ci
         env:
