@@ -26,6 +26,8 @@ jobs:
           #cache: 'npm'
 
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
       - run: npm run lint
 
