@@ -26,6 +26,8 @@ jobs:
 
       - name: Installer avhengigheter
         run:  npm ci --ignore-scripts --no-optional
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
 
   bygg:
