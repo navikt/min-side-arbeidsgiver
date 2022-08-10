@@ -22,8 +22,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.14.2'
-          registry-url: 'https://registry.npmjs.org'
-          #cache: 'npm'
+          registry-url: https://npm.pkg.github.com/
+          cache: 'npm'
 
       - run: npm ci
         env:
