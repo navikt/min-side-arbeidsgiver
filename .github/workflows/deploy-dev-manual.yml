@@ -5,25 +5,40 @@ name: Deploy dev og experimental labs
 env:
   IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api:${{github.sha}}
 
-
 jobs:
   deploy-dev-manual:
     name: deploy dev manual
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        resource: [ nais/dev-gcp.yaml, nais/experimental-labs-gcp.yaml ]
-
+    
     steps:
       - name: Sjekk ut kode
         uses: actions/checkout@v2
 
-      - name: "Deploy ${{ matrix.resource }}"
+      - name: "Deploy dev-gcp"
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: ${{ matrix.resource }}
+          RESOURCE: nais/dev-gcp.yaml
+          PRINT_PAYLOAD: true
+          VAR: commit=${{ github.sha }}
+          REF: ${{ github.sha }}
+          IMAGE: ${{ env.IMAGE }}
+          
+  deploy-labs-manual:
+    name: deploy labs manual
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Sjekk ut kode
+        uses: actions/checkout@v2
+        
+      - name: "Deploy labs-gcp"
+        uses: nais/deploy/actions/deploy@v1
+        env:
+          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+          CLUSTER: labs-gcp
+          RESOURCE: nais/experimental-labs-gcp.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }}
           REF: ${{ github.sha }}
