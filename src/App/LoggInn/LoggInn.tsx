@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { Hovedknapp } from 'nav-frontend-knapper';
 import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
@@ -8,6 +7,7 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/Ad
 import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.less';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Button } from '@navikt/ds-react';
 
 export const LoggInn: FunctionComponent = () => {
 
@@ -44,12 +44,14 @@ export const LoggInn: FunctionComponent = () => {
                 </ul>
                 <TilgangsStyringInfoTekst />
 
-                <Hovedknapp
+                <Button
+                    variant="primary"
+                    size="medium"
                     className="innloggingsside__loginKnapp"
                     onClick={redirectTilLogin}
                 >
                     Logg inn
-                </Hovedknapp>
+                </Button>
 
                 <div className="innloggingsside__besok-ditt-nav">
                     <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
