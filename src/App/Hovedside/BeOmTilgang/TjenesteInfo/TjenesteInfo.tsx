@@ -4,9 +4,8 @@ import SyfoBeOmTilgangModalBoks from '../SyfoBeOmTilgangModalBoks/SyfoBeOmTilgan
 import './TjenesteInfo.less';
 import { altinntjeneste, AltinntjenesteId } from '../../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
-import EtikettBase from 'nav-frontend-etiketter';
-import Hjelpetekst from 'nav-frontend-hjelpetekst';
 import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
+import {HelpText, Tag} from "@navikt/ds-react";
 
 interface TjenesteInfo {
     tittel: string;
@@ -90,12 +89,12 @@ export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAllerede
     return <>
         <div className="tilgang-sokt typo-element">
             <span>{altinntjeneste[altinnId].navn}</span>
-            <EtikettBase type={type} className="tilgang-sokt-etikett">
+            <Tag variant="info" size="medium" className="tilgang-sokt-etikett">
                 <span className="tilgang-sokt-etikette-tekst">{status}</span>
-                <Hjelpetekst className="tilgang-sokt-hjelp" >
+                <HelpText className="tilgang-sokt-hjelp" >
                     {statusBeskrivelse}
-                </Hjelpetekst>
-            </EtikettBase>
+                </HelpText>
+            </Tag>
         </div>
         <Normaltekst>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</Normaltekst>
     </>
