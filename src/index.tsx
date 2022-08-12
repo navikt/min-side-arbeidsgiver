@@ -52,4 +52,12 @@ injectDecoratorClientSide({
     level: 'Level4'
 }).catch(Sentry.captureException);
 
-ReactDOM.render(<React.StrictMode> <App/> </React.StrictMode>, document.getElementById('root'));
+ReactDOM.render(
+    gittMiljo({
+        prod: <App/>,
+        other: <React.StrictMode> <App/> </React.StrictMode>
+    }),
+    document.getElementById('root')
+);
+
+
