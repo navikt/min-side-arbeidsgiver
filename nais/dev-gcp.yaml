@@ -1,0 +1,52 @@
+apiVersion: 'nais.io/v1alpha1'
+kind: 'Application'
+metadata:
+  name: min-side-arbeidsgiver
+  namespace: fager
+  labels:
+    team: fager
+spec:
+  image: {{image}}
+  port: 3000
+  ingresses:
+    - https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver
+  liveness:
+    path: /min-side-arbeidsgiver/internal/isAlive
+    initialDelay: 20
+  readiness:
+    path: /min-side-arbeidsgiver/internal/isReady
+    initialDelay: 20
+  prometheus:
+    enabled: true
+    path: /min-side-arbeidsgiver/internal/metrics
+  vault:
+    enabled: false
+  webproxy: false
+  idporten:
+    enabled: true
+  envFrom:
+    - secret: min-side-ag-frontend
+  env:
+    - name: NODE_EXTRA_CA_CERTS
+      value: /etc/ssl/ca-bundle.pem
+    - name: API_GATEWAY
+      value: http://min-side-arbeidsgiver-api.fager
+    - name: LOGIN_URL
+      value: https://loginservice.dev.nav.no/login?redirect=https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver
+    - name: PROXY_LOG_LEVEL
+      value: debug
+    - name: BRUKER_API_URL
+      value: http://notifikasjon-bruker-api.fager.svc.cluster.local
+    - name: GIT_COMMIT
+      value: {{commit}}
+    - name: ARBEIDSFORHOLD_DOMAIN
+      value: https://arbeidsforhold.dev.nav.no
+    - name: SYKEFRAVAER_DOMAIN
+      value: https://arbeidsgiver-gcp.dev.nav.no
+  accessPolicy:
+    outbound:
+      external:
+        - host: https://arbeidsgiver-gcp.dev.nav.no
+      rules:
+        - application: min-side-arbeidsgiver-api
+        - application: notifikasjon-bruker-api

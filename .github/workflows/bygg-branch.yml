@@ -1,4 +1,4 @@
-name: Bygg branch og lag deployment-issue
+name: Bygg branch
 
 on:
   push:
@@ -11,7 +11,7 @@ env:
 
 jobs:
   bygg:
-    name: Bygg branch og lag deployment-issue
+    name: Bygg branch
     runs-on: ubuntu-latest
     steps:
       - name: Sjekk ut kode
@@ -22,25 +22,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.14.2'
-          registry-url: 'https://registry.npmjs.org'
-          #cache: 'npm'
+          registry-url: https://npm.pkg.github.com/
+          cache: 'npm'
 
       - run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
       - run: npm run lint
 
       - run: npm run build
-
-      - name: Sjekk om branch er oppdatert mot master
-        id: sjekk-mot-master
-        run: |
-          git fetch origin master
-          echo ::set-output name=oppdatert::$(git merge-base --is-ancestor origin/master $GITHUB_SHA && echo ja || echo nei)
-
-      - name: Sett variable
-        id: variable
-        run: |
-          echo ::set-output name=branch::"$(echo ${GITHUB_REF#refs/heads/})"
 
       - uses: docker/login-action@v1
         with:
@@ -53,38 +44,3 @@ jobs:
           docker build --tag $IMAGE_BASE:$GITHUB_SHA .
           echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
           docker push $IMAGE_BASE:$GITHUB_SHA
-
-      - name: Lukk gamle deployment-issues
-        uses: actions/github-script@0.5.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              state: 'open',
-              labels: ['deploy', '${{ steps.variable.outputs.branch }}']
-            }).then(response => {
-              response.data.forEach(issue => {
-                github.issues.update({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: issue.number,
-                  state: 'closed'
-                });
-              });
-            });
-
-      - name: Ny deployment-issue
-        uses: actions/github-script@0.5.0
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Bygg av ${{ steps.variable.outputs.branch }}',
-              body: 'Kommenter med \n\n>/deploy ${{ steps.variable.outputs.branch }}\n\n for å deploye til dev.\n\nCommit: ${{ github.sha }}',
-              labels: ['deploy', '${{ steps.variable.outputs.branch }}'],
-              assignees: ['${{ github.actor }}']
-            })

@@ -21,11 +21,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16.14.2'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: https://npm.pkg.github.com/
           cache: 'npm'
 
       - name: Installer avhengigheter
         run:  npm ci --ignore-scripts --no-optional
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
 
   bygg:
@@ -57,14 +59,16 @@ jobs:
       - name: Sjekk ut kode
         uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: '16.14.2'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: https://npm.pkg.github.com/
           cache: 'npm'
 
       - name: Installer avhengigheter
         run:  npm ci --production --ignore-scripts --no-optional
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
       - run: npm run lint
 
@@ -108,9 +112,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: nais/dev-gcp.yaml
           PRINT_PAYLOAD: true
-          VARS: nais/dev-gcp.json
           VAR: commit=${{ github.sha }}
 
   deploy-prod-gcp:
@@ -125,9 +128,8 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: prod-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: nais/prod-gcp.yaml
           PRINT_PAYLOAD: true
-          VARS: nais/prod-gcp.json
           VAR: commit=${{ github.sha }}
 
   deploy-labs-gcp:
@@ -143,7 +145,6 @@ jobs:
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: labs-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: nais/labs-gcp.yaml
           PRINT_PAYLOAD: true
-          VARS: nais/labs-gcp.json
           VAR: commit=${{ github.sha }}

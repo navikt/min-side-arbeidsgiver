@@ -1,6 +1,6 @@
 on: workflow_dispatch
 
-name: Deploy experimental labs
+name: Deploy dev og experimental labs
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api:${{github.sha}}
@@ -10,31 +10,21 @@ jobs:
   deploy-dev-manual:
     name: deploy dev manual
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        resource: [ nais/dev-gcp.yaml, nais/experimental-labs-gcp.yaml ]
 
     steps:
       - name: Sjekk ut kode
         uses: actions/checkout@v2
 
-      - name: Deploy til dev-gcp
+      - name: "Deploy ${{ matrix.resource }}"
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
           CLUSTER: dev-gcp
-          RESOURCE: naiserator-gcp.yaml
+          RESOURCE: ${{ matrix.resource }}
           PRINT_PAYLOAD: true
-          VARS: nais/dev-gcp.json
-          VAR: commit=${{ github.sha }}
-          REF: ${{ github.sha }}
-          IMAGE: ${{ env.IMAGE }}
-
-      - name: Deploy til labs-gcp
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: labs-gcp
-          RESOURCE: naiserator-gcp.yaml
-          PRINT_PAYLOAD: true
-          VARS: nais/experimental-labs-gcp.json
           VAR: commit=${{ github.sha }}
           REF: ${{ github.sha }}
           IMAGE: ${{ env.IMAGE }}

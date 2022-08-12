@@ -48,7 +48,6 @@ injectDecoratorClientSide({
     }),
     context: 'arbeidsgiver',
     redirectToApp: true,
-    chatbot: true,
     level: 'Level4'
 }).catch(Sentry.captureException);
 
