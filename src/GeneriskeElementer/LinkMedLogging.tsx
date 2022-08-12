@@ -10,9 +10,11 @@ export const LinkMedLogging: FunctionComponent<Props> = props => {
     const {onClick, loggLenketekst, ...rest} = props;
     const {pathname} = useLocation()
 
+    const href = typeof props.to === "string" ? props.to : props.to.pathname ?? ".";
+
     const onClickLog: MouseEventHandler<HTMLAnchorElement> = event => {
-        window.scrollTo(0,0);
-        loggNavigasjon(props.href, loggLenketekst, pathname);
+        window.scrollTo(0, 0);
+        loggNavigasjon(href, loggLenketekst, pathname);
         onClick?.(event);
     };
 

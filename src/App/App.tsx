@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {BrowserRouter, Route, Switch, useLocation} from 'react-router-dom';
+import {BrowserRouter, Route, Router, Link as RouterLink, Routes, useLocation} from 'react-router-dom';
 import {basename} from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
@@ -13,11 +13,12 @@ import {ManglerTilgangContainer} from './Hovedside/ManglerTilgangContainer/Mangl
 import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
 import './App.less';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
-import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { gittMiljo } from '../utils/environment';
+import {NotifikasjonWidgetProvider} from '@navikt/arbeidsgiver-notifikasjon-widget';
+import {gittMiljo} from '../utils/environment';
 import Banner from "./HovedBanner/HovedBanner";
 import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
-import { SaksoversiktRestoreSession } from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
+import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
+import {Alert, Link} from "@navikt/ds-react";
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -59,56 +60,75 @@ const App: FunctionComponent = () => {
                 <NotifikasjonWidgetProvider miljo={miljø}>
                     <BrowserRouter basename={basename}>
                         <AmplitudeSidevisningEventLogger>
-                            <Switch>
+                            <Routes>
                                 <Route
                                     path="/informasjon-om-tilgangsstyring"
-                                    exact={true}
-                                    component={InformasjonOmTilgangsstyringSide}
+                                    element={<InformasjonOmTilgangsstyringSide/>}
                                 />
-                                <LoginBoundary>
-                                    <FeatureToggleProvider>
-                                        <AlertsProvider>
-                                            <OrganisasjonerOgTilgangerProvider>
-                                                <OrganisasjonsDetaljerProvider>
-                                                    <Banner sidetittel={sidetittel}/>
-                                                    <Switch>
-                                                        <Route path="/bedriftsinformasjon" exact={true}>
-                                                            <SideTittelWrapper tittel={"Virksomhetsprofil"}
-                                                                               setTittel={setSidetittel}>
-                                                                <InformasjonOmBedrift/>
-                                                            </SideTittelWrapper>
-                                                        </Route>
-                                                        <Route path="/" exact={true}>
-                                                            <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
-                                                                               setTittel={setSidetittel}>
-                                                                <Hovedside/>
-                                                            </SideTittelWrapper>
-                                                        </Route>
-                                                        <Route path="/mangler-tilgang" exact={true}>
-                                                            <SideTittelWrapper tittel={"Min side – arbeidsgiver"}
-                                                                               setTittel={setSidetittel}>
-                                                                <ManglerTilgangContainer/>
-                                                            </SideTittelWrapper>
-                                                        </Route>
-                                                        <Route path="/saksoversikt" exact={true}>
-                                                            <SideTittelWrapper tittel={"Saksoversikt"}
-                                                                               setTittel={setSidetittel}>
-                                                                <Saksoversikt />
-                                                            </SideTittelWrapper>
-                                                        </Route>
-                                                        <Route path="/saksoversikt-restore-session" exact={true}>
-                                                            <SideTittelWrapper tittel={"Saksoversikt"}
-                                                                               setTittel={setSidetittel}>
-                                                                <SaksoversiktRestoreSession />
-                                                            </SideTittelWrapper>
-                                                        </Route>
-                                                    </Switch>
-                                                </OrganisasjonsDetaljerProvider>
-                                            </OrganisasjonerOgTilgangerProvider>
-                                        </AlertsProvider>
-                                    </FeatureToggleProvider>
-                                </LoginBoundary>
-                            </Switch>
+                                <Route
+                                    path="*"
+                                    element={
+                                        <LoginBoundary>
+                                            <FeatureToggleProvider>
+                                                <AlertsProvider>
+                                                    <OrganisasjonerOgTilgangerProvider>
+                                                        <OrganisasjonsDetaljerProvider>
+                                                            <Banner sidetittel={sidetittel}/>
+                                                            <Routes>
+                                                                <Route
+                                                                    path="/bedriftsinformasjon"
+                                                                    element={
+                                                                        <SideTittelWrapper tittel={"Virksomhetsprofil"}
+                                                                                           setTittel={setSidetittel}>
+                                                                            <InformasjonOmBedrift/>
+                                                                        </SideTittelWrapper>
+                                                                    }/>
+                                                                <Route
+                                                                    path="/"
+                                                                    element={
+                                                                        <SideTittelWrapper
+                                                                            tittel={"Min side – arbeidsgiver"}
+                                                                            setTittel={setSidetittel}>
+                                                                            <Hovedside/>
+                                                                        </SideTittelWrapper>
+                                                                    }/>
+                                                                <Route
+                                                                    path="/mangler-tilgang"
+                                                                    element={
+                                                                        <SideTittelWrapper
+                                                                            tittel={"Min side – arbeidsgiver"}
+                                                                            setTittel={setSidetittel}>
+                                                                            <ManglerTilgangContainer/>
+                                                                        </SideTittelWrapper>
+                                                                    }/>
+                                                                <Route
+                                                                    path="/saksoversikt"
+                                                                    element={
+                                                                        <SideTittelWrapper tittel={"Saksoversikt"}
+                                                                                           setTittel={setSidetittel}>
+                                                                            <Saksoversikt/>
+                                                                        </SideTittelWrapper>
+                                                                    }/>
+                                                                <Route
+                                                                    path="/saksoversikt-restore-session"
+                                                                    element={
+                                                                        <SideTittelWrapper tittel={"Saksoversikt"}
+                                                                                           setTittel={setSidetittel}>
+                                                                            <SaksoversiktRestoreSession/>
+                                                                        </SideTittelWrapper>
+                                                                    }/>
+                                                                <Route
+                                                                    path="*"
+                                                                    element={<Alert style={{width:"calc(clamp(15rem, 50rem, 100vw - 2rem))" ,margin:"2rem auto"}} variant={"error"}> Finner ikke siden. <Link as={RouterLink} to={"/"}> Gå til Min side arbeidsgiver</Link> </Alert>}
+                                                                />
+                                                            </Routes>
+                                                        </OrganisasjonsDetaljerProvider>
+                                                    </OrganisasjonerOgTilgangerProvider>
+                                                </AlertsProvider>
+                                            </FeatureToggleProvider>
+                                        </LoginBoundary>
+                                    }/>
+                            </Routes>
                         </AmplitudeSidevisningEventLogger>
                     </BrowserRouter>
                 </NotifikasjonWidgetProvider>

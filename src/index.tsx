@@ -8,11 +8,11 @@ import 'unorm/lib/unorm';
 import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 import smoothscroll from 'smoothscroll-polyfill';
-import environment, { gittMiljo } from './utils/environment';
+import environment, {gittMiljo} from './utils/environment';
 import '@navikt/ds-css';
 import App from './App/App';
 import * as SentryTypes from '@sentry/types';
-import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler'
+import {injectDecoratorClientSide} from '@navikt/nav-dekoratoren-moduler'
 
 raf.polyfill();
 smoothscroll.polyfill();
@@ -24,7 +24,7 @@ class SentryDebugTransport implements SentryTypes.Transport {
 
     sendEvent(event: SentryTypes.Event): PromiseLike<SentryTypes.Response> {
         console.error("would have sent to sentry", event)
-        return Promise.resolve({status: "success" });
+        return Promise.resolve({status: "success"});
     }
 }
 
@@ -33,9 +33,8 @@ Sentry.init({
     release: environment.GIT_COMMIT,
     environment: window.location.hostname,
     autoSessionTracking: false,
-    ... gittMiljo<SentryTypes.Options>({
-        prod: {
-        },
+    ...gittMiljo<SentryTypes.Options>({
+        prod: {},
         other: {
             transport: SentryDebugTransport,
         }
@@ -52,4 +51,12 @@ injectDecoratorClientSide({
     level: 'Level4'
 }).catch(Sentry.captureException);
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+    gittMiljo({
+        prod: <App/>,
+        other: <React.StrictMode> <App/> </React.StrictMode>
+    }),
+    document.getElementById('root')
+);
+
+
