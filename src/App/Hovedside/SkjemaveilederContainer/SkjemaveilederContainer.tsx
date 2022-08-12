@@ -2,11 +2,13 @@ import React, {useContext} from 'react';
 import {Undertittel} from 'nav-frontend-typografi';
 import {lenkeTilPermitteringOgMasseoppsigelsesSkjema, skjemaForArbeidsgiverURL} from '../../../lenker';
 import './SkjemaveilederContainer.less';
-import {HoyreChevron} from 'nav-frontend-chevron';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {LenkepanelMedLogging} from '../../../GeneriskeElementer/LenkepanelMedLogging';
 import {altinnskjema, AltinnskjemaId} from "../../../altinn/tjenester";
+import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
+
+
 
 export const SkjemaveilederContainer = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);

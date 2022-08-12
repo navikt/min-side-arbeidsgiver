@@ -3,12 +3,12 @@ import {Link, useLocation} from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.less';
 import { Undertittel } from 'nav-frontend-typografi';
-import { HoyreChevron } from 'nav-frontend-chevron';
 import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
 import {HelpText} from "@navikt/ds-react";
+import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 
 const ANTALL_FORSIDESAKER: number = 3;
 
