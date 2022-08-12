@@ -7,7 +7,7 @@
   "dependencies": {
     "@craco/craco": "^6.4.3",
     "@navikt/arbeidsgiver-notifikasjon-widget": "2.0.4",
-    "@navikt/bedriftsmeny": "4.0.0-rc6",
+    "@navikt/bedriftsmeny": "4.0.0-rc8",
     "@navikt/ds-css": "^0.18.27",
     "@navikt/ds-icons": "^0.8.20",
     "@navikt/ds-react": "^0.19.25",
