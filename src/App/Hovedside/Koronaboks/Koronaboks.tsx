@@ -1,6 +1,5 @@
 import React, {FunctionComponent, useContext} from 'react';
 import Element from 'nav-frontend-typografi/lib/element';
-import HoyreChevron from 'nav-frontend-chevron/lib/hoyre-chevron';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {
     permitteringKlageskjemaURL,
@@ -12,6 +11,7 @@ import './Koronaboks.less';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
 import {Undertittel} from "nav-frontend-typografi";
+import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
 
 interface KoronalenkeProps {
     href: string;
