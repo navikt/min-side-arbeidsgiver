@@ -9,7 +9,7 @@ import {
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {Undertittel} from "nav-frontend-typografi";
 import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
 
@@ -39,9 +39,9 @@ export const Koronaboks = () => {
     return (<Ekspanderbartpanel className='koronaboks'
                                 tittel={
                                     <Undertittel className={"koronaboks__tittel"}>
-                                        <div className={"koronaboks__ikon"}>
+                                        {/*<div className={"koronaboks__ikon"}>*/}
                                             <KoronaboksIkon/>
-                                        </div>
+                                        {/*</div>*/}
                                         <span>Koronaspesifikke tjenester</span>
                                     </Undertittel>
                                 }>

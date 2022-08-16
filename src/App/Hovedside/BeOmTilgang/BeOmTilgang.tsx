@@ -1,5 +1,5 @@
 import React, {FC, FunctionComponent, MouseEventHandler, useContext} from 'react';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import {Undertittel} from 'nav-frontend-typografi';
 import {
