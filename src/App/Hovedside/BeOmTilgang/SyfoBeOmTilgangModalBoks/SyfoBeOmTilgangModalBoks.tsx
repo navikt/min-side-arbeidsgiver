@@ -1,11 +1,11 @@
 import React from 'react';
-import { Normaltekst, Undertittel } from 'nav-frontend-typografi';
 import Modal from 'nav-frontend-modal';
 import { infoOmNærmesteLederURL } from '../../../../lenker';
 import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../TjenesteInfo/NyFaneIkon';
 import './SyfoBeOmTilgangModalBoks.less';
 import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
+import {BodyLong, Heading} from "@navikt/ds-react";
 
 interface Props {
     isOpen: boolean;
@@ -25,18 +25,18 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
             <div className="syfo-modal__innhold">
                 <div className="syfo-modal__overskrift-og-info">
                     <img src={informasjonsikon} alt="" className="infoikon" />
-                    <Undertittel className="syfo-modal__tittel">
-                        Tilgang til dine sykmeldte
-                    </Undertittel>
+                    <Heading size="small" className="syfo-modal__tittel">
+                        Tilgang til dine sykmeldtes
+                    </Heading>
                 </div>
 
                 <div className="syfo-modal__personvern-info">
-                    <Normaltekst className="syfo-modal__tekst">
+                    <BodyLong className="syfo-modal__tekst">
                         For å bruke denne tjennesten må du være registrert som nærmeste leder for én
                         eller flere ansatte. Tilgangsstyringen skiller seg fra våre andre tjenester
                         ved at den ikke baserer seg på hvilken virksomhet du har valgt i menyen, men
                         kun baserer seg på om du er nærmeste leder eller ikke.
-                    </Normaltekst>
+                    </BodyLong>
 
                     <LenkeMedLogging
                         loggLenketekst="Be om tilgang - Les om hvordan nærmeste leder registreres"

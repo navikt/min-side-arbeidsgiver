@@ -1,5 +1,4 @@
 import React from 'react';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
@@ -7,6 +6,7 @@ import JuridiskEnhetIkon from '../ikoner/JuridiskEnhetIkon';
 import './OverordnetEnhet.less';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { Enhet } from '../../../api/enhetsregisteretApi';
+import {BodyShort, Heading} from "@navikt/ds-react";
 
 interface Props {
     overordnetenhet: Enhet;
@@ -17,59 +17,59 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
     return (
         <div className="overordnet-enhet-info">
             <Tekstboks className="overordnetenhet-navn">
-                <Normaltekst>Overordnet enhet</Normaltekst>
-                <Systemtittel className="overordnet-enhet-info__navn"><JuridiskEnhetIkon />{overordnetenhet.navn}</Systemtittel>
+                <BodyShort>Overordnet enhet</BodyShort>
+                <Heading size="medium" className="overordnet-enhet-info__navn"><JuridiskEnhetIkon />{overordnetenhet.navn}</Heading>
             </Tekstboks>
 
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
-                    <Normaltekst>Organisasjonsnummer</Normaltekst>
-                    <Normaltekst> {overordnetenhet.organisasjonsnummer}</Normaltekst>
+                    <BodyShort>Organisasjonsnummer</BodyShort>
+                    <BodyShort> {overordnetenhet.organisasjonsnummer}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">
-                    <Normaltekst>Organisasjonsform</Normaltekst>
-                    <Normaltekst> {overordnetenhet.organisasjonsform ? overordnetenhet.organisasjonsform.beskrivelse : ''}</Normaltekst>
+                    <BodyShort>Organisasjonsform</BodyShort>
+                    <BodyShort> {overordnetenhet.organisasjonsform ? overordnetenhet.organisasjonsform.beskrivelse : ''}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse1">
-                    <Normaltekst>Forretningsadresse</Normaltekst>
-                    <Normaltekst> { forretningsadresse ? forretningsadresse.adresse?.[0] : ''}</Normaltekst>
-                    <Normaltekst>
+                    <BodyShort>Forretningsadresse</BodyShort>
+                    <BodyShort> { forretningsadresse ? forretningsadresse.adresse?.[0] : ''}</BodyShort>
+                    <BodyShort>
                         {forretningsadresse?.postnummer ?? ''}
                         {' '}
                         {forretningsadresse?.poststed ?? ''}
-                    </Normaltekst>
+                    </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse2">
-                    <Normaltekst>Postadresse</Normaltekst>
-                    <Normaltekst> { postadresse?.adresse?.[0] ?? '' } </Normaltekst>
-                    <Normaltekst>
+                    <BodyShort>Postadresse</BodyShort>
+                    <BodyShort> { postadresse?.adresse?.[0] ?? '' } </BodyShort>
+                    <BodyShort>
                         {postadresse?.postnummer ?? ''}
                         {' '}
                         {postadresse?.poststed ?? ''}
-                    </Normaltekst>
+                    </BodyShort>
                 </Tekstboks>
             </div>
 
             <Tekstboks className="overordnetenhet-kode">
-                <Normaltekst>
+                <BodyShort>
                     Næringskoder
-                </Normaltekst>
-                <Normaltekst>
+                </BodyShort>
+                <BodyShort>
                     {overordnetenhet.naeringskode1 ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}` : ''}
-                </Normaltekst>
+                </BodyShort>
             </Tekstboks>
 
             {(overordnetenhet.hjemmeside ?? '') !== '' &&
                 <Tekstboks className="overordnetenhet-hjemmeside">
-                    <Normaltekst>
+                    <BodyShort>
                         Hjemmeside
-                    </Normaltekst>
-                    <Normaltekst>
+                    </BodyShort>
+                    <BodyShort>
                         {overordnetenhet.hjemmeside}
-                    </Normaltekst>
+                    </BodyShort>
                 </Tekstboks>
             }
 

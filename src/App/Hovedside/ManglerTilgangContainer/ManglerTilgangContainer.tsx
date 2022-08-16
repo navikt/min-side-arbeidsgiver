@@ -1,10 +1,10 @@
 import React, {FunctionComponent, useContext} from 'react';
-import {Innholdstittel} from 'nav-frontend-typografi';
 import {ManglerTilgangLenkePanel} from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
 import {lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo} from '../../../lenker';
 import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.less';
+import {Heading} from "@navikt/ds-react";
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
     const {harTilganger} = useContext(OrganisasjonerOgTilgangerContext);
@@ -17,9 +17,9 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
                 />
             )}
             <div className="mangler-tilgang-bakgrunn ">
-                <Innholdstittel className={'mangler-tilgang-bakgrunn__innholdstittel'}>
+                <Heading size="large" className={'mangler-tilgang-bakgrunn__innholdstittel'}>
                     Du mangler tilganger
-                </Innholdstittel>
+                </Heading>
                 <span className="mangler-tilgang-container">
                     <ManglerTilgangLenkePanel
                         tittel="Se tjenester som privatperson"

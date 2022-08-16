@@ -1,12 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Normaltekst} from 'nav-frontend-typografi';
 import {tiltaksgjennomforingURL} from '../../../../lenker';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import './Tiltakboks.less';
-
 import tiltakikon from './tiltakboks-ikon.svg';
 import {Arbeidsavtale, hentArbeidsavtaler} from '../../../../api/arbeidsavtalerApi';
 import {Tjenesteboks} from "../Tjenesteboks";
+import {BodyShort} from "@navikt/ds-react";
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -62,12 +61,12 @@ const Tiltakboks = () => {
 
     const TekstUtenTall = () =>
         <>
-            <Normaltekst className='avsnitt'>
+            <BodyShort className='avsnitt'>
                 Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb.
-            </Normaltekst>
-            <Normaltekst>
+            </BodyShort>
+            <BodyShort >
                 De ulike tiltakene krever egne tilganger i Altinn
-            </Normaltekst>
+            </BodyShort>
         </>;
     return <Tjenesteboks
         ikon={tiltakikon}

@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Systemtittel } from 'nav-frontend-typografi';
 import { LenkepanelBase } from 'nav-frontend-lenkepanel/lib';
 import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
 import { useLocation } from 'react-router-dom';
+import {Heading} from "@navikt/ds-react";
 
 interface CustomLenkepanel {
     tittel: string;
@@ -24,7 +24,7 @@ export const ManglerTilgangLenkePanel: FunctionComponent<CustomLenkepanel> = pro
             >
                 <div>
                     <div>
-                        <Systemtittel className="lenkepanel__heading">{props.tittel}</Systemtittel>
+                        <Heading size="medium" className="lenkepanel__heading">{props.tittel}</Heading>
                         <p>{props.infoTekst}</p>
                     </div>
                 </div>

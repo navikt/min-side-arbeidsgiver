@@ -1,13 +1,13 @@
-import React, { FunctionComponent } from 'react';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import React, {FunctionComponent} from 'react';
+import {Hovedknapp} from 'nav-frontend-knapper';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
-import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
+import {TilgangsStyringInfoTekst} from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
+import {VarselHvisNedetid} from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.less';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import {BodyShort, Heading} from "@navikt/ds-react";
+import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
+import {BodyLong, BodyShort, Heading} from "@navikt/ds-react";
 
 export const LoggInn: FunctionComponent = () => {
 
@@ -17,32 +17,34 @@ export const LoggInn: FunctionComponent = () => {
 
     return (
         <div className="innloggingsside">
-            <Brodsmulesti brodsmuler={[]} />
-            <LoggInnBanner />
+            <Brodsmulesti brodsmuler={[]}/>
+            <LoggInnBanner/>
             <div className="innloggingsside__innhold">
                 <VarselHvisNedetid/>
                 <AdvarselBannerTestversjon/>
                 <Heading level="2" size="medium">
                     På Min side – arbeidsgiver kan du:
                 </Heading>
-                <ul className="innloggingsside__punktliste">
-                    <li className="innloggingsside__punkt">
-                        få oversikt over dine sykmeldte
-                    </li>
-                    <li className="innloggingsside__punkt">
-                        se sykfraværsstatistikk for din virksomhet
-                    </li>
-                    <li className="innloggingsside__punkt">
-                        rekruttere nye medarbeidere
-                    </li>
-                    <li className="innloggingsside__punkt">
-                        få oversikt over dine ansatte (fra Aa-registeret)
-                    </li>
-                    <li className="innloggingsside__punkt">
-                        sende inn digitale skjemaer
-                    </li>
-                </ul>
-                <TilgangsStyringInfoTekst />
+                <BodyLong>
+                    <ul className="innloggingsside__punktliste">
+                        <li className="innloggingsside__punkt">
+                            få oversikt over dine sykmeldte
+                        </li>
+                        <li className="innloggingsside__punkt">
+                            se sykfraværsstatistikk for din virksomhet
+                        </li>
+                        <li className="innloggingsside__punkt">
+                            rekruttere nye medarbeidere
+                        </li>
+                        <li className="innloggingsside__punkt">
+                            få oversikt over dine ansatte (fra Aa-registeret)
+                        </li>
+                        <li className="innloggingsside__punkt">
+                            sende inn digitale skjemaer
+                        </li>
+                    </ul>
+                </BodyLong>
+                <TilgangsStyringInfoTekst/>
 
                 <Hovedknapp
                     className="innloggingsside__loginKnapp"
@@ -52,8 +54,9 @@ export const LoggInn: FunctionComponent = () => {
                 </Hovedknapp>
 
                 <div className="innloggingsside__besok-ditt-nav">
-                    <BodyShort size="small"> Ønsker du å se dine tjenester som privatperson? </BodyShort>
-                    <LenkeMedLogging href={'https://www.nav.no/person/dittnav/'} loggLenketekst="Logg inn som privatperson">
+                    <BodyShort> Ønsker du å se dine tjenester som privatperson? </BodyShort>
+                    <LenkeMedLogging href={'https://www.nav.no/person/dittnav/'}
+                                     loggLenketekst="Logg inn som privatperson">
                         Logg inn på Ditt NAV
                     </LenkeMedLogging>
                 </div>

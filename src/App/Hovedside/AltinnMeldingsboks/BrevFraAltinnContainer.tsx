@@ -73,7 +73,7 @@ const BrevContainer = (brev: AltinnBrev) => {
     const dato = dateFormat.format(brev.datoSendt);
     return (
         <li className="tilskuddsbrev__liste-element" key={brev.key}>
-            <BodyShort size="small" className="tilskuddsbrev__dato">Sendt {dato}</BodyShort>
+            <BodyShort className="tilskuddsbrev__dato">Sendt {dato}</BodyShort>
             <NyFaneLenke
                 className={className}
                 href={brev.portalview}
