@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import {Alert, BodyLong, BodyShort, Heading} from "@navikt/ds-react";
 import './VarselOmNedetid.less';
 import { DisplayBetween } from '../../../GeneriskeElementer/DisplayBetween';
 
@@ -12,26 +11,23 @@ export const VarselHvisNedetid: FunctionComponent = () => {
     return (
         <DisplayBetween showFrom={showFrom} showUntil={showUntil}>
             <div className={'nedetid'}>
-                <AlertStripe type="advarsel" className={'nedetid__varsel'}>
-                    <Element className={'nedetid__varsel-overskrift'}>
+                <Alert variant="warning" size="medium" className='nedetid__varsel'>
+                    <Heading spacing size="small">
                         Tjenester for arbeidsgivere kan være utilgjengelig
-                    </Element>
-                    <p className="typo-normal">
+                    </Heading>
+                    <BodyLong>
                         Fra i kveld (tirsdag 8. mars, klokken 23:00) til i morgen (9. mars, klokken 06:00) vil de fleste innloggede tjenester for arbeidsgivere på nav.no være utilgjengelig.
-                    </p>
-
-                    <p className="typo-normal">
+                    </BodyLong>
+                    <BodyShort>
                         «Dine Sykmeldte» er et unntak, og burde fortsatt være tilgjengelig.
-                    </p>
-
-                    <p className="typo-normal">
+                    </BodyShort>
+                    <BodyShort>
                         Dette skyldes vedlikehold i Altinn.
-                    </p>
-
-                    <p className="typo-normal">
+                    </BodyShort>
+                    <BodyShort>
                         Vi beklager ulempene dette medfører.
-                    </p>
-                </AlertStripe>
+                    </BodyShort>
+                </Alert>
             </div>
         </DisplayBetween>
     );
