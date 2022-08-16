@@ -2,7 +2,7 @@ import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {OrganisasjonerOgTilgangerContext, SyfoTilgang} from '../OrganisasjonerOgTilgangerProvider';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import "./DigiSyfoBedriftsmenyInfo.less";
-import Lukknapp from "nav-frontend-lukknapp";
+import {Lukknapp} from "../../GeneriskeElementer/Lukknapp";
 import amplitude from "../../utils/amplitude";
 
 const localStorageKey = 'DigiSyfoBedriftsmenyInfoLukket';
@@ -30,15 +30,19 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
     return (
         <div className={"digisyfo-bedriftsmeny-info"}>
             <Alert variant="info" className={"digisyfo-bedriftsmeny-info__alert"}>
-                <Heading size="small" spacing={true}>
-                    Sykmeldte er nå koblet til virksomhetsvelgeren
-                </Heading>
-                <BodyShort>
-                    Velg virksomhet for å se sykmeldte du skal følge opp der. Boksen “Sykmeldte” vises bare når du har
-                    noen sykmeldt å følge opp på valgt virksomhet.
-                </BodyShort>
+                <div style={{display: "flex", alignItems: "flex-start", gap: "1rem"}}>
+                    <div>
+                        <Heading size="small" spacing={true}>
+                            Sykmeldte er nå koblet til virksomhetsvelgeren
+                        </Heading>
+                        <BodyShort>
+                            Velg virksomhet for å se sykmeldte du skal følge opp der. Boksen “Sykmeldte” vises bare når du har
+                            noen sykmeldt å følge opp på valgt virksomhet.
+                        </BodyShort>
+                    </div>
+                    <Lukknapp style={{flexShrink: "1"}} className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage} />
+                </div>
             </Alert>
-            <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
         </div>
     );
 };
