@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import {Alert, BodyLong, BodyShort, Heading} from "@navikt/ds-react";
-import './VarselOmNedetid.less';
 import { DisplayBetween } from '../../../GeneriskeElementer/DisplayBetween';
 
 

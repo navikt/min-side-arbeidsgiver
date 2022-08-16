@@ -1,6 +1,6 @@
 import React from 'react';
 import {Alert, BodyLong, Heading} from "@navikt/ds-react";
-import './AdvarselBannerTestversjon.less'
+
 const AdvarselBannerTestversjon = () => {
     return (
         <>{window.location.hostname.includes('labs.nais.io') && (
