@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
+import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {AltinnBrev, Status} from '../../../api/altinnApi';
 import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';

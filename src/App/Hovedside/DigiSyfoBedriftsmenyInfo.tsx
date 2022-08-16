@@ -39,7 +39,7 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
                         noen sykmeldt å følge opp på valgt virksomhet.
                     </BodyShort>
                 </div>
-                <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage} />
+                <Lukknapp className={'digisyfo-bedriftsmeny-info__lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage} />
             </div>
         </Alert>
     );

@@ -8,7 +8,7 @@ import {
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.less';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
-import Ekspanderbartpanel from "nav-frontend-ekspanderbartpanel";
+import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
 import {Heading, Label} from "@navikt/ds-react";
 
@@ -38,9 +38,7 @@ export const Koronaboks = () => {
     return (<Ekspanderbartpanel className='koronaboks'
                                 tittel={
                                     <Heading size="small" level="2" className={"koronaboks__tittel"}>
-                                        <div className={"koronaboks__ikon"}>
-                                            <KoronaboksIkon/>
-                                        </div>
+                                        <KoronaboksIkon/>
                                         <span>Koronaspesifikke tjenester</span>
                                     </Heading>
                                 }>
