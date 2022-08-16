@@ -1,9 +1,9 @@
 import { FunctionComponent, MouseEventHandler } from 'react';
-import Lenke, {Props as LenkeProps} from 'nav-frontend-lenker';
+import {Link, LinkProps} from '@navikt/ds-react';
 import { loggNavigasjon } from '../utils/funksjonerForAmplitudeLogging';
 import { useLocation } from 'react-router-dom';
 
-export interface Props extends LenkeProps {
+export interface Props extends LinkProps {
     loggLenketekst: string;
 }
 
@@ -15,6 +15,5 @@ export const LenkeMedLogging: FunctionComponent<Props> = props => {
         loggNavigasjon(props.href, loggLenketekst, pathname);
         onClick?.(event);
     };
-
-    return <Lenke onClick={onClickLog} {...rest} />;
+    return <Link style={{fontSize:"18px"}} onClick={onClickLog} {...rest}/>
 };
