@@ -2,12 +2,11 @@ import React, {useContext, useEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.less';
-import { Undertittel } from 'nav-frontend-typografi';
 import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
-import {HelpText} from "@navikt/ds-react";
+import {Heading, HelpText} from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 
 const ANTALL_FORSIDESAKER: number = 3;
@@ -39,9 +38,9 @@ const SisteSaker = () => {
         <div className='innsynisak'>
             <div className='innsynisak__header'>
                 <div className='innsynisak__tittel'>
-                    <Undertittel>
+                    <Heading size="small" level="2">
                         Siste saker
-                    </Undertittel>
+                    </Heading>
                     <HelpText title="Hva vises her?">
                         <div style={{maxWidth:"25rem"}}>
                         Her vises meldinger for permitteringer, oppsigelser eller innskrenkning i arbeidstid. Vi

@@ -170,7 +170,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Sommerjobb',
         beOmTilgangBeskrivelse: `
                 Få tilgang til avtaler om sommerjobb i din virksomhet.
-                Tilskudd til sommerjobb kan gis dersom du kan tilby sommerjobb til unge arbeidsledige som har fått vurdert av NAV at de har behov for arbeidsrettet bistand`,
+                Tilskudd til sommerjobb kan gis dersom du kan tilby sommerjobb til unge arbeidsledige som har fått vurdert av NAV at de har behov for arbeidsrettet bistand.`,
         tjenestekode: '5516',
         tjenesteversjon: '3',
     },

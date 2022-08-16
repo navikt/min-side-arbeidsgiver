@@ -1,6 +1,6 @@
-import {Undertittel} from "nav-frontend-typografi";
 import "./TittelMedIkon.less"
 import React, {FC} from "react";
+import {Heading} from "@navikt/ds-react";
 
 export type Props = {
     tittel: string
@@ -10,9 +10,9 @@ export type Props = {
 export const TittelMedIkon: FC<Props> = (props) =>
     <div className={"tittel-med-ikon"}>
         <img className={"tittel-med-ikon__ikon"} src={props.ikon} alt=""/>
-        <Undertittel>
+        <Heading size="small" level="2">
             {props.tittel}
-        </Undertittel>
+        </Heading>
     </div>
 
 

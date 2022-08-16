@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {BrowserRouter, Route, Router, Link as RouterLink, Routes, useLocation} from 'react-router-dom';
+import {BrowserRouter, Route, Link as RouterLink, Routes, useLocation} from 'react-router-dom';
 import {basename} from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';

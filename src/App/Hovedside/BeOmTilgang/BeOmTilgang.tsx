@@ -1,7 +1,6 @@
 import React, {FC, FunctionComponent, MouseEventHandler, useContext} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
-import {Undertittel} from 'nav-frontend-typografi';
 import {
     OrganisasjonInfo,
 } from '../../OrganisasjonerOgTilgangerProvider';
@@ -17,7 +16,7 @@ import {altinntjeneste, AltinntjenesteId} from '../../../altinn/tjenester';
 import {opprettAltinnTilgangssøknad} from '../../../altinn/tilganger';
 import {beOmTilgangIAltinnLink} from '../../../lenker';
 import {LinkableFragment} from '../../../GeneriskeElementer/LinkableFragment';
-import {BodyShort} from "@navikt/ds-react";
+import {BodyShort, Heading} from "@navikt/ds-react";
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'pam',
@@ -182,9 +181,9 @@ const TilgangContainer: FC<props>= ({children}) =>
         <div className='be-om-tilgang'>
             <div className='be-om-tilgang__tittel'>
                 <div className='divider'/>
-                <Undertittel className='tekst'>
+                <Heading size="small" level="2" className='tekst'>
                     Trenger du tilgang til flere tjenester?
-                </Undertittel>
+                </Heading>
                 <div className='divider'/>
             </div>
             {children}
