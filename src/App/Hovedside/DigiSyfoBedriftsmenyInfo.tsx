@@ -2,7 +2,7 @@ import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {OrganisasjonerOgTilgangerContext, SyfoTilgang} from '../OrganisasjonerOgTilgangerProvider';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import "./DigiSyfoBedriftsmenyInfo.less";
-import Lukknapp from "nav-frontend-lukknapp";
+import {Lukknapp} from "../../GeneriskeElementer/Lukknapp";
 import amplitude from "../../utils/amplitude";
 
 const localStorageKey = 'DigiSyfoBedriftsmenyInfoLukket';
