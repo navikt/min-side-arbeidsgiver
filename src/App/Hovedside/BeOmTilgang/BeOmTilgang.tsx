@@ -1,6 +1,5 @@
 import React, {FC, FunctionComponent, MouseEventHandler, useContext} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import AlertStripeInfo from 'nav-frontend-alertstriper/lib/info-alertstripe';
 import {
     OrganisasjonInfo,
 } from '../../OrganisasjonerOgTilgangerProvider';
@@ -16,7 +15,7 @@ import {altinntjeneste, AltinntjenesteId} from '../../../altinn/tjenester';
 import {opprettAltinnTilgangssøknad} from '../../../altinn/tilganger';
 import {beOmTilgangIAltinnLink} from '../../../lenker';
 import {LinkableFragment} from '../../../GeneriskeElementer/LinkableFragment';
-import {BodyShort, Heading} from "@navikt/ds-react";
+import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'pam',
@@ -150,11 +149,11 @@ const BeOmTilgang: FunctionComponent = () => {
                     apen={new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'}
                 >
                     <div className='be-om-tilgang__innhold'>
-                        <AlertStripeInfo className='be-om-tilgang__info'>
+                        <Alert variant="info" size="medium" className='be-om-tilgang__info'>
                             Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du
                             kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
                             under.
-                        </AlertStripeInfo>
+                        </Alert>
                         <Organisasjonsbeskrivelse
                             navn={valgtOrganisasjon.organisasjon.Name}
                             orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
