@@ -2,7 +2,7 @@ import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {OrganisasjonerOgTilgangerContext, SyfoTilgang} from '../OrganisasjonerOgTilgangerProvider';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import "./DigiSyfoBedriftsmenyInfo.less";
-import {Lukknapp} from "../../GeneriskeElementer/Lukknapp";
+import Lukknapp from "nav-frontend-lukknapp";
 import amplitude from "../../utils/amplitude";
 
 const localStorageKey = 'DigiSyfoBedriftsmenyInfoLukket';
@@ -31,7 +31,7 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
         <Alert className="digisyfo-bedriftsmeny-info" variant="info">
             <div className="digisyfo-bedriftsmeny-info__container">
                 <div className="digisyfo-bedriftsmeny-info__content">
-                    <Heading size="small" spacing={true}>
+                    <Heading size="small" level="2">
                         Sykmeldte er nå koblet til virksomhetsvelgeren
                     </Heading>
                     <BodyShort>

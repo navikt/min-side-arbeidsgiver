@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import {Undertittel} from 'nav-frontend-typografi';
 import {lenkeTilPermitteringOgMasseoppsigelsesSkjema, skjemaForArbeidsgiverURL} from '../../../lenker';
 import './SkjemaveilederContainer.less';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
@@ -7,7 +6,7 @@ import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {LenkepanelMedLogging} from '../../../GeneriskeElementer/LenkepanelMedLogging';
 import {altinnskjema, AltinnskjemaId} from "../../../altinn/tjenester";
 import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
-
+import {Heading} from "@navikt/ds-react";
 
 
 export const SkjemaveilederContainer = () => {
@@ -35,9 +34,9 @@ export const SkjemaveilederContainer = () => {
 
     return (
         <div className='skjemaveileder-container'>
-            <Undertittel id='skjemaveileder-tittel' className='skjemaveileder-tittel'>
+            <Heading size="small" level="2" id='skjemaveileder-tittel' className='skjemaveileder-tittel'>
                 Søknader og skjemaer
-            </Undertittel>
+            </Heading>
 
             <ul>
                 {lenke(

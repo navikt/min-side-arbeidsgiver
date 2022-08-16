@@ -1,22 +1,22 @@
 import React from 'react';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import UnderenhetIkon from './UnderenhetIkon';
 import './Organisasjonsbeskrivelse.less';
+import {BodyShort, Label} from "@navikt/ds-react";
 
 interface Props {
     navn: string;
     orgnummer: string;
 }
 
-const Organisasjonsbeskrivelse = ({ navn, orgnummer }: Props) => {
+const Organisasjonsbeskrivelse = ({navn, orgnummer}: Props) => {
     return (
         <div className="organisasjonsbeskrivelse">
             <div className="organisasjonsbeskrivelse__ikon">
-                <UnderenhetIkon />
+                <UnderenhetIkon/>
             </div>
             <div className="organisasjonsbeskrivelse__beskrivelse">
-                <Element className="organisasjonsnavn">{navn}</Element>
-                <Normaltekst>org. nr. {orgnummer}</Normaltekst>
+                <Label size="small" className="organisasjonsnavn">{navn}</Label>
+                <BodyShort >org. nr. {orgnummer}</BodyShort>
             </div>
         </div>
     );

@@ -29,7 +29,7 @@ const InformasjonOmTilgangsstyringSide = () => {
             <div className='informasjon-om-tilgangsstyring__banner'>
                 <div className='informasjon-om-tilgangsstyring__banner-heading'>
                     <img src={icon} alt={''}/>
-                    <Heading level='1' size='xlarge'>
+                    <Heading size='xlarge' level='1'>
                         Tilganger og varslinger i Altinn
                     </Heading>
                 </div>
