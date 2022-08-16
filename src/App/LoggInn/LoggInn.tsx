@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import { TilgangsStyringInfoTekst } from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
@@ -8,6 +7,7 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/Ad
 import { VarselHvisNedetid } from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.less';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import {BodyShort, Heading} from "@navikt/ds-react";
 
 export const LoggInn: FunctionComponent = () => {
 
@@ -22,9 +22,9 @@ export const LoggInn: FunctionComponent = () => {
             <div className="innloggingsside__innhold">
                 <VarselHvisNedetid/>
                 <AdvarselBannerTestversjon/>
-                <Systemtittel className="innloggingsside__sidetittel">
+                <Heading level="2" size="medium">
                     På Min side – arbeidsgiver kan du:
-                </Systemtittel>
+                </Heading>
                 <ul className="innloggingsside__punktliste">
                     <li className="innloggingsside__punkt">
                         få oversikt over dine sykmeldte
@@ -52,7 +52,7 @@ export const LoggInn: FunctionComponent = () => {
                 </Hovedknapp>
 
                 <div className="innloggingsside__besok-ditt-nav">
-                    <Normaltekst>Ønsker du å se dine tjenester som privatperson? </Normaltekst>
+                    <BodyShort size="small"> Ønsker du å se dine tjenester som privatperson? </BodyShort>
                     <LenkeMedLogging href={'https://www.nav.no/person/dittnav/'} loggLenketekst="Logg inn som privatperson">
                         Logg inn på Ditt NAV
                     </LenkeMedLogging>

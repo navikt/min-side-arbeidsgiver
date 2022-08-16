@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import {Normaltekst, Undertittel} from 'nav-frontend-typografi';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {AltinnBrev, Status} from '../../../api/altinnApi';
 import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';
@@ -8,6 +7,7 @@ import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import Innboksikon from './Innboksikon';
 import {loggNavigasjon} from '../../../utils/funksjonerForAmplitudeLogging';
 import './BrevFraAltinnContainer.less';
+import {BodyShort, Heading} from "@navikt/ds-react";
 
 const loggNavigering = (href: string, lenketekst: string) => () => {
     if (href === '') {
@@ -27,13 +27,14 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     }
 
     const inboksTittel = (
-        <Undertittel className="tilskuddsbrev__tittel">
+        <Heading size="small" level="3" className="tilskuddsbrev__tittel">
             <div className="tilskuddsbrev__inboxikon">
                 <Innboksikon/>
                 <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>
             </div>
             <span>Tilskuddsbrev om NAV-tiltak fra Altinn innboks</span>
-        </Undertittel>
+        </Heading>
+
     );
 
     return (
@@ -72,7 +73,7 @@ const BrevContainer = (brev: AltinnBrev) => {
     const dato = dateFormat.format(brev.datoSendt);
     return (
         <li className="tilskuddsbrev__liste-element" key={brev.key}>
-            <Normaltekst className="tilskuddsbrev__dato">Sendt {dato}</Normaltekst>
+            <BodyShort size="small" className="tilskuddsbrev__dato">Sendt {dato}</BodyShort>
             <NyFaneLenke
                 className={className}
                 href={brev.portalview}
