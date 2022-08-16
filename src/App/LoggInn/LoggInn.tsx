@@ -1,11 +1,11 @@
 import React, {FunctionComponent} from 'react';
-import {Hovedknapp} from 'nav-frontend-knapper';
 import LoggInnBanner from './LoggInnBanner/LoggInnBanner';
 import {TilgangsStyringInfoTekst} from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import {VarselHvisNedetid} from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.less';
+import { Button } from '@navikt/ds-react';
 import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
 import {BodyLong, BodyShort, Heading} from "@navikt/ds-react";
 
@@ -46,12 +46,14 @@ export const LoggInn: FunctionComponent = () => {
                 </BodyLong>
                 <TilgangsStyringInfoTekst/>
 
-                <Hovedknapp
+                <Button
+                    variant="primary"
+                    size="medium"
                     className="innloggingsside__loginKnapp"
                     onClick={redirectTilLogin}
                 >
                     Logg inn
-                </Hovedknapp>
+                </Button>
 
                 <div className="innloggingsside__besok-ditt-nav">
                     <BodyShort> Ønsker du å se dine tjenester som privatperson? </BodyShort>
