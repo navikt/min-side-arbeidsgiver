@@ -25,8 +25,8 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
             <div className="syfo-modal__innhold">
                 <div className="syfo-modal__overskrift-og-info">
                     <img src={informasjonsikon} alt="" className="infoikon" />
-                    <Heading size="small" className="syfo-modal__tittel">
-                        Tilgang til dine sykmeldtes
+                    <Heading size="small" level="2" className="syfo-modal__tittel">
+                        Tilgang til dine sykmeldte
                     </Heading>
                 </div>
 

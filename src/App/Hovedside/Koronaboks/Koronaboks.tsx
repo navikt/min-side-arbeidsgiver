@@ -37,7 +37,7 @@ export const Koronaboks = () => {
     const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
     return (<Ekspanderbartpanel className='koronaboks'
                                 tittel={
-                                    <Heading size="small" className={"koronaboks__tittel"}>
+                                    <Heading size="small" level="2" className={"koronaboks__tittel"}>
                                         <div className={"koronaboks__ikon"}>
                                             <KoronaboksIkon/>
                                         </div>

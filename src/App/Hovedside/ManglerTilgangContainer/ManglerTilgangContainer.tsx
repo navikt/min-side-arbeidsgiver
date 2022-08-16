@@ -17,7 +17,7 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
                 />
             )}
             <div className="mangler-tilgang-bakgrunn ">
-                <Heading size="large" className={'mangler-tilgang-bakgrunn__innholdstittel'}>
+                <Heading size="large" level="1" className={'mangler-tilgang-bakgrunn__innholdstittel'}>
                     Du mangler tilganger
                 </Heading>
                 <span className="mangler-tilgang-container">

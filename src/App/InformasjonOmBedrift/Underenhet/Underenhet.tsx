@@ -19,7 +19,7 @@ const Underenhet = ({ underenhet }: Props) => {
             <div className="underenhet-info">
                 <Tekstboks className="underenhet-navn">
                     <BodyShort>Virksomhet</BodyShort>
-                    <Heading size="medium" className="underenhet-info__navn">
+                    <Heading size="medium" level="2" className="underenhet-info__navn">
                         <UnderenhetIkon />
                         {underenhet.navn}
                     </Heading>

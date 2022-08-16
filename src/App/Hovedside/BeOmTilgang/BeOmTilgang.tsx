@@ -181,7 +181,7 @@ const TilgangContainer: FC<props>= ({children}) =>
         <div className='be-om-tilgang'>
             <div className='be-om-tilgang__tittel'>
                 <div className='divider'/>
-                <Heading size="small" className='tekst'>
+                <Heading size="small" level="2" className='tekst'>
                     Trenger du tilgang til flere tjenester?
                 </Heading>
                 <div className='divider'/>

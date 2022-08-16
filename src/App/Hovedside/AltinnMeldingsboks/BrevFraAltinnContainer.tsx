@@ -27,7 +27,7 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     }
 
     const inboksTittel = (
-        <Heading size="small" level="3" className="tilskuddsbrev__tittel">
+        <Heading size="small" level="2" className="tilskuddsbrev__tittel">
             <div className="tilskuddsbrev__inboxikon">
                 <Innboksikon/>
                 <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>

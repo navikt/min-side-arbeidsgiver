@@ -16,7 +16,7 @@ const TjenesteBoksBanner = (props: Props) => {
                 src={props.imgsource}
                 alt={props.altTekst}
             />
-            <Heading size="small" className="tjeneste-boks-banner__tittel">{props.tittel}</Heading>
+            <Heading size="small" level="2" className="tjeneste-boks-banner__tittel">{props.tittel}</Heading>
         </div>
     );
 };

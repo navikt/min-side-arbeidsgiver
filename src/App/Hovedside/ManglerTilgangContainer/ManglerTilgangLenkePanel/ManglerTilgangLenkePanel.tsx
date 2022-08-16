@@ -24,7 +24,7 @@ export const ManglerTilgangLenkePanel: FunctionComponent<CustomLenkepanel> = pro
             >
                 <div>
                     <div>
-                        <Heading size="medium" className="lenkepanel__heading">{props.tittel}</Heading>
+                        <Heading size="medium" level="2" className="lenkepanel__heading">{props.tittel}</Heading>
                         <p>{props.infoTekst}</p>
                     </div>
                 </div>

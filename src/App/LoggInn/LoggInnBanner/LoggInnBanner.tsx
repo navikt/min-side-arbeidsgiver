@@ -10,7 +10,7 @@ const LoggInnBanner: FunctionComponent = () => {
         <div className={'logg-inn-banner'}>
             <div className={'logg-inn-banner__container'}>
                 <div className={'logg-inn-banner__tittel-og-tekst'}>
-                    <Heading size="xlarge" className={'logg-inn-banner__tittel'}>
+                    <Heading size="xlarge" level="1" className={'logg-inn-banner__tittel'}>
                         Min side – arbeidsgiver{' '}
                     </Heading>
                     <Ingress className={'logg-inn-banner__ingress'}>

@@ -38,7 +38,7 @@ const SisteSaker = () => {
         <div className='innsynisak'>
             <div className='innsynisak__header'>
                 <div className='innsynisak__tittel'>
-                    <Heading level="3" size="small">
+                    <Heading size="small" level="2">
                         Siste saker
                     </Heading>
                     <HelpText title="Hva vises her?">

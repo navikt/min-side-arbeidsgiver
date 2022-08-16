@@ -22,7 +22,7 @@ export const LoggInn: FunctionComponent = () => {
             <div className="innloggingsside__innhold">
                 <VarselHvisNedetid/>
                 <AdvarselBannerTestversjon/>
-                <Heading level="2" size="medium">
+                <Heading size="medium" level="2">
                     På Min side – arbeidsgiver kan du:
                 </Heading>
                 <BodyLong>

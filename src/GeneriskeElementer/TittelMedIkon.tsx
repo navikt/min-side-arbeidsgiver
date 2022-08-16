@@ -10,7 +10,7 @@ export type Props = {
 export const TittelMedIkon: FC<Props> = (props) =>
     <div className={"tittel-med-ikon"}>
         <img className={"tittel-med-ikon__ikon"} src={props.ikon} alt=""/>
-        <Heading size="small">
+        <Heading size="small" level="2">
             {props.tittel}
         </Heading>
     </div>

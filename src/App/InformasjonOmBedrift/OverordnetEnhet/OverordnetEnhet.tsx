@@ -18,7 +18,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
         <div className="overordnet-enhet-info">
             <Tekstboks className="overordnetenhet-navn">
                 <BodyShort>Overordnet enhet</BodyShort>
-                <Heading size="medium" className="overordnet-enhet-info__navn"><JuridiskEnhetIkon />{overordnetenhet.navn}</Heading>
+                <Heading size="medium" level="2" className="overordnet-enhet-info__navn"><JuridiskEnhetIkon />{overordnetenhet.navn}</Heading>
             </Tekstboks>
 
             <div className="overordnet-enhet-info__container">

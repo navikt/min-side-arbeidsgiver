@@ -34,7 +34,7 @@ export const SkjemaveilederContainer = () => {
 
     return (
         <div className='skjemaveileder-container'>
-            <Heading size="small" id='skjemaveileder-tittel' className='skjemaveileder-tittel'>
+            <Heading size="small" level="2" id='skjemaveileder-tittel' className='skjemaveileder-tittel'>
                 Søknader og skjemaer
             </Heading>
 

@@ -30,7 +30,7 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
     return (
         <div className={"digisyfo-bedriftsmeny-info"}>
             <Alert variant="info" className={"digisyfo-bedriftsmeny-info__alert"}>
-                <Heading size="small" spacing={true}>
+                <Heading size="small" level="2">
                     Sykmeldte er nå koblet til virksomhetsvelgeren
                 </Heading>
                 <BodyShort>
