@@ -39,9 +39,7 @@ export const Koronaboks = () => {
     return (<Ekspanderbartpanel className='koronaboks'
                                 tittel={
                                     <Undertittel className={"koronaboks__tittel"}>
-                                        {/*<div className={"koronaboks__ikon"}>*/}
-                                            <KoronaboksIkon/>
-                                        {/*</div>*/}
+                                        <KoronaboksIkon/>
                                         <span>Koronaspesifikke tjenester</span>
                                     </Undertittel>
                                 }>
