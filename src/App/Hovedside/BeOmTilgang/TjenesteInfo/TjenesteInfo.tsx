@@ -1,11 +1,10 @@
 import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
-import { Normaltekst } from 'nav-frontend-typografi';
 import SyfoBeOmTilgangModalBoks from '../SyfoBeOmTilgangModalBoks/SyfoBeOmTilgangModalBoks';
 import './TjenesteInfo.less';
 import { altinntjeneste, AltinntjenesteId } from '../../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
-import {HelpText, Tag} from "@navikt/ds-react";
+import {BodyShort, HelpText, Tag} from "@navikt/ds-react";
 
 interface TjenesteInfo {
     tittel: string;
@@ -54,7 +53,7 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
                 <span>{tittel} – be om tilgang</span>
                 {props.eksternSide ?? false ? <NyFaneIkon /> : null}
             </LenkeMedLogging>
-            <Normaltekst>{beskrivelse}</Normaltekst>
+            <BodyShort>{beskrivelse}</BodyShort>
         </>
     );
 };
@@ -96,7 +95,7 @@ export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAllerede
                 </HelpText>
             </Tag>
         </div>
-        <Normaltekst>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</Normaltekst>
+        <BodyShort>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</BodyShort>
     </>
 }
 

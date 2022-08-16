@@ -75,7 +75,7 @@ export const PanelerMedInnholdsfortegnelse = ({toc} : PanelerMedInnholdsfortegne
     return (
         <div className='paneler-med-innholdsfortegnelse__container'>
             <Panel as={Menu} className='paneler-med-innholdsfortegnelse__sidepanel'>
-                <Heading className='paneler-med-innholdsfortegnelse-menyhead' level='2' size="small" spacing>
+                <Heading size="small" level='2' className='paneler-med-innholdsfortegnelse-menyhead' spacing>
                     Innhold
                 </Heading>
                 {
