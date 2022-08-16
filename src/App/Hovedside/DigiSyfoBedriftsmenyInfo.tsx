@@ -28,17 +28,19 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
     }
 
     return (
-        <div className={"digisyfo-bedriftsmeny-info"}>
-            <Alert variant="info" className={"digisyfo-bedriftsmeny-info__alert"}>
-                <Heading size="small" level="2">
-                    Sykmeldte er nå koblet til virksomhetsvelgeren
-                </Heading>
-                <BodyShort>
-                    Velg virksomhet for å se sykmeldte du skal følge opp der. Boksen “Sykmeldte” vises bare når du har
-                    noen sykmeldt å følge opp på valgt virksomhet.
-                </BodyShort>
-            </Alert>
-            <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage}>Lukk</Lukknapp>
-        </div>
+        <Alert className="digisyfo-bedriftsmeny-info" variant="info">
+            <div className="digisyfo-bedriftsmeny-info__container">
+                <div className="digisyfo-bedriftsmeny-info__content">
+                    <Heading size="small" level="2">
+                        Sykmeldte er nå koblet til virksomhetsvelgeren
+                    </Heading>
+                    <BodyShort>
+                        Velg virksomhet for å se sykmeldte du skal følge opp der. Boksen “Sykmeldte” vises bare når du har
+                        noen sykmeldt å følge opp på valgt virksomhet.
+                    </BodyShort>
+                </div>
+                <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage} />
+            </div>
+        </Alert>
     );
 };

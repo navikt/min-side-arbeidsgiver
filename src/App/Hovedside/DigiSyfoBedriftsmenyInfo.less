@@ -1,19 +1,21 @@
 // css her inne er bare en hack for å posisjonere lukk knapp inn i alert
 // alert har ikke god støtte for en lukkefunksjon P.T.
 .digisyfo-bedriftsmeny-info {
-    display: flex;
-    &__alert {
-        flex: 1 1 auto;
+
+    // Designsystemet setter max width på innholdet, men vi trenger et lag til med div/flex
+    // for å plassere lukke-knappen, så vi må "flytte" max-width ett lag inn.
+    .navds-alert__wrapper {
+        max-width: unset;
+        width: 100%;
     }
 
-    .lukk-knapp {
-        position: relative;
-        margin-left: auto;
-        float: right;
-        top: 1rem;
-        left: -2rem;
-        border: 0;
-        width: 1rem;
-        height: 1rem;
+    &__content {
+        max-width: 43.5rem; // verdi hentet fra designsystemet (den som unsettes over)
+    }
+
+    &__container {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
     }
 }
