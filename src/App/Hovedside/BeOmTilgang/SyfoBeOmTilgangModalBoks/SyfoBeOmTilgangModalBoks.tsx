@@ -1,11 +1,10 @@
 import React from 'react';
-import Modal from 'nav-frontend-modal';
 import { infoOmNærmesteLederURL } from '../../../../lenker';
 import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../TjenesteInfo/NyFaneIkon';
 import './SyfoBeOmTilgangModalBoks.less';
 import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
-import {BodyLong, Heading} from "@navikt/ds-react";
+import {BodyLong, Heading, Modal} from "@navikt/ds-react";
 
 interface Props {
     isOpen: boolean;
@@ -15,12 +14,11 @@ interface Props {
 const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
     return (
         <Modal
-            isOpen={isOpen}
-            onRequestClose={onRequestClose}
+            open={isOpen}
+            onClose={onRequestClose}
             closeButton={true}
-            contentLabel="digitale sykmeldinger-modal"
+            aria-label="digitale sykmeldinger-modal"
             className="syfo-modal"
-            appElement={document.getElementById("root") ?? undefined}
         >
             <div className="syfo-modal__innhold">
                 <div className="syfo-modal__overskrift-og-info">
