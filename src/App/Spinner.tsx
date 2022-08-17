@@ -1,11 +1,11 @@
 import React from 'react';
-import NavFrontendSpinner from 'nav-frontend-spinner';
 import Brodsmulesti from './Brodsmulesti/Brodsmulesti';
 import Banner from './HovedBanner/HovedBanner';
+import { Loader } from '@navikt/ds-react';
 
 export const Spinner = () =>
     <div className="app-laster-spinner">
-        <NavFrontendSpinner type="XL"/>
+        <Loader size="3xlarge"/>
     </div>
 
 export const SpinnerMedBanner = () => {
