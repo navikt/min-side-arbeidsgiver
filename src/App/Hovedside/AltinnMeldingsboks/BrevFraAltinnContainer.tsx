@@ -77,7 +77,7 @@ const BrevContainer = (brev: AltinnBrev) => {
             <NyFaneLenke
                 className={className}
                 href={brev.portalview}
-                ariaLabel={`Sendt ${dato}, ${brev.status}, ${brev.tittel}`}
+                aria-label={`Sendt ${dato}, ${brev.status}, ${brev.tittel}`}
                 onClick={loggNavigering(brev.portalview, 'åpn tilskuddsbrev i altinn')}
                 loggLenketekst="åpne tilskuddsbrev i altinn"
             >
