@@ -2,7 +2,7 @@ import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {OrganisasjonerOgTilgangerContext, SyfoTilgang} from '../OrganisasjonerOgTilgangerProvider';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 import "./DigiSyfoBedriftsmenyInfo.less";
-import Lukknapp from "nav-frontend-lukknapp";
+import {Lukknapp} from "../../GeneriskeElementer/Lukknapp";
 import amplitude from "../../utils/amplitude";
 
 const localStorageKey = 'DigiSyfoBedriftsmenyInfoLukket';
@@ -39,7 +39,7 @@ export const DigiSyfoBedriftsmenyInfo: FunctionComponent = () => {
                         noen sykmeldt å følge opp på valgt virksomhet.
                     </BodyShort>
                 </div>
-                <Lukknapp className={'lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage} />
+                <Lukknapp className={'digisyfo-bedriftsmeny-info__lukk-knapp'} onClick={lukkOgSkrivTilLocalstorage} />
             </div>
         </Alert>
     );
