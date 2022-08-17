@@ -1,6 +1,7 @@
 import {FunctionComponent, MouseEventHandler} from 'react';
 import {loggNavigasjon} from '../utils/funksjonerForAmplitudeLogging';
 import {Link, LinkProps, useLocation} from 'react-router-dom';
+import {BodyShort} from "@navikt/ds-react";
 
 export interface Props extends LinkProps {
     loggLenketekst: string;
@@ -18,5 +19,5 @@ export const LinkMedLogging: FunctionComponent<Props> = props => {
         onClick?.(event);
     };
 
-    return <Link onClick={onClickLog} {...rest} />;
+    return <BodyShort><Link onClick={onClickLog} {...rest} /></BodyShort>;
 };
