@@ -6,7 +6,7 @@ import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
-import {Heading, HelpText} from "@navikt/ds-react";
+import {BodyShort, Heading, HelpText} from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 
 const ANTALL_FORSIDESAKER: number = 3;
@@ -49,13 +49,13 @@ const SisteSaker = () => {
                     </HelpText>
                 </div>
                 {data.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
-                    <Link className="lenke" to='saksoversikt' onClick={() => {
+                    <BodyShort><Link className="lenke" to='saksoversikt' onClick={() => {
                         scroll(0,0);
                         loggNavigasjon("saksoversikt", "se alle saker", pathname)
                     }}>
                         Se alle ({data?.saker.totaltAntallSaker})
                         <HoyreChevron/>
-                    </Link>
+                    </Link></BodyShort>
                     : null}
             </div>
 
