@@ -1,13 +1,13 @@
-import { FunctionComponent, MouseEventHandler } from 'react';
-import { loggNavigasjon } from '../utils/funksjonerForAmplitudeLogging';
-import Lenkepanel, { LenkepanelProps } from 'nav-frontend-lenkepanel';
-import { useLocation } from 'react-router-dom';
+import {MouseEventHandler} from 'react';
+import {loggNavigasjon} from '../utils/funksjonerForAmplitudeLogging';
+import {Link, LinkProps, useLocation} from 'react-router-dom';
+import {LinkPanel, LinkPanelProps} from "@navikt/ds-react";
 
-interface Props extends LenkepanelProps {
+interface Props extends LinkPanelProps{
     loggLenketekst: string;
 }
 
-export const LenkepanelMedLogging: FunctionComponent<Props> = props => {
+export const LenkepanelMedLogging= (props: Props) => {
     const {onClick, loggLenketekst, ...rest} = props;
     const {pathname} = useLocation()
 
@@ -15,6 +15,20 @@ export const LenkepanelMedLogging: FunctionComponent<Props> = props => {
         loggNavigasjon(props.href, loggLenketekst, pathname);
         onClick?.(event);
     };
+    return <LinkPanel onClick={onClickLog} {...rest} />;
+};
 
-    return <Lenkepanel onClick={onClickLog} {...rest} />;
+interface InternalProps extends LinkProps{
+    loggLenketekst: string;
+
+}
+export const InternalLenkepanelMedLogging= (props: InternalProps) => {
+    const {onClick, loggLenketekst, ...rest} = props;
+    const {pathname} = useLocation()
+
+    const onClickLog: MouseEventHandler<HTMLAnchorElement> = event => {
+        loggNavigasjon(JSON.stringify(props.to), loggLenketekst, pathname);
+        onClick?.(event);
+    };
+    return <LinkPanel as={Link} onClick={onClickLog} {...rest} />;
 };
