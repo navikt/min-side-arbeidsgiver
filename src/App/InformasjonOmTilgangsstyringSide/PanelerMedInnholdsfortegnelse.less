@@ -1,5 +1,3 @@
-@import '../../../node_modules/nav-frontend-core/less/_variabler';
-
 .copy-link {
     display: flex;
     margin-bottom: 1rem;
@@ -26,11 +24,9 @@
     100% { opacity: 0; }
 }
 
-@content-width: 60rem;
-
 .paneler-med-innholdsfortegnelse {
     .navds-accordion__header { // 🤔 kanskje ikke så heldig å binde seg navds klasse her?
-        color: @navBla
+        color: var(--navds-global-color-blue-500)
     }
 
     &__container {
@@ -41,9 +37,9 @@
         gap: 1.5rem;
         margin-left: auto;
         margin-right: auto;
-        max-width: @content-width;
+        max-width: 60rem;
 
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: 768px) { /* @screen-sm */
             gap: 1.0rem;
             flex-direction: row;
             align-items: flex-start;
@@ -53,7 +49,7 @@
     &__sidepanel{
         padding-left: 0;
 
-        @media (min-width: @screen-sm-min) {
+        @media (min-width: 768px) { /* @screen-sm */
             position: sticky;
             top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
         }
