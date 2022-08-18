@@ -35,22 +35,28 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         } else {
             setantallAnnonser(0);
         }
+    };
 
-        if (orgInfo.altinntilgang.tilskuddsbrev) {
-            const messagesUrl = reporteeMessagesUrls[org.OrganizationNumber];
+    useEffect(() => {
+        if (valgtOrganisasjon !== undefined && valgtOrganisasjon.altinntilgang.tilskuddsbrev) {
+            const messagesUrl = reporteeMessagesUrls[valgtOrganisasjon.organisasjon.OrganizationNumber];
             if (messagesUrl === undefined) {
                 setAltinnMeldingsboks(undefined);
             } else {
-                const resultat = await hentMeldingsboks(messagesUrl);
-                if (resultat instanceof Error) {
-                    autentiserAltinnBruker(window.location.href);
-                    setAltinnMeldingsboks(undefined);
-                } else {
-                    setAltinnMeldingsboks(resultat);
-                }
+                hentMeldingsboks(messagesUrl)
+                    .then(resultat => {
+                        if (resultat instanceof Error) {
+                            autentiserAltinnBruker(window.location.href);
+                            setAltinnMeldingsboks(undefined);
+                        } else {
+                            setAltinnMeldingsboks(resultat);
+                        }
+                    });
             }
+        } else {
+            setAltinnMeldingsboks(undefined);
         }
-    };
+    }, [valgtOrganisasjon, reporteeMessagesUrls])
 
     useEffect(() => {
         if (valgtOrganisasjon !== undefined && organisasjoner !== undefined) {
@@ -74,6 +80,3 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         </OrganisasjonsDetaljerContext.Provider>
     );
 };
-
-export const useValgtOrganisasjon = (): OrganisasjonInfo | undefined =>
-    useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon
