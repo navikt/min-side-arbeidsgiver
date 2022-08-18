@@ -1,0 +1,24 @@
+.tjeneste-boks-banner {
+  display: flex;
+  background-color: var(--navds-global-color-blue-100);
+  align-self: stretch;
+  align-items: center;
+  height: 4rem;
+  border-radius: 4px 4px 0 0;
+  padding-left: 1rem;
+  flex-shrink: 0;
+  position: relative;
+}
+.tjeneste-boks-banner__ikon {
+  height: 1.5rem;
+  align-self: center;
+  margin-right: 1rem;
+}
+.tjeneste-boks-banner__tittel {
+  align-self: center;
+}
+@media (min-width: 992px) {
+  .tjeneste-boks-banner {
+    padding-left: 1.5rem;
+  }
+}

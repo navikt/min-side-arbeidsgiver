@@ -1,7 +1,7 @@
 import {lenkeTilForebyggefravar} from '../../../../lenker';
 import React, { useContext, useEffect, useState } from 'react';
 import IAwebikon from './IawebIkon.svg';
-import './IAwebboks.less';
+import './IAwebboks.css';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import {hentSykefravær, Sykefraværsrespons} from '../../../../api/sykefraværStatistikkApi';
 import {Tjenesteboks} from "../Tjenesteboks";

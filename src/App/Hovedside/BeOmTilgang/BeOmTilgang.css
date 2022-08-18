@@ -1,0 +1,47 @@
+.be-om-tilgang__tittel {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+.be-om-tilgang__tittel .divider {
+  display: none;
+}
+.be-om-tilgang__tittel .tekst {
+  padding: 0;
+  flex-grow: 0;
+}
+.be-om-tilgang__container {
+  margin: 0;
+}
+.be-om-tilgang__innhold {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+}
+.be-om-tilgang__tjenesteinfo-bokser {
+  margin: 1rem 0 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: inherit;
+  justify-content: space-between;
+}
+.be-om-tilgang__info {
+  width: 100%;
+  margin-bottom: 1.3rem;
+}
+@media (min-width: 768px) {
+  .be-om-tilgang__tittel {
+    margin: 3rem 0 1.5rem;
+  }
+  .be-om-tilgang__tittel .divider {
+    display: block;
+    flex-grow: 1;
+    height: 1px;
+    background-color: var(--navds-global-color-gray-400);
+  }
+  .be-om-tilgang__tittel .tekst {
+    padding: 0 1rem;
+  }
+}

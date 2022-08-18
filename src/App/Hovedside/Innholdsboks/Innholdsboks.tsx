@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import classNames from 'classnames';
-import './Innholdsboks.less';
+import './Innholdsboks.css';
 
 interface Props {
     classname?: string;

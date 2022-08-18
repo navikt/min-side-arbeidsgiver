@@ -6,7 +6,7 @@ import NyFaneLenke from '../../../GeneriskeElementer/NyFaneLenke';
 import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import Innboksikon from './Innboksikon';
 import {loggNavigasjon} from '../../../utils/funksjonerForAmplitudeLogging';
-import './BrevFraAltinnContainer.less';
+import './BrevFraAltinnContainer.css';
 import {BodyShort, Heading} from "@navikt/ds-react";
 
 const loggNavigering = (href: string, lenketekst: string) => () => {

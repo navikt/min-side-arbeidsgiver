@@ -3,7 +3,7 @@ import {innsynAaregURL} from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
 import {hentAntallArbeidsforholdFraAareg} from '../../../../api/arbeidsforholdApi';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
-import './ArbeidsforholdBoks.less';
+import './ArbeidsforholdBoks.css';
 import {Tjenesteboks} from "../Tjenesteboks";
 
 const Arbeidsforholdboks = () => {

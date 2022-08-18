@@ -3,7 +3,7 @@ import React from 'react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { loggNavigasjonTags } from '../../../utils/funksjonerForAmplitudeLogging';
 import {useLocation} from "react-router-dom";
-import "./SaksListe.less"
+import "./SaksListe.css"
 
 const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',

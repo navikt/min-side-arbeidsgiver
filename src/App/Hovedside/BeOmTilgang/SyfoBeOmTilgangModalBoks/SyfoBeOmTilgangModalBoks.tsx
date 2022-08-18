@@ -2,7 +2,7 @@ import React from 'react';
 import { infoOmNærmesteLederURL } from '../../../../lenker';
 import informasjonsikon from './informasjonsikon.svg';
 import NyFaneIkon from '../TjenesteInfo/NyFaneIkon';
-import './SyfoBeOmTilgangModalBoks.less';
+import './SyfoBeOmTilgangModalBoks.css';
 import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
 import {BodyLong, Heading, Modal} from "@navikt/ds-react";
 

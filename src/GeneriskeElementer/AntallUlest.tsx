@@ -1,5 +1,5 @@
 import React from 'react';
-import './AntallUlest.less';
+import './AntallUlest.css';
 
 export interface Props {
     antallUlest: number;

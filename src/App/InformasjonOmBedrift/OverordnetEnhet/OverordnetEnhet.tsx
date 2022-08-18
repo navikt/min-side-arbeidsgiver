@@ -3,7 +3,7 @@ import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
 import JuridiskEnhetIkon from '../ikoner/JuridiskEnhetIkon';
-import './OverordnetEnhet.less';
+import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { Enhet } from '../../../api/enhetsregisteretApi';
 import {BodyShort, Heading} from "@navikt/ds-react";

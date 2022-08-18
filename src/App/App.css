@@ -1,0 +1,14 @@
+.bedriftsmeny__inner {
+  min-height: 4rem;
+}
+.bakgrunnsside {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--navds-global-color-gray-100);
+  min-height: 100vh;
+}
+.app-laster-spinner {
+  display: flex;
+  justify-content: center;
+  margin-top: 8rem;
+}

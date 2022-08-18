@@ -10,7 +10,7 @@ import {
     BeOmTilgangBoks,
     BeOmSyfotilgang,
 } from './TjenesteInfo/TjenesteInfo';
-import './BeOmTilgang.less';
+import './BeOmTilgang.css';
 import {altinntjeneste, AltinntjenesteId} from '../../../altinn/tjenester';
 import {opprettAltinnTilgangssøknad} from '../../../altinn/tilganger';
 import {beOmTilgangIAltinnLink} from '../../../lenker';

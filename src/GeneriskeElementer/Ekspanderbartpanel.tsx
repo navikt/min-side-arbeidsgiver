@@ -3,7 +3,7 @@ import { Collapse as CollapseIcon, Expand as ExpandIcon } from '@navikt/ds-icons
 import React, { FC, ReactNode, useState } from 'react';
 import { Collapse } from 'react-collapse';
 
-import "./Ekspanderbartpanel.less";
+import "./Ekspanderbartpanel.css";
 
 export type Props = {
     className?: string;

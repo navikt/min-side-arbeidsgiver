@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {tiltaksgjennomforingURL} from '../../../../lenker';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
-import './Tiltakboks.less';
+import './Tiltakboks.css';
 import tiltakikon from './tiltakboks-ikon.svg';
 import {Arbeidsavtale, hentArbeidsavtaler} from '../../../../api/arbeidsavtalerApi';
 import {Tjenesteboks} from "../Tjenesteboks";

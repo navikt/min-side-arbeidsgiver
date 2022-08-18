@@ -1,0 +1,15 @@
+.digisyfo-bedriftsmeny-info__lukk-knapp {
+  background-color: transparent;
+}
+.digisyfo-bedriftsmeny-info .navds-alert__wrapper {
+  max-width: unset;
+  width: 100%;
+}
+.digisyfo-bedriftsmeny-info__content {
+  max-width: 43.5rem;
+}
+.digisyfo-bedriftsmeny-info__container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}

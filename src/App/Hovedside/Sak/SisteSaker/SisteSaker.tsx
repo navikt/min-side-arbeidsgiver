@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import './SisteSaker.less';
+import './SisteSaker.css';
 import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";

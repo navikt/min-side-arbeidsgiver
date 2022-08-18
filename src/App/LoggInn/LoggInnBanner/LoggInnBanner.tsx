@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import './LoggInnBanner.less';
+import './LoggInnBanner.css';
 import medhjelm from './med-hjelm.svg';
 import telefon from './telefon-person.svg';
 import kokk from './kokk.png';

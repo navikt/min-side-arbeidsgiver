@@ -1,4 +1,3 @@
-const CracoLessPlugin = require("craco-less");
 const {ProvidePlugin} = require("webpack");
 const {
     BRUKER_API_HOST = 'http://localhost:8081',
@@ -85,6 +84,5 @@ module.exports = {
             require('./server/mock/refusjonsStatusMock').mock(app);
             return middlewares
         }
-    },
-    plugins: [{ plugin: CracoLessPlugin }]
+    }
 };

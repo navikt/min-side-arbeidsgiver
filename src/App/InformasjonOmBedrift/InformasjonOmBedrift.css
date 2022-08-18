@@ -1,0 +1,29 @@
+.informasjon-om-bedrift {
+  margin: 0 1rem 4rem;
+}
+.informasjon-om-bedrift__hvitboks {
+  width: 100%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 4rem;
+  margin-top: 2rem;
+}
+.informasjon-om-bedrift .ny-fane-ikon {
+  margin-top: 3px;
+}
+@media (min-width: 992px) {
+  .informasjon-om-bedrift {
+    width: 60rem;
+    margin: 0 auto;
+  }
+  .informasjon-om-bedrift__hvitboks {
+    padding: 2rem;
+    margin-top: 3rem;
+  }
+  .informasjon-om-bedrift hr {
+    width: 40rem;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
+  }
+}

@@ -1,0 +1,23 @@
+.skjemaveileder-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.skjemaveileder-container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+@media (min-width: 768px) {
+  .skjemaveileder-container ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.skjemaveileder-container ul > li .lenkepanel {
+  height: 100%;
+  width: 100%;
+}

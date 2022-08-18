@@ -1,6 +1,6 @@
 import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
 import SyfoBeOmTilgangModalBoks from '../SyfoBeOmTilgangModalBoks/SyfoBeOmTilgangModalBoks';
-import './TjenesteInfo.less';
+import './TjenesteInfo.css';
 import { altinntjeneste, AltinntjenesteId } from '../../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import { LenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';

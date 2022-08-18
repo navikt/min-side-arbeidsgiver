@@ -6,7 +6,7 @@ import {
     lenkeTilLonnskompensasjonOgRefusjon
 } from '../../../lenker';
 import KoronaboksIkon from './KoronaboksIkon';
-import './Koronaboks.less';
+import './Koronaboks.css';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";

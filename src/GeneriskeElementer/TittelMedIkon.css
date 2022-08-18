@@ -1,0 +1,8 @@
+.tittel-med-ikon {
+  display: flex;
+  align-items: center;
+}
+.tittel-med-ikon__ikon {
+  width: 1.5rem;
+  margin-right: 1rem;
+}

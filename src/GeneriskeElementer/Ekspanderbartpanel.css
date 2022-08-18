@@ -1,0 +1,16 @@
+.ekspanderbartpanel {
+  border-radius: 4px;
+  padding: 0;
+}
+.ekspanderbartpanel__content {
+  padding: 1rem;
+}
+.ekspanderbartpanel__button {
+  width: 100%;
+  height: 4rem;
+}
+.ekspanderbartpanel__button .navds-button__inner {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

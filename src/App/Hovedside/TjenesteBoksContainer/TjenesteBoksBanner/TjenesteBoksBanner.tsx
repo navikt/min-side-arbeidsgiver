@@ -1,5 +1,5 @@
 import React from 'react';
-import './TjenesteBoksBanner.less';
+import './TjenesteBoksBanner.css';
 import {Heading} from "@navikt/ds-react";
 
 interface Props {

@@ -4,7 +4,7 @@ import {TilgangsStyringInfoTekst} from './TilgangsStyringInfoTekst/TilgangsStyri
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import {VarselHvisNedetid} from './VarselOmNedetid/VarselHvisNedetid';
-import './Logginn.less';
+import './Logginn.css';
 import { Button } from '@navikt/ds-react';
 import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
 import {BodyLong, BodyShort, Heading} from "@navikt/ds-react";

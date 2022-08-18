@@ -1,6 +1,6 @@
 import React from 'react';
 import UnderenhetIkon from './UnderenhetIkon';
-import './Organisasjonsbeskrivelse.less';
+import './Organisasjonsbeskrivelse.css';
 import {BodyShort, Label} from "@navikt/ds-react";
 
 interface Props {

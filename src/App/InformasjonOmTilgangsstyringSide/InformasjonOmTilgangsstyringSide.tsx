@@ -14,7 +14,7 @@ import {
 } from '../../lenker';
 import NyFaneLenke from '../../GeneriskeElementer/NyFaneLenke';
 import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
-import './InformasjonOmTilgangsstyringSide.less';
+import './InformasjonOmTilgangsstyringSide.css';
 import icon from './icon_tilgang.svg';
 import {PanelerMedInnholdsfortegnelse} from './PanelerMedInnholdsfortegnelse';
 

@@ -1,4 +1,4 @@
-import "./TittelMedIkon.less"
+import "./TittelMedIkon.css"
 import React, {FC} from "react";
 import {Heading} from "@navikt/ds-react";
 
