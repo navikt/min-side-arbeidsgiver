@@ -30,10 +30,8 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
 
                 <div className="syfo-modal__personvern-info">
                     <BodyLong className="syfo-modal__tekst">
-                        For å bruke denne tjennesten må du være registrert som nærmeste leder for én
-                        eller flere ansatte. Tilgangsstyringen skiller seg fra våre andre tjenester
-                        ved at den ikke baserer seg på hvilken virksomhet du har valgt i menyen, men
-                        kun baserer seg på om du er nærmeste leder eller ikke.
+                        For å bruke denne tjenesten må du være registrert som nærmeste leder for én
+                        eller flere ansatte.
                     </BodyLong>
 
                     <LenkeMedLogging
