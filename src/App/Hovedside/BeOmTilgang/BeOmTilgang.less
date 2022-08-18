@@ -1,5 +1,3 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .be-om-tilgang {
 
     &__tittel {
@@ -43,7 +41,7 @@
     }
 }
 
-@media (min-width: @screen-sm-min) {
+@media (min-width: 768px) { /* screen-sm */
     .be-om-tilgang {
 
         &__tittel {
@@ -53,7 +51,7 @@
                 display: block;
                 flex-grow: 1;
                 height: 1px;
-                background-color: @navGra40;
+                background-color: var(--navds-global-color-gray-400);
             }
 
             .tekst {

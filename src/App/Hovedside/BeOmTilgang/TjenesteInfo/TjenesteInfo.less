@@ -1,15 +1,13 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .be-om-tilgang__tjenesteinfo {
     display: flex;
     flex-direction: column;
     margin-bottom: 0.5rem;
     padding: 1rem;
-    border: 1px solid @navGra40;
+    border: 1px solid var(--navds-global-color-gray-400);
     border-radius: 4px;
     width: 100%;
 
-    @media (min-width: @screen-md-min) {
+    @media (min-width: 992px) { /* @screen-md-min */
         width: 49%;
         height: 11.5rem;
     }

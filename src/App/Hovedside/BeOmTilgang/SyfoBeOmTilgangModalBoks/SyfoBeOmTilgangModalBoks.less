@@ -1,7 +1,5 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .be-om-tilgang__tjenesteinfo__lenke-syfo {
-    color: @navBla;
+    color: var(--navds-global-color-blue-500);
     background: transparent;
     text-decoration: underline;
     cursor: pointer;
@@ -17,8 +15,8 @@
         outline: none;
         color: white;
         text-decoration: none;
-        background-color: @fokusFarge;
-        box-shadow: 0 0 0 2px @fokusFarge;
+        background-color: var(--navds-global-color-blue-800);
+        box-shadow: 0 0 0 2px var(--navds-global-color-blue-800);
     }
 
     svg {
@@ -67,7 +65,7 @@
     }
 }
 
-@media (min-width: @screen-sm) {
+@media (min-width: 768px) { /* @screen-sm */
     .modal__overlay {
         padding: initial;
     }
