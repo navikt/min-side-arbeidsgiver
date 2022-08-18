@@ -64,9 +64,9 @@
     "cookie-parser": "*"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "lint": "eslint --ext ts,tsx .",
     "docker:build": "docker build -t minside-arbeidsgiver .",
     "docker:start": "docker run -p 3000:3000 minside-arbeidsgiver"
