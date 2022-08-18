@@ -22,7 +22,6 @@
   width: 100%;
 }
 @media (min-width: 992px) {
-  /* @screen-md-min */
   .mangler-tilgang-bakgrunn {
     width: 62rem;
   }

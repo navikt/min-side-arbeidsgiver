@@ -42,7 +42,6 @@
 }
 @media (min-width: 768px) {
   .paneler-med-innholdsfortegnelse__container {
-    /* @screen-sm */
     gap: 1rem;
     flex-direction: row;
     align-items: flex-start;
@@ -53,7 +52,6 @@
 }
 @media (min-width: 768px) {
   .paneler-med-innholdsfortegnelse__sidepanel {
-    /* @screen-sm */
     position: sticky;
     top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
   }

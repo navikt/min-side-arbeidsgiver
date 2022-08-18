@@ -13,7 +13,6 @@
   margin-top: 3px;
 }
 @media (min-width: 992px) {
-  /* @screen-md */
   .informasjon-om-bedrift {
     width: 60rem;
     margin: 0 auto;

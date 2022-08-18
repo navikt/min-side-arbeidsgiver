@@ -14,7 +14,6 @@
 }
 @media (min-width: 768px) {
   .skjemaveileder-container ul {
-    /* @screen-sm */
     grid-template-columns: repeat(2, 1fr);
   }
 }

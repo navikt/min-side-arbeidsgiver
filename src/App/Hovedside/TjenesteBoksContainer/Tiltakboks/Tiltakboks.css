@@ -4,17 +4,11 @@
   }
 }
 @media (min-width: 768px) {
-  .tiltakboks {
-    /* @screen-sm */
-  }
   .tiltakboks .tekstMedTallContainer {
     height: auto;
   }
 }
 @media (min-width: 992px) {
-  .tiltakboks {
-    /* @screen-md */
-  }
   .tiltakboks .tekstMedTallContainer {
     height: 6rem;
   }

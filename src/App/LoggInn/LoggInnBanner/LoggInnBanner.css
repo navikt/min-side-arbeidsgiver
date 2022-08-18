@@ -21,7 +21,6 @@
   display: none;
 }
 @media (min-width: 768px) {
-  /* @screen-sm */
   .logg-inn-banner__tittel-og-tekst {
     display: flex;
     flex-direction: column;

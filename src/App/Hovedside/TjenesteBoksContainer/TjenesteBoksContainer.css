@@ -19,7 +19,6 @@
   margin-bottom: 0;
 }
 @media (min-width: 768px) {
-  /* @screen-sm */
   .tjenesteboks-container {
     display: flex;
     flex-wrap: wrap;

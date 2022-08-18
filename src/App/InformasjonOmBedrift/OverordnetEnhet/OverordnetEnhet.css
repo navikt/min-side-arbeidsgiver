@@ -3,7 +3,6 @@
 }
 @media (min-width: 768px) {
   .overordnet-enhet-info__container {
-    /* @screen-sm */
     width: 32rem;
     display: flex;
     flex-wrap: wrap;
