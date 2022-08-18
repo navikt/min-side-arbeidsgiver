@@ -1,11 +1,7 @@
-@import '../../../node_modules/nav-frontend-core/less/_variabler';
-
-@content-width: 60rem;
-
 .informasjon-om-tilgangsstyring {
     display: flex;
     flex-direction: column;
-    background-color: @navLysGra;
+    background-color: var(--navds-global-color-gray-100);
     min-height: 100vh;
     gap: 1.5rem;
     padding-bottom: 1.5rem;
@@ -15,12 +11,12 @@
         display: flex;
         justify-content: center;
         background-color: white;
-        border-bottom: 4px solid @navBlaLighten60;
+        border-bottom: 4px solid var(--navds-global-color-blue-200);
 
         &-heading {
             display: flex;
             align-items: center;
-            width: @content-width;
+            width: 60rem;
 
             img {
                 margin: 1rem;

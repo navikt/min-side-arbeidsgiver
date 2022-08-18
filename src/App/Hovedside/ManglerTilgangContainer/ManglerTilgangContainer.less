@@ -1,9 +1,7 @@
-@import '~nav-frontend-core/less/_variabler';
-
 .mangler-tilgang-bakgrunn {
     display: flex;
     flex-direction: column;
-    background-color: @navLysGra;
+    background-color: var(--navds-global-color-gray-100);
     align-items: center;
     align-self: center;
     width: 100%;
@@ -25,7 +23,7 @@
 .mangler-tilgang-lenkepanel {
     width: 100%;
 }
-@media (min-width: @screen-md-min) {
+@media (min-width: 992px) { /* @screen-md-min */
     .mangler-tilgang-bakgrunn {
         width: 62rem;
 
