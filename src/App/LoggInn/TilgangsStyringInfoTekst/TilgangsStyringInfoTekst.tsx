@@ -1,7 +1,7 @@
 import React from 'react';
 import { basename } from '../../../paths';
 import InfoIkon from './InfoIkon';
-import './TilgangsStyringInfoTekst.less';
+import './TilgangsStyringInfoTekst.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Label} from "@navikt/ds-react";
 

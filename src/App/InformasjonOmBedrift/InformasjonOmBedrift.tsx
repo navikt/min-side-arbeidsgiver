@@ -4,7 +4,7 @@ import { Enhet, hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregi
 import Underenhet from './Underenhet/Underenhet';
 import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
-import './InformasjonOmBedrift.less';
+import './InformasjonOmBedrift.css';
 
 interface Enheter {
     underenhet: Enhet;

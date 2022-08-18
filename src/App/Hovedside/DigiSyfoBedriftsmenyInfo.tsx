@@ -1,7 +1,7 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {OrganisasjonerOgTilgangerContext, SyfoTilgang} from '../OrganisasjonerOgTilgangerProvider';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
-import "./DigiSyfoBedriftsmenyInfo.less";
+import "./DigiSyfoBedriftsmenyInfo.css";
 import {Lukknapp} from "../../GeneriskeElementer/Lukknapp";
 import amplitude from "../../utils/amplitude";
 

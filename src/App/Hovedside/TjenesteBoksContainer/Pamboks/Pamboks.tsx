@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import {arbeidsplassenURL} from '../../../../lenker';
 import PamboksIkon from './pamboks-ikon.svg';
-import './Pamboks.less';
+import './Pamboks.css';
 import {Tjenesteboks} from "../Tjenesteboks";
 
 const Pamboks = () => {

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {lenkeTilPermitteringOgMasseoppsigelsesSkjema, skjemaForArbeidsgiverURL} from '../../../lenker';
-import './SkjemaveilederContainer.less';
+import './SkjemaveilederContainer.css';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {LenkepanelMedLogging} from '../../../GeneriskeElementer/LenkepanelMedLogging';

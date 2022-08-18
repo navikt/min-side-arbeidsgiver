@@ -11,7 +11,7 @@ import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import {FeatureToggleProvider} from '../FeatureToggleProvider';
 import {ManglerTilgangContainer} from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
 import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
-import './App.less';
+import './App.css';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
 import {NotifikasjonWidgetProvider} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {gittMiljo} from '../utils/environment';

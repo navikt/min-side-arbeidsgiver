@@ -7,7 +7,7 @@ import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
-import './TjenesteBoksContainer.less';
+import './TjenesteBoksContainer.css';
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);

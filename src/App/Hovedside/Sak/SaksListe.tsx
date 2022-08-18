@@ -1,6 +1,6 @@
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { SakPanel } from './SakPanel';
-import "./SaksListe.less";
+import "./SaksListe.css";
 
 type Props = {
     saker: Array<GQL.Sak>;

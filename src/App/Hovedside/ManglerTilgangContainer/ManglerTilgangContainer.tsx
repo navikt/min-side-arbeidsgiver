@@ -3,7 +3,7 @@ import {ManglerTilgangLenkePanel} from './ManglerTilgangLenkePanel/ManglerTilgan
 import {lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo} from '../../../lenker';
 import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
-import './ManglerTilgangContainer.less';
+import './ManglerTilgangContainer.css';
 import {Heading} from "@navikt/ds-react";
 
 export const ManglerTilgangContainer: FunctionComponent = () => {

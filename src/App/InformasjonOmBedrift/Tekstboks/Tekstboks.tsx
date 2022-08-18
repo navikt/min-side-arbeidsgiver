@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import './Tekstboks.less';
+import './Tekstboks.css';
 
 interface Props {
     className?: string;

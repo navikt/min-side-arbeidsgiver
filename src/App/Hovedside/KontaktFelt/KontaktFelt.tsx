@@ -1,5 +1,5 @@
 import React from 'react';
-import './KontaktFelt.less';
+import './KontaktFelt.css';
 import {BodyLong, Heading, Ingress} from "@navikt/ds-react";
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Dialog, Send, Telephone} from "@navikt/ds-icons";

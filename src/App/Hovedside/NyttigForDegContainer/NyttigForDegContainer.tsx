@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
-import './NyttigForDegContainer.less';
+import './NyttigForDegContainer.css';
 
 const NyttigForDegContainer = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);

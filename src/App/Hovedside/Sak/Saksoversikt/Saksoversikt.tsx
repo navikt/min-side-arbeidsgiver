@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
-import './Saksoversikt.less';
+import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
 import {BodyShort, HelpText, Pagination} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';

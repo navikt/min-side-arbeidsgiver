@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import * as Record from '../../../utils/Record';
-import './GiOssTilbakemelding.less';
+import './GiOssTilbakemelding.css';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../../utils/environment';
 

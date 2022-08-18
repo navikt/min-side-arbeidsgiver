@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import bedriftinfoikon from './infoombedriftikon.svg';
-import './Bedriftsinfoknapp.less';
+import './Bedriftsinfoknapp.css';
 import { InternalLenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import {TittelMedIkon} from "../../../../GeneriskeElementer/TittelMedIkon";
 

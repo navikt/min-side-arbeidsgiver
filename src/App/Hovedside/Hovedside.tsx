@@ -10,7 +10,7 @@ import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer
 import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederContainer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
-import './Hovedside.less';
+import './Hovedside.css';
 import {GiOssTilbakemelding} from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';

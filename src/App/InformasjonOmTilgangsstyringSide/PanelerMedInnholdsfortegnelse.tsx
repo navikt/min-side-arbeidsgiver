@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useEffect, useState } from 'react';
 import { Heading, Menu, Panel } from '@navikt/ds-react';
 import { HeadingMedClipBoardLink } from './helpers/HeadingMedClipBoardLink';
-import './PanelerMedInnholdsfortegnelse.less';
+import './PanelerMedInnholdsfortegnelse.css';
 
 export type PanelerMedInnholdsfortegnelseProps = {
     toc: {
