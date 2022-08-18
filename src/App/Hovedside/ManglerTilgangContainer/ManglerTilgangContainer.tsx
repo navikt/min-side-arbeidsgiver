@@ -13,17 +13,17 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
         <>
             {harTilganger && (
                 <Brodsmulesti
-                    brodsmuler={[{url: '/mangler-tilgang', title: 'Du mangler tilganger', handleInApp: true,}]}
+                    brodsmuler={[{url: '/mangler-tilgang', title: 'Du mangler tilganger som arbeidsgiver', handleInApp: true,}]}
                 />
             )}
             <div className="mangler-tilgang-bakgrunn ">
                 <Heading size="large" level="1" className={'mangler-tilgang-bakgrunn__innholdstittel'}>
-                    Du mangler tilganger
+                    Du mangler tilganger som arbeidsgiver
                 </Heading>
                 <span className="mangler-tilgang-container">
                     <ManglerTilgangLenkePanel
                         tittel="Se tjenester som privatperson"
-                        infoTekst="Gå til Ditt NAV"
+                        infoTekst="Gå til din innloggede side"
                         lenke={lenkeTilDittNavPerson}
                     />
                     <ManglerTilgangLenkePanel
