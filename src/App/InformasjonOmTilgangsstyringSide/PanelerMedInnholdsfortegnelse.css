@@ -1,0 +1,71 @@
+.copy-link {
+  display: flex;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+.copy-link a {
+  cursor: pointer;
+  margin-right: 1rem;
+}
+.copy-link .alert-show {
+  animation: fadeInOut 3s linear 1 forwards;
+}
+.copy-link .alert-hide {
+  opacity: 0;
+}
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.paneler-med-innholdsfortegnelse .navds-accordion__header {
+  color: var(--navds-global-color-blue-500);
+}
+.paneler-med-innholdsfortegnelse__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 60rem;
+}
+@media (min-width: 768px) {
+  .paneler-med-innholdsfortegnelse__container {
+    /* @screen-sm */
+    gap: 1rem;
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+.paneler-med-innholdsfortegnelse__sidepanel {
+  padding-left: 0;
+}
+@media (min-width: 768px) {
+  .paneler-med-innholdsfortegnelse__sidepanel {
+    /* @screen-sm */
+    position: sticky;
+    top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
+  }
+}
+.paneler-med-innholdsfortegnelse__sidepanelhead {
+  margin-left: 0.5rem;
+}
+.paneler-med-innholdsfortegnelse__innhold {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.paneler-med-innholdsfortegnelse__tekst {
+  padding: 2rem;
+}

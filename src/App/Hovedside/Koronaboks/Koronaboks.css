@@ -1,0 +1,32 @@
+.koronaboks {
+  background-color: transparent;
+}
+.koronaboks .ekspanderbartPanel__hode {
+  padding: 1.5rem 1rem 1rem;
+}
+.koronaboks svg {
+  vertical-align: bottom;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.koronaboks__tittel {
+  margin-left: calc((29px / 2) - 3px);
+  gap: calc(29px/2);
+  display: flex;
+  align-items: center;
+}
+.koronaboks__ikon {
+  width: 3rem;
+}
+.koronaboks__tekst {
+  margin: 0.5rem 0;
+}
+.koronaboks__lenke {
+  margin-bottom: 0.5rem;
+}
+.koronaboks__innhold {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-left: 1rem;
+}

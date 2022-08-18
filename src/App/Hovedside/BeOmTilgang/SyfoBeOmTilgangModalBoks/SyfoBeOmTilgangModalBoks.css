@@ -1,0 +1,74 @@
+.be-om-tilgang__tjenesteinfo__lenke-syfo {
+  color: var(--navds-global-color-blue-500);
+  background: transparent;
+  text-decoration: underline;
+  cursor: pointer;
+  border: none;
+}
+.be-om-tilgang__tjenesteinfo__lenke-syfo:hover,
+.be-om-tilgang__tjenesteinfo__lenke-syfo--hover {
+  text-decoration: none;
+}
+.be-om-tilgang__tjenesteinfo__lenke-syfo:focus,
+.be-om-tilgang__tjenesteinfo__lenke-syfo--focus {
+  outline: none;
+  color: white;
+  text-decoration: none;
+  background-color: var(--navds-global-color-blue-800);
+  box-shadow: 0 0 0 2px var(--navds-global-color-blue-800);
+}
+.be-om-tilgang__tjenesteinfo__lenke-syfo svg {
+  margin-right: 0.25rem;
+}
+.modal__overlay {
+  padding: 1rem 0;
+  width: 100%;
+}
+.syfo-modal {
+  width: 100%;
+  max-width: 554px;
+  border-radius: 0;
+  margin: 0 1.5rem 0 1.5rem;
+}
+.syfo-modal__innhold {
+  padding: 1rem;
+}
+.syfo-modal__tekst {
+  margin-bottom: 1rem;
+}
+.syfo-modal__overskrift {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.syfo-modal__overskrift-og-info {
+  display: flex;
+  margin: 2rem 0 0.6rem;
+  align-items: center;
+}
+.syfo-modal__overskrift-og-info .infoikon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+.syfo-modal__overskrift-og-info .tittel {
+  min-width: 10rem;
+  font-weight: 600;
+}
+@media (min-width: 768px) {
+  /* @screen-sm */
+  .modal__overlay {
+    padding: initial;
+  }
+  .syfo-modal {
+    width: 554px;
+    height: initial;
+    border-radius: 4px;
+  }
+  .syfo-modal__innhold {
+    padding: 0;
+    margin: 2.5rem 1.5rem 1.6rem;
+  }
+  .syfo-modal__overskrift {
+    margin-top: 0;
+  }
+}

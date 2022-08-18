@@ -1,0 +1,13 @@
+.innsynisak {
+  margin-bottom: 1rem;
+}
+.innsynisak__header {
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0 1rem;
+}
+.innsynisak__tittel {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+}

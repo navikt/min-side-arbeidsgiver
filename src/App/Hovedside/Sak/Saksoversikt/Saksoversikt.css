@@ -1,0 +1,41 @@
+.saksoversikt {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: var(--navds-global-color-gray-100);
+  margin: 1rem;
+  padding: 1rem 0;
+}
+@media (min-width: 1024px) {
+  .saksoversikt {
+    width: 60rem;
+    margin: 0 auto;
+  }
+}
+.saksoversikt__header {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 4rem;
+  row-gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.saksoversikt__hjelpetekst {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 1.2rem;
+}
+.saksoversikt__knapp {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: var(--navds-global-color-blue-500);
+}
+.saksoversikt__knapp:hover {
+  text-decoration: none;
+}

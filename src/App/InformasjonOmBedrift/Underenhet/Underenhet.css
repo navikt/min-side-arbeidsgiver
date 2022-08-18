@@ -1,0 +1,10 @@
+.underenhet-info {
+  margin-bottom: 1.5rem;
+}
+.underenhet-info__navn {
+  display: flex;
+  align-items: center;
+}
+.underenhet-info__navn .underenhet-ikon {
+  margin-right: 0.3rem;
+}

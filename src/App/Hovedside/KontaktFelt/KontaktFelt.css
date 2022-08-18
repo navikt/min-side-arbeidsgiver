@@ -1,0 +1,47 @@
+.kontaktfelt {
+  background-color: white;
+}
+.kontaktfelt__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 2rem;
+  padding: 2rem 0 0 0;
+  margin: 0 1rem 0 1rem;
+}
+.kontaktfelt__content .lenke svg {
+  stroke: none;
+}
+.kontaktfelt__content ul {
+  list-style: none;
+  margin: 0;
+  display: grid;
+  padding: 0;
+  gap: 2rem;
+  grid-template-columns: repeat(1, 1fr);
+}
+@media (min-width: 992px) {
+  .kontaktfelt__content ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.kontaktfelt__content ul > li {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.kontaktfelt__content a {
+  display: flex;
+  gap: 1rem;
+}
+@media (min-width: 992px) {
+  .kontaktfelt__content a {
+    flex-direction: column;
+  }
+}
+@media (min-width: 992px) {
+  .kontaktfelt__content {
+    width: 60rem;
+    margin: 0 auto;
+  }
+}

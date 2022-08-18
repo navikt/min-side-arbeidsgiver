@@ -1,0 +1,21 @@
+.nyttig-for-deg__bokser {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+.nyttig-for-deg__bokser .boks {
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .nyttig-for-deg {
+    /* @screen-sm-min */
+  }
+  .nyttig-for-deg__bokser {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .nyttig-for-deg__bokser .boks {
+    width: 49%;
+  }
+}

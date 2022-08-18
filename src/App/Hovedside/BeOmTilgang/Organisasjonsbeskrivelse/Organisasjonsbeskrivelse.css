@@ -1,0 +1,23 @@
+.be-om-tilgang .organisasjonsbeskrivelse {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.be-om-tilgang .organisasjonsbeskrivelse__ikon {
+  height: 2.5rem;
+  width: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.8rem;
+  flex-shrink: 0;
+}
+.be-om-tilgang .organisasjonsbeskrivelse__beskrivelse {
+  overflow: hidden;
+  text-align: left;
+}
+.be-om-tilgang .organisasjonsbeskrivelse__beskrivelse .organisasjonsnavn {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
