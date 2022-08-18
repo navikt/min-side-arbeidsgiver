@@ -27,7 +27,7 @@ export const SkjemaveilederContainer = () => {
     const lenke = (tekst: string, href: string, target?: string) =>
         <li>
 
-            <LenkepanelMedLogging tittelProps='element' href={href} loggLenketekst={tekst} target={target}>
+            <LenkepanelMedLogging href={href} loggLenketekst={tekst} target={target}>
                 {tekst}
             </LenkepanelMedLogging>
         </li>;

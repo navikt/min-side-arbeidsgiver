@@ -15,8 +15,9 @@ export const Tjenesteboks:FC<Props> = (props) =>
         <LenkepanelMedLogging
             loggLenketekst={props.tittel}
             href={props.href}
-            tittelProps="normaltekst"
             aria-label={props["aria-label"]}
+            border={false}
+            className={"tjenesteboks__lenkepanel"}
         >
             <div style={{paddingRight:"2rem"}}>{props.children}</div>
 
