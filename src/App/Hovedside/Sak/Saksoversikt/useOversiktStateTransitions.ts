@@ -32,7 +32,6 @@ export const useOversiktStateTransitions = () => {
     const [sessionState, setSessionState] = useSessionState()
 
     const reduce = (current: State, action: Action): State => {
-        console.log(`transition change ${action.action}`, action)
         switch (action.action) {
             case 'bytt-filter':
                 if (equalFilter(current.filter, action.filter)){

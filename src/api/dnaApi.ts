@@ -13,10 +13,18 @@ const RefusjonStatus = z.object({
 const RefusjonStatusResponse = z.array(RefusjonStatus);
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 
-export async function hentSyfoVirksomheter(): Promise<Organisasjon[]> {
+const DigiSyfoOrganisasjon = z.object({
+    organisasjon: Organisasjon,
+    antallSykmeldinger: z.number(),
+});
+const DigiSyfoOrganisasjonResponse = z.array(DigiSyfoOrganisasjon);
+export type DigiSyfoOrganisasjon = z.infer<typeof DigiSyfoOrganisasjon>;
+export type DigiSyfoOrganisasjonResponse = z.infer<typeof DigiSyfoOrganisasjonResponse>;
+
+export async function hentSyfoVirksomheter(): Promise<DigiSyfoOrganisasjonResponse> {
     const respons = await fetch(digiSyfoVirksomheterURL);
     if (respons.ok) {
-        return await respons.json();
+        return DigiSyfoOrganisasjonResponse.parse(await respons.json());
     }
     throw new Error('Feil ved kontakt mot baksystem.');
 }
