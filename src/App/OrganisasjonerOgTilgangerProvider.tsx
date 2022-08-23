@@ -1,18 +1,20 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
 import {
+    DigiSyfoOrganisasjon,
     hentOrganisasjoner,
     hentRefusjonstatus,
     hentSyfoVirksomheter,
     RefusjonStatus
 } from '../api/dnaApi';
-import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
+import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
 import * as Record from '../utils/Record';
-import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
-import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import { SpinnerMedBanner } from './Spinner';
+import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
+import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
+import {SpinnerMedBanner} from './Spinner';
 import amplitude from '../utils/amplitude';
-import { Organisasjon } from '../altinn/organisasjon';
-import { AlertContext } from './Alerts/Alerts';
+import {Organisasjon} from '../altinn/organisasjon';
+import {AlertContext} from './Alerts/Alerts';
+import * as Sentry from "@sentry/browser";
 
 type orgnr = string;
 
@@ -27,6 +29,7 @@ export type OrganisasjonInfo = {
     altinntilgang: Record<AltinntjenesteId, boolean>;
     altinnsøknad: Record<AltinntjenesteId, Søknadsstatus>;
     syfotilgang: boolean;
+    antallSykmeldinger: number;
     reporteetilgang: boolean;
     refusjonstatustilgang: boolean;
     refusjonstatus: {
@@ -57,7 +60,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<AltinnTilgangssøknad[] | undefined>([]);
     const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
 
-    const [syfoVirksomheter, setSyfoVirksomheter] = useState<Organisasjon[] | undefined>(undefined);
+    const [syfoVirksomheter, setSyfoVirksomheter] = useState<DigiSyfoOrganisasjon[] | undefined>(undefined);
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
     const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
     const [visFeilmelding, setVisFeilmelding] = useState(false);
@@ -87,7 +90,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                     setReporteeMessagesUrls({});
                 }
             })
-            .catch(() => {
+            .catch((error) => {
+                Sentry.captureException(error);
                 setAltinnorganisasjoner([]);
                 setVisFeilmelding(true);
                 addAlert("TilgangerAltinn");
@@ -95,11 +99,17 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
         hentAltinntilganger()
             .then(setAltinntilganger)
-            .catch(() => setAltinntilganger(Record.map(altinntjeneste, () => new Set())));
+            .catch((error) => {
+                Sentry.captureException(error);
+                setAltinntilganger(Record.map(altinntjeneste, () => new Set()));
+            });
 
         hentAltinnTilgangssøknader()
             .then(setAltinnTilgangssøknader)
-            .catch(() => setAltinnTilgangssøknader([]));
+            .catch((error) => {
+                Sentry.captureException(error);
+                setAltinnTilgangssøknader([]);
+            });
 
         hentSyfoVirksomheter()
             .then(virksomheter => {
@@ -107,7 +117,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 setTilgangTilSyfo(virksomheter.length > 0 ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG)
                 amplitude.setUserProperties({ syfotilgang: virksomheter.length > 0 });
             })
-            .catch(() => {
+            .catch((error) => {
+                Sentry.captureException(error);
                 setSyfoVirksomheter([]);
                 setVisSyfoFeilmelding(true);
                 setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
@@ -117,7 +128,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             .then(refusjonstatus => {
                 setAlleRefusjonsstatus(refusjonstatus);
             })
-            .catch(() => {
+            .catch((error) => {
+                Sentry.captureException(error);
                 setAlleRefusjonsstatus([]);
                 // har ikke egen alert type på dette, da det mest sannsynlig er altinn som feiler
                 setVisFeilmelding(true);
@@ -128,7 +140,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
 
     if (altinnorganisasjoner && syfoVirksomheter && altinntilganger && altinnTilgangssøknader && tilgangTilSyfo !== SyfoTilgang.LASTER  && alleRefusjonsstatus !== undefined) {
         const organisasjoner: Record<orgnr, OrganisasjonInfo> = Record.fromEntries(
-            [...altinnorganisasjoner, ...syfoVirksomheter].map((org) => {
+            [...altinnorganisasjoner, ...syfoVirksomheter.map(({organisasjon}) => organisasjon)].map((org) => {
                 const refusjonstatus = alleRefusjonsstatus.find(({virksomhetsnummer}) => virksomhetsnummer === org.OrganizationNumber)
                 return [
                     org.OrganizationNumber,
@@ -142,8 +154,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                             (id: AltinntjenesteId, _orgnrMedTilgang: Set<orgnr>) =>
                                 sjekkTilgangssøknader(org.OrganizationNumber, id, _orgnrMedTilgang, altinnTilgangssøknader)
                         ),
-                        syfotilgang: syfoVirksomheter.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber),
-                        reporteetilgang: altinnorganisasjoner.some(({OrganizationNumber})=> OrganizationNumber === org.OrganizationNumber),
+                        syfotilgang: syfoVirksomheter.some(({organisasjon}) => organisasjon.OrganizationNumber === org.OrganizationNumber),
+                        antallSykmeldinger: syfoVirksomheter.find(({organisasjon}) => organisasjon.OrganizationNumber === org.OrganizationNumber)?.antallSykmeldinger ?? 0,
+                        reporteetilgang: altinnorganisasjoner.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber),
                         refusjonstatus: refusjonstatus?.statusoversikt ?? {},
                         refusjonstatustilgang: refusjonstatus?.tilgang ?? false,
                     }

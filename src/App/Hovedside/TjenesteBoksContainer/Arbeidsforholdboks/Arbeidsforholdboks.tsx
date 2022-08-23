@@ -11,7 +11,7 @@ const Arbeidsforholdboks = () => {
     const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
     useEffect(() => {
         if (valgtOrganisasjon)
-            hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber).then(antallArbeidsforholdRespons =>
+            hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? '').then(antallArbeidsforholdRespons =>
                 setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
             );
     }, [valgtOrganisasjon]);

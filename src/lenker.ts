@@ -56,7 +56,7 @@ export const ringOssTLF = gittMiljo({
 })
 
 export const digiSyfoVirksomheterURL =
-    '/min-side-arbeidsgiver/api/narmesteleder/virksomheter';
+    '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v2';
 
 export const refusjonstatusURL =
     '/min-side-arbeidsgiver/api/refusjon_status';

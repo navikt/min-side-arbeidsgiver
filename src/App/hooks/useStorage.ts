@@ -1,4 +1,5 @@
 import {useState} from "react";
+import * as Sentry from "@sentry/browser";
 
 export type UseStorage<S> = [
     S, /* value */
@@ -28,7 +29,7 @@ function useStorage<S>(
             const item = storage.getItem(key);
             return item !== null ? JSON.parse(item) : initialValue;
         } catch (error) {
-            console.error(error);
+            Sentry.captureException(error);
             return initialValue;
         }
     });
@@ -40,7 +41,7 @@ function useStorage<S>(
             setStoredValue(valueToStore);
             storage.setItem(key, JSON.stringify(valueToStore));
         } catch (error) {
-            console.error(error);
+            Sentry.captureException(error);
         }
     };
 
