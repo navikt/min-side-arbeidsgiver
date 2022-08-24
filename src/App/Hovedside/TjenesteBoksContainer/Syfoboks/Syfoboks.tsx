@@ -15,7 +15,7 @@ const Syfoboks = () => {
         {
             antallSykmeldinger == 0
                 ? <>Se sykmeldte du har ansvar for å følge opp</>
-                : <><StortTall>{antallSykmeldinger}</StortTall> {antallSykmeldinger === 1 ? 'sykmelding' : 'sykmeldinger'} å følge opp</>
+                : <><StortTall>{antallSykmeldinger}</StortTall> {antallSykmeldinger === 1 ? 'sykmelding' : 'sykmeldinger'}</>
         }
     </Tjenesteboks>;
 };
