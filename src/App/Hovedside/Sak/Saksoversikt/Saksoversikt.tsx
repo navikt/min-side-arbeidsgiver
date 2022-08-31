@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
-import {BodyShort, HelpText, Pagination} from '@navikt/ds-react';
+import {BodyShort, Pagination} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {useSaker} from '../useSaker';
@@ -11,6 +11,7 @@ import amplitude from '../../../../utils/amplitude';
 import {useOversiktStateTransitions} from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
 import {Filter} from './Filter';
+import { OmSaker } from '../OmSaker';
 
 export const SIDE_SIZE = 30;
 
@@ -66,12 +67,7 @@ const Saksoversikt = () => {
         <Alerts/>
         <FilterOgSøkResultat state={state}/>
         <div className="saksoversikt__hjelpetekst">
-            <HelpText id="hjelptekst" ref={hjelpetekstButton} title="Hva vises her?">
-                <div style={{maxWidth:"25rem"}}>
-                    Her vises meldinger for permitteringer, oppsigelser eller innskrenkning i arbeidstid. Vi jobber med
-                    at flere saker skal vises her etterhvert.
-                </div>
-            </HelpText>
+            <OmSaker id="hjelptekst" ref={hjelpetekstButton} />
             <button
                 className={"saksoversikt__knapp"}
                 onClick={(e) => {

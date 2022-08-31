@@ -6,8 +6,9 @@ import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
-import {BodyShort, Heading, HelpText} from "@navikt/ds-react";
+import {BodyShort, Heading } from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
+import { OmSaker } from '../OmSaker';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -41,12 +42,7 @@ const SisteSaker = () => {
                     <Heading size="small" level="2">
                         Siste saker
                     </Heading>
-                    <HelpText title="Hva vises her?">
-                        <div style={{maxWidth:"25rem"}}>
-                        Her vises meldinger for permitteringer, oppsigelser eller innskrenkning i arbeidstid. Vi
-                        jobber med at flere saker skal vises her etterhvert.
-                        </div>
-                    </HelpText>
+                    <OmSaker />
                 </div>
                 {data.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
                     <BodyShort><Link className="lenke" to='saksoversikt' onClick={() => {
