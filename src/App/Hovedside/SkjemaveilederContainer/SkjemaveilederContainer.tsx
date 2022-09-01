@@ -69,8 +69,6 @@ export const SkjemaveilederContainer = () => {
                     lenkeTilPermitteringOgMasseoppsigelsesSkjema
                 )}
                 {altinnSkjemaLenke('inntektsmelding')}
-                {altinnSkjemaLenke('mentortilskudd')}
-                {altinnSkjemaLenke('inkluderingstilskudd')}
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
