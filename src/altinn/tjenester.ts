@@ -2,8 +2,6 @@ import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
 
 export type AltinnskjemaId =
-    | 'mentortilskudd'
-    | 'inkluderingstilskudd'
     | 'ekspertbistand'
     | 'inntektsmelding'
     | 'utsendtArbeidstakerEØS';
@@ -14,6 +12,8 @@ export type NAVtjenesteId =
     | 'midlertidigLønnstilskudd'
     | 'varigLønnstilskudd'
     | 'sommerjobb'
+    | 'mentortilskudd'
+    | 'inkluderingstilskudd'
     | 'iaweb'
     | 'pam'
     | 'tilskuddsbrev';
@@ -39,45 +39,6 @@ export type AltinntjenesteId = AltinnskjemaId | NAVtjenesteId;
 export type Altinn = Altinnskjema | NAVTjeneste;
 
 export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
-    mentortilskudd: {
-        sort: 'skjema',
-        navn: 'Mentortilskudd',
-        tjenestekode: '5216',
-        tjenesteversjon: '1',
-        beOmTilgangBeskrivelse: `
-            Få tilgang til å søke om mentortilskudd i Altinn. Du kan søke om
-            mentortilskudd for å få dekket frikjøp av en arbeidskollega som
-            kan gi praktisk hjelp, veiledning og opplæring for personer som gjennomfører
-            arbeidsmarkedstiltak.`,
-        skjemaUrl: gittMiljo({
-            prod:
-                'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-mentor/',
-            dev:
-                'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
-            other:
-                '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5216',
-        }),
-    },
-
-    inkluderingstilskudd: {
-        sort: 'skjema',
-        navn: 'Inkluderingstilskudd',
-        tjenestekode: '5212',
-        tjenesteversjon: '1',
-        beOmTilgangBeskrivelse: `
-            Få tilgang til å søke om inkluderingstilskudd i Altinn.
-            Du kan søke om tilskudd for å dekke merkostnader du som
-            arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
-        skjemaUrl: gittMiljo({
-            prod:
-                'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-inkluderingstilskudd/',
-            dev:
-                'https://tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
-            other:
-                '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Start/StartService.aspx?ServiceEditionCode=1&ServiceCode=5212',
-        }),
-    },
-
     ekspertbistand: {
         sort: 'skjema',
         navn: 'Ekspertbistand',
@@ -173,6 +134,30 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
                 Tilskudd til sommerjobb kan gis dersom du kan tilby sommerjobb til unge arbeidsledige som har fått vurdert av NAV at de har behov for arbeidsrettet bistand.`,
         tjenestekode: '5516',
         tjenesteversjon: '3',
+    },
+
+    mentortilskudd: {
+        sort: 'tjeneste',
+        navn: 'Mentortilskudd',
+        tjenestekode: '5216',
+        tjenesteversjon: '1',
+        beOmTilgangBeskrivelse: `
+            Få tilgang til avtaler om mentortilskudd. 
+            Du kan søke om mentortilskudd for å få dekket frikjøp av en 
+            arbeidskollega som kan gi praktisk hjelp, veiledning og opplæring 
+            for personer som gjennomfører arbeidsmarkedstiltak.
+            `,
+    },
+
+    inkluderingstilskudd: {
+        sort: 'tjeneste',
+        navn: 'Inkluderingstilskudd',
+        tjenestekode: '5212',
+        tjenesteversjon: '1',
+        beOmTilgangBeskrivelse: `
+        Få tilgang til avtaler om inkluderingstilskudd.
+        Du kan søke om tilskudd for å dekke merkostnader du som
+        arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
     },
 
     iaweb: {
