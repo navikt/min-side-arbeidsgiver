@@ -1,32 +1,35 @@
-@media (min-width: 520px) {
-  .tiltakboks .tekstMedTallContainer {
-    height: 6rem;
-  }
-}
-@media (min-width: 768px) {
-  .tiltakboks .tekstMedTallContainer {
-    height: auto;
-  }
-}
-@media (min-width: 992px) {
-  .tiltakboks .tekstMedTallContainer {
-    height: 6rem;
-  }
-}
 .tiltakboks .tekstMedTallContainer {
-  display: flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+
+  /* This is hack. We are unable to find the right size of inner
+   * div, wrt. chevron from design-systemet-component and tjenseteboks-size
+   */
+  max-width: 1px;
 }
+
+@media (min-width: 460px) and (max-width: 768px), (min-width: 900px){
+  .tiltakboks .tekstMedTallContainer {
+    grid-template-columns: auto auto auto auto;
+  }
+}
+
 .tiltakboks .tekstMedTallContainer .antall {
   font-size: 2rem;
   line-height: 2.5rem;
   font-weight: 500;
   margin-right: 0.5rem;
 }
+
 .tiltakboks .avsnitt {
   margin-bottom: 1rem;
 }
+
 .tiltakboks .tekst {
   margin-right: 2rem;
+}
+
+.tiltakboks .antall {
+  justify-self: right;
 }

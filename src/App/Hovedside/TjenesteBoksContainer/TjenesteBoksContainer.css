@@ -1,3 +1,12 @@
+.tjenesteboks-innhold {
+  /*height: 14rem;*/
+  display: flex;
+}
+
+.tjenesteboks__lenkepanel {
+  min-height: 8rem;
+}
+
 .tjenesteboks-container .tjenesteboks {
   background-color: white;
   margin-bottom: 2rem;
@@ -12,10 +21,10 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 14rem;
+  /*height: 14rem;*/
 }
 .tjenesteboks-container .tjenesteboks .tjenesteboks-innhold .lenkepanel {
-  height: 13rem;
+  /*height: 13rem;*/
   margin-bottom: 0;
 }
 @media (min-width: 768px) {
@@ -28,10 +37,10 @@
     flex-grow: 1;
   }
   .tjenesteboks-container.antall-en .tjenesteboks .tjenesteboks-innhold {
-    height: 12rem;
+    /*height: 12rem;*/
   }
   .tjenesteboks-container.antall-en .tjenesteboks__lenkepanel {
-    height: 11rem;
+    /*height: 11rem;*/
   }
   .tjenesteboks-container.antall-partall .tjenesteboks,
   .tjenesteboks-container.antall-oddetall .tjenesteboks {
@@ -39,10 +48,10 @@
   }
   .tjenesteboks-container.antall-partall .tjenesteboks .tjenesteboks-innhold,
   .tjenesteboks-container.antall-oddetall .tjenesteboks .tjenesteboks-innhold {
-    height: 13rem;
+    /*height: 13rem;*/
   }
   .tjenesteboks-container.antall-partall .tjenesteboks__lenkepanel,
   .tjenesteboks-container.antall-oddetall .tjenesteboks__lenkepanel {
-    height: 12rem;
+    /*height: 12rem;*/
   }
 }

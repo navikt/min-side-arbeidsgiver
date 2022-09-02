@@ -7,11 +7,9 @@ export interface Arbeidsavtale {
 }
 
 export async function hentArbeidsavtaler(
-    valgtOrganisasjon: Organisasjon,
+    orgnr: string,
 ): Promise<Array<Arbeidsavtale>> {
-    const respons = await fetch(
-        hentArbeidsavtalerApiLink + 'bedriftNr=' + valgtOrganisasjon.OrganizationNumber,
-    );
+    const respons = await fetch(hentArbeidsavtalerApiLink + 'bedriftNr=' + orgnr);
     if (respons.ok) {
         return respons.json();
     }

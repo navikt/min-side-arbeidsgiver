@@ -19,8 +19,7 @@ export const Tjenesteboks:FC<Props> = (props) =>
             border={false}
             className={"tjenesteboks__lenkepanel"}
         >
-            <div style={{paddingRight:"2rem"}}>{props.children}</div>
-
+            {props.children}
         </LenkepanelMedLogging>
     </div>;
 

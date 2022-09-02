@@ -6,7 +6,7 @@ type Orgnr = string;
 
 export const hentAltinntilganger = async (): Promise<Record<AltinntjenesteId, Set<Orgnr>>> => {
     const enkelttilganger = await Promise.all(
-        Record.fold(altinntjeneste, hentAltinntilgangerForEnTjeneste)
+        Record.mapToArray(altinntjeneste, hentAltinntilgangerForEnTjeneste)
     );
     return Record.fromEntries(enkelttilganger);
 };

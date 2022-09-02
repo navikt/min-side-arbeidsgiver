@@ -36,7 +36,7 @@ export const forEach = <Key extends string, Value>(
 export const length = <Key extends string, Value>(obj: Record<Key, Value>): number =>
     Object.keys(obj).length;
 
-export const fold = <Key extends string, FromValue, ToValue>(
+export const mapToArray = <Key extends string, FromValue, ToValue>(
     record: Record<Key, FromValue>,
     f: (k: Key, v:FromValue) => ToValue
 ): ToValue[] => {
@@ -47,5 +47,12 @@ export const fold = <Key extends string, FromValue, ToValue>(
     }
 
     return result
+}
+
+export const mapNotNullToArray = <Key extends string, FromValue, ToValue>(
+    record: Record<Key, FromValue>,
+    f: (k: Key, v:FromValue) => ToValue
+): ToValue[] => {
+    return mapToArray(record, f).filter(x => x !== null)
 }
 

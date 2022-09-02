@@ -33,6 +33,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     if (valgtOrganisasjon.altinntilgang.pam) {
         tjenester.push(Pamboks);
     }
+
     if (valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd
         || valgtOrganisasjon.altinntilgang.varigLønnstilskudd
         || valgtOrganisasjon.altinntilgang.arbeidstrening
