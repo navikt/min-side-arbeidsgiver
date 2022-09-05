@@ -139,8 +139,8 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     mentortilskudd: {
         sort: 'tjeneste',
         navn: 'Mentortilskudd',
-        tjenestekode: '5216',
-        tjenesteversjon: '1',
+        tjenestekode: '5516',
+        tjenesteversjon: '4',
         beOmTilgangBeskrivelse: `
             Få tilgang til avtaler om mentortilskudd. 
             Du kan søke om mentortilskudd for å få dekket frikjøp av en 
@@ -152,8 +152,8 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     inkluderingstilskudd: {
         sort: 'tjeneste',
         navn: 'Inkluderingstilskudd',
-        tjenestekode: '5212',
-        tjenesteversjon: '1',
+        tjenestekode: '5516',
+        tjenesteversjon: '5',
         beOmTilgangBeskrivelse: `
         Få tilgang til avtaler om inkluderingstilskudd.
         Du kan søke om tilskudd for å dekke merkostnader du som
