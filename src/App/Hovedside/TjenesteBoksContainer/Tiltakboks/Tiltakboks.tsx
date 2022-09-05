@@ -62,7 +62,7 @@ const Tiltakboks = () => {
     const TekstUtenTall = () =>
         <>
             <BodyShort className='avsnitt'>
-                Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb.
+                Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb.
             </BodyShort>
             <BodyShort >
                 De ulike tiltakene krever egne tilganger i Altinn
