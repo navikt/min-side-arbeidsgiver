@@ -2,7 +2,6 @@ import { hentArbeidsavtalerApiLink } from '../lenker';
 import { Organisasjon } from '../altinn/organisasjon';
 
 export interface Arbeidsavtale {
-    status: string;
     tiltakstype: string;
 }
 

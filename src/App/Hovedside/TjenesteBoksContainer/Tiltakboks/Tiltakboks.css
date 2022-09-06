@@ -5,11 +5,12 @@
 
   /* This is hack. We are unable to find the right size of inner
    * div, wrt. chevron from design-systemet-component and tjenseteboks-size
+   * TODO: spørre designsystem-folk om hvordan dette burde gjøres.
    */
   max-width: 1px;
 }
 
-@media (min-width: 460px) and (max-width: 768px), (min-width: 900px){
+@media (min-width: 460px) and (max-width: 767px), (min-width: 900px){
   .tiltakboks .tekstMedTallContainer {
     grid-template-columns: auto auto auto auto;
   }
