@@ -3,7 +3,6 @@ import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
-import Innholdsboks from '../Innholdsboks/Innholdsboks';
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
@@ -47,17 +46,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(TiltakRefusjonboks);
     }
 
-    let antallClassname;
-    if (tjenester.length === 1) {
-        antallClassname = 'antall-en';
-    } else if (tjenester.length % 2 === 0) {
-        antallClassname = 'antall-partall';
-    } else {
-        antallClassname = 'antall-oddetall';
-    }
-
     return (
-        <div className={'tjenesteboks-container ' + antallClassname}>
+        <div className={'tjenesteboks-container'}>
             {tjenester.map((Tjeneste, indeks) =>
                 <div className='tjenesteboks' key={indeks}>
                     <Tjeneste />
