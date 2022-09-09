@@ -48,11 +48,3 @@ export const mapToArray = <Key extends string, FromValue, ToValue>(
 
     return result
 }
-
-export const mapNotNullToArray = <Key extends string, FromValue, ToValue>(
-    record: Record<Key, FromValue>,
-    f: (k: Key, v:FromValue) => ToValue
-): ToValue[] => {
-    return mapToArray(record, f).filter(x => x !== null)
-}
-
