@@ -1,48 +1,36 @@
+.tjenesteboks__lenkepanel {
+  min-height: 8rem;
+  height: 100%;
+}
+
 .tjenesteboks-container .tjenesteboks {
   background-color: white;
   margin-bottom: 2rem;
 }
+
 .tjenesteboks-container .tjenesteboks__storttall {
   font-size: 2rem;
   line-height: 2.5rem;
   font-weight: 500;
   margin-right: 0.5rem;
 }
+
 .tjenesteboks-container .tjenesteboks .tjenesteboks-innhold {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  height: 14rem;
+  height: 100%;
 }
-.tjenesteboks-container .tjenesteboks .tjenesteboks-innhold .lenkepanel {
-  height: 13rem;
-  margin-bottom: 0;
+
+.tjenesteboks-container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-auto-rows: auto;
 }
+
 @media (min-width: 768px) {
   .tjenesteboks-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .tjenesteboks-container.antall-en .tjenesteboks {
-    flex-grow: 1;
-  }
-  .tjenesteboks-container.antall-en .tjenesteboks .tjenesteboks-innhold {
-    height: 12rem;
-  }
-  .tjenesteboks-container.antall-en .tjenesteboks__lenkepanel {
-    height: 11rem;
-  }
-  .tjenesteboks-container.antall-partall .tjenesteboks,
-  .tjenesteboks-container.antall-oddetall .tjenesteboks {
-    width: 49%;
-  }
-  .tjenesteboks-container.antall-partall .tjenesteboks .tjenesteboks-innhold,
-  .tjenesteboks-container.antall-oddetall .tjenesteboks .tjenesteboks-innhold {
-    height: 13rem;
-  }
-  .tjenesteboks-container.antall-partall .tjenesteboks__lenkepanel,
-  .tjenesteboks-container.antall-oddetall .tjenesteboks__lenkepanel {
-    height: 12rem;
+    grid-column-gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
   }
 }

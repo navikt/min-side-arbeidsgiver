@@ -2,7 +2,7 @@ import path from 'path';
 import fetch from 'node-fetch';
 import express from 'express';
 import Mustache from 'mustache';
-import httpProxyMiddleware from 'http-proxy-middleware';
+import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
@@ -86,6 +86,16 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
+        selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
+        onProxyRes: responseInterceptor( async (responseBuffer, proxyRes, req, res) => {
+            if (proxyRes.headers['content-type'] === 'application/json') {
+                const data = JSON.parse(responseBuffer.toString('utf8'))
+                    .map(elem => ({
+                        'tiltakstype': elem.tiltakstype,
+                    }))
+                return JSON.stringify(data);
+            }
+        }),
         onError: (err, req, res) => {
             log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
         },

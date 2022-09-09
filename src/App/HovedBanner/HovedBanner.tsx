@@ -16,7 +16,7 @@ const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     const {endreOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjoner ? Record.fold(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
+    const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
 
     return (
         <Bedriftsmeny
