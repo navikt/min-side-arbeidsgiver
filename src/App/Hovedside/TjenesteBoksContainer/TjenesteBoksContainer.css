@@ -1,5 +1,6 @@
 .tjenesteboks__lenkepanel {
   min-height: 8rem;
+  height: 100%;
 }
 
 .tjenesteboks-container .tjenesteboks {
