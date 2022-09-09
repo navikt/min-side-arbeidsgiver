@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
-import { Enhet, hentOverordnetEnhet, hentUnderenhet } from '../../api/enhetsregisteretApi';
+import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import {OrganisasjonsDetaljerContext} from '../OrganisasjonDetaljerProvider';
+import {Enhet, hentOverordnetEnhet, hentUnderenhet} from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet/Underenhet';
 import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.css';
+import {Panel} from "@navikt/ds-react";
 
 interface Enheter {
     underenhet: Enhet;
@@ -27,7 +28,7 @@ const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
 }
 
 const InformasjonOmBedrift: FunctionComponent = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const [enheter, setEnheter] = useState<Enheter | undefined>(undefined);
     const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
 
@@ -41,19 +42,17 @@ const InformasjonOmBedrift: FunctionComponent = () => {
 
     return (
         <>
-            <Brodsmulesti brodsmuler={[{ url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true }]} />
-            <div className='informasjon-om-bedrift'>
-                <div className='informasjon-om-bedrift__hvitboks'>
-                    {enheter !== undefined ? (
-                        <div className='informasjon-om-bedrift__info'>
-                            <Underenhet underenhet={enheter.underenhet} />
-                            <OverordnetEnhet overordnetenhet={enheter.hovedenhet} />
-                        </div>
-                    ) : (
-                        <div>Kunne ikke hente informasjon</div>
-                    )}
-                </div>
-            </div>
+            <Brodsmulesti brodsmuler={[{url: '/bedriftsinformasjon', title: 'Bedriftsprofil', handleInApp: true}]}/>
+            <Panel className='informasjon-om-bedrift'>
+                {enheter !== undefined ? (
+                    <>
+                        <Underenhet underenhet={enheter.underenhet}/>
+                        <OverordnetEnhet overordnetenhet={enheter.hovedenhet}/>
+                    </>
+                ) : (
+                    <div>Kunne ikke hente informasjon</div>
+                )}
+            </Panel>
         </>
     );
 };

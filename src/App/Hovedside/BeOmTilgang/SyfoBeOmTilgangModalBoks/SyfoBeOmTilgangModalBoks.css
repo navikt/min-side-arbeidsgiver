@@ -27,7 +27,6 @@
 .syfo-modal {
   width: 100%;
   max-width: 554px;
-  border-radius: 0;
   margin: 0 1.5rem 0 1.5rem;
 }
 .syfo-modal__innhold {
@@ -61,7 +60,6 @@
   .syfo-modal {
     width: 554px;
     height: initial;
-    border-radius: 4px;
   }
   .syfo-modal__innhold {
     padding: 0;
