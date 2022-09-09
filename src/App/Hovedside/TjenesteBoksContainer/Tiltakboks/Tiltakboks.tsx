@@ -71,7 +71,7 @@ const Tiltakboks = () => {
         ikon={tiltakikon}
         href={tiltakUrl}
         tittel={'Avtaler om tiltak'}
-        aria-label={'Tiltak. Arbeidstrening, midlertidig lønnstilskudd, varig lønnstilskudd og sommerjobb. ' +
+        aria-label={'Tiltak. Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb. ' +
             'De ulike tiltakene krever egne tilganger i Altinn'}
     >
         <div className={"tiltakboks"}>
@@ -88,8 +88,7 @@ const Tiltakboks = () => {
 const TekstUtenTall = () =>
     <>
         <BodyShort className='avsnitt'>
-            Arbeidstrening, lønnstilskudd, varig lønnstilskudd, mentortilskudd,
-            inkluderingstilskudd og sommerjobb.
+            Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb.
         </BodyShort>
         <BodyShort >
             De ulike tiltakene krever egne tilganger i Altinn

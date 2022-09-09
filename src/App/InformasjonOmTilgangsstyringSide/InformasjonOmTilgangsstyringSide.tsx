@@ -149,8 +149,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                                             <li>avtale om midlertidig lønnstilskudd</li>
                                             <li>avtale om varig lønnstilskudd</li>
                                             <li>avtale om sommerjobb</li>
-                                            <li>søknad om inkluderingstilskudd</li>
-                                            <li>søknad om tilskudd til mentor</li>
+                                            <li>avtale om inkluderingstilskudd (tidligere <i>søknad om inkluderingstilskudd</i>)</li>
+                                            <li>avtale om mentor (tidligere <i>søknad om tilskudd til mentor</i>)</li>
                                             <li>søknad om tilskudd til ekspertbistand</li>
                                         </ul>
                                         <p>
