@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { Severity } from '@sentry/react';
 
 const Oversikt = z.object({
-    second: z.number(),
+    second: z.number().optional(),
 })
 
 export async function hentAntallArbeidsforholdFraAareg(
@@ -25,7 +25,7 @@ export async function hentAntallArbeidsforholdFraAareg(
     }
 
     try {
-        const {second} = Oversikt.parse(await respons.json())
+        const {second = 0} = Oversikt.parse(await respons.json())
         return (second === 0) ? -1 : second
     } catch (error) {
         Sentry.captureException(error)
