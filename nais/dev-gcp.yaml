@@ -7,7 +7,6 @@ metadata:
     team: fager
 spec:
   image: {{image}}
-  port: 3000
   ingresses:
     - https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver
   liveness:

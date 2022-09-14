@@ -5,8 +5,7 @@
   "private": true,
   "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
-    "@craco/craco": "^6.4.5",
-    "@navikt/arbeidsgiver-notifikasjon-widget": "3.0.0-rc2",
+    "@navikt/arbeidsgiver-notifikasjon-widget": "3.0.0-rc3",
     "@navikt/bedriftsmeny": "4.0.0-rc8",
     "@navikt/ds-css": "^0.18.27",
     "@navikt/ds-icons": "^0.8.20",
@@ -64,9 +63,9 @@
     "cookie-parser": "*"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "lint": "eslint --ext ts,tsx .",
     "docker:build": "docker build -t minside-arbeidsgiver .",
     "docker:start": "docker run -p 3000:3000 minside-arbeidsgiver"

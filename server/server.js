@@ -14,7 +14,7 @@ const { createProxyMiddleware } = httpProxyMiddleware;
 
 const defaultLoginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
 const {
-    PORT = 3000,
+    PORT = 8080,
     NAIS_APP_IMAGE = '?',
     GIT_COMMIT = '?',
     LOGIN_URL = defaultLoginUrl,
@@ -67,9 +67,10 @@ app.use(
 );
 
 if (NAIS_CLUSTER_NAME === 'dev-gcp') {
-    require('./mock/enhetsRegisteretMock').mock(app)
+    require('./mock/enhetsRegisteretMock').mock(app);
 }
-if (NAIS_CLUSTER_NAME === 'labs-gcp') {
+
+if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     require('./mock/pamMock').mock(app);
     require('./mock/syfoMock').mock(app);
     require('./mock/altinnMock').mock(app);
@@ -87,7 +88,7 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
         selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
-        onProxyRes: responseInterceptor( async (responseBuffer, proxyRes, req, res) => {
+        onProxyRes: responseInterceptor( async (responseBuffer, proxyRes) => {
             if (proxyRes.headers['content-type'] === 'application/json') {
                 const data = JSON.parse(responseBuffer.toString('utf8'))
                     .map(elem => ({

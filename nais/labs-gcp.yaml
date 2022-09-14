@@ -7,7 +7,6 @@ metadata:
     team: fager
 spec:
   image: {{image}}
-  port: 3000
   ingresses:
     - https://arbeidsgiver.labs.nais.io/min-side-arbeidsgiver
   liveness:
