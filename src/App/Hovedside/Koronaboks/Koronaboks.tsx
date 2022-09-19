@@ -36,12 +36,9 @@ export const Koronaboks = () => {
 
     const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
     return (<Ekspanderbartpanel className='koronaboks'
-                                tittel={
-                                    <Heading size="small" level="2" className={"koronaboks__tittel"}>
-                                        <KoronaboksIkon/>
-                                        <span>Koronaspesifikke tjenester</span>
-                                    </Heading>
-                                }>
+                                tittel="Koronaspesifikke tjenester"
+                                ikon={<KoronaboksIkon/>}
+        >
                 <span className='koronaboks__innhold'>
                     <Label  className='koronaboks__tekst'>Refusjon sykepenger</Label>
                     <Koronalenke

@@ -7,7 +7,7 @@ import AntallUlest from '../../../GeneriskeElementer/AntallUlest';
 import Innboksikon from './Innboksikon';
 import {loggNavigasjon} from '../../../utils/funksjonerForAmplitudeLogging';
 import './BrevFraAltinnContainer.css';
-import {BodyShort, Heading} from "@navikt/ds-react";
+import {BodyShort} from "@navikt/ds-react";
 
 const loggNavigering = (href: string, lenketekst: string) => () => {
     if (href === '') {
@@ -26,20 +26,20 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
         return null;
     }
 
-    const inboksTittel = (
-        <Heading size="small" level="2" className="tilskuddsbrev__tittel">
-            <div className="tilskuddsbrev__inboxikon">
-                <Innboksikon/>
-                <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>
-            </div>
-            <span>Tilskuddsbrev om NAV-tiltak fra Altinn innboks</span>
-        </Heading>
+    const ikon = (
+        <div className="tilskuddsbrev__inboxikon">
+            <Innboksikon/>
+            <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>
+        </div>
+    )
 
-    );
 
     return (
         <section className="tilskuddsbrev">
-            <Ekspanderbartpanel tittel={inboksTittel}>
+            <Ekspanderbartpanel
+                tittel={"Tilskuddsbrev om NAV-tiltak fra Altinn innboks"}
+                ikon={ikon}
+            >
                 <>
                     <ul className="tilskuddsbrev__liste">
                         {altinnMeldingsboks.brev.map(BrevContainer)}
