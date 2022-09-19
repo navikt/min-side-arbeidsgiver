@@ -1,6 +1,5 @@
 import React, { forwardRef } from 'react';
 import { HelpText } from "@navikt/ds-react";
-import './OmSaker.css';
 
 export type Props = {
     id?: string;
