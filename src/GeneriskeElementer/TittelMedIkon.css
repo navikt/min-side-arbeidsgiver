@@ -6,3 +6,8 @@
   width: 1.5rem;
   margin-right: 1rem;
 }
+.tittel-med-ikon-container{
+  display: flex;
+  align-items: flex-start;
+  width: 3rem;
+}

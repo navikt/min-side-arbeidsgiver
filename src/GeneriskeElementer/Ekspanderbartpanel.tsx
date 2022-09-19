@@ -33,7 +33,6 @@ export const Ekspanderbartpanel: FC<Props> = ({className, children, tittel, ikon
     </Panel>
 }
 
-//TODO: Aligne ikoner
 //TODO: Ikke tabbe inni kolapset panel
 //TODO: Slette ubrukt css fra der ekspanderbart panel blir brukt.
 interface HeaderProps {
@@ -58,8 +57,14 @@ const Header: FC<HeaderProps> =
                 onClick={onClick}
                 aria-expanded={apen}
             >
-                        {ikon}
-                        <Heading className="ekspanderbartpanel__button-tittel" size="small" level="2" as="span"> {tittel} </Heading>
+                {
+                    ikon !== undefined ?
+                <div className={"ekspanderbartpanel__button-ikon"}>
+                    {ikon}
+                </div>
+                    :null
+                }
+                        <Heading className="ekspanderbartpanel__button-tittel" size="small" level="2"> {tittel} </Heading>
                 <div className="ekspanderbartpanel__button-chevron">{apen ? <CollapseIcon/> : <ExpandIcon/>}</div>
             </button>
         );

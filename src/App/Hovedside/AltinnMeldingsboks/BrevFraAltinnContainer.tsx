@@ -27,10 +27,10 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     }
 
     const ikon = (
-        <div className="tilskuddsbrev__inboxikon">
+        <>
             <Innboksikon/>
-            <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>
-        </div>
+            <AntallUlest antallUlest={3}/>
+        </>
     )
 
 
