@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, useEffect, useState } from 'react';
-import { Heading, Menu, Panel } from '@navikt/ds-react';
+import { Heading, Link, Panel } from '@navikt/ds-react';
 import { HeadingMedClipBoardLink } from './helpers/HeadingMedClipBoardLink';
 import './PanelerMedInnholdsfortegnelse.css';
 
@@ -23,9 +23,10 @@ export const PanelerMedInnholdsfortegnelse = ({toc} : PanelerMedInnholdsfortegne
     const [activeAnchor, setActiveAnchor] = useState<string | undefined>(undefined);
 
     useEffect(() => {
+        /* TODO: this seems broken. Scrolling visually clears active. */
         const scrollListener = () => {
             const distances: [string, number][] = toc.map(elem => {
-                const id = elem.id
+                const id = `#${elem.id}`
                 const rect = document.querySelector(id)?.getBoundingClientRect();
                 const distance = Math.abs(rect?.top ?? 10000000);
                 return [id, distance];
@@ -74,24 +75,26 @@ export const PanelerMedInnholdsfortegnelse = ({toc} : PanelerMedInnholdsfortegne
 
     return (
         <div className='paneler-med-innholdsfortegnelse__container'>
-            <Panel as={Menu} className='paneler-med-innholdsfortegnelse__sidepanel'>
+            <Panel as="nav" className='paneler-med-innholdsfortegnelse__sidepanel'>
                 <Heading size="small" level='2' className='paneler-med-innholdsfortegnelse-menyhead' spacing>
                     Innhold
                 </Heading>
-                {
-                    toc.map(({id, title}) => {
-                            const anchor = `#${id}`
-                            return <Menu.Item
-                                active={activeAnchor === anchor}
-                                onClick={setActiveAnchorOnClick(anchor)}
-                                href={anchor}
-                                key={anchor}
-                            >
-                                {title}
-                            </Menu.Item>
-                        }
-                    )
-                }
+                <ul>
+                    {
+                        toc.map(({id, title}) => {
+                                const anchor = `#${id}`
+                                return <li key={anchor}>
+                                    <Link
+                                        href={anchor}
+                                        className={activeAnchor === anchor ? "active" : ""}
+                                        onClick={setActiveAnchorOnClick(anchor)}
+                                    >{title}
+                                    </Link>
+                                </li>
+                            }
+                        )
+                    }
+                </ul>
             </Panel>
 
             <div className='paneler-med-innholdsfortegnelse__innhold'>

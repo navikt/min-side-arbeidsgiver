@@ -9,5 +9,5 @@ USER root
 RUN npm ci
 USER apprunner
 
-EXPOSE 3000
+EXPOSE 8080
 ENTRYPOINT ["node", "server.js"]
