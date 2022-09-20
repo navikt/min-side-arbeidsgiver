@@ -23,7 +23,6 @@ export const PanelerMedInnholdsfortegnelse = ({toc} : PanelerMedInnholdsfortegne
     const [activeAnchor, setActiveAnchor] = useState<string | undefined>(undefined);
 
     useEffect(() => {
-        /* TODO: this seems broken. Scrolling visually clears active. */
         const scrollListener = () => {
             const distances: [string, number][] = toc.map(elem => {
                 const id = `#${elem.id}`

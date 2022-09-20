@@ -29,7 +29,7 @@ const BrevFraAltinnContainer: React.FunctionComponent = _ => {
     const ikon = (
         <>
             <Innboksikon/>
-            <AntallUlest antallUlest={3}/>
+            <AntallUlest antallUlest={altinnMeldingsboks.antallUleste}/>
         </>
     )
 

@@ -144,7 +144,6 @@ const BeOmTilgang: FunctionComponent = () => {
     return (
         <TilgangContainer>
                 <Ekspanderbartpanel
-                    className='be-om-tilgang__container'
                     tittel='Tjenester du kan be om tilgang til'
                     apen={new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'}
                 >

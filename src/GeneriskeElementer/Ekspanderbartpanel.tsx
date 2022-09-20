@@ -1,19 +1,16 @@
 import {Heading, Panel} from '@navikt/ds-react';
 import {Collapse as CollapseIcon, Expand as ExpandIcon} from '@navikt/ds-icons';
 import React, {FC, useState, MouseEventHandler} from 'react';
-import {Collapse} from 'react-collapse';
 
 import "./Ekspanderbartpanel.css";
 
 export type Props = {
-    className?: string;
     tittel: string;
     ikon?: React.ReactNode;
     apen?: boolean;
-
 }
 
-export const Ekspanderbartpanel: FC<Props> = ({className, children, tittel, ikon}) => {
+export const Ekspanderbartpanel: FC<Props> = ({children, tittel, ikon}) => {
     const [showing, setShowing] = useState(false)
 
     return <Panel border className="ekspanderbartpanel">
@@ -25,16 +22,14 @@ export const Ekspanderbartpanel: FC<Props> = ({className, children, tittel, ikon
         >
         </Header>
 
-        <Collapse isOpened={showing}>
-            <div className={`ekspanderbartpanel__content ${className}`}>
+        {showing &&
+            <div className="ekspanderbartpanel__content">
                 {children}
             </div>
-        </Collapse>
+        }
     </Panel>
 }
 
-//TODO: Ikke tabbe inni kolapset panel
-//TODO: Slette ubrukt css fra der ekspanderbart panel blir brukt.
 interface HeaderProps {
     ikon?: React.ReactNode;
     tittel: string;

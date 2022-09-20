@@ -10,7 +10,7 @@ import './Koronaboks.css';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
-import {Heading, Label} from "@navikt/ds-react";
+import {Label} from "@navikt/ds-react";
 
 interface KoronalenkeProps {
     href: string;
@@ -35,8 +35,7 @@ export const Koronaboks = () => {
     }
 
     const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
-    return (<Ekspanderbartpanel className='koronaboks'
-                                tittel="Koronaspesifikke tjenester"
+    return (<Ekspanderbartpanel tittel="Koronaspesifikke tjenester"
                                 ikon={<KoronaboksIkon/>}
         >
                 <span className='koronaboks__innhold'>
