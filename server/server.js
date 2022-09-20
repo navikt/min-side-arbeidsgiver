@@ -35,7 +35,10 @@ const log = createLogger({
     ],
 });
 
-const BUILD_PATH = path.join(process.cwd(), '../build');
+let BUILD_PATH = path.join(process.cwd(), '../build');
+if (NAIS_CLUSTER_NAME === 'local') {
+    BUILD_PATH = path.join(process.cwd(), '../public')
+}
 
 const indexHtml = Mustache.render(
     readFileSync(path.join(BUILD_PATH, "index.html")).toString(),
