@@ -28,10 +28,6 @@
   }
 }
 
-.paneler-med-innholdsfortegnelse .navds-accordion__header {
-  color: var(--navds-global-color-blue-500);
-}
-
 .paneler-med-innholdsfortegnelse__container {
   display: flex;
   flex-direction: column;
@@ -50,41 +46,42 @@
   }
 }
 
-.paneler-med-innholdsfortegnelse__sidepanel {
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel {
   padding-left: 0;
+  border: none;
 }
 @media (min-width: 768px) {
-  .paneler-med-innholdsfortegnelse__sidepanel {
+  .paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel {
     position: sticky;
     /*noinspection CssUnresolvedCustomProperty*/
     top: calc(var(--decorator-sticky-offset, 0px) + 1rem);
   }
 }
-.paneler-med-innholdsfortegnelse__sidepanel  ul {
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul {
   display: flex;
   flex-direction: column;
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
-.paneler-med-innholdsfortegnelse__sidepanel  ul li  {
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li  {
   margin: 0;
   padding: 0 0.5rem;
 }
-.paneler-med-innholdsfortegnelse__sidepanel  ul  li  a {
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul  li  a {
   text-decoration: none;
   padding: 0.75rem 0.5rem;
 }
-.paneler-med-innholdsfortegnelse__sidepanel  ul  li > a:hover {
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul  li > a:hover {
   background-color: var(--navds-global-color-blue-50);
   color: var(--navds-global-color-gray-900);
 }
 
-.paneler-med-innholdsfortegnelse__sidepanel  ul li a:active {
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li a:active {
   outline: 3px solid var(--navds-global-color-blue-800);
 }
-.paneler-med-innholdsfortegnelse__sidepanel  ul li a:active,
-.paneler-med-innholdsfortegnelse__sidepanel  ul li a.active
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li a:active,
+.paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li a.active
 {
   outline-offset: -3px;
   box-shadow: -0.5rem 0 var(--navds-global-color-blue-800);
