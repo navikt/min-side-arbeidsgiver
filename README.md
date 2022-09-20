@@ -6,24 +6,31 @@ Min side – arbeidsgiver er en samleside for digitale tjenester for arbeidsgive
 
 Min side – Arbeidsgiver har mange integrasjoner, ved lokal kjøring mocker vi alle i express-serveren
 
-- Installere avhengigheter: `npm`
-- Kjøre applikasjon med mock: 
-  1. `npm start`
+- Installere avhengigheter i hovedmappen og i `./server/`: 
+```bash
+npm install
+(cd ./server/ && npm install)
+```
+- Start frontend-for-backend-serveren
+```bash
+(cd ./server/ && npm start)
+```
+- Start frontend
+```bash
+npm start
+```
 - Notifikasjoner vil blir forsøkt hentet via proxy til localhost:8081.
-  Enten kjør notifikasjon-bruker-api lokalt, eller start apollo mock server med: `cd server && npm run start:apollo`
-- Bygge applikasjonen: `npm run build`
-- Kjøre applikasjonen med Node-backend (uten mocking). Dette fungerer ikke ut av boksen, du må endre `server/server.js` til å proxye/mocke riktig. For å kjøre applikasjonen:
-    1. `npm && npm run build`
-    2. `cd server`
-    3. `npm i && npm start`
-- Kjøre applikasjonen med Docker:
-    1. `npm && npm run build`
-    2. `npm run docker:build`
-    3. `npm run docker:start`
-    4. For å stoppe, kjør `docker stop <id>` med id-en fra forrige kommando
+  Enten kjør notifikasjon-bruker-api lokalt, eller start apollo mock server med:
+```bash
+(cd server && npm run start:apollo)
+```
 
 
-
+## Bygge frontend
+```bash
+npm install
+npm run build
+```
 ---
 
 ## Henvendelser

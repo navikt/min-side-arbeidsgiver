@@ -1,34 +1,67 @@
-import { Button, Heading, Panel } from '@navikt/ds-react';
-import { Collapse as CollapseIcon, Expand as ExpandIcon } from '@navikt/ds-icons';
-import React, { FC, ReactNode, useState } from 'react';
-import { Collapse } from 'react-collapse';
+import {Heading, Panel} from '@navikt/ds-react';
+import {Collapse as CollapseIcon, Expand as ExpandIcon} from '@navikt/ds-icons';
+import React, {FC, useState, MouseEventHandler} from 'react';
 
 import "./Ekspanderbartpanel.css";
 
 export type Props = {
-    className?: string;
-    tittel: ReactNode;
+    tittel: string;
+    ikon?: React.ReactNode;
     apen?: boolean;
 }
 
-export const Ekspanderbartpanel: FC<Props> = ({className, children, tittel}) => {
+export const Ekspanderbartpanel: FC<Props> = ({children, tittel, ikon}) => {
     const [showing, setShowing] = useState(false)
 
     return <Panel border className="ekspanderbartpanel">
-        <Button
-            variant="tertiary"
-            className="ekspanderbartpanel__button"
+        <Header
             onClick={() => setShowing(!showing)}
-            aria-expanded={showing}
+            apen={showing}
+            tittel={tittel}
+            ikon={ikon}
         >
-            <Heading size="small" as="span"> {tittel} </Heading>
-            { showing ? <CollapseIcon /> : <ExpandIcon /> }
-        </Button>
+        </Header>
 
-        <Collapse isOpened={showing}>
-            <div className={`ekspanderbartpanel__content ${className}`}>
-                { children }
+        {showing &&
+            <div className="ekspanderbartpanel__content">
+                {children}
             </div>
-        </Collapse>
+        }
     </Panel>
 }
+
+interface HeaderProps {
+    ikon?: React.ReactNode;
+    tittel: string;
+    onClick: MouseEventHandler<HTMLButtonElement>;
+    apen: boolean;
+}
+
+const Header: FC<HeaderProps> =
+    (
+        {
+            ikon,
+            tittel,
+            onClick,
+            apen
+        }
+    ) => {
+        return (
+            <button
+                className="ekspanderbartpanel__button"
+                onClick={onClick}
+                aria-expanded={apen}
+            >
+                {
+                    ikon !== undefined ?
+                <div className={"ekspanderbartpanel__button-ikon"}>
+                    {ikon}
+                </div>
+                    :null
+                }
+                        <Heading className="ekspanderbartpanel__button-tittel" size="small" level="2"> {tittel} </Heading>
+                <div className="ekspanderbartpanel__button-chevron">{apen ? <CollapseIcon/> : <ExpandIcon/>}</div>
+            </button>
+        );
+    }
+

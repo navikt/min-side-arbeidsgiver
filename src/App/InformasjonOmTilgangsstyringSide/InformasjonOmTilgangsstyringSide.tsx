@@ -75,7 +75,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                 <li>Lengst nede på Min side – arbeidsgiver finnes en oversikt over tjenester du kan
                                     be om tilgang til.
                                 </li>
-                                <li>Klikk på lenken «- be om tilgang» på tjenesten du trenger. Du kommer nå til
+                                <li>Klikk på lenken «be om tilgang» på tjenesten du trenger. Du kommer nå til
                                     Altinn.
                                 </li>
                             </ul>
