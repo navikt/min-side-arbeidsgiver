@@ -14,7 +14,7 @@ const ANTALL_FORSIDESAKER: number = 3;
 
 const SisteSaker = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const { pathname } = useLocation()
+    const location = useLocation()
 
     const {loading, data} = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
@@ -45,9 +45,12 @@ const SisteSaker = () => {
                     <OmSaker />
                 </div>
                 {data.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
-                    <BodyShort><Link className="lenke" to='saksoversikt' onClick={() => {
+                    <BodyShort><Link className="lenke" to={{
+                        pathname: 'saksoversikt',
+                        search: location.search,
+                    }} onClick={() => {
                         scroll(0,0);
-                        loggNavigasjon("saksoversikt", "se alle saker", pathname)
+                        loggNavigasjon("saksoversikt", "se alle saker", location.pathname)
                     }}>
                         Se alle ({data?.saker.totaltAntallSaker})
                         <HoyreChevron/>
