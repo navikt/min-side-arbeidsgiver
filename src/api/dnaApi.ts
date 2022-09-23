@@ -26,7 +26,7 @@ export async function hentSyfoVirksomheter(): Promise<DigiSyfoOrganisasjonRespon
     if (respons.ok) {
         return DigiSyfoOrganisasjonResponse.parse(await respons.json());
     }
-    throw new Error('Feil ved kontakt mot baksystem.');
+    throw new Error('Feil ved kontakt mot baksystem.' + respons.statusText);
 }
 
 export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
@@ -39,7 +39,7 @@ export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
             Sentry.captureException(error)
         }
     }
-    throw new Error('Feil ved kontakt mot baksystem.');
+    throw new Error('Feil ved kontakt mot baksystem.' + respons.statusText);
 }
 
 export const sjekkInnlogget = async (): Promise<boolean> => {
@@ -52,6 +52,6 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
     if (respons.ok) {
         return await respons.json();
     } else {
-        throw new Error('Feil ved kontakt mot baksystem.');
+        throw new Error('Feil ved kontakt mot baksystem.' + respons.statusText);
     }
 }
