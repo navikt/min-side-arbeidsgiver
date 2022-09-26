@@ -6,6 +6,7 @@ import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
+import {createNotifikasjonBrukerApiProxyMiddleware} from "./brukerapi-proxy-middleware.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
 
@@ -148,6 +149,16 @@ app.use(
         secure: true,
         xfwd: true,
         target: API_GATEWAY,
+    }),
+);
+app.use(
+    '/min-side-arbeidsgiver/notifikasjon-bruker-api',
+    createNotifikasjonBrukerApiProxyMiddleware({
+        targetCluster: NAIS_CLUSTER_NAME,
+
+        // TODO: remove overrides, just for testing
+        target: 'http://localhost:8081',
+        tokenXClientPromise: NAIS_CLUSTER_NAME !== 'local' ? undefined : Promise.resolve({ grant: (opt) => ({access_token: "foo"})}),
     }),
 );
 

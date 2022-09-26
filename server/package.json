@@ -9,11 +9,13 @@
     "casual": "^1.6.2",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.2",
+    "express-http-proxy": "1.6.3",
     "http-proxy-middleware": "^1.0.6",
     "jsdom": "^16.4.0",
     "jsonwebtoken": "^8.5.1",
     "mustache": "^4.2.0",
     "node-fetch": "^3.2.10",
+    "openid-client": "5.1.9",
     "prom-client": "^13.2.0",
     "prometheus-api-metrics": "^3.2.0",
     "winston": "3.4.0"
