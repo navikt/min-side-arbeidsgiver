@@ -92,12 +92,17 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
         logProvider: _ => log,
         selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
         onProxyRes: responseInterceptor( async (responseBuffer, proxyRes) => {
-            if (proxyRes.headers['content-type'] === 'application/json') {
-                const data = JSON.parse(responseBuffer.toString('utf8'))
-                    .map(elem => ({
-                        'tiltakstype': elem.tiltakstype,
-                    }))
-                return JSON.stringify(data);
+            try {
+                if (proxyRes.headers['content-type'] === 'application/json') {
+                    const data = JSON.parse(responseBuffer.toString('utf8'))
+                        .map(elem => ({
+                            'tiltakstype': elem.tiltakstype,
+                        }))
+                    return JSON.stringify(data);
+                }
+            } catch (error) {
+                log.error(`tiltaksgjennomforing-api/avtaler feilet ${error}`);
+                return JSON.stringify([])
             }
         }),
         onError: (err, req, res) => {
