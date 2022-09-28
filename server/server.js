@@ -159,16 +159,26 @@ app.use(
 
 const localProxyOpts = {
     target: 'http://localhost:8081',
-    tokenXClientPromise: NAIS_CLUSTER_NAME !== 'local' ? undefined : Promise.resolve({
+    tokenXClientPromise: Promise.resolve({
         grant: () => ({access_token: "foo"}),
         issuer: {metadata: {token_endpoint: ''}}
     }),
 }
+
+const labsProxyOpts = {
+    target: 'https://notifikasjon-fake-produsent-api.labs.nais.io/api/graphql',
+    tokenXClientPromise: Promise.resolve({
+        grant: () => ({access_token: "foo"}),
+        issuer: {metadata: {token_endpoint: ''}}
+    }),
+}
+
 app.use(
     '/min-side-arbeidsgiver/notifikasjon-bruker-api',
     createNotifikasjonBrukerApiProxyMiddleware({
         targetCluster: NAIS_CLUSTER_NAME,
         ...(NAIS_CLUSTER_NAME === 'local' ? localProxyOpts : {}),
+        ...(NAIS_CLUSTER_NAME === 'labs-gcp' ? labsProxyOpts : {}),
     }),
 );
 
