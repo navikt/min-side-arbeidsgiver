@@ -151,14 +151,19 @@ app.use(
         target: API_GATEWAY,
     }),
 );
+
+const localProxyOpts = {
+    target: 'http://localhost:8081',
+    tokenXClientPromise: NAIS_CLUSTER_NAME !== 'local' ? undefined : Promise.resolve({
+        grant: () => ({access_token: "foo"}),
+        issuer: {metadata: {token_endpoint: ''}}
+    }),
+}
 app.use(
     '/min-side-arbeidsgiver/notifikasjon-bruker-api',
     createNotifikasjonBrukerApiProxyMiddleware({
         targetCluster: NAIS_CLUSTER_NAME,
-
-        // TODO: remove overrides, just for testing
-        target: 'http://localhost:8081',
-        tokenXClientPromise: NAIS_CLUSTER_NAME !== 'local' ? undefined : Promise.resolve({ grant: (opt) => ({access_token: "foo"})}),
+        ...(NAIS_CLUSTER_NAME === 'local' ? localProxyOpts : {}),
     }),
 );
 

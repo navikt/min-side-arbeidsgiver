@@ -12,15 +12,15 @@ const createNotifikasjonBrukerApiProxyMiddleware = (
         targetCluster = process.env?.NAIS_CLUSTER_NAME,
         target = 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
         tokenXClientPromise = createTokenXClient(),
-        logProvider = () => console
     }
 ) => {
     const audience = `${targetCluster}:fager:notifikasjon-bruker-api`;
     return expressHttpProxy(target, {
-        proxyReqPathResolver: (req) => '/api/graphql',
+        proxyReqPathResolver: () => '/api/graphql',
         proxyReqOptDecorator: async (options, req) => {
             const tokenXClient = await tokenXClientPromise;
-            const subject_token = (req.headers['authorization'] || '').replace('Bearer', '').trim();
+            //const subject_token = (req.headers['authorization'] || '').replace('Bearer', '').trim();
+            const subject_token = req.cookies['selvbetjening-idtoken'];
             const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
 
             options.headers.Authorization = `Bearer ${access_token}`;
@@ -41,6 +41,8 @@ const exchangeToken = async (tokenxClient, {subject_token, audience}) => {
         {
             clientAssertionPayload: {
                 nbf: Math.floor(Date.now() / 1000),
+                // TokenX only allows a single audience
+                aud: [tokenxClient?.issuer.metadata.token_endpoint],
             },
         }
     );
