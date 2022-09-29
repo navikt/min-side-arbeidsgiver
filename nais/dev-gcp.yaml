@@ -21,6 +21,8 @@ spec:
   vault:
     enabled: false
   webproxy: false
+  tokenx:
+    enabled: true
   idporten:
     enabled: true
   envFrom:
