@@ -5,7 +5,6 @@ import expressHttpProxy from 'express-http-proxy';
  * @param {("prod-gcp"|"dev-gcp")} targetCluster
  * @param tokenXClientPromise
  * @param target
- * @param logProvider
  */
 const createNotifikasjonBrukerApiProxyMiddleware = (
     {

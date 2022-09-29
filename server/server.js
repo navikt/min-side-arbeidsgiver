@@ -166,7 +166,7 @@ const localProxyOpts = {
 }
 
 if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
-    import("./apollo.js")
+    import("@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock")
 }
 
 app.use(

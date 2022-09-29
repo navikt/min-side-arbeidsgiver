@@ -21,7 +21,6 @@
     "winston": "3.4.0"
   },
   "scripts": {
-    "start": "node server.js",
-    "start:apollo": "node apollo.js"
+    "start": "node server.js"
   }
 }
