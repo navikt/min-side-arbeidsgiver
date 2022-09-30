@@ -18,6 +18,14 @@ import Banner from "./HovedBanner/HovedBanner";
 import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
 import {Alert, Link} from "@navikt/ds-react";
+import {gittMiljo} from '../utils/environment';
+
+const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
+    prod: 'prod',
+    dev: 'dev',
+    labs: 'labs',
+    other: 'local',
+});
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -50,7 +58,7 @@ const App: FunctionComponent = () => {
     return (
         <div className="typo-normal bakgrunnsside">
             <LoginProvider>
-                <NotifikasjonWidgetProvider apiUrl={`${basename}/notifikasjon-bruker-api`}>
+                <NotifikasjonWidgetProvider miljo={miljø} apiUrl={`${basename}/notifikasjon-bruker-api`}>
                     <BrowserRouter basename={basename}>
                         <AmplitudeSidevisningEventLogger>
                             <Routes>
