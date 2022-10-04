@@ -19,12 +19,6 @@ npm install
 ```bash
 npm start
 ```
-- Notifikasjoner vil blir forsøkt hentet via proxy til localhost:8081.
-  Enten kjør notifikasjon-bruker-api lokalt, eller start apollo mock server med:
-```bash
-(cd server && npm run start:apollo)
-```
-
 
 ## Bygge frontend
 ```bash

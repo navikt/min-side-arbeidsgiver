@@ -6,6 +6,7 @@ import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
+import {createNotifikasjonBrukerApiProxyMiddleware} from "./brukerapi-proxy-middleware.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
 
@@ -92,12 +93,17 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
         logProvider: _ => log,
         selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
         onProxyRes: responseInterceptor( async (responseBuffer, proxyRes) => {
-            if (proxyRes.headers['content-type'] === 'application/json') {
-                const data = JSON.parse(responseBuffer.toString('utf8'))
-                    .map(elem => ({
-                        'tiltakstype': elem.tiltakstype,
-                    }))
-                return JSON.stringify(data);
+            try {
+                if (proxyRes.headers['content-type'] === 'application/json') {
+                    const data = JSON.parse(responseBuffer.toString('utf8'))
+                        .map(elem => ({
+                            'tiltakstype': elem.tiltakstype,
+                        }))
+                    return JSON.stringify(data);
+                }
+            } catch (error) {
+                log.error(`tiltaksgjennomforing-api/avtaler feilet ${error}`);
+                return JSON.stringify([])
             }
         }),
         onError: (err, req, res) => {
@@ -148,6 +154,26 @@ app.use(
         secure: true,
         xfwd: true,
         target: API_GATEWAY,
+    }),
+);
+
+const localProxyOpts = {
+    target: 'http://localhost:8081',
+    tokenXClientPromise: Promise.resolve({
+        grant: () => ({access_token: "foo"}),
+        issuer: {metadata: {token_endpoint: ''}}
+    }),
+}
+
+if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
+    import("@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock")
+}
+
+app.use(
+    '/min-side-arbeidsgiver/notifikasjon-bruker-api',
+    createNotifikasjonBrukerApiProxyMiddleware({
+        targetCluster: NAIS_CLUSTER_NAME,
+        ...(NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp' ? localProxyOpts : {}),
     }),
 );
 

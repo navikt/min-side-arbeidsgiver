@@ -25,7 +25,7 @@ const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
             onOrganisasjonChange={endreOrganisasjon}
             amplitudeClient={amplitude}
         >
-            <NotifikasjonWidget/>
+            <NotifikasjonWidget />
         </Bedriftsmeny>
     );
 };

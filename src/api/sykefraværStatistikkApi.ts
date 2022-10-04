@@ -12,7 +12,7 @@ export async function hentSykefravær(
         `/min-side-arbeidsgiver/sykefravaer/${orgnr}/sykefravarshistorikk/legemeldtsykefravarsprosent`,
     );
     if (respons.ok) {
-        return respons.json();
+        return respons.status === 204 ? undefined : respons.json();
     }
     throw new Error('Feil ved kontakt med sykefravær.');
 }

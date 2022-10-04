@@ -14,11 +14,18 @@ import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
 import {NotifikasjonWidgetProvider} from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {gittMiljo} from '../utils/environment';
 import Banner from "./HovedBanner/HovedBanner";
 import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
 import {Alert, Link} from "@navikt/ds-react";
+import {gittMiljo} from '../utils/environment';
+
+const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
+    prod: 'prod',
+    dev: 'dev',
+    labs: 'labs',
+    other: 'local',
+});
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     const location = useLocation();
@@ -32,12 +39,6 @@ const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
 
     return <>{props.children}</>;
 }
-const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
-    prod: 'prod',
-    dev: 'dev',
-    labs: 'labs',
-    other: 'local',
-});
 
 interface SideTittelProps {
     tittel: string,
@@ -57,7 +58,7 @@ const App: FunctionComponent = () => {
     return (
         <div className="typo-normal bakgrunnsside">
             <LoginProvider>
-                <NotifikasjonWidgetProvider miljo={miljø}>
+                <NotifikasjonWidgetProvider miljo={miljø} apiUrl={`${basename}/notifikasjon-bruker-api`}>
                     <BrowserRouter basename={basename}>
                         <AmplitudeSidevisningEventLogger>
                             <Routes>
