@@ -1,4 +1,4 @@
-import {Issuer} from 'openid-client';
+import {Issuer, errors} from 'openid-client';
 import expressHttpProxy from 'express-http-proxy';
 
 /**
@@ -12,6 +12,7 @@ const createNotifikasjonBrukerApiProxyMiddleware = (
         targetCluster = process.env?.NAIS_CLUSTER_NAME,
         target = 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
         tokenXClientPromise = createTokenXClient(),
+        log,
     }
 ) => {
     const audience = `${targetCluster}:fager:notifikasjon-bruker-api`;
@@ -19,13 +20,20 @@ const createNotifikasjonBrukerApiProxyMiddleware = (
         proxyReqPathResolver: () => '/api/graphql',
         proxyReqOptDecorator: async (options, req) => {
             const tokenXClient = await tokenXClientPromise;
-            //const subject_token = (req.headers['authorization'] || '').replace('Bearer', '').trim();
             const subject_token = req.cookies['selvbetjening-idtoken'];
             const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
 
             options.headers.Authorization = `Bearer ${access_token}`;
             return options;
         },
+        proxyErrorHandler: (err, res, next) => {
+            if (err instanceof errors.OPError) {
+                log.error(`token exchange feilet ${err.message}`);
+                res.status(401).send();
+            } else {
+                next(err);
+            }
+        }
     });
 }
 
