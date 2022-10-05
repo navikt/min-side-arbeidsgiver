@@ -174,6 +174,7 @@ app.use(
     createNotifikasjonBrukerApiProxyMiddleware({
         targetCluster: NAIS_CLUSTER_NAME,
         ...(NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp' ? localProxyOpts : {}),
+        log,
     }),
 );
 
