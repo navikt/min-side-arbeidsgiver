@@ -27,7 +27,7 @@ const createNotifikasjonBrukerApiProxyMiddleware = (
         },
         proxyErrorHandler: (err, res, next) => {
             if (err instanceof errors.OPError) {
-                log.error(`token exchange feilet ${err.message}`, err);
+                log.info(`token exchange feilet ${err.message}`, err);
                 res.status(401).send();
             } else {
                 next(err);
