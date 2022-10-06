@@ -1,24 +1,19 @@
 import {Issuer, errors} from 'openid-client';
 import expressHttpProxy from 'express-http-proxy';
 
-/**
- * @param {("prod-gcp"|"dev-gcp")} targetCluster
- * @param tokenXClientPromise
- * @param target
- */
-const createNotifikasjonBrukerApiProxyMiddleware = (
-    {
-        targetCluster = process.env?.NAIS_CLUSTER_NAME,
-        target = 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
-        tokenXClientPromise = createTokenXClient(),
-        log,
-    }
-) => {
-    const audience = `${targetCluster}:fager:notifikasjon-bruker-api`;
-    return expressHttpProxy(target, {
+const {
+    NAIS_CLUSTER_NAME = 'local',
+    TOKEN_X_WELL_KNOWN_URL,
+    TOKEN_X_CLIENT_ID,
+    TOKEN_X_PRIVATE_JWK
+} = process.env;
+
+export const createNotifikasjonBrukerApiProxyMiddleware = ({ log }) => {
+    const audience = `${NAIS_CLUSTER_NAME}:fager:notifikasjon-bruker-api`;
+    return expressHttpProxy('http://notifikasjon-bruker-api.fager.svc.cluster.local', {
         proxyReqPathResolver: () => '/api/graphql',
         proxyReqOptDecorator: async (options, req) => {
-            const tokenXClient = await tokenXClientPromise;
+            const tokenXClient = await createTokenXClient();
             const subject_token = req.cookies['selvbetjening-idtoken'];
             const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
 
@@ -55,23 +50,13 @@ const exchangeToken = async (tokenxClient, {subject_token, audience}) => {
     );
 };
 
-const createTokenXClient = async (config = {
-    discoveryUrl: process.env.TOKEN_X_WELL_KNOWN_URL,
-    clientID: process.env.TOKEN_X_CLIENT_ID,
-    privateJwk: process.env.TOKEN_X_PRIVATE_JWK,
-}) => {
-    const issuer = await Issuer.discover(config.discoveryUrl);
+const createTokenXClient = async () => {
+    const issuer = await Issuer.discover(TOKEN_X_WELL_KNOWN_URL);
     return new issuer.Client(
         {
-            client_id: config.clientID,
+            client_id: TOKEN_X_CLIENT_ID,
             token_endpoint_auth_method: 'private_key_jwt',
         },
-        {keys: [JSON.parse(config.privateJwk)]}
+        {keys: [JSON.parse(TOKEN_X_PRIVATE_JWK)]}
     );
-};
-
-export {
-    createNotifikasjonBrukerApiProxyMiddleware,
-    createTokenXClient,
-    exchangeToken
 };
