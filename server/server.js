@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import {createNotifikasjonBrukerApiProxyMiddleware} from "./brukerapi-proxy-middleware.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
+import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock";
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -157,26 +158,18 @@ app.use(
     }),
 );
 
-const localProxyOpts = {
-    target: 'http://localhost:8081',
-    tokenXClientPromise: Promise.resolve({
-        grant: () => ({access_token: "foo"}),
-        issuer: {metadata: {token_endpoint: ''}}
-    }),
-}
-
 if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
-    import("@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock")
+    const {applyNotifikasjonMockMiddleware} = require('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
+    applyNotifikasjonMockMiddleware({app, path: "/min-side-arbeidsgiver/notifikasjon-bruker-api"})
+} else {
+    app.use(
+        '/min-side-arbeidsgiver/notifikasjon-bruker-api',
+        createNotifikasjonBrukerApiProxyMiddleware({
+            targetCluster: NAIS_CLUSTER_NAME,
+            log,
+        }),
+    );
 }
-
-app.use(
-    '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-    createNotifikasjonBrukerApiProxyMiddleware({
-        targetCluster: NAIS_CLUSTER_NAME,
-        ...(NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp' ? localProxyOpts : {}),
-        log,
-    }),
-);
 
 app.use(
     '/min-side-arbeidsgiver/sykefravaer',
@@ -231,8 +224,3 @@ setInterval(async () => {
 app.listen(PORT, () => {
     log.info(`Server listening on port ${PORT}`);
 });
-
-
-if (NAIS_CLUSTER_NAME === 'labs-gcp') {
-    import('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
-}
