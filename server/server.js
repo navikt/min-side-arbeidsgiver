@@ -28,14 +28,30 @@ const {
     SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
 } = process.env;
 
-const log = createLogger({
-    transports: [
-        new transports.Console({
-            timestamp: true,
-            format: format.json(),
-        }),
-    ],
+const log_events_counter = new Prometheus.Counter({
+    name: 'logback_events_total',
+    help: 'Antall log events fordelt på level',
+    labelNames: ['kubernetes_namespace', 'app', 'level'],
 });
+// proxy calls to log.<level> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get
+const log = new Proxy(
+    createLogger({
+        transports: [
+            new transports.Console({
+                timestamp: true,
+                format: format.json(),
+            }),
+        ],
+    }),
+    {
+        get: (_log, level) => {
+            return (...args) => {
+                //console.log('inc', {kubernetes_namespace: 'fager', app: 'min-side-arbeidsgiver', level: `${level}`});
+                log_events_counter.inc({kubernetes_namespace: 'fager', app: 'min-side-arbeidsgiver', level: `${level}`})
+                return _log[level](...args);
+            }
+        }
+    });
 
 let BUILD_PATH = path.join(process.cwd(), '../build');
 if (NAIS_CLUSTER_NAME === 'local') {
