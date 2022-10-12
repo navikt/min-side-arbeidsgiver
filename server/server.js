@@ -183,10 +183,7 @@ if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
 } else {
     app.use(
         '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-        createNotifikasjonBrukerApiProxyMiddleware({
-            targetCluster: NAIS_CLUSTER_NAME,
-            log,
-        }),
+        createNotifikasjonBrukerApiProxyMiddleware({ log }),
     );
 }
 
