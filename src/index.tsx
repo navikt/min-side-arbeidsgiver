@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import raf from 'raf';
 import * as Sentry from '@sentry/react';
-import 'unorm/lib/unorm';
 import 'whatwg-fetch';
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
 import smoothscroll from 'smoothscroll-polyfill';
