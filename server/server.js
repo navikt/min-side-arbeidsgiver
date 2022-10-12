@@ -111,7 +111,7 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
         onProxyRes: responseInterceptor( async (responseBuffer, proxyRes) => {
             try {
                 if (proxyRes.statusCode >= 400) {
-                    log.error(`tiltaksgjennomforing-api/avtaler feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`);
+                    log.warn(`tiltaksgjennomforing-api/avtaler feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`);
                     return JSON.stringify([])
                 }
                 if (proxyRes.headers['content-type'] === 'application/json') {
