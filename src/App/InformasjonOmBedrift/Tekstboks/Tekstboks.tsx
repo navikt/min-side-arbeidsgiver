@@ -1,5 +1,4 @@
 import React from 'react';
-import classNames from 'classnames';
 import './Tekstboks.css';
 
 interface Props {
@@ -7,7 +6,7 @@ interface Props {
 }
 
 const Tekstboks: React.FunctionComponent<Props> = props => (
-    <div className={classNames('tekstboks', props.className)}>{props.children}</div>
+    <div className={['tekstboks', props.className ?? ''].join(' ')}>{props.children}</div>
 );
 
 export default Tekstboks;
