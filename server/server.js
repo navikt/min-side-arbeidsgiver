@@ -31,7 +31,7 @@ const {
 const log_events_counter = new Prometheus.Counter({
     name: 'logback_events_total',
     help: 'Antall log events fordelt på level',
-    labelNames: ['kubernetes_namespace', 'app', 'level'],
+    labelNames: ['level'],
 });
 // proxy calls to log.<level> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get
 const log = new Proxy(
@@ -46,8 +46,7 @@ const log = new Proxy(
     {
         get: (_log, level) => {
             return (...args) => {
-                //console.log('inc', {kubernetes_namespace: 'fager', app: 'min-side-arbeidsgiver', level: `${level}`});
-                log_events_counter.inc({kubernetes_namespace: 'fager', app: 'min-side-arbeidsgiver', level: `${level}`})
+                log_events_counter.inc({level: `${level}`})
                 return _log[level](...args);
             }
         }
