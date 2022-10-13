@@ -54,6 +54,13 @@ export type Context = {
 
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
+const measureAll = (done: (duration: number) => void, ...args: Promise<any>[]) => {
+    const started = performance.now()
+    Promise.all(args).finally(() => {
+        done(performance.now() - started)
+    })
+}
+
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<Organisasjon[] | undefined>(undefined);
     const [altinntilganger, setAltinntilganger] = useState<Record<AltinntjenesteId, Set<string>> | undefined>(undefined);
@@ -67,74 +74,79 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
     const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(undefined);
     const {addAlert} = useContext(AlertContext)
     useEffect(() => {
-        hentOrganisasjoner()
-            .then(orgs => {
-                const gyldigeOrganisasjoner = orgs.filter(
-                    org =>
-                        org.OrganizationForm === 'BEDR' ||
-                        org.OrganizationForm === 'AAFY' ||
-                        org.Type === 'Enterprise',
-                );
-                setAltinnorganisasjoner(gyldigeOrganisasjoner);
+        measureAll(
+            (tidMs) => {
+                amplitude.logEvent('komponent-lastet', {
+                    komponent: 'OrganisasjonerOgTilgangerProvider',
+                    tidMs,
+                });
+            },
+            hentOrganisasjoner()
+                .then(orgs => {
+                    const gyldigeOrganisasjoner = orgs.filter(
+                        org =>
+                            org.OrganizationForm === 'BEDR' ||
+                            org.OrganizationForm === 'AAFY' ||
+                            org.Type === 'Enterprise',
+                    );
+                    setAltinnorganisasjoner(gyldigeOrganisasjoner);
 
-                if (gyldigeOrganisasjoner.length !== 0) {
-                    hentAltinnRaporteeIdentiteter().then(result => {
-                        if (result instanceof Error) {
-                            autentiserAltinnBruker(window.location.href);
-                            setReporteeMessagesUrls({});
-                        } else {
-                            setReporteeMessagesUrls(result);
-                        }
-                    });
-                } else {
-                    setReporteeMessagesUrls({});
-                }
-            })
-            .catch((error) => {
-                Sentry.captureException(error);
-                setAltinnorganisasjoner([]);
-                setVisFeilmelding(true);
-                addAlert("TilgangerAltinn");
-            });
-
-        hentAltinntilganger()
-            .then(setAltinntilganger)
-            .catch((error) => {
-                Sentry.captureException(error);
-                setAltinntilganger(Record.map(altinntjeneste, () => new Set()));
-            });
-
-        hentAltinnTilgangssøknader()
-            .then(setAltinnTilgangssøknader)
-            .catch((error) => {
-                Sentry.captureException(error);
-                setAltinnTilgangssøknader([]);
-            });
-
-        hentSyfoVirksomheter()
-            .then(virksomheter => {
-                setSyfoVirksomheter(virksomheter);
-                setTilgangTilSyfo(virksomheter.length > 0 ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG)
-                amplitude.setUserProperties({ syfotilgang: virksomheter.length > 0 });
-            })
-            .catch((error) => {
-                Sentry.captureException(error);
-                setSyfoVirksomheter([]);
-                setVisSyfoFeilmelding(true);
-                setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
-                addAlert("TilgangerDigiSyfo");
-            });
-        hentRefusjonstatus()
-            .then(refusjonstatus => {
-                setAlleRefusjonsstatus(refusjonstatus);
-            })
-            .catch((error) => {
-                Sentry.captureException(error);
-                setAlleRefusjonsstatus([]);
-                // har ikke egen alert type på dette, da det mest sannsynlig er altinn som feiler
-                setVisFeilmelding(true);
-                addAlert("TilgangerAltinn");
-            });
+                    if (gyldigeOrganisasjoner.length !== 0) {
+                        hentAltinnRaporteeIdentiteter().then(result => {
+                            if (result instanceof Error) {
+                                autentiserAltinnBruker(window.location.href);
+                                setReporteeMessagesUrls({});
+                            } else {
+                                setReporteeMessagesUrls(result);
+                            }
+                        });
+                    } else {
+                        setReporteeMessagesUrls({});
+                    }
+                })
+                .catch((error) => {
+                    Sentry.captureException(error);
+                    setAltinnorganisasjoner([]);
+                    setVisFeilmelding(true);
+                    addAlert('TilgangerAltinn');
+                }),
+            hentAltinntilganger()
+                .then(setAltinntilganger)
+                .catch((error) => {
+                    Sentry.captureException(error);
+                    setAltinntilganger(Record.map(altinntjeneste, () => new Set()));
+                }),
+            hentAltinnTilgangssøknader()
+                .then(setAltinnTilgangssøknader)
+                .catch((error) => {
+                    Sentry.captureException(error);
+                    setAltinnTilgangssøknader([]);
+                }),
+            hentSyfoVirksomheter()
+                .then(virksomheter => {
+                    setSyfoVirksomheter(virksomheter);
+                    setTilgangTilSyfo(virksomheter.length > 0 ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG);
+                    amplitude.setUserProperties({ syfotilgang: virksomheter.length > 0 });
+                })
+                .catch((error) => {
+                    Sentry.captureException(error);
+                    setSyfoVirksomheter([]);
+                    setVisSyfoFeilmelding(true);
+                    setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
+                    addAlert('TilgangerDigiSyfo');
+                }),
+            hentRefusjonstatus()
+                .then(refusjonstatus => {
+                    setAlleRefusjonsstatus(refusjonstatus);
+                })
+                .catch((error) => {
+                    Sentry.captureException(error);
+                    setAlleRefusjonsstatus([]);
+                    // har ikke egen alert type på dette, da det mest sannsynlig er altinn som feiler
+                    setVisFeilmelding(true);
+                    addAlert('TilgangerAltinn');
+                }),
+        );
     }, []);
 
 
@@ -176,7 +188,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             tilgangTilSyfo,
             harTilganger,
         };
-
         return (
             <OrganisasjonerOgTilgangerContext.Provider value={context}>
                 {props.children}
