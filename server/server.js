@@ -6,7 +6,11 @@ import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
-import {createNotifikasjonBrukerApiProxyMiddleware} from "./brukerapi-proxy-middleware.js";
+import {
+    createNotifikasjonBrukerApiProxyMiddleware,
+    loginserviceCookieSubjectTokenExtractor,
+    tokenXMiddleware
+} from "./brukerapi-proxy-middleware.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
 import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock";
@@ -159,6 +163,21 @@ app.use(
     }),
 );
 
+/**
+ * onProxyReq does not support async, so using middleware for tokenx instead
+ * ref: https://github.com/chimurai/http-proxy-middleware/issues/318
+ */
+app.use('/min-side-arbeidsgiver/api', tokenXMiddleware(
+    {
+        log: log,
+        subjectTokenExtractor: loginserviceCookieSubjectTokenExtractor,
+        audience: {
+            'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
+            'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
+            'local': 'local:fager:min-side-arbeidsgiver-api'
+        }[NAIS_CLUSTER_NAME]
+    })
+);
 app.use(
     '/min-side-arbeidsgiver/api',
     createProxyMiddleware({
