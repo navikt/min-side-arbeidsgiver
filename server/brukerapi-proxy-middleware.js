@@ -61,24 +61,20 @@ const createTokenXClient = async () => {
     );
 };
 
-export const authorizationBearerSubjectTokenExtractor = (req) => (req.headers.authorization || '').replace('Bearer', '').trim();
-export const loginserviceCookieSubjectTokenExtractor = (req) => req.cookies['selvbetjening-idtoken'];
-
 export const tokenXMiddleware = (
     {
+        tokenXClientPromise = createTokenXClient(),
         audience,
-        subjectTokenExtractor,
         log
     }
 ) => async (req, res, next) => {
-    const {tokenXClientPromise} = config()
     try {
         if (!audience) {
             next();
             return;
         }
 
-        const subject_token = subjectTokenExtractor(req);
+        const subject_token = req.cookies['selvbetjening-idtoken'] || (req.headers.authorization || '').replace('Bearer', '').trim();
         if (subject_token === '') {
             log.info("no authorization header found, skipping tokenx.")
             next();
