@@ -30,7 +30,7 @@ spec:
   env:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
-    - name: API_GATEWAY
+    - name: BACKEND_API_URL
       value: http://min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
       value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver

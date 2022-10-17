@@ -21,7 +21,7 @@ const {
     GIT_COMMIT = '?',
     LOGIN_URL = defaultLoginUrl,
     NAIS_CLUSTER_NAME = 'local',
-    API_GATEWAY = 'http://localhost:8080',
+    BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
@@ -173,7 +173,7 @@ app.use(
         },
         secure: true,
         xfwd: true,
-        target: API_GATEWAY,
+        target: BACKEND_API_URL,
     }),
 );
 
@@ -229,7 +229,7 @@ const gauge = new Prometheus.Gauge({
 
 setInterval(async () => {
     try {
-        const res = await fetch(`${API_GATEWAY}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
+        const res = await fetch(`${BACKEND_API_URL}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
         gauge.set(res.ok ? 1 : 0);
     } catch (error) {
         log.error(`healthcheck error: ${gauge.name}`, error);
