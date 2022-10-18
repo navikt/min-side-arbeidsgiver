@@ -63,8 +63,8 @@ const createTokenXClient = async () => {
 
 export const tokenXMiddleware = (
     {
-        tokenXClientPromise = createTokenXClient(),
         audience,
+        tokenXClientPromise = audience ? createTokenXClient() : null,
         log
     }
 ) => async (req, res, next) => {
