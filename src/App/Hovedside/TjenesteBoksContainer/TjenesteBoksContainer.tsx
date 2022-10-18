@@ -7,6 +7,7 @@ import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
 import './TjenesteBoksContainer.css';
+import ArbeidsforholdBoksPlaceHolder from "./Arbeidsforholdboks/ArbeidsforholdBoksPlaceHolder";
 
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
@@ -18,7 +19,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     const tjenester: FunctionComponent[] = [];
 
     if (valgtOrganisasjon.altinntilgang.arbeidsforhold) {
-        tjenester.push(Arbeidsforholdboks);
+        tjenester.push(ArbeidsforholdBoksPlaceHolder);
     }
 
     if (valgtOrganisasjon.syfotilgang) {
