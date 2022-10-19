@@ -87,8 +87,12 @@ export const tokenXMiddleware = (
         req.headers.authorization = `Bearer ${access_token}`;
         log.info("tokenx completed. authorization header is set.")
         next();
-    } catch (error) {
-        log.error(`Token exchange failed with error: ${error}`);
-        next(error);
+    } catch (err) {
+        if (err instanceof errors.OPError) {
+            log.info(`token exchange feilet ${err.message}`, err);
+            res.status(401).send();
+        } else {
+            next(err);
+        }
     }
 };
