@@ -74,7 +74,7 @@ export const tokenXMiddleware = (
             return;
         }
 
-        const subject_token = req.cookies['selvbetjening-idtoken'] || (req.headers.authorization || '').replace('Bearer', '').trim();
+        const subject_token = (req.headers.authorization || '').replace('Bearer', '').trim();
         if (subject_token === '') {
             log.info("no authorization header found, skipping tokenx.")
             next();
