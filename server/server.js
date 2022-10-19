@@ -162,6 +162,14 @@ app.use(
     }),
 );
 
+app.use('/min-side-arbeidsgiver/api', async  (req, res, next)  => {
+    const subject_token = req.cookies['selvbetjening-idtoken']
+    if (subject_token) {
+        req.headers.authorization = `Bearer ${subject_token}`;
+    }
+    next();
+});
+
 /**
  * onProxyReq does not support async, so using middleware for tokenx instead
  * ref: https://github.com/chimurai/http-proxy-middleware/issues/318
