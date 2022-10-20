@@ -15,5 +15,5 @@ export const LenkeMedLogging: FunctionComponent<Props> = props => {
         loggNavigasjon(props.href, loggLenketekst, pathname);
         onClick?.(event);
     };
-    return <BodyShort> <Link onClick={onClickLog} {...rest}/> </BodyShort>
+    return <BodyShort as={"span"}> <Link onClick={onClickLog} {...rest}/> </BodyShort>
 };
