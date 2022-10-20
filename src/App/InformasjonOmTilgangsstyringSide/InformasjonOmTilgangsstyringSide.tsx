@@ -383,10 +383,8 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         <LenkeMedLogging
                                             href='https://arbeidsplassen.nav.no/bedrift'
                                             loggLenketekst='Arbeidsplassen'
-                                        >
-                                            Arbeidsplassen
-                                        </LenkeMedLogging>{' '}
-                                        kan du finne kandidater og lage stillingsannonser. For å få tilgang må
+                                        >Arbeidsplassen</LenkeMedLogging>{' '}
+                                        kan du lage jobbtreff og stillingsannonser. For å få tilgang må
                                         du ha en av rollene
                                         </p>
                                         <ul>
@@ -395,7 +393,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         </ul>
 
                                         <p>
-                                        Du kan også ha enkeltrettigheten <b>rekruttering</b>
+                                        Du kan også ha enkeltrettigheten <b>rekruttering</b>.
                                         </p>
                                     </BodyLong>
                                 </Accordion.Content>

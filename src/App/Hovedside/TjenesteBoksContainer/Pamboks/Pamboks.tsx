@@ -10,13 +10,13 @@ const Pamboks = () => {
     const [stillingsAnnonseTekst, setStillingsAnnonseTekst] = useState('Lag ny stillingsannonse');
 
     const TekstUtenTall = () =>
-        <>Finn nye kandidater
+        <>Lag et jobbtreff
             <br />Lag en stillingsannonse</>;
 
     const TekstMedTall = () =>
         <div className={'pamboks__bunntekst'}>
             <span> <span className={'pamboks__antall'}>{antallAnnonser}</span>stillingsannonser (aktive)</span>
-            <div className={'pamboks__bunntekst'}>Finn nye kandidater
+            <div className={'pamboks__bunntekst'}>Lag et jobbtreff
             </div>
         </div>;
 
@@ -25,13 +25,16 @@ const Pamboks = () => {
         if (antallAnnonser > 0) {
             setStillingsAnnonseTekst('Stillingsannonser (' + antallAnnonser + ' aktive)');
         }
+        else {
+            setStillingsAnnonseTekst('Lag ny stillingsannonse')
+        }
     }, [antallAnnonser]);
 
     return <Tjenesteboks
         ikon={PamboksIkon}
         href={arbeidsplassenURL}
-        tittel={'Rekruttere'}
-        aria-label={'Rekruttere, finn kandidater, ' + stillingsAnnonseTekst}>
+        tittel={'Rekruttere på arbeidsplassen.no'}
+        aria-label={'Rekruttere på arbeidsplassen.no, ' + stillingsAnnonseTekst + ' og lag et jobbtreff'}>
             {antallAnnonser > 0 ? TekstMedTall() : TekstUtenTall()}
         </Tjenesteboks>;
 };
