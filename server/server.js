@@ -106,7 +106,16 @@ if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     require('./mock/refusjonsStatusMock').mock(app);
 }
 
-app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
+app.use('/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler', tokenXMiddleware(
+    {
+        log: log,
+        audience: {
+            'dev-gcp': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
+            'prod-gcp': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
+        }[NAIS_CLUSTER_NAME]
+    })
+);
+app.use('/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler',
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
