@@ -2,5 +2,5 @@ import React from 'react';
 import { Next } from "@navikt/ds-icons";
 
 export const HoyreChevron = () => {
-    return <Next style={{verticalAlign:"bottom", scale:"1.3"}}/>
+    return <Next style={{verticalAlign:"bottom", scale:"1.3"}} aria-hidden="true"/>
 }

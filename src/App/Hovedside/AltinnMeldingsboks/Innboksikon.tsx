@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Innboksikon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="24" viewBox="0 0 19 24" fill="none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="24" viewBox="0 0 19 24" fill="none" role="img" aria-hidden="true">
         <path d="M4.5 7.36377H11.8333" stroke="#262626" stroke-width="2"/>
         <path d="M4.5 12.2729L14.25 12.2729" stroke="#262626" stroke-width="2"/>
         <path d="M4.5 17.1816L14.25 17.1816" stroke="#262626" stroke-width="2"/>

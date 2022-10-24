@@ -23,7 +23,7 @@ export const KontaktFelt = () => {
                 <ul>
                     <li>
                         <LenkeMedLogging href={"#"} loggLenketekst={"Chat med Frida"} onClick={showFrida}>
-                            <Dialog style={{height: "1.5rem", width: "1.5rem"}}/>
+                            <Dialog style={{height: "1.5rem", width: "1.5rem"}} aria-hidden="true"/>
                             <Ingress>Chat med Frida</Ingress>
                         </LenkeMedLogging>
                         <BodyLong spacing>
@@ -33,7 +33,7 @@ export const KontaktFelt = () => {
                     </li>
                     <li>
                         <LenkeMedLogging loggLenketekst={"Kontaktskjema"} href={kontaktskjemaURL}>
-                            <Send style={{height: "1.5rem", width: "1.5rem"}}/>
+                            <Send style={{height: "1.5rem", width: "1.5rem"}} aria-hidden="true"/>
                             <Ingress>Kontaktskjema</Ingress>
                         </LenkeMedLogging>
                         <BodyLong spacing>
@@ -42,7 +42,7 @@ export const KontaktFelt = () => {
                     </li>
                     <li>
                         <LenkeMedLogging loggLenketekst={"Ring oss på 55 55 33 36"} href={ringOssTLF}>
-                            <Telephone style={{height: "1.5rem", width: "1.5rem"}}/>
+                            <Telephone style={{height: "1.5rem", width: "1.5rem"}} aria-hidden="true"/>
                             <Ingress>Ring oss på 55 55 33 36</Ingress>
                         </LenkeMedLogging>
                         <BodyLong spacing>
