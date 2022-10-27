@@ -24,6 +24,11 @@
   height: 100%;
 }
 
+.tjenesteboks-container .tjenesteboks:focus-within {
+  box-shadow: var(--navds-shadow-focus);
+  outline: none;
+}
+
 .tjenesteboks-container {
   display: grid;
   grid-template-columns: auto;

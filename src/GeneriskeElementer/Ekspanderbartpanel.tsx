@@ -60,7 +60,7 @@ const Header: FC<HeaderProps> =
                     :null
                 }
                         <Heading className="ekspanderbartpanel__button-tittel" size="small" level="2"> {tittel} </Heading>
-                <div className="ekspanderbartpanel__button-chevron">{apen ? <CollapseIcon/> : <ExpandIcon/>}</div>
+                <div className="ekspanderbartpanel__button-chevron">{apen ? <CollapseIcon aria-hidden="true"/> : <ExpandIcon aria-hidden="true"/>}</div>
             </button>
         );
     }
