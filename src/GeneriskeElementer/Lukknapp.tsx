@@ -8,6 +8,6 @@ export type Props = {
 }
 
 export const Lukknapp: FC<Props> = ({className, onClick}) =>
-    <Button className={className} onClick={onClick} variant="secondary">
+    <Button className={className} onClick={onClick} variant="secondary" aria-label="Lukk">
         <Close title="Lukk"/>
     </Button>
