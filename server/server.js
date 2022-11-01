@@ -73,6 +73,14 @@ const indexHtml = Mustache.render(
     }
 );
 
+const selvbetjeningsCookieAsAuthHeaderMiddleware = (req, res, next) => {
+    const subject_token = req.cookies['selvbetjening-idtoken']
+    if (subject_token) {
+        req.headers.authorization = `Bearer ${subject_token}`;
+    }
+    next();
+};
+
 const app = express();
 app.disable('x-powered-by');
 app.set('views', BUILD_PATH);
@@ -106,7 +114,17 @@ if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     require('./mock/refusjonsStatusMock').mock(app);
 }
 
-app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
+app.use(
+    '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler',
+    selvbetjeningsCookieAsAuthHeaderMiddleware,
+    tokenXMiddleware(
+    {
+        log: log,
+        audience: {
+            'dev-gcp': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
+            'prod-gcp': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
+        }[NAIS_CLUSTER_NAME]
+    }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
@@ -143,7 +161,6 @@ app.use(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler`,
     }),
 );
 
-
 app.use(
     '/min-side-arbeidsgiver/api/antall-arbeidsforhold/',
     createProxyMiddleware({
@@ -162,29 +179,17 @@ app.use(
     }),
 );
 
-app.use('/min-side-arbeidsgiver/api', async  (req, res, next)  => {
-    const subject_token = req.cookies['selvbetjening-idtoken']
-    if (subject_token) {
-        req.headers.authorization = `Bearer ${subject_token}`;
-    }
-    next();
-});
-
-/**
- * onProxyReq does not support async, so using middleware for tokenx instead
- * ref: https://github.com/chimurai/http-proxy-middleware/issues/318
- */
-app.use('/min-side-arbeidsgiver/api', tokenXMiddleware(
+app.use(
+    '/min-side-arbeidsgiver/api',
+    selvbetjeningsCookieAsAuthHeaderMiddleware,
+    tokenXMiddleware(
     {
         log: log,
         audience: {
             'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
             'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
         }[NAIS_CLUSTER_NAME]
-    })
-);
-app.use(
-    '/min-side-arbeidsgiver/api',
+    }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
@@ -198,7 +203,7 @@ app.use(
         secure: true,
         xfwd: true,
         target: BACKEND_API_URL,
-    }),
+    })
 );
 
 if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {

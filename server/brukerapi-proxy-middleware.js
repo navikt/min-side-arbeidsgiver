@@ -61,6 +61,10 @@ const createTokenXClient = async () => {
     );
 };
 
+/**
+ * onProxyReq does not support async, so using middleware for tokenx instead
+ * ref: https://github.com/chimurai/http-proxy-middleware/issues/318
+ */
 export const tokenXMiddleware = (
     {
         audience,
