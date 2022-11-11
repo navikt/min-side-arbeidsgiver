@@ -162,7 +162,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
 
     iaweb: {
         sort: 'tjeneste',
-        navn: 'Sykfraværsstatistikk',
+        navn: 'Sykefraværsstatistikk',
         beOmTilgangBeskrivelse: `Oversikt over sykefravær i din virksomhet og bransje.`,
         tjenestekode: '3403',
         tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
