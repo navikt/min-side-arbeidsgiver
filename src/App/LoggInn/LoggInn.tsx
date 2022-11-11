@@ -31,7 +31,7 @@ export const LoggInn: FunctionComponent = () => {
                             få oversikt over dine sykmeldte
                         </li>
                         <li className="innloggingsside__punkt">
-                            se sykfraværsstatistikk for din virksomhet
+                            se sykefraværsstatistikk for din virksomhet
                         </li>
                         <li className="innloggingsside__punkt">
                             rekruttere nye medarbeidere
