@@ -9,12 +9,32 @@ ul.saks-liste {
 ul.saks-liste li {
   flex-grow: 1;
 }
-ul.saks-liste .sakscontent {
+
+ul.saks-liste .sakslenkepanel > :first-child{
+  width:100%;
+}
+
+ul.saks-liste .sakscontainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ul.saks-liste .sakscontainer .sakscontent {
   display: flex;
   flex-direction: column;
   row-gap: 0.5rem;
 }
+
 ul.saks-liste .sakstekst {
   line-height: var(--navds-font-line-height-heading-xsmall);
   font-size: 1.1rem;
+}
+
+
+ul.saks-liste .sakscontainer .saksfrist {
+  display: flex;
+  align-items: center;
+  gap:.2rem;
+  white-space: nowrap;
 }

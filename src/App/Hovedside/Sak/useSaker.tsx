@@ -23,6 +23,7 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
                     tekst
                     tidspunkt
                 }
+                frister
             }
             feilAltinn
             totaltAntallSaker
