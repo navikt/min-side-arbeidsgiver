@@ -14,10 +14,12 @@ ul.saks-liste .sakslenkepanel > :first-child{
   width:100%;
 }
 
-ul.saks-liste .sakscontainer{
+ul.saks-liste .sakscontainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 ul.saks-liste .sakscontainer .sakscontent {
@@ -31,10 +33,10 @@ ul.saks-liste .sakstekst {
   font-size: 1.1rem;
 }
 
-
 ul.saks-liste .sakscontainer .saksfrist {
   display: flex;
   align-items: center;
   gap:.2rem;
   white-space: nowrap;
+  width: 17rem;
 }

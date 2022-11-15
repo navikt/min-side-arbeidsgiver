@@ -8,7 +8,7 @@ import OppgaveIkon from "./OppgaveIkon";
 
 const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
-    month: '2-digit',
+    month: 'short',
     day: '2-digit',
 });
 
@@ -18,15 +18,13 @@ type SakPanelProps = {
 }
 
 export const SakPanel = ({
-                             placeholder,
-                             sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp, frister}
-                         }: SakPanelProps) => {
+    placeholder,
+    sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp, frister}
+}: SakPanelProps) => {
     const fake = placeholder ?? false
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const {pathname} = useLocation()
-
-    const [frist, ...rest] = frister
-
+    const [frist,] = frister
 
     return <LinkPanel className="sakslenkepanel" href={lenke} as={fake ? 'div' : 'a'} onClick={() => {
         loggNavigasjonTags(lenke, merkelapp, pathname, {component: 'sak'})
@@ -49,7 +47,7 @@ export const SakPanel = ({
             {frist !== undefined &&
                 <div className="saksfrist">
                     <OppgaveIkon/>
-                    <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` - frist ${frist}`}</BodyShort>
+                    <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` - frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
                 </div>
             }
         </div>
