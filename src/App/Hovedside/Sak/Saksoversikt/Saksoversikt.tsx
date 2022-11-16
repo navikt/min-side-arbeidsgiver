@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
-import {BodyShort, Pagination} from '@navikt/ds-react';
+import {BodyShort, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {useSaker} from '../useSaker';
@@ -17,7 +17,8 @@ export const SIDE_SIZE = 30;
 
 const Saksoversikt = () => {
     const {state, byttFilter, lastingPågår, lastingFerdig, lastingFeilet} = useOversiktStateTransitions()
-    const {loading, data} = useSaker(SIDE_SIZE, state.filter);
+    const [sortering, setSortering] = useState<GQL.SakSortering>(GQL.SakSortering.Oppdatert)
+    const {loading, data} = useSaker(SIDE_SIZE, state.filter, sortering);
 
     useEffect(() => {
         if (loading) {
@@ -65,7 +66,7 @@ const Saksoversikt = () => {
 
         </div>
         <Alerts/>
-        <FilterOgSøkResultat state={state}/>
+        <FilterOgSøkResultat state={state} onChangeSortering={setSortering}/>
         <div className="saksoversikt__hjelpetekst">
             <OmSaker id="hjelptekst" ref={hjelpetekstButton} />
             <button
@@ -105,9 +106,10 @@ const useCurrentDate = (pollInterval: number) => {
 
 interface FilterOgSøkResultat {
     state: State;
+    onChangeSortering: (sortering: GQL.SakSortering) => void;
 }
 
-const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state}) => {
+const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSortering}) => {
     if (state.state === 'error') {
         return <BodyShort>Feil ved lasting av saker.</BodyShort>
     }
@@ -127,7 +129,14 @@ const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state}) => {
     }
 
     return <>
-        <BodyShort> {totaltAntallSaker} treff </BodyShort>
+        <div className="saksoversikt__resultat">
+            <BodyShort> {totaltAntallSaker} treff </BodyShort>
+            <Select className="saksoversikt__sortering" label="Sorter på" onChange={(e) => onChangeSortering(GQL.SakSortering[e.target.value as (keyof typeof GQL.SakSortering)])}>
+                {(Object.keys(GQL.SakSortering) as (keyof typeof GQL.SakSortering)[]).map((key) => (
+                    <option value={key}>{key}</option>
+                ))}
+            </Select>
+        </div>
         <SaksListe saker={saker}/>
     </>
 }

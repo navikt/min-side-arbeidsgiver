@@ -39,3 +39,12 @@
 .saksoversikt__knapp:hover {
   text-decoration: none;
 }
+.saksoversikt__resultat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.saksoversikt__sortering {
+  grid-template-columns: auto auto;
+  align-items: center;
+}
