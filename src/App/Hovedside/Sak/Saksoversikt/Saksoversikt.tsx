@@ -93,7 +93,7 @@ const sorteringsnavn: Record<GQL.SakSortering, string> = {
 }
 const sorteringsrekkefølge: GQL.SakSortering[] = [
     GQL.SakSortering.Oppdatert,
-    GQL.SakSortering.Frist,
+    //GQL.SakSortering.Frist,
     GQL.SakSortering.Opprettet,
 ]
 
