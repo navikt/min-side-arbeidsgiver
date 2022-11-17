@@ -9,6 +9,7 @@ import amplitude from "../../../../utils/amplitude";
 import {BodyShort, Heading } from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 import { OmSaker } from '../OmSaker';
+import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -20,6 +21,7 @@ const SisteSaker = () => {
         side: 1,
         virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
         tekstsoek: "",
+        sortering: GQL.SakSortering.Oppdatert,
     })
 
     useEffect(() => {

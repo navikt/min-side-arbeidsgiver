@@ -7,8 +7,8 @@ import { Filter } from './Saksoversikt/Filter';
 
 
 const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $tekstsoek, offset: $offset, limit: $limit) {
+    query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
+        saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -31,10 +31,14 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
     }
 `
 
-export function useSaker(pageSize: number, {side, tekstsoek, virksomhetsnummer}: Filter) {
+export function useSaker(
+    pageSize: number,
+    {side, tekstsoek, virksomhetsnummer, sortering}: Filter,
+) {
     const variables = {
         virksomhetsnummer: virksomhetsnummer,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
+        sortering: sortering,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
@@ -50,7 +54,7 @@ export function useSaker(pageSize: number, {side, tekstsoek, virksomhetsnummer}:
                 .catch(Sentry.captureException);
         }
 
-    }, [virksomhetsnummer, tekstsoek, side])
+    }, [virksomhetsnummer, tekstsoek, side, sortering])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 

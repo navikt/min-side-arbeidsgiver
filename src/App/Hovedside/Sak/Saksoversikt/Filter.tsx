@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { Search} from '@navikt/ds-react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomhetsnummer: string | undefined
+    virksomhetsnummer: string | undefined,
+    sortering: GQL.SakSortering,
 }
 
 export type FilterProps = {
@@ -13,8 +15,11 @@ export type FilterProps = {
     onChange: (filter: Filter) => void;
 }
 
-export const equalFilter = (a:Filter, b:Filter):boolean =>
-    a.side === b.side && a.tekstsoek === b.tekstsoek && a.virksomhetsnummer === b.virksomhetsnummer
+export const equalFilter = (a:Filter, b:Filter): boolean =>
+    a.side === b.side &&
+    a.tekstsoek === b.tekstsoek &&
+    a.virksomhetsnummer === b.virksomhetsnummer &&
+    a.sortering === b.sortering
 
 
 export const Filter = ({filter, onChange}: FilterProps) => {
@@ -40,7 +45,6 @@ export const Filter = ({filter, onChange}: FilterProps) => {
                 size="medium"
                 variant="primary"
                 ref={searchElem}
-
             />
         </form>
 

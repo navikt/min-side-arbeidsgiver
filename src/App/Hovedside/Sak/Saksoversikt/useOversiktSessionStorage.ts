@@ -1,31 +1,28 @@
 // Keep oversiktsfilter up to date with query parameters.
 // Store copy of oversikts-filter in sessionStorage
 
-import {useEffect, useState} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
-import {useSessionStorage} from '../../../hooks/useStorage';
-import {Filter} from './Filter';
+import { useSessionStorage } from '../../../hooks/useStorage';
+import { equalFilter, Filter } from './Filter';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
-
-const sessionStateEqual = (a: Filter, b: Filter) => {
-    return a.side === b.side &&
-        a.tekstsoek === b.tekstsoek &&
-        a.virksomhetsnummer === b.virksomhetsnummer
-}
 
 export type UseSessionState = [Filter, (sessionState: Filter) => void]
 
 export const useSessionState = (): UseSessionState => {
-    const [sessionState, setSessionState] = useState<Filter>(loadFilterFromUrl)
+    const [sessionState, setSessionState] = useState<Filter>((): Filter => {
+        return extractSeachParameters(window.location.search)
+    })
 
     const location = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
         const newSessionState = extractSeachParameters(location.search)
-        if (!sessionStateEqual(sessionState, newSessionState)) {
+        if (!equalFilter(sessionState, newSessionState)) {
             setSessionState(newSessionState)
         }
     }, [location.search])
@@ -35,7 +32,7 @@ export const useSessionState = (): UseSessionState => {
     }, [sessionState])
 
     const update = (newSessionState: Filter) => {
-        if (!sessionStateEqual(sessionState, newSessionState)) {
+        if (!equalFilter(sessionState, newSessionState)) {
             const search = updateSearchParameters(location.search, newSessionState)
             if (search !== location.search) {
                 navigate({search}, {replace: true});
@@ -47,16 +44,14 @@ export const useSessionState = (): UseSessionState => {
     return [sessionState, update]
 }
 
-const loadFilterFromUrl = (): Filter => {
-    return extractSeachParameters(window.location.search)
-}
-
 const extractSeachParameters = (searchString: string): Filter => {
     const search = new URLSearchParams(searchString)
+    const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
     return {
         virksomhetsnummer: search.get("bedrift") ?? '',
         tekstsoek: search.get("tekstsoek") ?? '',
-        side: Number.parseInt(search.get("side") ?? '1')
+        side: Number.parseInt(search.get("side") ?? '1'),
+        sortering: Object.values(GQL.SakSortering).includes(sortering) ? sortering : GQL.SakSortering.Oppdatert
     }
 }
 
@@ -69,9 +64,21 @@ const updateSearchParameters = (current: string, sessionState: Filter): string =
         query.delete("tekstsoek")
     }
 
-    query.set("side", sessionState.side.toString())
+    const side = sessionState.side
+    if (side === 1) {
+        query.delete("side")
+    } else {
+        query.set("side", sessionState.side.toString())
+    }
+
     if (sessionState.virksomhetsnummer !== undefined) {
         query.set("bedrift", sessionState.virksomhetsnummer)
+    }
+
+    if (sessionState.sortering === GQL.SakSortering.Oppdatert) {
+        query.delete("sortering")
+    } else {
+        query.set("sortering", sessionState.sortering);
     }
 
     return query.toString()
