@@ -47,7 +47,7 @@ export const SakPanel = ({
             {frist !== undefined &&
                 <div className="saksfrist" style={style}>
                     <OppgaveIkon/>
-                    <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` - frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
+                    <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
                 </div>
             }
         </div>
