@@ -17,8 +17,7 @@ export const SIDE_SIZE = 30;
 
 const Saksoversikt = () => {
     const {state, byttFilter, lastingPågår, lastingFerdig, lastingFeilet} = useOversiktStateTransitions()
-    const [sortering, setSortering] = useState<GQL.SakSortering>(GQL.SakSortering.Oppdatert)
-    const {loading, data} = useSaker(SIDE_SIZE, state.filter, sortering);
+    const {loading, data} = useSaker(SIDE_SIZE, state.filter);
 
     useEffect(() => {
         if (loading) {
@@ -46,6 +45,8 @@ const Saksoversikt = () => {
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
 
+    const {totaltAntallSaker} = state
+
     return <div className='saksoversikt'>
         <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
 
@@ -66,7 +67,23 @@ const Saksoversikt = () => {
 
         </div>
         <Alerts/>
-        <FilterOgSøkResultat state={state} onChangeSortering={setSortering} sortering={sortering}/>
+        <div className="saksoversikt__oppsummering">
+            { totaltAntallSaker !== undefined ? <BodyShort> {totaltAntallSaker} treff </BodyShort> : null }
+            <Select
+                className="saksoversikt__sortering"
+                label="Sorter på"
+                onChange={(e) => {
+                    byttFilter({ ...state.filter, sortering: e.target.value as GQL.SakSortering} )
+                }}
+            >
+                {sorteringsrekkefølge.map(key => (
+                    <option value={key} selected={state.filter.sortering === key}>
+                        {sorteringsnavn[key]}
+                    </option>
+                ))}
+            </Select>
+        </div>
+        <Søkeresultat state={state} />
         <div className="saksoversikt__hjelpetekst">
             <OmSaker id="hjelptekst" ref={hjelpetekstButton} />
             <button
@@ -106,8 +123,6 @@ const useCurrentDate = (pollInterval: number) => {
 
 interface FilterOgSøkResultat {
     state: State;
-    sortering: GQL.SakSortering;
-    onChangeSortering: (sortering: GQL.SakSortering) => void;
 }
 
 const sorteringsnavn: Record<GQL.SakSortering, string> = {
@@ -121,7 +136,7 @@ const sorteringsrekkefølge: GQL.SakSortering[] = [
     GQL.SakSortering.Opprettet,
 ]
 
-const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSortering, sortering}) => {
+const Søkeresultat: FC<FilterOgSøkResultat> = ({state}) => {
     if (state.state === 'error') {
         return <BodyShort>Feil ved lasting av saker.</BodyShort>
     }
@@ -140,23 +155,7 @@ const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSorterin
         return <BodyShort>Ingen treff.</BodyShort>
     }
 
-    return <>
-        <div className="saksoversikt__resultat">
-            <BodyShort> {totaltAntallSaker} treff </BodyShort>
-            <Select
-                className="saksoversikt__sortering"
-                label="Sorter på"
-                onChange={(e) => onChangeSortering(e.target.value as GQL.SakSortering)}
-            >
-                {sorteringsrekkefølge.map(key => (
-                    <option value={key} selected={sortering === key}>
-                        {sorteringsnavn[key]}
-                    </option>
-                ))}
-            </Select>
-        </div>
-        <SaksListe saker={saker}/>
-    </>
+    return <SaksListe saker={saker}/>
 }
 
 type LasterProps = {

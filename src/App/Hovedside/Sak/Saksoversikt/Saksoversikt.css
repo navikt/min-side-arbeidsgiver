@@ -39,7 +39,7 @@
 .saksoversikt__knapp:hover {
   text-decoration: none;
 }
-.saksoversikt__resultat {
+.saksoversikt__oppsummering {
   display: flex;
   justify-content: space-between;
   align-items: center;

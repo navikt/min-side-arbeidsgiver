@@ -33,13 +33,12 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
 
 export function useSaker(
     pageSize: number,
-    {side, tekstsoek, virksomhetsnummer}: Filter,
-    sortering: GQL.SakSortering = GQL.SakSortering.Oppdatert
+    {side, tekstsoek, virksomhetsnummer, sortering}: Filter,
 ) {
     const variables = {
         virksomhetsnummer: virksomhetsnummer,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
-        sortering,
+        sortering: sortering,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
@@ -49,7 +48,6 @@ export function useSaker(
     })
 
     useEffect(() => {
-        console.log("valg sortering:", {sortering})
         if (virksomhetsnummer !== null && side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
