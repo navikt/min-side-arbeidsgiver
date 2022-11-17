@@ -110,7 +110,6 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
         window.addEventListener("resize", setSize);
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
-    console.log(width)
     return <Pagination
         count={state.sider == undefined ? 0 : state.sider}
         page={state.filter.side}
