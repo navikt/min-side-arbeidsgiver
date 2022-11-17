@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, ReactElement, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
 import {BodyShort, Pagination, Select} from '@navikt/ds-react';
@@ -35,10 +35,10 @@ const Saksoversikt = () => {
         }
     }, [loading, data])
 
-    const hjelpetekstButton = useRef<HTMLButtonElement>(null);
 
     return <div className='saksoversikt'>
         <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
+        <Alerts/>
         <div className="saksoversikt__header">
             <Filter filter={state.filter} onChange={byttFilter}/>
             <Select
@@ -55,20 +55,7 @@ const Saksoversikt = () => {
                 ))}
             </Select>
         </div>
-        <Alerts/>
         <Søkeresultat byttFilter={byttFilter} state={state}/>
-        <div className="saksoversikt__hjelpetekst">
-            <OmSaker id="hjelptekst" ref={hjelpetekstButton}/>
-            <button
-                className={"saksoversikt__knapp"}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    e.preventDefault();
-                    hjelpetekstButton.current?.focus();
-                    hjelpetekstButton.current?.click();
-                }}> Hva vises her?
-            </button>
-        </div>
     </div>
 };
 
@@ -110,12 +97,12 @@ const sorteringsrekkefølge: GQL.SakSortering[] = [
     GQL.SakSortering.Opprettet,
 ]
 
-type ResultatOppsummeringProp = {
+type SidevelgerProp = {
     state: State;
     byttFilter: (filter: Filter) => void;
 }
 
-const ResultatOppsummering: FC<ResultatOppsummeringProp> = ({state, byttFilter}) => {
+const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
     const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -123,23 +110,55 @@ const ResultatOppsummering: FC<ResultatOppsummeringProp> = ({state, byttFilter})
         window.addEventListener("resize", setSize);
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
-
-    return <div className="saksoversikt__oppsummering">
-        {state.totaltAntallSaker !== undefined
-            ? <BodyShort> {state.totaltAntallSaker} treff </BodyShort>
-            : null}
-        <Pagination
-            count={state.sider == undefined ? 0 : state.sider}
-            page={state.filter.side}
-            siblingCount={width < 420 ? 0 : 1}
-            boundaryCount={width < 370 ? 0 : 1}
-            onPageChange={
-                side => {
-                    byttFilter({...state.filter, side})
-                }
+    console.log(width)
+    return <Pagination
+        count={state.sider == undefined ? 0 : state.sider}
+        page={state.filter.side}
+        siblingCount={width < 560 ? 0 : 1}
+        boundaryCount={width < 440 ? 0 : 1}
+        onPageChange={
+            side => {
+                byttFilter({...state.filter, side})
             }
-        />
-    </div>;
+        }
+    />
+}
+
+type ResultatOppsummeringProp = {
+    state: State;
+    byttFilter: (filter: Filter) => void;
+    children: ReactElement;
+}
+
+const ResultatOppsummering: FC<ResultatOppsummeringProp> = ({state, byttFilter, children}) => {
+    const hjelpetekstButton = useRef<HTMLButtonElement>(null);
+
+    return <>
+
+        <div className="saksoversik__saksliste-header">
+            {state.totaltAntallSaker !== undefined
+                ? <BodyShort> {state.totaltAntallSaker} treff </BodyShort>
+                : null}
+            <Sidevelger state={state} byttFilter={byttFilter}/>
+        </div>
+
+        {children}
+        <div className="saksoversik__saksliste-footer">
+            <div className="saksoversikt__hjelpetekst">
+                <OmSaker id="hjelptekst" ref={hjelpetekstButton}/>
+                <button
+                    className={"saksoversikt__knapp"}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        hjelpetekstButton.current?.focus();
+                        hjelpetekstButton.current?.click();
+                    }}> Hva vises her?
+                </button>
+            </div>
+            <Sidevelger state={state} byttFilter={byttFilter}/>
+        </div>
+    </>
 }
 
 const Søkeresultat: FC<FilterOgSøkResultat> = ({state, byttFilter}) => {
@@ -148,10 +167,9 @@ const Søkeresultat: FC<FilterOgSøkResultat> = ({state, byttFilter}) => {
     }
 
     if (state.state === 'loading') {
-        return <>
-            <ResultatOppsummering state={state} byttFilter={byttFilter}/>
+        return <ResultatOppsummering state={state} byttFilter={byttFilter}>
             <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined}/>
-        </>
+        </ResultatOppsummering>
     }
 
     const {totaltAntallSaker, saker, filter} = state
@@ -164,10 +182,9 @@ const Søkeresultat: FC<FilterOgSøkResultat> = ({state, byttFilter}) => {
         return <BodyShort>Ingen treff.</BodyShort>
     }
 
-    return <>
-        <ResultatOppsummering state={state} byttFilter={byttFilter}/>
+    return <ResultatOppsummering state={state} byttFilter={byttFilter}>
         <SaksListe saker={saker}/>
-    </>
+    </ResultatOppsummering>
 }
 
 type LasterProps = {
