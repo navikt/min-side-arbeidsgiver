@@ -59,11 +59,10 @@ const Tiltakboks = () => {
     const tallElems = displayorder.flatMap(avtaletype => {
         const antall = avtaleoversikt[avtaletype] ?? 0;
         return antall > 0
-            ? [<>
-                <div key={`${avtaletype}-tall`} className='antall'>{antall}</div>
-                <div key={`${avtaletype}-tekst`} className='tekst'>{displayname[avtaletype]}</div>
-                </>
-                ]
+            ? [
+                <div key={`${avtaletype}-tall`} className='antall'>{antall}</div>,
+                <div key={`${avtaletype}-tekst`} className='tekst'>{displayname[avtaletype]}</div>,
+            ]
             : [];
     })
 
