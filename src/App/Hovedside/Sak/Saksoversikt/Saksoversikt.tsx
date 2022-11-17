@@ -11,7 +11,7 @@ import amplitude from '../../../../utils/amplitude';
 import {useOversiktStateTransitions} from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
 import {Filter} from './Filter';
-import { OmSaker } from '../OmSaker';
+import {OmSaker} from '../OmSaker';
 
 export const SIDE_SIZE = 30;
 
@@ -37,43 +37,15 @@ const Saksoversikt = () => {
 
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
 
-    const [width, setWidth] = useState(window.innerWidth);
-
-    useEffect(() => {
-        const setSize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", setSize);
-        return () => window.removeEventListener("resize", setSize);
-    }, [setWidth]);
-
-    const {totaltAntallSaker} = state
-
     return <div className='saksoversikt'>
         <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
-
         <div className="saksoversikt__header">
             <Filter filter={state.filter} onChange={byttFilter}/>
-
-            <Pagination
-                count={state.sider == undefined ? 0 : state.sider}
-                page={state.filter.side}
-                siblingCount={width < 420 ? 0 : 1}
-                boundaryCount={width < 370 ? 0 : 1}
-                onPageChange={
-                    side =>{
-                        byttFilter({...state.filter, side})
-                    }
-                }
-            />
-
-        </div>
-        <Alerts/>
-        <div className="saksoversikt__oppsummering">
-            { totaltAntallSaker !== undefined ? <BodyShort> {totaltAntallSaker} treff </BodyShort> : null }
             <Select
                 className="saksoversikt__sortering"
                 label="Sorter på"
                 onChange={(e) => {
-                    byttFilter({ ...state.filter, sortering: e.target.value as GQL.SakSortering} )
+                    byttFilter({...state.filter, sortering: e.target.value as GQL.SakSortering})
                 }}
             >
                 {sorteringsrekkefølge.map(key => (
@@ -83,9 +55,10 @@ const Saksoversikt = () => {
                 ))}
             </Select>
         </div>
-        <Søkeresultat state={state} />
+        <Alerts/>
+        <Søkeresultat byttFilter={byttFilter} state={state}/>
         <div className="saksoversikt__hjelpetekst">
-            <OmSaker id="hjelptekst" ref={hjelpetekstButton} />
+            <OmSaker id="hjelptekst" ref={hjelpetekstButton}/>
             <button
                 className={"saksoversikt__knapp"}
                 onClick={(e) => {
@@ -123,6 +96,7 @@ const useCurrentDate = (pollInterval: number) => {
 
 interface FilterOgSøkResultat {
     state: State;
+    byttFilter: (filter: Filter) => void;
 }
 
 const sorteringsnavn: Record<GQL.SakSortering, string> = {
@@ -136,13 +110,48 @@ const sorteringsrekkefølge: GQL.SakSortering[] = [
     GQL.SakSortering.Opprettet,
 ]
 
-const Søkeresultat: FC<FilterOgSøkResultat> = ({state}) => {
+type ResultatOppsummeringProp = {
+    state: State;
+    byttFilter: (filter: Filter) => void;
+}
+
+const ResultatOppsummering: FC<ResultatOppsummeringProp> = ({state, byttFilter}) => {
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const setSize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", setSize);
+        return () => window.removeEventListener("resize", setSize);
+    }, [setWidth]);
+
+    return <div className="saksoversikt__oppsummering">
+        {state.totaltAntallSaker !== undefined
+            ? <BodyShort> {state.totaltAntallSaker} treff </BodyShort>
+            : null}
+        <Pagination
+            count={state.sider == undefined ? 0 : state.sider}
+            page={state.filter.side}
+            siblingCount={width < 420 ? 0 : 1}
+            boundaryCount={width < 370 ? 0 : 1}
+            onPageChange={
+                side => {
+                    byttFilter({...state.filter, side})
+                }
+            }
+        />
+    </div>;
+}
+
+const Søkeresultat: FC<FilterOgSøkResultat> = ({state, byttFilter}) => {
     if (state.state === 'error') {
         return <BodyShort>Feil ved lasting av saker.</BodyShort>
     }
 
     if (state.state === 'loading') {
-        return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined}/>
+        return <>
+            <ResultatOppsummering state={state} byttFilter={byttFilter}/>
+            <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined}/>
+        </>
     }
 
     const {totaltAntallSaker, saker, filter} = state
@@ -155,7 +164,10 @@ const Søkeresultat: FC<FilterOgSøkResultat> = ({state}) => {
         return <BodyShort>Ingen treff.</BodyShort>
     }
 
-    return <SaksListe saker={saker}/>
+    return <>
+        <ResultatOppsummering state={state} byttFilter={byttFilter}/>
+        <SaksListe saker={saker}/>
+    </>
 }
 
 type LasterProps = {
