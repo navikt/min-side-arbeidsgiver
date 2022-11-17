@@ -143,7 +143,11 @@ const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSorterin
     return <>
         <div className="saksoversikt__resultat">
             <BodyShort> {totaltAntallSaker} treff </BodyShort>
-            <Select className="saksoversikt__sortering" label="Sorter på" onChange={(e) => onChangeSortering(e.target.value as GQL.SakSortering)}>
+            <Select
+                className="saksoversikt__sortering"
+                label="Sorter på"
+                onChange={(e) => onChangeSortering(e.target.value as GQL.SakSortering)}
+            >
                 {sorteringsrekkefølge.map(key => (
                     <option value={key} selected={sortering === key}>
                         {sorteringsnavn[key]}
