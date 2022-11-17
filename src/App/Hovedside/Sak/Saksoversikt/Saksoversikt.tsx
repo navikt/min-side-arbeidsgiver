@@ -66,7 +66,7 @@ const Saksoversikt = () => {
 
         </div>
         <Alerts/>
-        <FilterOgSøkResultat state={state} onChangeSortering={setSortering}/>
+        <FilterOgSøkResultat state={state} onChangeSortering={setSortering} sortering={sortering}/>
         <div className="saksoversikt__hjelpetekst">
             <OmSaker id="hjelptekst" ref={hjelpetekstButton} />
             <button
@@ -106,10 +106,17 @@ const useCurrentDate = (pollInterval: number) => {
 
 interface FilterOgSøkResultat {
     state: State;
+    sortering: GQL.SakSortering;
     onChangeSortering: (sortering: GQL.SakSortering) => void;
 }
 
-const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSortering}) => {
+const sorteringsNavn: Record<GQL.SakSortering, string> = {
+    "OPPDATERT": "Oppdatert",
+    "OPPRETTET": "Opprettet",
+    "FRIST": "Frist",
+}
+
+const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSortering, sortering}) => {
     if (state.state === 'error') {
         return <BodyShort>Feil ved lasting av saker.</BodyShort>
     }
@@ -131,9 +138,11 @@ const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSorterin
     return <>
         <div className="saksoversikt__resultat">
             <BodyShort> {totaltAntallSaker} treff </BodyShort>
-            <Select className="saksoversikt__sortering" label="Sorter på" onChange={(e) => onChangeSortering(GQL.SakSortering[e.target.value as (keyof typeof GQL.SakSortering)])}>
-                {(Object.keys(GQL.SakSortering) as (keyof typeof GQL.SakSortering)[]).map((key) => (
-                    <option value={key}>{key}</option>
+            <Select className="saksoversikt__sortering" label="Sorter på" onChange={(e) => onChangeSortering(e.target.value as GQL.SakSortering)}>
+                {Object.values(GQL.SakSortering).map(key => (
+                    <option value={key} selected={sortering === key}>
+                        {sorteringsNavn[key]}
+                    </option>
                 ))}
             </Select>
         </div>

@@ -49,6 +49,7 @@ export function useSaker(
     })
 
     useEffect(() => {
+        console.log("valg sortering:", {sortering})
         if (virksomhetsnummer !== null && side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
