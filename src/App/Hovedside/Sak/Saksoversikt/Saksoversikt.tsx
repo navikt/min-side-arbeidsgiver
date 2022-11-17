@@ -110,11 +110,16 @@ interface FilterOgSøkResultat {
     onChangeSortering: (sortering: GQL.SakSortering) => void;
 }
 
-const sorteringsNavn: Record<GQL.SakSortering, string> = {
+const sorteringsnavn: Record<GQL.SakSortering, string> = {
     "OPPDATERT": "Oppdatert",
     "OPPRETTET": "Opprettet",
     "FRIST": "Frist",
 }
+const sorteringsrekkefølge: GQL.SakSortering[] = [
+    GQL.SakSortering.Oppdatert,
+    GQL.SakSortering.Frist,
+    GQL.SakSortering.Opprettet,
+]
 
 const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSortering, sortering}) => {
     if (state.state === 'error') {
@@ -139,9 +144,9 @@ const FilterOgSøkResultat: FC<FilterOgSøkResultat> = ({state, onChangeSorterin
         <div className="saksoversikt__resultat">
             <BodyShort> {totaltAntallSaker} treff </BodyShort>
             <Select className="saksoversikt__sortering" label="Sorter på" onChange={(e) => onChangeSortering(e.target.value as GQL.SakSortering)}>
-                {Object.values(GQL.SakSortering).map(key => (
+                {sorteringsrekkefølge.map(key => (
                     <option value={key} selected={sortering === key}>
-                        {sorteringsNavn[key]}
+                        {sorteringsnavn[key]}
                     </option>
                 ))}
             </Select>
