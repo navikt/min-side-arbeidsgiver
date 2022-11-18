@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useContext} from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
-import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+import '@navikt/bedriftsmeny/lib/index.css';
 import {OrganisasjonsDetaljerContext} from '../OrganisasjonDetaljerProvider';
 import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
