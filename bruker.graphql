@@ -5,8 +5,6 @@ schema {
     mutation: Mutation
 }
 
-directive @cacheControl(maxAge: Int, scope: CacheControlScope) on OBJECT | FIELD_DEFINITION | INTERFACE
-
 union Notifikasjon = Beskjed | Oppgave
 
 union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
@@ -38,22 +36,26 @@ type NotifikasjonerResultat {
 
 type Oppgave {
     brukerKlikk: BrukerKlikk!
+    frist: ISO8601Date
     id: ID!
     lenke: String!
     merkelapp: String!
     opprettetTidspunkt: ISO8601DateTime!
     tekst: String!
     tilstand: OppgaveTilstand
+    utgaattTidspunkt: ISO8601DateTime
     virksomhet: Virksomhet!
 }
 
 type Query {
     notifikasjoner: NotifikasjonerResultat!
-    saker(limit: Int, offset: Int, tekstsoek: String, virksomhetsnummer: String!): SakerResultat!
+    saker(limit: Int, offset: Int, sortering: SakSortering! = OPPDATERT, tekstsoek: String, virksomhetsnummer: String!): SakerResultat!
     whoami: String
 }
 
 type Sak {
+    "frist fra oppgaver med status ny. null i array betyr oppgave uten frist"
+    frister: [ISO8601Date]!
     id: ID!
     lenke: String!
     merkelapp: String!
@@ -84,14 +86,16 @@ type Virksomhet {
     virksomhetsnummer: String!
 }
 
-enum CacheControlScope {
-    PRIVATE
-    PUBLIC
-}
-
 enum OppgaveTilstand {
     NY
     UTFOERT
+    UTGAATT
+}
+
+enum SakSortering {
+    FRIST
+    OPPDATERT
+    OPPRETTET
 }
 
 enum SakStatusType {
@@ -100,6 +104,6 @@ enum SakStatusType {
     UNDER_BEHANDLING
 }
 
-scalar ISO8601DateTime
+scalar ISO8601Date
 
-scalar Upload
+scalar ISO8601DateTime

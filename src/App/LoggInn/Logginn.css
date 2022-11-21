@@ -9,7 +9,7 @@
   text-align: left;
   margin-left: 1rem;
 }
-.innloggingsside__punkt {
+.innloggingsside__punktliste > li {
   margin: 0.5rem;
 }
 .innloggingsside__innhold {

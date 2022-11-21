@@ -39,3 +39,21 @@
 .saksoversikt__knapp:hover {
   text-decoration: none;
 }
+.saksoversik__saksliste-header,
+.saksoversik__saksliste-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.saksoversik__saksliste-footer {
+  flex-wrap: wrap-reverse;
+}
+
+
+
+.saksoversikt__sortering {
+  grid-template-columns: auto auto;
+  align-items: center;
+}

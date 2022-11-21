@@ -8,6 +8,7 @@ export type State = {
     state: 'loading';
     filter: Filter;
     sider: number | undefined;
+    totaltAntallSaker: number | undefined;
     forrigeSaker: Array<GQL.Sak> | null;
     startTid: Date;
 } | {
@@ -20,6 +21,7 @@ export type State = {
     state: 'error';
     filter: Filter;
     sider: number | undefined;
+    totaltAntallSaker: number | undefined;
 }
 
 type Action =
@@ -34,15 +36,20 @@ export const useOversiktStateTransitions = () => {
     const reduce = (current: State, action: Action): State => {
         switch (action.action) {
             case 'bytt-filter':
-                if (equalFilter(current.filter, action.filter)){
+                if (equalFilter(current.filter, action.filter)) {
                     return current
                 }
-                if( equalFilter({...current.filter, side:1}, {...action.filter, side:1})){
+
+                if (equalFilter(
+                    {...current.filter, side: 1, sortering: GQL.SakSortering.Oppdatert},
+                    {...action.filter, side: 1, sortering: GQL.SakSortering.Oppdatert}
+                )) {
                     return {
                         state: 'loading',
                         filter: action.filter,
                         sider: current.sider,
                         startTid: new Date(),
+                        totaltAntallSaker: current.totaltAntallSaker,
                         forrigeSaker: finnForrigeSaker(current),
                     }
                 }
@@ -50,6 +57,7 @@ export const useOversiktStateTransitions = () => {
                     state: 'loading',
                     filter: action.filter,
                     sider: undefined,
+                    totaltAntallSaker: undefined,
                     startTid: new Date(),
                     forrigeSaker: finnForrigeSaker(current),
                 }
@@ -58,6 +66,7 @@ export const useOversiktStateTransitions = () => {
                     state: 'loading',
                     filter: current.filter,
                     sider: current.sider,
+                    totaltAntallSaker: current.totaltAntallSaker,
                     startTid: new Date(),
                     forrigeSaker: finnForrigeSaker(current),
                 }
@@ -66,6 +75,7 @@ export const useOversiktStateTransitions = () => {
                     state: 'error',
                     filter: current.filter,
                     sider: current.sider,
+                    totaltAntallSaker: current.totaltAntallSaker,
                 }
             case 'lasting-ferdig':
                 const {totaltAntallSaker, saker} = action.resultat
@@ -78,6 +88,7 @@ export const useOversiktStateTransitions = () => {
                         state: 'loading',
                         filter: { ... current.filter, side: Math.max(1, sider - 1)},
                         sider,
+                        totaltAntallSaker,
                         startTid: new Date(),
                         forrigeSaker: null,
                     }
@@ -98,6 +109,7 @@ export const useOversiktStateTransitions = () => {
         filter: sessionState,
         forrigeSaker: null,
         sider: undefined,
+        totaltAntallSaker: undefined,
         startTid: new Date(),
     })
 
