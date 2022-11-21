@@ -27,21 +27,15 @@ export const LoggInn: FunctionComponent = () => {
                 </Heading>
                 <BodyLong>
                     <ul className="innloggingsside__punktliste">
-                        <li className="innloggingsside__punkt">
-                            få oversikt over dine sykmeldte
-                        </li>
-                        <li className="innloggingsside__punkt">
-                            se sykefraværsstatistikk for din virksomhet
-                        </li>
-                        <li className="innloggingsside__punkt">
-                            rekruttere nye medarbeidere
-                        </li>
-                        <li className="innloggingsside__punkt">
-                            få oversikt over dine ansatte (fra Aa-registeret)
-                        </li>
-                        <li className="innloggingsside__punkt">
-                            sende inn digitale skjemaer
-                        </li>
+                        {
+                            [ "se sykmeldte og sykefraværsstatistikk",
+                                "rekruttere nye medarbeider",
+                                "se ansatte (fra Aa-registret)",
+                                "finne tilskuddsbrev om NAV-tiltak",
+                                "finne refusjonskrav for kronisk syke/gravide",
+                                "sende inn digitale skjemaer",
+                            ].map(text => <li> {text} </li>)
+                        }
                     </ul>
                 </BodyLong>
                 <TilgangsStyringInfoTekst/>
