@@ -12,6 +12,7 @@ import {useOversiktStateTransitions} from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
 import {Filter} from './Filter';
 import {OmSaker} from '../OmSaker';
+import { gittMiljo } from '../../../../utils/environment';
 
 export const SIDE_SIZE = 30;
 
@@ -91,11 +92,17 @@ const sorteringsnavn: Record<GQL.SakSortering, string> = {
     "OPPRETTET": "Opprettet",
     "FRIST": "Frist",
 }
-const sorteringsrekkefølge: GQL.SakSortering[] = [
-    GQL.SakSortering.Oppdatert,
-    //GQL.SakSortering.Frist,
-    GQL.SakSortering.Opprettet,
-]
+const sorteringsrekkefølge: GQL.SakSortering[] = gittMiljo({
+    prod: [
+        GQL.SakSortering.Oppdatert,
+        GQL.SakSortering.Opprettet,
+    ],
+    other: [
+        GQL.SakSortering.Oppdatert,
+        GQL.SakSortering.Frist,
+        GQL.SakSortering.Opprettet,
+    ],
+})
 
 type SidevelgerProp = {
     state: State;
