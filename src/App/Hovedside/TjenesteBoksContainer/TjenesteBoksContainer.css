@@ -7,7 +7,7 @@
   background-color: white;
   margin-bottom: 2rem;
   overflow: hidden;
-  border-radius: var(--navds-border-radius-small);
+  border-radius: var(--a-border-radius-small);
 }
 
 .tjenesteboks-container .tjenesteboks__storttall {
@@ -25,7 +25,7 @@
 }
 
 .tjenesteboks-container .tjenesteboks:focus-within {
-  box-shadow: var(--navds-shadow-focus);
+  box-shadow: var(--a-shadow-focus);
   outline: none;
 }
 

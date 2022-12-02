@@ -1,8 +1,8 @@
 .logg-inn-banner {
   display: flex;
   flex-direction: row;
-  background-color: var(--navds-global-color-blue-100);
-  border-bottom: 4px solid var(--navds-global-color-blue-200);
+  background-color: var(--a-blue-100);
+  border-bottom: 4px solid var(--a-blue-200);
   height: 12rem;
   margin-bottom: 2rem;
   justify-content: space-around;

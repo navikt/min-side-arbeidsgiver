@@ -73,19 +73,19 @@
   padding: 0.75rem 0.5rem;
 }
 .paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul  li > a:hover {
-  background-color: var(--navds-global-color-blue-50);
-  color: var(--navds-global-color-gray-900);
+  background-color: var(--a-blue-50);
+  color: var(--a-gray-900);
 }
 
 .paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li a:active {
-  outline: 3px solid var(--navds-global-color-blue-800);
+  outline: 3px solid var(--a-blue-800);
 }
 .paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li a:active,
 .paneler-med-innholdsfortegnelse__container .paneler-med-innholdsfortegnelse__sidepanel  ul li a.active
 {
   outline-offset: -3px;
-  box-shadow: -0.5rem 0 var(--navds-global-color-blue-800);
-  color: var(--navds-global-color-gray-900);
+  box-shadow: -0.5rem 0 var(--a-blue-800);
+  color: var(--a-gray-900);
 }
 
 .paneler-med-innholdsfortegnelse-menyhead {
