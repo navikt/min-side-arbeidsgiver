@@ -21,6 +21,7 @@ const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}
+            undertittel={"INNLOGGEDE TJENESTER for arbeidsgiver"}
             organisasjoner={orgs}
             onOrganisasjonChange={endreOrganisasjon}
             amplitudeClient={amplitude}
