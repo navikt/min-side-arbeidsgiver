@@ -22,6 +22,7 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'iaweb',
     'arbeidstrening',
     'arbeidsforhold',
+    'yrkesskade',
     'midlertidigLønnstilskudd',
     'varigLønnstilskudd',
     'sommerjobb',
