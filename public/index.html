@@ -15,12 +15,20 @@
     </head>
 
     <body>
+        <!--
+            react-scripts kjører html-minify på koden under, under
+            antagelsen om at det er ren javascript. Men dette er ikke
+            ren javascript, men et template som express-serveren
+            instansierer. Vi kan derfor ikke kjøre html-minify på den.
+        -->
+        <!-- htmlmin:ignore -->
         <script type="application/javascript">
             (() => {
                 let SETTINGS;
                 {{{SETTINGS}}}
             })()
         </script>
+        <!-- htmlmin:ignore -->
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <main id="root"></main>
     </body>
