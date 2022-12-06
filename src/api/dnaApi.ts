@@ -15,7 +15,7 @@ export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
-    antallSykmeldinger: z.number(),
+    antallSykmeldte: z.number(),
 });
 const DigiSyfoOrganisasjonResponse = z.array(DigiSyfoOrganisasjon);
 export type DigiSyfoOrganisasjon = z.infer<typeof DigiSyfoOrganisasjon>;
