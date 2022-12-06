@@ -1,7 +1,7 @@
 module.exports = {
     mock: (app) => {
         app.use(
-            '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v2', (req, res) => {
+            '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v3', (req, res) => {
                 res.send([
                     {
                         organisasjon: {
@@ -12,7 +12,7 @@ module.exports = {
                             OrganizationForm: "BEDR",
                             Status: "Active",
                         },
-                        antallSykmeldinger: 4,
+                        antallSykmeldte: 0,
                     },
                     {
                         organisasjon: {
@@ -23,7 +23,29 @@ module.exports = {
                             OrganizationForm: "AS",
                             Status: "Active",
                         },
-                        antallSykmeldinger: 0,
+                        antallSykmeldte: 0,
+                    },
+                    {
+                        organisasjon: {
+                            Name: "BALLSTAD OG HAMARØY",
+                            OrganizationForm: "AAFY",
+                            OrganizationNumber: "811076732",
+                            ParentOrganizationNumber : "811076112",
+                            Status: "Active",
+                            Type: "Business",
+                        },
+                        antallSykmeldte: 4,
+                    },
+                    {
+                        organisasjon: {
+                            Name: "BALLSTAD OG HORTEN",
+                            Type: "Enterprise",
+                            ParentOrganizationNumber: null,
+                            OrganizationNumber: "811076112",
+                            OrganizationForm: "FLI",
+                            Status: "Active"
+                        },
+                        antallSykmeldte: 0,
                     },
                 ])
             }
