@@ -63,13 +63,13 @@ if (NAIS_CLUSTER_NAME === 'local') {
 const indexHtml = Mustache.render(
     readFileSync(path.join(BUILD_PATH, "index.html")).toString(),
     {
-        SETTINGS: `
+        SETTINGS: `<script type="application/javascript">
             window.environment = {
                 MILJO: '${NAIS_CLUSTER_NAME}',
                 NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
                 GIT_COMMIT: '${GIT_COMMIT}',
             }
-        `
+        </script>`
     }
 );
 
@@ -112,7 +112,6 @@ if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     require('./mock/tiltakApiMock').mock(app);
     require('./mock/sykefraværMock').mock(app);
     require('./mock/refusjonsStatusMock').mock(app);
-    require('./mock/featureRequestMock').mock(app);
 }
 
 app.use(

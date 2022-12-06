@@ -29,7 +29,7 @@ export type OrganisasjonInfo = {
     altinntilgang: Record<AltinntjenesteId, boolean>;
     altinnsøknad: Record<AltinntjenesteId, Søknadsstatus>;
     syfotilgang: boolean;
-    antallSykmeldte: number;
+    antallSykmeldinger: number;
     reporteetilgang: boolean;
     refusjonstatustilgang: boolean;
     refusjonstatus: {
@@ -167,7 +167,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                                 sjekkTilgangssøknader(org.OrganizationNumber, id, _orgnrMedTilgang, altinnTilgangssøknader)
                         ),
                         syfotilgang: syfoVirksomheter.some(({organisasjon}) => organisasjon.OrganizationNumber === org.OrganizationNumber),
-                        antallSykmeldte: syfoVirksomheter.find(({organisasjon}) => organisasjon.OrganizationNumber === org.OrganizationNumber)?.antallSykmeldte?? 0,
+                        antallSykmeldinger: syfoVirksomheter.find(({organisasjon}) => organisasjon.OrganizationNumber === org.OrganizationNumber)?.antallSykmeldinger ?? 0,
                         reporteetilgang: altinnorganisasjoner.some(({OrganizationNumber}) => OrganizationNumber === org.OrganizationNumber),
                         refusjonstatus: refusjonstatus?.statusoversikt ?? {},
                         refusjonstatustilgang: refusjonstatus?.tilgang ?? false,
