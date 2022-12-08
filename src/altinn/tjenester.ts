@@ -16,13 +16,15 @@ export type NAVtjenesteId =
     | 'inkluderingstilskudd'
     | 'iaweb'
     | 'pam'
-    | 'tilskuddsbrev';
+    | 'tilskuddsbrev'
+    | 'yrkesskade';
 
 
 export interface AltinnFellesInfo {
     navn: string;
     tjenestekode: string;
     tjenesteversjon: string;
+    beOmTilgangTittel?: string;
     beOmTilgangBeskrivelse: string; /* Fravær av beskrivelse betyr man ikke kan søke om tilgang */
 }
 
@@ -186,7 +188,15 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         `,
         tjenestekode: '5278',
         tjenesteversjon: '1',
-    }
+    },
+    yrkesskade: {
+        sort: 'tjeneste',
+        navn: 'Meld inn yrkesskade eller yrkessykdom',
+        beOmTilgangTittel: 'Meld inn yrkesskade',
+        beOmTilgangBeskrivelse: 'Få mulighet til å melde inn yrkesskade eller yrkessykdom digitalt.',
+        tjenestekode: '5902',
+        tjenesteversjon: '1',
+    },
 };
 
 export const altinntjeneste: Record<AltinntjenesteId, Altinn>

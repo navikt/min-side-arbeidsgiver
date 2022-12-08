@@ -5,10 +5,10 @@
   "type": "module",
   "main": "server.js",
   "dependencies": {
-    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "5.4.0-rc2",
+    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "5.4.0",
     "casual": "^1.6.2",
     "cookie-parser": "^1.4.6",
-    "express": "^4.17.2",
+    "express": "^4.17.3",
     "express-http-proxy": "1.6.3",
     "http-proxy-middleware": "^1.0.6",
     "jsdom": "^16.4.0",
