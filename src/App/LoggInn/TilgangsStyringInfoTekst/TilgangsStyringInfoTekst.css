@@ -1,6 +1,6 @@
 .informasjonsboks {
   display: flex;
-  border: 2px solid var(--navds-global-color-blue-200);
+  border: 2px solid var(--a-blue-200);
   width: 20rem;
   padding: 1rem;
 }

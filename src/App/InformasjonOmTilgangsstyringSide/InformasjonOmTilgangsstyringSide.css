@@ -1,7 +1,7 @@
 .informasjon-om-tilgangsstyring {
   display: flex;
   flex-direction: column;
-  background-color: var(--navds-global-color-gray-100);
+  background-color: var(--a-gray-100);
   min-height: 100vh;
   gap: 1.5rem;
   padding-bottom: 1.5rem;
@@ -10,7 +10,7 @@
   display: flex;
   justify-content: center;
   background-color: white;
-  border-bottom: 4px solid var(--navds-global-color-blue-200);
+  border-bottom: 4px solid var(--a-blue-200);
 }
 .informasjon-om-tilgangsstyring__banner-heading {
   display: flex;

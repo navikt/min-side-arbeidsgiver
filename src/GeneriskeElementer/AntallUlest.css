@@ -1,6 +1,6 @@
 .antall-ulest-sirkel {
   display: inline-block;
-  background: var(--navds-global-color-nav-red);
+  background: var(--a-nav-red);
   border-radius: 1em;
   color: white;
   height: 1.1em;

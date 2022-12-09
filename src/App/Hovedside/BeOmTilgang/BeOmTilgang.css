@@ -36,7 +36,7 @@
     display: block;
     flex-grow: 1;
     height: 1px;
-    background-color: var(--navds-global-color-gray-400);
+    background-color: var(--a-gray-400);
   }
   .be-om-tilgang__tittel .tekst {
     padding: 0 1rem;

@@ -1,5 +1,5 @@
 .be-om-tilgang__tjenesteinfo__lenke-syfo {
-  color: var(--navds-global-color-blue-500);
+  color: var(--a-blue-500);
   background: transparent;
   text-decoration: underline;
   cursor: pointer;
@@ -14,8 +14,8 @@
   outline: none;
   color: white;
   text-decoration: none;
-  background-color: var(--navds-global-color-blue-800);
-  box-shadow: 0 0 0 2px var(--navds-global-color-blue-800);
+  background-color: var(--a-blue-800);
+  box-shadow: 0 0 0 2px var(--a-blue-800);
 }
 .be-om-tilgang__tjenesteinfo__lenke-syfo svg {
   margin-right: 0.25rem;
