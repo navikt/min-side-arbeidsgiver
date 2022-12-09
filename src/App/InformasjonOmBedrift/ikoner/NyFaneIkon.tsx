@@ -10,6 +10,7 @@ const NyFaneIkon = () => {
             height="12"
             xmlns="http://www.w3.org/2000/svg"
             aria-labelledby={id}
+            role="img"
         >
             <title id={id}>Ekstern lenke. Åpnes i ny fane</title>
             <g
