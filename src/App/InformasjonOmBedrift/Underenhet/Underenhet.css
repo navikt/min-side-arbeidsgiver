@@ -4,6 +4,8 @@
 .underenhet-info__navn {
   display: flex;
   align-items: center;
+  text-transform: uppercase;
+  gap: 0.5rem
 }
 .underenhet-info__navn .underenhet-ikon {
   margin-right: 0.3rem;

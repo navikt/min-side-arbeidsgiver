@@ -1,5 +1,5 @@
 import React from 'react';
-import UnderenhetIkon from './UnderenhetIkon';
+import { Office1 as UnderenhetIkon } from "@navikt/ds-icons";
 import './Organisasjonsbeskrivelse.css';
 import {BodyShort, Label} from "@navikt/ds-react";
 
@@ -12,11 +12,11 @@ const Organisasjonsbeskrivelse = ({navn, orgnummer}: Props) => {
     return (
         <div className="organisasjonsbeskrivelse">
             <div className="organisasjonsbeskrivelse__ikon">
-                <UnderenhetIkon/>
+                <UnderenhetIkon aria-hidden="true" title="underenhet" />
             </div>
             <div className="organisasjonsbeskrivelse__beskrivelse">
                 <Label size="small" className="organisasjonsnavn">{navn}</Label>
-                <BodyShort >org. nr. {orgnummer}</BodyShort>
+                <BodyShort >virksomhetsnr. {orgnummer}</BodyShort>
             </div>
         </div>
     );
