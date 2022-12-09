@@ -166,7 +166,7 @@ export const tiltaksgjennomforingURL = gittMiljo({
 });
 
 export const infoOmPermitteringURL =
-    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
+    'https://www.nav.no/arbeidsgiver/permittere-nedbemanne';
 
 export const infoOmRefusjonSykepengerKoronaURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/nyheter/refusjon-av-sykepenger-ved-koronavirus--hva-er-status#chapter-2';

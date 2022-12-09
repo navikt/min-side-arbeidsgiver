@@ -1,7 +1,7 @@
 import React from 'react';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
-import UnderenhetIkon from '../ikoner/UnderenhetIkon';
+import { Office1 as UnderenhetIkon } from "@navikt/ds-icons";
 import { enhetsregisteretUnderenhetLink } from '../../../lenker';
 import './Underenhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
@@ -20,7 +20,7 @@ const Underenhet = ({ underenhet }: Props) => {
                 <Tekstboks className="underenhet-navn">
                     <BodyShort>Virksomhet</BodyShort>
                     <Heading size="medium" level="2" className="underenhet-info__navn">
-                        <UnderenhetIkon />
+                        <UnderenhetIkon aria-hidden="true" title="underenhet" />
                         {underenhet.navn}
                     </Heading>
                 </Tekstboks>
