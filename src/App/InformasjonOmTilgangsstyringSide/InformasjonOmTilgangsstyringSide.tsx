@@ -56,6 +56,16 @@ const InformasjonOmTilgangsstyringSide = () => {
                                     En <b>enkeltrettighet</b> gir tilgang til <u>en</u> enkelt tjeneste.
                                 </BodyShort>
                             </li>
+                            <li>
+                                <BodyShort spacing>
+                                    <LenkeMedLogging
+                                        href="https://www.altinn.no/hjelp/profil/roller-og-rettigheter/hvordan-gi-rettigheter-til-andre/"
+                                        loggLenketekst="Hvordan tildele tilganger til andre i bedriften?"
+                                    >
+                                        Hvordan tildele tilganger til andre i bedriften?
+                                    </LenkeMedLogging>
+                                </BodyShort>
+                            </li>
                         </ul>
                     </>
                 },
@@ -210,6 +220,29 @@ const InformasjonOmTilgangsstyringSide = () => {
                                             Les om digital inntektsmelding
                                         </LenkeMedLogging>
                                     </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+
+                            <Accordion.Item>
+                                <Accordion.Header>
+                                    Meld inn yrkesskade eller yrkessykdom
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    Du må ha enkeltrettigheten «Skademelding ved arbeidsulykke eller yrkessykdom» eller en av
+                                    følgende Altinn-roller for å få tilgang til å melde inn yrkesskade eller yrkessykdom digitalt
+                                    på vegne av virksomheten:
+                                    <ul>
+                                        <li>Lønn og personalmedarbeider</li>
+                                        <li>Helse, sosial og velferdstjenester</li>
+                                        <li>Regnskapsfører Lønn</li>
+                                        <li>Regnskapsfører med signeringsrettighet</li>
+                                    </ul>
+                                    Les mer om <LenkeMedLogging
+                                    href="https://www.nav.no/meldyrkesskade"
+                                    loggLenketekst="Meldepliten og hva som meldes som yrkesskade"
+                                >
+                                    meldeplikten og hva som meldes som yrkesskade
+                                </LenkeMedLogging>.
                                 </Accordion.Content>
                             </Accordion.Item>
 

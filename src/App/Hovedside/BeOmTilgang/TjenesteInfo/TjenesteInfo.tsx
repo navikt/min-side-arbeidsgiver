@@ -24,7 +24,7 @@ interface BeOmTilgangAction {
 const hentInfo = (props: TjenesteInfo | EnAltinnId): [string, string] => {
     if ('altinnId' in props) {
         const tjeneste = altinntjeneste[props.altinnId]
-        return [tjeneste.navn, tjeneste.beOmTilgangBeskrivelse]
+        return [tjeneste.beOmTilgangTittel ?? tjeneste.navn, tjeneste.beOmTilgangBeskrivelse]
     } else {
         return [props.tittel, props.beskrivelse]
     }

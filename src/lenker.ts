@@ -56,7 +56,7 @@ export const ringOssTLF = gittMiljo({
 })
 
 export const digiSyfoVirksomheterURL =
-    '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v2';
+    '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v3';
 
 export const refusjonstatusURL =
     '/min-side-arbeidsgiver/api/refusjon_status';
@@ -166,7 +166,7 @@ export const tiltaksgjennomforingURL = gittMiljo({
 });
 
 export const infoOmPermitteringURL =
-    'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyheter/permitteringer-som-folge-av-koronaviruset';
+    'https://www.nav.no/arbeidsgiver/permittere-nedbemanne';
 
 export const infoOmRefusjonSykepengerKoronaURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/nyheter/refusjon-av-sykepenger-ved-koronavirus--hva-er-status#chapter-2';

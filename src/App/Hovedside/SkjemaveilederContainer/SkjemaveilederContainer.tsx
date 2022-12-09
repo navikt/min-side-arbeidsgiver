@@ -4,14 +4,16 @@ import './SkjemaveilederContainer.css';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {LenkeMedLogging} from '../../../GeneriskeElementer/LenkeMedLogging';
 import {LenkepanelMedLogging} from '../../../GeneriskeElementer/LenkepanelMedLogging';
-import {altinnskjema, AltinnskjemaId} from "../../../altinn/tjenester";
+import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../../altinn/tjenester';
 import {HoyreChevron} from "../../../GeneriskeElementer/HoyreChevron";
 import {Heading} from "@navikt/ds-react";
+import { gittMiljo } from '../../../utils/environment';
 
 
 export const SkjemaveilederContainer = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const tilgangInntektsmelding = valgtOrganisasjon?.altinntilgang?.inntektsmelding;
+    const tilgangYrkesskade = valgtOrganisasjon?.altinntilgang?.yrkesskade;
     if (valgtOrganisasjon === undefined) {
         return null
     }
@@ -68,6 +70,13 @@ export const SkjemaveilederContainer = () => {
                     'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
                     lenkeTilPermitteringOgMasseoppsigelsesSkjema
                 )}
+                { tilgangYrkesskade === true ?
+                    lenke(altinntjeneste.yrkesskade.navn, gittMiljo({
+                        prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
+                        other: `https://skademelding.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
+                    }))
+                    : null
+                }
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
