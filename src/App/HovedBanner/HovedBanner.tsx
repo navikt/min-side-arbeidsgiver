@@ -1,6 +1,8 @@
 import React, {FunctionComponent, useContext} from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
+import {Arbeidsforhold} from "@navikt/bedriftsmeny/lib/piktogrammer/Arbeidsforhold";
+
 import {OrganisasjonsDetaljerContext} from '../OrganisasjonDetaljerProvider';
 import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
@@ -25,6 +27,7 @@ const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
             organisasjoner={orgs}
             onOrganisasjonChange={endreOrganisasjon}
             amplitudeClient={amplitude}
+            piktogram={<Arbeidsforhold/>}
         >
             <NotifikasjonWidget />
         </Bedriftsmeny>
