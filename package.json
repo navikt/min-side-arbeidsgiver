@@ -5,7 +5,7 @@
   "private": true,
   "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
-    "@navikt/bedriftsmeny": "6.2.0-rc11",
+    "@navikt/bedriftsmeny": "6.2.0",
     "@navikt/ds-css": "^2.0.5",
     "@navikt/ds-icons": "^2.0.5",
     "@navikt/ds-react": "^2.0.5",
