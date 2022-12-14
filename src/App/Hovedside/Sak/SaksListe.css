@@ -29,7 +29,7 @@ ul.saks-liste .sakscontainer .sakscontent {
 }
 
 ul.saks-liste .sakstekst {
-  line-height: var(--navds-font-line-height-heading-xsmall);
+  line-height: var(--a-font-line-height-heading-xsmall);
   font-size: 1.1rem;
 }
 

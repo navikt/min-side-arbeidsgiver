@@ -26,7 +26,7 @@ export const ClipBoardLink: FunctionComponent<ClipBoardLinkProps> = ({hash}) => 
     }
     return (
         <div className='copy-link'>
-            <Link onClick={copyLink}><LinkIcon/> Kopier lenke</Link>
+            <Link onClick={copyLink}><LinkIcon title="lenkeikon" aria-hidden="true" /> Kopier lenke</Link>
             <Alert variant='success' size='small' className={showAlert ? 'alert-show' : 'alert-hide'}
                    onAnimationEnd={() => setShowAlert(false)}>
                 Lenken er kopiert

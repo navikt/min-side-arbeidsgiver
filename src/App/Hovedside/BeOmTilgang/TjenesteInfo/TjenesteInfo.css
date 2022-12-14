@@ -3,8 +3,8 @@
   flex-direction: column;
   margin-bottom: 0.5rem;
   padding: 1rem;
-  border: 1px solid var(--navds-global-color-gray-400);
-  border-radius: var(--navds-border-radius-small);
+  border: 1px solid var(--a-gray-400);
+  border-radius: var(--a-border-radius-small);
   width: 100%;
 }
 @media (min-width: 992px) {

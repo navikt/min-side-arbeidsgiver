@@ -1,6 +1,6 @@
 import React from 'react';
 import { basename } from '../../../paths';
-import InfoIkon from './InfoIkon';
+import { InformationColored } from "@navikt/ds-icons"
 import './TilgangsStyringInfoTekst.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import {Label} from "@navikt/ds-react";
@@ -8,7 +8,7 @@ import {Label} from "@navikt/ds-react";
 export const TilgangsStyringInfoTekst = () => {
     return (
         <div className="informasjonsboks">
-            <InfoIkon size="24"/>
+            <InformationColored  title="informasjonsikon" aria-hidden="true"/>
             <div className="informasjonsboks__tekst">
                 <Label size="small" className="informasjonsboks__overskrift">
                     Tildeling av roller foregår i Altinn
