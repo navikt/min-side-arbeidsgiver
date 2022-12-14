@@ -90,7 +90,7 @@ export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAllerede
             <span>{altinntjeneste[altinnId].navn}</span>
             <Tag variant="info" size="medium" className="tilgang-sokt-etikett">
                 <span className="tilgang-sokt-etikette-tekst">{status}</span>
-                <HelpText className="tilgang-sokt-hjelp" >
+                <HelpText className="tilgang-sokt-hjelp" title="Hva skjer videre?">
                     {statusBeskrivelse}
                 </HelpText>
             </Tag>
