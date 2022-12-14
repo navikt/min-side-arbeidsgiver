@@ -38,6 +38,16 @@ Sentry.init({
             transport: SentryDebugTransport,
         }
     }),
+    ignoreErrors: [
+        "TypeError: Failed to fetch",
+        "TypeError: NetworkError when attempting to fetch resource.",
+        "TypeError: cancelled",
+        "TypeError: avbrutt",
+        "TypeError: cancelado",
+        "TypeError: anulowane",
+        "TypeError: avbruten",
+        "TypeError: anulat",
+    ],
 });
 
 injectDecoratorClientSide({
