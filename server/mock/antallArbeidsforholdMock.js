@@ -4,7 +4,7 @@ module.exports = {
             const antall = 502;
             const missing = Math.floor(Math.random() * Math.floor(10)) === 0;
             setTimeout(() => {
-                res.send({first: '910825518', second: missing ? -1 : antall})
+                res.send({first: '910811111', second: missing ? -1 : antall})
             }, 1000);
         });
     }
