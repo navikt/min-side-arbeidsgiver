@@ -1,6 +1,6 @@
 const søknader = [
     {
-        orgnr: '810993502',
+        orgnr: '810911111',
         status: 'Unopened',
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5278',
