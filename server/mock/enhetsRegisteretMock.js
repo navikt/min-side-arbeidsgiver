@@ -4,8 +4,8 @@ module.exports = {
             '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": req.params.orgnr,
-                    "navn": "Gunnars bakeri Storgata",
+                    "organisasjonsnummer": "973611111",
+                    "navn": "Upopulær Dyreflokk",
                     "organisasjonsform": {
                         "kode": "BEDR",
                         "beskrivelse": "Bedrift",
@@ -18,41 +18,41 @@ module.exports = {
                     "postadresse": {
                         "land": "Norge",
                         "landkode": "NO",
-                        "postnummer": "8003",
-                        "poststed": "BODØ",
+                        "postnummer": "1358",
+                        "poststed": "JAR",
                         "adresse": [
-                            "Evald Erlandsens vei 10"
+                            "Ringstabekkveien 58"
                         ],
-                        "kommune": "BODØ",
-                        "kommunenummer": "1804"
+                        "kommune": "BÆRUM",
+                        "kommunenummer": "3024"
                     },
-                    "registreringsdatoEnhetsregisteret": "1995-06-15",
+                    "registreringsdatoEnhetsregisteret": "2010-12-15",
                     "registrertIMvaregisteret": false,
                     "naeringskode1": {
-                        "beskrivelse": "Xyz",
-                        "kode": "85.522"
+                        "beskrivelse": "Administrasjon av finansmarkeder",
+                        "kode": "66.110"
                     },
                     "antallAnsatte": 42,
-                    "overordnetEnhet": "982033268",
-                    "oppstartsdato": "1995-03-01",
-                    "datoEierskifte": "2000-07-01",
+                    "overordnetEnhet": "818711111",
+                    "oppstartsdato": "2010-12-15",
+                    "datoEierskifte": "2010-12-15",
                     "beliggenhetsadresse": {
                         "land": "Norge",
                         "landkode": "NO",
-                        "postnummer": "1234",
-                        "poststed": "KARDEMOMME BY",
+                        "postnummer": "7950",
+                        "poststed": "ABELVÆR",
                         "adresse": [
-                            "Tante Sofies gate 1"
+                            "Abelværvegen 1175"
                         ],
-                        "kommune": "KRISTIANSAND",
-                        "kommunenummer": "1804"
+                        "kommune": "NÆRØYSUND",
+                        "kommunenummer": "5060"
                     },
                     "_links": {
                         "self": {
-                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/974491850"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/883811111"
                         },
                         "overordnetEnhet": {
-                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/982033268"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/818711111"
                         }
                     }
                 });
@@ -62,50 +62,50 @@ module.exports = {
             '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": req.params.orgnr,
-                    "navn": "Gunnar og co bakeimperium",
+                    "organisasjonsnummer": "818711111",
+                    "navn": "Presentabel Bygning",
                     "organisasjonsform": {
-                        "kode": "ENK",
-                        "beskrivelse": "Enkeltpersonforetak",
+                        "kode": "AS",
+                        "beskrivelse": "Aksjeselskap",
                         "_links": {
                             "self": {
-                                "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/ENK"
+                                "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/AS"
                             }
                         }
                     },
-                    "hjemmeside": "www.hjemmeside123.no",
+                    "hjemmeside": "foo.bar.baz",
                     "postadresse": {
                         "land": "Norge",
                         "landkode": "NO",
-                        "postnummer": "1234",
-                        "poststed": "KRISTIANSAND",
+                        "postnummer": "2652",
+                        "poststed": "SVINGVOLL",
                         "adresse": [
-                            "Thorbjørn Egners vei 10"
+                            "Sørskei-Tjernet 7"
                         ],
-                        "kommune": "BODØ",
-                        "kommunenummer": "1804"
+                        "kommune": "GAUSDAL",
+                        "kommunenummer": "3441"
                     },
-                    "registreringsdatoEnhetsregisteret": "2000-06-02",
+                    "registreringsdatoEnhetsregisteret": "2004-12-15",
                     "registrertIMvaregisteret": false,
                     "naeringskode1": {
-                        "beskrivelse": "Xyz",
-                        "kode": "85.522"
+                        "beskrivelse": "Administrasjon av finansmarkeder",
+                        "kode": "66.110"
                     },
                     "antallAnsatte": 0,
                     "forretningsadresse": {
                         "land": "Norge",
                         "landkode": "NO",
-                        "postnummer": "1324",
-                        "poststed": "KARDEMOMME BY",
+                        "postnummer": "7950",
+                        "poststed": "ABELVÆR",
                         "adresse": [
-                            "Røverhuset "
+                            "Niels Brandtzægs veg 22"
                         ],
-                        "kommune": "BODØ",
-                        "kommunenummer": "1804"
+                        "kommune": "NÆRØYSUND",
+                        "kommunenummer": "5060"
                     },
                     "institusjonellSektorkode": {
-                        "kode": "8200",
-                        "beskrivelse": "Personlig næringsdrivende"
+                        "kode": "3200",
+                        "beskrivelse": "Banker"
                     },
                     "registrertIForetaksregisteret": false,
                     "registrertIStiftelsesregisteret": false,
@@ -116,7 +116,7 @@ module.exports = {
                     "maalform": "Bokmål",
                     "_links": {
                         "self": {
-                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/982033268"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/818711111"
                         }
                     }
                 });

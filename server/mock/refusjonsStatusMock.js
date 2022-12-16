@@ -4,7 +4,7 @@ module.exports = {
             '/min-side-arbeidsgiver/api/refusjon_status', (req, res) => {
                 res.send([
                     {
-                        virksomhetsnummer: "999999999",
+                        virksomhetsnummer: "999911111",
                         statusoversikt: {
                             "KLAR_FOR_INNSENDING": 3,
                             "FOR_TIDLIG": 1,
@@ -12,7 +12,7 @@ module.exports = {
                         tilgang: true,
                     },
                     {
-                        virksomhetsnummer: "910825555",
+                        virksomhetsnummer: "910811111",
                         statusoversikt: {
                             "KLAR_FOR_INNSENDING": 1,
                             "FOR_TIDLIG": 2,
@@ -20,7 +20,7 @@ module.exports = {
                         tilgang: true,
                     },
                     {
-                        virksomhetsnummer: "811076732",
+                        virksomhetsnummer: "811011111",
                         statusoversikt: {
                             "FOR_TIDLIG": 2,
                         },

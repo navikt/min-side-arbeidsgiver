@@ -9,7 +9,7 @@ const søknader = [
         lastChangedDateTime: '',
     },
     {
-        orgnr: '810993502',
+        orgnr: '810911111',
         status: 'Created',
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5332',
@@ -18,7 +18,7 @@ const søknader = [
         lastChangedDateTime: '',
     },
     {
-        orgnr: '810993502',
+        orgnr: '810911111',
         status: 'Unopened',
         submitUrl: '/mock-altinn/skjema/',
         serviceCode: '5516',
@@ -27,7 +27,7 @@ const søknader = [
         lastChangedDateTime: '',
     },
     {
-        orgnr: '810993502',
+        orgnr: '810911111',
         status: 'Unopened',
         submitUrl: '/mock-altinn/skjema/',
         serviceCode: '5216',
