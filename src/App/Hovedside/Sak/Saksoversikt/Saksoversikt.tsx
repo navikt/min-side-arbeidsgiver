@@ -140,10 +140,9 @@ const ResultatOppsummering: FC<ResultatOppsummeringProp> = ({state, byttFilter, 
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
 
     return <>
-
         <div className="saksoversik__saksliste-header">
             {state.totaltAntallSaker !== undefined
-                ? <BodyShort> {state.totaltAntallSaker} treff </BodyShort>
+                ? <BodyShort role="status"> {state.totaltAntallSaker} treff</BodyShort>
                 : null}
             <Sidevelger state={state} byttFilter={byttFilter}/>
         </div>

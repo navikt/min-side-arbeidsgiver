@@ -76,7 +76,7 @@ export const Alerts = () => {
     return (
         <>
             {Array.from(alerts).sort().map((alertType) =>
-                <Alert key={alertType} variant="error">
+                <Alert key={alertType} variant="error" role="status">
                     {ALERTS[alertType].content}
                 </Alert>
             )}

@@ -11,23 +11,30 @@
   flex-grow: 0;
 }
 .be-om-tilgang__innhold {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: space-between;
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
 }
 .be-om-tilgang__tjenesteinfo-bokser {
-  margin: 1rem 0 0;
+  list-style: none;
   padding: 0;
-  width: 100%;
-  display: flex;
-  flex-wrap: inherit;
-  justify-content: space-between;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
 }
+
+@media (max-width: 800px) {
+  .be-om-tilgang__tjenesteinfo-bokser {
+    grid-template-columns: 1fr;
+  }
+}
+
 .be-om-tilgang__info {
   width: 100%;
-  margin-bottom: 1.3rem;
 }
+
 @media (min-width: 768px) {
   .be-om-tilgang__tittel {
     margin: 3rem 0 1.5rem;
