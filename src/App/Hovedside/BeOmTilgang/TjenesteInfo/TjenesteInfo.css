@@ -1,31 +1,20 @@
 .be-om-tilgang__tjenesteinfo {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 0.5rem;
+  display: grid;
+  gap: 1ch;
   padding: 1rem;
   border: 1px solid var(--a-gray-400);
   border-radius: var(--a-border-radius-small);
-  width: 100%;
+  align-content: start;
 }
-@media (min-width: 992px) {
-  .be-om-tilgang__tjenesteinfo {
-    width: 49%;
-    height: 11.5rem;
-  }
+
+.be-om-tilgang__tjenesteinfo .header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
 }
-.be-om-tilgang__tjenesteinfo .be-om-tilgang-lenke,
-.be-om-tilgang__tjenesteinfo .tilgang-sokt {
-  margin-bottom: 0.3rem;
-}
-.be-om-tilgang__tjenesteinfo .tilgang-sokt .tilgang-sokt-etikett {
-  margin-left: 1em;
-}
-.be-om-tilgang__tjenesteinfo .tilgang-sokt .tilgang-sokt-etikett .tilgang-sokt-hjelp {
-  margin-left: 0.4em;
-}
-.be-om-tilgang__tjenesteinfo .tilgang-sokt .tilgang-sokt-etikett .tilgang-sokt-hjelp .hjelpetekst__apneknapp {
-  vertical-align: middle;
-}
-.be-om-tilgang__tjenesteinfo .tilgang-sokt .tilgang-sokt-etikett .tilgang-sokt-hjelp .hjelpetekst__apneknapp .hjelpetekst__ikon {
-  fill: #000;
+
+.be-om-tilgang__tjenesteinfo .tilgang-sokt-etikett {
+  display: flex;
+  gap: 1ch;
 }

@@ -84,13 +84,13 @@ export interface AltinntilgangAlleredeSøktProps {
 }
 
 export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAlleredeSøktProps>
-    = ({ altinnId , status, statusBeskrivelse, type}) => {
+    = ({ altinnId , status, statusBeskrivelse}) => {
     return <>
-        <div className="tilgang-sokt typo-element">
+        <div className="header">
             <span>{altinntjeneste[altinnId].navn}</span>
-            <Tag variant="info" size="medium" className="tilgang-sokt-etikett">
-                <span className="tilgang-sokt-etikette-tekst">{status}</span>
-                <HelpText className="tilgang-sokt-hjelp" title="Hva skjer videre?">
+            <Tag className="tilgang-sokt-etikett" variant="info" size="medium">
+                <span>{status}</span>
+                <HelpText title="Hva skjer videre?">
                     {statusBeskrivelse}
                 </HelpText>
             </Tag>

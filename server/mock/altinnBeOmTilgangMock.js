@@ -1,6 +1,15 @@
 const søknader = [
     {
         orgnr: '810911111',
+        status: 'Unopened',
+        submitUrl: 'https://fake-altinn/send-inn-soknad/',
+        serviceCode: '5278',
+        serviceEdition: '1',
+        cratedDateTime: '',
+        lastChangedDateTime: '',
+    },
+    {
+        orgnr: '810911111',
         status: 'Created',
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5332',
