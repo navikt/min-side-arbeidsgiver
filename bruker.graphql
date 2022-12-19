@@ -53,6 +53,12 @@ type Query {
     whoami: String
 }
 
+type OppgaveMetadata {
+    tilstand: OppgaveTilstand!
+    frist: ISO8601Date
+    paminnelseTidspunkt: ISO8601DateTime
+}
+
 type Sak {
     "frist fra oppgaver med status ny. null i array betyr oppgave uten frist"
     frister: [ISO8601Date]!
@@ -62,6 +68,7 @@ type Sak {
     sisteStatus: SakStatus!
     tittel: String!
     virksomhet: Virksomhet!
+    oppgaver: [OppgaveMetadata!]!
 }
 
 type SakStatus {
