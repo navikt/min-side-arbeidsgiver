@@ -182,7 +182,7 @@ app.use(
         },
         changeOrigin: true,
         pathRewrite: {
-            '^/min-side-arbeidsgiver/presenterte-kandidater-api': '/presenterte-kandidater-api',
+            '^/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern': '/ekstern',
         },
         secure: true,
         xfwd: true,
