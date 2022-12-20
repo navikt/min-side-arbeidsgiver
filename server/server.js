@@ -186,7 +186,7 @@ app.use(
         },
         secure: true,
         xfwd: true,
-        target: 'http://presenterte-kandidater-api.toi.svc.cluster.local',
+        target: 'http://presenterte-kandidater-api.toi',
     }),
 );
 
