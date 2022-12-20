@@ -16,6 +16,7 @@ export type NAVtjenesteId =
     | 'inkluderingstilskudd'
     | 'iaweb'
     | 'pam'
+    | 'kandidatliste'
     | 'tilskuddsbrev'
     | 'yrkesskade';
 
@@ -175,6 +176,14 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Rekruttering',
         beOmTilgangBeskrivelse: `
             Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.`,
+        tjenestekode: '5078',
+        tjenesteversjon: '1',
+    },
+    kandidatliste: {
+        sort: 'tjeneste',
+        navn: 'Kandidatliste',
+        beOmTilgangBeskrivelse: `
+            Kandidatliste viser CV til personer NAV har sendt deg`,
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },

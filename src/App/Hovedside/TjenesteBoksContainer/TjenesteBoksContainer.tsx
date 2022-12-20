@@ -3,6 +3,7 @@ import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider
 import Arbeidsforholdboks from './Arbeidsforholdboks/Arbeidsforholdboks';
 import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
+import Kandidatlisteboks from "./Kandidatlisteboks/Kandidatlisteboks";
 import Tiltakboks from './Tiltakboks/Tiltakboks';
 import IAwebboks from './IAwebboks/IAwebboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
@@ -32,7 +33,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     if (valgtOrganisasjon.altinntilgang.pam) {
         tjenester.push(Pamboks);
     }
-
     if (valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd
         || valgtOrganisasjon.altinntilgang.varigLønnstilskudd
         || valgtOrganisasjon.altinntilgang.arbeidstrening
@@ -42,6 +42,10 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Tiltakboks);
     }
 
+    if (valgtOrganisasjon.altinntilgang.kandidatliste) {
+        tjenester.push(Kandidatlisteboks);
+    }
+
     if (valgtOrganisasjon.altinntilgang.inntektsmelding && valgtOrganisasjon.refusjonstatustilgang) {
         tjenester.push(TiltakRefusjonboks);
     }
@@ -49,9 +53,7 @@ const TjenesteBoksContainer: FunctionComponent = () => {
     return (
         <div className={'tjenesteboks-container'}>
             {tjenester.map((Tjeneste, indeks) =>
-                <div className='tjenesteboks' key={indeks}>
-                    <Tjeneste />
-                </div>
+                <Tjeneste key={indeks} />
             )}
         </div>
     );

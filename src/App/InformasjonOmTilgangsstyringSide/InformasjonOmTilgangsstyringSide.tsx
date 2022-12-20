@@ -429,6 +429,23 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         Du kan også ha enkeltrettigheten <b>rekruttering</b>.
                                         </p>
                                     </BodyLong>
+                                    <BodyLong spacing as="div">
+                                        <p>
+                                            <LenkeMedLogging
+                                                href='https://arbeidsgiver.nav.no/kandidatliste'
+                                                loggLenketekst='Kandidatliste'
+                                            >Kandidater til dine stillinger</LenkeMedLogging>{' '}
+                                            viser CV til personer NAV har sendt deg. For å få tilgang må du ha en av rollene
+                                        </p>
+                                        <ul>
+                                            <li>lønn og personalmedarbeider</li>
+                                            <li>utfyller/innsender</li>
+                                        </ul>
+
+                                        <p>
+                                            Du kan også ha enkeltrettigheten <b>rekruttering</b>.
+                                        </p>
+                                    </BodyLong>
                                 </Accordion.Content>
                             </Accordion.Item>
 

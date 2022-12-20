@@ -112,6 +112,7 @@ if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     require('./mock/tiltakApiMock').mock(app);
     require('./mock/sykefraværMock').mock(app);
     require('./mock/refusjonsStatusMock').mock(app);
+    require('./mock/presenterteKandidaterMock').mock(app);
     require('./mock/featureRequestMock').mock(app);
 }
 
@@ -159,6 +160,33 @@ app.use(
         xfwd: true,
         target: NAIS_CLUSTER_NAME === 'prod-gcp' ? 'https://api-gw.oera.no': 'https://api-gw-q0.oera.no',
         ...(APIGW_TILTAK_HEADER ? {headers: {'x-nav-apiKey': APIGW_TILTAK_HEADER}} : {})
+    }),
+);
+
+app.use(
+    '/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater',
+    selvbetjeningsCookieAsAuthHeaderMiddleware,
+    tokenXMiddleware(
+        {
+            log: log,
+            audience: {
+                'dev-gcp': 'dev-gcp:toi:presenterte-kandidater-api',
+                'prod-gcp': 'prod-gcp:toi:presenterte-kandidater-api',
+            }[NAIS_CLUSTER_NAME]
+        }),
+    createProxyMiddleware({
+        logLevel: PROXY_LOG_LEVEL,
+        logProvider: _ => log,
+        onError: (err, req, res) => {
+            log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+        },
+        changeOrigin: true,
+        pathRewrite: {
+            '^/min-side-arbeidsgiver/presenterte-kandidater-api': '/presenterte-kandidater-api',
+        },
+        secure: true,
+        xfwd: true,
+        target: 'http://presenterte-kandidater-api.toi.svc.cluster.local',
     }),
 );
 
