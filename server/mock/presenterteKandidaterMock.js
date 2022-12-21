@@ -5,7 +5,7 @@ module.exports = {
             '/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater',
             (req, res) => {
                 res.send({
-                    antallKandidater: Math.floor(Math.random() * Math.floor(10))
+                    antallKandidater: Math.floor(Math.random() * 10)
                 });
             },
         );
