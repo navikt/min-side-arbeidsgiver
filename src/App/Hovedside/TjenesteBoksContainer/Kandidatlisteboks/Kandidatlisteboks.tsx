@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
 import {kandidatlisteURL} from '../../../../lenker';
 import {Tjenesteboks} from "../Tjenesteboks";
-import {hentPresenterteKandidater} from "../../../../api/presenterteKandidaterApi";
+import {hentAntallKandidater} from "../../../../api/presenterteKandidaterApi";
 import ikon from "./kandidatlisteboks-ikon.svg";
 import './Kandidatlisteboks.css';
 
@@ -11,7 +11,7 @@ const Kandidatlisteboks = () => {
     const [antallKandidater, setantallKandidater] = useState(0);
     useEffect(() => {
         if (valgtOrganisasjon)
-            hentPresenterteKandidater(valgtOrganisasjon.organisasjon.OrganizationNumber).then(({antallKandidater}) =>
+            hentAntallKandidater(valgtOrganisasjon.organisasjon.OrganizationNumber).then(antallKandidater =>
                 setantallKandidater(antallKandidater)
             );
     }, [valgtOrganisasjon]);
