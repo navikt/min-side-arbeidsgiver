@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import {
     DigiSyfoOrganisasjon,
     hentOrganisasjoner,
@@ -6,15 +6,15 @@ import {
     hentSyfoVirksomheter,
     RefusjonStatus
 } from '../api/dnaApi';
-import {autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls} from '../api/altinnApi';
+import { autentiserAltinnBruker, hentAltinnRaporteeIdentiteter, ReporteeMessagesUrls } from '../api/altinnApi';
 import * as Record from '../utils/Record';
-import {AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader} from '../altinn/tilganger';
-import {altinntjeneste, AltinntjenesteId} from '../altinn/tjenester';
-import {SpinnerMedBanner} from './Spinner';
+import { AltinnTilgangssøknad, hentAltinntilganger, hentAltinnTilgangssøknader } from '../altinn/tilganger';
+import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
-import {Organisasjon} from '../altinn/organisasjon';
-import {AlertContext} from './Alerts/Alerts';
-import * as Sentry from "@sentry/browser";
+import { Organisasjon } from '../altinn/organisasjon';
+import { AlertContext } from './Alerts/Alerts';
+import * as Sentry from '@sentry/browser';
 
 type orgnr = string;
 
@@ -175,10 +175,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 ]
             }));
 
-        const detFinnesEnUnderenhetMedParent = () => {
-            return Record.values(organisasjoner).some(org => org.organisasjon.ParentOrganizationNumber);
-        };
-        const harTilganger = detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0;
+        const harTilganger = Record.values(organisasjoner).some(org => org.organisasjon.ParentOrganizationNumber);
 
         const context: Context = {
             organisasjoner,
