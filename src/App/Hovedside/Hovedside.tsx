@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import React, { FunctionComponent } from 'react';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import { VarselHvisNedetid } from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
@@ -18,27 +17,11 @@ import { LinkMedLogging } from '../../GeneriskeElementer/LinkMedLogging';
 import { KontaktFelt } from './KontaktFelt/KontaktFelt'
 import { useOversiktsfilterClearing } from './Sak/Saksoversikt/useOversiktSessionStorage';
 import { DigiSyfoBedriftsmenyInfo } from './DigiSyfoBedriftsmenyInfo';
-import { useNavigate } from 'react-router-dom';
 import { useSidetittel } from '../OrganisasjonDetaljerProvider';
 
 
 const Hovedside: FunctionComponent = () => {
-    const {organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger} = useContext(
-        OrganisasjonerOgTilgangerContext,
-    );
     useSidetittel("Min side – arbeidsgiver")
-    const navigate = useNavigate()
-    useEffect(() => {
-        const skalViseManglerTilgangBoks =
-            !harTilganger &&
-            !visFeilmelding &&
-            !visSyfoFeilmelding;
-
-        if (skalViseManglerTilgangBoks) {
-            navigate({pathname: 'mangler-tilgang'}, {replace: true})
-        }
-    }, [organisasjoner, tilgangTilSyfo, visFeilmelding, visSyfoFeilmelding, harTilganger]);
-
     useOversiktsfilterClearing()
 
     return (

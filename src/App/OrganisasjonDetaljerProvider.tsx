@@ -5,6 +5,7 @@ import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogg
 import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 import { Organisasjon } from '../altinn/organisasjon';
 import HovedBanner from './HovedBanner/HovedBanner';
+import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
 
 interface Props {
     children: React.ReactNode;
@@ -29,7 +30,7 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 
 export const OrganisasjonsVelger: FunctionComponent<Props> = ({ children }: Props) => {
     const [sidetittel, setSidetittel] = useState<string>("Min side – arbeidsgiver")
-    const { organisasjoner, reporteeMessagesUrls } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner, reporteeMessagesUrls, visFeilmelding, visSyfoFeilmelding, harTilganger } = useContext(OrganisasjonerOgTilgangerContext);
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
@@ -80,6 +81,10 @@ export const OrganisasjonsVelger: FunctionComponent<Props> = ({ children }: Prop
 
     return (<>
         <HovedBanner sidetittel={sidetittel} endreOrganisasjon={endreOrganisasjon}/>
+        { !harTilganger && !visFeilmelding && !visSyfoFeilmelding
+            ? <ManglerTilgangContainer />
+            : null
+        }
         { (valgtOrganisasjon === undefined)
             ? null
             : (<OrganisasjonsDetaljerContext.Provider value={{

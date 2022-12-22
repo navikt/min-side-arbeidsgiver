@@ -47,7 +47,7 @@ export const SkjemaveilederContainer = () => {
                     'https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/soknad',
                 )}
 
-                {tilgangInntektsmelding === true ?
+                {tilgangInntektsmelding ?
                     <>
                         {lenke(
                             'Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -66,7 +66,7 @@ export const SkjemaveilederContainer = () => {
                     'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
                     lenkeTilPermitteringOgMasseoppsigelsesSkjema
                 )}
-                { tilgangYrkesskade === true ?
+                { tilgangYrkesskade ?
                     lenke(altinntjeneste.yrkesskade.navn, gittMiljo({
                         prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
                         other: `https://skademelding.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,

@@ -9,7 +9,6 @@ import {OrganisasjonsVelger} from './OrganisasjonDetaljerProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import {FeatureToggleProvider} from '../FeatureToggleProvider';
-import {ManglerTilgangContainer} from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
 import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
@@ -66,9 +65,6 @@ const App: FunctionComponent = () => {
                                                                 <Route
                                                                     path="/"
                                                                     element={<Hovedside/>}/>
-                                                                <Route
-                                                                    path="/mangler-tilgang"
-                                                                    element={<ManglerTilgangContainer/>}/>
                                                                 <Route
                                                                     path="/saksoversikt"
                                                                     element={<Saksoversikt/>}/>

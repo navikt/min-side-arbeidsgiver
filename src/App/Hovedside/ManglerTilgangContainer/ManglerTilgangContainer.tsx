@@ -5,19 +5,13 @@ import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerP
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.css';
 import {Heading} from "@navikt/ds-react";
-import { OrganisasjonsDetaljerContext, useSidetittel } from '../../OrganisasjonDetaljerProvider';
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
-    const {harTilganger} = useContext(OrganisasjonerOgTilgangerContext);
-    useSidetittel("Min side – arbeidsgiver")
-
     return (
         <>
-            {harTilganger && (
-                <Brodsmulesti
-                    brodsmuler={[{url: '/mangler-tilgang', title: 'Du mangler tilganger som arbeidsgiver', handleInApp: true,}]}
-                />
-            )}
+            <Brodsmulesti
+                brodsmuler={[]}
+            />
             <div className="mangler-tilgang-bakgrunn ">
                 <Heading size="large" level="1" className={'mangler-tilgang-bakgrunn__innholdstittel'}>
                     Du mangler tilganger som arbeidsgiver

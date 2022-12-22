@@ -14,8 +14,7 @@ const Arbeidsforholdboks = () => {
             setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
         );
     }, [valgtOrganisasjon]);
-    const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
-    const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
+    const href = `${innsynAaregURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`;
 
     return <Tjenesteboks
         ikon={arbeidsforholdikon}
