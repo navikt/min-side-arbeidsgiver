@@ -41,6 +41,7 @@
 }
 .saksoversik__saksliste-header,
 .saksoversik__saksliste-footer {
+  min-height: 3rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -50,8 +51,6 @@
 .saksoversik__saksliste-footer {
   flex-wrap: wrap-reverse;
 }
-
-
 
 .saksoversikt__sortering {
   grid-template-columns: auto auto;
