@@ -78,9 +78,6 @@ const opprettSøknad = (
 const BeOmTilgang: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const tjenesteinfoBokser: JSX.Element[] = [];
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
 
     if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang){
         return <TilgangContainer>

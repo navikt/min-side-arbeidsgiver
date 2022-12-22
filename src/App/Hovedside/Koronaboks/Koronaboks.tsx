@@ -30,7 +30,7 @@ const Koronalenke: FunctionComponent<KoronalenkeProps> = ({href, tekst}) =>
 export const Koronaboks = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
-    if (valgtOrganisasjon === undefined || !valgtOrganisasjon.altinntilgang.inntektsmelding) {
+    if (!valgtOrganisasjon.altinntilgang.inntektsmelding) {
         return null
     }
 

@@ -5,9 +5,11 @@ import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerP
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.css';
 import {Heading} from "@navikt/ds-react";
+import { OrganisasjonsDetaljerContext, useSidetittel } from '../../OrganisasjonDetaljerProvider';
 
 export const ManglerTilgangContainer: FunctionComponent = () => {
     const {harTilganger} = useContext(OrganisasjonerOgTilgangerContext);
+    useSidetittel("Min side – arbeidsgiver")
 
     return (
         <>

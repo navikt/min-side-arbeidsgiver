@@ -41,13 +41,12 @@ const Beskrivelse = () => {
         }
     }
     useEffect(() => {
-        if (valgtOrganisasjon)
-            hentSykefravær(valgtOrganisasjon.organisasjon.OrganizationNumber).then(sykefraværsrespons =>
-                setSykefravær(sykefraværsrespons),
-            ).catch(error => {
-                Sentry.captureException(error)
-                setSykefravær(undefined);
-            });
+        hentSykefravær(valgtOrganisasjon.organisasjon.OrganizationNumber).then(sykefraværsrespons =>
+            setSykefravær(sykefraværsrespons),
+        ).catch(error => {
+            Sentry.captureException(error)
+            setSykefravær(undefined);
+        });
     }, [valgtOrganisasjon]);
 
     if (sykefravær !== undefined) {

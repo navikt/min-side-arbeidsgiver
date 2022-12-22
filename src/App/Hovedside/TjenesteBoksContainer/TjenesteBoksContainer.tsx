@@ -11,10 +11,6 @@ import './TjenesteBoksContainer.css';
 const TjenesteBoksContainer: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
-
     const tjenester: FunctionComponent[] = [];
 
     if (valgtOrganisasjon.altinntilgang.arbeidsforhold) {

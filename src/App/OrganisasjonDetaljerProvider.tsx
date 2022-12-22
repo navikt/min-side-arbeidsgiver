@@ -4,21 +4,31 @@ import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/a
 import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 import { Organisasjon } from '../altinn/organisasjon';
+import HovedBanner from './HovedBanner/HovedBanner';
 
 interface Props {
     children: React.ReactNode;
 }
 
 export type Context = {
+    setSidetittel: (sidetittel: string) => void;
     endreOrganisasjon: (org: Organisasjon) => void;
-    valgtOrganisasjon: OrganisasjonInfo | undefined;
+    valgtOrganisasjon: OrganisasjonInfo;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
 };
 
+export const useSidetittel = (sidetittel: string) => {
+    const {setSidetittel} = useContext(OrganisasjonsDetaljerContext)
+    useEffect(() => {
+        setSidetittel(sidetittel)
+    }, [setSidetittel, sidetittel])
+}
+
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
 
-export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
+export const OrganisasjonsVelger: FunctionComponent<Props> = ({ children }: Props) => {
+    const [sidetittel, setSidetittel] = useState<string>("Min side – arbeidsgiver")
     const { organisasjoner, reporteeMessagesUrls } = useContext(OrganisasjonerOgTilgangerContext);
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
@@ -68,15 +78,20 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         loggBedriftValgtOgTilganger(valgtOrganisasjon);
     }, [valgtOrganisasjon]);
 
-    let defaultContext: Context = {
-        antallAnnonser,
-        endreOrganisasjon,
-        valgtOrganisasjon,
-        altinnMeldingsboks,
-    };
-    return (
-        <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
-            {children}
-        </OrganisasjonsDetaljerContext.Provider>
-    );
+    return (<>
+        <HovedBanner sidetittel={sidetittel} endreOrganisasjon={endreOrganisasjon}/>
+        { (valgtOrganisasjon === undefined)
+            ? null
+            : (<OrganisasjonsDetaljerContext.Provider value={{
+                    antallAnnonser,
+                    endreOrganisasjon,
+                    valgtOrganisasjon,
+                    altinnMeldingsboks,
+                    setSidetittel,
+                }}>
+                    {children}
+                </OrganisasjonsDetaljerContext.Provider>
+            )
+        }
+    </>);
 };

@@ -52,11 +52,9 @@ export const Filter = ({filter, onChange}: FilterProps) => {
 
 const useVirksomhetsnummer = (onVirksomhetsnummerChange: (virksomhetsnummer: string) => void) => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const virksomhetsnummer = valgtOrganisasjon?.organisasjon?.OrganizationNumber ?? null
+    const virksomhetsnummer = valgtOrganisasjon.organisasjon.OrganizationNumber;
     useEffect(() => {
-        if (virksomhetsnummer !== null) {
-            onVirksomhetsnummerChange(virksomhetsnummer)
-        }
+        onVirksomhetsnummerChange(virksomhetsnummer)
     }, [virksomhetsnummer])
 }
 

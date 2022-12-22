@@ -1,5 +1,5 @@
 import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
-import {OrganisasjonsDetaljerContext} from '../OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerContext, useSidetittel } from '../OrganisasjonDetaljerProvider';
 import {Enhet, hentOverordnetEnhet, hentUnderenhet} from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet/Underenhet';
 import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
@@ -30,14 +30,11 @@ const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
 const InformasjonOmBedrift: FunctionComponent = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const [enheter, setEnheter] = useState<Enheter | undefined>(undefined);
-    const orgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
+    const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber;
+    useSidetittel("Virksomhetsprofil")
 
     useEffect(() => {
-        if (orgnr !== '') {
-            hentEnheter(orgnr).then(setEnheter)
-        } else {
-            setEnheter(undefined)
-        }
+        hentEnheter(orgnr).then(setEnheter)
     }, [orgnr]);
 
     return (

@@ -12,7 +12,7 @@ export const SpinnerMedBanner = () => {
     return (
         <>
             <Brodsmulesti brodsmuler={[]} />
-            <Banner sidetittel="Min side – arbeidsgiver"/>
+            <Banner sidetittel="Min side – arbeidsgiver" endreOrganisasjon={() => {}} />
             <Spinner />
         </>
     );

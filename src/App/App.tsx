@@ -5,7 +5,7 @@ import Hovedside from './Hovedside/Hovedside';
 import LoginBoundary from './LoginBoundary';
 import {AlertsProvider} from './Alerts/Alerts';
 import {OrganisasjonerOgTilgangerProvider} from './OrganisasjonerOgTilgangerProvider';
-import {OrganisasjonsDetaljerProvider} from './OrganisasjonDetaljerProvider';
+import {OrganisasjonsVelger} from './OrganisasjonDetaljerProvider';
 import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import {FeatureToggleProvider} from '../FeatureToggleProvider';
@@ -73,57 +73,32 @@ const App: FunctionComponent = () => {
                                             <FeatureToggleProvider>
                                                 <AlertsProvider>
                                                     <OrganisasjonerOgTilgangerProvider>
-                                                        <OrganisasjonsDetaljerProvider>
-                                                            <Banner sidetittel={sidetittel}/>
+                                                        <OrganisasjonsVelger>
                                                             <Routes>
                                                                 <Route
                                                                     path="/bedriftsinformasjon"
-                                                                    element={
-                                                                        <SideTittelWrapper tittel={"Virksomhetsprofil"}
-                                                                                           setTittel={setSidetittel}>
-                                                                            <InformasjonOmBedrift/>
-                                                                        </SideTittelWrapper>
-                                                                    }/>
+                                                                    element={<InformasjonOmBedrift/>}/>
                                                                 <Route
                                                                     path="/"
-                                                                    element={
-                                                                        <SideTittelWrapper
-                                                                            tittel={"Min side – arbeidsgiver"}
-                                                                            setTittel={setSidetittel}>
-                                                                            <Hovedside/>
-                                                                        </SideTittelWrapper>
-                                                                    }/>
+                                                                    element={<Hovedside/>}/>
                                                                 <Route
                                                                     path="/mangler-tilgang"
-                                                                    element={
-                                                                        <SideTittelWrapper
-                                                                            tittel={"Min side – arbeidsgiver"}
-                                                                            setTittel={setSidetittel}>
-                                                                            <ManglerTilgangContainer/>
-                                                                        </SideTittelWrapper>
-                                                                    }/>
+                                                                    element={<ManglerTilgangContainer/>}/>
                                                                 <Route
                                                                     path="/saksoversikt"
-                                                                    element={
-                                                                        <SideTittelWrapper tittel={"Saksoversikt"}
-                                                                                           setTittel={setSidetittel}>
-                                                                            <Saksoversikt/>
-                                                                        </SideTittelWrapper>
-                                                                    }/>
+                                                                    element={<Saksoversikt/>}/>
                                                                 <Route
                                                                     path="/saksoversikt-restore-session"
-                                                                    element={
-                                                                        <SideTittelWrapper tittel={"Saksoversikt"}
-                                                                                           setTittel={setSidetittel}>
-                                                                            <SaksoversiktRestoreSession/>
-                                                                        </SideTittelWrapper>
-                                                                    }/>
+                                                                    element={<SaksoversiktRestoreSession/>}/>
                                                                 <Route
                                                                     path="*"
-                                                                    element={<Alert style={{width:"calc(clamp(15rem, 50rem, 100vw - 2rem))" ,margin:"2rem auto"}} variant={"error"}> Finner ikke siden. <Link as={RouterLink} to={"/"}> Gå til Min side arbeidsgiver</Link> </Alert>}
+                                                                    element={
+                                                                        <Alert style={{width:"calc(clamp(15rem, 50rem, 100vw - 2rem))" ,margin:"2rem auto"}} variant={"error"}>
+                                                                            Finner ikke siden. <Link as={RouterLink} to={"/"}> Gå til Min side arbeidsgiver</Link>
+                                                                        </Alert>}
                                                                 />
                                                             </Routes>
-                                                        </OrganisasjonsDetaljerProvider>
+                                                        </OrganisasjonsVelger>
                                                     </OrganisasjonerOgTilgangerProvider>
                                                 </AlertsProvider>
                                             </FeatureToggleProvider>

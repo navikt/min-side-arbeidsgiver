@@ -4,16 +4,12 @@ import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.css';
 
 const NyttigForDegContainer = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
     return (
         <div className="nyttig-for-deg">
             <div className="nyttig-for-deg__bokser">
-                {valgtOrganisasjon !== undefined && (
-                    <div className="boks">
-                        <Bedriftsinfoknapp />
-                    </div>
-                )}
+                <div className="boks">
+                    <Bedriftsinfoknapp />
+                </div>
             </div>
         </div>
     );

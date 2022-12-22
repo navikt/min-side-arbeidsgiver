@@ -19,7 +19,7 @@ const SisteSaker = () => {
 
     const {loading, data} = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+        virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
         tekstsoek: "",
         sortering: GQL.SakSortering.Oppdatert,
     })
@@ -32,8 +32,6 @@ const SisteSaker = () => {
             })
         }
     }, [loading, data])
-
-    if (valgtOrganisasjon === undefined) return null;
 
     if (loading || !data || data?.saker.saker.length == 0) return null;
 

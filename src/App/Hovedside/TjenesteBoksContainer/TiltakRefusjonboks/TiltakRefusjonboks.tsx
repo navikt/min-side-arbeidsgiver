@@ -8,13 +8,8 @@ import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvide
 
 const TiltakRefusjonboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
 
-    const url = valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
-        ? `${refosoURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-        : refosoURL;
+    const url = `${refosoURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
 
     const klareForInnsending = valgtOrganisasjon.refusjonstatus["KLAR_FOR_INNSENDING"]
 

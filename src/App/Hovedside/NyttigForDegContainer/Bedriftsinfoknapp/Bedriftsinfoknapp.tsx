@@ -8,10 +8,6 @@ import {TittelMedIkon} from "../../../../GeneriskeElementer/TittelMedIkon";
 const Bedriftsinfoknapp = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
-
     return (
         <InternalLenkepanelMedLogging
             to={"/bedriftsinformasjon" + '?bedrift=' + valgtOrganisasjon.organisasjon.OrganizationNumber}

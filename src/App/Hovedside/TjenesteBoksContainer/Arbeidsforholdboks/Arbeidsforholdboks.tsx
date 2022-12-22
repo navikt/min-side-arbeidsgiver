@@ -10,10 +10,9 @@ const Arbeidsforholdboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
     useEffect(() => {
-        if (valgtOrganisasjon)
-            hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? '').then(antallArbeidsforholdRespons =>
-                setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
-            );
+        hentAntallArbeidsforholdFraAareg(valgtOrganisasjon.organisasjon.OrganizationNumber, valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? '').then(antallArbeidsforholdRespons =>
+            setAntallArbeidsforhold(antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–')
+        );
     }, [valgtOrganisasjon]);
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);

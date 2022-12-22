@@ -1,24 +1,25 @@
-import React, {FC, ReactElement, useEffect, useRef, useState} from 'react';
+import React, { FC, ReactElement, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
-import {BodyShort, Pagination, Select} from '@navikt/ds-react';
-import {Spinner} from '../../../Spinner';
-import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {useSaker} from '../useSaker';
-import {SaksListe} from '../SaksListe';
-import {Alerts} from '../../../Alerts/Alerts';
+import { BodyShort, Pagination, Select } from '@navikt/ds-react';
+import { Spinner } from '../../../Spinner';
+import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { useSaker } from '../useSaker';
+import { SaksListe } from '../SaksListe';
+import { Alerts } from '../../../Alerts/Alerts';
 import amplitude from '../../../../utils/amplitude';
-import {useOversiktStateTransitions} from './useOversiktStateTransitions';
-import {State} from './useOversiktStateTransitions';
-import {Filter} from './Filter';
-import {OmSaker} from '../OmSaker';
+import { State, useOversiktStateTransitions } from './useOversiktStateTransitions';
+import { Filter } from './Filter';
+import { OmSaker } from '../OmSaker';
 import { gittMiljo } from '../../../../utils/environment';
+import { useSidetittel } from '../../../OrganisasjonDetaljerProvider';
 
 export const SIDE_SIZE = 30;
 
 const Saksoversikt = () => {
     const {state, byttFilter, lastingPågår, lastingFerdig, lastingFeilet} = useOversiktStateTransitions()
     const {loading, data} = useSaker(SIDE_SIZE, state.filter);
+    useSidetittel("Saksoversikt")
 
     useEffect(() => {
         if (loading) {

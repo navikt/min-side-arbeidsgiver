@@ -59,7 +59,7 @@ const OrganisasjonerResponse = [
         Name: 'ARENDAL OG BØNES REVISJON',
         Type: 'Business',
         ParentOrganizationNumber: '810911111',
-        OrganizationNumber: '810911111',
+        OrganizationNumber: '811011111',
         OrganizationForm: 'BEDR',
         Status: 'Active',
     },

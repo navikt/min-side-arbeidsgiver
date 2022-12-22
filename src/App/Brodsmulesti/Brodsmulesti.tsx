@@ -18,6 +18,7 @@ const Brodsmulesti = ({brodsmuler}: BrodsmuleProps) => {
     const navigate = useNavigate();
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
 
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgnrdel = valgtOrganisasjon ? `?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}` : '';
 
     onBreadcrumbClick(breadcrumb => {

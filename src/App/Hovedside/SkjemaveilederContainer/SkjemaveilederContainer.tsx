@@ -12,11 +12,8 @@ import { gittMiljo } from '../../../utils/environment';
 
 export const SkjemaveilederContainer = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const tilgangInntektsmelding = valgtOrganisasjon?.altinntilgang?.inntektsmelding;
-    const tilgangYrkesskade = valgtOrganisasjon?.altinntilgang?.yrkesskade;
-    if (valgtOrganisasjon === undefined) {
-        return null
-    }
+    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
+    const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
     const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
         if (!valgtOrganisasjon.altinntilgang[altinnSkjemaId]) {
@@ -28,7 +25,6 @@ export const SkjemaveilederContainer = () => {
 
     const lenke = (tekst: string, href: string, target?: string) =>
         <li>
-
             <LenkepanelMedLogging href={href} loggLenketekst={tekst} target={target}>
                 {tekst}
             </LenkepanelMedLogging>

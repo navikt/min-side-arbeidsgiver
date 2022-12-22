@@ -28,28 +28,26 @@ const displayorder: (keyof typeof displayname)[] = [
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber
+    const orgnr = valgtOrganisasjon.organisasjon.OrganizationNumber
     const [avtaleoversikt, setAvtaleoversikt] = useState<Record<string, number>>({})
 
     useEffect(() => {
-        if (orgnr !== undefined) {
-            hentArbeidsavtaler(orgnr)
-                .then((avtaler: Arbeidsavtale[]) => {
-                    const avtalerMedTiltaktype = (tiltaktype: string) =>
-                        avtaler.filter((avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype).length;
-                    setAvtaleoversikt({
-                        'ARBEIDSTRENING': avtalerMedTiltaktype('ARBEIDSTRENING'),
-                        'MIDLERTIDIG_LONNSTILSKUDD': avtalerMedTiltaktype('MIDLERTIDIG_LONNSTILSKUDD'),
-                        'VARIG_LONNSTILSKUDD': avtalerMedTiltaktype('VARIG_LONNSTILSKUDD'),
-                        'SOMMERJOBB': avtalerMedTiltaktype('SOMMERJOBB'),
-                        'INKLUDERINGSTILSKUDD': avtalerMedTiltaktype('INKLUDERINGSTILSKUDD'),
-                        'MENTOR': avtalerMedTiltaktype('MENTOR'),
-                    })
+        hentArbeidsavtaler(orgnr)
+            .then((avtaler: Arbeidsavtale[]) => {
+                const avtalerMedTiltaktype = (tiltaktype: string) =>
+                    avtaler.filter((avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype).length;
+                setAvtaleoversikt({
+                    'ARBEIDSTRENING': avtalerMedTiltaktype('ARBEIDSTRENING'),
+                    'MIDLERTIDIG_LONNSTILSKUDD': avtalerMedTiltaktype('MIDLERTIDIG_LONNSTILSKUDD'),
+                    'VARIG_LONNSTILSKUDD': avtalerMedTiltaktype('VARIG_LONNSTILSKUDD'),
+                    'SOMMERJOBB': avtalerMedTiltaktype('SOMMERJOBB'),
+                    'INKLUDERINGSTILSKUDD': avtalerMedTiltaktype('INKLUDERINGSTILSKUDD'),
+                    'MENTOR': avtalerMedTiltaktype('MENTOR'),
                 })
-                .catch(_ => {
-                    setAvtaleoversikt({})
-                });
-        }
+            })
+            .catch(_ => {
+                setAvtaleoversikt({})
+            });
     }, [orgnr]);
 
     const tiltakUrl = orgnr !== undefined && orgnr !== ''
