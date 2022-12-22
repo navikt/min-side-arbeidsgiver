@@ -159,7 +159,7 @@ const StatusLine: FC<{state: State}> = ({state}) => {
         }
 
         if (state.totaltAntallSaker !== undefined) {
-            return `${Math.floor(Math.random() * 10)} treff`
+            return `${totaltAntallSaker} treff`
         }
         return ""
     }
