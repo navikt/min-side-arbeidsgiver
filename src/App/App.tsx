@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext, useEffect, useState} from 'react';
+import React, {FunctionComponent, useContext, useEffect} from 'react';
 import {BrowserRouter, Route, Link as RouterLink, Routes, useLocation} from 'react-router-dom';
 import {basename} from '../paths';
 import Hovedside from './Hovedside/Hovedside';
@@ -14,7 +14,6 @@ import {loggSidevisning} from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
 import {NotifikasjonWidgetProvider} from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Banner from "./HovedBanner/HovedBanner";
 import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
 import {Alert, Link} from "@navikt/ds-react";
@@ -40,21 +39,7 @@ const AmplitudeSidevisningEventLogger: FunctionComponent = props => {
     return <>{props.children}</>;
 }
 
-interface SideTittelProps {
-    tittel: string,
-    setTittel: (tittel: string) => void
-}
-
-const SideTittelWrapper: FunctionComponent<SideTittelProps> = props => {
-    useEffect(() => {
-        props.setTittel(props.tittel)
-    })
-    return <>{props.children}</>;
-}
-
 const App: FunctionComponent = () => {
-    const [sidetittel, setSidetittel] = useState("")
-
     return (
         <div className="typo-normal bakgrunnsside">
             <LoginProvider>
