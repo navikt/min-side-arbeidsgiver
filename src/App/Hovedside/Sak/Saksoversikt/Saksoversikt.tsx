@@ -1,4 +1,4 @@
-import React, {FC, ReactElement, useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
 import {BodyShort, Pagination, Select} from '@navikt/ds-react';
@@ -16,49 +16,67 @@ import { gittMiljo } from '../../../../utils/environment';
 
 export const SIDE_SIZE = 30;
 
-const Saksoversikt = () => {
-    const {state, byttFilter, lastingPågår, lastingFerdig, lastingFeilet} = useOversiktStateTransitions()
-    const {loading, data} = useSaker(SIDE_SIZE, state.filter);
-
-    useEffect(() => {
-        if (loading) {
-            lastingPågår()
-        } else if (data?.saker?.__typename !== "SakerResultat") {
-            lastingFeilet()
-        } else {
-            amplitude.logEvent('komponent-lastet', {
-                komponent: 'saksoversikt',
-                side: state.filter.side,
-                tekstsoek: state.filter.tekstsoek.trim() !== '',
-                totaltAntallSaker: data.saker.totaltAntallSaker
-            })
-            lastingFerdig(data.saker)
-        }
-    }, [loading, data])
-
+export const Saksoversikt = () => {
+    const {state, byttFilter} = useOversiktStateTransitions()
 
     return <div className='saksoversikt'>
         <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
         <Alerts/>
         <div className="saksoversikt__header">
             <Filter filter={state.filter} onChange={byttFilter}/>
-            <Select
-                className="saksoversikt__sortering"
-                label="Sorter på"
-                onChange={(e) => {
-                    byttFilter({...state.filter, sortering: e.target.value as GQL.SakSortering})
-                }}
-            >
-                {sorteringsrekkefølge.map(key => (
-                    <option value={key} selected={state.filter.sortering === key}>
-                        {sorteringsnavn[key]}
-                    </option>
-                ))}
-            </Select>
+            <VelgSortering state={state} byttFilter={byttFilter}/>
         </div>
-        <Søkeresultat byttFilter={byttFilter} state={state}/>
+
+        <div className="saksoversik__saksliste-header">
+            <StatusLine state={state}/>
+            <Sidevelger state={state} byttFilter={byttFilter}/>
+        </div>
+
+        <SaksListeBody state={state} />
+
+        <div className="saksoversik__saksliste-footer">
+            <HvaVisesHer />
+            <Sidevelger state={state} byttFilter={byttFilter}/>
+        </div>
     </div>
 };
+
+const HvaVisesHer = () => {
+    const hjelpetekstButton = useRef<HTMLButtonElement>(null);
+    return <div className="saksoversikt__hjelpetekst">
+        <OmSaker id="hjelptekst" ref={hjelpetekstButton}/>
+        <button
+            className={"saksoversikt__knapp"}
+            onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                hjelpetekstButton.current?.focus();
+                hjelpetekstButton.current?.click();
+            }}> Hva vises her?
+        </button>
+    </div>
+
+}
+
+type VelgSorteringProps = {
+    state: State;
+    byttFilter: (filter: Filter) => void;
+}
+
+const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) =>
+    <Select
+        className="saksoversikt__sortering"
+        label="Sorter på"
+        onChange={(e) => {
+            byttFilter({...state.filter, sortering: e.target.value as GQL.SakSortering})
+        }}
+    >
+        {sorteringsrekkefølge.map(key => (
+            <option value={key} selected={state.filter.sortering === key}>
+                {sorteringsnavn[key]}
+            </option>
+        ))}
+    </Select>
 
 
 const noFilterApplied = (filter: Filter) => filter.tekstsoek.trim() === ""
@@ -81,17 +99,12 @@ const useCurrentDate = (pollInterval: number) => {
     return currentDate
 }
 
-
-interface FilterOgSøkResultat {
-    state: State;
-    byttFilter: (filter: Filter) => void;
-}
-
 const sorteringsnavn: Record<GQL.SakSortering, string> = {
     "OPPDATERT": "Oppdatert",
     "OPPRETTET": "Opprettet",
     "FRIST": "Frist",
 }
+
 const sorteringsrekkefølge: GQL.SakSortering[] = gittMiljo({
     prod: [
         GQL.SakSortering.Oppdatert,
@@ -130,66 +143,56 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
     />
 }
 
-type ResultatOppsummeringProp = {
+const StatusLine: FC<{state: State}> = ({state}) => {
+    const statusText = () => {
+        if (state.state === 'error') {
+            return "Feil ved lasting av saker."
+        }
+
+        const {totaltAntallSaker, filter} = state
+        if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
+            return "Ingen saker å vise på valgt virksomhet."
+        }
+
+        if (totaltAntallSaker === 0) {
+            return "Ingen treff."
+        }
+
+        if (state.totaltAntallSaker !== undefined) {
+            return `${Math.floor(Math.random() * 10)} treff`
+        }
+        return ""
+    }
+    return <BodyShort role="status">
+        {statusText()}
+    </BodyShort>
+}
+
+
+type SaksListeBodyProps = {
     state: State;
-    byttFilter: (filter: Filter) => void;
-    children: ReactElement;
 }
 
-const ResultatOppsummering: FC<ResultatOppsummeringProp> = ({state, byttFilter, children}) => {
-    const hjelpetekstButton = useRef<HTMLButtonElement>(null);
-
-    return <>
-        <div className="saksoversik__saksliste-header">
-            {state.totaltAntallSaker !== undefined
-                ? <BodyShort role="status"> {state.totaltAntallSaker} treff</BodyShort>
-                : null}
-            <Sidevelger state={state} byttFilter={byttFilter}/>
-        </div>
-
-        {children}
-        <div className="saksoversik__saksliste-footer">
-            <div className="saksoversikt__hjelpetekst">
-                <OmSaker id="hjelptekst" ref={hjelpetekstButton}/>
-                <button
-                    className={"saksoversikt__knapp"}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        hjelpetekstButton.current?.focus();
-                        hjelpetekstButton.current?.click();
-                    }}> Hva vises her?
-                </button>
-            </div>
-            <Sidevelger state={state} byttFilter={byttFilter}/>
-        </div>
-    </>
-}
-
-const Søkeresultat: FC<FilterOgSøkResultat> = ({state, byttFilter}) => {
+const SaksListeBody: FC<SaksListeBodyProps> = ({state}) => {
     if (state.state === 'error') {
-        return <BodyShort>Feil ved lasting av saker.</BodyShort>
+        return null;
     }
 
     if (state.state === 'loading') {
-        return <ResultatOppsummering state={state} byttFilter={byttFilter}>
-            <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined}/>
-        </ResultatOppsummering>
+        return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined}/>;
     }
 
     const {totaltAntallSaker, saker, filter} = state
 
     if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
-        return <BodyShort>Ingen saker å vise på valgt virksomhet.</BodyShort>
+        return null;
     }
 
     if (totaltAntallSaker === 0) {
-        return <BodyShort>Ingen treff.</BodyShort>
+        return null;
     }
 
-    return <ResultatOppsummering state={state} byttFilter={byttFilter}>
-        <SaksListe saker={saker}/>
-    </ResultatOppsummering>
+    return <SaksListe saker={saker}/>;
 }
 
 type LasterProps = {
@@ -209,5 +212,3 @@ const Laster: FC<LasterProps> = ({forrigeSaker, startTid}) => {
         return <Spinner/>
     }
 }
-
-export default Saksoversikt;

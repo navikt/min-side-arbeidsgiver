@@ -15,7 +15,7 @@ import './App.css';
 import {Innlogget, LoginContext, LoginProvider} from './LoginProvider';
 import {NotifikasjonWidgetProvider} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import Banner from "./HovedBanner/HovedBanner";
-import Saksoversikt from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
+import {Saksoversikt} from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
 import {Alert, Link} from "@navikt/ds-react";
 import {gittMiljo} from '../utils/environment';
