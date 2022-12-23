@@ -5,7 +5,8 @@ import {loggNavigasjonTags} from '../../../utils/funksjonerForAmplitudeLogging';
 import {useLocation} from "react-router-dom";
 import "./SaksListe.css"
 import OppgaveIkon from "./OppgaveIkon";
-import {Oppgave, OppgaveTilstand} from "@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/lib/esm/api/graphql-types";
+import {OppgaveTilstand} from "@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/lib/esm/api/graphql-types";
+import {OppgaveMetadata} from "@navikt/arbeidsgiver-notifikasjon-widget/src/api/graphql-types";
 
 const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
@@ -19,14 +20,17 @@ type SakPanelProps = {
 }
 
 export const SakPanel = ({
-    placeholder,
-    sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp, frister, oppgaver}
-}: SakPanelProps) => {
+        placeholder,
+        sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp, frister, oppgaver}
+    }: SakPanelProps) => {
     const fake = placeholder ?? false
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const {pathname} = useLocation()
     const [frist,] = frister
-    const påminnelse = oppgaver?.some((oppgave: Oppgave) => oppgave.tilstand === OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null)
+    const paminnelse = oppgaver.some((oppgave: OppgaveMetadata) =>
+        oppgave.tilstand === OppgaveTilstand.Ny && oppgave.paminnelseTidspunkt !== null
+    )
+
 
     return <LinkPanel className="sakslenkepanel" href={lenke} as={fake ? 'div' : 'a'} onClick={() => {
         loggNavigasjonTags(lenke, merkelapp, pathname, {component: 'sak'})
@@ -50,8 +54,9 @@ export const SakPanel = ({
                 <div className="saksfrist" style={style}>
                     <OppgaveIkon/>
                     <div>
-                        {påminnelse??<BodyShort size="small" className="paminnelse"> Påminnelse </BodyShort>}
-                        <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
+                        {paminnelse ?? <BodyShort size="small" className="paminnelse"> Påminnelse </BodyShort>}
+                        <BodyShort size="small"> Oppgave
+                            venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
                     </div>
                 </div>
             }
