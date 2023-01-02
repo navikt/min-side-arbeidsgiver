@@ -53,7 +53,7 @@ export const SakPanel = ({
                 <div className="saksfrist" style={style}>
                     <OppgaveIkon/>
                     <div>
-                        {paminnelse ?? <BodyShort size="small" className="paminnelse"> Påminnelse </BodyShort>}
+                        {paminnelse ? <BodyShort size="small" className="paminnelse"> Påminnelse </BodyShort> : null}
                         <BodyShort size="small"> Oppgave
                             venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
                     </div>
