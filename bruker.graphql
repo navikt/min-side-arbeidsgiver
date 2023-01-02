@@ -50,6 +50,12 @@ type Oppgave {
     virksomhet: Virksomhet!
 }
 
+type OppgaveMetadata {
+    frist: ISO8601Date
+    paminnelseTidspunkt: ISO8601DateTime
+    tilstand: OppgaveTilstand!
+}
+
 type Query {
     notifikasjoner: NotifikasjonerResultat!
     saker(limit: Int, offset: Int, sortering: SakSortering! = OPPDATERT, tekstsoek: String, virksomhetsnummer: String!): SakerResultat!
@@ -62,6 +68,7 @@ type Sak {
     id: ID!
     lenke: String!
     merkelapp: String!
+    oppgaver: [OppgaveMetadata!]!
     sisteStatus: SakStatus!
     tittel: String!
     virksomhet: Virksomhet!
