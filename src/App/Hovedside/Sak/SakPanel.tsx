@@ -5,8 +5,7 @@ import {loggNavigasjonTags} from '../../../utils/funksjonerForAmplitudeLogging';
 import {useLocation} from "react-router-dom";
 import "./SaksListe.css"
 import OppgaveIkon from "./OppgaveIkon";
-import {OppgaveTilstand} from "@navikt/arbeidsgiver-notifikasjon-widget/lib/cjs/lib/esm/api/graphql-types";
-import {OppgaveMetadata} from "@navikt/arbeidsgiver-notifikasjon-widget/src/api/graphql-types";
+
 
 const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
@@ -27,8 +26,8 @@ export const SakPanel = ({
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const {pathname} = useLocation()
     const [frist,] = frister
-    const paminnelse = oppgaver.some((oppgave: OppgaveMetadata) =>
-        oppgave.tilstand === OppgaveTilstand.Ny && oppgave.paminnelseTidspunkt !== null
+    const paminnelse = oppgaver.some((oppgave: GQL.OppgaveMetadata) =>
+        oppgave.tilstand === GQL.OppgaveTilstand.Ny && oppgave.paminnelseTidspunkt !== null
     )
 
 
