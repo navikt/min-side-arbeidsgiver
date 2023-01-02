@@ -1,0 +1,33 @@
+
+.virksomhetschips {
+    display: flex;
+    background: var(--a-gray-100);
+    padding: 0.5rem;
+    justify-content: space-between;
+    gap: 1rem;
+    max-height: 100%;
+    border-radius: 0.5rem;
+
+
+}
+.virksomhetschips_innhold {
+    width:100%
+}
+
+.virksomhetschips_virksomhet {
+    font-weight: 600;
+}
+
+.virksomhetschips_lukkeknapp,
+.virksomhetschips_lukkeknapp span{
+    height: 1rem;
+    width: 1rem;
+    padding: 0;
+}
+
+.virksomhetschips_lukkeknapp svg {
+    width:1rem;
+    color: var(--a-text-default);
+    pointer-events: none;
+}
+

@@ -13,6 +13,7 @@ import {State} from './useOversiktStateTransitions';
 import {Filter} from './Filter';
 import {OmSaker} from '../OmSaker';
 import { gittMiljo } from '../../../../utils/environment';
+import {Saksfilter} from "../Saksfilter/Saksfilter";
 
 export const SIDE_SIZE = 30;
 
@@ -37,7 +38,9 @@ const Saksoversikt = () => {
     }, [loading, data])
 
 
-    return <div className='saksoversikt'>
+    return <div className="saksoversikt__innhold">
+        <Saksfilter/>
+        <div className='saksoversikt'>
         <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
         <Alerts/>
         <div className="saksoversikt__header">
@@ -56,7 +59,10 @@ const Saksoversikt = () => {
                 ))}
             </Select>
         </div>
-        <Søkeresultat byttFilter={byttFilter} state={state}/>
+
+            <Søkeresultat byttFilter={byttFilter} state={state}/>
+
+        </div>
     </div>
 };
 

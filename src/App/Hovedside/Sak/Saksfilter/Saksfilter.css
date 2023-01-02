@@ -1,0 +1,50 @@
+.saksfilter {
+    display: flex;
+    flex-direction: column;
+    min-width: min(22rem, 100%);
+    min-height: 100%;
+    gap: 2rem;
+    background: var(--a-bg-default);
+    padding: 1.5rem;
+}
+
+.saksfilter_søk-sak {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.saksfilter_vis-valgte {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.saksfilter_type-sak {
+    padding-top: 1rem;
+    border-top: var(--a-text-default) solid 1px
+}
+
+.saksfilter_type-sak_header {
+    display: flex;
+    justify-content: space-between;
+    max-width: 20rem;
+}
+
+.saksfiler_type-sak_valg_åpen {
+    transform: scaleY(1);
+    display: block;
+
+}
+
+.saksfiler_type-sak_valg_lukket {
+    transform: scaleY(0);
+    display: none;
+
+}
+
+.saksfilter_headers{
+    font-weight: 600;
+}

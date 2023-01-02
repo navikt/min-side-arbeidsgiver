@@ -12,6 +12,11 @@
     margin: 0 auto;
   }
 }
+
+.saksoversikt__innhold {
+  display: flex;
+}
+
 .saksoversikt__header {
   display: flex;
   flex-wrap: wrap;
@@ -50,8 +55,6 @@
 .saksoversik__saksliste-footer {
   flex-wrap: wrap-reverse;
 }
-
-
 
 .saksoversikt__sortering {
   grid-template-columns: auto auto;

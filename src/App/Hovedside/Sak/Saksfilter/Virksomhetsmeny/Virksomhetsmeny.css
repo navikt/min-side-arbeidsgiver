@@ -1,0 +1,24 @@
+
+.saksfilter_virksomheter {
+    display: flex;
+    flex-direction: column;
+}
+
+.saksfilter_virksomheter_menyknapp {
+    border: solid 1px var(--a-text-default);
+    border-radius: 0.2rem;
+    background: var(--a-bg-default);
+    display: flex;
+    justify-content: space-between;
+    padding: .8rem 0.5rem;
+    box-shadow: none;
+}
+
+.saksfilter_virksomheter_menyknapp:hover {
+    border-color: var(--a-border-action);
+}
+
+.saksfilter_virksomheter_menyknapp:focus {
+    box-shadow: 0 0 0 3px var(--a-border-focus);
+    outline: none;
+}
