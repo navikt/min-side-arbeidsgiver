@@ -41,6 +41,7 @@ Sentry.init({
     ignoreErrors: [
         "TypeError: Failed to fetch",
         "TypeError: NetworkError when attempting to fetch resource.",
+        "TypeError: Load failed",
         "TypeError: cancelled",
         "TypeError: avbrutt",
         "TypeError: cancelado",
