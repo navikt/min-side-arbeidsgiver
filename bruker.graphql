@@ -52,7 +52,7 @@ type Oppgave {
 
 type OppgaveMetadata {
     frist: ISO8601Date
-    paminnelseTidspunkt: ISO8601DateTime
+    paaminnelseTidspunkt: ISO8601DateTime
     tilstand: OppgaveTilstand!
 }
 

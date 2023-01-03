@@ -27,7 +27,7 @@ export const SakPanel = ({
     const {pathname} = useLocation()
     const [frist,] = frister
     const paminnelse = oppgaver.some((oppgave: GQL.OppgaveMetadata) =>
-        oppgave.tilstand === GQL.OppgaveTilstand.Ny && oppgave.paminnelseTidspunkt !== null
+        oppgave.tilstand === GQL.OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null
     )
 
 

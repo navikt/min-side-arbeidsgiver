@@ -26,7 +26,7 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
                 frister
                 oppgaver {
                     tilstand
-                    paminnelseTidspunkt
+                    paaminnelseTidspunkt
                     frist
                 }
             }
