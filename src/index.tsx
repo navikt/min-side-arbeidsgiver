@@ -48,6 +48,7 @@ Sentry.init({
         "TypeError: anulowane",
         "TypeError: avbruten",
         "TypeError: anulat",
+        "AbortError: The operation was aborted.",
     ],
 });
 
