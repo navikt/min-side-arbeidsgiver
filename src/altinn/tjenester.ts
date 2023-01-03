@@ -15,7 +15,7 @@ export type NAVtjenesteId =
     | 'mentortilskudd'
     | 'inkluderingstilskudd'
     | 'iaweb'
-    | 'pam'
+    | 'rekruttering'
     | 'tilskuddsbrev'
     | 'yrkesskade';
 
@@ -170,14 +170,17 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
     },
 
-    pam: {
+    rekruttering: {
         sort: 'tjeneste',
         navn: 'Rekruttering',
         beOmTilgangBeskrivelse: `
-            Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.`,
+            Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.
+            Under «Kandidater til dine stillinger» kan du se CV til personer NAV har sendt deg.
+        `,
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
+
     tilskuddsbrev: {
         sort: 'tjeneste',
         navn: 'Tilskuddsbrev om NAV-tiltak',
