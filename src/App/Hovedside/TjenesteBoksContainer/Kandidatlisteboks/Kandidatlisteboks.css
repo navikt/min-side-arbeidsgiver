@@ -1,0 +1,9 @@
+.kandidatlisteboks__antall {
+  font-size: 2rem;
+  line-height: 2.5rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+.kandidatlisteboks__bunntekst {
+  margin-top: 0.5rem;
+}

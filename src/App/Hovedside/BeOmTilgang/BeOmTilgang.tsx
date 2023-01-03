@@ -18,7 +18,7 @@ import {LinkableFragment} from '../../../GeneriskeElementer/LinkableFragment';
 import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
-    'pam',
+    'rekruttering',
     'iaweb',
     'arbeidstrening',
     'arbeidsforhold',

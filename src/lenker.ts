@@ -27,6 +27,11 @@ export const arbeidsplassenURL = gittMiljo({
     other: 'https://arbeidsplassen.dev.nav.no/bedrift',
 });
 
+export const kandidatlisteURL = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/kandidatliste',
+    other: 'https://presenterte-kandidater.dev.nav.no/kandidatliste',
+});
+
 export const pamSettBedriftURL = gittMiljo({
     prod: (orgnr: string) =>
         `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
