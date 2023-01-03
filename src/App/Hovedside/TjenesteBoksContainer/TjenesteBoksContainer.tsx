@@ -30,9 +30,11 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(IAwebboks);
     }
 
-    if (valgtOrganisasjon.altinntilgang.pam) {
+    if (valgtOrganisasjon.altinntilgang.rekruttering) {
+        tjenester.push(Kandidatlisteboks);
         tjenester.push(Pamboks);
     }
+
     if (valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd
         || valgtOrganisasjon.altinntilgang.varigLønnstilskudd
         || valgtOrganisasjon.altinntilgang.arbeidstrening
@@ -40,10 +42,6 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         || valgtOrganisasjon.altinntilgang.inkluderingstilskudd
     ) {
         tjenester.push(Tiltakboks);
-    }
-
-    if (valgtOrganisasjon.altinntilgang.kandidatliste) {
-        tjenester.push(Kandidatlisteboks);
     }
 
     if (valgtOrganisasjon.altinntilgang.inntektsmelding && valgtOrganisasjon.refusjonstatustilgang) {
