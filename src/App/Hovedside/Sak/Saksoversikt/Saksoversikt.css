@@ -5,16 +5,19 @@
   background-color: var(--a-gray-100);
   margin: 1rem;
   padding: 1rem 0;
+  grid-column-start: 3
 }
 @media (min-width: 1024px) {
   .saksoversikt {
     width: 60rem;
-    margin: 0 auto;
+    margin: 0 1rem;
   }
 }
 
 .saksoversikt__innhold {
-  display: flex;
+  display: grid;
+    grid-template-columns: 1fr 22rem 62rem 22rem 1fr;
+  margin: 0 auto;
 }
 
 .saksoversikt__header {

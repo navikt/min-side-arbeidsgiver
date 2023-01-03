@@ -1,48 +1,63 @@
 import React, {useState} from "react";
 import "./Saksfilter.css"
-import {BodyShort, Button, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
-import {Collapse, Expand} from "@navikt/ds-icons";
-import {Virksomhetsmeny} from "./Virksomhetsmeny/Virksomhetsmeny";
-import VirksomhetChips from "./VirksomhetChips";
+import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
+import {hovedenhet, underenhet, Virksomhetsmeny} from "./Virksomhetsmeny/Virksomhetsmeny";
 
-const alleVirksomheter = [{name: "Athea viken", orgnr: "910 456 900",},
-    {name: "Saltrød og Høneby", orgnr: "999 911 111", antall: "30"},
-    {name: "NAV ENGERDAL", orgnr: "991 311 111"},
-    {name: "NAV HØNEBY", orgnr: "991 311 112"},
-    {name: "NAV SALTRØD", orgnr: "991 311 113"},
-    {name: "NAV SØR-ODAL", orgnr: "991 311 114"},
-    {name: "NAV VEST-ODAL", orgnr: "991 311 115"},
-    {name: "NAV ØST-ODAL", orgnr: "991 311 116"},
+
+const alleVirksomheter = [
+    {
+        name: "Athea", orgnr: "123456789", underenheter: [
+            {name: "Athea viken", orgnr: "910 456 900",},
+            {name: "Athea innlandet", orgnr: "910 456 901",},
+        ]
+    },
+    {
+        name: "Bergen kommune", orgnr: "910 456 902", underenheter: [
+            {name: "Saltrød og Høneby", orgnr: "999 911 111"},
+            {name: "Bergen kommunehus", orgnr: "999 911 112"},
+        ]
+    },
+    {
+        name: "NAV", orgnr: "999 911 111", underenheter: [
+            {name: "NAV ENGERDAL", orgnr: "991 311 111"},
+            {name: "NAV HØNEBY", orgnr: "991 311 112"},
+            {name: "NAV SALTRØD", orgnr: "991 311 113"},
+            {name: "NAV SØR-ODAL", orgnr: "991 311 114"},
+            {name: "NAV VEST-ODAL", orgnr: "991 311 115"},
+            {name: "NAV ØST-ODAL", orgnr: "991 311 116"},
+            {name: "NAV ÅS", orgnr: "991 311 117"},
+            {name: "NAV ÅSANE", orgnr: "991 311 118"},
+            {name: "NAV ÅSERAL", orgnr: "991 311 119"},
+            {name: "NAV ÅSUNDSBRED", orgnr: "991 311 120"},
+        ]
+    },
+    {
+        name: "BB", orgnr: "999 911 112", underenheter: [
+            {name: "Bil og båt", orgnr: "991 311 131"},
+            {name: "Båt og bil", orgnr: "991 311 140"},
+        ]
+    },
 ]
 
 
 export const Saksfilter = () => {
-    const [virksomheter, setVirksomheter] = useState(alleVirksomheter)
-    const [typevalgApen, setTypevalgApen] = useState(true)
+    const [valgteVirksomheter, setValgteVirksomheter] = useState([...alleVirksomheter])
 
-    const fjernVirksomhet = (virksomhet: any) => {
-        setVirksomheter(virksomheter.filter((i: any) => i !== virksomhet))
+    const fjernVirksomhet = (virksomhet: underenhet | hovedenhet) => {
+        setValgteVirksomheter(valgteVirksomheter.filter((i: underenhet | hovedenhet) => i !== virksomhet))
+    }
+    const leggtilVirksomhet = (nyeVirksomhet: Array<underenhet | hovedenhet>) => {
+        // setValgteVirksomheter([...valgteVirksomheter, ...nyeVirksomhet])
     }
 
     function handleChangeTypeSak(val: any[]) {
         return null
     }
 
-
     return <div className="saksfilter">
 
-        <Virksomhetsmeny virksomheter={virksomheter} fjernVirksomhet={fjernVirksomhet}>
-            <ul className="saksfilter_vis-valgte">
-                {virksomheter.map((virksomhet, i) =>
-                    <VirksomhetChips
-                        key={i}
-                        navn={virksomhet.name}
-                        orgnr={virksomhet.orgnr}
-                        antallUndervirksomheter={virksomhet.antall}
-                        onLukk={() => fjernVirksomhet(virksomhet)}
-                    />)}
-            </ul>
-        </Virksomhetsmeny>
+        <Virksomhetsmeny alleVirksomheter={alleVirksomheter} valgteVirksomheter={valgteVirksomheter}
+                         leggtilVirksomhet={leggtilVirksomhet} fjernVirksomhet={fjernVirksomhet}/>
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>
@@ -50,18 +65,11 @@ export const Saksfilter = () => {
         </div>
 
         <div className="saksfilter_type-sak">
-            <CheckboxGroup legend={
-
-                <div className="saksfilter_type-sak_header">
-                    <BodyShort className="saksfilter_headers">Type saker</BodyShort>
-                    <button
-                        onClick={() => setTypevalgApen(!typevalgApen)}> {typevalgApen ? <Collapse/> :
-                        <Expand/>} </button>
-                </div>
-            }
-                           onChange={(val: any[]) => handleChangeTypeSak(val)}>
-
-                <div className={`saksfiler_type-sak_valg_${typevalgApen ? "åpen" : "lukket"}`}>
+            <CheckboxGroup
+                legend={<BodyShort className="saksfilter_headers">Type saker</BodyShort>}
+                onChange={(val: any[]) => handleChangeTypeSak(val)}
+            >
+                <div className={'saksfiler_type-sak_valg_'}>
                     <Checkbox value="Fritak">Fritak arbeidsgiverperiode (4)</Checkbox>
                     <Checkbox value="Korona">Korona sykdom (10)</Checkbox>
                     <Checkbox value="Lønnskomp">Lønnskompensasjon (23)</Checkbox>

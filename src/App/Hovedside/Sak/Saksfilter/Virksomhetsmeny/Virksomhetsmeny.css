@@ -1,10 +1,14 @@
 
-.saksfilter_virksomheter {
+.virksomheter {
     display: flex;
     flex-direction: column;
 }
 
-.saksfilter_virksomheter_menyknapp {
+.virksomheter_container{
+    position: relative;
+}
+
+.virksomheter_menyknapp {
     border: solid 1px var(--a-text-default);
     border-radius: 0.2rem;
     background: var(--a-bg-default);
@@ -12,13 +16,78 @@
     justify-content: space-between;
     padding: .8rem 0.5rem;
     box-shadow: none;
+    width: 100%;
 }
 
-.saksfilter_virksomheter_menyknapp:hover {
+
+
+
+.virksomheter_virksomhetsmeny {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 26rem;
+    height: 40rem;
+    border: solid 2px var(--a-border-alt-3);
+    top: 4.5rem;
+    background: var(--a-bg-default);
+    border-radius: var(--a-border-radius-medium);
+    transision: 0.5s border-radius;
+    z-index: 10;
+}
+.virksomheter_virksomhetsmeny:before {
+    content: "";
+    position: absolute;
+    top: calc( -1.414rem / 2 - 1px);
+    left: 15rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--a-bg-default);
+    border: solid 2px var(--a-border-alt-3);
+    border-color: var(--a-border-alt-3) transparent transparent var(--a-border-alt-3);
+    transform: rotate(45deg);
+}
+
+.virksomheter_virksomhetsmeny_sok {
+    display: flex;
+    padding: 1rem;
+    border-bottom: solid 2px var(--a-border-divider);
+}
+
+.virksomheter_virksomhetsmeny_sok_liste {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-y: scroll;
+    height: 100%;
+
+}
+
+.virksomheter_virksomhetsmeny_sok_liste > li {
+    list-style: none;
+    display: flex;
+    height: 2rem;
+    border: solid 1px var(--a-border-alt-3);
+}
+
+.virksomheter_virksomhetsmeny_sok_liste_hovedenhet{
+
+}
+
+.virksomheter_virksomhetsmeny_footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
+    border-top: solid 2px var(--a-border-divider);
+}
+
+.virksomheter_menyknapp:hover {
     border-color: var(--a-border-action);
 }
 
-.saksfilter_virksomheter_menyknapp:focus {
+.virksomheter_menyknapp:focus {
     box-shadow: 0 0 0 3px var(--a-border-focus);
     outline: none;
 }

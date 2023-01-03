@@ -1,5 +1,6 @@
 
-.virksomhetschips {
+.virksomhetschips,
+.virksomhetschips_extra{
     display: flex;
     background: var(--a-gray-100);
     padding: 0.5rem;
@@ -7,9 +8,12 @@
     gap: 1rem;
     max-height: 100%;
     border-radius: 0.5rem;
-
-
 }
+
+.virksomhetschips_extra{
+    width: 4rem;
+}
+
 .virksomhetschips_innhold {
     width:100%
 }

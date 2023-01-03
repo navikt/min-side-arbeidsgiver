@@ -8,18 +8,17 @@ import {Close, Office1, Office2} from "@navikt/ds-icons";
 type VirksomhetChipsProp = {
     navn: String,
     orgnr: String,
-    antallUndervirksomheter?: string,
+    antallUndervirksomheter?: number | null,
     onLukk: () => void,
 }
 
-const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:VirksomhetChipsProp) => {
-    console.log(antallUndervirksomheter);
+export const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:VirksomhetChipsProp) => {
     return <li className="virksomhetschips">
-        { antallUndervirksomheter !== undefined ? <Office2 width="1.5rem"/> : <Office1 width="1rem"/> }
+        { antallUndervirksomheter !== null ? <Office2 width="1.5rem"/> : <Office1 width="1rem"/> }
         <div className="virksomhetschips_innhold">
             <BodyShort size="medium" className="virksomhetschips_virksomhet">{navn}</BodyShort>
             <BodyShort size="small">virksomhetsn.nr {orgnr}</BodyShort>
-            {antallUndervirksomheter !== undefined ?
+            {antallUndervirksomheter !== null ?
                 <BodyShort size="small"> {antallUndervirksomheter} virksomheter </BodyShort> : null
             }
         </div>
@@ -31,7 +30,17 @@ const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:Virksomh
     </li>
 }
 
+type EkstraChipProp = {
+    antall: number
+}
+export const EkstraChip = ({ antall }: EkstraChipProp)  => {
+    return <li className="virksomhetschips_extra">
+        <div className="virksomhetschips_innhold">
+            <BodyShort size="medium" className="virksomhetschips_virksomhet"> ...+ {antall-7} </BodyShort>
+        </div>
+    </li>
+}
 
 
 
-export default VirksomhetChips
+
