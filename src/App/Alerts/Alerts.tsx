@@ -74,12 +74,12 @@ export const AlertsProvider: FunctionComponent = props => {
 export const Alerts = () => {
     const {alerts} = useContext(AlertContext)
     return (
-        <>
+        <div role="status">
             {Array.from(alerts).sort().map((alertType) =>
                 <Alert key={alertType} variant="error" role="status">
                     {ALERTS[alertType].content}
                 </Alert>
             )}
-        </>
+        </div>
     );
 };
