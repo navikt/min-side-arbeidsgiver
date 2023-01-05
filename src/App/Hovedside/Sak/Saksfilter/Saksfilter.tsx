@@ -18,7 +18,7 @@ const alleVirksomheter = [
         ]
     },
     {
-        name: "NAV", orgnr: "999 911 111", underenheter: [
+        name: "NAV", orgnr: "919 911 111", underenheter: [
             {name: "NAV ENGERDAL", orgnr: "991 311 111"},
             {name: "NAV HØNEBY", orgnr: "991 311 112"},
             {name: "NAV SALTRØD", orgnr: "991 311 113"},
@@ -32,28 +32,31 @@ const alleVirksomheter = [
         ]
     },
     {
-        name: "BB", orgnr: "999 911 199", underenheter: [
+        name: "BB", orgnr: "919 911 199", underenheter: [
             {name: "Bil og båt", orgnr: "991 311 131"},
             {name: "Båt og bil", orgnr: "991 311 140"},
         ]
     },
     {
-        name: "AB", orgnr: "999 911 112", underenheter: [
-            {name: "Bil og båt", orgnr: "991 311 131"},
-            {name: "Båt og bil", orgnr: "991 311 140"},
+        name: "AB", orgnr: "919 911 112", underenheter: [
+            {name: "Bil og båt", orgnr: "991 312 131"},
+            {name: "Båt og bil", orgnr: "991 312 140"},
         ]
     },
 ]
 
 
 export const Saksfilter = () => {
-    const [valgteVirksomheter, setValgteVirksomheter] = useState<Array<Hovedenhet | Underenhet>>([...alleVirksomheter])
+    const [valgteVirksomheter, setValgteVirksomheter] = useState<Array<Hovedenhet | Underenhet>>([
+        {name: "Athea viken", orgnr: "910 456 900",}, {
+        name: "Bergen kommune", orgnr: "910 456 902", underenheter: [
+            {name: "Saltrød og Høneby", orgnr: "999 911 111"},
+            {name: "Bergen kommunehus", orgnr: "999 911 112"},
+        ]
+    },])
 
     const fjernVirksomhet = (virksomhet: Underenhet | Hovedenhet) => {
         setValgteVirksomheter(valgteVirksomheter.filter((i: Underenhet | Hovedenhet) => i !== virksomhet))
-    }
-    const leggtilVirksomhet = (nyeVirksomhet: Array<Underenhet | Hovedenhet>) => {
-        setValgteVirksomheter([...valgteVirksomheter, ...nyeVirksomhet])
     }
 
     function handleChangeTypeSak(val: any[]) {
@@ -63,7 +66,7 @@ export const Saksfilter = () => {
     return <div className="saksfilter">
 
         <Virksomhetsmeny alleVirksomheter={alleVirksomheter} valgteVirksomheter={valgteVirksomheter}
-                         leggtilVirksomhet={leggtilVirksomhet} fjernVirksomhet={fjernVirksomhet}/>
+                         setValgteVirksomheter={setValgteVirksomheter} fjernVirksomhet={fjernVirksomhet}/>
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>
@@ -86,7 +89,8 @@ export const Saksfilter = () => {
             </CheckboxGroup>
         </div>
 
-        <Select label="Periode" hideLabel>
+        <Select label="Periode" hideLabel
+        defaultValue={12}>
             <option value={12}> Siste 12 måneder</option>
         </Select>
     </div>

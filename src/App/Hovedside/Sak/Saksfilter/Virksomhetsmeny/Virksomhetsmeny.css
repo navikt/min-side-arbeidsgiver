@@ -86,7 +86,7 @@
 .virksomheter_virksomhetsmeny_footer {
     display: flex;
     padding: 1rem;
-    gap: 4rem;
+    gap: 1rem;
     border-top: solid 2px var(--a-border-divider);
 }
 

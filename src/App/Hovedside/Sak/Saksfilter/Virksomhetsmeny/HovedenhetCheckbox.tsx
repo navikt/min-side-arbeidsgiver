@@ -2,20 +2,20 @@ import {BodyShort, Button, Checkbox} from "@navikt/ds-react";
 import {Hovedenhet as HovedenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {Collapse, Expand} from "@navikt/ds-icons";
 import React from "react";
-import {forceCheckedEnum, Hovedenhet} from "./Virksomhetsmeny";
 import "./HovedenhetCheckbox.css";
+import {Hovedenhet} from "./Virksomhetsmeny";
 
-export const HovedenhetCheckbox = ({ hovedenhet, forceChecked, setForceChecked, children}: { hovedenhet: Hovedenhet, forceChecked: forceCheckedEnum, setForceChecked: (a: forceCheckedEnum) => void, children: React.ReactNode }) => {
+export const HovedenhetCheckbox = ({ hovedenhet, valgt, children}: { hovedenhet: Hovedenhet, valgt: boolean, children: React.ReactNode }) => {
     const [erApen, setErApen] = React.useState(false);
     return <>
     <div className="hovedenhet_container">
         <div className="hovedenhet">
             <Checkbox
+                value={hovedenhet.orgnr}
                 id={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
                 key={`${hovedenhet.orgnr}_Virksomhetsmeny_list_key`}
                 style={{display: "flex", alignItems: "center"}}
-                checked={forceChecked === forceCheckedEnum.FORCECHECKED ? true : forceChecked === forceCheckedEnum.FORCEUNCHECKED ? false : undefined}
-                onClick={() => setForceChecked(forceCheckedEnum.NOTFORCED)}
+                checked={valgt}
             >
             </Checkbox>
             <label
