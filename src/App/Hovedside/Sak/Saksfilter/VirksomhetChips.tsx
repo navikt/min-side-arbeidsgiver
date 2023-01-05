@@ -17,7 +17,8 @@ export const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:V
         { antallUndervirksomheter !== null ? <Office2 width="1.5rem"/> : <Office1 width="1rem"/> }
         <div className="virksomhetschips_innhold">
             <BodyShort size="medium" className="virksomhetschips_virksomhet">{navn}</BodyShort>
-            <BodyShort size="small">virksomhetsn.nr {orgnr}</BodyShort>
+            <BodyShort size="small">{
+                antallUndervirksomheter !== null ? "org. nr." : "virksomhetsnr."} {orgnr}</BodyShort>
             {antallUndervirksomheter !== null ?
                 <BodyShort size="small"> {antallUndervirksomheter} virksomheter </BodyShort> : null
             }

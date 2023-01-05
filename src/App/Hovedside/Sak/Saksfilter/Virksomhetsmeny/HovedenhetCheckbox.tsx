@@ -5,7 +5,7 @@ import React from "react";
 import "./HovedenhetCheckbox.css";
 import {Hovedenhet} from "./Virksomhetsmeny";
 
-export const HovedenhetCheckbox = ({ hovedenhet, valgt, children}: { hovedenhet: Hovedenhet, valgt: boolean, children: React.ReactNode }) => {
+export const HovedenhetCheckbox = ({ hovedenhet, children}: { hovedenhet: Hovedenhet, children: React.ReactNode }) => {
     const [erApen, setErApen] = React.useState(false);
     return <>
     <div className="hovedenhet_container">
@@ -15,7 +15,6 @@ export const HovedenhetCheckbox = ({ hovedenhet, valgt, children}: { hovedenhet:
                 id={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
                 key={`${hovedenhet.orgnr}_Virksomhetsmeny_list_key`}
                 style={{display: "flex", alignItems: "center"}}
-                checked={valgt}
             >
             </Checkbox>
             <label

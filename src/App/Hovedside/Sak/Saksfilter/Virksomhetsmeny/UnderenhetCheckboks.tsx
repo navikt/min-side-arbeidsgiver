@@ -4,13 +4,12 @@ import { Underenhet} from "./Virksomhetsmeny";
 import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 
 
-export const UnderenhetCheckboks = ({underenhet, valgt}: {underenhet: Underenhet, valgt: boolean}) => {
+export const UnderenhetCheckboks = ({underenhet}: {underenhet: Underenhet}) => {
     return <div className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet">
         <Checkbox
             value={underenhet.orgnr}
             id={`${underenhet.orgnr}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
-            checked={valgt}
         >
 
         </Checkbox>
