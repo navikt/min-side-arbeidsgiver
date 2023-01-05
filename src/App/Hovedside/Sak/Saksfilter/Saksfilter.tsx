@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import "./Saksfilter.css"
 import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
-import {hovedenhet, underenhet, Virksomhetsmeny} from "./Virksomhetsmeny/Virksomhetsmeny";
+import {Hovedenhet, Underenhet, Virksomhetsmeny} from "./Virksomhetsmeny/Virksomhetsmeny";
 
 
 const alleVirksomheter = [
@@ -32,7 +32,13 @@ const alleVirksomheter = [
         ]
     },
     {
-        name: "BB", orgnr: "999 911 112", underenheter: [
+        name: "BB", orgnr: "999 911 199", underenheter: [
+            {name: "Bil og båt", orgnr: "991 311 131"},
+            {name: "Båt og bil", orgnr: "991 311 140"},
+        ]
+    },
+    {
+        name: "AB", orgnr: "999 911 112", underenheter: [
             {name: "Bil og båt", orgnr: "991 311 131"},
             {name: "Båt og bil", orgnr: "991 311 140"},
         ]
@@ -41,13 +47,13 @@ const alleVirksomheter = [
 
 
 export const Saksfilter = () => {
-    const [valgteVirksomheter, setValgteVirksomheter] = useState([...alleVirksomheter])
+    const [valgteVirksomheter, setValgteVirksomheter] = useState<Array<Hovedenhet | Underenhet>>([...alleVirksomheter])
 
-    const fjernVirksomhet = (virksomhet: underenhet | hovedenhet) => {
-        setValgteVirksomheter(valgteVirksomheter.filter((i: underenhet | hovedenhet) => i !== virksomhet))
+    const fjernVirksomhet = (virksomhet: Underenhet | Hovedenhet) => {
+        setValgteVirksomheter(valgteVirksomheter.filter((i: Underenhet | Hovedenhet) => i !== virksomhet))
     }
-    const leggtilVirksomhet = (nyeVirksomhet: Array<underenhet | hovedenhet>) => {
-        // setValgteVirksomheter([...valgteVirksomheter, ...nyeVirksomhet])
+    const leggtilVirksomhet = (nyeVirksomhet: Array<Underenhet | Hovedenhet>) => {
+        setValgteVirksomheter([...valgteVirksomheter, ...nyeVirksomhet])
     }
 
     function handleChangeTypeSak(val: any[]) {

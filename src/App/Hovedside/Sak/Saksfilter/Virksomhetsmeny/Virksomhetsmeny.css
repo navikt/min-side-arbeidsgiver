@@ -19,9 +19,6 @@
     width: 100%;
 }
 
-
-
-
 .virksomheter_virksomhetsmeny {
     position: absolute;
     display: flex;
@@ -35,6 +32,7 @@
     transision: 0.5s border-radius;
     z-index: 10;
 }
+
 .virksomheter_virksomhetsmeny:before {
     content: "";
     position: absolute;
@@ -50,37 +48,51 @@
 
 .virksomheter_virksomhetsmeny_sok {
     display: flex;
+    flex-direction: column;
     padding: 1rem;
     border-bottom: solid 2px var(--a-border-divider);
 }
 
-.virksomheter_virksomhetsmeny_sok_liste {
+.virksomheter_virksomhetsmeny_sok_checkbox {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     gap: 1rem;
-    padding: 1rem;
     overflow-y: scroll;
     height: 100%;
-
+    overflow: auto;
 }
 
-.virksomheter_virksomhetsmeny_sok_liste > li {
-    list-style: none;
+.virksomheter_virksomhetsmeny_sok_checkbox_underenhet {
     display: flex;
-    height: 2rem;
-    border: solid 1px var(--a-border-alt-3);
+    justify-content: start;
+    gap: 0.5rem;
+    padding: 0.5rem 2rem;
+    align-items: center;
+    border-bottom: solid 2px var(--a-border-divider);
 }
 
-.virksomheter_virksomhetsmeny_sok_liste_hovedenhet{
+.virksomheter_virksomhetsmeny_sok_checkbox_underenheter_innhold {
+    display: flex;
+    width: 100%;
+    gap: .5rem;
+    align-items: center;
+}
+
+.virksomheter_virksomhetsmeny_sok_checkbox_underenheter_tekst {
 
 }
 
 .virksomheter_virksomhetsmeny_footer {
     display: flex;
-    justify-content: space-between;
     padding: 1rem;
+    gap: 4rem;
     border-top: solid 2px var(--a-border-divider);
+}
+
+.virksomheter_virksomhetsmeny_footer > button {
+    height: 2rem;
+    width: 7.25rem
 }
 
 .virksomheter_menyknapp:hover {

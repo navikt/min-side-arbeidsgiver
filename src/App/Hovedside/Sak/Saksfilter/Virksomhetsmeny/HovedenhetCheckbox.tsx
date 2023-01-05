@@ -1,0 +1,50 @@
+import {BodyShort, Button, Checkbox} from "@navikt/ds-react";
+import {Hovedenhet as HovedenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
+import {Collapse, Expand} from "@navikt/ds-icons";
+import React from "react";
+import {forceCheckedEnum, Hovedenhet} from "./Virksomhetsmeny";
+import "./HovedenhetCheckbox.css";
+
+export const HovedenhetCheckbox = ({ hovedenhet, forceChecked, setForceChecked, children}: { hovedenhet: Hovedenhet, forceChecked: forceCheckedEnum, setForceChecked: (a: forceCheckedEnum) => void, children: React.ReactNode }) => {
+    const [erApen, setErApen] = React.useState(false);
+    return <>
+    <div className="hovedenhet_container">
+        <div className="hovedenhet">
+            <Checkbox
+                id={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
+                key={`${hovedenhet.orgnr}_Virksomhetsmeny_list_key`}
+                style={{display: "flex", alignItems: "center"}}
+                checked={forceChecked === forceCheckedEnum.FORCECHECKED ? true : forceChecked === forceCheckedEnum.FORCEUNCHECKED ? false : undefined}
+                onClick={() => setForceChecked(forceCheckedEnum.NOTFORCED)}
+            >
+            </Checkbox>
+            <label
+                className="hovedenhet_innhold"
+                htmlFor={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
+            >
+                <HovedenhetIkon/>
+                <div>
+                    <BodyShort size="medium">{hovedenhet.name}</BodyShort>
+                    <BodyShort size="small">Org. nr. {hovedenhet.orgnr}</BodyShort>
+                    <BodyShort size="small">{hovedenhet.underenheter.length} virksomheter</BodyShort>
+                </div>
+            </label>
+
+        </div>
+        <Button
+            variant="tertiary"
+            style={{width: "100%"}}
+            onClick={() => {
+                setErApen(!erApen)
+            }}
+            className="hovedenhet_vis-skjul-container"
+        >
+            <BodyShort
+                size="small"
+                className="hovedenhet_vis-skjul"
+            >{erApen ? <Collapse/> : <Expand/>} {erApen ? "skjul" : "vis"} virksomheter</BodyShort>
+        </Button>
+        </div>
+        {erApen ? children : null}
+    </>
+}
