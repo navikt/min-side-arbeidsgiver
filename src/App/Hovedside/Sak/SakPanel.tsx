@@ -6,6 +6,7 @@ import {useLocation} from "react-router-dom";
 import "./SaksListe.css"
 import OppgaveIkon from "./OppgaveIkon";
 
+
 const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
     month: 'short',
@@ -18,13 +19,17 @@ type SakPanelProps = {
 }
 
 export const SakPanel = ({
-    placeholder,
-    sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp, frister}
-}: SakPanelProps) => {
+        placeholder,
+        sak: {lenke, tittel, virksomhet, sisteStatus, merkelapp, frister, oppgaver}
+    }: SakPanelProps) => {
     const fake = placeholder ?? false
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const {pathname} = useLocation()
     const [frist,] = frister
+    const paminnelse: boolean = oppgaver.some((oppgave: GQL.OppgaveMetadata) =>
+        oppgave.tilstand === GQL.OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null
+    )
+
 
     return <LinkPanel className="sakslenkepanel" href={lenke} as={fake ? 'div' : 'a'} onClick={() => {
         loggNavigasjonTags(lenke, merkelapp, pathname, {component: 'sak'})
@@ -47,7 +52,11 @@ export const SakPanel = ({
             {frist !== undefined &&
                 <div className="saksfrist" style={style}>
                     <OppgaveIkon/>
-                    <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
+                    <div>
+                        {paminnelse ? <BodyShort size="small" className="paminnelse"> Påminnelse </BodyShort> : null}
+                        <BodyShort size="small"> Oppgave
+                            venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
+                    </div>
                 </div>
             }
         </div>

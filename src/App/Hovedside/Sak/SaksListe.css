@@ -40,3 +40,8 @@ ul.saks-liste .sakscontainer .saksfrist {
   white-space: nowrap;
   width: 17rem;
 }
+
+ul.saks-liste .sakscontainer .saksfrist .paminnelse{
+  color: var(--a-red-700);
+  font-weight: 700;
+}
