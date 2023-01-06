@@ -51,9 +51,10 @@ const Saksoversikt = () => {
                 onChange={(e) => {
                     byttFilter({...state.filter, sortering: e.target.value as GQL.SakSortering})
                 }}
+                defaultValue={state.filter.sortering}
             >
                 {sorteringsrekkefølge.map(key => (
-                    <option value={key} selected={state.filter.sortering === key}>
+                    <option key={key} value={key}>
                         {sorteringsnavn[key]}
                     </option>
                 ))}
@@ -123,8 +124,13 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
         window.addEventListener("resize", setSize);
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
+
+    if (state.sider === undefined){
+        return null
+    }
+
     return <Pagination
-        count={state.sider == undefined ? 0 : state.sider}
+        count={state.sider}
         page={state.filter.side}
         siblingCount={width < 560 ? 0 : 1}
         boundaryCount={width < 440 ? 0 : 1}

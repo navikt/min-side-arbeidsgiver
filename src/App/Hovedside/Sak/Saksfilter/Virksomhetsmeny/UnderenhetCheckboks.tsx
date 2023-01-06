@@ -1,4 +1,4 @@
-import {BodyShort, Checkbox} from "@navikt/ds-react";
+import {BodyShort, Checkbox, Label} from "@navikt/ds-react";
 import React from "react";
 import { Underenhet} from "./Virksomhetsmeny";
 import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
@@ -20,8 +20,8 @@ export const UnderenhetCheckboks = ({underenhet}: {underenhet: Underenhet}) => {
             <UnderenhetIkon/>
             <div
                 className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_innhold_tekst">
-                <BodyShort size="small"> {underenhet.name} </BodyShort>
-                <BodyShort> {underenhet.orgnr} </BodyShort>
+                <Label size="small" as="span"> {underenhet.name} </Label>
+                <BodyShort size="small"> {underenhet.orgnr} </BodyShort>
             </div>
         </label>
     </div>

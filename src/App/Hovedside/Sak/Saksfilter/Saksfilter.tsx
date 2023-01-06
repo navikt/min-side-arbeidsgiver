@@ -3,10 +3,9 @@ import "./Saksfilter.css"
 import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
 import {Hovedenhet, Underenhet, Virksomhetsmeny} from "./Virksomhetsmeny/Virksomhetsmeny";
 
-
 const alleVirksomheter = [
     {
-        name: "Athea", orgnr: "123456789", underenheter: [
+        name: "Athea", orgnr: "923456789", underenheter: [
             {name: "Athea viken", orgnr: "910 456 900",},
             {name: "Athea innlandet", orgnr: "910 456 901",},
         ]
@@ -55,10 +54,6 @@ export const Saksfilter = () => {
         ]
     },])
 
-    const fjernVirksomhet = (virksomhet: Underenhet | Hovedenhet) => {
-        setValgteVirksomheter(valgteVirksomheter.filter((i: Underenhet | Hovedenhet) => i !== virksomhet))
-    }
-
     function handleChangeTypeSak(val: any[]) {
         return null
     }
@@ -66,7 +61,7 @@ export const Saksfilter = () => {
     return <div className="saksfilter">
 
         <Virksomhetsmeny alleVirksomheter={alleVirksomheter} valgteVirksomheter={valgteVirksomheter}
-                         setValgteVirksomheter={setValgteVirksomheter} fjernVirksomhet={fjernVirksomhet}/>
+                         setValgteVirksomheter={setValgteVirksomheter} />
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>

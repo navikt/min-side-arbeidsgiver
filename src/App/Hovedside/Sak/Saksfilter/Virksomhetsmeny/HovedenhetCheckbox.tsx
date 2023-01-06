@@ -1,12 +1,12 @@
-import {BodyShort, Button, Checkbox} from "@navikt/ds-react";
+import {BodyShort, Button, Checkbox, Label} from "@navikt/ds-react";
 import {Hovedenhet as HovedenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {Collapse, Expand} from "@navikt/ds-icons";
 import React from "react";
 import "./HovedenhetCheckbox.css";
 import {Hovedenhet} from "./Virksomhetsmeny";
 
-export const HovedenhetCheckbox = ({ hovedenhet, children}: { hovedenhet: Hovedenhet, children: React.ReactNode }) => {
-    const [erApen, setErApen] = React.useState(false);
+export const HovedenhetCheckbox = ({ hovedenhet, defaultÅpen, children}: { hovedenhet: Hovedenhet, defaultÅpen: boolean, children: React.ReactNode }) => {
+    const [erApen, setErApen] = React.useState(defaultÅpen);
     return <>
     <div className="hovedenhet_container">
         <div className="hovedenhet">
@@ -23,7 +23,7 @@ export const HovedenhetCheckbox = ({ hovedenhet, children}: { hovedenhet: Hovede
             >
                 <HovedenhetIkon/>
                 <div>
-                    <BodyShort size="medium">{hovedenhet.name}</BodyShort>
+                    <Label size="medium" as="span">{hovedenhet.name}</Label>
                     <BodyShort size="small">Org. nr. {hovedenhet.orgnr}</BodyShort>
                     <BodyShort size="small">{hovedenhet.underenheter.length} virksomheter</BodyShort>
                 </div>

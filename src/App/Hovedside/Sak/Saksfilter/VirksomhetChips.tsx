@@ -37,7 +37,7 @@ type EkstraChipProp = {
 export const EkstraChip = ({ antall }: EkstraChipProp)  => {
     return <li className="virksomhetschips_extra">
         <div className="virksomhetschips_innhold">
-            <BodyShort size="medium" className="virksomhetschips_virksomhet"> ...+ {antall-7} </BodyShort>
+            <BodyShort size="medium" className="virksomhetschips_virksomhet_ekstra"> ... + {antall-7} </BodyShort>
         </div>
     </li>
 }
