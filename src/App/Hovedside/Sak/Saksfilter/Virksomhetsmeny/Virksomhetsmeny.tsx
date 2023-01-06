@@ -6,7 +6,6 @@ import {EkstraChip, VirksomhetChips} from "../VirksomhetChips";
 import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
 import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
 import * as Record from "../../../../../utils/Record";
-import {boolean} from "zod";
 
 export type Underenhet = {
     name: string,
