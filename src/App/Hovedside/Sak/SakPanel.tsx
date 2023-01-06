@@ -26,7 +26,7 @@ export const SakPanel = ({
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const {pathname} = useLocation()
     const [frist,] = frister
-    const paminnelse = oppgaver.some((oppgave: GQL.OppgaveMetadata) =>
+    const paminnelse: boolean = oppgaver.some((oppgave: GQL.OppgaveMetadata) =>
         oppgave.tilstand === GQL.OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null
     )
 
