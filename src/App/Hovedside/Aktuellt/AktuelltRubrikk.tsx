@@ -50,7 +50,11 @@ export const AktuelltRubrikk = () => {
         currentTime: new Date()
     }))
 
-    return aktuelleVises ? <div className='aktuellt-container'>
+    if (!aktuelleVises) {
+        return null
+    }
+
+    return <div className='aktuellt-container'>
         <Heading size="small" level="2" id='aktuellt-tittel' className='aktuellt-tittel'>
             Aktuellt
         </Heading>
@@ -64,5 +68,5 @@ export const AktuelltRubrikk = () => {
                 <Aktuellt key={tittel} lenke={lenke} tittel={tittel} visFra={visFra} visTil={visTil}/>
             )}
         </div>
-    </div> : null
+    </div>
 }
