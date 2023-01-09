@@ -263,7 +263,7 @@ app.use(
     }),
 );
 
-app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
+app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false, maxAge: '1d' }));
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
     res.redirect(LOGIN_URL);
