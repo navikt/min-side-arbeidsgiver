@@ -5,8 +5,7 @@ import React from "react";
 import "./HovedenhetCheckbox.css";
 import {Hovedenhet} from "./Virksomhetsmeny";
 
-export const HovedenhetCheckbox = ({ hovedenhet, defaultÅpen, children}: { hovedenhet: Hovedenhet, defaultÅpen: boolean, children: React.ReactNode }) => {
-    const [erApen, setErApen] = React.useState(defaultÅpen);
+export const HovedenhetCheckbox = ({ hovedenhet, erÅpen, setErÅpen,  children}: { hovedenhet: Hovedenhet, erÅpen: boolean, setErÅpen: (a: boolean) => void, children: React.ReactNode }) => {
     return <>
     <div className="hovedenhet_container">
         <div className="hovedenhet">
@@ -34,16 +33,16 @@ export const HovedenhetCheckbox = ({ hovedenhet, defaultÅpen, children}: { hove
             variant="tertiary"
             style={{width: "100%"}}
             onClick={() => {
-                setErApen(!erApen)
+                setErÅpen(!erÅpen)
             }}
             className="hovedenhet_vis-skjul-container"
         >
             <BodyShort
                 size="small"
                 className="hovedenhet_vis-skjul"
-            >{erApen ? <Collapse/> : <Expand/>} {erApen ? "skjul" : "vis"} virksomheter</BodyShort>
+            >{erÅpen ? <Collapse/> : <Expand/>} {erÅpen ? "skjul" : "vis"} virksomheter</BodyShort>
         </Button>
         </div>
-        {erApen ? children : null}
+        {erÅpen ? children : null}
     </>
 }

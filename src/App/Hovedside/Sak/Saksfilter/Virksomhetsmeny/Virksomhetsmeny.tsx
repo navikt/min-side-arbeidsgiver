@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react"
+import React, {useRef, useState} from "react"
 import {BodyShort, Button, CheckboxGroup, Search} from "@navikt/ds-react";
 import {Collapse, Expand} from "@navikt/ds-icons";
 import "./Virksomhetsmeny.css"
@@ -43,6 +43,17 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
 }
 
 
+const ekspanderteHovedenheter = (
+    alleVirksomheter: Array<Hovedenhet>,
+    valgteEnheter: Record<string, boolean | undefined>
+) => Record.fromEntries(
+    alleVirksomheter.map(hovedenhet => {
+        return [hovedenhet.orgnr, valgteEnheter[hovedenhet.orgnr] !== true &&
+        hovedenhet.underenheter.some(underenhet => valgteEnheter[underenhet.orgnr] === true)]
+    })
+);
+
+
 export const Virksomhetsmeny = ({
                                     alleVirksomheter,
                                     valgteVirksomheter,
@@ -50,43 +61,34 @@ export const Virksomhetsmeny = ({
                                 }: VirksomhetsmenyProps) => {
 
     const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
-    const [søkeord, setSøkeord] = useState("");
-
-    const filtrerteVirksomheter = useMemo(() => {
-        if (søkeord.length === 0) {
-            return alleVirksomheter;
-        }
-        const flatArrayAlleEnheter = alleVirksomheter.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
-        const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['name', "orgnr"]});
-        const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
-        return alleVirksomheter.map(hovedenhet => {
-            const underenheterResultat = hovedenhet.underenheter.filter(underenhet => fuzzyResultsUnique.has(underenhet));
-            return {
-                ...hovedenhet,
-                underenheter: underenheterResultat
-            }
-        }).filter(hovedenhet => hovedenhet.underenheter.length > 0 || fuzzyResultsUnique.has(hovedenhet));
-    }, [søkeord, alleVirksomheter])
-
-
-    const [valgteEnheter, setValgteEnheter] = React.useState<Record<string, boolean | undefined>>(
+    const [filtrerteVirksomheter, setFiltrerteVirksomheter] = useState(alleVirksomheter);
+    const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
+    const [valgteEnheter, setValgteEnheter] = useState<Record<string, boolean | undefined>>(
         () => {
             const entries: [string, boolean][] = []
             alleVirksomheter.forEach(enhet => {
                 enhet.underenheter.forEach(underenhet => {
                     entries.push([
                         underenhet.orgnr,
-                        valgteVirksomheter.some(org => org.orgnr === underenhet.orgnr || org.orgnr === enhet.orgnr)
+                        valgteVirksomheter.some(org =>
+                            org.orgnr === underenhet.orgnr ||
+                            org.orgnr === enhet.orgnr
+                        )
                     ])
                 })
-                entries.push([enhet.orgnr, valgteVirksomheter.some(org => org.orgnr === enhet.orgnr)])
+                entries.push([enhet.orgnr, valgteVirksomheter.some(
+                    org => org.orgnr === enhet.orgnr
+                )])
             })
             return Record.fromEntries(entries)
         })
-    const virksomhetsmenyRef = React.useRef<HTMLDivElement>(null);
+    const [visAlle, setVisAlle] = useState<Record<string, boolean>>(() =>
+        ekspanderteHovedenheter(alleVirksomheter, valgteEnheter)
+    );
+
     useOnClickOutside(virksomhetsmenyRef, () => oppdaterValgte(valgteEnheter, "lukk"));
 
-    function settAlleTil(valgt: boolean): Record<string, boolean | undefined> {
+    const settAlleTil = (valgt: boolean): Record<string, boolean | undefined> => {
         const entries: [string, boolean][] = []
         alleVirksomheter.forEach(enhet => {
             enhet.underenheter.forEach(underenhet => {
@@ -95,9 +97,13 @@ export const Virksomhetsmeny = ({
             entries.push([enhet.orgnr, valgt])
         })
         return Record.fromEntries(entries)
-    }
+    };
 
-    function oppdaterValgte(valgte: Record<string, boolean | undefined>, commit: "lukk" | "forbliÅpen") {
+
+    const oppdaterValgte = (
+        valgte: Record<string, boolean | undefined>,
+        commit: "lukk" | "forbliÅpen"
+    ) => {
         setValgteEnheter(valgte)
         if (commit === "lukk") {
             setValgteVirksomheter(
@@ -109,6 +115,8 @@ export const Virksomhetsmeny = ({
                     }
                 }))
             setVirksomhetsmenyÅpen(false)
+            setFiltrerteVirksomheter(alleVirksomheter);
+            setVisAlle(ekspanderteHovedenheter(alleVirksomheter, valgte))
         }
     }
 
@@ -131,10 +139,32 @@ export const Virksomhetsmeny = ({
             {virksomhetsmenyÅpen ?
                 <div className="virksomheter_virksomhetsmeny">
                     <div className="virksomheter_virksomhetsmeny_sok">
-                        <Search label="Søk etter virksomhet" variant="simple" onChange={(e) => {
-                            setSøkeord(e)
-                        }}/>
+                        <Search label="Søk etter virksomhet" variant="simple" onChange={(søkeord) => {
+                            if (søkeord.length === 0) {
+                                setFiltrerteVirksomheter(alleVirksomheter);
+                                setVisAlle(ekspanderteHovedenheter(alleVirksomheter, valgteEnheter))
 
+                                return
+                            }
+                            const flatArrayAlleEnheter = alleVirksomheter.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
+                            const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['name', "orgnr"]});
+                            const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
+                            const søksreslutater = alleVirksomheter.map(hovedenhet => {
+                                const underenheterResultat = hovedenhet.underenheter.filter(underenhet => fuzzyResultsUnique.has(underenhet));
+                                return {
+                                    ...hovedenhet,
+                                    underenheter: underenheterResultat
+                                }
+                            }).filter(hovedenhet => hovedenhet.underenheter.length > 0 || fuzzyResultsUnique.has(hovedenhet));
+                            setFiltrerteVirksomheter(søksreslutater);
+                            setVisAlle(() =>
+                                Record.fromEntries(
+                                    alleVirksomheter.map(hovedenhet => {
+                                        return [hovedenhet.orgnr, søksreslutater.some(({orgnr}) => orgnr === hovedenhet.orgnr)]
+                                    })
+                                )
+                            )
+                        }}/>
                     </div>
                     <CheckboxGroup
                         className="virksomheter_virksomhetsmeny_sok_checkbox"
@@ -180,10 +210,10 @@ export const Virksomhetsmeny = ({
                                 <div key={hovedenhet.orgnr}>
                                     <HovedenhetCheckbox
                                         hovedenhet={hovedenhet}
-                                        defaultÅpen={
-                                            valgteEnheter[hovedenhet.orgnr] !== true &&
-                                            hovedenhet.underenheter.some(underenhet => valgteEnheter[underenhet.orgnr] === true)
-                                        }
+                                        erÅpen={visAlle[hovedenhet.orgnr]}
+                                        setErÅpen={(erÅpen) => {
+                                            setVisAlle({...visAlle, [hovedenhet.orgnr]: erÅpen})
+                                        }}
                                     >
                                         {
                                             hovedenhet.underenheter.map((underenhet) =>
