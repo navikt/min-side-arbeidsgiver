@@ -38,7 +38,7 @@ const aktuellt: Array<AktuelltProps> = [
     {
         lenke: "https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyttig-a-vite/lonnstilskudd-far-ny-digital-refusjonslosning-fra-februar",
         tittel: "Lønnstilskudd får ny digital refusjonsløsning fra februar",
-        visFra: new Date('2023-01-09T00:00:00+02:00'),
+        visFra: new Date('2023-01-11T00:00:00+02:00'),
         visTil: new Date('2023-02-08T23:59:59+02:00'),
     },
 ]
