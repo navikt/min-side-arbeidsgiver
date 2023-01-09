@@ -1,17 +1,17 @@
-.aktuellt-container {
+.aktuelt-container {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-bottom: 1rem;
 }
 
-.aktuellt {
+.aktuelt {
   display: flex;
   flex-wrap:wrap;
   width: 60rem;
   gap: 1rem;
 }
 
-.aktuellt-panel {
+.aktuelt-panel {
   flex: 1 1 calc(50% - 1rem);
 }

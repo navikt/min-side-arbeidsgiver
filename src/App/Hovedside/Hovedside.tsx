@@ -19,7 +19,7 @@ import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
 import {useOversiktsfilterClearing} from './Sak/Saksoversikt/useOversiktSessionStorage';
 import {DigiSyfoBedriftsmenyInfo} from "./DigiSyfoBedriftsmenyInfo";
 import {useNavigate} from "react-router-dom";
-import {AktuelltRubrikk} from "./Aktuellt/AktuelltRubrikk";
+import {AktueltRubrikk} from "./Aktuelt/AktueltRubrikk";
 
 
 const Hovedside: FunctionComponent = () => {
@@ -52,7 +52,7 @@ const Hovedside: FunctionComponent = () => {
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
                 <DigiSyfoBedriftsmenyInfo/>
-                <AktuelltRubrikk/>
+                <AktueltRubrikk/>
                 <SisteSaker/>
                 <TjenesteBoksContainer/>
                 <SkjemaveilederContainer/>

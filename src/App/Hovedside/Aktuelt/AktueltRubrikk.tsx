@@ -3,9 +3,9 @@ import React from "react";
 import {loggNavigasjonTags} from "../../../utils/funksjonerForAmplitudeLogging";
 import {DisplayBetween, shouldDisplay} from "../../../GeneriskeElementer/DisplayBetween";
 import {useLocation} from "react-router-dom";
-import "./AktuelltRubrikk.css"
+import "./AktueltRubrikk.css"
 
-type AktuelltProps = {
+type AktueltProps = {
     lenke: string,
     tittel: string,
     visFra: Date,
@@ -18,12 +18,12 @@ const dateFormat = new Intl.DateTimeFormat('no', {
     day: '2-digit',
 });
 
-const Aktuellt = ({lenke, tittel, visFra, visTil}: AktuelltProps) => {
+const Aktuelt = ({lenke, tittel, visFra, visTil}: AktueltProps) => {
     const {pathname} = useLocation()
     return (
         <DisplayBetween showFrom={visFra} showUntil={visTil}>
-            <LinkPanel className="aktuellt-panel" href={lenke} border onClick={() => {
-                loggNavigasjonTags(lenke, tittel, pathname, {component: 'aktuellt'})
+            <LinkPanel className="aktuelt-panel" href={lenke} border onClick={() => {
+                loggNavigasjonTags(lenke, tittel, pathname, {component: 'aktuelt'})
             }}>
                 <LinkPanel.Title>{tittel}</LinkPanel.Title>
                 <LinkPanel.Description>
@@ -34,7 +34,7 @@ const Aktuellt = ({lenke, tittel, visFra, visTil}: AktuelltProps) => {
     );
 };
 
-const aktuellt: Array<AktuelltProps> = [
+const aktuelt: Array<AktueltProps> = [
     {
         lenke: "https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyttig-a-vite/lonnstilskudd-far-ny-digital-refusjonslosning-fra-februar",
         tittel: "Lønnstilskudd får ny digital refusjonsløsning fra februar",
@@ -43,8 +43,8 @@ const aktuellt: Array<AktuelltProps> = [
     },
 ]
 
-export const AktuelltRubrikk = () => {
-    const aktuelleVises = aktuellt.some(({visFra, visTil}) => shouldDisplay({
+export const AktueltRubrikk = () => {
+    const aktuelleVises = aktuelt.some(({visFra, visTil}) => shouldDisplay({
         showFrom: visFra,
         showUntil: visTil,
         currentTime: new Date()
@@ -54,18 +54,18 @@ export const AktuelltRubrikk = () => {
         return null
     }
 
-    return <div className='aktuellt-container'>
-        <Heading size="small" level="2" id='aktuellt-tittel' className='aktuellt-tittel'>
-            Aktuellt
+    return <div className='aktuelt-container'>
+        <Heading size="small" level="2" id='aktuelt-tittel' className='aktuelt-tittel'>
+            Aktuelt
         </Heading>
-        <div className="aktuellt">
-            {aktuellt.map(({
+        <div className="aktuelt">
+            {aktuelt.map(({
                                lenke,
                                tittel,
                                visFra,
                                visTil,
                            }) =>
-                <Aktuellt key={tittel} lenke={lenke} tittel={tittel} visFra={visFra} visTil={visTil}/>
+                <Aktuelt key={tittel} lenke={lenke} tittel={tittel} visFra={visFra} visTil={visTil}/>
             )}
         </div>
     </div>
