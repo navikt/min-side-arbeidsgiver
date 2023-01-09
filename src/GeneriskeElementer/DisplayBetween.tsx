@@ -18,5 +18,5 @@ export const DisplayBetween: FunctionComponent<Props> = (props) => {
         children
     } = props
 
-    return shouldDisplay({showFrom: showFrom, currentTime: currentTime, showUntil: showUntil}) ? <>{children}</> : null
+    return shouldDisplay({showFrom, currentTime, showUntil}) ? <>{children}</> : null
 }
