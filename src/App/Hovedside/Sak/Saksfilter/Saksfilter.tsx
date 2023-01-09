@@ -37,7 +37,7 @@ const alleVirksomheter = [
         ]
     },
     {
-        name: "AB", orgnr: "919 911 112", underenheter: [
+        name: "AB 99", orgnr: "919 911 112", underenheter: [
             {name: "Bil og båt", orgnr: "991 312 131"},
             {name: "Båt og bil", orgnr: "991 312 140"},
         ]
@@ -48,20 +48,17 @@ const alleVirksomheter = [
 export const Saksfilter = () => {
     const [valgteVirksomheter, setValgteVirksomheter] = useState<Array<Hovedenhet | Underenhet>>([
         {name: "Athea viken", orgnr: "910 456 900",}, {
-        name: "Bergen kommune", orgnr: "910 456 902", underenheter: [
-            {name: "Saltrød og Høneby", orgnr: "999 911 111"},
-            {name: "Bergen kommunehus", orgnr: "999 911 112"},
-        ]
-    },])
-
-    function handleChangeTypeSak(val: any[]) {
-        return null
-    }
+            name: "Bergen kommune", orgnr: "910 456 902", underenheter: [
+                {name: "Saltrød og Høneby", orgnr: "999 911 111"},
+                {name: "Bergen kommunehus", orgnr: "999 911 112"},
+            ]
+        },
+    ])
 
     return <div className="saksfilter">
 
         <Virksomhetsmeny alleVirksomheter={alleVirksomheter} valgteVirksomheter={valgteVirksomheter}
-                         setValgteVirksomheter={setValgteVirksomheter} />
+                         setValgteVirksomheter={setValgteVirksomheter}/>
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>
@@ -71,7 +68,9 @@ export const Saksfilter = () => {
         <div className="saksfilter_type-sak">
             <CheckboxGroup
                 legend={<BodyShort className="saksfilter_headers">Type saker</BodyShort>}
-                onChange={(val: any[]) => handleChangeTypeSak(val)}
+                onChange={(val: any[]) => {
+                    null
+                }}
             >
                 <div className={'saksfiler_type-sak_valg_'}>
                     <Checkbox value="Fritak">Fritak arbeidsgiverperiode (4)</Checkbox>
@@ -85,7 +84,7 @@ export const Saksfilter = () => {
         </div>
 
         <Select label="Periode" hideLabel
-        defaultValue={12}>
+                defaultValue={12}>
             <option value={12}> Siste 12 måneder</option>
         </Select>
     </div>

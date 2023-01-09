@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useMemo, useState} from "react"
 import {BodyShort, Button, CheckboxGroup, Search} from "@navikt/ds-react";
 import {Collapse, Expand} from "@navikt/ds-icons";
 import "./Virksomhetsmeny.css"
@@ -6,6 +6,7 @@ import {EkstraChip, VirksomhetChips} from "../VirksomhetChips";
 import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
 import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
 import * as Record from "../../../../../utils/Record";
+import fuzzysort from 'fuzzysort';
 
 export type Underenhet = {
     name: string,
@@ -41,13 +42,33 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
     }, [ref, handler]);
 }
 
+
 export const Virksomhetsmeny = ({
                                     alleVirksomheter,
                                     valgteVirksomheter,
                                     setValgteVirksomheter
                                 }: VirksomhetsmenyProps) => {
 
-    const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = React.useState(false);
+    const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
+    const [søkeord, setSøkeord] = useState("");
+
+    const filtrerteVirksomheter = useMemo(() => {
+        if (søkeord.length === 0) {
+            return alleVirksomheter;
+        }
+        const flatArrayAlleEnheter = alleVirksomheter.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
+        const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['name', "orgnr"]});
+        const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
+        return alleVirksomheter.map(hovedenhet => {
+            const underenheterResultat = hovedenhet.underenheter.filter(underenhet => fuzzyResultsUnique.has(underenhet));
+            return {
+                ...hovedenhet,
+                underenheter: underenheterResultat
+            }
+        }).filter(hovedenhet => hovedenhet.underenheter.length > 0 || fuzzyResultsUnique.has(hovedenhet));
+    }, [søkeord, alleVirksomheter])
+
+
     const [valgteEnheter, setValgteEnheter] = React.useState<Record<string, boolean | undefined>>(
         () => {
             const entries: [string, boolean][] = []
@@ -63,7 +84,7 @@ export const Virksomhetsmeny = ({
             return Record.fromEntries(entries)
         })
     const virksomhetsmenyRef = React.useRef<HTMLDivElement>(null);
-    useOnClickOutside(virksomhetsmenyRef,  () => oppdaterValgte(valgteEnheter, "lukk"));
+    useOnClickOutside(virksomhetsmenyRef, () => oppdaterValgte(valgteEnheter, "lukk"));
 
     function settAlleTil(valgt: boolean): Record<string, boolean | undefined> {
         const entries: [string, boolean][] = []
@@ -108,9 +129,11 @@ export const Virksomhetsmeny = ({
                 {virksomhetsmenyÅpen ? <Collapse/> : <Expand/>}
             </button>
             {virksomhetsmenyÅpen ?
-                <div className="virksomheter_virksomhetsmeny" >
+                <div className="virksomheter_virksomhetsmeny">
                     <div className="virksomheter_virksomhetsmeny_sok">
-                        <Search label="Søk etter virksomhet" variant="simple"/>
+                        <Search label="Søk etter virksomhet" variant="simple" onChange={(e) => {
+                            setSøkeord(e)
+                        }}/>
 
                     </div>
                     <CheckboxGroup
@@ -152,20 +175,24 @@ export const Virksomhetsmeny = ({
 
                         }}
                     >
-                        {alleVirksomheter.map((hovedenhet) =>
-                            <div key={hovedenhet.orgnr}>
-                                <HovedenhetCheckbox hovedenhet={hovedenhet} defaultÅpen={
-                                    valgteEnheter[hovedenhet.orgnr] !== true &&
-                                    hovedenhet.underenheter.some(underenhet => valgteEnheter[underenhet.orgnr] === true)
-                                }>
-                                    {
-                                        hovedenhet.underenheter.map((underenhet) =>
-                                            <UnderenhetCheckboks key={underenhet.orgnr} underenhet={underenhet}/>
-                                        )
-                                    }
-                                </HovedenhetCheckbox>
-                            </div>
-                        )}
+                        {
+                            filtrerteVirksomheter.map((hovedenhet) =>
+                                <div key={hovedenhet.orgnr}>
+                                    <HovedenhetCheckbox
+                                        hovedenhet={hovedenhet}
+                                        defaultÅpen={
+                                            valgteEnheter[hovedenhet.orgnr] !== true &&
+                                            hovedenhet.underenheter.some(underenhet => valgteEnheter[underenhet.orgnr] === true)
+                                        }
+                                    >
+                                        {
+                                            hovedenhet.underenheter.map((underenhet) =>
+                                                <UnderenhetCheckboks key={underenhet.orgnr} underenhet={underenhet}/>
+                                            )
+                                        }
+                                    </HovedenhetCheckbox>
+                                </div>
+                            )}
                     </CheckboxGroup>
                     <div className="virksomheter_virksomhetsmeny_footer">
                         <Button
