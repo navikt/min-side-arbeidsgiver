@@ -24,7 +24,7 @@ const {
     GIT_COMMIT = '?',
     LOGIN_URL = defaultLoginUrl,
     NAIS_CLUSTER_NAME = 'local',
-    BACKEND_API_URL = 'http://localhost:8080',
+    BACKEND_API_URL = 'http://localhost:8180',
     PROXY_LOG_LEVEL = 'info',
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
@@ -211,14 +211,14 @@ app.use(
 app.use(
     '/min-side-arbeidsgiver/api',
     selvbetjeningsCookieAsAuthHeaderMiddleware,
-    tokenXMiddleware(
-    {
-        log: log,
-        audience: {
-            'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
-            'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
-        }[NAIS_CLUSTER_NAME]
-    }),
+    //tokenXMiddleware(
+    //{
+    //    log: log,
+    //    audience: {
+    //        'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
+    //        'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
+    //    }[NAIS_CLUSTER_NAME]
+    //}),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,

@@ -55,3 +55,24 @@ export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
         throw new Error(`Kall til '/min-side-arbeidsgiver/api/organisasjoner' feilet med ${respons.status}:${respons.statusText}`);
     }
 }
+
+const Pushboks = z.object({
+    virksomhetsnummer: z.string(),
+    tjeneste: z.string(),
+    innhold: z.any(),
+});
+const PushboksResponse = z.array(Pushboks);
+export type Pushboks = z.infer<typeof Pushboks>;
+
+export async function hentPushbokser(orgnr: string): Promise<Pushboks[]> {
+    const respons = await fetch(`/min-side-arbeidsgiver/api/pushboks?virksomhetsnummer=${orgnr}`);
+    if (respons.ok) {
+        const data = await respons.json();
+        try {
+            return PushboksResponse.parse(data);
+        } catch (error) {
+            Sentry.captureException(error)
+        }
+    }
+    throw new Error(`Kall til '/min-side-arbeidsgiver/api/pushboks' feilet med ${respons.status}:${respons.statusText}`);
+}
