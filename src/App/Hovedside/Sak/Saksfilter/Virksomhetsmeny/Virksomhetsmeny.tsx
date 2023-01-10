@@ -5,17 +5,22 @@ import "./Virksomhetsmeny.css"
 import {EkstraChip, VirksomhetChips} from "../VirksomhetChips";
 import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
 import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
-import * as Record from "../../../../../utils/Record";
 import fuzzysort from 'fuzzysort';
+import {Hovedenhet} from "../Virksomhetsikoner/Virksomhetsikoner";
 
 export type Underenhet = {
     name: string,
     orgnr: string,
+    valgt: boolean,
+    søkMatch: boolean,
 }
 
 export type Hovedenhet = {
     name: string,
     orgnr: string,
+    valgt: boolean,
+    åpen: boolean,
+    søkMatch: boolean,
     underenheter: Array<Underenhet>,
 }
 
@@ -43,80 +48,75 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
 }
 
 
-const ekspanderteHovedenheter = (
-    alleVirksomheter: Array<Hovedenhet>,
-    valgteEnheter: Record<string, boolean | undefined>
-) => Record.fromEntries(
-    alleVirksomheter.map(hovedenhet => {
-        return [hovedenhet.orgnr, valgteEnheter[hovedenhet.orgnr] !== true &&
-        hovedenhet.underenheter.some(underenhet => valgteEnheter[underenhet.orgnr] === true)]
-    })
-);
-
-
 export const Virksomhetsmeny = ({
                                     alleVirksomheter,
                                     valgteVirksomheter,
                                     setValgteVirksomheter
                                 }: VirksomhetsmenyProps) => {
-
-    const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
-    const [filtrerteVirksomheter, setFiltrerteVirksomheter] = useState(alleVirksomheter);
-    const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
-    const [valgteEnheter, setValgteEnheter] = useState<Record<string, boolean | undefined>>(
-        () => {
-            const entries: [string, boolean][] = []
-            alleVirksomheter.forEach(enhet => {
-                enhet.underenheter.forEach(underenhet => {
-                    entries.push([
-                        underenhet.orgnr,
-                        valgteVirksomheter.some(org =>
-                            org.orgnr === underenhet.orgnr ||
-                            org.orgnr === enhet.orgnr
-                        )
-                    ])
+    const [alleVirksomheterIntern, setAlleVirksomheterIntern] = useState(() =>
+        alleVirksomheter.map(hovedenhet => {
+            return {
+                ...hovedenhet,
+                valgt:
+                    valgteVirksomheter.some(v => v.orgnr === hovedenhet.orgnr) ||
+                    hovedenhet.underenheter.every(underenhet => valgteVirksomheter.some(v => v.orgnr === underenhet.orgnr)),
+                åpen: hovedenhet.underenheter.some(underenhet => valgteVirksomheter.some(v => v.orgnr === underenhet.orgnr)),
+                søkMatch: true,
+                underenheter: hovedenhet.underenheter.map(underenhet => {
+                    return {
+                        ...underenhet,
+                        valgt: valgteVirksomheter.some(v => v.orgnr === hovedenhet.orgnr) || valgteVirksomheter.some(v => v.orgnr === underenhet.orgnr),
+                        søkMatch: true,
+                    }
                 })
-                entries.push([enhet.orgnr, valgteVirksomheter.some(
-                    org => org.orgnr === enhet.orgnr
-                )])
-            })
-            return Record.fromEntries(entries)
+            }
         })
-    const [visAlle, setVisAlle] = useState<Record<string, boolean>>(() =>
-        ekspanderteHovedenheter(alleVirksomheter, valgteEnheter)
     );
 
-    useOnClickOutside(virksomhetsmenyRef, () => oppdaterValgte(valgteEnheter, "lukk"));
+    const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
+    const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
 
-    const settAlleTil = (valgt: boolean): Record<string, boolean | undefined> => {
-        const entries: [string, boolean][] = []
-        alleVirksomheter.forEach(enhet => {
-            enhet.underenheter.forEach(underenhet => {
-                entries.push([underenhet.orgnr, valgt])
-            })
-            entries.push([enhet.orgnr, valgt])
-        })
-        return Record.fromEntries(entries)
-    };
+    useOnClickOutside(virksomhetsmenyRef, () => oppdaterValgte(alleVirksomheterIntern, "lukk"));
 
+    const settAlleTil = (valgt: boolean): Array<Hovedenhet> =>
+        alleVirksomheterIntern.map(hovedenhet => ({
+            ...hovedenhet,
+            valgt: valgt,
+
+            underenheter: hovedenhet.underenheter.map(underenhet => ({
+                ...underenhet,
+                valgt: valgt
+            }))
+        }));
 
     const oppdaterValgte = (
-        valgte: Record<string, boolean | undefined>,
+        valgte: Array<Hovedenhet>,
         commit: "lukk" | "forbliÅpen"
     ) => {
-        setValgteEnheter(valgte)
+
         if (commit === "lukk") {
+            const virksomheter = valgte.flatMap<Underenhet | Hovedenhet>(hovedenhet => {
+                if (hovedenhet.valgt) {
+                    return [hovedenhet]
+                } else {
+                    return hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
+                }
+            });
             setValgteVirksomheter(
-                alleVirksomheter.flatMap<Underenhet | Hovedenhet>(hovedenhet => {
-                    if (valgte[hovedenhet.orgnr] === true) {
-                        return [hovedenhet]
-                    } else {
-                        return hovedenhet.underenheter.filter(underenhet => valgte[underenhet.orgnr])
-                    }
-                }))
+                virksomheter
+            )
             setVirksomhetsmenyÅpen(false)
-            setFiltrerteVirksomheter(alleVirksomheter);
-            setVisAlle(ekspanderteHovedenheter(alleVirksomheter, valgte))
+            setAlleVirksomheterIntern(valgte.map(hovedenhet => ({
+                ...hovedenhet,
+                åpen: hovedenhet.underenheter.some(underenhet => virksomheter.some(v => v.orgnr === underenhet.orgnr)),
+                søkMatch: true,
+                underenheter: hovedenhet.underenheter.map(underenhet => ({
+                    ...underenhet,
+                    søkMatch: true,
+                }))
+            })))
+        } else if (commit === "forbliÅpen") {
+            setAlleVirksomheterIntern(valgte)
         }
     }
 
@@ -127,7 +127,7 @@ export const Virksomhetsmeny = ({
                 className="virksomheter_menyknapp"
                 onClick={() => {
                     if (virksomhetsmenyÅpen) {
-                        oppdaterValgte(valgteEnheter, "lukk")
+                        oppdaterValgte(alleVirksomheterIntern, "lukk")
                     } else {
                         setVirksomhetsmenyÅpen(true)
                     }
@@ -141,29 +141,44 @@ export const Virksomhetsmeny = ({
                     <div className="virksomheter_virksomhetsmeny_sok">
                         <Search label="Søk etter virksomhet" variant="simple" onChange={(søkeord) => {
                             if (søkeord.length === 0) {
-                                setFiltrerteVirksomheter(alleVirksomheter);
-                                setVisAlle(ekspanderteHovedenheter(alleVirksomheter, valgteEnheter))
-
-                                return
-                            }
-                            const flatArrayAlleEnheter = alleVirksomheter.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
-                            const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['name', "orgnr"]});
-                            const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
-                            const søksreslutater = alleVirksomheter.map(hovedenhet => {
-                                const underenheterResultat = hovedenhet.underenheter.filter(underenhet => fuzzyResultsUnique.has(underenhet));
-                                return {
-                                    ...hovedenhet,
-                                    underenheter: underenheterResultat
-                                }
-                            }).filter(hovedenhet => hovedenhet.underenheter.length > 0 || fuzzyResultsUnique.has(hovedenhet));
-                            setFiltrerteVirksomheter(søksreslutater);
-                            setVisAlle(() =>
-                                Record.fromEntries(
-                                    alleVirksomheter.map(hovedenhet => {
-                                        return [hovedenhet.orgnr, søksreslutater.some(({orgnr}) => orgnr === hovedenhet.orgnr)]
-                                    })
+                                console.log("null søkeord")
+                                setAlleVirksomheterIntern(
+                                    alleVirksomheterIntern.map(hovedenhet => {
+                                            return ({
+                                                ...hovedenhet,
+                                                søkMatch: true,
+                                                åpen: hovedenhet.valgt || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
+                                                underenheter: hovedenhet.underenheter.map(underenhet => {
+                                                    return {
+                                                        ...underenhet,
+                                                        søkMatch: true
+                                                    }
+                                                })
+                                            });
+                                        }
+                                    )
                                 )
-                            )
+                            } else {
+                                const flatArrayAlleEnheter = alleVirksomheterIntern.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
+                                const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['name', "orgnr"]});
+                                const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
+                                const søksreslutater = alleVirksomheterIntern.map(hovedenhet => {
+                                    const isOrHasMatch = fuzzyResultsUnique.has(hovedenhet) || hovedenhet.underenheter.some(underenhet => fuzzyResultsUnique.has(underenhet));
+                                    return {
+                                        ...hovedenhet,
+                                        søkMatch: isOrHasMatch,
+                                        åpen: isOrHasMatch || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
+                                        underenheter: hovedenhet.underenheter.map(underenhet => {
+                                            return {
+                                                ...underenhet,
+                                                søkMatch: fuzzyResultsUnique.has(underenhet)
+                                            }
+                                        })
+                                    }
+                                })
+
+                                setAlleVirksomheterIntern(søksreslutater);
+                            }
                         }}/>
                     </div>
                     <CheckboxGroup
@@ -171,63 +186,74 @@ export const Virksomhetsmeny = ({
                         legend="Velg virksomheter"
                         hideLegend
                         value={
-                            Record.mapToArray(valgteEnheter, (orgnr, valgt: boolean | undefined) => {
-                                return (valgt === true) ? [orgnr] : []
-                            }).flat(1)
+                            alleVirksomheterIntern
+                                .flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter])
+                                .filter(enhet => enhet.valgt)
+                                .map(enhet => enhet.orgnr)
                         }
 
                         onChange={(e) => {
-                            setValgteEnheter(
-                                Record.fromEntries(
-                                    alleVirksomheter.flatMap(({orgnr, underenheter}): [string, boolean][] => {
-                                        const hovedenhetValgt = e.includes(orgnr)
-
-                                        if (hovedenhetValgt !== (valgteEnheter[orgnr] === true)) {
-                                            return [
-                                                [orgnr, hovedenhetValgt],
-                                                ...underenheter.map(({orgnr}): [string, boolean] =>
-                                                    [orgnr, hovedenhetValgt]
-                                                )
-                                            ]
-                                        } else {
-                                            return [
-                                                [orgnr, underenheter.every(underenhet =>
-                                                    e.includes(underenhet.orgnr)
-                                                )],
-                                                ...underenheter.map(({orgnr}): [string, boolean] =>
-                                                    [orgnr, e.includes(orgnr)]
-                                                )
-                                            ]
-                                        }
-                                    })
-                                )
-                            )
-
+                            setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
+                                if (e.includes(hovedenhet.orgnr) !== hovedenhet.valgt) {
+                                    return {
+                                        ...hovedenhet,
+                                        valgt: e.includes(hovedenhet.orgnr),
+                                        underenheter: hovedenhet.underenheter.map((underenhet) =>
+                                            ({
+                                                ...underenhet,
+                                                valgt: e.includes(hovedenhet.orgnr)
+                                            })
+                                        )
+                                    }
+                                } else {
+                                    return {
+                                        ...hovedenhet,
+                                        valgt: hovedenhet.underenheter.every(underenhet => e.includes(underenhet.orgnr)),
+                                        underenheter: hovedenhet.underenheter.map((underenhet) =>
+                                            ({
+                                                ...underenhet,
+                                                valgt: e.includes(underenhet.orgnr)
+                                            })
+                                        )
+                                    }
+                                }
+                            }))
                         }}
                     >
                         {
-                            filtrerteVirksomheter.map((hovedenhet) =>
-                                <div key={hovedenhet.orgnr}>
-                                    <HovedenhetCheckbox
-                                        hovedenhet={hovedenhet}
-                                        erÅpen={visAlle[hovedenhet.orgnr]}
-                                        setErÅpen={(erÅpen) => {
-                                            setVisAlle({...visAlle, [hovedenhet.orgnr]: erÅpen})
-                                        }}
-                                    >
-                                        {
-                                            hovedenhet.underenheter.map((underenhet) =>
-                                                <UnderenhetCheckboks key={underenhet.orgnr} underenhet={underenhet}/>
-                                            )
-                                        }
-                                    </HovedenhetCheckbox>
-                                </div>
+                            alleVirksomheterIntern.map((hovedenhet) => {
+                                    console.log(hovedenhet)
+                                    return hovedenhet.søkMatch ?
+                                        <div key={hovedenhet.orgnr}>
+                                            <HovedenhetCheckbox
+                                                hovedenhet={hovedenhet}
+                                                erÅpen={hovedenhet.åpen}
+                                                toggleÅpen={() => {
+                                                    setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhetIntern => {
+                                                            return {
+                                                                ...hovedenhetIntern,
+                                                                åpen: hovedenhetIntern.orgnr === hovedenhet.orgnr ? !hovedenhetIntern.åpen : hovedenhetIntern.åpen
+                                                            }
+                                                        }
+                                                    ))
+                                                }}
+                                            >
+                                                {
+                                                    hovedenhet.underenheter.map((underenhet) =>
+                                                        underenhet.søkMatch ? <UnderenhetCheckboks key={underenhet.orgnr}
+                                                                                                   underenhet={underenhet}/> : null
+                                                    )
+                                                }
+                                            </HovedenhetCheckbox>
+                                        </div> :
+                                        null;
+                                }
                             )}
                     </CheckboxGroup>
                     <div className="virksomheter_virksomhetsmeny_footer">
                         <Button
                             onClick={() => {
-                                oppdaterValgte(valgteEnheter, "lukk")
+                                oppdaterValgte(alleVirksomheterIntern, "lukk")
                             }}
                         > Velg
                         </Button>
@@ -259,18 +285,28 @@ export const Virksomhetsmeny = ({
                         orgnr={virksomhet.orgnr}
                         antallUndervirksomheter={"underenheter" in virksomhet ? virksomhet.underenheter?.length : null}
                         onLukk={() => {
-                            const tilstandUtenVirksomhet = Record.map(valgteEnheter, (orgnr, valgt) => {
-                                if (orgnr === virksomhet.orgnr) {
-                                    return false
+                            const tilstandUtenVirksomhet = alleVirksomheterIntern.map(hovedenhet => {
+                                if (hovedenhet.orgnr === virksomhet.orgnr) {
+                                    return {
+                                        ...hovedenhet,
+                                        valgt: false,
+                                        underenheter: hovedenhet.underenheter.map(underenhet => ({
+                                            ...underenhet,
+                                            valgt: false
+                                        }))
+                                    }
                                 } else {
-                                    return valgt
+                                    return {
+                                        ...hovedenhet,
+                                        underenheter: hovedenhet.underenheter.map(underenhet =>
+                                            underenhet.orgnr === virksomhet.orgnr ?
+                                                {...underenhet, valgt: false} :
+                                                underenhet
+                                        )
+                                    }
                                 }
-                            })
-                            if ("underenheter" in virksomhet) {
-                                virksomhet.underenheter.forEach(underenhet => {
-                                    tilstandUtenVirksomhet[underenhet.orgnr] = false
-                                })
-                            }
+
+                            });
                             oppdaterValgte(tilstandUtenVirksomhet, "lukk")
                         }}
                     />

@@ -5,7 +5,7 @@ import React from "react";
 import "./HovedenhetCheckbox.css";
 import {Hovedenhet} from "./Virksomhetsmeny";
 
-export const HovedenhetCheckbox = ({ hovedenhet, erÅpen, setErÅpen,  children}: { hovedenhet: Hovedenhet, erÅpen: boolean, setErÅpen: (a: boolean) => void, children: React.ReactNode }) => {
+export const HovedenhetCheckbox = ({ hovedenhet, erÅpen, toggleÅpen,  children}: { hovedenhet: Hovedenhet, erÅpen: boolean, toggleÅpen: () => void, children: React.ReactNode }) => {
     return <>
     <div className="hovedenhet_container">
         <div className="hovedenhet">
@@ -33,7 +33,7 @@ export const HovedenhetCheckbox = ({ hovedenhet, erÅpen, setErÅpen,  children}
             variant="tertiary"
             style={{width: "100%"}}
             onClick={() => {
-                setErÅpen(!erÅpen)
+                toggleÅpen()
             }}
             className="hovedenhet_vis-skjul-container"
         >
