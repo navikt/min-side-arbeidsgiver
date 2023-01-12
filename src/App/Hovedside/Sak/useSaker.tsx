@@ -1,12 +1,13 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
-import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { Query } from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
 import { Filter } from './Saksoversikt/Filter';
 
+type SakerResultat = Pick<Query, "saker">
 
-const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
+const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
     query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
         saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
             saker {
