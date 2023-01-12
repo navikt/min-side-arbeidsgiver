@@ -16,20 +16,20 @@ export const HovedenhetCheckbox = ({
         <div className="hovedenhet_container">
             <div className="hovedenhet">
                 <Checkbox
-                    value={hovedenhet.orgnr}
-                    id={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
-                    key={`${hovedenhet.orgnr}_Virksomhetsmeny_list_key`}
+                    value={hovedenhet.OrganizationNumber}
+                    id={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
+                    key={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_list_key`}
                     style={{display: "flex", alignItems: "center"}}
                 >
                 </Checkbox>
                 <label
                     className="hovedenhet_innhold"
-                    htmlFor={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
+                    htmlFor={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
                 >
                     <HovedenhetIkon/>
                     <div>
-                        <Label size="medium" as="span">{hovedenhet.name}</Label>
-                        <BodyShort size="small">Org. nr. {hovedenhet.orgnr}</BodyShort>
+                        <Label size="medium" as="span">{hovedenhet.Name}</Label>
+                        <BodyShort size="small">Org. nr. {hovedenhet.OrganizationNumber}</BodyShort>
                         <BodyShort size="small">{hovedenhet.underenheter.length} virksomheter</BodyShort>
                     </div>
                 </label>

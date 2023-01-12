@@ -2,10 +2,8 @@ import React, {useState} from "react";
 import "./Saksfilter.css"
 import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
 import {
-    Hovedenhet,
     Organisasjon,
     OrganisasjonEnhet,
-    Underenhet,
     Virksomhetsmeny
 } from "./Virksomhetsmeny/Virksomhetsmeny";
 
@@ -146,9 +144,8 @@ export const Saksfilter = () => {
     ])
 
     return <div className="saksfilter">
-
         <Virksomhetsmeny organisasjonstre={alleVirksomheterToMock} valgteEnheter={valgteVirksomheter}
-                         settValgteEnheter={setValgteVirksomheter}/>
+                         settValgteEnheter={setValgteVirksomheter} />
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>

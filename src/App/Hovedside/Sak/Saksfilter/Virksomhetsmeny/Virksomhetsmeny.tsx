@@ -12,6 +12,7 @@ export type Props = {
     organisasjonstre: OrganisasjonEnhet[],
     valgteEnheter: Organisasjon[] | "ALLEBEDRIFTER",
     settValgteEnheter: (enheter: Organisasjon[] | "ALLEBEDRIFTER") => void,
+    juridiskEnhetEkspandert?: boolean,
 }
 
 export type OrganisasjonEnhet = {
@@ -27,47 +28,52 @@ export type Organisasjon = {
     Status: string,
     ParentOrganizationNumber: string | null,
 }
-
-//Todo: Skal juridisk enhet kunne velges? Kan juridisk enhet være et element i valgteEnheter?
-export const Virksomhetsmeny = ({organisasjonstre, valgteEnheter, settValgteEnheter}: Props) => {
-    const alleVirksomheter = organisasjonstre.map(({juridiskEnhet, organisasjoner}): Hovedenhet => {
-        const juridiskEnhetValgt = valgteEnheter === "ALLEBEDRIFTER" || valgteEnheter.some(v => v.OrganizationNumber === juridiskEnhet.OrganizationNumber)
-        return {
-            name: juridiskEnhet.Name,
-            orgnr: juridiskEnhet.OrganizationNumber,
-            valgt: juridiskEnhetValgt ||
-                organisasjoner.every(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)),
-            åpen: !juridiskEnhetValgt &&
-                organisasjoner.some(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)),
-            søkMatch: true,
-            underenheter: organisasjoner.map(({Name, OrganizationNumber}): Underenhet => {
-                return {
-                    name: Name,
-                    orgnr: OrganizationNumber,
-                    valgt: juridiskEnhetValgt || valgteEnheter.some((valgtEnhet) => OrganizationNumber === valgtEnhet.OrganizationNumber),
-                    søkMatch: true,
-                }
-            })
-        }
-    })
-    const alleUnderenheter = organisasjonstre.flatMap(({organisasjoner}) => organisasjoner)
+/**
+ *
+ * @param organisasjonstre
+ * @param valgteEnheter
+ * @param settValgteEnheter
+ * @param juridiskEnhetEkspandert Default 'true', vil styre om det skal sendes
+ * kun organisasjoner/underenheter til valgteEnheter. Ved å velge 'false', vil juridisk enhet sendes uten at
+ * tilhørende organisasjoner hentes ut eksplisitt.
+ * @constructor
+ */
+export const Virksomhetsmeny = ({organisasjonstre, valgteEnheter, settValgteEnheter, juridiskEnhetEkspandert = true}: Props) => {
+    const alleVirksomheter = organisasjonstre
+        .map(({juridiskEnhet, organisasjoner}): Hovedenhet => {
+            const juridiskEnhetValgt = valgteEnheter === "ALLEBEDRIFTER" ||
+                valgteEnheter.some(v => v.OrganizationNumber === juridiskEnhet.OrganizationNumber)
+            return {
+                ...juridiskEnhet,
+                valgt: juridiskEnhetValgt ||
+                    organisasjoner.every(underenhet =>
+                        valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)
+                    ),
+                åpen: !juridiskEnhetValgt &&
+                    organisasjoner.some(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)),
+                søkMatch: true,
+                underenheter: organisasjoner.map((organisasjon): Underenhet => {
+                    return {
+                        ...organisasjon,
+                        valgt: juridiskEnhetValgt || valgteEnheter.some((valgtEnhet) => organisasjon.OrganizationNumber === valgtEnhet.OrganizationNumber),
+                        søkMatch: true,
+                    }
+                })
+            }
+        })
 
     const handlesettValgteEnheter = (valgteEnheter: Array<Underenhet | Hovedenhet>) => {
-        const alleHovedenheterValgt = organisasjonstre.every(({juridiskEnhet}) =>
-            valgteEnheter.some(valgtEnhet => juridiskEnhet.OrganizationNumber === valgtEnhet.orgnr)
-        )
-
+        const hovedenheterValgt = valgteEnheter.filter(ve => "underenheter" in ve)
+        const alleHovedenheterValgt = hovedenheterValgt.length === organisasjonstre.length
         if (alleHovedenheterValgt) {
             settValgteEnheter("ALLEBEDRIFTER")
             return
         }
-
-        settValgteEnheter(valgteEnheter.flatMap((valgtEnhet): Organisasjon[] => {
-            const juridiskEnhet = organisasjonstre.find(({juridiskEnhet}) => juridiskEnhet.OrganizationNumber === valgtEnhet.orgnr)
-            if (juridiskEnhet !== undefined) {
-                return juridiskEnhet.organisasjoner
-            } else {
-                return alleUnderenheter.filter(underenhet => underenhet.OrganizationNumber === valgtEnhet.orgnr)
+        settValgteEnheter(valgteEnheter.flatMap( enhet => {
+            if ("underenheter" in enhet){
+                return juridiskEnhetEkspandert ? enhet.underenheter : [enhet]
+            }else{
+                return [enhet]
             }
         }))
     }
@@ -76,16 +82,12 @@ export const Virksomhetsmeny = ({organisasjonstre, valgteEnheter, settValgteEnhe
 }
 
 
-export type Underenhet = {
-    name: string,
-    orgnr: string,
+export interface Underenhet extends Organisasjon {
     valgt: boolean,
     søkMatch: boolean,
 }
 
-export type Hovedenhet = {
-    name: string,
-    orgnr: string,
+export interface Hovedenhet extends Organisasjon {
     valgt: boolean,
     åpen: boolean,
     søkMatch: boolean,
@@ -165,7 +167,9 @@ const VirksomhetsmenyIntern = ({
             setVirksomhetsmenyÅpen(false)
             setAlleVirksomheterIntern(valgte.map(hovedenhet => ({
                 ...hovedenhet,
-                åpen: hovedenhet.underenheter.some(underenhet => virksomheter.some(v => v.orgnr === underenhet.orgnr)),
+                åpen: hovedenhet.underenheter.some(underenhet =>
+                    virksomheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)
+                ),
                 søkMatch: true,
                 underenheter: hovedenhet.underenheter.map(underenhet => ({
                     ...underenhet,
@@ -216,7 +220,7 @@ const VirksomhetsmenyIntern = ({
                                 )
                             } else {
                                 const flatArrayAlleEnheter = alleVirksomheterIntern.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
-                                const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['name', "orgnr"]});
+                                const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['Name', "OrganizationNumber"]});
                                 const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
                                 const søksreslutater = alleVirksomheterIntern.map(hovedenhet => {
                                     const isOrHasMatch = fuzzyResultsUnique.has(hovedenhet) || hovedenhet.underenheter.some(underenhet => fuzzyResultsUnique.has(underenhet));
@@ -245,30 +249,30 @@ const VirksomhetsmenyIntern = ({
                             alleVirksomheterIntern
                                 .flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter])
                                 .filter(enhet => enhet.valgt)
-                                .map(enhet => enhet.orgnr)
+                                .map(enhet => enhet.OrganizationNumber)
                         }
 
                         onChange={(e) => {
                             setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
-                                if (e.includes(hovedenhet.orgnr) !== hovedenhet.valgt) {
+                                if (e.includes(hovedenhet.OrganizationNumber) !== hovedenhet.valgt) {
                                     return {
                                         ...hovedenhet,
-                                        valgt: e.includes(hovedenhet.orgnr),
+                                        valgt: e.includes(hovedenhet.OrganizationNumber),
                                         underenheter: hovedenhet.underenheter.map((underenhet) =>
                                             ({
                                                 ...underenhet,
-                                                valgt: e.includes(hovedenhet.orgnr)
+                                                valgt: e.includes(hovedenhet.OrganizationNumber)
                                             })
                                         )
                                     }
                                 } else {
                                     return {
                                         ...hovedenhet,
-                                        valgt: hovedenhet.underenheter.every(underenhet => e.includes(underenhet.orgnr)),
+                                        valgt: hovedenhet.underenheter.every(underenhet => e.includes(underenhet.OrganizationNumber)),
                                         underenheter: hovedenhet.underenheter.map((underenhet) =>
                                             ({
                                                 ...underenhet,
-                                                valgt: e.includes(underenhet.orgnr)
+                                                valgt: e.includes(underenhet.OrganizationNumber)
                                             })
                                         )
                                     }
@@ -279,7 +283,7 @@ const VirksomhetsmenyIntern = ({
                         {
                             alleVirksomheterIntern.map((hovedenhet) => {
                                     return hovedenhet.søkMatch ?
-                                        <div key={hovedenhet.orgnr}>
+                                        <div key={hovedenhet.OrganizationNumber}>
                                             <HovedenhetCheckbox
                                                 hovedenhet={hovedenhet}
                                                 erÅpen={hovedenhet.åpen}
@@ -287,7 +291,7 @@ const VirksomhetsmenyIntern = ({
                                                     setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhetIntern => {
                                                             return {
                                                                 ...hovedenhetIntern,
-                                                                åpen: hovedenhetIntern.orgnr === hovedenhet.orgnr ? !hovedenhetIntern.åpen : hovedenhetIntern.åpen
+                                                                åpen: hovedenhetIntern.OrganizationNumber === hovedenhet.OrganizationNumber ? !hovedenhetIntern.åpen : hovedenhetIntern.åpen
                                                             }
                                                         }
                                                     ))
@@ -295,7 +299,7 @@ const VirksomhetsmenyIntern = ({
                                             >
                                                 {
                                                     hovedenhet.underenheter.map((underenhet) =>
-                                                        underenhet.søkMatch ? <UnderenhetCheckboks key={underenhet.orgnr}
+                                                        underenhet.søkMatch ? <UnderenhetCheckboks key={underenhet.OrganizationNumber}
                                                                                                    underenhet={underenhet}/> : null
                                                     )
                                                 }
@@ -335,13 +339,13 @@ const VirksomhetsmenyIntern = ({
             {valgteVirksomheter.map((virksomhet, indeks) =>
                 indeks < 7 ?
                     <VirksomhetChips
-                        key={virksomhet.orgnr}
-                        navn={virksomhet.name}
-                        orgnr={virksomhet.orgnr}
+                        key={virksomhet.OrganizationNumber}
+                        navn={virksomhet.Name}
+                        orgnr={virksomhet.OrganizationNumber}
                         antallUndervirksomheter={"underenheter" in virksomhet ? virksomhet.underenheter?.length : null}
                         onLukk={() => {
                             const tilstandUtenVirksomhet = alleVirksomheterIntern.map(hovedenhet => {
-                                if (hovedenhet.orgnr === virksomhet.orgnr) {
+                                if (hovedenhet.OrganizationNumber === virksomhet.OrganizationNumber) {
                                     return {
                                         ...hovedenhet,
                                         valgt: false,
@@ -354,7 +358,7 @@ const VirksomhetsmenyIntern = ({
                                     return {
                                         ...hovedenhet,
                                         underenheter: hovedenhet.underenheter.map(underenhet =>
-                                            underenhet.orgnr === virksomhet.orgnr ?
+                                            underenhet.OrganizationNumber === virksomhet.OrganizationNumber ?
                                                 {...underenhet, valgt: false} :
                                                 underenhet
                                         )

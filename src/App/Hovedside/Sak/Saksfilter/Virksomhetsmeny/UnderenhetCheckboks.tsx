@@ -7,21 +7,21 @@ import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikon
 export const UnderenhetCheckboks = ({underenhet}: {underenhet: Underenhet}) => {
     return <div className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet">
         <Checkbox
-            value={underenhet.orgnr}
-            id={`${underenhet.orgnr}_UnderenhetCheckbox_id`}
+            value={underenhet.OrganizationNumber}
+            id={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
         >
 
         </Checkbox>
         <label
-            htmlFor={`${underenhet.orgnr}_UnderenhetCheckbox_id`}
+            htmlFor={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_innhold"
         >
             <UnderenhetIkon/>
             <div
                 className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_innhold_tekst">
-                <Label size="small" as="span"> {underenhet.name} </Label>
-                <BodyShort size="small"> {underenhet.orgnr} </BodyShort>
+                <Label size="small" as="span"> {underenhet.Name} </Label>
+                <BodyShort size="small"> {underenhet.OrganizationNumber} </BodyShort>
             </div>
         </label>
     </div>
