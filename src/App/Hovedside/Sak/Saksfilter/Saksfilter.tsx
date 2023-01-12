@@ -1,64 +1,154 @@
 import React, {useState} from "react";
 import "./Saksfilter.css"
 import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
-import {Hovedenhet, Underenhet, Virksomhetsmeny} from "./Virksomhetsmeny/Virksomhetsmeny";
+import {
+    Hovedenhet,
+    Organisasjon,
+    OrganisasjonEnhet,
+    Underenhet,
+    Virksomhetsmeny
+} from "./Virksomhetsmeny/Virksomhetsmeny";
 
-const alleVirksomheter: Array<Hovedenhet> = [
+const OrganisasjonerResponse: Organisasjon[] = [
     {
-        name: "Athea", orgnr: "923456789", valgt: false, søkMatch: false, åpen: false, underenheter: [
-            {name: "Athea viken", orgnr: "910 456 900", valgt: false, søkMatch: false,},
-            {name: "Athea innlandet", orgnr: "910 456 901", valgt: false, søkMatch: false,},
-        ]
+        Name: 'En Juridisk Ehhet AS',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '874611111',
+        OrganizationForm: 'AS',
+        Status: 'Active',
     },
     {
-        name: "Bergen kommune", orgnr: "910 456 902", valgt: false, åpen: false, søkMatch: false, underenheter: [
-            {name: "Saltrød og Høneby", valgt: false, søkMatch: false, orgnr: "999 911 111"},
-            {name: "Bergen kommunehus", valgt: false, søkMatch: false, orgnr: "999 911 112"},
-        ]
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '811011112',
+        ParentOrganizationNumber: '811011111',
+        OrganizationForm: 'AAFY',
+        Status: 'Active',
     },
     {
-        name: "NAV", orgnr: "919 911 111", valgt: false, åpen: false, søkMatch: false, underenheter: [
-            {name: "NAV ENGERDAL", valgt: false, søkMatch: false, orgnr: "991 311 111"},
-            {name: "NAV HØNEBY", valgt: false, søkMatch: false, orgnr: "991 311 112"},
-            {name: "NAV SALTRØD", valgt: false, søkMatch: false, orgnr: "991 311 113"},
-            {name: "NAV SØR-ODAL", valgt: false, søkMatch: false, orgnr: "991 311 114"},
-            {name: "NAV VEST-ODAL", valgt: false, søkMatch: false, orgnr: "991 311 115"},
-            {name: "NAV ØST-ODAL", valgt: false, søkMatch: false, orgnr: "991 311 116"},
-            {name: "NAV ÅS", valgt: false, søkMatch: false, orgnr: "991 311 117"},
-            {name: "NAV ÅSANE", valgt: false, søkMatch: false, orgnr: "991 311 118"},
-            {name: "NAV ÅSERAL", valgt: false, søkMatch: false, orgnr: "991 311 119"},
-            {name: "NAV ÅSUNDSBRED", valgt: false, søkMatch: false, orgnr: "991 311 120"},
-        ]
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '811011111',
+        OrganizationForm: 'FLI',
+        Status: 'Active',
     },
     {
-        name: "BB", valgt: false, søkMatch: false, åpen: false, orgnr: "919 911 199", underenheter: [
-            {name: "Bil og båt", valgt: false, søkMatch: false, orgnr: "991 311 131"},
-            {name: "Båt og bil", orgnr: "991 311 140", valgt: false, søkMatch: false},
-        ]
+        Name: 'TEST AV AAFY ',
+        Type: 'Business',
+        OrganizationNumber: '973611111',
+        ParentOrganizationNumber: '971311111',
+        OrganizationForm: 'AAFY',
+        Status: 'Active',
     },
     {
-        name: "AB 99", orgnr: "919 911 112", valgt: false, åpen: false, søkMatch: false, underenheter: [
-            {name: "Bil og båt", orgnr: "991 312 131", valgt: false, søkMatch: false},
-            {name: "Båt og bil", orgnr: "991 312 140", valgt: false, søkMatch: false},
-        ]
+        Name: 'NAV ENGERDAL',
+        Type: 'Business',
+        ParentOrganizationNumber: '874611111',
+        OrganizationNumber: '991311111',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
     },
-]
+    {
+        Name: 'NAV HAMAR',
+        Type: 'Business',
+        ParentOrganizationNumber: '874611111',
+        OrganizationNumber: '990211111',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'BJØRNØYA OG ROVDE REVISJON',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '810911111',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'ARENDAL OG BØNES REVISJON',
+        Type: 'Business',
+        ParentOrganizationNumber: '810911111',
+        OrganizationNumber: '810911121',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'GRAVDAL OG SOLLIA REVISJON',
+        Type: 'Business',
+        ParentOrganizationNumber: '810911111',
+        OrganizationNumber: '910911111',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
+        Name: 'STORFOSNA OG FREDRIKSTAD REGNSKAP',
+        Type: 'Business',
+        ParentOrganizationNumber: '910811111',
+        OrganizationNumber: '910811311',
+        OrganizationForm: 'AAFY',
+        Status: 'Active',
+    },
+    {
+        Name: 'TRANØY OG SANDE I VESTFOLD REGNSKAP',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: '',
+        OrganizationNumber: '919811111',
+        OrganizationForm: 'FLI',
+        Status: 'Active',
+    },
+    {
+        Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: '',
+        OrganizationNumber: '910811111',
+        OrganizationForm: 'AS',
+        Status: 'Active',
+    },
+    {
+        Name: 'SALTRØD OG HØNEBY',
+        Type: 'Business',
+        OrganizationNumber: '999911111',
+        ParentOrganizationNumber: '919811111',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    }
+];
+
+const alleVirksomheterToMock: OrganisasjonEnhet[] = OrganisasjonerResponse
+    .filter((hovedenhet) => ([null, "", undefined] as any[]).includes(hovedenhet.ParentOrganizationNumber))
+    .map(hovedenhet => ({
+        juridiskEnhet: hovedenhet,
+        organisasjoner: OrganisasjonerResponse.filter(underenhet => underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber)
+    })
+)
 
 
 export const Saksfilter = () => {
-    const [valgteVirksomheter, setValgteVirksomheter] = useState<Array<Hovedenhet | Underenhet>>([
-        {name: "Athea viken", orgnr: "910 456 900", valgt: true, søkMatch: true}, {
-            name: "Bergen kommune", orgnr: "910 456 902", valgt: true, søkMatch: true, underenheter: [
-                {name: "Saltrød og Høneby", orgnr: "999 911 111", valgt: true, søkMatch: true},
-                {name: "Bergen kommunehus", orgnr: "999 911 112", valgt: true, søkMatch: true},
-            ]
+    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">([
+        {
+            Name: 'BJØRNØYA OG ROVDE REVISJON',
+            Type: 'Enterprise',
+            ParentOrganizationNumber: null,
+            OrganizationNumber: '810911111',
+            OrganizationForm: 'AS',
+            Status: 'Active',
+        },
+        {
+            Name: 'BALLSTAD OG HAMARØY',
+            Type: 'Business',
+            OrganizationNumber: '811011112',
+            ParentOrganizationNumber: '811011111',
+            OrganizationForm: 'AAFY',
+            Status: 'Active',
         },
     ])
 
     return <div className="saksfilter">
 
-        <Virksomhetsmeny alleVirksomheter={alleVirksomheter} valgteVirksomheter={valgteVirksomheter}
-                         setValgteVirksomheter={setValgteVirksomheter}/>
+        <Virksomhetsmeny organisasjonstre={alleVirksomheterToMock} valgteEnheter={valgteVirksomheter}
+                         settValgteEnheter={setValgteVirksomheter}/>
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>
