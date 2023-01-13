@@ -49,9 +49,15 @@
   },
   "devDependencies": {
     "cookie-parser": "*",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "@graphql-codegen/cli": "^2.13.1",
+    "@graphql-codegen/typescript": "^2.7.3",
+    "@graphql-codegen/typescript-operations": "^2.5.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3"
   },
   "scripts": {
+    "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphql ./bruker.graphql",
+    "gql:generate": "graphql-codegen",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
