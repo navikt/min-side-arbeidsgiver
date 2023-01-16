@@ -81,7 +81,7 @@ export const loggBedriftValgtOgTilganger = async (
 
     let tilgangskombinasjon = '';
 
-    if (org.altinntilgang.pam) {
+    if (org.altinntilgang.rekruttering) {
         tilgangskombinasjon += 'arbeidsplassen ';
     }
     if (org.altinntilgang.iaweb) {

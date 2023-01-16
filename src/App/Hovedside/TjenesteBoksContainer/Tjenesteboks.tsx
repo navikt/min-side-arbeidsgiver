@@ -10,17 +10,19 @@ interface Props{
 }
 
 export const Tjenesteboks:FC<Props> = (props) =>
-    <div className="tjenesteboks-innhold">
-        <TjenesteBoksBanner tittel={props.tittel} imgsource={props.ikon} altTekst=""/>
-        <LenkepanelMedLogging
-            loggLenketekst={props.tittel}
-            href={props.href}
-            aria-label={props["aria-label"]}
-            border={false}
-            className={"tjenesteboks__lenkepanel"}
-        >
-            {props.children}
-        </LenkepanelMedLogging>
+    <div className='tjenesteboks'>
+        <div className="tjenesteboks-innhold">
+            <TjenesteBoksBanner tittel={props.tittel} imgsource={props.ikon} altTekst=""/>
+            <LenkepanelMedLogging
+                loggLenketekst={props.tittel}
+                href={props.href}
+                aria-label={props["aria-label"]}
+                border={false}
+                className={"tjenesteboks__lenkepanel"}
+            >
+                {props.children}
+            </LenkepanelMedLogging>
+        </div>
     </div>;
 
 

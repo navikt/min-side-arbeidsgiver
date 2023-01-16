@@ -49,6 +49,7 @@
 }
 .saksoversik__saksliste-header,
 .saksoversik__saksliste-footer {
+  min-height: 3rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

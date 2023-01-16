@@ -1,10 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent} from 'react';
 
 interface Props {
     showFrom: Date,
     showUntil: Date,
     currentTime?: Date
 }
+
+export const shouldDisplay = (
+    {showFrom, currentTime, showUntil}: { showFrom: Date, currentTime: Date, showUntil: Date }
+) => showFrom <= currentTime && currentTime < showUntil;
 
 export const DisplayBetween: FunctionComponent<Props> = (props) => {
     const {
@@ -14,5 +18,5 @@ export const DisplayBetween: FunctionComponent<Props> = (props) => {
         children
     } = props
 
-    return (showFrom <= currentTime && currentTime < showUntil) ? <>{children}</> : null
+    return shouldDisplay({showFrom, currentTime, showUntil}) ? <>{children}</> : null
 }
