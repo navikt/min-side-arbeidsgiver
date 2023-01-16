@@ -1,27 +1,47 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useContext, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
 import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
 import {BodyShort, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {useSaker} from '../useSaker';
 import {SaksListe} from '../SaksListe';
 import {Alerts} from '../../../Alerts/Alerts';
-import amplitude from '../../../../utils/amplitude';
 import {useOversiktStateTransitions} from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
 import {Filter} from './Filter';
 import {OmSaker} from '../OmSaker';
 import {gittMiljo} from '../../../../utils/environment';
 import {Saksfilter} from "../Saksfilter/Saksfilter";
+import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
+import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
+import * as Record from "../../../../utils/Record";
+import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
 
 export const SIDE_SIZE = 30;
 
 export const Saksoversikt = () => {
     const {state, byttFilter} = useOversiktStateTransitions()
 
+    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
+    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">(() =>
+        orgs.filter(org => valgtOrganisasjon?.organisasjon.OrganizationNumber === org.OrganizationNumber)
+    );
+
+//TODO AlleBedrifter..
+    const handleValgteVirksomheter = (orgs: Organisasjon[] | "ALLEBEDRIFTER") => {
+        setValgteVirksomheter(orgs)
+        byttFilter({...state.filter, virksomhetsnumre: orgs === "ALLEBEDRIFTER" ? [] : orgs.map( org => org.OrganizationNumber)})
+    }
+
     return <div className="saksoversikt__innhold">
-        <Saksfilter/>
+        <Saksfilter
+            organisasjoner={orgs}
+            valgteVirksomheter={valgteVirksomheter}
+            setValgteVirksomheter={handleValgteVirksomheter}
+        />
         <div className='saksoversikt'>
             <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
             <Alerts/>

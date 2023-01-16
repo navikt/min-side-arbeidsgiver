@@ -8,8 +8,8 @@ import { Filter } from './Saksoversikt/Filter';
 type SakerResultat = Pick<Query, "saker">
 
 const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
-    query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
+    query hentSaker($virksomhetsnumre: [String!]!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
+        saker(virksomhetsnumre: $virksomhetsnumre, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -39,10 +39,10 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
 
 export function useSaker(
     pageSize: number,
-    {side, tekstsoek, virksomhetsnummer, sortering}: Filter,
+    {side, tekstsoek, virksomhetsnumre, sortering}: Filter,
 ) {
     const variables = {
-        virksomhetsnummer: virksomhetsnummer,
+        virksomhetsnumre: virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
         sortering: sortering,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
@@ -54,13 +54,13 @@ export function useSaker(
     })
 
     useEffect(() => {
-        if (virksomhetsnummer !== null && side !== undefined) {
+        if (virksomhetsnumre !== null && side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);
         }
 
-    }, [virksomhetsnummer, tekstsoek, side, sortering])
+    }, [virksomhetsnumre, tekstsoek, side, sortering])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 

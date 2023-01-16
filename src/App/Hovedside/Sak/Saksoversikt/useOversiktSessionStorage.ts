@@ -48,7 +48,7 @@ const extractSeachParameters = (searchString: string): Filter => {
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
     return {
-        virksomhetsnummer: search.get("bedrift") ?? '',
+        virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? [],
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(GQL.SakSortering).includes(sortering) ? sortering : GQL.SakSortering.Oppdatert
@@ -71,8 +71,8 @@ const updateSearchParameters = (current: string, sessionState: Filter): string =
         query.set("side", sessionState.side.toString())
     }
 
-    if (sessionState.virksomhetsnummer !== undefined) {
-        query.set("bedrift", sessionState.virksomhetsnummer)
+    if (sessionState.virksomhetsnumre !== undefined) {
+        query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
     }
 
     if (sessionState.sortering === GQL.SakSortering.Oppdatert) {

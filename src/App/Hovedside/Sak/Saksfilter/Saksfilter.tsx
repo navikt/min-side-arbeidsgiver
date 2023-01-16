@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import "./Saksfilter.css"
 import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
 import {
@@ -7,144 +7,25 @@ import {
     Virksomhetsmeny
 } from "./Virksomhetsmeny/Virksomhetsmeny";
 
-const OrganisasjonerResponse: Organisasjon[] = [
-    {
-        Name: 'En Juridisk Ehhet AS',
-        Type: 'Enterprise',
-        ParentOrganizationNumber: null,
-        OrganizationNumber: '874611111',
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'BALLSTAD OG HAMARØY',
-        Type: 'Business',
-        OrganizationNumber: '811011112',
-        ParentOrganizationNumber: '811011111',
-        OrganizationForm: 'AAFY',
-        Status: 'Active',
-    },
-    {
-        Name: 'BALLSTAD OG HORTEN',
-        Type: 'Enterprise',
-        ParentOrganizationNumber: null,
-        OrganizationNumber: '811011111',
-        OrganizationForm: 'FLI',
-        Status: 'Active',
-    },
-    {
-        Name: 'TEST AV AAFY ',
-        Type: 'Business',
-        OrganizationNumber: '973611111',
-        ParentOrganizationNumber: '971311111',
-        OrganizationForm: 'AAFY',
-        Status: 'Active',
-    },
-    {
-        Name: 'NAV ENGERDAL',
-        Type: 'Business',
-        ParentOrganizationNumber: '874611111',
-        OrganizationNumber: '991311111',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
-        Name: 'NAV HAMAR',
-        Type: 'Business',
-        ParentOrganizationNumber: '874611111',
-        OrganizationNumber: '990211111',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
-        Name: 'BJØRNØYA OG ROVDE REVISJON',
-        Type: 'Enterprise',
-        ParentOrganizationNumber: null,
-        OrganizationNumber: '810911111',
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'ARENDAL OG BØNES REVISJON',
-        Type: 'Business',
-        ParentOrganizationNumber: '810911111',
-        OrganizationNumber: '810911121',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
-        Name: 'GRAVDAL OG SOLLIA REVISJON',
-        Type: 'Business',
-        ParentOrganizationNumber: '810911111',
-        OrganizationNumber: '910911111',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    },
-    {
-        Name: 'STORFOSNA OG FREDRIKSTAD REGNSKAP',
-        Type: 'Business',
-        ParentOrganizationNumber: '910811111',
-        OrganizationNumber: '910811311',
-        OrganizationForm: 'AAFY',
-        Status: 'Active',
-    },
-    {
-        Name: 'TRANØY OG SANDE I VESTFOLD REGNSKAP',
-        Type: 'Enterprise',
-        ParentOrganizationNumber: '',
-        OrganizationNumber: '919811111',
-        OrganizationForm: 'FLI',
-        Status: 'Active',
-    },
-    {
-        Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
-        Type: 'Enterprise',
-        ParentOrganizationNumber: '',
-        OrganizationNumber: '910811111',
-        OrganizationForm: 'AS',
-        Status: 'Active',
-    },
-    {
-        Name: 'SALTRØD OG HØNEBY',
-        Type: 'Business',
-        OrganizationNumber: '999911111',
-        ParentOrganizationNumber: '919811111',
-        OrganizationForm: 'BEDR',
-        Status: 'Active',
-    }
-];
 
-const alleVirksomheterToMock: OrganisasjonEnhet[] = OrganisasjonerResponse
-    .filter((hovedenhet) => ([null, "", undefined] as any[]).includes(hovedenhet.ParentOrganizationNumber))
-    .map(hovedenhet => ({
-        juridiskEnhet: hovedenhet,
-        organisasjoner: OrganisasjonerResponse.filter(underenhet => underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber)
-    })
-)
+const alleVirksomheterToOrganisasjonstre = (Organisasjonsliste: Organisasjon[]) => {
+    return Organisasjonsliste
+        .filter((hovedenhet) => ([null, "", undefined] as any[]).includes(hovedenhet.ParentOrganizationNumber))
+        .map(hovedenhet => ({
+            juridiskEnhet: hovedenhet,
+            organisasjoner: Organisasjonsliste.filter(underenhet => underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber)
+        }) as OrganisasjonEnhet)
+}
 
+type SaksfilterProps = {
+    valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
+    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
+    organisasjoner: Organisasjon[];
+}
 
-export const Saksfilter = () => {
-    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">([
-        {
-            Name: 'BJØRNØYA OG ROVDE REVISJON',
-            Type: 'Enterprise',
-            ParentOrganizationNumber: null,
-            OrganizationNumber: '810911111',
-            OrganizationForm: 'AS',
-            Status: 'Active',
-        },
-        {
-            Name: 'BALLSTAD OG HAMARØY',
-            Type: 'Business',
-            OrganizationNumber: '811011112',
-            ParentOrganizationNumber: '811011111',
-            OrganizationForm: 'AAFY',
-            Status: 'Active',
-        },
-    ])
-
+export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: SaksfilterProps) => {
     return <div className="saksfilter">
-        <Virksomhetsmeny organisasjonstre={alleVirksomheterToMock} valgteEnheter={valgteVirksomheter}
+        <Virksomhetsmeny organisasjonstre={alleVirksomheterToOrganisasjonstre(organisasjoner)} valgteEnheter={valgteVirksomheter}
                          settValgteEnheter={setValgteVirksomheter} />
 
         <div className="saksfilter_søk-sak">

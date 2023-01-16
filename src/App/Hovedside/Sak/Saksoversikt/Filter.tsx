@@ -6,7 +6,7 @@ import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomhetsnummer: string | undefined,
+    virksomhetsnumre: string[],
     sortering: GQL.SakSortering,
 }
 
@@ -18,16 +18,17 @@ export type FilterProps = {
 export const equalFilter = (a:Filter, b:Filter): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
-    a.virksomhetsnummer === b.virksomhetsnummer &&
+    a.virksomhetsnumre.length === b.virksomhetsnumre.length &&
+    a.virksomhetsnumre.every(virksomhetsnummer => b.virksomhetsnumre.includes(virksomhetsnummer))  &&
     a.sortering === b.sortering
 
 
 export const Filter = ({filter, onChange}: FilterProps) => {
     const searchElem = useRef<HTMLInputElement>(null)
 
-    useVirksomhetsnummer(virksomhetsnummer => {
-        onChange({...filter, virksomhetsnummer})
-    })
+    // useVirksomhetsnummer(virksomhetsnummer => {
+    //     onChange({...filter, virksomhetsnumre})
+    // })
 
     useEffect(() => {
         if (searchElem.current) {
