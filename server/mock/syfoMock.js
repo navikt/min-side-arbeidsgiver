@@ -5,10 +5,10 @@ module.exports = {
                 res.send([
                     {
                         organisasjon: {
-                            OrganizationNumber: "999911111",
+                            OrganizationNumber: "999999999",
                             Name: "Saltrød og Høneby",
                             Type: "Business",
-                            ParentOrganizationNumber: "910811111",
+                            ParentOrganizationNumber: "121488424",
                             OrganizationForm: "BEDR",
                             Status: "Active",
                         },
@@ -16,7 +16,7 @@ module.exports = {
                     },
                     {
                         organisasjon: {
-                            OrganizationNumber: "910811111",
+                            OrganizationNumber: "121488424",
                             Name: "BIRTAVARRE OG VÆRLANDET FORELDER",
                             Type: "Enterprise",
                             ParentOrganizationNumber: null,
@@ -29,8 +29,8 @@ module.exports = {
                         organisasjon: {
                             Name: "BALLSTAD OG HAMARØY",
                             OrganizationForm: "AAFY",
-                            OrganizationNumber: "811011111",
-                            ParentOrganizationNumber : "811011111",
+                            OrganizationNumber: "182345674",
+                            ParentOrganizationNumber : "118345674",
                             Status: "Active",
                             Type: "Business",
                         },
@@ -41,7 +41,7 @@ module.exports = {
                             Name: "BALLSTAD OG HORTEN",
                             Type: "Enterprise",
                             ParentOrganizationNumber: null,
-                            OrganizationNumber: "811011111",
+                            OrganizationNumber: "118345674",
                             OrganizationForm: "FLI",
                             Status: "Active"
                         },
