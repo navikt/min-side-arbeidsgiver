@@ -37,5 +37,6 @@
     width:1rem;
     color: var(--a-text-default);
     pointer-events: none;
+    aria-hidden: true;
 }
 

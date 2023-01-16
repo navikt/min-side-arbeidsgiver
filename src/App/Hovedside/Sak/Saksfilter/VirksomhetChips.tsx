@@ -1,8 +1,8 @@
 import React from "react";
 import "./VirksomhetChips.css"
-import {Hovedenhet, Underenhet} from "./Virksomhetsikoner/Virksomhetsikoner";
 import {BodyShort, Button} from "@navikt/ds-react";
-import {Close, Office1, Office2} from "@navikt/ds-icons";
+import {Close} from "@navikt/ds-icons";
+import {Hovedenhet, Underenhet} from "./Virksomhetsikoner/Virksomhetsikoner";
 
 
 type VirksomhetChipsProp = {
@@ -14,7 +14,7 @@ type VirksomhetChipsProp = {
 
 export const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:VirksomhetChipsProp) => {
     return <li className="virksomhetschips">
-        { antallUndervirksomheter !== null ? <Office2 width="1.5rem"/> : <Office1 width="1rem"/> }
+        { antallUndervirksomheter !== null ? <Hovedenhet/> : <Underenhet/> }
         <div className="virksomhetschips_innhold">
             <BodyShort size="medium" className="virksomhetschips_virksomhet">{navn}</BodyShort>
             <BodyShort size="small">{
@@ -26,7 +26,7 @@ export const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:V
         <Button
             onClick={ () => onLukk() }
             variant="tertiary" className="virksomhetschips_lukkeknapp">
-            <Close/>
+            <Close title={ `fjern ${navn}` }/>
         </Button>
     </li>
 }

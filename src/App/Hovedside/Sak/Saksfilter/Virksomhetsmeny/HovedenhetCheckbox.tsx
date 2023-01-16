@@ -47,7 +47,7 @@ export const HovedenhetCheckbox = ({
                         <BodyShort
                             size="small"
                             className="hovedenhet_vis-skjul"
-                        >{erÅpen ? <Collapse/> : <Expand/>} {erÅpen ? "skjul" : "vis"} virksomheter</BodyShort>
+                        >{erÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>} {erÅpen ? "skjul" : "vis"} virksomheter</BodyShort>
                     </Button>
                     : null
             }

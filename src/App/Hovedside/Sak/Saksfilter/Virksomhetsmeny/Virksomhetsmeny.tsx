@@ -20,6 +20,7 @@ export type OrganisasjonEnhet = {
     organisasjoner: Organisasjon[]
 }
 
+
 export type Organisasjon = {
     Name: string,
     Type: string,
@@ -195,7 +196,7 @@ const VirksomhetsmenyIntern = ({
                 }}
             >
                 <BodyShort> Velg virksomheter </BodyShort>
-                {virksomhetsmenyÅpen ? <Collapse/> : <Expand/>}
+                {virksomhetsmenyÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
             </button>
             {virksomhetsmenyÅpen ?
                 <div className="virksomheter_virksomhetsmeny">
