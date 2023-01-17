@@ -4,7 +4,7 @@ module.exports = {
             '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": "973611111",
+                    "organisasjonsnummer": req.params.orgnr,
                     "navn": "Upopulær Dyreflokk",
                     "organisasjonsform": {
                         "kode": "BEDR",
@@ -49,10 +49,10 @@ module.exports = {
                     },
                     "_links": {
                         "self": {
-                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/883811111"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/151488454"
                         },
                         "overordnetEnhet": {
-                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/818711111"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/181488484"
                         }
                     }
                 });
@@ -62,7 +62,7 @@ module.exports = {
             '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/:orgnr',
             (req, res) => {
                 res.send({
-                    "organisasjonsnummer": "818711111",
+                    "organisasjonsnummer": req.params.orgnr,
                     "navn": "Presentabel Bygning",
                     "organisasjonsform": {
                         "kode": "AS",
@@ -116,7 +116,7 @@ module.exports = {
                     "maalform": "Bokmål",
                     "_links": {
                         "self": {
-                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/818711111"
+                            "href": "/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/181488484"
                         }
                     }
                 });
