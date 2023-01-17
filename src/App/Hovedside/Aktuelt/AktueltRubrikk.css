@@ -7,8 +7,7 @@
 
 .aktuelt {
   display: flex;
-  flex-wrap:wrap;
-  width: 60rem;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
