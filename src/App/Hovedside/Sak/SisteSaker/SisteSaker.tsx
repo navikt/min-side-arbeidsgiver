@@ -19,7 +19,7 @@ const SisteSaker = () => {
 
     const {loading, data} = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomhetsnumre: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon.OrganizationNumber],
+        virksomhetsnumre: valgtOrganisasjon === undefined ? undefined : [valgtOrganisasjon.organisasjon.OrganizationNumber],
         tekstsoek: "",
         sortering: GQL.SakSortering.Oppdatert,
     })

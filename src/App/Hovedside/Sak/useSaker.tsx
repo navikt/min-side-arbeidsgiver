@@ -49,18 +49,24 @@ export function useSaker(
         limit: pageSize
     }
 
-    const [fetchSaker, {loading, data, previousData}] = useLazyQuery(HENT_SAKER,  {
+    const [fetchSaker, {loading, data, error, previousData}] = useLazyQuery(HENT_SAKER,  {
         variables
     })
 
     useEffect(() => {
-        if (virksomhetsnumre !== null && side !== undefined) {
+        if (error) {
+            Sentry.captureException(error)
+            return
+        }
+
+        // TODO. hva når? virksomhetsnumre === []
+        if (virksomhetsnumre !== undefined && side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);
         }
 
-    }, [virksomhetsnumre, tekstsoek, side, sortering])
+    }, [virksomhetsnumre, tekstsoek, side, sortering, error])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 
