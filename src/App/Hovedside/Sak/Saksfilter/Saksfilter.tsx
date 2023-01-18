@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactElement} from "react";
 import "./Saksfilter.css"
 import {
     BodyShort,
@@ -8,31 +8,11 @@ import {
     Select
 } from "@navikt/ds-react";
 import {
-    Organisasjon,
-    OrganisasjonEnhet,
+    Organisasjon, OrganisasjonEnhet,
     Virksomhetsmeny
 } from "./Virksomhetsmeny/Virksomhetsmeny";
+import {byggOrganisasjonstre} from "./ByggOrganisasjonstre";
 
-
-const erHovedenhet = (organisasjon: Organisasjon): boolean =>
-    !(organisasjon.OrganizationNumber === "") &&
-    (organisasjon.Type === 'Enterprise' || organisasjon.OrganizationForm === 'FLI');
-
-const erUnderenhet = (organisasjon: Organisasjon): boolean =>
-    !(organisasjon.OrganizationNumber === "")
-    && ['BEDR', 'AAFY'].includes(organisasjon.OrganizationForm);
-
-
-const alleVirksomheterToOrganisasjonstre = (Organisasjonsliste: Organisasjon[]) => {
-    return Organisasjonsliste
-        .filter(erHovedenhet)
-        .map(hovedenhet => ({
-            juridiskEnhet: hovedenhet,
-            organisasjoner: Organisasjonsliste
-                .filter(erUnderenhet)
-                .filter(organisasjon => organisasjon.ParentOrganizationNumber === hovedenhet.OrganizationNumber)
-        }) as OrganisasjonEnhet)
-}
 
 type SaksfilterProps = {
     valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
@@ -40,10 +20,32 @@ type SaksfilterProps = {
     organisasjoner: Organisasjon[];
 }
 
-export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: SaksfilterProps) => {
-    console.log(organisasjoner)
-    return <div className="saksfilter">
-        <Virksomhetsmeny organisasjonstre={alleVirksomheterToOrganisasjonstre(organisasjoner)}
+type FooProps = {
+    valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
+    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
+    organisasjoner: OrganisasjonEnhet[];
+}
+
+export const Saksfilter = ({
+                               valgteVirksomheter,
+                               setValgteVirksomheter,
+                               organisasjoner
+                           }: SaksfilterProps): ReactElement => {
+
+    byggOrganisasjonstre(organisasjoner)
+        .then(
+            (organisasjonstre) => {
+                return <Foo organisasjoner={organisasjonstre} valgteVirksomheter={valgteVirksomheter}
+                            setValgteVirksomheter={setValgteVirksomheter}/>
+            }
+        ).catch(e => {
+        return <div>Feil ved henting av organisasjoner</div>
+    });
+    return <></>
+}
+const Foo = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: FooProps) =>
+    <div className="saksfilter">
+        <Virksomhetsmeny organisasjonstre={organisasjoner}
                          valgteEnheter={valgteVirksomheter}
                          settValgteEnheter={setValgteVirksomheter}/>
 
@@ -75,4 +77,4 @@ export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisas
             <option value={12}> Siste 12 måneder</option>
         </Select>
     </div>
-}
+
