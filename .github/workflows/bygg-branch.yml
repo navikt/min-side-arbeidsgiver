@@ -7,7 +7,7 @@ on:
       - '!master'
 
 env:
-  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api
+  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver
 
 jobs:
   bygg:
