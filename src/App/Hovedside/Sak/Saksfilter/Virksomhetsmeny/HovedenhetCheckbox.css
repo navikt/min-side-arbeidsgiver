@@ -7,7 +7,7 @@
 
 .hovedenhet{
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     padding: .5rem 1rem;
     align-items: center;
 }
