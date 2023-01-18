@@ -59,14 +59,13 @@ export function useSaker(
             return
         }
 
-        // TODO. hva når? virksomhetsnumre === []
         if (virksomhetsnumre !== undefined && side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);
         }
 
-    }, [virksomhetsnumre, tekstsoek, side, sortering, error])
+    }, [JSON.stringify(virksomhetsnumre), tekstsoek, side, sortering, error])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 

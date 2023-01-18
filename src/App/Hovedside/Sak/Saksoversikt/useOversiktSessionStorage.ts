@@ -71,6 +71,12 @@ const updateSearchParameters = (current: string, sessionState: Filter): string =
         query.set("side", sessionState.side.toString())
     }
 
+    // @ts-ignore #backwardscompat: henter sessionState.virksomhetsnummer. Kan fjernes etterhvert
+    if (sessionState.virksomhetsnummer !== undefined) {
+        // @ts-ignore
+        query.set("virksomhetsnumre", sessionState.virksomhetsnummer)
+    }
+
     if (sessionState.virksomhetsnumre !== undefined) {
         query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
     }

@@ -1,7 +1,6 @@
 import React, {FC, useContext, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
-import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
-import {BodyShort, Pagination, Select} from '@navikt/ds-react';
+import {BodyShort, Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {SaksListe} from '../SaksListe';
@@ -26,14 +25,20 @@ export const Saksoversikt = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
-    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">(() =>
-        orgs.filter(org => valgtOrganisasjon?.organisasjon.OrganizationNumber === org.OrganizationNumber)
-    );
+    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">();
 
-//TODO AlleBedrifter..
-    const handleValgteVirksomheter = (orgs: Organisasjon[] | "ALLEBEDRIFTER") => {
-        setValgteVirksomheter(orgs)
-        byttFilter({...state.filter, virksomhetsnumre: orgs === "ALLEBEDRIFTER" ? [] : orgs.map( org => org.OrganizationNumber)})
+    const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
+        setValgteVirksomheter(valgte)
+        byttFilter({...state.filter, virksomhetsnumre: (valgte === "ALLEBEDRIFTER" ? orgs : valgte).map(org => org.OrganizationNumber)})
+    }
+
+    if (!valgtOrganisasjon) {
+        return null;
+    }
+
+    if (valgteVirksomheter === undefined) {
+        handleValgteVirksomheter(orgs.filter(org => valgtOrganisasjon?.organisasjon.OrganizationNumber === org.OrganizationNumber))
+        return null;
     }
 
     return <div className="saksoversikt__innhold">
@@ -42,26 +47,32 @@ export const Saksoversikt = () => {
             valgteVirksomheter={valgteVirksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}
         />
-        <div className='saksoversikt'>
-            <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
-            <Alerts/>
-            <div className="saksoversikt__header">
-                <Filter filter={state.filter} onChange={byttFilter}/>
-                <VelgSortering state={state} byttFilter={byttFilter}/>
+        {(state.filter.virksomhetsnumre?.length === 0)
+            ? <div className='saksoversikt-empty'>
+                <Heading level="2" size="large">
+                    Velg virksomhet for å se saker
+                </Heading>
             </div>
+            : <div className='saksoversikt'>
+                <Alerts/>
+                <div className="saksoversikt__header">
+                    <Filter filter={state.filter} onChange={byttFilter}/>
+                    <VelgSortering state={state} byttFilter={byttFilter}/>
+                </div>
 
-            <div className="saksoversik__saksliste-header">
-                <StatusLine state={state}/>
-                <Sidevelger state={state} byttFilter={byttFilter}/>
+                <div className="saksoversikt__saksliste-header">
+                    <StatusLine state={state}/>
+                    <Sidevelger state={state} byttFilter={byttFilter}/>
+                </div>
+
+                <SaksListeBody state={state}/>
+
+                <div className="saksoversikt__saksliste-footer">
+                    <HvaVisesHer/>
+                    <Sidevelger state={state} byttFilter={byttFilter}/>
+                </div>
             </div>
-
-            <SaksListeBody state={state}/>
-
-            <div className="saksoversik__saksliste-footer">
-                <HvaVisesHer/>
-                <Sidevelger state={state} byttFilter={byttFilter}/>
-            </div>
-        </div>
+        }
     </div>
 };
 
@@ -89,6 +100,7 @@ type VelgSorteringProps = {
 
 const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) =>
     <Select
+        value={state.filter.sortering}
         className="saksoversikt__sortering"
         label="Sorter på"
         onChange={(e) => {
@@ -96,9 +108,7 @@ const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) =>
         }}
     >
         {sorteringsrekkefølge.map(key => (
-            <option value={key} selected={state.filter.sortering === key}>
-                {sorteringsnavn[key]}
-            </option>
+            <option key={key} value={key}>{sorteringsnavn[key]}</option>
         ))}
     </Select>
 
