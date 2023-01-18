@@ -1,6 +1,12 @@
 import React from "react";
 import "./Saksfilter.css"
-import {BodyShort, Checkbox, CheckboxGroup, Search, Select} from "@navikt/ds-react";
+import {
+    BodyShort,
+    Checkbox,
+    CheckboxGroup,
+    Search,
+    Select
+} from "@navikt/ds-react";
 import {
     Organisasjon,
     OrganisasjonEnhet,
@@ -8,12 +14,23 @@ import {
 } from "./Virksomhetsmeny/Virksomhetsmeny";
 
 
+const erHovedenhet = (organisasjon: Organisasjon): boolean =>
+    !(organisasjon.OrganizationNumber === "") &&
+    (organisasjon.Type === 'Enterprise' || organisasjon.OrganizationForm === 'FLI');
+
+const erUnderenhet = (organisasjon: Organisasjon): boolean =>
+    !(organisasjon.OrganizationNumber === "")
+    && ['BEDR', 'AAFY'].includes(organisasjon.OrganizationForm);
+
+
 const alleVirksomheterToOrganisasjonstre = (Organisasjonsliste: Organisasjon[]) => {
     return Organisasjonsliste
-        .filter((hovedenhet) => ([null, "", undefined] as any[]).includes(hovedenhet.ParentOrganizationNumber))
+        .filter(erHovedenhet)
         .map(hovedenhet => ({
             juridiskEnhet: hovedenhet,
-            organisasjoner: Organisasjonsliste.filter(underenhet => underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber)
+            organisasjoner: Organisasjonsliste
+                .filter(erUnderenhet)
+                .filter(organisasjon => organisasjon.ParentOrganizationNumber === hovedenhet.OrganizationNumber)
         }) as OrganisasjonEnhet)
 }
 
@@ -24,9 +41,11 @@ type SaksfilterProps = {
 }
 
 export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: SaksfilterProps) => {
+    console.log(organisasjoner)
     return <div className="saksfilter">
-        <Virksomhetsmeny organisasjonstre={alleVirksomheterToOrganisasjonstre(organisasjoner)} valgteEnheter={valgteVirksomheter}
-                         settValgteEnheter={setValgteVirksomheter} />
+        <Virksomhetsmeny organisasjonstre={alleVirksomheterToOrganisasjonstre(organisasjoner)}
+                         valgteEnheter={valgteVirksomheter}
+                         settValgteEnheter={setValgteVirksomheter}/>
 
         <div className="saksfilter_søk-sak">
             <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>
