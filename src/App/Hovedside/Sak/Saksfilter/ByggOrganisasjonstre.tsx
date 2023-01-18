@@ -23,10 +23,9 @@ export async function byggOrganisasjonstre(
 
     const hovedenhetersOrgnr = new Set(hovedenheter.map(enhet => enhet.OrganizationNumber));
     const manglendeHovedenheterOrgnr = underenheter
-        .filter(org => !hovedenhetersOrgnr.has(org.ParentOrganizationNumber as string))
-        .map(org => org.ParentOrganizationNumber);
+        .map(org => org.ParentOrganizationNumber)
+        .filter((ParentOrganizationNumber): ParentOrganizationNumber is string => ParentOrganizationNumber !== null && !hovedenhetersOrgnr.has(ParentOrganizationNumber))
 
-    // @ts-ignore
     hovedenheter.push(... await hentAlleJuridiskeEnheter(manglendeHovedenheterOrgnr))
 
     const resultat = hovedenheter

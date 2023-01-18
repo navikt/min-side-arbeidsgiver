@@ -237,7 +237,6 @@ const VirksomhetsmenyIntern = ({
                                         })
                                     }
                                 })
-
                                 setAlleVirksomheterIntern(søksreslutater);
                             }
                         }}/>

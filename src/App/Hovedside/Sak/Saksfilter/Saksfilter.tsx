@@ -1,4 +1,5 @@
-import React, {ReactElement} from "react";
+import React, {useEffect, useState} from "react";
+import * as Sentry from '@sentry/react';
 import "./Saksfilter.css"
 import {
     BodyShort,
@@ -20,32 +21,21 @@ type SaksfilterProps = {
     organisasjoner: Organisasjon[];
 }
 
-type FooProps = {
-    valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
-    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
-    organisasjoner: OrganisasjonEnhet[];
-}
+export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: SaksfilterProps) => {
+    const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
 
-export const Saksfilter = ({
-                               valgteVirksomheter,
-                               setValgteVirksomheter,
-                               organisasjoner
-                           }: SaksfilterProps): ReactElement => {
+    useEffect(() => {
+        byggOrganisasjonstre(organisasjoner)
+            .then(setOrganisasjonstre)
+            .catch(Sentry.captureException)
+    }, [organisasjoner])
 
-    byggOrganisasjonstre(organisasjoner)
-        .then(
-            (organisasjonstre) => {
-                return <Foo organisasjoner={organisasjonstre} valgteVirksomheter={valgteVirksomheter}
-                            setValgteVirksomheter={setValgteVirksomheter}/>
-            }
-        ).catch(e => {
-        return <div>Feil ved henting av organisasjoner</div>
-    });
-    return <></>
-}
-const Foo = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: FooProps) =>
-    <div className="saksfilter">
-        <Virksomhetsmeny organisasjonstre={organisasjoner}
+    if (organisasjonstre === undefined) {
+        return null
+    }
+
+    return <div className="saksfilter">
+        <Virksomhetsmeny organisasjonstre={organisasjonstre}
                          valgteEnheter={valgteVirksomheter}
                          settValgteEnheter={setValgteVirksomheter}/>
 
@@ -76,5 +66,6 @@ const Foo = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner}: FooPro
                 defaultValue={12}>
             <option value={12}> Siste 12 måneder</option>
         </Select>
-    </div>
+    </div>;
+}
 
