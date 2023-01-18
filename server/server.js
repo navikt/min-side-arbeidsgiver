@@ -76,7 +76,8 @@ const indexHtml = Mustache.render(
 const selvbetjeningsCookieAsAuthHeaderMiddleware = (req, res, next) => {
     const subject_token = req.cookies['selvbetjening-idtoken']
     if (subject_token) {
-        req.headers.authorization = `Bearer ${subject_token}`;
+        req.headers.authorization = `Bearer ${subject_token}`
+        delete req.cookies['selvbetjening-idtoken']
     }
     next();
 };
