@@ -65,7 +65,7 @@
 
 .virksomheter_virksomhetsmeny_sok_checkbox_underenhet {
     display: flex;
-    justify-content: start;
+    justify-content: flex-start;
     gap: 0.5rem;
     padding: 0.5rem 2rem;
     align-items: center;
