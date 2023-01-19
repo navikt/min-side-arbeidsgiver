@@ -39,7 +39,12 @@ export type Organisasjon = {
  * tilhørende organisasjoner hentes ut eksplisitt.
  * @constructor
  */
-export const Virksomhetsmeny = ({organisasjonstre, valgteEnheter, settValgteEnheter, juridiskEnhetEkspandert = true}: Props) => {
+export const Virksomhetsmeny = ({
+                                    organisasjonstre,
+                                    valgteEnheter,
+                                    settValgteEnheter,
+                                    juridiskEnhetEkspandert = true
+                                }: Props) => {
     const alleVirksomheter = organisasjonstre
         .map(({juridiskEnhet, organisasjoner}): Hovedenhet => {
             const juridiskEnhetValgt = valgteEnheter === "ALLEBEDRIFTER" ||
@@ -70,10 +75,10 @@ export const Virksomhetsmeny = ({organisasjonstre, valgteEnheter, settValgteEnhe
             settValgteEnheter("ALLEBEDRIFTER")
             return
         }
-        settValgteEnheter(valgteEnheter.flatMap( enhet => {
-            if ("underenheter" in enhet){
+        settValgteEnheter(valgteEnheter.flatMap(enhet => {
+            if ("underenheter" in enhet) {
                 return juridiskEnhetEkspandert ? enhet.underenheter : [enhet]
-            }else{
+            } else {
                 return [enhet]
             }
         }))
@@ -201,45 +206,48 @@ const VirksomhetsmenyIntern = ({
             {virksomhetsmenyÅpen ?
                 <div className="virksomheter_virksomhetsmeny">
                     <div className="virksomheter_virksomhetsmeny_sok">
-                        <Search label="Søk etter virksomhet" variant="simple" onChange={(søkeord) => {
-                            if (søkeord.length === 0) {
-                                setAlleVirksomheterIntern(
-                                    alleVirksomheterIntern.map(hovedenhet => {
-                                            return ({
-                                                ...hovedenhet,
-                                                søkMatch: true,
-                                                åpen: hovedenhet.valgt || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
-                                                underenheter: hovedenhet.underenheter.map(underenhet => {
-                                                    return {
-                                                        ...underenhet,
-                                                        søkMatch: true
-                                                    }
-                                                })
-                                            });
-                                        }
-                                    )
-                                )
-                            } else {
-                                const flatArrayAlleEnheter = alleVirksomheterIntern.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
-                                const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['Name', "OrganizationNumber"]});
-                                const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
-                                const søksreslutater = alleVirksomheterIntern.map(hovedenhet => {
-                                    const isOrHasMatch = fuzzyResultsUnique.has(hovedenhet) || hovedenhet.underenheter.some(underenhet => fuzzyResultsUnique.has(underenhet));
-                                    return {
-                                        ...hovedenhet,
-                                        søkMatch: isOrHasMatch,
-                                        åpen: isOrHasMatch || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
-                                        underenheter: hovedenhet.underenheter.map(underenhet => {
-                                            return {
-                                                ...underenhet,
-                                                søkMatch: fuzzyResultsUnique.has(underenhet)
+                        <Search
+                            label="Søk etter virksomhet"
+                            variant="simple"
+                            onChange={(søkeord) => {
+                                if (søkeord.length === 0) {
+                                    setAlleVirksomheterIntern(
+                                        alleVirksomheterIntern.map(hovedenhet => {
+                                                return ({
+                                                    ...hovedenhet,
+                                                    søkMatch: true,
+                                                    åpen: hovedenhet.valgt || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
+                                                    underenheter: hovedenhet.underenheter.map(underenhet => {
+                                                        return {
+                                                            ...underenhet,
+                                                            søkMatch: true
+                                                        }
+                                                    })
+                                                });
                                             }
-                                        })
-                                    }
-                                })
-                                setAlleVirksomheterIntern(søksreslutater);
-                            }
-                        }}/>
+                                        )
+                                    )
+                                } else {
+                                    const flatArrayAlleEnheter = alleVirksomheterIntern.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
+                                    const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['Name', "OrganizationNumber"]});
+                                    const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
+                                    const søksreslutater = alleVirksomheterIntern.map(hovedenhet => {
+                                        const isOrHasMatch = fuzzyResultsUnique.has(hovedenhet) || hovedenhet.underenheter.some(underenhet => fuzzyResultsUnique.has(underenhet));
+                                        return {
+                                            ...hovedenhet,
+                                            søkMatch: isOrHasMatch,
+                                            åpen: isOrHasMatch || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
+                                            underenheter: hovedenhet.underenheter.map(underenhet => {
+                                                return {
+                                                    ...underenhet,
+                                                    søkMatch: fuzzyResultsUnique.has(underenhet)
+                                                }
+                                            })
+                                        }
+                                    })
+                                    setAlleVirksomheterIntern(søksreslutater);
+                                }
+                            }}/>
                     </div>
                     <CheckboxGroup
                         className="virksomheter_virksomhetsmeny_sok_checkbox"
@@ -299,8 +307,9 @@ const VirksomhetsmenyIntern = ({
                                             >
                                                 {
                                                     hovedenhet.underenheter.map((underenhet) =>
-                                                        underenhet.søkMatch ? <UnderenhetCheckboks key={underenhet.OrganizationNumber}
-                                                                                                   underenhet={underenhet}/> : null
+                                                        underenhet.søkMatch ?
+                                                            <UnderenhetCheckboks key={underenhet.OrganizationNumber}
+                                                                                 underenhet={underenhet}/> : null
                                                     )
                                                 }
                                             </HovedenhetCheckbox>
@@ -374,5 +383,5 @@ const VirksomhetsmenyIntern = ({
                         : null
             )}
         </ul>
-    </div>
+    </div>;
 }

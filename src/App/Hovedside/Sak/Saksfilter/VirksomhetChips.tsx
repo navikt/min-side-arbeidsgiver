@@ -13,20 +13,23 @@ type VirksomhetChipsProp = {
 }
 
 export const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:VirksomhetChipsProp) => {
+    const erHovedenhet = antallUndervirksomheter !== null;
     return <li className="virksomhetschips">
-        { antallUndervirksomheter !== null ? <Hovedenhet/> : <Underenhet/> }
+        {erHovedenhet ? <Hovedenhet/> : <Underenhet/>}
         <div className="virksomhetschips_innhold">
             <BodyShort size="medium" className="virksomhetschips_virksomhet">{navn}</BodyShort>
-            <BodyShort size="small">{
-                antallUndervirksomheter !== null ? "org. nr." : "virksomhetsnr."} {orgnr}</BodyShort>
-            {antallUndervirksomheter !== null ?
-                <BodyShort size="small"> {antallUndervirksomheter} virksomheter </BodyShort> : null
+            <BodyShort size="small">
+                {erHovedenhet ? "org. nr." : "virksomhetsnr."} {orgnr}</BodyShort>
+            {
+                erHovedenhet ?
+                    <BodyShort size="small"> {antallUndervirksomheter} underenheter </BodyShort>
+                    : null
             }
         </div>
         <Button
             onClick={ () => onLukk() }
             variant="tertiary" className="virksomhetschips_lukkeknapp">
-            <Close title={ `fjern ${navn} fra valgte`}/>
+            <Close title={ `fjern ${erHovedenhet? "hovedenhet" : "underenhet"} ${navn} fra valgte`}/>
         </Button>
     </li>
 }
