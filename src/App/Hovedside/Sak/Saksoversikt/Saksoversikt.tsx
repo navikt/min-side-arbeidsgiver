@@ -18,37 +18,23 @@ import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
 export const SIDE_SIZE = 30;
 
 export const Saksoversikt = () => {
-    const {state, byttFilter} = useOversiktStateTransitions()
-
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
-    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">();
-
-    const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
-        setValgteVirksomheter(valgte)
-        byttFilter({...state.filter, virksomhetsnumre: (valgte === "ALLEBEDRIFTER" ? orgs : valgte).map(org => org.OrganizationNumber)})
-    }
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const {state, byttFilter} = useOversiktStateTransitions(orgs)
 
     if (!valgtOrganisasjon) {
-        return null;
-    }
-
-    if (valgteVirksomheter === undefined) {
-        handleValgteVirksomheter(orgs.filter(org => valgtOrganisasjon?.organisasjon.OrganizationNumber === org.OrganizationNumber))
         return null;
     }
 
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
-            setFilter={byttFilter}
+            byttFilter={byttFilter}
             organisasjoner={orgs}
-            valgteVirksomheter={valgteVirksomheter}
-            setValgteVirksomheter={handleValgteVirksomheter}
         />
-        {(state.filter.virksomhetsnumre?.length === 0)
+        {(state.filter.virksomheter.length === 0)
             ? <div className='saksoversikt-empty'>
                 <Heading level="2" size="large">
                     Velg virksomhet for å se saker

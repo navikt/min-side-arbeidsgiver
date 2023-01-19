@@ -7,21 +7,22 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSessionStorage } from '../../../hooks/useStorage';
 import { equalFilter, Filter } from './useOversiktStateTransitions';
+import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
 export type UseSessionState = [Filter, (sessionState: Filter) => void]
 
-export const useSessionState = (): UseSessionState => {
+export const useSessionState = (alleVirksomheter: Organisasjon[]): UseSessionState => {
     const [sessionState, setSessionState] = useState<Filter>((): Filter => {
-        return extractSeachParameters(window.location.search)
+        return extractSeachParameters(window.location.search, alleVirksomheter)
     })
 
     const location = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
-        const newSessionState = extractSeachParameters(location.search)
+        const newSessionState = extractSeachParameters(location.search, alleVirksomheter)
         if (!equalFilter(sessionState, newSessionState)) {
             setSessionState(newSessionState)
         }
@@ -44,11 +45,18 @@ export const useSessionState = (): UseSessionState => {
     return [sessionState, update]
 }
 
-const extractSeachParameters = (searchString: string): Filter => {
+const extractSeachParameters = (searchString: string, alleVirksomheter: Organisasjon[]): Filter => {
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
     return {
-        virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? [],
+        virksomheter: search
+                .get("virksomhetsnumre")
+                ?.split(",")
+                ?.flatMap(orgnr => {
+                    const org = alleVirksomheter.find(org => org.OrganizationNumber === orgnr)
+                    return org === undefined ? [] : [org]
+                })
+            ?? [],
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(GQL.SakSortering).includes(sortering) ? sortering : GQL.SakSortering.Oppdatert
@@ -77,9 +85,7 @@ const updateSearchParameters = (current: string, sessionState: Filter): string =
         query.set("virksomhetsnumre", sessionState.virksomhetsnummer)
     }
 
-    if (sessionState.virksomhetsnumre !== undefined) {
-        query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
-    }
+    query.set("virksomhetsnumre", sessionState.virksomheter.map(it => it.OrganizationNumber).join(","))
 
     if (sessionState.sortering === GQL.SakSortering.Oppdatert) {
         query.delete("sortering")

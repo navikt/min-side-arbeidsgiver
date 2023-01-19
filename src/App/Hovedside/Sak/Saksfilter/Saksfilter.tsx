@@ -19,14 +19,12 @@ import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 
 type SaksfilterProps = {
     filter: Filter;
-    setFilter: (filter: Filter) => void;
-    valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
-    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
+    byttFilter: (filter: Filter) => void;
     organisasjoner: Organisasjon[];
 }
 
 
-export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisasjoner, filter, setFilter}: SaksfilterProps) => {
+export const Saksfilter = ({organisasjoner, filter, byttFilter}: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
 
     useEffect(() => {
@@ -39,12 +37,16 @@ export const Saksfilter = ({valgteVirksomheter, setValgteVirksomheter, organisas
         return null
     }
 
+    const setValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
+        byttFilter({...filter, virksomheter: valgte === "ALLEBEDRIFTER" ? organisasjoner : valgte})
+    }
+
     return <div className="saksfilter">
         <Virksomhetsmeny organisasjonstre={organisasjonstre}
-                         valgteEnheter={valgteVirksomheter}
+                         valgteEnheter={filter.virksomheter}
                          settValgteEnheter={setValgteVirksomheter}/>
 
-        <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
+        <Søkeboks filter={filter} byttFilter={byttFilter}></Søkeboks>
     </div>;
 }
 

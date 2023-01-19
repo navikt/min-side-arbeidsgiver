@@ -39,8 +39,9 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
 
 export function useSaker(
     pageSize: number,
-    {side, tekstsoek, virksomhetsnumre, sortering}: Filter,
+    {side, tekstsoek, virksomheter, sortering}: Filter,
 ) {
+    const virksomhetsnumre = virksomheter.map(it => it.OrganizationNumber)
     const variables = {
         virksomhetsnumre: virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
@@ -59,7 +60,7 @@ export function useSaker(
             return
         }
 
-        if (virksomhetsnumre !== undefined && side !== undefined) {
+        if (side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);

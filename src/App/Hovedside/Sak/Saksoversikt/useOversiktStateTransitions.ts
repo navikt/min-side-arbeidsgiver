@@ -4,11 +4,12 @@ import { SIDE_SIZE } from './Saksoversikt'
 import { useSessionState } from './useOversiktSessionStorage';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
+import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomhetsnumre: string[] | undefined,
+    virksomheter: Organisasjon[],
     sortering: GQL.SakSortering,
 }
 
@@ -39,8 +40,8 @@ type Action =
     | { action: 'lasting-feilet' }
 
 
-export const useOversiktStateTransitions = () => {
-    const [sessionState, setSessionState] = useSessionState()
+export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) => {
+    const [sessionState, setSessionState] = useSessionState(alleVirksomheter)
 
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
@@ -163,12 +164,9 @@ const finnForrigeSaker = (state: State): Array<GQL.Sak> | null => {
 
 
 function equalVirksomhetsnumre(a: Filter, b: Filter) {
-    if (a.virksomhetsnumre === undefined || b.virksomhetsnumre === undefined) {
-        return a.virksomhetsnumre === b.virksomhetsnumre
-    }
-
-    return a.virksomhetsnumre.length === b.virksomhetsnumre.length &&
-        a.virksomhetsnumre.every(virksomhetsnummer => b.virksomhetsnumre !== undefined && b.virksomhetsnumre.includes(virksomhetsnummer));
+    const bOrgnr = new Set(b.virksomheter.map(it => it.OrganizationNumber))
+    return a.virksomheter.length === b.virksomheter.length &&
+        a.virksomheter.every(it => bOrgnr.has(it.OrganizationNumber));
 }
 
 export const equalFilter = (a:Filter, b:Filter): boolean =>
