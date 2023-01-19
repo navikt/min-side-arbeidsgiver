@@ -3,7 +3,7 @@ import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { Query } from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
-import { Filter } from './Saksoversikt/Filter';
+import { Filter } from './Saksoversikt/useOversiktStateTransitions';
 
 type SakerResultat = Pick<Query, "saker">
 

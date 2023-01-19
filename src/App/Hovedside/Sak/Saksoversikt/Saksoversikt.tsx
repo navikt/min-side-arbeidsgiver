@@ -1,13 +1,12 @@
 import React, {FC, useContext, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
-import {BodyShort, Heading, Pagination, Select} from '@navikt/ds-react';
+import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {SaksListe} from '../SaksListe';
 import {Alerts} from '../../../Alerts/Alerts';
-import {useOversiktStateTransitions} from './useOversiktStateTransitions';
+import { Filter, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
-import {Filter} from './Filter';
 import {OmSaker} from '../OmSaker';
 import {gittMiljo} from '../../../../utils/environment';
 import {Saksfilter} from "../Saksfilter/Saksfilter";
@@ -43,6 +42,8 @@ export const Saksoversikt = () => {
 
     return <div className="saksoversikt__innhold">
         <Saksfilter
+            filter={state.filter}
+            setFilter={byttFilter}
             organisasjoner={orgs}
             valgteVirksomheter={valgteVirksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}
@@ -56,12 +57,11 @@ export const Saksoversikt = () => {
             : <div className='saksoversikt'>
                 <Alerts/>
                 <div className="saksoversikt__header">
-                    <Filter filter={state.filter} onChange={byttFilter}/>
-                    <VelgSortering state={state} byttFilter={byttFilter}/>
+                    <StatusLine state={state}/>
                 </div>
 
                 <div className="saksoversikt__saksliste-header">
-                    <StatusLine state={state}/>
+                    <VelgSortering state={state} byttFilter={byttFilter}/>
                     <Sidevelger state={state} byttFilter={byttFilter}/>
                 </div>
 
@@ -198,13 +198,13 @@ const StatusLine: FC<{ state: State }> = ({state}) => {
         }
 
         if (state.totaltAntallSaker !== undefined) {
-            return `${totaltAntallSaker} treff`
+            return `Viser ${totaltAntallSaker} saker`
         }
         return ""
     }
-    return <BodyShort role="status">
+    return <Heading level="2" size="medium" aria-live="polite" aria-atomic="true">
         {statusText()}
-    </BodyShort>
+    </Heading>
 }
 
 
