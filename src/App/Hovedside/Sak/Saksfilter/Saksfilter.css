@@ -24,12 +24,6 @@
     gap: 0.5rem;
 }
 
-.saksfilter_type-sak {
-    padding-top: 1rem;
-    border-top: var(--a-text-default) solid 1px
-}
-
-
-.saksfilter_headers{
+.saksfilter_headers {
     font-weight: 600;
 }

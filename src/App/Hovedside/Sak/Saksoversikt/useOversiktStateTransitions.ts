@@ -2,9 +2,15 @@ import { useEffect, useReducer } from 'react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { SIDE_SIZE } from './Saksoversikt'
 import { useSessionState } from './useOversiktSessionStorage';
-import {equalFilter, Filter} from './Filter';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
+
+export type Filter = {
+    side: number,
+    tekstsoek: string,
+    virksomhetsnumre: string[] | undefined,
+    sortering: GQL.SakSortering,
+}
 
 export type State = {
     state: 'loading';
@@ -154,3 +160,19 @@ const finnForrigeSaker = (state: State): Array<GQL.Sak> | null => {
             return null
     }
 }
+
+
+function equalVirksomhetsnumre(a: Filter, b: Filter) {
+    if (a.virksomhetsnumre === undefined || b.virksomhetsnumre === undefined) {
+        return a.virksomhetsnumre === b.virksomhetsnumre
+    }
+
+    return a.virksomhetsnumre.length === b.virksomhetsnumre.length &&
+        a.virksomhetsnumre.every(virksomhetsnummer => b.virksomhetsnumre !== undefined && b.virksomhetsnumre.includes(virksomhetsnummer));
+}
+
+export const equalFilter = (a:Filter, b:Filter): boolean =>
+    a.side === b.side &&
+    a.tekstsoek === b.tekstsoek &&
+    equalVirksomhetsnumre(a, b) &&
+    a.sortering === b.sortering

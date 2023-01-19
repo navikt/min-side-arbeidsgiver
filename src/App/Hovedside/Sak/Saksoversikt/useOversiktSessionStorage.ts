@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSessionStorage } from '../../../hooks/useStorage';
-import { equalFilter, Filter } from './Filter';
+import { equalFilter, Filter } from './useOversiktStateTransitions';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
