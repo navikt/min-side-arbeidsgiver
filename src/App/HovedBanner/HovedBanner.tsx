@@ -6,6 +6,7 @@ import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProv
 import * as Record from '../../utils/Record';
 import {NotifikasjonWidget} from "@navikt/arbeidsgiver-notifikasjon-widget";
 import amplitude from "../../utils/amplitude";
+import {useLocation} from "react-router-dom";
 
 interface OwnProps {
     sidetittel: string;
@@ -14,13 +15,14 @@ interface OwnProps {
 const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     const {endreOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const {pathname} = useLocation()
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}
             undertittel={"INNLOGGEDE TJENESTER for arbeidsgiver"}
-            organisasjoner={orgs}
+            organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
             onOrganisasjonChange={endreOrganisasjon}
             amplitudeClient={amplitude}
         >
