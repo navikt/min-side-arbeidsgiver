@@ -8,16 +8,30 @@
   grid-column-start: 3
 }
 @media (min-width: 1024px) {
-  .saksoversikt {
-    width: 60rem;
-    margin: 0 1rem;
-  }
+
 }
 
 .saksoversikt__innhold {
   display: grid;
     grid-template-columns: 1fr 22rem 62rem 22rem 1fr;
   margin: 0 auto;
+}
+
+@media (max-width: calc(22rem + 62rem)){
+  .saksoversikt {
+    width: min(60rem, calc(100vw - 2rem));
+    margin: 0 1rem;
+  }
+  .saksoversikt__innhold {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+  }
+  .saksoversikt__innhold > div {
+    grid-column-start: unset;
+    min-height: 100%;
+    padding: 1rem;
+  }
 }
 
 .saksoversikt__header {

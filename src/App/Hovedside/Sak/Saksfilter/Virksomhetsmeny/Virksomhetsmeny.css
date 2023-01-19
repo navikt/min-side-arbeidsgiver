@@ -46,6 +46,17 @@
     transform: rotate(45deg);
 }
 
+@media (max-width: 26rem) {
+    .virksomheter_virksomhetsmeny {
+        width: 100%;
+    }
+
+    .virksomheter_virksomhetsmeny:before {
+
+    }
+}
+
+
 .virksomheter_virksomhetsmeny_sok {
     display: flex;
     flex-direction: column;
