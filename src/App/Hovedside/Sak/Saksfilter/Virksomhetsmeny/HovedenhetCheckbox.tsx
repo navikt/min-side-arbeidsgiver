@@ -30,7 +30,7 @@ export const HovedenhetCheckbox = ({
                     <div>
                         <Label size="medium" as="span">{hovedenhet.Name}</Label>
                         <BodyShort size="small">Org. nr. {hovedenhet.OrganizationNumber}</BodyShort>
-                        <BodyShort size="small">{hovedenhet.underenheter.length} virksomheter</BodyShort>
+                        <BodyShort size="small">{hovedenhet.underenheter.length} underenheter</BodyShort>
                     </div>
                 </label>
 
@@ -47,7 +47,8 @@ export const HovedenhetCheckbox = ({
                         <BodyShort
                             size="small"
                             className="hovedenhet_vis-skjul"
-                        >{erÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>} {erÅpen ? "skjul" : "vis"} virksomheter</BodyShort>
+                            aria-label={`${erÅpen ? "Skjul" : "Vis"} underenheter for ${hovedenhet.Name}`}
+                        >{erÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>} {erÅpen ? "skjul" : "vis"} underenheter</BodyShort>
                     </Button>
                     : null
             }

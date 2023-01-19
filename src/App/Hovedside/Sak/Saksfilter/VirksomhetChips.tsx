@@ -26,7 +26,7 @@ export const VirksomhetChips = ({navn, orgnr, antallUndervirksomheter, onLukk}:V
         <Button
             onClick={ () => onLukk() }
             variant="tertiary" className="virksomhetschips_lukkeknapp">
-            <Close title={ `fjern ${navn}` }/>
+            <Close title={ `fjern ${navn} fra valgte`}/>
         </Button>
     </li>
 }
