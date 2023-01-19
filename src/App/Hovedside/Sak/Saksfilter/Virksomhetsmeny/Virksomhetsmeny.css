@@ -46,6 +46,20 @@
     transform: rotate(45deg);
 }
 
+.saksfilter_vis-valgte {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+@media (max-width: calc(22rem + 62rem)) {
+    .saksfilter_vis-valgte {
+        display: none;
+    }
+}
+
 @media (max-width: 26rem) {
     .virksomheter_virksomhetsmeny {
         width: 100%;
