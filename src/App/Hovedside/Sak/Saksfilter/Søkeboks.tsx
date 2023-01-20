@@ -1,5 +1,5 @@
 import { BodyShort, Search } from '@navikt/ds-react';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import './Saksfilter.css'
 
@@ -9,14 +9,7 @@ export type SøkeboksProps = {
 }
 
 export const Søkeboks = ({filter, byttFilter}: SøkeboksProps) => {
-    const searchElem = useRef<HTMLInputElement>(null)
     const [tekstsoek, setTekstsoek] = useState(filter.tekstsoek)
-
-    useEffect(() => {
-        if (searchElem.current) {
-            searchElem.current.value = filter.tekstsoek
-        }
-    }, [searchElem.current, filter.tekstsoek])
 
     return <form
         className="saksfilter_søk-sak"
