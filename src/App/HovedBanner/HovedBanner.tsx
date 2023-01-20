@@ -15,17 +15,9 @@ interface OwnProps {
 const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     const {endreOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
-    const {pathname, search} = useLocation()
+    const {pathname} = useLocation()
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
-    const valgtOrgnr = new URLSearchParams(search).get("bedrift")
-    const valgtOrg = orgs.find(organisasjon => organisasjon.OrganizationNumber === valgtOrgnr)
-
-    useEffect(()=>{
-        if (pathname === '/saksoversikt' && valgtOrg){
-            endreOrganisasjon(valgtOrg)
-        }
-    },[valgtOrg])
 
     return (
         <Bedriftsmeny
