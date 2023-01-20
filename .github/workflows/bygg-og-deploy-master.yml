@@ -7,8 +7,8 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api
-  IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver-api:${{ github.sha }}
+  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver
+  IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver:${{ github.sha }}
 
 jobs:
   test:

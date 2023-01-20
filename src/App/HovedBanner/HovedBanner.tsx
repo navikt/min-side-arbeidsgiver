@@ -1,4 +1,4 @@
-import React, {FunctionComponent, useContext} from 'react';
+import React, {FunctionComponent, useContext, useEffect} from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import {OrganisasjonsDetaljerContext} from '../OrganisasjonDetaljerProvider';
@@ -18,6 +18,7 @@ const Banner: FunctionComponent<OwnProps> = ({sidetittel}) => {
     const {pathname} = useLocation()
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
+
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}

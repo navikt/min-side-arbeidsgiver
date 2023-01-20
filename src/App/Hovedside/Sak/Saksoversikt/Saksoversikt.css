@@ -32,6 +32,10 @@
     min-height: 100%;
     padding: 1rem;
   }
+
+  .saksoversikt__innhold div:first-child > * {
+    max-width: 22rem;
+  }
 }
 
 .saksoversikt__header {
@@ -72,6 +76,7 @@
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
+  gap: 1rem;
 }
 
 .saksoversikt__saksliste-footer {

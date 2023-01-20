@@ -1,4 +1,5 @@
 import React, {FC, useContext, useEffect, useRef, useState} from 'react';
+import {useSearchParams} from "react-router-dom";
 import './Saksoversikt.css';
 import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
@@ -11,7 +12,6 @@ import {OmSaker} from '../OmSaker';
 import {gittMiljo} from '../../../../utils/environment';
 import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
-import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 import * as Record from "../../../../utils/Record";
 import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
 
@@ -21,10 +21,19 @@ export const Saksoversikt = () => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const {state, byttFilter} = useOversiktStateTransitions(orgs)
+    const [searchParams] = useSearchParams()
 
-    if (!valgtOrganisasjon) {
+    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">();
+    const bedriftUrlParam = searchParams.get('bedrift')
+
+    const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
+        setValgteVirksomheter(valgte)
+        byttFilter({...state.filter, virksomheter: (valgte === "ALLEBEDRIFTER" ? orgs : valgte)})
+    }
+
+    if (valgteVirksomheter === undefined) {
+        handleValgteVirksomheter(orgs.filter(org => bedriftUrlParam === org.OrganizationNumber))
         return null;
     }
 
