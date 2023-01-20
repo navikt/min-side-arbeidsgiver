@@ -159,8 +159,10 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
     })
 
     useOnClickOutside(virksomhetsmenyRef, () => {
-        loggVelgUtenforKlikk()
-        oppdaterValgte(alleVirksomheterIntern, "lukk")
+        if (virksomhetsmenyÅpen) {
+            loggVelgUtenforKlikk()
+            oppdaterValgte(alleVirksomheterIntern, 'lukk');
+        }
     });
 
     const settAlleTil = (valgt: boolean): Array<Hovedenhet> =>
