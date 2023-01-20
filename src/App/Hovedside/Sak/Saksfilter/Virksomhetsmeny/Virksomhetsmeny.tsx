@@ -108,6 +108,7 @@ type VirksomhetsmenyProps = {
 const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent | TouchEvent) => void) => {
     React.useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
+
             if (!ref.current || ref.current.contains(event.target as Node)) {
                 return;
             }
@@ -140,7 +141,7 @@ const VirksomhetsmenyIntern = ({
         }
     })
 
-    useOnClickOutside(virksomhetsmenyRef, () => oppdaterValgte(alleVirksomheterIntern, "lukk"));
+    useOnClickOutside(virksomhetsmenyRef, () => virksomhetsmenyÅpen && oppdaterValgte(alleVirksomheterIntern, "lukk"));
 
 
     const settAlleTil = (valgt: boolean): Array<Hovedenhet> =>
