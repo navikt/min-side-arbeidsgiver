@@ -123,9 +123,9 @@ export const lenkeTilTilgangsstyringsInfo =
     'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
 
 export const lenkeTilForebyggefravar = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/min-ia/',
-    labs: 'https://arbeidsgiver.labs.nais.io/min-ia/',
-    other: 'https://min-ia.dev.nav.no/min-ia/',
+    prod: 'https://arbeidsgiver.nav.no/forebygge-fravar/',
+    labs: 'https://arbeidsgiver.labs.nais.io/forebygge-fravar/',
+    other: 'https://forebygge-fravar.dev.nav.no/forebygge-fravar/',
 });
 
 export const lenkeTilInfoOmDigitaleSoknader =
