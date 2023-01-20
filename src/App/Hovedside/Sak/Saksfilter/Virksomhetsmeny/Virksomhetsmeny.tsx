@@ -7,6 +7,9 @@ import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
 import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
 import fuzzysort from 'fuzzysort';
 import {Hovedenhet} from "../Virksomhetsikoner/Virksomhetsikoner";
+import { count, sum } from '../../../../../utils/util';
+import amplitude from '../../../../../utils/amplitude';
+import { useLoggKlikk } from '../../../../../utils/funksjonerForAmplitudeLogging';
 
 export type Props = {
     organisasjonstre: OrganisasjonEnhet[],
@@ -29,6 +32,8 @@ export type Organisasjon = {
     Status: string,
     ParentOrganizationNumber: string | null,
 }
+
+
 /**
  *
  * @param organisasjonstre
@@ -108,7 +113,6 @@ type VirksomhetsmenyProps = {
 const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent | TouchEvent) => void) => {
     React.useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
-
             if (!ref.current || ref.current.contains(event.target as Node)) {
                 return;
             }
@@ -123,15 +127,28 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
     }, [ref, handler]);
 }
 
-
-const VirksomhetsmenyIntern = ({
-                                   alleVirksomheter,
-                                   setValgteVirksomheter
-                               }: VirksomhetsmenyProps) => {
+const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: VirksomhetsmenyProps) => {
     const [alleVirksomheterIntern, setAlleVirksomheterIntern] = useState(alleVirksomheter);
-
     const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
     const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
+    const loggVelgKlikk = useLoggKlikk("velg")
+    const loggVelgAlleKlikk = useLoggKlikk("velg alle")
+    const loggFjernAlleKlikk = useLoggKlikk("fjern alle")
+    const loggVelgUtenforKlikk = useLoggKlikk("velg utenfor")
+
+    const amplitudeValgteVirksomheter = (valgte: Array<Hovedenhet>) => {
+        amplitude.logEvent("velg-virksomheter", {
+            antallHovedenheterValgt: count(valgte, hovedenhet => hovedenhet.valgt),
+            antallHovedenheterTotalt: alleVirksomheter.length,
+            antallUnderenheterValgt: sum(valgte, hovedenhet =>
+                count(hovedenhet.underenheter, underenhet => underenhet.valgt)
+            ),
+            antallUnderenheterEksplisittValgt: sum(valgte, hovedenhet =>
+                hovedenhet.valgt ? 0 : count(hovedenhet.underenheter, underenhet => underenhet.valgt)
+            ),
+            antallUnderenheterTotalt: sum(valgte, hovedenhet => hovedenhet.underenheter.length),
+        })
+    };
 
     const valgteVirksomheter: Array<Hovedenhet | Underenhet> = alleVirksomheter.flatMap(Hovedenhet => {
         if (Hovedenhet.valgt) {
@@ -141,8 +158,12 @@ const VirksomhetsmenyIntern = ({
         }
     })
 
-    useOnClickOutside(virksomhetsmenyRef, () => virksomhetsmenyÅpen && oppdaterValgte(alleVirksomheterIntern, "lukk"));
-
+    useOnClickOutside(virksomhetsmenyRef, () => {
+        if (virksomhetsmenyÅpen) {
+            loggVelgUtenforKlikk()
+            oppdaterValgte(alleVirksomheterIntern, 'lukk');
+        }
+    });
 
     const settAlleTil = (valgt: boolean): Array<Hovedenhet> =>
         alleVirksomheterIntern.map(hovedenhet => ({
@@ -159,7 +180,6 @@ const VirksomhetsmenyIntern = ({
         valgte: Array<Hovedenhet>,
         commit: "lukk" | "forbliÅpen"
     ) => {
-
         if (commit === "lukk") {
             const virksomheter = valgte.flatMap<Underenhet | Hovedenhet>(hovedenhet => {
                 if (hovedenhet.valgt) {
@@ -168,9 +188,7 @@ const VirksomhetsmenyIntern = ({
                     return hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
                 }
             });
-            setValgteVirksomheter(
-                virksomheter
-            )
+            setValgteVirksomheter(virksomheter)
             setVirksomhetsmenyÅpen(false)
             setAlleVirksomheterIntern(valgte.map(hovedenhet => ({
                 ...hovedenhet,
@@ -183,6 +201,7 @@ const VirksomhetsmenyIntern = ({
                     søkMatch: true,
                 }))
             })))
+            amplitudeValgteVirksomheter(valgte)
         } else if (commit === "forbliÅpen") {
             setAlleVirksomheterIntern(valgte)
         }
@@ -322,12 +341,14 @@ const VirksomhetsmenyIntern = ({
                     <div className="virksomheter_virksomhetsmeny_footer">
                         <Button
                             onClick={() => {
+                                loggVelgKlikk()
                                 oppdaterValgte(alleVirksomheterIntern, "lukk")
                             }}
                         > Velg
                         </Button>
                         <Button
                             onClick={() => {
+                                loggVelgAlleKlikk()
                                 oppdaterValgte(settAlleTil(true), "lukk")
                             }}
                             variant="secondary"
@@ -335,6 +356,7 @@ const VirksomhetsmenyIntern = ({
                         <Button
                             variant="tertiary"
                             onClick={() => {
+                                loggFjernAlleKlikk()
                                 oppdaterValgte(settAlleTil(false), "forbliÅpen")
                             }}
                         >
@@ -386,3 +408,4 @@ const VirksomhetsmenyIntern = ({
         </ul>
     </div>;
 }
+
