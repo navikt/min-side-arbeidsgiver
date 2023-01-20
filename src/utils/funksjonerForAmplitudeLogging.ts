@@ -3,6 +3,7 @@ import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 import { Innlogget } from '../App/LoginProvider';
 import { basename } from '../paths';
 import { Enhet, hentUnderenhet } from '../api/enhetsregisteretApi';
+import { useLocation } from 'react-router-dom';
 
 interface EventProps {
     url: string;
@@ -142,4 +143,15 @@ export const loggNavigasjonTags = (
         ...tags,
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
+}
+
+
+export const useLoggKlikk = (knapp: string) => {
+    const {pathname} = useLocation()
+    return (annet: Record<string, any> = {}) =>
+        amplitude.logEvent('klikk', {
+            knapp,
+            pathname,
+            ...annet
+        })
 }
