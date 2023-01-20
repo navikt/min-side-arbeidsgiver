@@ -12,7 +12,6 @@ import {OmSaker} from '../OmSaker';
 import {gittMiljo} from '../../../../utils/environment';
 import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
-import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 import * as Record from "../../../../utils/Record";
 import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
 
