@@ -170,8 +170,8 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
     return <Pagination
         count={state.sider}
         page={state.filter.side}
-        siblingCount={width < 560 ? 0 : 1}
-        boundaryCount={width < 440 ? 0 : 1}
+        siblingCount={width < 920 ? 0 : 1}
+        boundaryCount={width < 800 ? 0 : 1}
         onPageChange={
             side => {
                 byttFilter({...state.filter, side})

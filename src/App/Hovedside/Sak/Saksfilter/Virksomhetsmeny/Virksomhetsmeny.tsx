@@ -44,6 +44,8 @@ export type Organisasjon = {
  * tilhørende organisasjoner hentes ut eksplisitt.
  * @constructor
  */
+
+
 export const Virksomhetsmeny = ({
                                     organisasjonstre,
                                     valgteEnheter,

@@ -23,7 +23,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    width: 26rem;
+    width: min(28rem, calc(100vw - 2rem));
     height: 40rem;
     border: solid 2px var(--a-border-alt-3);
     top: 4.5rem;
@@ -37,7 +37,7 @@
     content: "";
     position: absolute;
     top: calc( -1.414rem / 2 - 1px);
-    left: 15rem;
+    left: min(15rem, 50%);
     width: 1.5rem;
     height: 1.5rem;
     background: var(--a-bg-default);
@@ -46,28 +46,27 @@
     transform: rotate(45deg);
 }
 
+@media (max-width: 490px) {
+    .virksomheter_container {
+        position: unset;
+    }
+
+    .virksomheter_virksomhetsmeny {
+        left: 0;
+        width: 100vw;
+    }
+
+    .virksomheter_virksomhetsmeny:before {
+        display: none;
+    }
+}
+
 .saksfilter_vis-valgte {
     list-style: none;
     padding-left: 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-}
-
-@media (max-width: calc(22rem + 62rem)) {
-    .saksfilter_vis-valgte {
-        display: none;
-    }
-}
-
-@media (max-width: 26rem) {
-    .virksomheter_virksomhetsmeny {
-        width: 100%;
-    }
-
-    .virksomheter_virksomhetsmeny:before {
-
-    }
 }
 
 
@@ -110,14 +109,13 @@
 
 .virksomheter_virksomhetsmeny_footer {
     display: flex;
+    justify-content: space-between;
     padding: 1rem;
-    gap: 1rem;
     border-top: solid 2px var(--a-border-divider);
 }
 
-.virksomheter_virksomhetsmeny_footer > button {
-    height: 2rem;
-    width: 7.25rem
+.virksomheter_virksomhetsmeny_footer > *  {
+    flex: 0 0 29%;
 }
 
 .virksomheter_menyknapp:hover {
