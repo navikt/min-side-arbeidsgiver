@@ -124,6 +124,14 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
         };
     }, [ref, handler]);
 }
+const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | Underenhet> =>
+    virksomheter.flatMap(hovedenhet => {
+        if (hovedenhet.valgt) {
+            return [hovedenhet]
+        } else {
+            return hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
+        }
+    })
 
 const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: VirksomhetsmenyProps) => {
     const [alleVirksomheterIntern, setAlleVirksomheterIntern] = useState(alleVirksomheter);
@@ -148,13 +156,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
         })
     };
 
-    const valgteVirksomheter: Array<Hovedenhet | Underenhet> = alleVirksomheter.flatMap(Hovedenhet => {
-        if (Hovedenhet.valgt) {
-            return [Hovedenhet]
-        } else {
-            return Hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
-        }
-    })
+    const valgteVirksomheter = kunValgteVirksomheter(alleVirksomheter)
 
     useOnClickOutside(virksomhetsmenyRef, () => {
         if (virksomhetsmenyÅpen) {
@@ -167,7 +169,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
         alleVirksomheterIntern.map(hovedenhet => ({
             ...hovedenhet,
             valgt: valgt,
-
             underenheter: hovedenhet.underenheter.map(underenhet => ({
                 ...underenhet,
                 valgt: valgt
@@ -179,13 +180,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
         commit: "lukk" | "forbliÅpen"
     ) => {
         if (commit === "lukk") {
-            const virksomheter = valgte.flatMap<Underenhet | Hovedenhet>(hovedenhet => {
-                if (hovedenhet.valgt) {
-                    return [hovedenhet]
-                } else {
-                    return hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
-                }
-            });
+            const virksomheter = kunValgteVirksomheter(valgte)
             setValgteVirksomheter(virksomheter)
             setVirksomhetsmenyÅpen(false)
             setAlleVirksomheterIntern(valgte.map(hovedenhet => ({
@@ -204,7 +199,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
             setAlleVirksomheterIntern(valgte)
         }
     }
-
 
     return <div className="virksomheter">
         <div className="virksomheter_container" ref={virksomhetsmenyRef}>
