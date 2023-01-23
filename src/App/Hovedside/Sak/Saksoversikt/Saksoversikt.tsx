@@ -96,8 +96,13 @@ type VelgSorteringProps = {
     byttFilter: (filter: Filter) => void;
 }
 
-const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) =>
-    <Select
+const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) => {
+    console.log(state)
+    if (state.sider === undefined || state.sider === 0) {
+        return null
+    }
+
+    return <Select
         value={state.filter.sortering}
         className="saksoversikt__sortering"
         label="Sorter på"
@@ -108,7 +113,8 @@ const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) =>
         {sorteringsrekkefølge.map(key => (
             <option key={key} value={key}>{sorteringsnavn[key]}</option>
         ))}
-    </Select>
+    </Select>;
+}
 
 
 const noFilterApplied = (filter: Filter) => filter.tekstsoek.trim() === ""
@@ -163,7 +169,7 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
 
-    if (state.sider === undefined) {
+    if (state.sider === undefined || state.sider === 0) {
         return null
     }
 
