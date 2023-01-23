@@ -39,12 +39,6 @@ export const Koronaboks = () => {
                                 ikon={<KoronaboksIkon/>}
         >
                 <span className='koronaboks__innhold'>
-                    <Label  className='koronaboks__tekst'>Refusjon sykepenger</Label>
-                    <Koronalenke
-                        href={koronaSykeRefusjonURL(orgnr)}
-                        tekst='Søk om refusjon av sykepenger ved koronavirus'
-                    />
-
                     <Label  className='koronaboks__tekst'>Lønnskompensasjon</Label>
                     <Koronalenke
                         href={lenkeTilLonnskompensasjonOgRefusjon}
