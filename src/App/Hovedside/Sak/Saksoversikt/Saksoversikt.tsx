@@ -1,5 +1,4 @@
 import React, {FC, useContext, useEffect, useRef, useState} from 'react';
-import {useSearchParams} from "react-router-dom";
 import './Saksoversikt.css';
 import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
@@ -13,29 +12,18 @@ import {gittMiljo} from '../../../../utils/environment';
 import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
 import * as Record from "../../../../utils/Record";
-import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
+import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 
 export const SIDE_SIZE = 30;
 
 export const Saksoversikt = () => {
-    const {state, byttFilter} = useOversiktStateTransitions()
-
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
-    const [searchParams] = useSearchParams()
-
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
-    const [valgteVirksomheter, setValgteVirksomheter] = useState<Organisasjon[] | "ALLEBEDRIFTER">();
-    const bedriftUrlParam = searchParams.get('bedrift')
+    const {state, byttFilter} = useOversiktStateTransitions(orgs)
 
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
-        setValgteVirksomheter(valgte)
-        byttFilter({...state.filter, virksomhetsnumre: (valgte === "ALLEBEDRIFTER" ? orgs : valgte).map(org => org.OrganizationNumber)})
-    }
-
-    if (valgteVirksomheter === undefined) {
-        handleValgteVirksomheter(orgs.filter(org => bedriftUrlParam === org.OrganizationNumber))
-        return null;
+        byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
     }
 
     return <div className="saksoversikt__innhold">
@@ -43,10 +31,10 @@ export const Saksoversikt = () => {
             filter={state.filter}
             setFilter={byttFilter}
             organisasjoner={orgs}
-            valgteVirksomheter={valgteVirksomheter}
+            valgteVirksomheter={state.filter.virksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}
         />
-        {(state.filter.virksomhetsnumre?.length === 0)
+        {(state.filter.virksomheter.length === 0)
             ? <div className='saksoversikt-empty'>
                 <Heading level="2" size="large">
                     Velg virksomhet for å se saker
@@ -97,7 +85,6 @@ type VelgSorteringProps = {
 }
 
 const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) => {
-    console.log(state)
     if (state.sider === undefined || state.sider === 0) {
         return null
     }

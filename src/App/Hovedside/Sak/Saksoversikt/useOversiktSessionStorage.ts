@@ -7,6 +7,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSessionStorage } from '../../../hooks/useStorage';
 import { Filter } from './useOversiktStateTransitions';
+import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -38,7 +39,7 @@ const filterToSessionState = (filter: Filter): SessionState => ({
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
-    virksomhetsnumre: filter.virksomhetsnumre ?? [],
+    virksomhetsnumre: filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
 });
 
 const equalVirksomhetsnumre = (a: SessionState, b: SessionState): boolean => {
@@ -52,16 +53,16 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean =>
     equalVirksomhetsnumre(a, b) &&
     a.sortering === b.sortering
 
-export const useSessionState = (): [Filter, (filter: Filter) => void] => {
+export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (filter: Filter) => void] => {
     const [sessionState, setSessionState] = useState<SessionState>(() =>
-        extractSeachParameters(window.location.search)
+        extractSearchParameters(window.location.search)
     )
 
     const location = useLocation()
     const navigate = useNavigate()
 
     useEffect(() => {
-        const newSessionState = extractSeachParameters(location.search)
+        const newSessionState = extractSearchParameters(location.search)
         if (!equalSessionState(sessionState, newSessionState)) {
             setSessionState(newSessionState)
         }
@@ -78,15 +79,19 @@ export const useSessionState = (): [Filter, (filter: Filter) => void] => {
             if (search !== location.search) {
                 navigate({search}, {replace: true});
             }
+            console.log("writing to session store", {newSessionState})
             setSessionState(newSessionState)
         }
     }
 
-    const filter = useMemo((): Filter => {
+    const filter = useMemo(() => {
         return {
             side: sessionState.side,
             tekstsoek: sessionState.tekstsoek,
-            virksomhetsnumre: sessionState.virksomhetsnumre,
+            virksomheter: sessionState.virksomhetsnumre.flatMap(orgnr => {
+                const org = alleVirksomheter.find(org => org.OrganizationNumber === orgnr)
+                return org !== undefined ? [org] : [];
+            }),
             sortering: sessionState.sortering,
         }
     }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre.join(","), sessionState.sortering])
@@ -94,15 +99,17 @@ export const useSessionState = (): [Filter, (filter: Filter) => void] => {
     return [filter, update]
 }
 
-const extractSeachParameters = (searchString: string): SessionState => {
+const extractSearchParameters = (searchString: string): SessionState => {
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
-    return {
+    const sessionState = {
         virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? [],
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(GQL.SakSortering).includes(sortering) ? sortering : GQL.SakSortering.Oppdatert
-    }
+    };
+    console.log("extractSearchParameters", {searchString, sessionState})
+    return sessionState
 }
 
 const updateSearchParameters = (current: string, sessionState: SessionState): string => {
@@ -145,11 +152,13 @@ export const useRestoreSessionFromStorage = () => {
     const location = useLocation()
     const navigate = useNavigate();
 
+
     return () => {
         if (storedSession === undefined) {
             navigate({pathname: "/saksoversikt"}, {replace: true})
         } else {
             const search = updateSearchParameters(location.search, normalizeSessionState(storedSession))
+            console.log("restore from session storage.", {search, storedSession})
             navigate({pathname: "/saksoversikt", search}, {replace: true})
         }
     }
