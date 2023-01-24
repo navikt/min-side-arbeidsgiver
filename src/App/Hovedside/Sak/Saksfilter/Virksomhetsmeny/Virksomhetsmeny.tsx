@@ -113,7 +113,7 @@ type VirksomhetsmenyProps = {
     setValgteVirksomheter: (a: Array<Underenhet | Hovedenhet>) => void,
 }
 
-const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent | TouchEvent) => void) => {
+const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent) => void) => {
     React.useEffect(() => {
         const listener = (event: MouseEvent | TouchEvent) => {
             if (!ref.current || ref.current.contains(event.target as Node)) {
