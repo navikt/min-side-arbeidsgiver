@@ -10,6 +10,7 @@ import {BodyShort, Heading } from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 import { OmSaker } from '../OmSaker';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -23,6 +24,8 @@ const SisteSaker = () => {
         tekstsoek: "",
         sortering: GQL.SakSortering.Oppdatert,
     })
+
+    useSessionStateForside()
 
     useEffect(() => {
         if (!loading && data) {

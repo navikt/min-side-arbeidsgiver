@@ -113,7 +113,7 @@ const App: FunctionComponent = () => {
                                                                         </SideTittelWrapper>
                                                                     }/>
                                                                 <Route
-                                                                    path="/saksoversikt-restore-session"
+                                                                    path="/sak-restore-session"
                                                                     element={
                                                                         <SideTittelWrapper tittel={"Saksoversikt"}
                                                                                            setTittel={setSidetittel}>
