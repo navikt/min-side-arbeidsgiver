@@ -2,7 +2,6 @@ import React, {FunctionComponent, useContext} from 'react';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {
     permitteringKlageskjemaURL,
-    koronaSykeRefusjonURL,
     lenkeTilLonnskompensasjonOgRefusjon
 } from '../../../lenker';
 import KoronaboksIkon from './KoronaboksIkon';
