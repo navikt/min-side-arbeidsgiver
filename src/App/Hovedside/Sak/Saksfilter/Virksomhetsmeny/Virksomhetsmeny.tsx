@@ -115,7 +115,7 @@ type VirksomhetsmenyProps = {
 
 const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent) => void) => {
     React.useEffect(() => {
-        const listener = (event: MouseEvent | TouchEvent) => {
+        const listener = (event: MouseEvent) => {
             if (!ref.current || ref.current.contains(event.target as Node)) {
                 return;
             }
