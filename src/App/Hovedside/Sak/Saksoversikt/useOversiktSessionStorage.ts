@@ -2,45 +2,33 @@
 // Store copy of oversikts-filter in sessionStorage
 
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSessionStorage } from '../../../hooks/useStorage';
 import { Filter } from './useOversiktStateTransitions';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
-type SessionState = {
+type SessionStateSaksoversikt = {
+    route: "/saksoversikt",
     side: number,
     tekstsoek: string,
     virksomhetsnumre: string[],
     sortering: GQL.SakSortering,
     bedrift: string | undefined,
 }
-
-type OldSessionStateFormat = {
-    side: number,
-    tekstsoek: string,
-    virksomhetsnummer: string | undefined,
-    sortering: GQL.SakSortering,
+type SessionStateForside = {
+    route: "/",
+    bedrift: string | undefined,
 }
 
-const normalizeSessionState = (sessionState: SessionState | OldSessionStateFormat): SessionState => {
-    if ('virksomhetsnumre' in sessionState) {
-        return sessionState
-    }
-    return {
-        ...sessionState,
-        bedrift: sessionState.virksomhetsnummer,
-        virksomhetsnumre: sessionState.virksomhetsnummer === undefined
-                ? []
-                : [sessionState.virksomhetsnummer]
-    };
-};
+type SessionState = SessionStateSaksoversikt | SessionStateForside
 
-
-const filterToSessionState = (filter: Filter): SessionState => ({
+const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
+    route: '/saksoversikt',
     bedrift: new URLSearchParams(window.location.search).get("bedrift") ?? undefined,
     side: filter.side,
     tekstsoek: filter.tekstsoek,
@@ -48,20 +36,40 @@ const filterToSessionState = (filter: Filter): SessionState => ({
     virksomhetsnumre: filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
 });
 
-const equalVirksomhetsnumre = (a: SessionState, b: SessionState): boolean => {
+const equalVirksomhetsnumre = (a: SessionStateSaksoversikt, b: SessionStateSaksoversikt): boolean => {
     return a.virksomhetsnumre.length === b.virksomhetsnumre.length &&
         a.virksomhetsnumre.every(virksomhetsnummer => b.virksomhetsnumre.includes(virksomhetsnummer));
 };
 
-export const equalSessionState = (a: SessionState, b: SessionState): boolean =>
-    a.side === b.side &&
-    a.tekstsoek === b.tekstsoek &&
-    a.bedrift === b.bedrift &&
-    equalVirksomhetsnumre(a, b) &&
-    a.sortering === b.sortering
+export const equalSessionState = (a: SessionState, b: SessionState): boolean => {
+    if (a.route === '/' && b.route === '/') {
+        return a.bedrift === b.bedrift;
+    } else if (a.route === '/saksoversikt' && b.route === '/saksoversikt') {
+        return a.side === b.side &&
+            a.tekstsoek === b.tekstsoek &&
+            a.bedrift === b.bedrift &&
+            a.sortering === b.sortering &&
+            equalVirksomhetsnumre(a, b);
+    } else {
+        return false;
+    }
+}
+
+export const useSessionStateForside = (): void => {
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext)
+    const bedrift = valgtOrganisasjon?.organisasjon?.OrganizationNumber
+
+    useEffect(() => {
+        const sessionState: SessionStateForside = {
+            route: '/',
+            bedrift,
+        }
+        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionState));
+    }, [bedrift])
+}
 
 export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (filter: Filter) => void] => {
-    const [sessionState, setSessionState] = useState<SessionState>(() =>
+    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() =>
         extractSearchParameters(window.location.search)
     )
 
@@ -92,6 +100,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
 
     const filter = useMemo(() => {
         return {
+            route: '/saksoversikt',
             side: sessionState.side,
             tekstsoek: sessionState.tekstsoek,
             virksomheter: sessionState.virksomhetsnumre.flatMap(orgnr => {
@@ -105,11 +114,12 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
     return [filter, update]
 }
 
-const extractSearchParameters = (searchString: string): SessionState => {
+const extractSearchParameters = (searchString: string): SessionStateSaksoversikt => {
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
     const bedrift = search.get("bedrift") ?? undefined;
     return {
+        route: '/saksoversikt',
         bedrift,
         virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? (bedrift === undefined ? [] : [bedrift]),
         tekstsoek: search.get("tekstsoek") ?? '',
@@ -118,7 +128,7 @@ const extractSearchParameters = (searchString: string): SessionState => {
     }
 }
 
-const updateSearchParameters = (current: string, sessionState: SessionState): string => {
+const updateSearchParameters = (current: string, sessionState: SessionStateSaksoversikt): string => {
     const query = new URLSearchParams(current)
 
     if (sessionState.tekstsoek.length > 0) {
@@ -151,24 +161,26 @@ const updateSearchParameters = (current: string, sessionState: SessionState): st
 
 // Clear sessionStorage with oversikts-filter.
 export const useOversiktsfilterClearing = () => {
-    const [, , deleteFromSession] = useSessionStorage<SessionState | OldSessionStateFormat | undefined>(SESSION_STORAGE_KEY, undefined)
+    const [, , deleteFromSession] = useSessionStorage<SessionState | undefined>(SESSION_STORAGE_KEY, undefined)
     useEffect(() => {
         deleteFromSession()
     }, [])
 }
 
 export const useRestoreSessionFromStorage = () => {
-    const [storedSession] = useSessionStorage<SessionState | OldSessionStateFormat | undefined>(SESSION_STORAGE_KEY, undefined)
+    const [storedSession] = useSessionStorage<SessionState | undefined>(SESSION_STORAGE_KEY, undefined)
     const location = useLocation()
     const navigate = useNavigate();
 
-
     return () => {
-        if (storedSession === undefined) {
-            navigate({pathname: "/saksoversikt"}, {replace: true})
-        } else {
-            const search = updateSearchParameters(location.search, normalizeSessionState(storedSession))
+        if (storedSession?.route === '/saksoversikt') {
+            const search = updateSearchParameters(location.search, storedSession)
             navigate({pathname: "/saksoversikt", search}, {replace: true})
+        } else if (storedSession?.route === '/') {
+            const search = storedSession.bedrift === undefined ? undefined : `bedrift=${storedSession.bedrift}`
+            navigate({pathname: "/", search}, {replace: true})
+        } else {
+            navigate({pathname: "/saksoversikt"}, {replace: true})
         }
     }
 }
