@@ -19,6 +19,10 @@
     width: 100%;
 }
 
+.virksomheter_menyknapp svg {
+    pointer-events: none;
+}
+
 .virksomheter_virksomhetsmeny {
     position: absolute;
     display: flex;

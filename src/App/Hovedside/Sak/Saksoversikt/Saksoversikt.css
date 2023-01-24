@@ -30,7 +30,6 @@
   align-items: center;
 }
 .saksoversikt-empty {
-  margin: 4rem auto;
   color: var(--a-grayalpha-600);
 }
 .saksoversikt__hjelpetekst {

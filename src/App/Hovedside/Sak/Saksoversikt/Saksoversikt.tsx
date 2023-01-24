@@ -6,7 +6,7 @@ import {Spinner} from '../../../Spinner';
 import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {SaksListe} from '../SaksListe';
 import {Alerts} from '../../../Alerts/Alerts';
-import { Filter, useOversiktStateTransitions } from './useOversiktStateTransitions';
+import {Filter, useOversiktStateTransitions} from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
 import {OmSaker} from '../OmSaker';
 import {gittMiljo} from '../../../../utils/environment';
@@ -30,7 +30,10 @@ export const Saksoversikt = () => {
 
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
         setValgteVirksomheter(valgte)
-        byttFilter({...state.filter, virksomhetsnumre: (valgte === "ALLEBEDRIFTER" ? orgs : valgte).map(org => org.OrganizationNumber)})
+        byttFilter({
+            ...state.filter,
+            virksomhetsnumre: (valgte === "ALLEBEDRIFTER" ? orgs : valgte).map(org => org.OrganizationNumber)
+        })
     }
 
     if (valgteVirksomheter === undefined) {
@@ -46,31 +49,32 @@ export const Saksoversikt = () => {
             valgteVirksomheter={valgteVirksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}
         />
-        {(state.filter.virksomhetsnumre?.length === 0)
-            ? <div className='saksoversikt-empty'>
-                <Heading level="2" size="large">
-                    Velg virksomhet for å se saker
-                </Heading>
-            </div>
-            : <div className='saksoversikt'>
-                <Alerts/>
-                <div className="saksoversikt__header">
-                    <StatusLine state={state}/>
+        <div className='saksoversikt'>
+            {(state.filter.virksomhetsnumre?.length === 0)
+                ? <div className='saksoversikt-empty'>
+                    <Heading level="2" size="large">
+                        Velg virksomhet for å se saker
+                    </Heading>
                 </div>
+                : <><Alerts/>
+                    <div className="saksoversikt__header">
+                        <StatusLine state={state}/>
+                    </div>
 
-                <div className="saksoversikt__saksliste-header">
-                    <VelgSortering state={state} byttFilter={byttFilter}/>
-                    <Sidevelger state={state} byttFilter={byttFilter}/>
-                </div>
+                    <div className="saksoversikt__saksliste-header">
+                        <VelgSortering state={state} byttFilter={byttFilter}/>
+                        <Sidevelger state={state} byttFilter={byttFilter}/>
+                    </div>
 
-                <SaksListeBody state={state}/>
+                    <SaksListeBody state={state}/>
 
-                <div className="saksoversikt__saksliste-footer">
-                    <HvaVisesHer/>
-                    <Sidevelger state={state} byttFilter={byttFilter}/>
-                </div>
-            </div>
-        }
+                    <div className="saksoversikt__saksliste-footer">
+                        <HvaVisesHer/>
+                        <Sidevelger state={state} byttFilter={byttFilter}/>
+                    </div>
+                </>
+            }
+        </div>
     </div>
 };
 
