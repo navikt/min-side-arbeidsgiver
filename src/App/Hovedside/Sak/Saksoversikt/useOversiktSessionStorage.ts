@@ -2,7 +2,7 @@
 // Store copy of oversikts-filter in sessionStorage
 
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useSessionStorage } from '../../../hooks/useStorage';
@@ -16,6 +16,7 @@ type SessionState = {
     tekstsoek: string,
     virksomhetsnumre: string[],
     sortering: GQL.SakSortering,
+    bedrift: string | undefined,
 }
 
 type OldSessionStateFormat = {
@@ -25,17 +26,22 @@ type OldSessionStateFormat = {
     sortering: GQL.SakSortering,
 }
 
-const normalizeSessionState = (sessionState: SessionState | OldSessionStateFormat): SessionState => ({
-    ...sessionState,
-    virksomhetsnumre: 'virksomhetsnumre' in sessionState
-        ? sessionState.virksomhetsnumre
-        : sessionState.virksomhetsnummer === undefined
-            ? []
-            : [sessionState.virksomhetsnummer]
-});
+const normalizeSessionState = (sessionState: SessionState | OldSessionStateFormat): SessionState => {
+    if ('virksomhetsnumre' in sessionState) {
+        return sessionState
+    }
+    return {
+        ...sessionState,
+        bedrift: sessionState.virksomhetsnummer,
+        virksomhetsnumre: sessionState.virksomhetsnummer === undefined
+                ? []
+                : [sessionState.virksomhetsnummer]
+    };
+};
 
 
 const filterToSessionState = (filter: Filter): SessionState => ({
+    bedrift: new URLSearchParams(window.location.search).get("bedrift") ?? undefined,
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
@@ -50,6 +56,7 @@ const equalVirksomhetsnumre = (a: SessionState, b: SessionState): boolean => {
 export const equalSessionState = (a: SessionState, b: SessionState): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
+    a.bedrift === b.bedrift &&
     equalVirksomhetsnumre(a, b) &&
     a.sortering === b.sortering
 
@@ -79,7 +86,6 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             if (search !== location.search) {
                 navigate({search}, {replace: true});
             }
-            console.log("writing to session store", {newSessionState})
             setSessionState(newSessionState)
         }
     }
@@ -102,14 +108,14 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
 const extractSearchParameters = (searchString: string): SessionState => {
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
-    const sessionState = {
-        virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? [],
+    const bedrift = search.get("bedrift") ?? undefined;
+    return {
+        bedrift,
+        virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? (bedrift === undefined ? [] : [bedrift]),
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(GQL.SakSortering).includes(sortering) ? sortering : GQL.SakSortering.Oppdatert
-    };
-    console.log("extractSearchParameters", {searchString, sessionState})
-    return sessionState
+    }
 }
 
 const updateSearchParameters = (current: string, sessionState: SessionState): string => {
@@ -126,6 +132,10 @@ const updateSearchParameters = (current: string, sessionState: SessionState): st
         query.delete("side")
     } else {
         query.set("side", sessionState.side.toString())
+    }
+
+    if (sessionState.bedrift !== undefined) {
+        query.set("bedrift", sessionState.bedrift)
     }
 
     query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
@@ -158,7 +168,6 @@ export const useRestoreSessionFromStorage = () => {
             navigate({pathname: "/saksoversikt"}, {replace: true})
         } else {
             const search = updateSearchParameters(location.search, normalizeSessionState(storedSession))
-            console.log("restore from session storage.", {search, storedSession})
             navigate({pathname: "/saksoversikt", search}, {replace: true})
         }
     }
