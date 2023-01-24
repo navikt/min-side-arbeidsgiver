@@ -2,9 +2,16 @@ import { useEffect, useReducer } from 'react';
 import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { SIDE_SIZE } from './Saksoversikt'
 import { useSessionState } from './useOversiktSessionStorage';
-import {equalFilter, Filter} from './Filter';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
+import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
+
+export type Filter = {
+    side: number,
+    tekstsoek: string,
+    virksomheter: Organisasjon[],
+    sortering: GQL.SakSortering,
+}
 
 export type State = {
     state: 'loading';
@@ -33,8 +40,8 @@ type Action =
     | { action: 'lasting-feilet' }
 
 
-export const useOversiktStateTransitions = () => {
-    const [sessionState, setSessionState] = useSessionState()
+export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) => {
+    const [sessionState, setSessionState] = useSessionState(alleVirksomheter)
 
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
@@ -154,3 +161,15 @@ const finnForrigeSaker = (state: State): Array<GQL.Sak> | null => {
             return null
     }
 }
+
+
+function equalVirksomhetsnumre(a: Filter, b: Filter) {
+    return a.virksomheter.length === b.virksomheter.length &&
+        a.virksomheter.every(aVirksomhet => b.virksomheter.some(bVirksomhet => aVirksomhet.OrganizationNumber === bVirksomhet.OrganizationNumber));
+}
+
+export const equalFilter = (a:Filter, b:Filter): boolean =>
+    a.side === b.side &&
+    a.tekstsoek === b.tekstsoek &&
+    equalVirksomhetsnumre(a, b) &&
+    a.sortering === b.sortering

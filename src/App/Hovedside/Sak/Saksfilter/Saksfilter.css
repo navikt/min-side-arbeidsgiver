@@ -1,0 +1,29 @@
+.saksfilter {
+    display: flex;
+    flex-direction: column;
+    min-width: min(22rem, 100%);
+    min-height: max(100vh);
+    gap: 2rem;
+    background: var(--a-bg-default);
+    padding: 1.5rem;
+    padding-bottom: 4rem;
+    grid-column-start: 2;
+}
+
+@media (max-width: 730px) {
+    .saksfilter {
+        min-height: unset;
+    }
+}
+
+
+.saksfilter_søk-sak {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+
+.saksfilter_headers {
+    font-weight: 600;
+}

@@ -95,7 +95,8 @@ export type QuerySakerArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   sortering?: SakSortering;
   tekstsoek?: InputMaybe<Scalars['String']>;
-  virksomhetsnummer: Scalars['String'];
+  virksomhetsnummer?: InputMaybe<Scalars['String']>;
+  virksomhetsnumre?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type Sak = {

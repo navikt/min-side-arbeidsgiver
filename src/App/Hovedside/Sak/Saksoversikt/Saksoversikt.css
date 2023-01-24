@@ -5,13 +5,22 @@
   background-color: var(--a-gray-100);
   margin: 1rem;
   padding: 1rem 0;
+  grid-column-start: 3
 }
-@media (min-width: 1024px) {
-  .saksoversikt {
-    width: 60rem;
-    margin: 0 auto;
+
+
+.saksoversikt__innhold {
+  display: grid;
+  grid-template-columns: 1fr 22rem min(62rem, calc(100vw - 22rem) ) 22rem 1fr;
+}
+
+@media (max-width: 730px){
+  .saksoversikt__innhold {
+    display: flex;
+    flex-direction: column;
   }
 }
+
 .saksoversikt__header {
   display: flex;
   flex-wrap: wrap;
@@ -19,6 +28,9 @@
   row-gap: 1rem;
   justify-content: space-between;
   align-items: center;
+}
+.saksoversikt-empty {
+  color: var(--a-grayalpha-600);
 }
 .saksoversikt__hjelpetekst {
   display: flex;
@@ -39,16 +51,17 @@
 .saksoversikt__knapp:hover {
   text-decoration: none;
 }
-.saksoversik__saksliste-header,
-.saksoversik__saksliste-footer {
+.saksoversikt__saksliste-header,
+.saksoversikt__saksliste-footer {
   min-height: 3rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: center;
+  gap: 1rem;
 }
 
-.saksoversik__saksliste-footer {
+.saksoversikt__saksliste-footer {
   flex-wrap: wrap-reverse;
 }
 

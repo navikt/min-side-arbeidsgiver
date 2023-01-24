@@ -3,13 +3,13 @@ import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
 import { Query } from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
-import { Filter } from './Saksoversikt/Filter';
+import { Filter } from './Saksoversikt/useOversiktStateTransitions';
 
 type SakerResultat = Pick<Query, "saker">
 
 const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
-    query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
+    query hentSaker($virksomhetsnumre: [String!]!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
+        saker(virksomhetsnumre: $virksomhetsnumre, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -39,28 +39,34 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
 
 export function useSaker(
     pageSize: number,
-    {side, tekstsoek, virksomhetsnummer, sortering}: Filter,
+    {side, tekstsoek, virksomheter, sortering}: Filter,
 ) {
+    const virksomhetsnumre = virksomheter.map(org => org.OrganizationNumber)
     const variables = {
-        virksomhetsnummer: virksomhetsnummer,
+        virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
         sortering: sortering,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
 
-    const [fetchSaker, {loading, data, previousData}] = useLazyQuery(HENT_SAKER,  {
+    const [fetchSaker, {loading, data, error, previousData}] = useLazyQuery(HENT_SAKER,  {
         variables
     })
 
     useEffect(() => {
-        if (virksomhetsnummer !== null && side !== undefined) {
+        if (error) {
+            Sentry.captureException(error)
+            return
+        }
+
+        if (side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);
         }
 
-    }, [virksomhetsnummer, tekstsoek, side, sortering])
+    }, [JSON.stringify(virksomhetsnumre), tekstsoek, side, sortering, error])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 

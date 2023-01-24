@@ -238,7 +238,16 @@ app.use(
 
 if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     const {applyNotifikasjonMockMiddleware} = require('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
-    applyNotifikasjonMockMiddleware({app, path: "/min-side-arbeidsgiver/notifikasjon-bruker-api"})
+
+    // TODO: oppdater mock med nytt skjema ig fjern override her
+    const {gql} = require("apollo-server-express");
+    const data = readFileSync('../bruker.graphql');
+    applyNotifikasjonMockMiddleware(
+        {app, path: "/min-side-arbeidsgiver/notifikasjon-bruker-api"},
+        {
+            typeDefs: gql(data.toString())
+        }
+    )
 } else {
     app.use(
         '/min-side-arbeidsgiver/notifikasjon-bruker-api',

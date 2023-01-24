@@ -15,11 +15,18 @@ ul.saks-liste .sakslenkepanel > :first-child{
 }
 
 ul.saks-liste .sakscontainer {
-  display: flex;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+@media (max-width: 1250px) {
+  ul.saks-liste .sakscontainer {
+    grid-template-columns: 1fr;
+  }
 }
 
 ul.saks-liste .sakscontainer .sakscontent {
@@ -37,8 +44,6 @@ ul.saks-liste .sakscontainer .saksfrist {
   display: flex;
   align-items: center;
   gap:.2rem;
-  white-space: nowrap;
-  width: 17rem;
 }
 
 ul.saks-liste .sakscontainer .saksfrist .paminnelse{
