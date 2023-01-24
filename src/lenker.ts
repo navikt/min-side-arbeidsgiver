@@ -140,9 +140,6 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     other: 'https://arbeidsgiver-q.nav.no/permittering/',
 });
 
-export const lenkeTilPermitteringsInfo =
-    'https://arbeidsgiver.nav.no/permittering-og-omstilling/permittering#lonnsplikt';
-
 export const lenkeTilLonnskompensasjonOgRefusjon = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
     other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/',
@@ -155,14 +152,6 @@ const lenkeTilKlageskjemaBase = gittMiljo({
 
 export const permitteringKlageskjemaURL = (orgnr: string) =>
     `${lenkeTilKlageskjemaBase}?bedrift=${orgnr}`;
-
-const koronaSykeRefusjonBaseURL = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/nettrefusjon/',
-    other: 'https://arbeidsgiver-q.nav.no/nettrefusjon/',
-});
-
-export const koronaSykeRefusjonURL = (orgnr: string) =>
-    `${koronaSykeRefusjonBaseURL}?bedrift=${orgnr}`;
 
 export const tiltaksgjennomforingURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
@@ -181,5 +170,3 @@ export const infoOmRefusjonInnreiseforbudKoronaURL =
 
 export const hentArbeidsavtalerApiLink =
     '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
-
-export const møteBookingLenke='https://outlook.office365.com/owa/calendar/Minsidearbeidsgiver@nav.no/bookings/s/njkDNAYTM0aRtre0oKiKuQ2'
