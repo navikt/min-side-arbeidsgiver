@@ -7,34 +7,17 @@
   padding: 1rem 0;
   grid-column-start: 3
 }
-@media (min-width: 1024px) {
 
-}
 
 .saksoversikt__innhold {
   display: grid;
-    grid-template-columns: 1fr 22rem 62rem 22rem 1fr;
-  margin: 0 auto;
+  grid-template-columns: 1fr 22rem min(62rem, calc(100vw - 22rem) ) 22rem 1fr;
 }
 
-@media (max-width: calc(22rem + 62rem)){
-  .saksoversikt {
-    width: min(60rem, calc(100vw - 2rem));
-    margin: 0 1rem;
-  }
+@media (max-width: 730px){
   .saksoversikt__innhold {
     display: flex;
     flex-direction: column;
-    margin: 0 auto;
-  }
-  .saksoversikt__innhold > div {
-    grid-column-start: unset;
-    min-height: 100%;
-    padding: 1rem;
-  }
-
-  .saksoversikt__innhold div:first-child > * {
-    max-width: 22rem;
   }
 }
 
@@ -47,7 +30,6 @@
   align-items: center;
 }
 .saksoversikt-empty {
-  margin: 4rem auto;
   color: var(--a-grayalpha-600);
 }
 .saksoversikt__hjelpetekst {
