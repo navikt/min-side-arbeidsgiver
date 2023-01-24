@@ -6,7 +6,7 @@ export const randomInt = (max: number) => Math.floor(Math.random() * Math.floor(
 
 /** Number of elements in array that statisfy predicate.
  * Efficient implementation of "count(xs, p) === xs.filter(p).length",
- * as it wont create the whole filtered array.
+ * as it won't create the whole filtered array.
  */
 export const count = <T>(xs: T[], p: (x: T) => boolean): number =>
     xs.reduce(((count, x) => p(x) ? count + 1 : count), 0)

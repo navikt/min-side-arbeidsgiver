@@ -63,7 +63,8 @@ export const Virksomhetsmeny = ({
                         valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)
                     ),
                 åpen: !juridiskEnhetValgt &&
-                    organisasjoner.some(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)),
+                    organisasjoner.some(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)) &&
+                    !organisasjoner.every(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)),
                 søkMatch: true,
                 underenheter: organisasjoner.map((organisasjon): Underenhet => {
                     return {
