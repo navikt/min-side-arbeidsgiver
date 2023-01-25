@@ -1,19 +1,26 @@
-export type Sykefraværsrespons = {
-    type: string;
-    label: string;
-    prosent: number;
-};
+import {z} from "zod";
+import * as Sentry from "@sentry/browser";
 
+const Sykefraværsrespons = z.object({
+    type: z.string(),
+    label: z.string(),
+    prosent: z.number(),
+});
+export type Sykefraværsrespons = z.infer<typeof Sykefraværsrespons> | undefined;
 
 export async function hentSykefravær(
     orgnr: string,
 ): Promise<Sykefraværsrespons> {
-    let respons = await fetch(
-        `/min-side-arbeidsgiver/sykefravaer/${orgnr}/sykefravarshistorikk/legemeldtsykefravarsprosent`,
-    );
+    const url = `/min-side-arbeidsgiver/sykefravaer/${orgnr}/sykefravarshistorikk/legemeldtsykefravarsprosent`;
+    const respons = await fetch(url);
     if (respons.ok) {
-        return respons.status === 204 ? undefined : respons.json();
+        try {
+            return respons.status === 204 ? undefined : Sykefraværsrespons.parse(await respons.json());
+        } catch (error) {
+            Sentry.captureException(error)
+        }
     }
-    throw new Error('Feil ved kontakt med sykefravær.');
+    throw new Error(`Kall til '${url}' feilet med ${respons.status}:${respons.statusText}`);
 }
+
 

@@ -1,18 +1,9 @@
-import {digiSyfoVirksomheterURL, refusjonstatusURL, sjekkInnloggetURL} from '../lenker';
 import {Organisasjon} from '../altinn/organisasjon';
 import {z} from "zod";
 import * as Sentry from "@sentry/browser";
 
-const RefusjonStatus = z.object({
-    virksomhetsnummer: z.string(),
-    statusoversikt: z.object({
-        "KLAR_FOR_INNSENDING": z.number().optional(),
-    }),
-    tilgang: z.boolean()
-});
-const RefusjonStatusResponse = z.array(RefusjonStatus);
-export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 
+const digiSyfoVirksomheterURL = '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v3';
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
     antallSykmeldte: z.number(),
@@ -29,6 +20,18 @@ export async function hentSyfoVirksomheter(): Promise<DigiSyfoOrganisasjonRespon
     throw new Error(`Kall til ${digiSyfoVirksomheterURL} feilet med ${respons.status}:${respons.statusText}`);
 }
 
+
+const RefusjonStatus = z.object({
+    virksomhetsnummer: z.string(),
+    statusoversikt: z.object({
+        "KLAR_FOR_INNSENDING": z.number().optional(),
+    }),
+    tilgang: z.boolean()
+});
+const RefusjonStatusResponse = z.array(RefusjonStatus);
+export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
+
+const refusjonstatusURL = '/min-side-arbeidsgiver/api/refusjon_status';
 export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
     const respons = await fetch(refusjonstatusURL);
     if (respons.ok) {
@@ -42,6 +45,8 @@ export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
     throw new Error(`Kall til ${refusjonstatusURL} feilet med ${respons.status}:${respons.statusText}`);
 }
 
+
+const sjekkInnloggetURL = '/min-side-arbeidsgiver/api/innlogget';
 export const sjekkInnlogget = async (): Promise<boolean> => {
     const {ok} = await fetch(sjekkInnloggetURL)
     return ok
