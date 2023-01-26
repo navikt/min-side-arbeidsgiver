@@ -1,5 +1,5 @@
-import { gittMiljo } from './utils/environment';
-import { basename } from './paths';
+import {gittMiljo} from './utils/environment';
+import {altinnUrl} from "./api/altinnApi";
 
 export const skjemaForArbeidsgiverURL =
     'https://www.nav.no/soknader/nb/bedrift';
@@ -32,24 +32,6 @@ export const kandidatlisteURL = gittMiljo({
     other: 'https://presenterte-kandidater.dev.nav.no/kandidatliste',
 });
 
-export const pamSettBedriftURL = gittMiljo({
-    prod: (orgnr: string) =>
-        `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
-    dev: (orgnr: string) =>
-        `https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
-    other: (orgnr: string) =>
-        `/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
-});
-
-export const sjekkInnloggetURL =
-    basename + '/api/innlogget';
-
-export const pamHentStillingsannonserURL = gittMiljo({
-    prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
-    dev: 'https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
-    other: '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
-});
-
 export const kontaktskjemaURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/kontakt-oss/kontaktskjema',
     other: 'https://arbeidsgiver-kontakt-oss.dev.nav.no/kontakt-oss/kontaktskjema',
@@ -60,11 +42,6 @@ export const ringOssTLF = gittMiljo({
     other: "tel:00000000"
 })
 
-export const digiSyfoVirksomheterURL =
-    '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v3';
-
-export const refusjonstatusURL =
-    '/min-side-arbeidsgiver/api/refusjon_status';
 
 export const infoOmNærmesteLederURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
@@ -81,20 +58,6 @@ export const spørreOmRettigheterAltinnURL=
 export const infoOmSykefraværsstatistikk =
     'https://arbeidsgiver.nav.no/forebygge-sykefravaer/#digitale-tjenester';
 
-export const hentUnderenhetApiURL = (orgnr: string) =>
-    gittMiljo({
-        prod: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
-        dev: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
-        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
-    });
-
-
-export const hentOverordnetEnhetApiLink = (orgnr: string) =>
-    gittMiljo({
-        prod:  `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
-        dev:  `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
-        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
-    });
 
 
 export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
@@ -102,12 +65,6 @@ export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
 
 export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/oppslag/enheter/${orgnr}`;
-
-export const altinnUrl = gittMiljo({
-    prod: 'https://altinn.no',
-    dev: 'https://tt02.altinn.no',
-    other: '/min-side-arbeidsgiver/mock/tt02.altinn.no',
-});
 
 export const beOmTilgangIAltinnLink = (
     orgnr: string,
@@ -168,5 +125,5 @@ export const infoOmRefusjonSykepengerKoronaURL =
 export const infoOmRefusjonInnreiseforbudKoronaURL =
     'https://www.nav.no/no/bedrift/refusjon-ved-innreiseforbud-under-pandemien';
 
-export const hentArbeidsavtalerApiLink =
-    '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?';
+
+

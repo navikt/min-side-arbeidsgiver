@@ -1,6 +1,3 @@
-import { hentArbeidsavtalerApiLink } from '../lenker';
-import { Organisasjon } from '../altinn/organisasjon';
-
 export interface Arbeidsavtale {
     tiltakstype: string;
 }
@@ -8,7 +5,7 @@ export interface Arbeidsavtale {
 export async function hentArbeidsavtaler(
     orgnr: string,
 ): Promise<Array<Arbeidsavtale>> {
-    const respons = await fetch(hentArbeidsavtalerApiLink + 'bedriftNr=' + orgnr);
+    const respons = await fetch(`/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?bedriftNr=${orgnr}`);
     if (respons.ok) {
         return respons.json();
     }
