@@ -1,6 +1,21 @@
 import * as Sentry from '@sentry/browser';
-import { hentOverordnetEnhetApiLink, hentUnderenhetApiURL } from '../lenker';
 import { z } from 'zod';
+import {gittMiljo} from "../utils/environment";
+
+
+export const hentUnderenhetApiURL = (orgnr: string) =>
+    gittMiljo({
+        prod: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+        dev: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+    });
+
+const hentOverordnetEnhetApiLink = (orgnr: string) =>
+    gittMiljo({
+        prod:  `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+        dev:  `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+    });
 
 const Adresse = z.object({
     adresse: z.array(z.string()),
