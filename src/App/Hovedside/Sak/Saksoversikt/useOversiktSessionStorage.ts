@@ -154,7 +154,11 @@ const updateSearchParameters = (current: string, sessionState: SessionStateSakso
 
     query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
 
-    query.set("sakstyper", sessionState.sakstyper.join(","))
+    if (sessionState.sakstyper.length > 0){
+        query.set("sakstyper", sessionState.sakstyper.join(","))
+    } else {
+        query.delete("sakstyper")
+    }
 
     if (sessionState.sortering === SakSortering.Oppdatert) {
         query.delete("sortering")
