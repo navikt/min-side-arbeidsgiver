@@ -1,9 +1,9 @@
-import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { SakPanel } from './SakPanel';
 import "./SaksListe.css";
+import {Sak} from "../../../api/graphql-types";
 
 type Props = {
-    saker: Array<GQL.Sak>;
+    saker: Array<Sak>;
     placeholder?: boolean;
 }
 

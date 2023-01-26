@@ -9,6 +9,8 @@ import {byggOrganisasjonstre} from "./ByggOrganisasjonstre";
 import {Søkeboks} from './Søkeboks';
 import {Filter} from '../Saksoversikt/useOversiktStateTransitions';
 import {Ekspanderbartpanel} from "../../../../GeneriskeElementer/Ekspanderbartpanel";
+import {BodyShort, Checkbox, CheckboxGroup} from "@navikt/ds-react";
+import {Sakstype} from "../../../../api/graphql-types";
 
 
 type SaksfilterProps = {
@@ -16,6 +18,7 @@ type SaksfilterProps = {
     setFilter: (filter: Filter) => void;
     valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
     setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
+    sakstyper: Sakstype[] | undefined;
     organisasjoner: Organisasjon[];
 }
 
@@ -40,7 +43,8 @@ export const Saksfilter = ({
                                setValgteVirksomheter,
                                organisasjoner,
                                filter,
-                               setFilter
+                               setFilter,
+                               sakstyper,
                            }: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
     const [width, setWidth] = useState(window.innerWidth);
@@ -62,7 +66,7 @@ export const Saksfilter = ({
         return null
     }
 
-
+    console.log(sakstyper)
     return <KollapsHvisMobil width={width}>
         <div className="saksfilter">
             <Virksomhetsmeny organisasjonstre={organisasjonstre}
@@ -70,6 +74,23 @@ export const Saksfilter = ({
                              settValgteEnheter={setValgteVirksomheter}/>
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
+
+            {sakstyper && <CheckboxGroup
+                legend="Type sak"
+                value={filter.sakstyper}
+                onChange={valgteSakstyper => {
+                    setFilter({...filter, sakstyper: valgteSakstyper});
+                }}
+            >
+                {
+                    sakstyper.map(({navn}) =>
+                        <Checkbox value={navn}>
+                            <BodyShort>
+                                {navn}
+                            </BodyShort>
+                        </Checkbox>)
+                }
+            </CheckboxGroup>}
         </div>
     </KollapsHvisMobil>
 
