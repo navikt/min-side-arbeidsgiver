@@ -158,7 +158,7 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
 
-    if (state.sider === undefined || state.sider === 0) {
+    if (state.sider === undefined || state.sider < 2) {
         return null
     }
 

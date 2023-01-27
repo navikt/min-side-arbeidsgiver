@@ -11,6 +11,7 @@ import {Filter} from '../Saksoversikt/useOversiktStateTransitions';
 import {Ekspanderbartpanel} from "../../../../GeneriskeElementer/Ekspanderbartpanel";
 import {BodyShort, Checkbox, CheckboxGroup} from "@navikt/ds-react";
 import {Sakstype} from "../../../../api/graphql-types";
+import {sorted} from "../../../../utils/util";
 
 
 type SaksfilterProps = {
@@ -66,7 +67,7 @@ export const Saksfilter = ({
         return null
     }
 
-    console.log(sakstyper)
+
     return <KollapsHvisMobil width={width}>
         <div className="saksfilter">
             <Virksomhetsmeny organisasjonstre={organisasjonstre}
@@ -75,7 +76,7 @@ export const Saksfilter = ({
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
-            {sakstyper && <CheckboxGroup
+            {sakstyper && sakstyper?.length > 1 ?  <CheckboxGroup
                 legend="Type sak"
                 value={filter.sakstyper}
                 onChange={valgteSakstyper => {
@@ -83,14 +84,15 @@ export const Saksfilter = ({
                 }}
             >
                 {
-                    sakstyper.map(({navn}) =>
+                    sorted(sakstyper, sakstype => sakstype.navn).map(({navn}) =>
                         <Checkbox value={navn}>
                             <BodyShort>
                                 {navn}
                             </BodyShort>
                         </Checkbox>)
                 }
-            </CheckboxGroup>}
+            </CheckboxGroup>
+            :null}
         </div>
     </KollapsHvisMobil>
 
