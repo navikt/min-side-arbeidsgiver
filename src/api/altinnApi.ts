@@ -1,4 +1,4 @@
-import { gittMiljo } from '../utils/environment';
+import { caseMiljo, gittMiljo } from '../utils/environment';
 import { navtjenester } from '../altinn/tjenester';
 
 export const altinnUrl = gittMiljo({
@@ -41,13 +41,20 @@ export const autentiserAltinnBruker = (returnUrl: string) => {
     const now = Date.now();
     const second = 1_000; /* i millisekunder */
 
-    if (lastRedirect < now - 60 * second) {
-        sessionStorage.setItem(storageName, now.toString());
-        const encodedUri = encodeURIComponent(returnUrl);
-        window.location.replace(
-            `${altinnUrl}/Pages/ExternalAuthentication/Redirect.aspx?returnUrl=${encodedUri}`
-        );
-    }
+    caseMiljo({
+        prod: () => {
+            if (lastRedirect < now - 60 * second) {
+                sessionStorage.setItem(storageName, now.toString());
+                const encodedUri = encodeURIComponent(returnUrl);
+                window.location.replace(
+                    `${altinnUrl}/Pages/ExternalAuthentication/Redirect.aspx?returnUrl=${encodedUri}`
+                );
+            }
+        },
+        other: () => {
+            /* disable redirect outside prod. enable if needed */
+        }
+    })
 };
 
 const altinnFetch = async (info: RequestInfo) => {
