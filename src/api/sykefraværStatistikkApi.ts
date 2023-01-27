@@ -18,6 +18,7 @@ export async function hentSykefravær(
             return respons.status === 204 ? undefined : Sykefraværsrespons.parse(await respons.json());
         } catch (error) {
             Sentry.captureException(error)
+            return undefined
         }
     }
     throw new Error(`Kall til '${url}' feilet med ${respons.status}:${respons.statusText}`);
