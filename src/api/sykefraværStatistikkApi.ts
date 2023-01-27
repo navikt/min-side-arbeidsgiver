@@ -15,6 +15,13 @@ export async function hentSykefravær(
     const respons = await fetch(url);
     if (respons.ok) {
         try {
+            const contentType = respons.headers.get('content-type');
+            if (contentType === null || !contentType.includes('application/json')) {
+                // midlertidig undersøke hvorfor vi får 200 ok med html fra kallet
+                Sentry.captureException("Kall til '${url}' returnerte html. content=" + await respons.text())
+                return undefined
+            }
+
             return respons.status === 204 ? undefined : Sykefraværsrespons.parse(await respons.json());
         } catch (error) {
             Sentry.captureException(error)
