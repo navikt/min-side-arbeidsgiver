@@ -15,7 +15,7 @@ import require from './esm-require.js';
 import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock";
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
-const { createProxyMiddleware } = httpProxyMiddleware;
+const {createProxyMiddleware} = httpProxyMiddleware;
 
 const defaultLoginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
 const {
@@ -121,18 +121,18 @@ app.use(
     '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler',
     selvbetjeningsCookieAsAuthHeaderMiddleware,
     tokenXMiddleware(
-    {
-        log: log,
-        audience: {
-            'dev-gcp': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
-            'prod-gcp': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
-        }[NAIS_CLUSTER_NAME]
-    }),
+        {
+            log: log,
+            audience: {
+                'dev-gcp': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
+                'prod-gcp': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
+            }[NAIS_CLUSTER_NAME]
+        }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
         selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
-        onProxyRes: responseInterceptor( async (responseBuffer, proxyRes) => {
+        onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
             try {
                 if (proxyRes.statusCode >= 400) {
                     log.warn(`tiltaksgjennomforing-api/avtaler feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`);
@@ -159,7 +159,7 @@ app.use(
         },
         secure: true,
         xfwd: true,
-        target: NAIS_CLUSTER_NAME === 'prod-gcp' ? 'https://api-gw.oera.no': 'https://api-gw-q0.oera.no',
+        target: NAIS_CLUSTER_NAME === 'prod-gcp' ? 'https://api-gw.oera.no' : 'https://api-gw-q0.oera.no',
         ...(APIGW_TILTAK_HEADER ? {headers: {'x-nav-apiKey': APIGW_TILTAK_HEADER}} : {})
     }),
 );
@@ -213,13 +213,13 @@ app.use(
     '/min-side-arbeidsgiver/api',
     selvbetjeningsCookieAsAuthHeaderMiddleware,
     tokenXMiddleware(
-    {
-        log: log,
-        audience: {
-            'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
-            'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
-        }[NAIS_CLUSTER_NAME]
-    }),
+        {
+            log: log,
+            audience: {
+                'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
+                'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
+            }[NAIS_CLUSTER_NAME]
+        }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
         logProvider: _ => log,
@@ -245,13 +245,14 @@ if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
     applyNotifikasjonMockMiddleware(
         {app, path: "/min-side-arbeidsgiver/notifikasjon-bruker-api"},
         {
-            typeDefs: gql(data.toString())
+            typeDefs: gql(data.toString()),
+
         }
     )
 } else {
     app.use(
         '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-        createNotifikasjonBrukerApiProxyMiddleware({ log }),
+        createNotifikasjonBrukerApiProxyMiddleware({log}),
     );
 }
 
@@ -273,7 +274,7 @@ app.use(
     }),
 );
 
-app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
+app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, {index: false}));
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
     res.redirect(LOGIN_URL);

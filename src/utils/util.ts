@@ -13,3 +13,6 @@ export const count = <T>(xs: T[], p: (x: T) => boolean): number =>
 
 export const sum = <T>(xs: T[], f: (x: T) => number): number =>
     xs.reduce((sum, x) => sum + f(x), 0)
+
+export const sorted = <T extends any>(array: T[], on: (e:T) => string): T[] =>
+    [...array].sort((a, b) => on(a).localeCompare(on(b)));
