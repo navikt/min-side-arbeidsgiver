@@ -49,7 +49,7 @@ export function useSaker(
         virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
         sortering: sortering,
-        sakstyper: sakstyper === [] ? null : sakstyper,
+        sakstyper: sakstyper.length === 0 ? null : sakstyper,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
