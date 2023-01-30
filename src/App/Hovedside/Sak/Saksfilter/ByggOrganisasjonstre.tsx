@@ -1,5 +1,6 @@
 import {Organisasjon, OrganisasjonEnhet} from "./Virksomhetsmeny/Virksomhetsmeny";
 import {hentAlleJuridiskeEnheter} from "@navikt/bedriftsmeny/lib/hentAlleJuridiskeEnheter";
+import {sorted} from "../../../../utils/util";
 
 const erHovedenhet = (organisasjon: Organisasjon): boolean =>
     !(organisasjon.OrganizationNumber === "") &&
@@ -9,9 +10,6 @@ const erUnderenhet = (organisasjon: Organisasjon): boolean =>
     !(organisasjon.OrganizationNumber === "")
     && ['BEDR', 'AAFY'].includes(organisasjon.OrganizationForm);
 
-
-const sorted = <T extends any>(array: T[], on: (e:T) => string): T[] =>
-    [...array].sort((a, b) => on(a).localeCompare(on(b)));
 
 export async function byggOrganisasjonstre(
     organisasjoner: Organisasjon[]

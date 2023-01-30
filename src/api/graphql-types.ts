@@ -93,6 +93,7 @@ export type Query = {
 export type QuerySakerArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
+  sakstyper?: InputMaybe<Array<Scalars['String']>>;
   sortering?: SakSortering;
   tekstsoek?: InputMaybe<Scalars['String']>;
   virksomhetsnummer?: InputMaybe<Scalars['String']>;
@@ -135,8 +136,14 @@ export type SakerResultat = {
   __typename?: 'SakerResultat';
   feilAltinn: Scalars['Boolean'];
   saker: Array<Sak>;
+  sakstyper: Array<Sakstype>;
   /** Antall saker for gitt filter, men uavhengig av offset/limit. */
   totaltAntallSaker: Scalars['Int'];
+};
+
+export type Sakstype = {
+  __typename?: 'Sakstype';
+  navn: Scalars['String'];
 };
 
 export type UgyldigId = {

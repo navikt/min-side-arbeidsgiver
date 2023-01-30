@@ -1,14 +1,13 @@
 // Keep oversiktsfilter up to date with query parameters.
 // Store copy of oversikts-filter in sessionStorage
 
-import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { useSessionStorage } from '../../../hooks/useStorage';
-import { Filter } from './useOversiktStateTransitions';
+import {equalSakstyper, Filter} from './useOversiktStateTransitions';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import {SakSortering } from "../../../../api/graphql-types";
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -17,8 +16,9 @@ type SessionStateSaksoversikt = {
     side: number,
     tekstsoek: string,
     virksomhetsnumre: string[],
-    sortering: GQL.SakSortering,
+    sortering: SakSortering,
     bedrift: string | undefined,
+    sakstyper: string[]
 }
 type SessionStateForside = {
     route: "/",
@@ -34,6 +34,7 @@ const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
     virksomhetsnumre: filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
+    sakstyper: filter.sakstyper
 });
 
 const equalVirksomhetsnumre = (a: SessionStateSaksoversikt, b: SessionStateSaksoversikt): boolean => {
@@ -49,7 +50,8 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.tekstsoek === b.tekstsoek &&
             a.bedrift === b.bedrift &&
             a.sortering === b.sortering &&
-            equalVirksomhetsnumre(a, b);
+            equalVirksomhetsnumre(a, b) &&
+            equalSakstyper(a.sakstyper, b.sakstyper);
     } else {
         return false;
     }
@@ -108,6 +110,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
                 return org !== undefined ? [org] : [];
             }),
             sortering: sessionState.sortering,
+            sakstyper: sessionState.sakstyper,
         }
     }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre.join(","), sessionState.sortering])
 
@@ -116,7 +119,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
 
 const extractSearchParameters = (searchString: string): SessionStateSaksoversikt => {
     const search = new URLSearchParams(searchString)
-    const sortering = (search.get("sortering") ?? GQL.SakSortering.Oppdatert) as GQL.SakSortering
+    const sortering = (search.get("sortering") ?? SakSortering.Oppdatert) as SakSortering
     const bedrift = search.get("bedrift") ?? undefined;
     return {
         route: '/saksoversikt',
@@ -124,7 +127,8 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
         virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? (bedrift === undefined ? [] : [bedrift]),
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
-        sortering: Object.values(GQL.SakSortering).includes(sortering) ? sortering : GQL.SakSortering.Oppdatert
+        sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Oppdatert,
+        sakstyper: search.get("sakstyper")?.split(",") ?? [],
     }
 }
 
@@ -150,7 +154,13 @@ const updateSearchParameters = (current: string, sessionState: SessionStateSakso
 
     query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
 
-    if (sessionState.sortering === GQL.SakSortering.Oppdatert) {
+    if (sessionState.sakstyper.length > 0){
+        query.set("sakstyper", sessionState.sakstyper.join(","))
+    } else {
+        query.delete("sakstyper")
+    }
+
+    if (sessionState.sortering === SakSortering.Oppdatert) {
         query.delete("sortering")
     } else {
         query.set("sortering", sessionState.sortering);

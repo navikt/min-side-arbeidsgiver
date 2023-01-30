@@ -1,10 +1,10 @@
 import {BodyShort, LinkPanel} from '@navikt/ds-react';
 import React from 'react';
-import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {loggNavigasjonTags} from '../../../utils/funksjonerForAmplitudeLogging';
 import {useLocation} from "react-router-dom";
 import "./SaksListe.css"
 import OppgaveIkon from "./OppgaveIkon";
+import {OppgaveMetadata, OppgaveTilstand, Sak} from "../../../api/graphql-types";
 
 
 const dateFormat = new Intl.DateTimeFormat('no', {
@@ -14,7 +14,7 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 });
 
 type SakPanelProps = {
-    sak: GQL.Sak;
+    sak: Sak;
     placeholder?: boolean;
 }
 
@@ -26,8 +26,8 @@ export const SakPanel = ({
     const style: React.CSSProperties = fake ? {visibility: 'hidden'} : {}
     const {pathname} = useLocation()
     const [frist,] = frister
-    const paminnelse: boolean = oppgaver.some((oppgave: GQL.OppgaveMetadata) =>
-        oppgave.tilstand === GQL.OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null
+    const paminnelse: boolean = oppgaver.some((oppgave: OppgaveMetadata) =>
+        oppgave.tilstand === OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null
     )
 
 

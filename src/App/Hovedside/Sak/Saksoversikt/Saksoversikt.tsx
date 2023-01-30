@@ -2,7 +2,6 @@ import React, {FC, useContext, useEffect, useRef, useState} from 'react';
 import './Saksoversikt.css';
 import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
-import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import {SaksListe} from '../SaksListe';
 import {Alerts} from '../../../Alerts/Alerts';
 import {Filter, useOversiktStateTransitions} from './useOversiktStateTransitions';
@@ -13,6 +12,7 @@ import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
 import * as Record from "../../../../utils/Record";
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
+import {Sak, SakSortering} from "../../../../api/graphql-types";
 
 export const SIDE_SIZE = 30;
 
@@ -25,10 +25,11 @@ export const Saksoversikt = () => {
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
         byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
     }
-
+   
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
+            sakstyper={state.sakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
             valgteVirksomheter={state.filter.virksomheter}
@@ -95,7 +96,7 @@ const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) => {
         className="saksoversikt__sortering"
         label="Sorter på"
         onChange={(e) => {
-            byttFilter({...state.filter, sortering: e.target.value as GQL.SakSortering})
+            byttFilter({...state.filter, sortering: e.target.value as SakSortering})
         }}
     >
         {sorteringsrekkefølge.map(key => (
@@ -125,21 +126,21 @@ const useCurrentDate = (pollInterval: number) => {
     return currentDate
 }
 
-const sorteringsnavn: Record<GQL.SakSortering, string> = {
+const sorteringsnavn: Record<SakSortering, string> = {
     "OPPDATERT": "Oppdatert",
     "OPPRETTET": "Opprettet",
     "FRIST": "Frist",
 }
 
-const sorteringsrekkefølge: GQL.SakSortering[] = gittMiljo({
+const sorteringsrekkefølge: SakSortering[] = gittMiljo({
     prod: [
-        GQL.SakSortering.Oppdatert,
-        GQL.SakSortering.Opprettet,
+        SakSortering.Oppdatert,
+        SakSortering.Opprettet,
     ],
     other: [
-        GQL.SakSortering.Oppdatert,
-        GQL.SakSortering.Frist,
-        GQL.SakSortering.Opprettet,
+        SakSortering.Oppdatert,
+        SakSortering.Frist,
+        SakSortering.Opprettet,
     ],
 })
 
@@ -157,7 +158,7 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
 
-    if (state.sider === undefined || state.sider === 0) {
+    if (state.sider === undefined || state.sider < 2) {
         return null
     }
 
@@ -227,7 +228,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({state}) => {
 }
 
 type LasterProps = {
-    forrigeSaker?: Array<GQL.Sak>;
+    forrigeSaker?: Array<Sak>;
     startTid: Date;
 }
 
