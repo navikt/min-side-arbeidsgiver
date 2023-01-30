@@ -18,6 +18,7 @@ type HovedenhetCheckboxProp = {
     children: React.ReactNode | undefined
 }
 
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 export const HovedenhetCheckbox = (
     (
         {

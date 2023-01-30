@@ -12,6 +12,7 @@ type UnderenhetCheckboksProps = {
     gåOpp: () => void;
     onTabEvent: (shiftKey: boolean) => void;
 };
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 export const UnderenhetCheckboks = (
     {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp, onTabEvent}: UnderenhetCheckboksProps
 ) => {
