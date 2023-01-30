@@ -15,7 +15,10 @@ type UnderenhetCheckboksProps = {
 export const UnderenhetCheckboks = (
     {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp, onTabEvent}: UnderenhetCheckboksProps
 ) => {
-    return <div className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
+    return <div
+                className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
+                role="menuitemcheckbox"
+                aria-checked={underenhet.valgt}
                 onKeyDown={(event) => {
                     if (event.key === 'Tab') {
                         onTabEvent(event.shiftKey)

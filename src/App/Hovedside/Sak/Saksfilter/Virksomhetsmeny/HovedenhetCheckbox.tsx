@@ -34,57 +34,61 @@ export const HovedenhetCheckbox = (
     ) => {
         const visFlere = hovedenhet.underenheter.some(u => u.søkMatch)
         return <>
-            <div className="hovedenhet_container"
-                 onKeyDown={(event) => {
-                     if (event.key === 'Tab') {
-                         onTabEvent(event.shiftKey)
+            <div
+                className="hovedenhet_container"
+                role="menuitemcheckbox"
+                aria-checked={hovedenhet.valgt}
+                aria-expanded={hovedenhet.åpen}
+                onKeyDown={(event) => {
+                    if (event.key === 'Tab') {
+                        onTabEvent(event.shiftKey)
 
-                         event.preventDefault()
-                         return
-                     }
+                        event.preventDefault()
+                        return
+                    }
 
-                     if (event.key === 'ArrowUp' || event.key === 'Up') {
-                         gåTilForrige()
+                    if (event.key === 'ArrowUp' || event.key === 'Up') {
+                        gåTilForrige()
 
-                         event.preventDefault()
-                         return;
-                     }
+                        event.preventDefault()
+                        return;
+                    }
 
-                     if (event.key === 'ArrowDown' || event.key === 'Down') {
-                         if (visFlere && erÅpen) {
-                             gåNed()
-                         } else {
-                             gåTilNeste()
-                         }
+                    if (event.key === 'ArrowDown' || event.key === 'Down') {
+                        if (visFlere && erÅpen) {
+                            gåNed()
+                        } else {
+                            gåTilNeste()
+                        }
 
-                         event.preventDefault()
-                         return;
-                     }
+                        event.preventDefault()
+                        return;
+                    }
 
-                     if (event.key === 'ArrowRight' || event.key === 'Right') {
-                         if (visFlere) {
-                             if (erÅpen) {
-                                 gåNed()
-                             } else {
-                                 toggleÅpen()
-                             }
-                         }
+                    if (event.key === 'ArrowRight' || event.key === 'Right') {
+                        if (visFlere) {
+                            if (erÅpen) {
+                                gåNed()
+                            } else {
+                                toggleÅpen()
+                            }
+                        }
 
-                         event.preventDefault()
-                         return;
-                     }
+                        event.preventDefault()
+                        return;
+                    }
 
 
-                     if (event.key === 'ArrowLeft' || event.key === 'Left') {
-                         if (visFlere && erÅpen) {
-                             toggleÅpen()
-                         }
+                    if (event.key === 'ArrowLeft' || event.key === 'Left') {
+                        if (visFlere && erÅpen) {
+                            toggleÅpen()
+                        }
 
-                         event.preventDefault()
-                         return;
-                     }
+                        event.preventDefault()
+                        return;
+                    }
 
-                 }}>
+                }}>
                 <div className="hovedenhet">
                     <Checkbox
                         ref={input => input !== null && setEnhetRef(hovedenhet.OrganizationNumber, input)}

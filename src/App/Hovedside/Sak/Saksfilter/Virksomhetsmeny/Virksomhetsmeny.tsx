@@ -232,6 +232,8 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
         <div className="virksomheter_container" ref={virksomhetsmenyRef}>
             <button
                 className="virksomheter_menyknapp"
+                aria-haspopup="true"
+                aria-controls="virksomheter_virksomhetsmeny"
                 onClick={() => {
                     if (virksomhetsmenyÅpen) {
                         oppdaterValgte(alleVirksomheterIntern, "lukk")
@@ -244,7 +246,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                 {virksomhetsmenyÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
             </button>
             {virksomhetsmenyÅpen ?
-                <div className="virksomheter_virksomhetsmeny" role="menu">
+                <div id="virksomheter_virksomhetsmeny" className="virksomheter_virksomhetsmeny" role="menu">
                     <div className="virksomheter_virksomhetsmeny_sok">
                         <Search
                             ref={searchRef}
