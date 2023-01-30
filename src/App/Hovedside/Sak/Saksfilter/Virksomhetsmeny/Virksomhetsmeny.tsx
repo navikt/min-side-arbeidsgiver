@@ -209,6 +209,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
     ) => {
         if (commit === "lukk") {
             const virksomheter = kunValgteVirksomheter(valgte)
+            setValgtEnhet(virksomheter[0])
             setValgteVirksomheter(virksomheter)
             setVirksomhetsmenyÅpen(false)
             setAlleVirksomheterIntern(valgte.map(hovedenhet => ({
@@ -314,8 +315,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                         }
 
                         onChange={(e) => {
-                            // TODO: update valgtEnhet
-
                             setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
                                 if (e.includes(hovedenhet.OrganizationNumber) !== hovedenhet.valgt) {
                                     return {
