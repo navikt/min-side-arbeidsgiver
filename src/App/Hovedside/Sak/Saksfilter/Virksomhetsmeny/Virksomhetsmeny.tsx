@@ -1,4 +1,4 @@
-import React, {useRef, useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import {BodyShort, Button, CheckboxGroup, Search} from "@navikt/ds-react";
 import {Collapse, Expand} from "@navikt/ds-icons";
 import "./Virksomhetsmeny.css"
@@ -7,9 +7,9 @@ import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
 import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
 import fuzzysort from 'fuzzysort';
 import {Hovedenhet} from "../Virksomhetsikoner/Virksomhetsikoner";
-import { count, sum } from '../../../../../utils/util';
+import {count, sum} from '../../../../../utils/util';
 import amplitude from '../../../../../utils/amplitude';
-import { useLoggKlikk } from '../../../../../utils/funksjonerForAmplitudeLogging';
+import {useLoggKlikk} from '../../../../../utils/funksjonerForAmplitudeLogging';
 
 export type Props = {
     organisasjonstre: OrganisasjonEnhet[],
@@ -116,8 +116,10 @@ type VirksomhetsmenyProps = {
 const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent) => void) => {
     React.useEffect(() => {
         const listener = (event: MouseEvent) => {
-            if (!ref.current || ref.current.contains(event.target as Node)) {
-                return;
+            const node = ref.current
+            // @ts-ignore
+            if (node &&  node !== event.target && node.contains(event.target as HTMLElement)) {
+                return
             }
             handler(event);
         };
@@ -144,7 +146,18 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
     const loggVelgAlleKlikk = useLoggKlikk("velg alle")
     const loggFjernAlleKlikk = useLoggKlikk("fjern alle")
     const loggVelgUtenforKlikk = useLoggKlikk("velg utenfor")
-
+    const searchRef = useRef<HTMLInputElement>(null)
+    const fjernAlleKnappRef = useRef<HTMLButtonElement>(null)
+    const velgKnappRef = useRef<HTMLButtonElement>(null)
+    const focusSearch = () => {
+        searchRef.current?.focus()
+    }
+    const focusFjernAlleKnapp = () => {
+        fjernAlleKnappRef.current?.focus()
+    }
+    const focusVelgKnapp = () => {
+        velgKnappRef.current?.focus()
+    }
     const amplitudeValgteVirksomheter = (valgte: Array<Hovedenhet>) => {
         amplitude.logEvent("velg-virksomheter", {
             antallHovedenheterValgt: count(valgte, hovedenhet => hovedenhet.valgt),
@@ -160,6 +173,18 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
     };
 
     const valgteVirksomheter = kunValgteVirksomheter(alleVirksomheter)
+    const [valgtEnhet, setValgtEnhet] = useState(valgteVirksomheter[0] ?? alleVirksomheterIntern[0])
+    const enhetRefs: Record<string, HTMLInputElement> = {}
+    const focusEnhet = () => {
+        let organizationNumber = valgtEnhet?.OrganizationNumber;
+        enhetRefs[organizationNumber]?.focus()
+        enhetRefs[organizationNumber]?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"})
+    }
+    useEffect(() => {
+        if (virksomhetsmenyÅpen) {
+            focusEnhet()
+        }
+    }, [virksomhetsmenyÅpen, valgtEnhet])
 
     useOnClickOutside(virksomhetsmenyRef, () => {
         if (virksomhetsmenyÅpen) {
@@ -219,11 +244,22 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                 {virksomhetsmenyÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
             </button>
             {virksomhetsmenyÅpen ?
-                <div className="virksomheter_virksomhetsmeny">
+                <div className="virksomheter_virksomhetsmeny" role="menu">
                     <div className="virksomheter_virksomhetsmeny_sok">
                         <Search
+                            ref={searchRef}
                             label="Søk etter virksomhet"
                             variant="simple"
+                            onKeyDown={(event) => {
+                                if (event.key === 'Tab') {
+                                    if (event.shiftKey) {
+                                        focusFjernAlleKnapp()
+                                    } else {
+                                        focusEnhet()
+                                    }
+                                    event.preventDefault()
+                                }
+                            }}
                             onChange={(søkeord) => {
                                 if (søkeord.length === 0) {
                                     setAlleVirksomheterIntern(
@@ -276,6 +312,8 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                         }
 
                         onChange={(e) => {
+                            // TODO: update valgtEnhet
+
                             setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
                                 if (e.includes(hovedenhet.OrganizationNumber) !== hovedenhet.valgt) {
                                     return {
@@ -308,8 +346,35 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                     return hovedenhet.søkMatch ?
                                         <div key={hovedenhet.OrganizationNumber}>
                                             <HovedenhetCheckbox
+                                                setEnhetRef={(id, ref) => {
+                                                    enhetRefs[id] = ref
+                                                }}
                                                 hovedenhet={hovedenhet}
                                                 erÅpen={hovedenhet.åpen}
+                                                gåTilForrige={() => {
+                                                    const forrigeIndex = Math.max(0, (alleVirksomheterIntern.indexOf(hovedenhet)) - 1)
+                                                    const forrigeHovedenhet = alleVirksomheterIntern[forrigeIndex];
+                                                    if (forrigeHovedenhet.åpen && forrigeHovedenhet.underenheter.length > 0) {
+                                                        setValgtEnhet(forrigeHovedenhet.underenheter[forrigeHovedenhet.underenheter.length - 1])
+                                                    } else {
+                                                        setValgtEnhet(forrigeHovedenhet)
+                                                    }
+                                                }}
+                                                gåTilNeste={() => {
+                                                    const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
+                                                    const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
+                                                    setValgtEnhet(nesteHovedenhet)
+                                                }}
+                                                gåNed={() => {
+                                                    setValgtEnhet(hovedenhet.underenheter[0])
+                                                }}
+                                                onTabEvent={(shiftKey) => {
+                                                    if (shiftKey) {
+                                                        focusSearch()
+                                                    } else {
+                                                        focusVelgKnapp()
+                                                    }
+                                                }}
                                                 toggleÅpen={() => {
                                                     setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhetIntern => {
                                                             return {
@@ -321,10 +386,39 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                 }}
                                             >
                                                 {
-                                                    hovedenhet.underenheter.map((underenhet) =>
+                                                    hovedenhet.underenheter.map((underenhet, idx) =>
                                                         underenhet.søkMatch ?
-                                                            <UnderenhetCheckboks key={underenhet.OrganizationNumber}
-                                                                                 underenhet={underenhet}/> : null
+                                                            <UnderenhetCheckboks
+                                                                setEnhetRef={(id, ref) => {
+                                                                    enhetRefs[id] = ref
+                                                                }}
+                                                                gåOpp={() => {
+                                                                    setValgtEnhet(hovedenhet)
+                                                                }}
+                                                                gåTilForrige={() => {
+                                                                    if (idx === 0) {
+                                                                        setValgtEnhet(hovedenhet)
+                                                                    } else {
+                                                                        setValgtEnhet(hovedenhet.underenheter[idx - 1])
+                                                                    }
+                                                                }}
+                                                                gåTilNeste={() => {
+                                                                    if (idx < hovedenhet.underenheter.length - 1) {
+                                                                        setValgtEnhet(hovedenhet.underenheter[idx + 1])
+                                                                    } else {
+                                                                        const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
+                                                                        setValgtEnhet(alleVirksomheterIntern[nesteIndex])
+                                                                    }
+                                                                }}
+                                                                onTabEvent={(shiftKey) => {
+                                                                    if (shiftKey) {
+                                                                        focusSearch()
+                                                                    } else {
+                                                                        focusVelgKnapp()
+                                                                    }
+                                                                }}
+                                                                key={underenhet.OrganizationNumber}
+                                                                underenhet={underenhet}/> : null
                                                     )
                                                 }
                                             </HovedenhetCheckbox>
@@ -335,6 +429,15 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                     </CheckboxGroup>
                     <div className="virksomheter_virksomhetsmeny_footer">
                         <Button
+                            ref={velgKnappRef}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Tab') {
+                                    if (event.shiftKey) {
+                                        focusEnhet()
+                                        event.preventDefault()
+                                    }
+                                }
+                            }}
                             onClick={() => {
                                 loggVelgKlikk()
                                 oppdaterValgte(alleVirksomheterIntern, "lukk")
@@ -350,6 +453,15 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                         > Velg alle </Button>
                         <Button
                             variant="tertiary"
+                            ref={fjernAlleKnappRef}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Tab') {
+                                    if (!event.shiftKey) {
+                                        focusSearch()
+                                        event.preventDefault()
+                                    }
+                                }
+                            }}
                             onClick={() => {
                                 loggFjernAlleKlikk()
                                 oppdaterValgte(settAlleTil(false), "forbliÅpen")

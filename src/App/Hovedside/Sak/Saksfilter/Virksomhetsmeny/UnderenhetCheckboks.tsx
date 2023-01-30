@@ -4,9 +4,50 @@ import { Underenhet} from "./Virksomhetsmeny";
 import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 
 
-export const UnderenhetCheckboks = ({underenhet}: {underenhet: Underenhet}) => {
-    return <div className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet">
+type UnderenhetCheckboksProps = {
+    setEnhetRef: (id: string, ref: HTMLInputElement) => void;
+    underenhet: Underenhet;
+    gåTilForrige: () => void;
+    gåTilNeste: () => void;
+    gåOpp: () => void;
+    onTabEvent: (shiftKey: boolean) => void;
+};
+export const UnderenhetCheckboks = (
+    {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp, onTabEvent}: UnderenhetCheckboksProps
+) => {
+    return <div className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
+                onKeyDown={(event) => {
+                    if (event.key === 'Tab') {
+                        onTabEvent(event.shiftKey)
+
+                        event.preventDefault()
+                        return
+                    }
+
+                    if (event.key === 'ArrowUp' || event.key === 'Up') {
+                        gåTilForrige()
+
+                        event.preventDefault()
+                        return;
+                    }
+
+                    if (event.key === 'ArrowDown' || event.key === 'Down') {
+                        gåTilNeste()
+
+                        event.preventDefault()
+                        return;
+                    }
+
+                    if (event.key === 'ArrowLeft' || event.key === 'Left') {
+                        gåOpp()
+
+                        event.preventDefault()
+                        return;
+                    }
+
+                }}>
         <Checkbox
+            ref={input => input !== null && setEnhetRef(underenhet.OrganizationNumber, input)}
             value={underenhet.OrganizationNumber}
             id={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
