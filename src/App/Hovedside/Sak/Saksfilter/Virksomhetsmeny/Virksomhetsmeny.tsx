@@ -308,7 +308,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                 .map(enhet => enhet.OrganizationNumber)
                         }
                         onKeyDown={(e) => {
-                            console.error(e.key, e)
                             if (e.key === 'Tab') {
                                 if (e.shiftKey) {
                                     focusSearch()
@@ -320,7 +319,12 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                 setValgtEnhet(alleVirksomheterIntern[0])
                             }
                             if (e.key === 'End') {
-                                setValgtEnhet(alleVirksomheterIntern[alleVirksomheterIntern.length - 1])
+                                let sisteEnhet = alleVirksomheterIntern[alleVirksomheterIntern.length - 1]
+                                if (sisteEnhet.åpen && sisteEnhet.underenheter.length > 0) {
+                                    setValgtEnhet(sisteEnhet.underenheter[sisteEnhet.underenheter.length - 1])
+                                } else {
+                                    setValgtEnhet(sisteEnhet)
+                                }
                             }
                             if (e.key === 'Enter') {
                                 oppdaterValgte(alleVirksomheterIntern.map(hovedenhet => {
