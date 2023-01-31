@@ -85,7 +85,7 @@ export const Saksfilter = ({
             >
                 {
                     sorted(sakstyper, sakstype => sakstype.navn).map(({navn}) =>
-                        <Checkbox value={navn}>
+                        <Checkbox value={navn} key={navn}>
                             <BodyShort>
                                 {navn}
                             </BodyShort>
