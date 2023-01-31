@@ -321,6 +321,32 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                             if (e.key === 'End') {
                                 setValgtEnhet(alleVirksomheterIntern[alleVirksomheterIntern.length - 1])
                             }
+                            if (e.key === 'Enter') {
+                                oppdaterValgte(alleVirksomheterIntern.map(hovedenhet => {
+                                    if (hovedenhet.OrganizationNumber === valgtEnhet.OrganizationNumber) {
+                                        return {
+                                            ...hovedenhet,
+                                            valgt: !valgtEnhet.valgt,
+                                            underenheter: hovedenhet.underenheter.map(underenhet => ({
+                                                ...underenhet,
+                                                valgt: !valgtEnhet.valgt
+                                            }))
+                                        }
+                                    } else {
+                                        const underenheter = hovedenhet.underenheter.map(underenhet =>
+                                            underenhet.OrganizationNumber === valgtEnhet.OrganizationNumber ?
+                                                {...underenhet, valgt: !valgtEnhet.valgt} :
+                                                underenhet
+                                        );
+                                        return {
+                                            ...hovedenhet,
+                                            valgt: underenheter.every(underenhet => underenhet.valgt),
+                                            underenheter,
+                                        }
+                                    }
+
+                                }), "lukk")
+                            }
 
                         }}
                         onChange={(e) => {
