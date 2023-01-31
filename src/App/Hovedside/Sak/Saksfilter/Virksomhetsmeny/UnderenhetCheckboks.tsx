@@ -1,7 +1,8 @@
 import {BodyShort, Checkbox, Label} from "@navikt/ds-react";
-import React from "react";
+import React, {useRef} from "react";
 import { Underenhet} from "./Virksomhetsmeny";
 import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
+import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
 
 
 type UnderenhetCheckboksProps = {
@@ -12,44 +13,44 @@ type UnderenhetCheckboksProps = {
     gåOpp: () => void;
     onTabEvent: (shiftKey: boolean) => void;
 };
-/* eslint-disable jsx-a11y/interactive-supports-focus */
+
 export const UnderenhetCheckboks = (
     {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp, onTabEvent}: UnderenhetCheckboksProps
 ) => {
-    return <div
+    const containerRef = useRef<HTMLDivElement>(null)
+    useKeyboardEvent('keydown', containerRef, (event) => {
+        if (event.key === 'Tab') {
+            onTabEvent(event.shiftKey)
+
+            event.preventDefault()
+            return
+        }
+
+        if (event.key === 'ArrowUp' || event.key === 'Up') {
+            gåTilForrige()
+
+            event.preventDefault()
+            return;
+        }
+
+        if (event.key === 'ArrowDown' || event.key === 'Down') {
+            gåTilNeste()
+
+            event.preventDefault()
+            return;
+        }
+
+        if (event.key === 'ArrowLeft' || event.key === 'Left') {
+            gåOpp()
+
+            event.preventDefault()
+            return;
+        }
+    })
+    return <div ref={containerRef}
                 className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
                 role="menuitemcheckbox"
-                aria-checked={underenhet.valgt}
-                onKeyDown={(event) => {
-                    if (event.key === 'Tab') {
-                        onTabEvent(event.shiftKey)
-
-                        event.preventDefault()
-                        return
-                    }
-
-                    if (event.key === 'ArrowUp' || event.key === 'Up') {
-                        gåTilForrige()
-
-                        event.preventDefault()
-                        return;
-                    }
-
-                    if (event.key === 'ArrowDown' || event.key === 'Down') {
-                        gåTilNeste()
-
-                        event.preventDefault()
-                        return;
-                    }
-
-                    if (event.key === 'ArrowLeft' || event.key === 'Left') {
-                        gåOpp()
-
-                        event.preventDefault()
-                        return;
-                    }
-
-                }}>
+                aria-checked={underenhet.valgt}>
         <Checkbox
             ref={input => input !== null && setEnhetRef(underenhet.OrganizationNumber, input)}
             value={underenhet.OrganizationNumber}

@@ -10,6 +10,7 @@ import {Hovedenhet} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {count, sum} from '../../../../../utils/util';
 import amplitude from '../../../../../utils/amplitude';
 import {useLoggKlikk} from '../../../../../utils/funksjonerForAmplitudeLogging';
+import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
 
 export type Props = {
     organisasjonstre: OrganisasjonEnhet[],
@@ -118,7 +119,7 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
         const listener = (event: MouseEvent) => {
             const node = ref.current
             // @ts-ignore
-            if (node &&  node !== event.target && node.contains(event.target as HTMLElement)) {
+            if (node && node !== event.target && node.contains(event.target as HTMLElement)) {
                 return
             }
             handler(event);
@@ -129,6 +130,7 @@ const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event
         };
     }, [ref, handler]);
 }
+
 const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | Underenhet> =>
     virksomheter.flatMap(hovedenhet => {
         if (hovedenhet.valgt) {
@@ -192,6 +194,14 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
             oppdaterValgte(alleVirksomheterIntern, 'lukk');
         }
     });
+
+    useKeyboardEvent('keydown', virksomhetsmenyRef,(event) => {
+        if (event.key === 'Escape') {
+            if (virksomhetsmenyÅpen) {
+                oppdaterValgte(alleVirksomheterIntern, 'lukk');
+            }
+        }
+    })
 
     const settAlleTil = (valgt: boolean): Array<Hovedenhet> =>
         alleVirksomheterIntern.map(hovedenhet => ({
@@ -355,6 +365,9 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                 gåTilForrige={() => {
                                                     const forrigeIndex = Math.max(0, (alleVirksomheterIntern.indexOf(hovedenhet)) - 1)
                                                     const forrigeHovedenhet = alleVirksomheterIntern[forrigeIndex];
+                                                    if (forrigeHovedenhet === hovedenhet) {
+                                                        return
+                                                    }
                                                     if (forrigeHovedenhet.åpen && forrigeHovedenhet.underenheter.length > 0) {
                                                         setValgtEnhet(forrigeHovedenhet.underenheter[forrigeHovedenhet.underenheter.length - 1])
                                                     } else {
@@ -408,7 +421,11 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                                         setValgtEnhet(hovedenhet.underenheter[idx + 1])
                                                                     } else {
                                                                         const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
-                                                                        setValgtEnhet(alleVirksomheterIntern[nesteIndex])
+                                                                        const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
+                                                                        if (nesteHovedenhet === hovedenhet) {
+                                                                            return
+                                                                        }
+                                                                        setValgtEnhet(nesteHovedenhet)
                                                                     }
                                                                 }}
                                                                 onTabEvent={(shiftKey) => {

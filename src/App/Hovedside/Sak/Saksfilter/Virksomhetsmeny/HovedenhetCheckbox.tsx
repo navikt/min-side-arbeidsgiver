@@ -1,9 +1,10 @@
 import {BodyShort, Button, Checkbox, Label} from "@navikt/ds-react";
 import {Hovedenhet as HovedenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {Collapse, Expand} from "@navikt/ds-icons";
-import React from "react";
+import React, {useRef} from "react";
 import "./HovedenhetCheckbox.css";
 import {Hovedenhet} from "./Virksomhetsmeny";
+import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
 
 
 type HovedenhetCheckboxProp = {
@@ -18,7 +19,6 @@ type HovedenhetCheckboxProp = {
     children: React.ReactNode | undefined
 }
 
-/* eslint-disable jsx-a11y/interactive-supports-focus */
 export const HovedenhetCheckbox = (
     (
         {
@@ -33,63 +33,66 @@ export const HovedenhetCheckbox = (
             children
         }: HovedenhetCheckboxProp,
     ) => {
+        const containerRef = useRef<HTMLDivElement>(null)
         const visFlere = hovedenhet.underenheter.some(u => u.søkMatch)
+
+        useKeyboardEvent('keydown', containerRef, (event) => {
+            if (event.key === 'Tab') {
+                onTabEvent(event.shiftKey)
+
+                event.preventDefault()
+                return
+            }
+
+            if (event.key === 'ArrowUp' || event.key === 'Up') {
+                gåTilForrige()
+
+                event.preventDefault()
+                return;
+            }
+
+            if (event.key === 'ArrowDown' || event.key === 'Down') {
+                if (visFlere && erÅpen) {
+                    gåNed()
+                } else {
+                    gåTilNeste()
+                }
+
+                event.preventDefault()
+                return;
+            }
+
+            if (event.key === 'ArrowRight' || event.key === 'Right') {
+                if (visFlere) {
+                    if (erÅpen) {
+                        gåNed()
+                    } else {
+                        toggleÅpen()
+                    }
+                }
+
+                event.preventDefault()
+                return;
+            }
+
+            if (event.key === 'ArrowLeft' || event.key === 'Left') {
+                if (visFlere && erÅpen) {
+                    toggleÅpen()
+                }
+
+                event.preventDefault()
+                return;
+            }
+        })
+
         return <>
             <div
+                ref={containerRef}
                 className="hovedenhet_container"
                 role="menuitemcheckbox"
                 aria-checked={hovedenhet.valgt}
                 aria-expanded={hovedenhet.åpen}
-                onKeyDown={(event) => {
-                    if (event.key === 'Tab') {
-                        onTabEvent(event.shiftKey)
-
-                        event.preventDefault()
-                        return
-                    }
-
-                    if (event.key === 'ArrowUp' || event.key === 'Up') {
-                        gåTilForrige()
-
-                        event.preventDefault()
-                        return;
-                    }
-
-                    if (event.key === 'ArrowDown' || event.key === 'Down') {
-                        if (visFlere && erÅpen) {
-                            gåNed()
-                        } else {
-                            gåTilNeste()
-                        }
-
-                        event.preventDefault()
-                        return;
-                    }
-
-                    if (event.key === 'ArrowRight' || event.key === 'Right') {
-                        if (visFlere) {
-                            if (erÅpen) {
-                                gåNed()
-                            } else {
-                                toggleÅpen()
-                            }
-                        }
-
-                        event.preventDefault()
-                        return;
-                    }
-
-
-                    if (event.key === 'ArrowLeft' || event.key === 'Left') {
-                        if (visFlere && erÅpen) {
-                            toggleÅpen()
-                        }
-
-                        event.preventDefault()
-                        return;
-                    }
-
-                }}>
+            >
                 <div className="hovedenhet">
                     <Checkbox
                         ref={input => input !== null && setEnhetRef(hovedenhet.OrganizationNumber, input)}
