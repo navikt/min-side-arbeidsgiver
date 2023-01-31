@@ -308,6 +308,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                 .map(enhet => enhet.OrganizationNumber)
                         }
                         onKeyDown={(e) => {
+                            console.error(e.key, e)
                             if (e.key === 'Tab') {
                                 if (e.shiftKey) {
                                     focusSearch()
