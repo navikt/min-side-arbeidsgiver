@@ -315,6 +315,13 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                     focusVelgKnapp()
                                 }
                             }
+                            if (e.key === 'Home') {
+                                setValgtEnhet(alleVirksomheterIntern[0])
+                            }
+                            if (e.key === 'End') {
+                                setValgtEnhet(alleVirksomheterIntern[alleVirksomheterIntern.length - 1])
+                            }
+
                         }}
                         onChange={(e) => {
                             setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
