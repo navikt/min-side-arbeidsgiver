@@ -177,6 +177,27 @@ const InformasjonOmTilgangsstyringSide = () => {
                                     </BodyLong>
                                 </Accordion.Content>
                             </Accordion.Item>
+
+                            <Accordion.Item>
+                                <Accordion.Header>Forebygge fravær</Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong>
+                                    Du får lesetilgang til innholdet ved å ha en vilkårlig Altinn-rolle i virksomheten din.
+                                    </BodyLong>
+
+                                    <BodyLong>
+                                        For å redigere eller se endringer andre har gjort må du ha Altinn-rollen:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>Helse-, sosial- og velferdstjenester</li>
+                                    </ul>
+
+                                    <BodyLong>
+                                        Du kan også ha enkeltrettigheten «sykefraværsstatistikk for virksomheter».
+                                    </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+
                             <Accordion.Item>
                                 <Accordion.Header>
                                     Fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom
