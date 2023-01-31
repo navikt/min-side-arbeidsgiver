@@ -11,6 +11,7 @@ import {count, sum} from '../../../../../utils/util';
 import amplitude from '../../../../../utils/amplitude';
 import {useLoggKlikk} from '../../../../../utils/funksjonerForAmplitudeLogging';
 import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
+import {useOnClickOutside} from "../../../../hooks/UseOnClickOutside";
 
 export type Props = {
     organisasjonstre: OrganisasjonEnhet[],
@@ -112,23 +113,6 @@ export interface Hovedenhet extends Organisasjon {
 type VirksomhetsmenyProps = {
     alleVirksomheter: Array<Hovedenhet>,
     setValgteVirksomheter: (a: Array<Underenhet | Hovedenhet>) => void,
-}
-
-const useOnClickOutside = (ref: React.RefObject<HTMLDivElement>, handler: (event: MouseEvent) => void) => {
-    React.useEffect(() => {
-        const listener = (event: MouseEvent) => {
-            const node = ref.current
-            // @ts-ignore
-            if (node && node !== event.target && node.contains(event.target as HTMLElement)) {
-                return
-            }
-            handler(event);
-        };
-        document.addEventListener("click", listener);
-        return () => {
-            document.removeEventListener("click", listener);
-        };
-    }, [ref, handler]);
 }
 
 const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | Underenhet> =>
@@ -323,7 +307,15 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                 .filter(enhet => enhet.valgt)
                                 .map(enhet => enhet.OrganizationNumber)
                         }
-
+                        onKeyDown={(e) => {
+                            if (e.key === 'Tab') {
+                                if (e.shiftKey) {
+                                    focusSearch()
+                                } else {
+                                    focusVelgKnapp()
+                                }
+                            }
+                        }}
                         onChange={(e) => {
                             setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
                                 if (e.includes(hovedenhet.OrganizationNumber) !== hovedenhet.valgt) {
@@ -382,13 +374,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                 gåNed={() => {
                                                     setValgtEnhet(hovedenhet.underenheter[0])
                                                 }}
-                                                onTabEvent={(shiftKey) => {
-                                                    if (shiftKey) {
-                                                        focusSearch()
-                                                    } else {
-                                                        focusVelgKnapp()
-                                                    }
-                                                }}
                                                 toggleÅpen={() => {
                                                     setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhetIntern => {
                                                             return {
@@ -426,13 +411,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                                             return
                                                                         }
                                                                         setValgtEnhet(nesteHovedenhet)
-                                                                    }
-                                                                }}
-                                                                onTabEvent={(shiftKey) => {
-                                                                    if (shiftKey) {
-                                                                        focusSearch()
-                                                                    } else {
-                                                                        focusVelgKnapp()
                                                                     }
                                                                 }}
                                                                 key={underenhet.OrganizationNumber}

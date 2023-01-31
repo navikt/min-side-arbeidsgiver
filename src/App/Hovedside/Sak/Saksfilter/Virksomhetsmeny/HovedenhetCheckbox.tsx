@@ -15,7 +15,6 @@ type HovedenhetCheckboxProp = {
     gåTilForrige: () => void,
     gåTilNeste: () => void,
     gåNed: () => void,
-    onTabEvent: (shiftKey: boolean) => void;
     children: React.ReactNode | undefined
 }
 
@@ -29,7 +28,6 @@ export const HovedenhetCheckbox = (
             gåTilForrige,
             gåTilNeste,
             gåNed,
-            onTabEvent,
             children
         }: HovedenhetCheckboxProp,
     ) => {
@@ -37,13 +35,6 @@ export const HovedenhetCheckbox = (
         const visFlere = hovedenhet.underenheter.some(u => u.søkMatch)
 
         useKeyboardEvent('keydown', containerRef, (event) => {
-            if (event.key === 'Tab') {
-                onTabEvent(event.shiftKey)
-
-                event.preventDefault()
-                return
-            }
-
             if (event.key === 'ArrowUp' || event.key === 'Up') {
                 gåTilForrige()
 

@@ -11,21 +11,13 @@ type UnderenhetCheckboksProps = {
     gåTilForrige: () => void;
     gåTilNeste: () => void;
     gåOpp: () => void;
-    onTabEvent: (shiftKey: boolean) => void;
 };
 
 export const UnderenhetCheckboks = (
-    {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp, onTabEvent}: UnderenhetCheckboksProps
+    {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp}: UnderenhetCheckboksProps
 ) => {
     const containerRef = useRef<HTMLDivElement>(null)
     useKeyboardEvent('keydown', containerRef, (event) => {
-        if (event.key === 'Tab') {
-            onTabEvent(event.shiftKey)
-
-            event.preventDefault()
-            return
-        }
-
         if (event.key === 'ArrowUp' || event.key === 'Up') {
             gåTilForrige()
 
