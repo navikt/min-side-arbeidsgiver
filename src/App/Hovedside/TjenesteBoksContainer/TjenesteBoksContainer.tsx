@@ -5,7 +5,7 @@ import Syfoboks from './Syfoboks/Syfoboks';
 import Pamboks from './Pamboks/Pamboks';
 import Kandidatlisteboks from "./Kandidatlisteboks/Kandidatlisteboks";
 import Tiltakboks from './Tiltakboks/Tiltakboks';
-import IAwebboks from './IAwebboks/IAwebboks';
+import ForebyggeFraværboks from './ForebyggeFraværboks/ForebyggeFraværboks';
 import TiltakRefusjonboks from './TiltakRefusjonboks/TiltakRefusjonboks';
 import './TjenesteBoksContainer.css';
 
@@ -26,8 +26,8 @@ const TjenesteBoksContainer: FunctionComponent = () => {
         tjenester.push(Syfoboks);
     }
 
-    if (valgtOrganisasjon.altinntilgang.iaweb) {
-        tjenester.push(IAwebboks);
+    if (valgtOrganisasjon.reporteetilgang) {
+        tjenester.push(ForebyggeFraværboks);
     }
 
     if (valgtOrganisasjon.altinntilgang.rekruttering) {
