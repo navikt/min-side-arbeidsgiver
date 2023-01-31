@@ -10,11 +10,11 @@ type UnderenhetCheckboksProps = {
     underenhet: Underenhet;
     gåTilForrige: () => void;
     gåTilNeste: () => void;
-    gåOpp: () => void;
+    gåTilHovedenhet: () => void;
 };
 
 export const UnderenhetCheckboks = (
-    {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåOpp}: UnderenhetCheckboksProps
+    {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåTilHovedenhet}: UnderenhetCheckboksProps
 ) => {
     const containerRef = useRef<HTMLDivElement>(null)
     useKeyboardEvent('keydown', containerRef, (event) => {
@@ -33,7 +33,7 @@ export const UnderenhetCheckboks = (
         }
 
         if (event.key === 'ArrowLeft' || event.key === 'Left') {
-            gåOpp()
+            gåTilHovedenhet()
 
             event.preventDefault()
             return;

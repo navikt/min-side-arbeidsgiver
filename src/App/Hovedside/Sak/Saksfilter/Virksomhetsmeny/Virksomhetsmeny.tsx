@@ -404,7 +404,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                     const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
                                                     setValgtEnhet(nesteHovedenhet)
                                                 }}
-                                                gåNed={() => {
+                                                gåTilUnderenhet={() => {
                                                     setValgtEnhet(hovedenhet.underenheter[0])
                                                 }}
                                                 toggleÅpen={() => {
@@ -424,7 +424,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                                                 setEnhetRef={(id, ref) => {
                                                                     enhetRefs[id] = ref
                                                                 }}
-                                                                gåOpp={() => {
+                                                                gåTilHovedenhet={() => {
                                                                     setValgtEnhet(hovedenhet)
                                                                 }}
                                                                 gåTilForrige={() => {

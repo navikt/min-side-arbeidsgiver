@@ -14,7 +14,7 @@ type HovedenhetCheckboxProp = {
     toggleÅpen: () => void,
     gåTilForrige: () => void,
     gåTilNeste: () => void,
-    gåNed: () => void,
+    gåTilUnderenhet: () => void,
     children: React.ReactNode | undefined
 }
 
@@ -27,7 +27,7 @@ export const HovedenhetCheckbox = (
             toggleÅpen,
             gåTilForrige,
             gåTilNeste,
-            gåNed,
+            gåTilUnderenhet,
             children
         }: HovedenhetCheckboxProp,
     ) => {
@@ -44,7 +44,7 @@ export const HovedenhetCheckbox = (
 
             if (event.key === 'ArrowDown' || event.key === 'Down') {
                 if (visFlere && erÅpen) {
-                    gåNed()
+                    gåTilUnderenhet()
                 } else {
                     gåTilNeste()
                 }
@@ -56,7 +56,7 @@ export const HovedenhetCheckbox = (
             if (event.key === 'ArrowRight' || event.key === 'Right') {
                 if (visFlere) {
                     if (erÅpen) {
-                        gåNed()
+                        gåTilUnderenhet()
                     } else {
                         toggleÅpen()
                     }
