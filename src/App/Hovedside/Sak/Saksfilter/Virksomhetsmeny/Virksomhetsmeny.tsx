@@ -314,9 +314,11 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                 } else {
                                     focusVelgKnapp()
                                 }
+                                e.preventDefault()
                             }
                             if (e.key === 'Home') {
                                 setValgtEnhet(alleVirksomheterIntern[0])
+                                e.preventDefault()
                             }
                             if (e.key === 'End') {
                                 let sisteEnhet = alleVirksomheterIntern[alleVirksomheterIntern.length - 1]
@@ -325,6 +327,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                 } else {
                                     setValgtEnhet(sisteEnhet)
                                 }
+                                e.preventDefault()
                             }
                             if (e.key === 'Enter') {
                                 oppdaterValgte(alleVirksomheterIntern.map(hovedenhet => {
@@ -351,6 +354,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                                     }
 
                                 }), "lukk")
+                                e.preventDefault()
                             }
 
                         }}
