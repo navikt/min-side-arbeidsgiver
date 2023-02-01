@@ -186,7 +186,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Tilskuddsbrev om NAV-tiltak',
         beOmTilgangBeskrivelse: `
             Få tilgang til digitale tilskuddsbrev om NAV-tiltak i Altinn.
-            NAV sender digitale brev om blant annet lønns- og inkluderingstilskudd og
+            NAV sender digitale brev om blant annet inkluderingstilskudd og
             tilskudd til mentor og ekspertbistand.
         `,
         tjenestekode: '5278',
