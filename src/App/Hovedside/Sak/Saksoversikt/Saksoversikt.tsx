@@ -12,9 +12,20 @@ import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
 import * as Record from "../../../../utils/Record";
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
-import {Sak, SakSortering} from "../../../../api/graphql-types";
+import {Query, Sak, SakSortering} from "../../../../api/graphql-types";
+import {gql, TypedDocumentNode, useQuery} from "@apollo/client";
 
 export const SIDE_SIZE = 30;
+
+type SakstypeOverordnetArray = Pick<Query, "sakstyper">
+
+const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
+    query {
+        sakstyper {
+            navn
+        }
+    }
+`
 
 export const Saksoversikt = () => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
@@ -25,14 +36,16 @@ export const Saksoversikt = () => {
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
         byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
     }
-   
+    const {data} = useQuery(HENT_SAKSTYPER)
+
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
-            sakstyper={state.sakstyper}
+            sakstyper={state.sakstyper?.map((s,i) => ({navn: s.navn, antall: 4+i}))}
+            alleSakstyper={data?.sakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
-            valgteVirksomheter={state.filter.virksomheter}
+            valgteVirksomheter={state.filter.virksomheter??null}
             setValgteVirksomheter={handleValgteVirksomheter}
         />
         <div className='saksoversikt'>
