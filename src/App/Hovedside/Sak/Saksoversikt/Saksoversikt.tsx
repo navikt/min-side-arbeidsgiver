@@ -41,7 +41,7 @@ export const Saksoversikt = () => {
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
-            sakstyper={state.sakstyper?.map((s,i) => ({navn: s.navn, antall: 4+i}))}
+            sakstyper={state.sakstyper}
             alleSakstyper={data?.sakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
