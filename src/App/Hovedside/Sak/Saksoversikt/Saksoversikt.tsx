@@ -45,7 +45,7 @@ export const Saksoversikt = () => {
             alleSakstyper={data?.sakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
-            valgteVirksomheter={state.filter.virksomheter??null}
+            valgteVirksomheter={state.filter.virksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}
         />
         <div className='saksoversikt'>
