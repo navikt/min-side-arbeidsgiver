@@ -3,7 +3,6 @@ import Bedriftsmeny from "@navikt/bedriftsmeny";
 import {TilgangsStyringInfoTekst} from './TilgangsStyringInfoTekst/TilgangsStyringInfoTekst';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import {VarselHvisNedetid} from './VarselOmNedetid/VarselHvisNedetid';
 import './Logginn.css';
 import {Button} from '@navikt/ds-react';
 import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
@@ -24,7 +23,6 @@ export const LoggInn: FunctionComponent = () => {
             />
             <div className="innloggingsside__container">
                 <div className="innloggingsside__innhold">
-                    <VarselHvisNedetid/>
                     <AdvarselBannerTestversjon/>
                     <Heading size="medium" level="2">
                         Her kan du:
