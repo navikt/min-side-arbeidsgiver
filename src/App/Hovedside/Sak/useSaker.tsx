@@ -33,6 +33,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             }
             sakstyper {
                 navn
+                antall
             }
             feilAltinn
             totaltAntallSaker

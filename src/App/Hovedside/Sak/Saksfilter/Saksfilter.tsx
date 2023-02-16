@@ -10,7 +10,7 @@ import {Søkeboks} from './Søkeboks';
 import {Filter} from '../Saksoversikt/useOversiktStateTransitions';
 import {Ekspanderbartpanel} from "../../../../GeneriskeElementer/Ekspanderbartpanel";
 import {BodyShort, Checkbox, CheckboxGroup} from "@navikt/ds-react";
-import {Sakstype} from "../../../../api/graphql-types";
+import {Sakstype, SakstypeOverordnet} from "../../../../api/graphql-types";
 import {sorted} from "../../../../utils/util";
 
 
@@ -19,7 +19,8 @@ type SaksfilterProps = {
     setFilter: (filter: Filter) => void;
     valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
     setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
-    sakstyper: Sakstype[] | undefined;
+    sakstypeinfo: Sakstype[] | undefined;
+    alleSakstyper: SakstypeOverordnet[];
     organisasjoner: Organisasjon[];
 }
 
@@ -45,10 +46,12 @@ export const Saksfilter = ({
                                organisasjoner,
                                filter,
                                setFilter,
-                               sakstyper,
+                               sakstypeinfo,
+                               alleSakstyper,
                            }: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
     const [width, setWidth] = useState(window.innerWidth);
+
 
     useEffect(() => {
         byggOrganisasjonstre(organisasjoner)
@@ -67,6 +70,14 @@ export const Saksfilter = ({
         return null
     }
 
+    const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet) =>
+        ({
+            navn: sakstypeOverordnet.navn,
+            antall: sakstypeinfo === undefined
+                ? undefined
+                : (sakstypeinfo.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0)
+        })
+    )
 
     return <KollapsHvisMobil width={width}>
         <div className="saksfilter">
@@ -76,7 +87,7 @@ export const Saksfilter = ({
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
-            {sakstyper && sakstyper?.length > 1 ?  <CheckboxGroup
+            {sakstyperForFilter.length > 1 && <CheckboxGroup
                 legend="Type sak"
                 value={filter.sakstyper}
                 onChange={valgteSakstyper => {
@@ -84,15 +95,18 @@ export const Saksfilter = ({
                 }}
             >
                 {
-                    sorted(sakstyper, sakstype => sakstype.navn).map(({navn}) =>
-                        <Checkbox value={navn} key={navn}>
+                    sorted(sakstyperForFilter, sakstype => sakstype.navn).map(({navn, antall}) =>
+                        <Checkbox key={navn} value={navn}>
                             <BodyShort>
-                                {navn}
+                                { antall === undefined
+                                    ? navn
+                                    : `${navn} (${antall})`
+                                }
                             </BodyShort>
                         </Checkbox>)
                 }
             </CheckboxGroup>
-            :null}
+            }
         </div>
     </KollapsHvisMobil>
 

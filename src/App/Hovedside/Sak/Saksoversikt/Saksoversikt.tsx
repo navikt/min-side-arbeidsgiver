@@ -1,4 +1,5 @@
 import React, {FC, useContext, useEffect, useRef, useState} from 'react';
+import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
 import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
@@ -12,9 +13,29 @@ import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
 import * as Record from "../../../../utils/Record";
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
-import {Sak, SakSortering} from "../../../../api/graphql-types";
+import {Query, Sak, SakSortering} from "../../../../api/graphql-types";
+import {gql, TypedDocumentNode, useQuery} from "@apollo/client";
 
 export const SIDE_SIZE = 30;
+
+type SakstypeOverordnetArray = Pick<Query, "sakstyper">
+
+const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
+    query {
+        sakstyper {
+            navn
+        }
+    }
+`
+
+const useAlleSakstyper = () => {
+    const {data} = useQuery(HENT_SAKSTYPER, {
+        onError: (error) => {
+            Sentry.captureException(error)
+        },
+    })
+    return data?.sakstyper ?? []
+}
 
 export const Saksoversikt = () => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
@@ -25,11 +46,14 @@ export const Saksoversikt = () => {
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
         byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
     }
-   
+
+    const alleSakstyper = useAlleSakstyper()
+
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
-            sakstyper={state.sakstyper}
+            sakstypeinfo={state.sakstyper}
+            alleSakstyper={alleSakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
             valgteVirksomheter={state.filter.virksomheter}

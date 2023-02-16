@@ -1,104 +1,109 @@
-# This file was generated based on ".graphqlconfig". Do not edit manually.
-
-schema {
-    query: Query
-    mutation: Mutation
-}
-
-union Notifikasjon = Beskjed | Oppgave
-
-union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
-
-type Beskjed {
-    brukerKlikk: BrukerKlikk!
-    id: ID!
-    lenke: String!
-    merkelapp: String!
-    opprettetTidspunkt: ISO8601DateTime!
-    sorteringTidspunkt: ISO8601DateTime!
-    tekst: String!
-    virksomhet: Virksomhet!
-}
-
-type BrukerKlikk {
-    id: ID!
-    klikketPaa: Boolean!
-}
-
-type Mutation {
-    notifikasjonKlikketPaa(id: ID!): NotifikasjonKlikketPaaResultat!
-}
-
-type NotifikasjonerResultat {
-    feilAltinn: Boolean!
-    feilDigiSyfo: Boolean!
-    notifikasjoner: [Notifikasjon!]!
-}
-
-type Oppgave {
-    brukerKlikk: BrukerKlikk!
-    frist: ISO8601Date
-    id: ID!
-    lenke: String!
-    merkelapp: String!
-    opprettetTidspunkt: ISO8601DateTime!
-    paaminnelseTidspunkt: ISO8601DateTime
-    sorteringTidspunkt: ISO8601DateTime!
-    tekst: String!
-    tilstand: OppgaveTilstand
-    utgaattTidspunkt: ISO8601DateTime
-    virksomhet: Virksomhet!
-}
-
-type OppgaveMetadata {
-    frist: ISO8601Date
-    paaminnelseTidspunkt: ISO8601DateTime
-    tilstand: OppgaveTilstand!
-}
-
 type Query {
     notifikasjoner: NotifikasjonerResultat!
-    saker(limit: Int, offset: Int, sakstyper: [String!], sortering: SakSortering! = OPPDATERT, tekstsoek: String, virksomhetsnummer: String, virksomhetsnumre: [String!]): SakerResultat!
+    """
+    Alle sakstyper som finnes for brukeren.
+    """
+    sakstyper: [SakstypeOverordnet!]!
+    saker(
+        virksomhetsnumre: [String!]
+        virksomhetsnummer: String
+        offset: Int
+        limit: Int
+        tekstsoek: String
+        sakstyper: [String!]
+        sortering: SakSortering! = OPPDATERT
+    ): SakerResultat!
     whoami: String
 }
 
-type Sak {
-    "frist fra oppgaver med status ny. null i array betyr oppgave uten frist"
-    frister: [ISO8601Date]!
-    id: ID!
-    lenke: String!
-    merkelapp: String!
-    oppgaver: [OppgaveMetadata!]!
-    sisteStatus: SakStatus!
-    tittel: String!
-    virksomhet: Virksomhet!
+enum SakSortering {
+    OPPDATERT
+    OPPRETTET
+    FRIST
 }
 
-type SakStatus {
-    tekst: String!
-    tidspunkt: ISO8601DateTime!
-    type: SakStatusType!
-}
-
-type SakerResultat {
-    feilAltinn: Boolean!
-    saker: [Sak!]!
-    sakstyper: [Sakstype!]!
-    "Antall saker for gitt filter, men uavhengig av offset/limit."
-    totaltAntallSaker: Int!
+type SakstypeOverordnet {
+    navn: String!
 }
 
 type Sakstype {
     navn: String!
+    antall: Int!
 }
 
-type UgyldigId {
-    feilmelding: String!
+type SakerResultat {
+    saker: [Sak!]!
+
+    """
+    Antall saker for gitt filter, men uavhengig av offset/limit.
+    """
+    totaltAntallSaker: Int!
+
+    """
+    Hvilke sakstyper (med antall) som finnes for valgte virksomheter.
+    """
+    sakstyper: [Sakstype!]!
+
+    feilAltinn: Boolean!
 }
 
-type Virksomhet {
-    navn: String!
-    virksomhetsnummer: String!
+type OppgaveMetadata {
+    tilstand: OppgaveTilstand!
+    frist: ISO8601Date
+    paaminnelseTidspunkt: ISO8601DateTime
+}
+
+type Sak {
+    id: ID!
+    virksomhet: Virksomhet!
+    tittel: String!
+    lenke: String!
+    merkelapp: String!
+    sisteStatus: SakStatus!
+    """
+    frist fra oppgaver med status ny. null i array betyr oppgave uten frist
+    """
+    frister: [ISO8601Date]!
+    oppgaver: [OppgaveMetadata!]!
+}
+
+type SakStatus {
+    type: SakStatusType!
+    tekst: String!
+    tidspunkt: ISO8601DateTime!
+}
+
+enum SakStatusType {
+    MOTTATT
+    UNDER_BEHANDLING
+    FERDIG
+
+}
+
+type NotifikasjonerResultat {
+    notifikasjoner: [Notifikasjon!]!
+    feilAltinn: Boolean!
+    feilDigiSyfo: Boolean!
+}
+
+union Notifikasjon = Beskjed | Oppgave
+
+scalar ISO8601DateTime
+scalar ISO8601Date
+
+type Oppgave {
+    brukerKlikk: BrukerKlikk!
+    tilstand: OppgaveTilstand
+    merkelapp: String!
+    tekst: String!
+    lenke: String!
+    opprettetTidspunkt: ISO8601DateTime!
+    sorteringTidspunkt: ISO8601DateTime!
+    paaminnelseTidspunkt: ISO8601DateTime
+    utgaattTidspunkt: ISO8601DateTime
+    frist: ISO8601Date
+    id: ID!
+    virksomhet: Virksomhet!
 }
 
 enum OppgaveTilstand {
@@ -107,18 +112,33 @@ enum OppgaveTilstand {
     UTGAATT
 }
 
-enum SakSortering {
-    FRIST
-    OPPDATERT
-    OPPRETTET
+type Beskjed {
+    brukerKlikk: BrukerKlikk!
+    merkelapp: String!
+    tekst: String!
+    lenke: String!
+    opprettetTidspunkt: ISO8601DateTime!
+    sorteringTidspunkt: ISO8601DateTime!
+    id: ID!
+    virksomhet: Virksomhet!
 }
 
-enum SakStatusType {
-    FERDIG
-    MOTTATT
-    UNDER_BEHANDLING
+type Virksomhet {
+    virksomhetsnummer: String!
+    navn: String!
 }
 
-scalar ISO8601Date
+type Mutation {
+    notifikasjonKlikketPaa(id: ID!): NotifikasjonKlikketPaaResultat!
+}
 
-scalar ISO8601DateTime
+union NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId
+
+type BrukerKlikk {
+    id: ID!
+    klikketPaa: Boolean!
+}
+
+type UgyldigId {
+    feilmelding: String!
+}
