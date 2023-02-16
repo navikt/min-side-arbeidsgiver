@@ -1,4 +1,5 @@
 import React, {FC, useContext, useEffect, useRef, useState} from 'react';
+import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
 import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
@@ -27,6 +28,15 @@ const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
     }
 `
 
+const useAlleSakstyper = () => {
+    const {data} = useQuery(HENT_SAKSTYPER, {
+        onError: (error) => {
+            Sentry.captureException(error)
+        },
+    })
+    return data?.sakstyper ?? []
+}
+
 export const Saksoversikt = () => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
@@ -36,13 +46,14 @@ export const Saksoversikt = () => {
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
         byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
     }
-    const {data} = useQuery(HENT_SAKSTYPER)
+
+    const alleSakstyper = useAlleSakstyper()
 
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
-            sakstyper={state.sakstyper}
-            alleSakstyper={data?.sakstyper}
+            valgteSakstyper={state.sakstyper}
+            alleSakstyper={alleSakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
             valgteVirksomheter={state.filter.virksomheter}

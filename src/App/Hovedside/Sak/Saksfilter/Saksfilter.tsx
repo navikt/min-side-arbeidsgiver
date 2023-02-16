@@ -19,8 +19,8 @@ type SaksfilterProps = {
     setFilter: (filter: Filter) => void;
     valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
     setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
-    sakstyper: Sakstype[] | undefined;
-    alleSakstyper: SakstypeOverordnet[] | undefined
+    valgteSakstyper: Sakstype[] | undefined;
+    alleSakstyper: SakstypeOverordnet[];
     organisasjoner: Organisasjon[];
 }
 
@@ -46,7 +46,7 @@ export const Saksfilter = ({
                                organisasjoner,
                                filter,
                                setFilter,
-                               sakstyper,
+                               valgteSakstyper,
                                alleSakstyper,
                            }: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
@@ -70,10 +70,10 @@ export const Saksfilter = ({
         return null
     }
 
-    const sakstyperForFilter = alleSakstyper?.map((sakstypeOverordnet): Sakstype =>
+    const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet): Sakstype =>
         ({
             navn: sakstypeOverordnet.navn,
-            antall: sakstyper?.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0
+            antall: valgteSakstyper?.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0
         })
     )
 
@@ -85,7 +85,7 @@ export const Saksfilter = ({
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
-            {sakstyperForFilter && sakstyperForFilter.length > 1 && <CheckboxGroup
+            {sakstyperForFilter.length > 1 && <CheckboxGroup
                 legend="Type sak"
                 value={filter.sakstyper}
                 onChange={valgteSakstyper => {
