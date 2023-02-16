@@ -19,7 +19,7 @@ type SaksfilterProps = {
     setFilter: (filter: Filter) => void;
     valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
     setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
-    valgteSakstyper: Sakstype[] | undefined;
+    sakstypeinfo: Sakstype[] | undefined;
     alleSakstyper: SakstypeOverordnet[];
     organisasjoner: Organisasjon[];
 }
@@ -46,7 +46,7 @@ export const Saksfilter = ({
                                organisasjoner,
                                filter,
                                setFilter,
-                               valgteSakstyper,
+                               sakstypeinfo,
                                alleSakstyper,
                            }: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
@@ -70,10 +70,12 @@ export const Saksfilter = ({
         return null
     }
 
-    const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet): Sakstype =>
+    const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet) =>
         ({
             navn: sakstypeOverordnet.navn,
-            antall: valgteSakstyper?.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0
+            antall: sakstypeinfo === undefined
+                ? undefined
+                : (sakstypeinfo.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0)
         })
     )
 
@@ -94,9 +96,12 @@ export const Saksfilter = ({
             >
                 {
                     sorted(sakstyperForFilter, sakstype => sakstype.navn).map(({navn, antall}) =>
-                        <Checkbox value={navn}>
+                        <Checkbox key={navn} value={navn}>
                             <BodyShort>
-                                {`${navn} (${antall})`}
+                                { antall === undefined
+                                    ? navn
+                                    : `${navn} (${antall})`
+                                }
                             </BodyShort>
                         </Checkbox>)
                 }

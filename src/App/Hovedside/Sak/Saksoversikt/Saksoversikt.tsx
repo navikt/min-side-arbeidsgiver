@@ -52,7 +52,7 @@ export const Saksoversikt = () => {
     return <div className="saksoversikt__innhold">
         <Saksfilter
             filter={state.filter}
-            valgteSakstyper={state.sakstyper}
+            sakstypeinfo={state.sakstyper}
             alleSakstyper={alleSakstyper}
             setFilter={byttFilter}
             organisasjoner={orgs}
