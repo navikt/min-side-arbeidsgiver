@@ -9,7 +9,8 @@ import amplitude from "../../../../utils/amplitude";
 import {BodyShort, Heading } from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 import { OmSaker } from '../OmSaker';
-import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
+import {SakSortering} from "../../../../api/graphql-types";
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -19,10 +20,13 @@ const SisteSaker = () => {
 
     const {loading, data} = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomhetsnummer: valgtOrganisasjon?.organisasjon?.OrganizationNumber,
+        virksomheter: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon],
         tekstsoek: "",
-        sortering: GQL.SakSortering.Oppdatert,
+        sortering: SakSortering.Oppdatert,
+        sakstyper: [],
     })
+
+    useSessionStateForside()
 
     useEffect(() => {
         if (!loading && data) {

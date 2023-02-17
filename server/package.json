@@ -5,7 +5,8 @@
   "type": "module",
   "main": "server.js",
   "dependencies": {
-    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "5.4.4",
+    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "5.4.7",
+    "apollo-server-express": "3.11.1",
     "casual": "^1.6.2",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.3",

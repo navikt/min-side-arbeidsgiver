@@ -1,0 +1,17 @@
+.aktuelt-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.aktuelt {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 60rem;
+  gap: 1rem;
+}
+
+.aktuelt-panel {
+  flex: 1 1 calc(50% - 1rem);
+}

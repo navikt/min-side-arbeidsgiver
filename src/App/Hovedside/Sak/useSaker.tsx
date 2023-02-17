@@ -1,14 +1,15 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
-import { GQL } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { Query } from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
-import { Filter } from './Saksoversikt/Filter';
+import { Filter } from './Saksoversikt/useOversiktStateTransitions';
 
+type SakerResultat = Pick<Query, "saker">
 
-const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
-    query hentSaker($virksomhetsnummer: String!, $tekstsoek: String, $sortering: SakSortering!, $offset: Int, $limit: Int) {
-        saker(virksomhetsnummer: $virksomhetsnummer, tekstsoek: $tekstsoek, sortering: $sortering, offset: $offset, limit: $limit) {
+const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
+    query hentSaker($virksomhetsnumre: [String!]!, $tekstsoek: String, $sortering: SakSortering!, $sakstyper: [String!], $offset: Int, $limit: Int) {
+        saker(virksomhetsnumre: $virksomhetsnumre, tekstsoek: $tekstsoek, sortering: $sortering, sakstyper: $sakstyper, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -30,6 +31,10 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
                     frist
                 }
             }
+            sakstyper {
+                navn
+                antall
+            }
             feilAltinn
             totaltAntallSaker
         }
@@ -38,28 +43,35 @@ const HENT_SAKER: TypedDocumentNode<Pick<GQL.Query, "saker">> = gql`
 
 export function useSaker(
     pageSize: number,
-    {side, tekstsoek, virksomhetsnummer, sortering}: Filter,
+    {side, tekstsoek, virksomheter, sortering, sakstyper}: Filter,
 ) {
+    const virksomhetsnumre = virksomheter.map(org => org.OrganizationNumber)
     const variables = {
-        virksomhetsnummer: virksomhetsnummer,
+        virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
         sortering: sortering,
+        sakstyper: sakstyper.length === 0 ? null : sakstyper,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
 
-    const [fetchSaker, {loading, data, previousData}] = useLazyQuery(HENT_SAKER,  {
+    const [fetchSaker, {loading, data, error, previousData}] = useLazyQuery(HENT_SAKER,  {
         variables
     })
 
     useEffect(() => {
-        if (virksomhetsnummer !== null && side !== undefined) {
+        if (error) {
+            Sentry.captureException(error)
+            return
+        }
+
+        if (side !== undefined) {
             fetchSaker({ variables })
                 .then(_ => { /* effect is seen in return of useLazyQuery */ })
                 .catch(Sentry.captureException);
         }
 
-    }, [virksomhetsnummer, tekstsoek, side, sortering])
+    }, [JSON.stringify(virksomhetsnumre), tekstsoek, side, sortering, JSON.stringify(sakstyper), error])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 

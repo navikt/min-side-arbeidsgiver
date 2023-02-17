@@ -19,6 +19,7 @@ import {Saksoversikt} from "./Hovedside/Sak/Saksoversikt/Saksoversikt";
 import {SaksoversiktRestoreSession} from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
 import {Alert, Link} from "@navikt/ds-react";
 import {gittMiljo} from '../utils/environment';
+import Brodsmulesti from "./Brodsmulesti/Brodsmulesti";
 
 const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
     prod: 'prod',
@@ -107,11 +108,12 @@ const App: FunctionComponent = () => {
                                                                     element={
                                                                         <SideTittelWrapper tittel={"Saksoversikt"}
                                                                                            setTittel={setSidetittel}>
+                                                                            <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
                                                                             <Saksoversikt/>
                                                                         </SideTittelWrapper>
                                                                     }/>
                                                                 <Route
-                                                                    path="/saksoversikt-restore-session"
+                                                                    path="/sak-restore-session"
                                                                     element={
                                                                         <SideTittelWrapper tittel={"Saksoversikt"}
                                                                                            setTittel={setSidetittel}>

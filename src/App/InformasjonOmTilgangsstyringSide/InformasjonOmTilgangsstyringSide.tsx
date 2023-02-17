@@ -177,6 +177,27 @@ const InformasjonOmTilgangsstyringSide = () => {
                                     </BodyLong>
                                 </Accordion.Content>
                             </Accordion.Item>
+
+                            <Accordion.Item>
+                                <Accordion.Header>Forebygge fravær</Accordion.Header>
+                                <Accordion.Content>
+                                    <BodyLong>
+                                    Du får lesetilgang til innholdet ved å ha en vilkårlig Altinn-rolle i virksomheten din.
+                                    </BodyLong>
+
+                                    <BodyLong>
+                                        For å redigere eller se endringer andre har gjort må du ha Altinn-rollen:
+                                    </BodyLong>
+                                    <ul>
+                                        <li>Helse-, sosial- og velferdstjenester</li>
+                                    </ul>
+
+                                    <BodyLong>
+                                        Du kan også ha enkeltrettigheten «sykefraværsstatistikk for virksomheter».
+                                    </BodyLong>
+                                </Accordion.Content>
+                            </Accordion.Item>
+
                             <Accordion.Item>
                                 <Accordion.Header>
                                     Fritak fra arbeidsgiverperioden – gravid ansatt / kronisk sykdom
@@ -347,7 +368,7 @@ const InformasjonOmTilgangsstyringSide = () => {
                             </Accordion.Item>
                             <Accordion.Item>
                                 <Accordion.Header>
-                                    Refusjon for sommerjobb
+                                    Refusjon for lønnstilskudd og sommerjobb
                                 </Accordion.Header>
                                 <Accordion.Content>
                                     <BodyLong spacing as="div">
@@ -365,9 +386,11 @@ const InformasjonOmTilgangsstyringSide = () => {
                                             <li>norsk representant for utenlandsk enhet</li>
                                         </ul>
                                         <p>
-                                        Boksen for «Refusjon for sommerjobb» vises kun om
-                                        det finnes sommerjobb-tiltak som er aktuelle for refusjon eller
-                                        tidligere refusjonssøknader.
+                                        Løsningen håndterer refusjon for midlertidig lønnstilskudd,
+                                        varig lønnstilskudd og tilskudd til sommerjobb.
+                                        Boksen for «Refusjon for lønnstilskudd og sommerjobb»
+                                        vises kun om det finnes slike tiltak som er aktuelle
+                                        for refusjon eller dere har tidligere digitale refusjonssøknader.
                                         </p>
                                     </BodyLong>
                                 </Accordion.Content>
@@ -527,8 +550,6 @@ const InformasjonOmTilgangsstyringSide = () => {
                                         NAV sender digitale tilskuddsbrev for følgende tiltak:
                                         </p>
                                         <ul>
-                                            <li>Midlertidig lønnstilskudd</li>
-                                            <li>Varig lønnstilskudd</li>
                                             <li>Tilskudd til mentor</li>
                                             <li>Inkluderingstilskudd</li>
                                             <li>Tilskudd til ekspertbistand</li>

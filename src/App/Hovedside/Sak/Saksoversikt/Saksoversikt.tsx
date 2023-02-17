@@ -1,42 +1,89 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useContext, useEffect, useRef, useState} from 'react';
+import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import Brodsmulesti from '../../../Brodsmulesti/Brodsmulesti';
-import {BodyShort, Pagination, Select} from '@navikt/ds-react';
+import {Heading, Pagination, Select} from '@navikt/ds-react';
 import {Spinner} from '../../../Spinner';
-import {GQL} from '@navikt/arbeidsgiver-notifikasjon-widget';
-import {useSaker} from '../useSaker';
 import {SaksListe} from '../SaksListe';
 import {Alerts} from '../../../Alerts/Alerts';
-import amplitude from '../../../../utils/amplitude';
-import {useOversiktStateTransitions} from './useOversiktStateTransitions';
+import {Filter, useOversiktStateTransitions} from './useOversiktStateTransitions';
 import {State} from './useOversiktStateTransitions';
-import {Filter} from './Filter';
 import {OmSaker} from '../OmSaker';
-import { gittMiljo } from '../../../../utils/environment';
+import {gittMiljo} from '../../../../utils/environment';
+import {Saksfilter} from "../Saksfilter/Saksfilter";
+import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
+import * as Record from "../../../../utils/Record";
+import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
+import {Query, Sak, SakSortering} from "../../../../api/graphql-types";
+import {gql, TypedDocumentNode, useQuery} from "@apollo/client";
 
 export const SIDE_SIZE = 30;
 
+type SakstypeOverordnetArray = Pick<Query, "sakstyper">
+
+const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
+    query {
+        sakstyper {
+            navn
+        }
+    }
+`
+
+const useAlleSakstyper = () => {
+    const {data} = useQuery(HENT_SAKSTYPER, {
+        onError: (error) => {
+            Sentry.captureException(error)
+        },
+    })
+    return data?.sakstyper ?? []
+}
+
 export const Saksoversikt = () => {
-    const {state, byttFilter} = useOversiktStateTransitions()
+    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+    const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
+    const {state, byttFilter} = useOversiktStateTransitions(orgs)
 
-    return <div className='saksoversikt'>
-        <Brodsmulesti brodsmuler={[{url: '/saksoversikt', title: 'Saksoversikt', handleInApp: true}]}/>
-        <Alerts/>
-        <div className="saksoversikt__header">
-            <Filter filter={state.filter} onChange={byttFilter}/>
-            <VelgSortering state={state} byttFilter={byttFilter}/>
-        </div>
+    const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
+        byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
+    }
 
-        <div className="saksoversik__saksliste-header">
-            <StatusLine state={state}/>
-            <Sidevelger state={state} byttFilter={byttFilter}/>
-        </div>
+    const alleSakstyper = useAlleSakstyper()
 
-        <SaksListeBody state={state} />
+    return <div className="saksoversikt__innhold">
+        <Saksfilter
+            filter={state.filter}
+            sakstypeinfo={state.sakstyper}
+            alleSakstyper={alleSakstyper}
+            setFilter={byttFilter}
+            organisasjoner={orgs}
+            valgteVirksomheter={state.filter.virksomheter}
+            setValgteVirksomheter={handleValgteVirksomheter}
+        />
+        <div className='saksoversikt'>
+            {(state.filter.virksomheter.length === 0)
+                ? <div className='saksoversikt-empty'>
+                    <Heading level="2" size="large">
+                        Velg virksomhet for å se saker
+                    </Heading>
+                </div>
+                : <><Alerts/>
+                    <div className="saksoversikt__header">
+                        <StatusLine state={state}/>
+                    </div>
 
-        <div className="saksoversik__saksliste-footer">
-            <HvaVisesHer />
-            <Sidevelger state={state} byttFilter={byttFilter}/>
+                    <div className="saksoversikt__saksliste-header">
+                        <VelgSortering state={state} byttFilter={byttFilter}/>
+                        <Sidevelger state={state} byttFilter={byttFilter}/>
+                    </div>
+
+                    <SaksListeBody state={state}/>
+
+                    <div className="saksoversikt__saksliste-footer">
+                        <HvaVisesHer/>
+                        <Sidevelger state={state} byttFilter={byttFilter}/>
+                    </div>
+                </>
+            }
         </div>
     </div>
 };
@@ -63,20 +110,24 @@ type VelgSorteringProps = {
     byttFilter: (filter: Filter) => void;
 }
 
-const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) =>
-    <Select
+const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) => {
+    if (state.sider === undefined || state.sider === 0) {
+        return null
+    }
+
+    return <Select
+        value={state.filter.sortering}
         className="saksoversikt__sortering"
         label="Sorter på"
         onChange={(e) => {
-            byttFilter({...state.filter, sortering: e.target.value as GQL.SakSortering})
+            byttFilter({...state.filter, sortering: e.target.value as SakSortering})
         }}
     >
         {sorteringsrekkefølge.map(key => (
-            <option value={key} selected={state.filter.sortering === key}>
-                {sorteringsnavn[key]}
-            </option>
+            <option key={key} value={key}>{sorteringsnavn[key]}</option>
         ))}
-    </Select>
+    </Select>;
+}
 
 
 const noFilterApplied = (filter: Filter) => filter.tekstsoek.trim() === ""
@@ -99,21 +150,21 @@ const useCurrentDate = (pollInterval: number) => {
     return currentDate
 }
 
-const sorteringsnavn: Record<GQL.SakSortering, string> = {
+const sorteringsnavn: Record<SakSortering, string> = {
     "OPPDATERT": "Oppdatert",
     "OPPRETTET": "Opprettet",
     "FRIST": "Frist",
 }
 
-const sorteringsrekkefølge: GQL.SakSortering[] = gittMiljo({
+const sorteringsrekkefølge: SakSortering[] = gittMiljo({
     prod: [
-        GQL.SakSortering.Oppdatert,
-        GQL.SakSortering.Opprettet,
+        SakSortering.Oppdatert,
+        SakSortering.Opprettet,
     ],
     other: [
-        GQL.SakSortering.Oppdatert,
-        GQL.SakSortering.Frist,
-        GQL.SakSortering.Opprettet,
+        SakSortering.Oppdatert,
+        SakSortering.Frist,
+        SakSortering.Opprettet,
     ],
 })
 
@@ -130,11 +181,16 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
         window.addEventListener("resize", setSize);
         return () => window.removeEventListener("resize", setSize);
     }, [setWidth]);
+
+    if (state.sider === undefined || state.sider < 2) {
+        return null
+    }
+
     return <Pagination
-        count={state.sider == undefined ? 0 : state.sider}
+        count={state.sider}
         page={state.filter.side}
-        siblingCount={width < 560 ? 0 : 1}
-        boundaryCount={width < 440 ? 0 : 1}
+        siblingCount={width < 920 ? 0 : 1}
+        boundaryCount={width < 800 ? 0 : 1}
         onPageChange={
             side => {
                 byttFilter({...state.filter, side})
@@ -143,7 +199,7 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
     />
 }
 
-const StatusLine: FC<{state: State}> = ({state}) => {
+const StatusLine: FC<{ state: State }> = ({state}) => {
     const statusText = () => {
         if (state.state === 'error') {
             return "Feil ved lasting av saker."
@@ -159,13 +215,13 @@ const StatusLine: FC<{state: State}> = ({state}) => {
         }
 
         if (state.totaltAntallSaker !== undefined) {
-            return `${totaltAntallSaker} treff`
+            return `Viser ${totaltAntallSaker} saker`
         }
         return ""
     }
-    return <BodyShort role="status">
+    return <Heading level="2" size="medium" aria-live="polite" aria-atomic="true">
         {statusText()}
-    </BodyShort>
+    </Heading>
 }
 
 
@@ -196,7 +252,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({state}) => {
 }
 
 type LasterProps = {
-    forrigeSaker?: Array<GQL.Sak>;
+    forrigeSaker?: Array<Sak>;
     startTid: Date;
 }
 
