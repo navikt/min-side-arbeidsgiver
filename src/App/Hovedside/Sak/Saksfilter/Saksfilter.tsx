@@ -10,6 +10,7 @@ import {Søkeboks} from './Søkeboks';
 import {Filter} from '../Saksoversikt/useOversiktStateTransitions';
 import {Ekspanderbartpanel} from "../../../../GeneriskeElementer/Ekspanderbartpanel";
 import {BodyShort, Checkbox, CheckboxGroup} from "@navikt/ds-react";
+import {Filter as FilterIkon} from "@navikt/ds-icons";
 import {Sakstype, SakstypeOverordnet} from "../../../../api/graphql-types";
 import {sorted} from "../../../../utils/util";
 
@@ -31,7 +32,7 @@ type KollapsHvisMobilProps = {
 
 const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({width, children}: KollapsHvisMobilProps) => {
     if (width < 730) {
-        return <Ekspanderbartpanel tittel="Filtrering">
+        return <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon/>} >
             {children}
         </Ekspanderbartpanel>
     } else {

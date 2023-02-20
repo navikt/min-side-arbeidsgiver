@@ -73,14 +73,14 @@ export const Saksoversikt = () => {
 
                     <div className="saksoversikt__saksliste-header">
                         <VelgSortering state={state} byttFilter={byttFilter}/>
-                        <Sidevelger state={state} byttFilter={byttFilter}/>
+                        <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true}/>
                     </div>
 
                     <SaksListeBody state={state}/>
 
                     <div className="saksoversikt__saksliste-footer">
                         <HvaVisesHer/>
-                        <Sidevelger state={state} byttFilter={byttFilter}/>
+                        <Sidevelger state={state} byttFilter={byttFilter}skjulForMobil={false}/>
                     </div>
                 </>
             }
@@ -171,9 +171,10 @@ const sorteringsrekkefølge: SakSortering[] = gittMiljo({
 type SidevelgerProp = {
     state: State;
     byttFilter: (filter: Filter) => void;
+    skjulForMobil: boolean;
 }
 
-const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
+const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter, skjulForMobil= false}) => {
     const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(() => {
@@ -189,6 +190,7 @@ const Sidevelger: FC<SidevelgerProp> = ({state, byttFilter}) => {
     return <Pagination
         count={state.sider}
         page={state.filter.side}
+        className={`saksoversikt__paginering ${skjulForMobil?"saksoversikt__skjul-for-mobil":""}`}
         siblingCount={width < 920 ? 0 : 1}
         boundaryCount={width < 800 ? 0 : 1}
         onPageChange={

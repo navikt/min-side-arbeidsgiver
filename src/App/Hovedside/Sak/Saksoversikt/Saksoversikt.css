@@ -32,6 +32,21 @@
 .saksoversikt-empty {
   color: var(--a-grayalpha-600);
 }
+
+.saksoversikt__skjul-for-mobil {
+  display: block;
+}
+@media (max-width: 730px) {
+  .saksoversikt__skjul-for-mobil {
+    display: none;
+  }
+  .saksoversikt__paginering ul{
+    gap: 0;
+    margin: 0 auto;
+  }
+}
+
+
 .saksoversikt__hjelpetekst {
   display: flex;
   gap: 0.5rem;
