@@ -86,6 +86,8 @@ export type Query = {
   __typename?: 'Query';
   notifikasjoner: NotifikasjonerResultat;
   saker: SakerResultat;
+  /** Alle sakstyper som finnes for brukeren. */
+  sakstyper: Array<SakstypeOverordnet>;
   whoami?: Maybe<Scalars['String']>;
 };
 
@@ -136,6 +138,7 @@ export type SakerResultat = {
   __typename?: 'SakerResultat';
   feilAltinn: Scalars['Boolean'];
   saker: Array<Sak>;
+  /** Hvilke sakstyper (med antall) som finnes for valgte virksomheter. */
   sakstyper: Array<Sakstype>;
   /** Antall saker for gitt filter, men uavhengig av offset/limit. */
   totaltAntallSaker: Scalars['Int'];
@@ -143,6 +146,12 @@ export type SakerResultat = {
 
 export type Sakstype = {
   __typename?: 'Sakstype';
+  antall: Scalars['Int'];
+  navn: Scalars['String'];
+};
+
+export type SakstypeOverordnet = {
+  __typename?: 'SakstypeOverordnet';
   navn: Scalars['String'];
 };
 
