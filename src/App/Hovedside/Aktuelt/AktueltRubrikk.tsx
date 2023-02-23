@@ -20,19 +20,7 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 });
 
 const Aktuelt = ({lenke, tittel, visFra, visTil}: AktueltProps) => {
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const {pathname} = useLocation()
-    if (!valgtOrganisasjon) {
-        return null
-    }
-
-    const skalVises = valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd ||
-        valgtOrganisasjon.altinntilgang.varigLønnstilskudd ||
-        (valgtOrganisasjon.altinntilgang.inntektsmelding && (valgtOrganisasjon.refusjonstatus["KLAR_FOR_INNSENDING"] ?? 0) > 0);
-
-    if (!skalVises) {
-        return null
-    }
 
     return (
         <DisplayBetween showFrom={visFra} showUntil={visTil}>
@@ -59,6 +47,19 @@ const aktuelt: Array<AktueltProps> = [
 ]
 
 export const AktueltRubrikk = () => {
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    if (!valgtOrganisasjon) {
+        return null
+    }
+
+    const skalVises = valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd ||
+        valgtOrganisasjon.altinntilgang.varigLønnstilskudd ||
+        (valgtOrganisasjon.altinntilgang.inntektsmelding && (valgtOrganisasjon.refusjonstatus["KLAR_FOR_INNSENDING"] ?? 0) > 0);
+
+    if (!skalVises) {
+        return null
+    }
+
     const aktuelleVises = aktuelt.some(({visFra, visTil}) => shouldDisplay({
         showFrom: visFra,
         showUntil: visTil,
