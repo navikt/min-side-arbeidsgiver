@@ -6,10 +6,7 @@ import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
-import {
-    createNotifikasjonBrukerApiProxyMiddleware,
-    tokenXMiddleware
-} from "./brukerapi-proxy-middleware.js";
+import {createNotifikasjonBrukerApiProxyMiddleware, tokenXMiddleware} from "./brukerapi-proxy-middleware.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
 import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock";
@@ -17,12 +14,11 @@ import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjon
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const {createProxyMiddleware} = httpProxyMiddleware;
 
-const defaultLoginUrl = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver';
 const {
     PORT = 8080,
     NAIS_APP_IMAGE = '?',
     GIT_COMMIT = '?',
-    LOGIN_URL = defaultLoginUrl,
+    LOGIN_URL = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver',
     NAIS_CLUSTER_NAME = 'local',
     BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
@@ -277,7 +273,9 @@ app.use(
 app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, {index: false}));
 
 app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
-    res.redirect(LOGIN_URL);
+    const target = new URL(LOGIN_URL)
+    target.searchParams.set('redirect', req.get('referer'))
+    res.redirect(target.href);
 });
 app.get(
     '/min-side-arbeidsgiver/internal/isAlive',
