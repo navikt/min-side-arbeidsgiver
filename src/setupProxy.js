@@ -26,7 +26,7 @@ module.exports = function(app) {
         const token = await response.text()
         res.cookie("selvbetjening-idtoken", token)
         console.log(`login: setter selvbetjening-idtoken til ${token}`)
-        res.redirect("http://localhost:3000/min-side-arbeidsgiver");
+        res.redirect(req.get('referer'));
     });
 
 };
