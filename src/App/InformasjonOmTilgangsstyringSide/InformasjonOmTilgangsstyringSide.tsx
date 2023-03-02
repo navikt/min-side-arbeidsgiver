@@ -190,10 +190,11 @@ const InformasjonOmTilgangsstyringSide = () => {
                                     </BodyLong>
                                     <ul>
                                         <li>Helse-, sosial- og velferdstjenester</li>
+                                        <li>Lønn- og personalmedarbeider</li>
                                     </ul>
 
                                     <BodyLong>
-                                        Du kan også ha enkeltrettigheten «sykefraværsstatistikk for virksomheter».
+                                        Du kan også ha enkeltrettigheten «Forebygge fravær» for å redigere eller se endringer.
                                     </BodyLong>
                                 </Accordion.Content>
                             </Accordion.Item>

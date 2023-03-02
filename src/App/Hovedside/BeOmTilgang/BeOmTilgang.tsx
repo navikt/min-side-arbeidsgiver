@@ -19,7 +19,8 @@ import {Alert, BodyShort, Heading} from "@navikt/ds-react";
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'rekruttering',
-    'iaweb',
+    'forebyggefravar',
+    'sykefravarstatistikk',
     'arbeidstrening',
     'arbeidsforhold',
     'yrkesskade',

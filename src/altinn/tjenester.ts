@@ -14,7 +14,8 @@ export type NAVtjenesteId =
     | 'sommerjobb'
     | 'mentortilskudd'
     | 'inkluderingstilskudd'
-    | 'iaweb'
+    | 'sykefravarstatistikk'
+    | 'forebyggefravar'
     | 'rekruttering'
     | 'tilskuddsbrev'
     | 'yrkesskade';
@@ -162,12 +163,20 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
     },
 
-    iaweb: {
+    sykefravarstatistikk: {
         sort: 'tjeneste',
         navn: 'Sykefraværsstatistikk',
         beOmTilgangBeskrivelse: `Oversikt over sykefravær i din virksomhet og bransje.`,
         tjenestekode: '3403',
         tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
+    },
+
+    forebyggefravar: {
+        sort: 'tjeneste',
+        navn: 'Forebygge fravær',
+        beOmTilgangBeskrivelse: 'Få tilgang til å redigere eller se endringer andre har gjort i planen for å forebygge fravær.',
+        tjenestekode: '5934',
+        tjenesteversjon: '1',
     },
 
     rekruttering: {
