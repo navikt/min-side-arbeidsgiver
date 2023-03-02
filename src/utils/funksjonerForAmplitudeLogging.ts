@@ -85,7 +85,7 @@ export const loggBedriftValgtOgTilganger = async (
     if (org.altinntilgang.rekruttering) {
         tilgangskombinasjon += 'arbeidsplassen ';
     }
-    if (org.altinntilgang.iaweb) {
+    if (org.altinntilgang.sykefravarstatistikk) {
         tilgangskombinasjon += 'sykefraværsstatistikk ';
     }
     if (org.altinntilgang.arbeidstrening) {
