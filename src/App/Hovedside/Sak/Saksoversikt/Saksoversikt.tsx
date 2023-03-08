@@ -13,7 +13,7 @@ import {Saksfilter} from "../Saksfilter/Saksfilter";
 import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
 import * as Record from "../../../../utils/Record";
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
-import {Query, Sak, SakSortering} from "../../../../api/graphql-types";
+import {OppgaveTilstand, Query, Sak, SakSortering} from "../../../../api/graphql-types";
 import {gql, TypedDocumentNode, useQuery} from "@apollo/client";
 
 export const SIDE_SIZE = 30;
@@ -55,6 +55,7 @@ export const Saksoversikt = () => {
             sakstypeinfo={state.sakstyper}
             alleSakstyper={alleSakstyper}
             setFilter={byttFilter}
+            oppgaveTilstandInfo={state.oppgaveTilstandInfo}
             organisasjoner={orgs}
             valgteVirksomheter={state.filter.virksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}

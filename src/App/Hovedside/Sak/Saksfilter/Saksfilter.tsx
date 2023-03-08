@@ -11,7 +11,7 @@ import {Filter} from '../Saksoversikt/useOversiktStateTransitions';
 import {Ekspanderbartpanel} from "../../../../GeneriskeElementer/Ekspanderbartpanel";
 import {BodyShort, Checkbox, CheckboxGroup} from "@navikt/ds-react";
 import {Filter as FilterIkon} from "@navikt/ds-icons";
-import {Sakstype, SakstypeOverordnet} from "../../../../api/graphql-types";
+import {OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet} from "../../../../api/graphql-types";
 import {sorted} from "../../../../utils/util";
 
 
@@ -22,6 +22,7 @@ type SaksfilterProps = {
     setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
     sakstypeinfo: Sakstype[] | undefined;
     alleSakstyper: SakstypeOverordnet[];
+    oppgaveTilstandInfo: OppgaveTilstandInfo[] | undefined;
     organisasjoner: Organisasjon[];
 }
 
@@ -32,7 +33,7 @@ type KollapsHvisMobilProps = {
 
 const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({width, children}: KollapsHvisMobilProps) => {
     if (width < 730) {
-        return <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon/>} >
+        return <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon/>}>
             {children}
         </Ekspanderbartpanel>
     } else {
@@ -48,6 +49,7 @@ export const Saksfilter = ({
                                filter,
                                setFilter,
                                sakstypeinfo,
+                               oppgaveTilstandInfo,
                                alleSakstyper,
                            }: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
@@ -80,6 +82,8 @@ export const Saksfilter = ({
         })
     )
 
+    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(oppgaveTilstand => oppgaveTilstand.tilstand === OppgaveTilstand.Ny)?.antall
+
     return <KollapsHvisMobil width={width}>
         <div className="saksfilter">
             <Virksomhetsmeny organisasjonstre={organisasjonstre}
@@ -99,7 +103,7 @@ export const Saksfilter = ({
                     sorted(sakstyperForFilter, sakstype => sakstype.navn).map(({navn, antall}) =>
                         <Checkbox key={navn} value={navn}>
                             <BodyShort>
-                                { antall === undefined
+                                {antall === undefined
                                     ? navn
                                     : `${navn} (${antall})`
                                 }
@@ -108,6 +112,21 @@ export const Saksfilter = ({
                 }
             </CheckboxGroup>
             }
+            <CheckboxGroup
+                legend={"Oppgaver"}
+                onChange={ valgteOppgavetilstander =>
+                    setFilter({...filter, oppgaveTilstand: valgteOppgavetilstander})
+                }
+
+            >
+                <Checkbox value={OppgaveTilstand.Ny}>
+                    <BodyShort>Uløste oppgaver
+                        {
+                            antallUløsteOppgaver !== undefined ? ` (${antallUløsteOppgaver})`: ""
+                        }
+                    </BodyShort>
+                </Checkbox>
+            </CheckboxGroup>
         </div>
     </KollapsHvisMobil>
 
