@@ -5,10 +5,13 @@ import {StortTall, Tjenesteboks} from "../Tjenesteboks";
 import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
 
 const Syfoboks = () => {
-    const {valgtOrganisasjon: {antallSykmeldte} = {antallSykmeldte: 0}} = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const antallSykmeldte = valgtOrganisasjon?.antallSykmeldte ?? 0
+    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber
+    const url = orgnr !== undefined && orgnr !== '' ? `${syfoURL}?bedrift=${orgnr}` : syfoURL;
     return <Tjenesteboks
         ikon={syfoikon}
-        href={syfoURL}
+        href={url}
         tittel="Sykmeldte"
         aria-label="Se sykmeldte du har ansvar for å følge opp"
     >
