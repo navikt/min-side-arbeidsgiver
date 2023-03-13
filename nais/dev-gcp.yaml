@@ -44,6 +44,8 @@ spec:
       value: https://arbeidsforhold.dev.nav.no
     - name: SYKEFRAVAER_DOMAIN
       value: https://arbeidsgiver-gcp.dev.nav.no
+    - name: MILJO
+      value: dev
   accessPolicy:
     outbound:
       external:

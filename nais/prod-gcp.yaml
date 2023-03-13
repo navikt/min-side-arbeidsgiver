@@ -44,6 +44,8 @@ spec:
       value: https://arbeidsgiver.nav.no
     - name: SYKEFRAVAER_DOMAIN
       value: https://arbeidsgiver.nav.no
+    - name: MILJO
+      value: prod
   accessPolicy:
     outbound:
       external:
