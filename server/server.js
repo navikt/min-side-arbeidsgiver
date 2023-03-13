@@ -62,6 +62,7 @@ const indexHtml = Mustache.render(
         SETTINGS: `
             window.environment = {
                 MILJO: '${NAIS_CLUSTER_NAME}',
+                NAIS_CLUSTER_NAME: '${NAIS_CLUSTER_NAME}',
                 NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
                 GIT_COMMIT: '${GIT_COMMIT}',
             }
