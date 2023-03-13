@@ -1,5 +1,6 @@
 interface Environment {
     MILJO: string,
+    NAIS_CLUSTER_NAME: string,
     NAIS_APP_IMAGE: string,
     GIT_COMMIT: string,
 }
@@ -7,6 +8,7 @@ interface Environment {
 const environment: Environment = {
     MILJO: 'local',
     NAIS_APP_IMAGE: 'unknown',
+    NAIS_CLUSTER_NAME: 'unknown',
     GIT_COMMIT: 'unknown',
     ...(window as any)?.environment
 };
@@ -19,7 +21,7 @@ interface Miljo<T> {
 }
 
 export const gittMiljo = <T>(e: Miljo<T>): T => {
-    switch (environment.MILJO) {
+    switch (environment.NAIS_CLUSTER_NAME) {
         case 'prod-gcp':
             return e.prod
         case 'dev-gcp':
