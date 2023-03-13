@@ -25,6 +25,7 @@ const {
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
     SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
+    MILJO = 'local',
 } = process.env;
 
 const log_events_counter = new Prometheus.Counter({
@@ -61,7 +62,7 @@ const indexHtml = Mustache.render(
     {
         SETTINGS: `
             window.environment = {
-                MILJO: '${NAIS_CLUSTER_NAME}',
+                MILJO: '${MILJO}',
                 NAIS_CLUSTER_NAME: '${NAIS_CLUSTER_NAME}',
                 NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
                 GIT_COMMIT: '${GIT_COMMIT}',
