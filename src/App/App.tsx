@@ -24,7 +24,7 @@ import Brodsmulesti from "./Brodsmulesti/Brodsmulesti";
 const miljø = gittMiljo<"local" | "labs" | "dev" | "prod">({
     prod: 'prod',
     dev: 'dev',
-    labs: 'labs',
+    demo: 'labs',
     other: 'local',
 });
 
