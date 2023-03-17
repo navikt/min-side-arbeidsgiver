@@ -117,12 +117,11 @@ export const Saksfilter = ({
                 onChange={ valgteOppgavetilstander =>
                     setFilter({...filter, oppgaveTilstand: valgteOppgavetilstander})
                 }
-
             >
                 <Checkbox value={OppgaveTilstand.Ny}>
                     <BodyShort>Uløste oppgaver
                         {
-                            antallUløsteOppgaver !== undefined ? ` (${antallUløsteOppgaver})`: ""
+                            oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? "0"})` : ""
                         }
                     </BodyShort>
                 </Checkbox>
