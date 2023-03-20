@@ -4,7 +4,14 @@ import { useSessionState } from './useOversiktSessionStorage';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
 import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
-import {Sak, SakerResultat, SakSortering, Sakstype} from '../../../../api/graphql-types';
+import {
+    OppgaveTilstand,
+    OppgaveTilstandInfo,
+    Sak,
+    SakerResultat,
+    SakSortering,
+    Sakstype
+} from '../../../../api/graphql-types';
 
 
 
@@ -14,6 +21,7 @@ export type Filter = {
     virksomheter: Organisasjon[],
     sortering: SakSortering,
     sakstyper: string[],
+    oppgaveTilstand: OppgaveTilstand[],
 }
 
 export type State = {
@@ -23,6 +31,7 @@ export type State = {
     totaltAntallSaker: number | undefined;
     forrigeSaker: Array<Sak> | null;
     sakstyper: Array<Sakstype> | undefined;
+    oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
     startTid: Date;
 } | {
     state: 'done';
@@ -31,12 +40,14 @@ export type State = {
     saker: Array<Sak>;
     sakstyper: Array<Sakstype>;
     totaltAntallSaker: number;
+    oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
 } | {
     state: 'error';
     filter: Filter;
     sider: number | undefined;
     sakstyper: Array<Sakstype> | undefined;
     totaltAntallSaker: number | undefined;
+    oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
 }
 
 type Action =
@@ -56,6 +67,7 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
         sider: undefined,
         totaltAntallSaker: undefined,
         sakstyper: undefined,
+        oppgaveTilstandInfo: undefined,
         startTid: new Date(),
     })
 
@@ -104,6 +116,7 @@ const reduce = (current: State, action: Action): State => {
                     sider: current.sider,
                     startTid: new Date(),
                     sakstyper: current.sakstyper,
+                    oppgaveTilstandInfo: current.oppgaveTilstandInfo,
                     totaltAntallSaker: current.totaltAntallSaker,
                     forrigeSaker: finnForrigeSaker(current),
                 }
@@ -112,9 +125,10 @@ const reduce = (current: State, action: Action): State => {
                 state: 'loading',
                 filter: action.filter,
                 sider: undefined,
-                totaltAntallSaker: undefined,
                 sakstyper: current.sakstyper,
+                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
                 startTid: new Date(),
+                totaltAntallSaker: undefined,
                 forrigeSaker: finnForrigeSaker(current),
             }
         case 'lasting-pågår':
@@ -122,9 +136,10 @@ const reduce = (current: State, action: Action): State => {
                 state: 'loading',
                 filter: current.filter,
                 sider: current.sider,
-                totaltAntallSaker: current.totaltAntallSaker,
                 sakstyper: current.sakstyper,
+                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
                 startTid: new Date(),
+                totaltAntallSaker: current.totaltAntallSaker,
                 forrigeSaker: finnForrigeSaker(current),
             }
         case 'lasting-feilet':
@@ -134,6 +149,7 @@ const reduce = (current: State, action: Action): State => {
                 sider: current.sider,
                 totaltAntallSaker: current.totaltAntallSaker,
                 sakstyper: current.sakstyper,
+                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
             }
         case 'lasting-ferdig':
             const {totaltAntallSaker, saker} = action.resultat
@@ -150,6 +166,7 @@ const reduce = (current: State, action: Action): State => {
                     startTid: new Date(),
                     forrigeSaker: null,
                     sakstyper: current.sakstyper,
+                    oppgaveTilstandInfo: current.oppgaveTilstandInfo,
                 }
             } else {
                 return {
@@ -159,6 +176,7 @@ const reduce = (current: State, action: Action): State => {
                     saker: action.resultat.saker,
                     sakstyper: action.resultat.sakstyper,
                     totaltAntallSaker: action.resultat.totaltAntallSaker,
+                    oppgaveTilstandInfo: action.resultat.oppgaveTilstandInfo,
                 }
             }
     }
@@ -181,7 +199,7 @@ function equalVirksomhetsnumre(a: Filter, b: Filter) {
         a.virksomheter.every(aVirksomhet => b.virksomheter.some(bVirksomhet => aVirksomhet.OrganizationNumber === bVirksomhet.OrganizationNumber));
 }
 
-export function equalSakstyper(a: string[], b: string[]) {
+export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every(aa => b.includes(aa))
 }
 
@@ -190,4 +208,5 @@ export const equalFilter = (a:Filter, b:Filter): boolean =>
     a.tekstsoek === b.tekstsoek &&
     equalVirksomhetsnumre(a, b) &&
     a.sortering === b.sortering &&
-    equalSakstyper(a.sakstyper, b.sakstyper)
+    equalAsSets(a.sakstyper, b.sakstyper) &&
+    equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)

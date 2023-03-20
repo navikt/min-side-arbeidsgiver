@@ -10,7 +10,7 @@ import {BodyShort, Heading } from "@navikt/ds-react";
 import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 import { OmSaker } from '../OmSaker';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
-import {SakSortering} from "../../../../api/graphql-types";
+import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -24,6 +24,7 @@ const SisteSaker = () => {
         tekstsoek: "",
         sortering: SakSortering.Oppdatert,
         sakstyper: [],
+        oppgaveTilstand: [],
     })
 
     useSessionStateForside()

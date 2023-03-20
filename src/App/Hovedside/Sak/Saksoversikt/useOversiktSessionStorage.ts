@@ -4,10 +4,10 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSessionStorage } from '../../../hooks/useStorage';
-import {equalSakstyper, Filter} from './useOversiktStateTransitions';
+import {equalAsSets, Filter} from './useOversiktStateTransitions';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import {SakSortering } from "../../../../api/graphql-types";
+import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -18,7 +18,8 @@ type SessionStateSaksoversikt = {
     virksomhetsnumre: string[],
     sortering: SakSortering,
     bedrift: string | undefined,
-    sakstyper: string[]
+    sakstyper: string[],
+    oppgaveTilstand?: OppgaveTilstand[],
 }
 type SessionStateForside = {
     route: "/",
@@ -34,7 +35,8 @@ const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
     virksomhetsnumre: filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
-    sakstyper: filter.sakstyper
+    sakstyper: filter.sakstyper,
+    oppgaveTilstand: filter.oppgaveTilstand,
 });
 
 const equalVirksomhetsnumre = (a: SessionStateSaksoversikt, b: SessionStateSaksoversikt): boolean => {
@@ -51,7 +53,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.bedrift === b.bedrift &&
             a.sortering === b.sortering &&
             equalVirksomhetsnumre(a, b) &&
-            equalSakstyper(a.sakstyper, b.sakstyper);
+            equalAsSets(a.sakstyper, b.sakstyper)
     } else {
         return false;
     }
@@ -111,6 +113,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             }),
             sortering: sessionState.sortering,
             sakstyper: sessionState.sakstyper,
+            oppgaveTilstand: sessionState.oppgaveTilstand ?? [],
         }
     }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre.join(","), sessionState.sortering])
 
