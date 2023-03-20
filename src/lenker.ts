@@ -6,20 +6,20 @@ export const skjemaForArbeidsgiverURL =
 
 export const innsynAaregURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
-    labs: 'https://arbeidsgiver.labs.nais.io/arbeidsforhold/',
+    demo: 'https://arbeidsgiver.labs.nais.io/arbeidsforhold/',
     other: 'https://arbeidsforhold.dev.nav.no/arbeidsforhold/',
 });
 
 export const syfoURL = gittMiljo({
     prod: 'https://www.nav.no/arbeidsgiver/sykmeldte',
     other: 'https://www-gcp.dev.nav.no/arbeidsgiver/sykmeldte',
-    labs: 'https://dinesykmeldte.labs.nais.io/arbeidsgiver/sykmeldte',
+    demo: 'https://dinesykmeldte.labs.nais.io/arbeidsgiver/sykmeldte',
 });
 
 export const refosoURL = gittMiljo({
     prod: 'https://tiltak-refusjon.nav.no/refusjon',
     other: 'https://tiltak-refusjon.dev.nav.no/refusjon',
-    labs: 'https://tiltak-refusjon-arbeidsgiver.labs.nais.io/refusjon',
+    demo: 'https://tiltak-refusjon-arbeidsgiver.labs.nais.io/refusjon',
 })
 
 export const arbeidsplassenURL = gittMiljo({
@@ -81,7 +81,7 @@ export const lenkeTilTilgangsstyringsInfo =
 
 export const lenkeTilForebyggefravar = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/forebygge-fravar/',
-    labs: 'https://arbeidsgiver.labs.nais.io/forebygge-fravar/',
+    demo: 'https://arbeidsgiver.labs.nais.io/forebygge-fravar/',
     other: 'https://forebygge-fravar.dev.nav.no/forebygge-fravar/',
 });
 
@@ -93,13 +93,8 @@ export const lenkeTilInforOmInntekstmelding =
 
 export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering/',
-    labs: 'https://permitteringsskjema.labs.nais.io/permittering',
+    demo: 'https://permitteringsskjema.labs.nais.io/permittering',
     other: 'https://arbeidsgiver-q.nav.no/permittering/',
-});
-
-export const lenkeTilLonnskompensasjonOgRefusjon = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
-    other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/',
 });
 
 const lenkeTilKlageskjemaBase = gittMiljo({
@@ -112,7 +107,7 @@ export const permitteringKlageskjemaURL = (orgnr: string) =>
 
 export const tiltaksgjennomforingURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
-    labs: 'https://arbeidsgiver.labs.nais.io/tiltaksgjennomforing/?part=arbeidsgiver',
+    demo: 'https://arbeidsgiver.labs.nais.io/tiltaksgjennomforing/?part=arbeidsgiver',
     other: 'https://arbeidsgiver-q.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
 });
 

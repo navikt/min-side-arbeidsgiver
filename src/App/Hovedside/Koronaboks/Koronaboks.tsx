@@ -2,7 +2,6 @@ import React, {FunctionComponent, useContext} from 'react';
 import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
 import {
     permitteringKlageskjemaURL,
-    lenkeTilLonnskompensasjonOgRefusjon
 } from '../../../lenker';
 import KoronaboksIkon from './KoronaboksIkon';
 import './Koronaboks.css';
@@ -39,10 +38,6 @@ export const Koronaboks = () => {
         >
                 <span className='koronaboks__innhold'>
                     <Label  className='koronaboks__tekst'>Lønnskompensasjon</Label>
-                    <Koronalenke
-                        href={lenkeTilLonnskompensasjonOgRefusjon}
-                        tekst='Se kvittering på innsendt skjema om lønnskompensasjon'
-                    />
 
                     <Koronalenke
                         href={permitteringKlageskjemaURL(orgnr)}

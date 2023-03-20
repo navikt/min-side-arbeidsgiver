@@ -67,6 +67,7 @@ injectDecoratorClientSide({
         prod: "prod",
         other: "dev",
     }),
+    urlLookupTable: false,
     context: 'arbeidsgiver',
     redirectToApp: true,
     level: 'Level4'

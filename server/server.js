@@ -25,6 +25,7 @@ const {
     ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
     SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
+    MILJO = 'local',
 } = process.env;
 
 const log_events_counter = new Prometheus.Counter({
@@ -61,7 +62,7 @@ const indexHtml = Mustache.render(
     {
         SETTINGS: `
             window.environment = {
-                MILJO: '${NAIS_CLUSTER_NAME}',
+                MILJO: '${MILJO}',
                 NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
                 GIT_COMMIT: '${GIT_COMMIT}',
             }
@@ -94,11 +95,11 @@ app.use(
     }),
 );
 
-if (NAIS_CLUSTER_NAME === 'dev-gcp') {
+if (MILJO === 'dev') {
     require('./mock/enhetsRegisteretMock').mock(app);
 }
 
-if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
+if (MILJO === 'local' || MILJO === 'demo') {
     require('./mock/pamMock').mock(app);
     require('./mock/syfoMock').mock(app);
     require('./mock/altinnMock').mock(app);
@@ -120,9 +121,9 @@ app.use(
         {
             log: log,
             audience: {
-                'dev-gcp': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
-                'prod-gcp': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
-            }[NAIS_CLUSTER_NAME]
+                'dev': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
+                'prod': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
+            }[MILJO]
         }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
@@ -167,9 +168,9 @@ app.use(
         {
             log: log,
             audience: {
-                'dev-gcp': 'dev-gcp:toi:presenterte-kandidater-api',
-                'prod-gcp': 'prod-gcp:toi:presenterte-kandidater-api',
-            }[NAIS_CLUSTER_NAME]
+                'dev': 'dev-gcp:toi:presenterte-kandidater-api',
+                'prod': 'prod-gcp:toi:presenterte-kandidater-api',
+            }[MILJO]
         }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
@@ -212,9 +213,9 @@ app.use(
         {
             log: log,
             audience: {
-                'dev-gcp': 'dev-gcp:fager:min-side-arbeidsgiver-api',
-                'prod-gcp': 'prod-gcp:fager:min-side-arbeidsgiver-api',
-            }[NAIS_CLUSTER_NAME]
+                'dev': 'dev-gcp:fager:min-side-arbeidsgiver-api',
+                'prod': 'prod-gcp:fager:min-side-arbeidsgiver-api',
+            }[MILJO]
         }),
     createProxyMiddleware({
         logLevel: PROXY_LOG_LEVEL,
@@ -232,7 +233,7 @@ app.use(
     })
 );
 
-if (NAIS_CLUSTER_NAME === 'local' || NAIS_CLUSTER_NAME === 'labs-gcp') {
+if (MILJO === 'local' || MILJO === 'demo') {
     const {applyNotifikasjonMockMiddleware} = require('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
 
     // TODO: oppdater mock med nytt skjema ig fjern override her
