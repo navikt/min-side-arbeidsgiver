@@ -1,15 +1,15 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import React, {useContext, useEffect} from 'react';
 import * as Sentry from '@sentry/react';
-import { Query } from '../../../api/graphql-types';
+import {Query} from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
 import { Filter } from './Saksoversikt/useOversiktStateTransitions';
 
 type SakerResultat = Pick<Query, "saker">
 
 const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
-    query hentSaker($virksomhetsnumre: [String!]!, $tekstsoek: String, $sortering: SakSortering!, $sakstyper: [String!], $offset: Int, $limit: Int) {
-        saker(virksomhetsnumre: $virksomhetsnumre, tekstsoek: $tekstsoek, sortering: $sortering, sakstyper: $sakstyper, offset: $offset, limit: $limit) {
+    query hentSaker($virksomhetsnumre: [String!]!, $tekstsoek: String, $sortering: SakSortering!, $sakstyper: [String!], $oppgaveTilstand: [OppgaveTilstand!] , $offset: Int, $limit: Int) {
+        saker(virksomhetsnumre: $virksomhetsnumre, tekstsoek: $tekstsoek, sortering: $sortering, sakstyper: $sakstyper, oppgaveTilstand: $oppgaveTilstand, offset: $offset, limit: $limit) {
             saker {
                 id
                 tittel
@@ -37,13 +37,17 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             }
             feilAltinn
             totaltAntallSaker
+            oppgaveTilstandInfo {
+                tilstand
+                antall
+            }
         }
     }
 `
 
 export function useSaker(
     pageSize: number,
-    {side, tekstsoek, virksomheter, sortering, sakstyper}: Filter,
+    {side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand}: Filter,
 ) {
     const virksomhetsnumre = virksomheter.map(org => org.OrganizationNumber)
     const variables = {
@@ -51,6 +55,7 @@ export function useSaker(
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : sakstyper,
+        oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
         offset: ((side ?? 0) - 1) * pageSize, /* if undefined, we should not send */
         limit: pageSize
     }
@@ -71,7 +76,7 @@ export function useSaker(
                 .catch(Sentry.captureException);
         }
 
-    }, [JSON.stringify(virksomhetsnumre), tekstsoek, side, sortering, JSON.stringify(sakstyper), error])
+    }, [JSON.stringify(virksomhetsnumre), tekstsoek, side, sortering, JSON.stringify(sakstyper), JSON.stringify(oppgaveTilstand), error])
 
     const {addAlert, clearAlert} = useContext(AlertContext);
 

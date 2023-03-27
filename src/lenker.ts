@@ -97,11 +97,6 @@ export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     other: 'https://arbeidsgiver-q.nav.no/permittering/',
 });
 
-export const lenkeTilLonnskompensasjonOgRefusjon = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/permittering-refusjon/',
-    other: 'https://arbeidsgiver-q.nav.no/permittering-refusjon/',
-});
-
 const lenkeTilKlageskjemaBase = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/klage-permittering-refusjon/',
     other: 'https://arbeidsgiver-q.nav.no/klage-permittering-refusjon/',

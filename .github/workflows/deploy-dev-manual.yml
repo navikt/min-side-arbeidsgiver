@@ -36,9 +36,8 @@ jobs:
       - name: "Deploy labs-gcp"
         uses: nais/deploy/actions/deploy@v1
         env:
-          DEPLOY_SERVER: deploy.nais.io:443
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: labs-gcp
+          CLUSTER: dev-gcp
           RESOURCE: nais/experimental-labs-gcp.yaml
           PRINT_PAYLOAD: true
           VAR: commit=${{ github.sha }}
