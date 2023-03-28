@@ -68,6 +68,7 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
         sakstyper: undefined,
         oppgaveTilstandInfo: undefined,
         startTid: new Date(),
+    });
 
     const { loading, data } = useSaker(SIDE_SIZE, state.filter);
 
