@@ -1,3 +1,5 @@
+const casual = require('casual');
+
 const OrganisasjonerResponse = [
     {
         Name: 'En Juridisk Ehhet AS',
@@ -103,6 +105,40 @@ const OrganisasjonerResponse = [
         Status: 'Active',
     }
 ];
+casual.define('orgnr', () => casual.integer(100000000, 999999999).toString());
+
+casual.define('underenhet', (parentOrganizationNumber) => ({
+    Name: casual.company_name,
+    Type: 'Business',
+    OrganizationNumber: casual.orgnr,
+    ParentOrganizationNumber: parentOrganizationNumber,
+    OrganizationForm: 'BEDR',
+    Status: 'Active',
+}));
+
+casual.define('hovedenhet', (organizationNumber) => ({
+    Name: casual.company_name,
+    Type: 'Enterprise',
+    ParentOrganizationNumber: null,
+    OrganizationNumber: organizationNumber,
+    OrganizationForm: 'AS',
+    Status: 'Active',
+}));
+
+const generateUnderenheter = () => {
+    const orgnummer = casual.orgnr;
+    const underenheter =  Array(15).fill(null).map(() => casual.underenhet(orgnummer));
+    const hovedenhet = casual.hovedenhet(orgnummer);
+    return [hovedenhet, ...underenheter];
+}
+
+const andreOrganisasjoner = Array(2).fill(null).flatMap(() => {
+    return generateUnderenheter();
+});
+
+console.log(andreOrganisasjoner);
+
+
 
 const organisasjonerMedRettigheter = [
     '182345674',
@@ -149,6 +185,7 @@ const mentortilskuddskjemaResponse = [
     }
 ];
 
+
 const InntektsmeldingSkjemaResponse = [
     {
         Name: 'BALLSTAD OG HAMARØY',
@@ -170,7 +207,7 @@ const InntektsmeldingSkjemaResponse = [
 module.exports = {
     OrganisasjonerResponse,
     mock: (app) => {
-        app.use('/min-side-arbeidsgiver/api/organisasjoner', (req, res) => res.send(OrganisasjonerResponse));
+        app.use('/min-side-arbeidsgiver/api/organisasjoner', (req, res) => res.send([...OrganisasjonerResponse, ...andreOrganisasjoner]));
         app.use(
             '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
             (req, res) => res.send(mentortilskuddskjemaResponse)
