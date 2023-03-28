@@ -59,7 +59,7 @@ const SisteSaker = () => {
                         scroll(0,0);
                         loggNavigasjon("saksoversikt", "se alle saker", location.pathname)
                     }}>
-                        Se alle ({data?.saker.totaltAntallSaker})
+                        Se alle saker
                         <HoyreChevron/>
                     </Link></BodyShort>
                     : null}

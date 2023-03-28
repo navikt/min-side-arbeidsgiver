@@ -1,20 +1,19 @@
-import React, {FC, useContext, useEffect, useRef, useState} from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import {Heading, Pagination, Select} from '@navikt/ds-react';
-import {Spinner} from '../../../Spinner';
-import {SaksListe} from '../SaksListe';
-import {Alerts} from '../../../Alerts/Alerts';
-import {Filter, useOversiktStateTransitions} from './useOversiktStateTransitions';
-import {State} from './useOversiktStateTransitions';
-import {OmSaker} from '../OmSaker';
-import {gittMiljo} from '../../../../utils/environment';
-import {Saksfilter} from "../Saksfilter/Saksfilter";
-import {OrganisasjonerOgTilgangerContext} from "../../../OrganisasjonerOgTilgangerProvider";
-import * as Record from "../../../../utils/Record";
+import { Heading, Pagination, Select } from '@navikt/ds-react';
+import { Spinner } from '../../../Spinner';
+import { SaksListe } from '../SaksListe';
+import { Alerts } from '../../../Alerts/Alerts';
+import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
+import { OmSaker } from '../OmSaker';
+import { gittMiljo } from '../../../../utils/environment';
+import { Saksfilter } from '../Saksfilter/Saksfilter';
+import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import * as Record from '../../../../utils/Record';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
-import {OppgaveTilstand, Query, Sak, SakSortering} from "../../../../api/graphql-types";
-import {gql, TypedDocumentNode, useQuery} from "@apollo/client";
+import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
+import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 
 export const SIDE_SIZE = 30;
 
@@ -44,7 +43,7 @@ export const Saksoversikt = () => {
     const {state, byttFilter} = useOversiktStateTransitions(orgs)
 
     const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
-        byttFilter({...state.filter, virksomheter: valgte === "ALLEBEDRIFTER" ? orgs : valgte})
+        byttFilter({...state.filter, virksomheter: (valgte === "ALLEBEDRIFTER" || valgte.length === orgs.length ? "ALLEBEDRIFTER" : valgte)})
     }
 
     const alleSakstyper = useAlleSakstyper()
