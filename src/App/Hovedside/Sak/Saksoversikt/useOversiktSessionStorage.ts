@@ -35,7 +35,7 @@ const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
-    virksomhetsnumre: filter.virksomheter === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER": filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
+    virksomhetsnumre: filter.virksomheter === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
     sakstyper: filter.sakstyper,
     oppgaveTilstand: filter.oppgaveTilstand,
 });
