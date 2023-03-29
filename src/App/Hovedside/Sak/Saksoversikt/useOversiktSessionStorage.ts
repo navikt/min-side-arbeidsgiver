@@ -124,8 +124,14 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             sakstyper: sessionState.sakstyper,
             oppgaveTilstand: sessionState.oppgaveTilstand ?? [],
         }
-    }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : sessionState.virksomhetsnumre.join(","), sessionState.sortering])
-
+    }, [
+        sessionState.side,
+        sessionState.tekstsoek,
+        sessionState.virksomhetsnumre === "ALLEBEDRIFTER"
+            ? "ALLEBEDRIFTER"
+            : sessionState.virksomhetsnumre.join(","),
+        sessionState.sortering
+    ])
     return [filter, update]
 }
 
@@ -135,7 +141,7 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
     const bedrift = search.get("bedrift") ?? undefined;
     const virksomhetsnumre = search.get("virksomhetsnumre") === "ALLEBEDRIFTER" ?
         "ALLEBEDRIFTER"
-        : search.get("virksomhetsnumre")?.split(",") ?? [];
+        : search.get("virksomhetsnumre")?.split(",") ?? "ALLEBEDRIFTER"
     return {
         route: '/saksoversikt',
         bedrift,

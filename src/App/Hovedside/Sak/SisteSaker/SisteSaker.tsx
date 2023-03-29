@@ -11,7 +11,6 @@ import { OmSaker } from '../OmSaker';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from "../../../../api/graphql-types";
 import { FileFolder } from '@navikt/ds-icons';
-import { useLazyQuery } from '@apollo/client';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
