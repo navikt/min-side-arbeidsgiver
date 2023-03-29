@@ -16,7 +16,7 @@ type SessionStateSaksoversikt = {
     route: "/saksoversikt",
     side: number,
     tekstsoek: string,
-    virksomhetsnumre: string[] |"ALLEBEDRIFTER",
+    virksomhetsnumre: string[] | "ALLEBEDRIFTER",
     sortering: SakSortering,
     bedrift: string | undefined,
     sakstyper: string[],
