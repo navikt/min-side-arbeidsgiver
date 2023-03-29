@@ -7,10 +7,11 @@ import { useSaker } from '../useSaker';
 import {loggNavigasjon} from "../../../../utils/funksjonerForAmplitudeLogging";
 import amplitude from "../../../../utils/amplitude";
 import {BodyShort, Heading } from "@navikt/ds-react";
-import {HoyreChevron} from "../../../../GeneriskeElementer/HoyreChevron";
 import { OmSaker } from '../OmSaker';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
-import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
+import { SakSortering } from "../../../../api/graphql-types";
+import { FileFolder } from '@navikt/ds-icons';
+import { useLazyQuery } from '@apollo/client';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -18,7 +19,7 @@ const SisteSaker = () => {
     const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const location = useLocation()
 
-    const {loading, data} = useSaker(ANTALL_FORSIDESAKER, {
+    const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
         virksomheter: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon],
         tekstsoek: "",
@@ -59,8 +60,10 @@ const SisteSaker = () => {
                         scroll(0,0);
                         loggNavigasjon("saksoversikt", "se alle saker", location.pathname)
                     }}>
-                        Se alle saker
-                        <HoyreChevron/>
+                        <div className='innsynisak__se-alle-saker'>
+                            <FileFolder/>
+                            Se alle saker
+                        </div>
                     </Link></BodyShort>
                     : null}
             </div>
