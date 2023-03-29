@@ -133,10 +133,13 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? SakSortering.Oppdatert) as SakSortering
     const bedrift = search.get("bedrift") ?? undefined;
+    const virksomhetsnumre = search.get("virksomhetsnumre") === "ALLEBEDRIFTER" ?
+        "ALLEBEDRIFTER"
+        : search.get("virksomhetsnumre")?.split(",") ?? [];
     return {
         route: '/saksoversikt',
         bedrift,
-        virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? "ALLEBEDRIFTER",
+        virksomhetsnumre,
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Oppdatert,
