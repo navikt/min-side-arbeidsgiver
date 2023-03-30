@@ -135,7 +135,7 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
     const bedrift = search.get("bedrift") ?? undefined;
     const virksomhetsnumre = search.get("virksomhetsnumre") === "ALLEBEDRIFTER" ?
         "ALLEBEDRIFTER"
-        : search.get("virksomhetsnumre")?.split(",") ?? [];
+        : search.get("virksomhetsnumre")?.split(",") ?? "ALLEBEDRIFTER";
     return {
         route: '/saksoversikt',
         bedrift,
