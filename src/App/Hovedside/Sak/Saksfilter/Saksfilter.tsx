@@ -92,20 +92,6 @@ export const Saksfilter = ({
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
-            <CheckboxGroup
-                legend={"Oppgaver"}
-                onChange={ valgteOppgavetilstander =>
-                    setFilter({...filter, oppgaveTilstand: valgteOppgavetilstander})
-                }
-            >
-                <Checkbox value={OppgaveTilstand.Ny}>
-                    <BodyShort>Uløste oppgaver
-                        {
-                            oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? "0"})` : ""
-                        }
-                    </BodyShort>
-                </Checkbox>
-            </CheckboxGroup>
             {sakstyperForFilter.length > 1 && <CheckboxGroup
                 legend="Type sak"
                 value={filter.sakstyper}
@@ -126,6 +112,20 @@ export const Saksfilter = ({
                 }
             </CheckboxGroup>
             }
+            <CheckboxGroup
+                legend={"Oppgaver"}
+                onChange={ valgteOppgavetilstander =>
+                    setFilter({...filter, oppgaveTilstand: valgteOppgavetilstander})
+                }
+            >
+                <Checkbox value={OppgaveTilstand.Ny}>
+                    <BodyShort>Uløste oppgaver
+                        {
+                            oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? "0"})` : ""
+                        }
+                    </BodyShort>
+                </Checkbox>
+            </CheckboxGroup>
         </div>
     </KollapsHvisMobil>
 
