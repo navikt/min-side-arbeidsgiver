@@ -4,6 +4,8 @@ import { autentiserAltinnBruker, hentMeldingsboks, Meldingsboks } from '../api/a
 import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 import { Organisasjon } from '../altinn/organisasjon';
+import { useSaker } from './Hovedside/Sak/useSaker';
+import { SakSortering } from '../api/graphql-types';
 
 interface Props {
     children: React.ReactNode;
@@ -14,6 +16,7 @@ export type Context = {
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
+    antallSakerForAlleBedrifter: Number | undefined;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -23,6 +26,26 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
+    const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<Number | undefined>(undefined);
+
+    const { data, loading } = useSaker(1, {
+        side: 1,
+        virksomheter: "ALLEBEDRIFTER",
+        tekstsoek: '',
+        sortering: SakSortering.Opprettet,
+        sakstyper: [],
+        oppgaveTilstand: [],
+    });
+
+    useEffect(() => {
+        if (loading) {
+            return;
+        }
+
+        if (data !== undefined && data.saker !== undefined && data.saker.totaltAntallSaker !== undefined) {
+            setAntallSakerForAlleBedrifter(data.saker.totaltAntallSaker);
+        }
+    }, [data]);
 
     const endreOrganisasjon = async (org: Organisasjon) => {
         const orgInfo = organisasjoner[org.OrganizationNumber];
@@ -73,6 +96,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         endreOrganisasjon,
         valgtOrganisasjon,
         altinnMeldingsboks,
+        antallSakerForAlleBedrifter,
     };
     return (
         <OrganisasjonsDetaljerContext.Provider value={defaultContext}>
