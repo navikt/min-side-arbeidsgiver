@@ -1,24 +1,23 @@
 import { useEffect, useReducer } from 'react';
-import { SIDE_SIZE } from './Saksoversikt'
+import { SIDE_SIZE } from './Saksoversikt';
 import { useSessionState } from './useOversiktSessionStorage';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
-import {Organisasjon} from "../Saksfilter/Virksomhetsmeny/Virksomhetsmeny";
+import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import {
     OppgaveTilstand,
     OppgaveTilstandInfo,
     Sak,
     SakerResultat,
     SakSortering,
-    Sakstype
+    Sakstype,
 } from '../../../../api/graphql-types';
-
 
 
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomheter: Organisasjon[],
+    virksomheter: Organisasjon[] | 'ALLEBEDRIFTER',
     sortering: SakSortering,
     sakstyper: string[],
     oppgaveTilstand: OppgaveTilstand[],
@@ -69,9 +68,9 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
         sakstyper: undefined,
         oppgaveTilstandInfo: undefined,
         startTid: new Date(),
-    })
+    });
 
-    const {loading, data} = useSaker(SIDE_SIZE, state.filter);
+    const { loading, data } = useSaker(SIDE_SIZE, state.filter);
 
     useEffect(() => {
         setSessionState(state.filter)
@@ -79,36 +78,36 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
 
     useEffect(() => {
         if (loading) {
-            dispatch({action: 'lasting-pågår'})
-        } else if (data?.saker?.__typename !== "SakerResultat") {
-            dispatch({action: 'lasting-feilet'})
+            dispatch({ action: 'lasting-pågår' });
+        } else if (data?.saker?.__typename !== 'SakerResultat') {
+            dispatch({ action: 'lasting-feilet' });
         } else {
             amplitude.logEvent('komponent-lastet', {
                 komponent: 'saksoversikt',
                 side: state.filter.side,
                 tekstsoek: state.filter.tekstsoek.trim() !== '',
-                totaltAntallSaker: data.saker.totaltAntallSaker
-            })
-            dispatch({action: 'lasting-ferdig', resultat: data.saker})
+                totaltAntallSaker: data.saker.totaltAntallSaker,
+            });
+            dispatch({ action: 'lasting-ferdig', resultat: data.saker });
         }
-    }, [loading, data])
+    }, [loading, data]);
 
     return {
         state,
-        byttFilter: (filter: Filter) => dispatch({action: 'bytt-filter', filter}),
-    }
-}
+        byttFilter: (filter: Filter) => dispatch({ action: 'bytt-filter', filter }),
+    };
+};
 
 const reduce = (current: State, action: Action): State => {
     switch (action.action) {
         case 'bytt-filter':
             if (equalFilter(current.filter, action.filter)) {
-                return current
+                return current;
             }
 
             if (equalFilter(
-                {...current.filter, side: 1, sortering: SakSortering.Oppdatert},
-                {...action.filter, side: 1, sortering: SakSortering.Oppdatert}
+                { ...current.filter, side: 1, sortering: SakSortering.Oppdatert },
+                { ...action.filter, side: 1, sortering: SakSortering.Oppdatert },
             )) {
                 return {
                     state: 'loading',
@@ -119,7 +118,7 @@ const reduce = (current: State, action: Action): State => {
                     oppgaveTilstandInfo: current.oppgaveTilstandInfo,
                     totaltAntallSaker: current.totaltAntallSaker,
                     forrigeSaker: finnForrigeSaker(current),
-                }
+                };
             }
             return {
                 state: 'loading',
@@ -130,7 +129,7 @@ const reduce = (current: State, action: Action): State => {
                 startTid: new Date(),
                 totaltAntallSaker: undefined,
                 forrigeSaker: finnForrigeSaker(current),
-            }
+            };
         case 'lasting-pågår':
             return {
                 state: 'loading',
@@ -141,7 +140,7 @@ const reduce = (current: State, action: Action): State => {
                 startTid: new Date(),
                 totaltAntallSaker: current.totaltAntallSaker,
                 forrigeSaker: finnForrigeSaker(current),
-            }
+            };
         case 'lasting-feilet':
             return {
                 state: 'error',
@@ -150,24 +149,24 @@ const reduce = (current: State, action: Action): State => {
                 totaltAntallSaker: current.totaltAntallSaker,
                 sakstyper: current.sakstyper,
                 oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-            }
+            };
         case 'lasting-ferdig':
-            const {totaltAntallSaker, saker} = action.resultat
-            const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE)
+            const { totaltAntallSaker, saker } = action.resultat;
+            const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
             if (totaltAntallSaker > 0 && saker.length === 0) {
                 // på et eller annet vis er det saker (totaltAntallSaker > 0), men
                 // vi mottok ingen. Kan det være fordi vi er forbi siste side? Prøv
                 // å gå til siste side.
                 return {
                     state: 'loading',
-                    filter: { ... current.filter, side: Math.max(1, sider - 1)},
+                    filter: { ...current.filter, side: Math.max(1, sider - 1) },
                     sider,
                     totaltAntallSaker,
                     startTid: new Date(),
                     forrigeSaker: null,
                     sakstyper: current.sakstyper,
                     oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                }
+                };
             } else {
                 return {
                     state: 'done',
@@ -177,36 +176,44 @@ const reduce = (current: State, action: Action): State => {
                     sakstyper: action.resultat.sakstyper,
                     totaltAntallSaker: action.resultat.totaltAntallSaker,
                     oppgaveTilstandInfo: action.resultat.oppgaveTilstandInfo,
-                }
+                };
             }
     }
-}
+};
 
 const finnForrigeSaker = (state: State): Array<Sak> | null => {
     switch (state.state) {
         case 'done':
-            return state.saker
+            return state.saker;
         case 'loading':
-            return state.forrigeSaker ?? null
+            return state.forrigeSaker ?? null;
         case 'error':
-            return null
+            return null;
     }
-}
+};
 
 
 function equalVirksomhetsnumre(a: Filter, b: Filter) {
-    return a.virksomheter.length === b.virksomheter.length &&
-        a.virksomheter.every(aVirksomhet => b.virksomheter.some(bVirksomhet => aVirksomhet.OrganizationNumber === bVirksomhet.OrganizationNumber));
+    const virksomheterA = a.virksomheter;
+    const virksomheterB = b.virksomheter;
+    if (virksomheterA === 'ALLEBEDRIFTER' && virksomheterB === 'ALLEBEDRIFTER') {
+        return true;
+    } else if (Array.isArray(virksomheterA) && Array.isArray(virksomheterB)) {
+        return virksomheterA.length === virksomheterB.length &&
+            virksomheterA.every(aVirksomhet => virksomheterB.some(bVirksomhet => aVirksomhet.OrganizationNumber === bVirksomhet.OrganizationNumber));
+    } else {
+        return false;
+    }
 }
 
 export function equalAsSets(a: string[], b: string[]) {
-    return a.length === b.length && a.every(aa => b.includes(aa))
+    return a.length === b.length && a.every(aa => b.includes(aa));
 }
 
-export const equalFilter = (a:Filter, b:Filter): boolean =>
+export const equalFilter = (a: Filter, b: Filter): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
     equalVirksomhetsnumre(a, b) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
-    equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
+    equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand);
