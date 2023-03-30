@@ -8,7 +8,6 @@ import {equalAsSets, Filter} from './useOversiktStateTransitions';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
-import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -16,7 +15,7 @@ type SessionStateSaksoversikt = {
     route: "/saksoversikt",
     side: number,
     tekstsoek: string,
-    virksomhetsnumre: string[] | "ALLEBEDRIFTER",
+    virksomhetsnumre: string[],
     sortering: SakSortering,
     bedrift: string | undefined,
     sakstyper: string[],
@@ -35,22 +34,14 @@ const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
-    virksomhetsnumre: filter.virksomheter === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
+    virksomhetsnumre: filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
     sakstyper: filter.sakstyper,
     oppgaveTilstand: filter.oppgaveTilstand,
 });
 
 const equalVirksomhetsnumre = (a: SessionStateSaksoversikt, b: SessionStateSaksoversikt): boolean => {
-    const virksomheterA = a.virksomhetsnumre;
-    const virksomheterB = b.virksomhetsnumre;
-    if (virksomheterA === 'ALLEBEDRIFTER' && virksomheterB === 'ALLEBEDRIFTER') {
-        return true;
-    } else if (Array.isArray(virksomheterA) && Array.isArray(virksomheterB)) {
-        return virksomheterA.length === virksomheterB.length &&
-            virksomheterA.every(aVirksomhet => virksomheterB.some(bVirksomhet => aVirksomhet === bVirksomhet));
-    } else {
-        return false;
-    }
+    return a.virksomhetsnumre.length === b.virksomhetsnumre.length &&
+        a.virksomhetsnumre.every(virksomhetsnummer => b.virksomhetsnumre.includes(virksomhetsnummer));
 };
 
 export const equalSessionState = (a: SessionState, b: SessionState): boolean => {
@@ -116,7 +107,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             route: '/saksoversikt',
             side: sessionState.side,
             tekstsoek: sessionState.tekstsoek,
-            virksomheter: sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" as const : sessionState.virksomhetsnumre.flatMap(orgnr => {
+            virksomheter: sessionState.virksomhetsnumre.flatMap(orgnr => {
                 const org = alleVirksomheter.find(org => org.OrganizationNumber === orgnr)
                 return org !== undefined ? [org] : [];
             }),
@@ -124,7 +115,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             sakstyper: sessionState.sakstyper,
             oppgaveTilstand: sessionState.oppgaveTilstand ?? [],
         }
-    }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : sessionState.virksomhetsnumre.join(","), sessionState.sortering])
+    }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre.join(","), sessionState.sortering])
 
     return [filter, update]
 }
@@ -133,13 +124,10 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
     const search = new URLSearchParams(searchString)
     const sortering = (search.get("sortering") ?? SakSortering.Oppdatert) as SakSortering
     const bedrift = search.get("bedrift") ?? undefined;
-    const virksomhetsnumre = search.get("virksomhetsnumre") === "ALLEBEDRIFTER" ?
-        "ALLEBEDRIFTER"
-        : search.get("virksomhetsnumre")?.split(",") ?? [];
     return {
         route: '/saksoversikt',
         bedrift,
-        virksomhetsnumre,
+        virksomhetsnumre: search.get("virksomhetsnumre")?.split(",") ?? (bedrift === undefined ? [] : [bedrift]),
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Oppdatert,
@@ -167,7 +155,7 @@ const updateSearchParameters = (current: string, sessionState: SessionStateSakso
         query.set("bedrift", sessionState.bedrift)
     }
 
-    query.set("virksomhetsnumre", sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : sessionState.virksomhetsnumre.join(","))
+    query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","))
 
     if (sessionState.sakstyper.length > 0){
         query.set("sakstyper", sessionState.sakstyper.join(","))

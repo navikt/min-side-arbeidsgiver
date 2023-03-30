@@ -4,8 +4,6 @@ import * as Sentry from '@sentry/react';
 import {Query} from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
 import { Filter } from './Saksoversikt/useOversiktStateTransitions';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
-import * as Record from '../../../utils/Record';
 
 type SakerResultat = Pick<Query, "saker">
 
@@ -51,11 +49,7 @@ export function useSaker(
     pageSize: number,
     {side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand}: Filter,
 ) {
-    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => orgnr) : [];
-
-    const virksomhetsnumre = virksomheter === "ALLEBEDRIFTER" ? orgs : virksomheter.map(org => org.OrganizationNumber)
+    const virksomhetsnumre = virksomheter.map(org => org.OrganizationNumber)
     const variables = {
         virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,
