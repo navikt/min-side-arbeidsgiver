@@ -98,7 +98,7 @@ const main = async () => {
     );
 
     if (MILJO === 'dev') {
-        (await import('./mock/enhetsRegisteretMock')).mock(app);
+        (await import('./mock/enhetsRegisteretMock.js')).mock(app);
     }
 
     if (MILJO === 'local' || MILJO === 'demo') {
