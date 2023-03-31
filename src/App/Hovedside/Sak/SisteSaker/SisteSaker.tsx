@@ -43,7 +43,7 @@ const SisteSaker = () => {
     if (loading || !data) return null;
 
     if (data.saker?.saker?.length === 0 && (antallSakerForAlleBedrifter ?? 0) > 0){
-        return <BodyShort><Link className="lenke" to={{
+        return <Link className="innsynisak-lenke" to={{
             pathname: 'saksoversikt',
             search: location.search,
         }} onClick={() => {
@@ -52,9 +52,9 @@ const SisteSaker = () => {
         }}>
             <div className='innsynisak__se-alle-saker'>
                 <FileFolder/>
-                Se saker på tvers av alle virksomheter {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}
+                <BodyShort> Se saker på tvers av alle virksomheter {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}</BodyShort>
             </div>
-        </Link></BodyShort>
+        </Link>
     }
 
     return (
@@ -67,7 +67,7 @@ const SisteSaker = () => {
                     <OmSaker />
                 </div>
                 {data.saker.totaltAntallSaker > ANTALL_FORSIDESAKER ?
-                    <BodyShort><Link className="lenke" to={{
+                    <Link className="innsynisak-lenke" to={{
                         pathname: 'saksoversikt',
                         search: location.search,
                     }} onClick={() => {
@@ -76,9 +76,9 @@ const SisteSaker = () => {
                     }}>
                         <div className='innsynisak__se-alle-saker'>
                             <FileFolder/>
-                            Se alle saker {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}
+                            <BodyShort>  Se alle saker {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}</BodyShort>
                         </div>
-                    </Link></BodyShort>
+                    </Link>
                     : null}
             </div>
 
