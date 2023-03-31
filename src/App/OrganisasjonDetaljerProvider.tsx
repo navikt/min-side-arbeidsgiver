@@ -16,7 +16,7 @@ export type Context = {
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
     altinnMeldingsboks: Meldingsboks | undefined;
-    antallSakerForAlleBedrifter: Number | undefined;
+    antallSakerForAlleBedrifter: number | undefined;
 };
 
 export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
@@ -26,9 +26,9 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(undefined);
     const [altinnMeldingsboks, setAltinnMeldingsboks] = useState<Meldingsboks | undefined>(undefined);
-    const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<Number | undefined>(undefined);
+    const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<number | undefined>(undefined);
 
-    const { data, loading } = useSaker(1, {
+    const { data, loading } = useSaker(0, {
         side: 1,
         virksomheter: "ALLEBEDRIFTER",
         tekstsoek: '',
