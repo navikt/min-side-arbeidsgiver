@@ -37,10 +37,8 @@ const søknader = [
     }
 ]
 
-module.exports = {
-    mock: (app) => {
-        app.use('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', (req, res) => {
-            res.send(søknader);
-        });
-    }
-};
+export const mock = (app) => {
+    app.use('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', (req, res) => {
+        res.send(søknader);
+    });
+}

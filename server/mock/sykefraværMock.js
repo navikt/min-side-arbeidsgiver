@@ -14,13 +14,11 @@ const bedriftEllerBransjeRespons = () => {
 
 };
 
-module.exports = {
-    mock: (app) => {
-        app.use(
-            `/min-side-arbeidsgiver/sykefravaer/:orgnr/sykefravarshistorikk/legemeldtsykefravarsprosent`,
-            (req, res) => {
-                res.send(bedriftEllerBransjeRespons());
-            },
-        );
-    },
-};
+export const mock = (app) => {
+    app.use(
+        `/min-side-arbeidsgiver/sykefravaer/:orgnr/sykefravarshistorikk/legemeldtsykefravarsprosent`,
+        (req, res) => {
+            res.send(bedriftEllerBransjeRespons());
+        },
+    );
+}

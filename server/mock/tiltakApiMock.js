@@ -211,8 +211,6 @@ const arbeidsavtalermock = [
   }
 ];
 
-module.exports = {
-    mock: (app) => {
-        app.use("/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/", (req, res) => res.send(arbeidsavtalermock));
-    }
-};
+export const mock = (app) => {
+  app.use("/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/", (req, res) => res.send(arbeidsavtalermock));
+}

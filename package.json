@@ -49,8 +49,6 @@
     "zod": "^3.12.0"
   },
   "devDependencies": {
-    "cookie-parser": "*",
-    "node-fetch": "^2.6.7",
     "@graphql-codegen/cli": "^2.13.1",
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
