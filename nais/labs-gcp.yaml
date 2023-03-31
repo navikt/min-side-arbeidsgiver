@@ -47,3 +47,5 @@ spec:
       rules:
         - application: demo-min-side-arbeidsgiver-api
         - application: demo-notifikasjon-bruker-api
+      external:
+        - host: fakedings.dev-gcp.nais.io

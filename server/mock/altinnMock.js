@@ -1,6 +1,6 @@
-const casual = require('casual');
+import casual from 'casual';
 
-const OrganisasjonerResponse = [
+export const OrganisasjonerResponse = [
     {
         Name: 'En Juridisk Ehhet AS',
         Type: 'Enterprise',
@@ -136,9 +136,6 @@ const andreOrganisasjoner = Array(2).fill(null).flatMap(() => {
     return generateUnderenheter();
 });
 
-console.log(andreOrganisasjoner);
-
-
 
 const organisasjonerMedRettigheter = [
     '182345674',
@@ -204,21 +201,18 @@ const InntektsmeldingSkjemaResponse = [
     },
 ];
 
-module.exports = {
-    OrganisasjonerResponse,
-    mock: (app) => {
-        app.use('/min-side-arbeidsgiver/api/organisasjoner', (req, res) => res.send([...OrganisasjonerResponse, ...andreOrganisasjoner]));
-        app.use(
-            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
-            (req, res) => res.send(mentortilskuddskjemaResponse)
-        );
-        app.use(
-            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
-            (req, res) => res.send(InntektsmeldingSkjemaResponse)
-        );
-        app.use(
-            '/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
-            (req, res) => res.send(rettigheterSkjemaDefaultResponse)
-        );
-    }
+export const mock = (app) => {
+    app.use('/min-side-arbeidsgiver/api/organisasjoner', (req, res) => res.send([...OrganisasjonerResponse, ...andreOrganisasjoner]));
+    app.use(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
+        (req, res) => res.send(mentortilskuddskjemaResponse)
+    );
+    app.use(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
+        (req, res) => res.send(InntektsmeldingSkjemaResponse)
+    );
+    app.use(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
+        (req, res) => res.send(rettigheterSkjemaDefaultResponse)
+    );
 }

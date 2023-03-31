@@ -1,4 +1,4 @@
-const {OrganisasjonerResponse} = require('./altinnMock');
+import {OrganisasjonerResponse} from './altinnMock.js';
 
 const reportees = {
     _links: {},
@@ -99,8 +99,7 @@ const getMessagesForReportee = (reporteeId) => {
     return {};
 };
 
-module.exports = {
-    mock: (app) => {
+export const mock = (app) => {
         app.use('/min-side-arbeidsgiver/mock/tt02.altinn.no/api/reportees', (req, res) => {
             res.send(reportees);
         });
@@ -108,4 +107,3 @@ module.exports = {
             res.send(getMessagesForReportee(req.params.id));
         });
     }
-}
