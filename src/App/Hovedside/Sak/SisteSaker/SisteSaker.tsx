@@ -11,12 +11,11 @@ import { OmSaker } from '../OmSaker';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from "../../../../api/graphql-types";
 import { FileFolder } from '@navikt/ds-icons';
-import { useLazyQuery } from '@apollo/client';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
 const SisteSaker = () => {
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon, antallSakerForAlleBedrifter} = useContext(OrganisasjonsDetaljerContext);
     const location = useLocation()
 
     const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
@@ -41,7 +40,22 @@ const SisteSaker = () => {
 
     if (valgtOrganisasjon === undefined) return null;
 
-    if (loading || !data || data?.saker.saker.length == 0) return null;
+    if (loading || !data) return null;
+
+    if (data.saker?.saker?.length === 0 && (antallSakerForAlleBedrifter ?? 0) > 0){
+        return <BodyShort><Link className="lenke" to={{
+            pathname: 'saksoversikt',
+            search: location.search,
+        }} onClick={() => {
+            scroll(0,0);
+            loggNavigasjon("saksoversikt", "se alle saker", location.pathname)
+        }}>
+            <div className='innsynisak__se-alle-saker'>
+                <FileFolder/>
+                Se saker på tvers av alle virksomheter {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}
+            </div>
+        </Link></BodyShort>
+    }
 
     return (
         <div className='innsynisak'>
@@ -62,7 +76,7 @@ const SisteSaker = () => {
                     }}>
                         <div className='innsynisak__se-alle-saker'>
                             <FileFolder/>
-                            Se alle saker
+                            Se alle saker {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}
                         </div>
                     </Link></BodyShort>
                     : null}
