@@ -94,7 +94,7 @@ export const Virksomhetsmeny = ({
         }))
     }
 
-    return <VirksomhetsmenyIntern alleVirksomheter={alleVirksomheter} setValgteVirksomheter={handlesettValgteEnheter}/>
+    return <VirksomhetsmenyIntern alleVirksomheter={alleVirksomheter} setValgteVirksomheter={handlesettValgteEnheter} valgteEnheter = {valgteEnheter}/>
 }
 
 
@@ -113,6 +113,7 @@ export interface Hovedenhet extends Organisasjon {
 type VirksomhetsmenyProps = {
     alleVirksomheter: Array<Hovedenhet>,
     setValgteVirksomheter: (a: Array<Underenhet | Hovedenhet>) => void,
+    valgteEnheter: Organisasjon[] | "ALLEBEDRIFTER",
 }
 
 const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | Underenhet> =>
@@ -124,7 +125,7 @@ const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | U
         }
     })
 
-const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: VirksomhetsmenyProps) => {
+const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgteEnheter }: VirksomhetsmenyProps) => {
     const [alleVirksomheterIntern, setAlleVirksomheterIntern] = useState(alleVirksomheter);
     const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
     const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
@@ -237,7 +238,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter }: Virk
                     }
                 }}
             >
-                <BodyShort> Velg virksomheter </BodyShort>
+                <BodyShort> Velg virksomheter {valgteEnheter === "ALLEBEDRIFTER" ? "(Alle valgt)" : ""}</BodyShort>
                 {virksomhetsmenyÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
             </button>
             {virksomhetsmenyÅpen ?
