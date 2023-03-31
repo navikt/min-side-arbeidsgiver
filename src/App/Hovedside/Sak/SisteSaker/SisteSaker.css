@@ -16,5 +16,8 @@
   align-items: center;
   display: flex;
   gap: 0.5rem;
+}
 
+.innsynisak-lenke {
+  max-width: fit-content;
 }
