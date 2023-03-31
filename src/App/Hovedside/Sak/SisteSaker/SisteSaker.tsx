@@ -42,7 +42,7 @@ const SisteSaker = () => {
 
     if (loading || !data) return null;
 
-    if (data?.saker?.saker?.length === 0 && (antallSakerForAlleBedrifter ?? 0) < 0){
+    if (data.saker?.saker?.length === 0 && (antallSakerForAlleBedrifter ?? 0) > 0){
         return <BodyShort><Link className="lenke" to={{
             pathname: 'saksoversikt',
             search: location.search,
