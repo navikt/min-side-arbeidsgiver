@@ -41,11 +41,8 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         if (loading) {
             return;
         }
-
-        if (data !== undefined && data.saker !== undefined && data.saker.totaltAntallSaker !== undefined) {
-            setAntallSakerForAlleBedrifter(data.saker.totaltAntallSaker);
-        }
-    }, [data]);
+        setAntallSakerForAlleBedrifter(data?.saker?.totaltAntallSaker)
+    }, [data, loading]);
 
     const endreOrganisasjon = async (org: Organisasjon) => {
         const orgInfo = organisasjoner[org.OrganizationNumber];
