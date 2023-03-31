@@ -29,7 +29,7 @@ export const arbeidsplassenURL = gittMiljo({
 
 export const kandidatlisteURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/kandidatliste',
-    other: 'https://presenterte-kandidater.dev.nav.no/kandidatliste',
+    other: 'https://presenterte-kandidater.intern.dev.nav.no/kandidatliste',
 });
 
 export const kontaktskjemaURL = gittMiljo({
