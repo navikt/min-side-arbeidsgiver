@@ -4,7 +4,6 @@ import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import {VarselHvisNedetid} from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
 import {Alerts} from '../Alerts/Alerts';
-import {Koronaboks} from './Koronaboks/Koronaboks';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import {SkjemaveilederContainer} from './SkjemaveilederContainer/SkjemaveilederContainer';
@@ -56,7 +55,6 @@ const Hovedside: FunctionComponent = () => {
                 <SisteSaker/>
                 <TjenesteBoksContainer/>
                 <SkjemaveilederContainer/>
-                <Koronaboks/>
                 <BrevFraAltinnContainer/>
                 <NyttigForDegContainer/>
                 <BeOmTilgang/>
