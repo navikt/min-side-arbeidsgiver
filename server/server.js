@@ -278,6 +278,7 @@ const main = async () => {
         });
     }
 
+
     app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, {index: false}));
 
     app.get(
@@ -291,6 +292,10 @@ const main = async () => {
     app.get('/min-side-arbeidsgiver/*', (req, res) => {
         res.send(indexHtml);
     });
+
+    app.get('/min-side-arbeidsgiver/informasjon-om-tilgangsstyring', (req, res) => {
+        res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger')
+    })
 
     const gauge = new Prometheus.Gauge({
         name: 'backend_api_gw',

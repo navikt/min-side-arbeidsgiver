@@ -43,6 +43,9 @@ export const ringOssTLF = gittMiljo({
 })
 
 
+export const infoOmTilgangsstyringURL =
+    'https://www.nav.no/arbeidsgiver/tilganger'
+
 export const infoOmNærmesteLederURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
 
@@ -75,9 +78,6 @@ export const beOmTilgangIAltinnLink = (
 
 export const lenkeTilDittNavPerson =
     'https://www.nav.no/person/dittnav/';
-
-export const lenkeTilTilgangsstyringsInfo =
-    'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/informasjon-om-tilgangsstyring';
 
 export const lenkeTilForebyggefravar = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/forebygge-fravar/',

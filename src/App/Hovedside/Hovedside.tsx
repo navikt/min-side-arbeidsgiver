@@ -20,6 +20,8 @@ import {useOversiktsfilterClearing} from './Sak/Saksoversikt/useOversiktSessionS
 import {DigiSyfoBedriftsmenyInfo} from "./DigiSyfoBedriftsmenyInfo";
 import {useNavigate} from "react-router-dom";
 import {AktueltRubrikk} from "./Aktuelt/AktueltRubrikk";
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { infoOmTilgangsstyringURL } from '../../lenker';
 
 
 const Hovedside: FunctionComponent = () => {
@@ -61,10 +63,10 @@ const Hovedside: FunctionComponent = () => {
                 <NyttigForDegContainer/>
                 <BeOmTilgang/>
                 <div> {/*Legger inn en ekstra div for at linken ikke skal strekkes ut av flex*/}
-                    <LinkMedLogging to={'/informasjon-om-tilgangsstyring'}
+                    <LenkeMedLogging href={infoOmTilgangsstyringURL}
                                     loggLenketekst='Lær om tilganger og varsler i Altinn'>
                         Lær om tilganger og varsler i Altinn
-                    </LinkMedLogging>
+                    </LenkeMedLogging>
                 </div>
             </div>
             <KontaktFelt/>

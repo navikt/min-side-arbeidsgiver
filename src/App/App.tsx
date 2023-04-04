@@ -6,7 +6,6 @@ import LoginBoundary from './LoginBoundary';
 import {AlertsProvider} from './Alerts/Alerts';
 import {OrganisasjonerOgTilgangerProvider} from './OrganisasjonerOgTilgangerProvider';
 import {OrganisasjonsDetaljerProvider} from './OrganisasjonDetaljerProvider';
-import InformasjonOmTilgangsstyringSide from './InformasjonOmTilgangsstyringSide/InformasjonOmTilgangsstyringSide';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import {FeatureToggleProvider} from '../FeatureToggleProvider';
 import {ManglerTilgangContainer} from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
@@ -63,10 +62,6 @@ const App: FunctionComponent = () => {
                     <BrowserRouter basename={basename}>
                         <AmplitudeSidevisningEventLogger>
                             <Routes>
-                                <Route
-                                    path="/informasjon-om-tilgangsstyring"
-                                    element={<InformasjonOmTilgangsstyringSide/>}
-                                />
                                 <Route
                                     path="*"
                                     element={
