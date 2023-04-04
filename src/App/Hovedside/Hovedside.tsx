@@ -14,7 +14,6 @@ import './Hovedside.css';
 import {GiOssTilbakemelding} from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
 import SisteSaker from "./Sak/SisteSaker/SisteSaker";
 import {UndersokelseInntektsmelding} from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
-import {LinkMedLogging} from "../../GeneriskeElementer/LinkMedLogging";
 import {KontaktFelt} from "./KontaktFelt/KontaktFelt"
 import {useOversiktsfilterClearing} from './Sak/Saksoversikt/useOversiktSessionStorage';
 import {DigiSyfoBedriftsmenyInfo} from "./DigiSyfoBedriftsmenyInfo";

@@ -278,7 +278,6 @@ const main = async () => {
         });
     }
 
-
     app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, {index: false}));
 
     app.get(
