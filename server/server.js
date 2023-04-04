@@ -288,13 +288,16 @@ const main = async () => {
         '/min-side-arbeidsgiver/internal/isReady',
         (req, res) => res.sendStatus(200),
     );
-    app.get('/min-side-arbeidsgiver/*', (req, res) => {
-        res.send(indexHtml);
-    });
 
     app.get('/min-side-arbeidsgiver/informasjon-om-tilgangsstyring', (req, res) => {
         res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger')
     })
+
+    app.get('/min-side-arbeidsgiver/*', (req, res) => {
+        res.send(indexHtml);
+    });
+
+
 
     const gauge = new Prometheus.Gauge({
         name: 'backend_api_gw',
