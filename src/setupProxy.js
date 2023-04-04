@@ -9,4 +9,8 @@ module.exports = function(app) {
             }
         )
     );
+
+    app.get('/min-side-arbeidsgiver/informasjon-om-tilgangsstyring', (req, res) => {
+        res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger')
+    })
 };

@@ -1,6 +1,6 @@
 import React, {FunctionComponent, useContext} from 'react';
 import {ManglerTilgangLenkePanel} from './ManglerTilgangLenkePanel/ManglerTilgangLenkePanel';
-import {lenkeTilDittNavPerson, lenkeTilTilgangsstyringsInfo} from '../../../lenker';
+import { infoOmTilgangsstyringURL, lenkeTilDittNavPerson } from '../../../lenker';
 import {OrganisasjonerOgTilgangerContext} from '../../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../../Brodsmulesti/Brodsmulesti';
 import './ManglerTilgangContainer.css';
@@ -29,7 +29,7 @@ export const ManglerTilgangContainer: FunctionComponent = () => {
                     <ManglerTilgangLenkePanel
                         tittel="Hvordan får jeg tilgang?"
                         infoTekst="Lær om roller og tilganger i Altinn"
-                        lenke={lenkeTilTilgangsstyringsInfo}
+                        lenke={infoOmTilgangsstyringURL}
                     />
                 </span>
             </div>
