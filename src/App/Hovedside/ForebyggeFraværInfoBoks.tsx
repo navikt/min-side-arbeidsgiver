@@ -26,14 +26,14 @@ export const ForebyggeFraværInfoBoks: FunctionComponent = () => {
         amplitude.logEvent('komponent-lastet', {
             komponent: 'ForebyggeFraværInfoBoks',
             erLukket: erLukketTidligere,
-            reporteeTilgang: valgtOrganisasjon?.reporteetilgang,
+            forebyggefravarTilgang: valgtOrganisasjon?.altinntilgang.forebyggefravar
         })
     }, [valgtOrganisasjon?.reporteetilgang, erLukketTidligere]);
 
     if (
         erLukketTidligere
         || !valgtOrganisasjon
-        || (!valgtOrganisasjon.reporteetilgang )
+        || (!valgtOrganisasjon.altinntilgang.forebyggefravar )
         || !shouldDisplay({ showFrom, currentTime, showUntil })
     ) {
         return null;
