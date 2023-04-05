@@ -20,6 +20,7 @@ import {useNavigate} from "react-router-dom";
 import {AktueltRubrikk} from "./Aktuelt/AktueltRubrikk";
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
+import { ForebyggeFraværInfoBoks } from './ForebyggeFraværInfoBoks';
 
 
 const Hovedside: FunctionComponent = () => {
@@ -52,6 +53,7 @@ const Hovedside: FunctionComponent = () => {
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
                 <DigiSyfoBedriftsmenyInfo/>
+                <ForebyggeFraværInfoBoks/>
                 <AktueltRubrikk/>
                 <SisteSaker/>
                 <TjenesteBoksContainer/>
