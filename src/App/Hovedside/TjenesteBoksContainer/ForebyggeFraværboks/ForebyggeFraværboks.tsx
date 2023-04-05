@@ -56,7 +56,7 @@ const Beskrivelse = () => {
                 <StortTall>
                     {sykefravær.prosent.toString()} %
                 </StortTall>
-                <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Slik kan du forebygge fravær. </>
+                <> legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Lag en plan for å redusere fraværet. </>
             </span>
         );
     }

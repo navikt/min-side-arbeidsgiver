@@ -1,0 +1,15 @@
+.forebygge_fravær_info__lukk-knapp {
+    background-color: transparent;
+}
+.forebygge_fravær_info .navds-alert__wrapper {
+    max-width: unset;
+    width: 100%;
+}
+.forebygge_fravær_info__content {
+    max-width: 43.5rem;
+}
+.forebygge_fravær_info__container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}

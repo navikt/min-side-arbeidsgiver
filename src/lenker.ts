@@ -81,8 +81,14 @@ export const lenkeTilDittNavPerson =
 
 export const lenkeTilForebyggefravar = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/forebygge-fravar/',
-    demo: 'https://arbeidsgiver.labs.nais.io/forebygge-fravar/',
+    demo: 'https://arbeidsgiver.ekstern.dev.nav.no/forebygge-fravar',
     other: 'https://forebygge-fravar.dev.nav.no/forebygge-fravar/',
+});
+
+export const lenkeTilForebyggingsplan = gittMiljo({
+    prod: 'https://arbeidsgiver.nav.no/forebyggingsplan',
+    demo: 'https://arbeidsgiver.ekstern.dev.nav.no/forebyggingsplan',
+    other: 'https://forebyggingsplan-frontend.dev.nav.no/forebyggingsplan',
 });
 
 export const lenkeTilInfoOmDigitaleSoknader =
