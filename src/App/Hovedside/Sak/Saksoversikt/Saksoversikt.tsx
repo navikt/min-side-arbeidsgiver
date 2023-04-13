@@ -156,17 +156,11 @@ const sorteringsnavn: Record<SakSortering, string> = {
     "FRIST": "Frist",
 }
 
-const sorteringsrekkefølge: SakSortering[] = gittMiljo({
-    prod: [
-        SakSortering.Oppdatert,
-        SakSortering.Opprettet,
-    ],
-    other: [
-        SakSortering.Oppdatert,
+const sorteringsrekkefølge: SakSortering[] = [
         SakSortering.Frist,
+        SakSortering.Oppdatert,
         SakSortering.Opprettet,
-    ],
-})
+]
 
 type SidevelgerProp = {
     state: State;

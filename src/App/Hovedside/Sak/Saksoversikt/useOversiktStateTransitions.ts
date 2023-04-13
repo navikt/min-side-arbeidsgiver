@@ -106,8 +106,8 @@ const reduce = (current: State, action: Action): State => {
             }
 
             if (equalFilter(
-                { ...current.filter, side: 1, sortering: SakSortering.Oppdatert },
-                { ...action.filter, side: 1, sortering: SakSortering.Oppdatert },
+                { ...current.filter, side: 1, sortering: SakSortering.Frist },
+                { ...action.filter, side: 1, sortering: SakSortering.Frist },
             )) {
                 return {
                     state: 'loading',
