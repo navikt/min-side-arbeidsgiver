@@ -22,7 +22,7 @@ const SisteSaker = () => {
         side: 1,
         virksomheter: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon],
         tekstsoek: "",
-        sortering: SakSortering.Oppdatert,
+        sortering: SakSortering.Frist,
         sakstyper: [],
         oppgaveTilstand: [],
     })

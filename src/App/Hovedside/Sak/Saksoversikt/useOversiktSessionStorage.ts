@@ -8,7 +8,6 @@ import {equalAsSets, Filter} from './useOversiktStateTransitions';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
-import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -131,7 +130,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
 
 const extractSearchParameters = (searchString: string): SessionStateSaksoversikt => {
     const search = new URLSearchParams(searchString)
-    const sortering = (search.get("sortering") ?? SakSortering.Oppdatert) as SakSortering
+    const sortering = (search.get("sortering") ?? SakSortering.Frist) as SakSortering
     const bedrift = search.get("bedrift") ?? undefined;
     const virksomhetsnumre = search.get("virksomhetsnumre") === "ALLEBEDRIFTER" ?
         "ALLEBEDRIFTER"
@@ -142,7 +141,7 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
         virksomhetsnumre,
         tekstsoek: search.get("tekstsoek") ?? '',
         side: Number.parseInt(search.get("side") ?? '1'),
-        sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Oppdatert,
+        sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Frist,
         sakstyper: search.get("sakstyper")?.split(",") ?? [],
     }
 }
@@ -167,15 +166,19 @@ const updateSearchParameters = (current: string, sessionState: SessionStateSakso
         query.set("bedrift", sessionState.bedrift)
     }
 
-    query.set("virksomhetsnumre", sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : sessionState.virksomhetsnumre.join(","))
-
+    if (sessionState.virksomhetsnumre === "ALLEBEDRIFTER") {
+        query.delete("virksomhetsnumre")
+    } else {
+        query.set("virksomhetsnumre", sessionState.virksomhetsnumre.join(","));
+    }
+    
     if (sessionState.sakstyper.length > 0){
         query.set("sakstyper", sessionState.sakstyper.join(","))
     } else {
         query.delete("sakstyper")
     }
 
-    if (sessionState.sortering === SakSortering.Oppdatert) {
+    if (sessionState.sortering === SakSortering.Frist) {
         query.delete("sortering")
     } else {
         query.set("sortering", sessionState.sortering);
