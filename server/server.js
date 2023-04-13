@@ -299,20 +299,22 @@ const main = async () => {
 
 
 
-    const gauge = new Prometheus.Gauge({
-        name: 'backend_api_gw',
-        help: 'Hvorvidt frontend-server naar backend-server. up=1, down=0',
-    });
 
-    setInterval(async () => {
-        try {
-            const res = await fetch(`${BACKEND_API_URL}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
-            gauge.set(res.ok ? 1 : 0);
-        } catch (error) {
-            log.error(`healthcheck error: ${gauge.name}`, error);
-            gauge.set(0);
-        }
-    }, 60 * 1000);
+    if (MILJO === 'dev' || MILJO === 'prod') {
+        const gauge = new Prometheus.Gauge({
+            name: 'backend_api_gw',
+            help: 'Hvorvidt frontend-server naar backend-server. up=1, down=0',
+        });
+        setInterval(async () => {
+            try {
+                const res = await fetch(`${BACKEND_API_URL}/ditt-nav-arbeidsgiver-api/internal/actuator/health`);
+                gauge.set(res.ok ? 1 : 0);
+            } catch (error) {
+                log.error(`healthcheck error: ${gauge.name}`, error);
+                gauge.set(0);
+            }
+        }, 60 * 1000);
+    }
 
     app.listen(PORT, () => {
         log.info(`Server listening on port ${PORT}`);
