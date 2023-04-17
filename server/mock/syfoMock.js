@@ -48,7 +48,7 @@ export const mock = (app) => {
                 },
                 {
                     organisasjon: {
-                        Name: "FUBAR",
+                        Name: "BareSyfo Virksomhet",
                         OrganizationForm: "AAFY",
                         OrganizationNumber: "121212121",
                         ParentOrganizationNumber : "111111111",
@@ -59,7 +59,7 @@ export const mock = (app) => {
                 },
                 {
                     organisasjon: {
-                        Name: "BAZOLINE",
+                        Name: "BareSyfo Juridisk",
                         Type: "Enterprise",
                         ParentOrganizationNumber: null,
                         OrganizationNumber: "111111111",
