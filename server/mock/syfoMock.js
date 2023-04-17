@@ -46,6 +46,28 @@ export const mock = (app) => {
                     },
                     antallSykmeldte: 0,
                 },
+                {
+                    organisasjon: {
+                        Name: "FUBAR",
+                        OrganizationForm: "AAFY",
+                        OrganizationNumber: "121212121",
+                        ParentOrganizationNumber : "111111111",
+                        Status: "Active",
+                        Type: "Business",
+                    },
+                    antallSykmeldte: 4,
+                },
+                {
+                    organisasjon: {
+                        Name: "BAZOLINE",
+                        Type: "Enterprise",
+                        ParentOrganizationNumber: null,
+                        OrganizationNumber: "111111111",
+                        OrganizationForm: "FLI",
+                        Status: "Active"
+                    },
+                    antallSykmeldte: 4,
+                },
             ])
         }
     );
