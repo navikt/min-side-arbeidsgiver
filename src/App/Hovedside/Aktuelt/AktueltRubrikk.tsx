@@ -39,10 +39,10 @@ const Aktuelt = ({lenke, tittel, visFra, visTil}: AktueltProps) => {
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: "https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyttig-a-vite/lonnstilskudd-far-ny-digital-refusjonslosning-fra-februar",
-        tittel: "Lønnstilskudd får ny digital refusjonsløsning fra februar",
-        visFra: new Date('2023-02-23T00:00:00+02:00'),
-        visTil: new Date('2023-03-23T23:59:59+02:00'),
+        lenke: "https://www.nav.no/arbeidsgiver/permittere#streik",
+        tittel: "Permittering ved streik",
+        visFra: new Date('2023-04-16T00:00:00+02:00'),
+        visTil: new Date('2023-05-17T23:59:59+02:00'),
     },
 ]
 
