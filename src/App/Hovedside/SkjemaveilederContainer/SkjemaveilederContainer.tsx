@@ -66,10 +66,12 @@ export const SkjemaveilederContainer = () => {
                     : null
                 }
 
-                {lenke(
-                    'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
-                    lenkeTilPermitteringOgMasseoppsigelsesSkjema
-                )}
+                {valgtOrganisasjon.reporteetilgang ?
+                    lenke(
+                        'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
+                        lenkeTilPermitteringOgMasseoppsigelsesSkjema
+                    ) : null
+                }
                 { tilgangYrkesskade === true ?
                     lenke(altinntjeneste.yrkesskade.navn, gittMiljo({
                         prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
