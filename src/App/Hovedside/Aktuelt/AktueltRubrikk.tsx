@@ -5,12 +5,14 @@ import {DisplayBetween, shouldDisplay} from "../../../GeneriskeElementer/Display
 import {useLocation} from "react-router-dom";
 import "./AktueltRubrikk.css"
 import {OrganisasjonsDetaljerContext} from "../../OrganisasjonDetaljerProvider";
+import {OrganisasjonInfo} from "../../OrganisasjonerOgTilgangerProvider";
 
 type AktueltProps = {
     lenke: string,
     tittel: string,
     visFra: Date,
     visTil: Date,
+    tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) => boolean,
 }
 
 const dateFormat = new Intl.DateTimeFormat('no', {
@@ -43,6 +45,7 @@ const aktuelt: Array<AktueltProps> = [
         tittel: "Permittering ved streik",
         visFra: new Date('2023-04-16T00:00:00+02:00'),
         visTil: new Date('2023-05-17T23:59:59+02:00'),
+        tilgangssjekk: valgtOrganisasjon => valgtOrganisasjon.reporteetilgang
     },
 ]
 
@@ -52,15 +55,8 @@ export const AktueltRubrikk = () => {
         return null
     }
 
-    const skalVises = valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd ||
-        valgtOrganisasjon.altinntilgang.varigLønnstilskudd ||
-        (valgtOrganisasjon.altinntilgang.inntektsmelding && (valgtOrganisasjon.refusjonstatus["KLAR_FOR_INNSENDING"] ?? 0) > 0);
-
-    if (!skalVises) {
-        return null
-    }
-
-    const aktuelleVises = aktuelt.some(({visFra, visTil}) => shouldDisplay({
+    const aktueltMedTilgang = aktuelt.filter(({tilgangssjekk}) => tilgangssjekk(valgtOrganisasjon))
+    const aktuelleVises = aktueltMedTilgang.some(({visFra, visTil}) => shouldDisplay({
         showFrom: visFra,
         showUntil: visTil,
         currentTime: new Date()
@@ -75,13 +71,8 @@ export const AktueltRubrikk = () => {
             Aktuelt
         </Heading>
         <div className="aktuelt">
-            {aktuelt.map(({
-                              lenke,
-                              tittel,
-                              visFra,
-                              visTil,
-                          }) =>
-                <Aktuelt key={tittel} lenke={lenke} tittel={tittel} visFra={visFra} visTil={visTil}/>
+            {aktueltMedTilgang.map((props) =>
+                <Aktuelt {...props} />
             )}
         </div>
     </div>
