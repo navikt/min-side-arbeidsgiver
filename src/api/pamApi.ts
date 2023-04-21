@@ -5,7 +5,7 @@ const pamSettBedriftURL = gittMiljo({
     prod: (orgnr: string) =>
         `https://arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
     dev: (orgnr: string) =>
-        `https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
+        `https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
     other: (orgnr: string) =>
         `/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`,
 });
@@ -28,7 +28,7 @@ interface PamStatusAnnonser {
 
 const pamHentStillingsannonserURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
-    dev: 'https://arbeidsplassen.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+    dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
     other: '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
 });
 export const hentAntallannonser = async (): Promise<number> => {
