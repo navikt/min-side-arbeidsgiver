@@ -19,7 +19,7 @@ export const ForebyggeFraværInfoBoks: FunctionComponent = () => {
     };
 
     const showFrom = new Date('2023-04-05T00:00:00+02:00')
-    const showUntil = new Date('2023-05-05T23:59:59+02:00')
+    const showUntil = new Date('2023-04-20T23:59:59+02:00')
     const currentTime = new Date()
 
     useEffect(() => {

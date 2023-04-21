@@ -44,7 +44,7 @@ const aktuelt: Array<AktueltProps> = [
         lenke: "https://www.nav.no/arbeidsgiver/permittere#streik",
         tittel: "Permittering ved streik",
         visFra: new Date('2023-04-16T00:00:00+02:00'),
-        visTil: new Date('2023-05-17T23:59:59+02:00'),
+        visTil: new Date('2023-04-20T23:59:59+02:00'),
         tilgangssjekk: valgtOrganisasjon => valgtOrganisasjon.reporteetilgang
     },
 ]
