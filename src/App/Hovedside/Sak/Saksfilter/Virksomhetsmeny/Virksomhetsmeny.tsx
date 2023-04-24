@@ -548,7 +548,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                         }}
                     />
                     : indeks === 3 ?
-                        <EkstraChip key="ekstraUnderenheter" antall={valgteVirksomheter.length}/>
+                        <EkstraChip key="ekstraUnderenheter" antall={valgteVirksomheter.length} offsett={3}/>
                         : null
             )}
         </ul>
