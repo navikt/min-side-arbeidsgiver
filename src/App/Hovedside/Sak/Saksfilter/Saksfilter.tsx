@@ -13,6 +13,7 @@ import { Accordion, BodyShort, Checkbox, CheckboxGroup } from '@navikt/ds-react'
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
 import { sorted } from '../../../../utils/util';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 
 type SaksfilterProps = {
@@ -54,9 +55,18 @@ export const Saksfilter = ({
                            }: SaksfilterProps) => {
     const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>();
     const [width, setWidth] = useState(window.innerWidth);
-    const [visVirksomhetsmeny, setVisVirksomhetsmeny] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [visVirksomhetsmeny, setVisVirksomhetsmeny] = useState(searchParams.get("virksomhetsmeny") === "open");
 
-
+    const handleVisVirksomhetsmeny = (tilstand: boolean) => {
+        setVisVirksomhetsmeny(tilstand);
+        if (tilstand) {
+            searchParams.set("virksomhetsmeny", "open")
+        } else {
+            searchParams.delete("virksomhetsmeny");
+        }
+        setSearchParams(searchParams);
+    }
 
     useEffect(() => {
         byggOrganisasjonstre(organisasjoner)
@@ -91,7 +101,7 @@ export const Saksfilter = ({
 
             <Accordion>
                 <Accordion.Item open={visVirksomhetsmeny}>
-                    <Accordion.Header onClick={() => setVisVirksomhetsmeny(!visVirksomhetsmeny)}>
+                    <Accordion.Header onClick={() => handleVisVirksomhetsmeny(!visVirksomhetsmeny)}>
                         <BodyShort>Virksomheter
                             ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})</BodyShort>
                     </Accordion.Header>
