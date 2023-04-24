@@ -44,7 +44,7 @@ const SisteSaker = () => {
 
     if ((antallSakerForAlleBedrifter ?? 0) === 0) return null;
 
-    if (data.saker?.saker?.length === 0 && (antallSakerForAlleBedrifter ?? 0) > 0) {
+    if (data.saker?.saker?.length === 0) {
         return <Link className='innsynisak-lenke' to={{
             pathname: 'saksoversikt',
             search: location.search,
@@ -55,7 +55,7 @@ const SisteSaker = () => {
             <div className='innsynisak__se-alle-saker'>
                 <FileFolder />
                 <BodyShort> Se saker på tvers av alle
-                    virksomheter {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : null}</BodyShort>
+                    virksomheter {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : ''}</BodyShort>
             </div>
         </Link>;
     }
