@@ -24,7 +24,7 @@ export const refosoURL = gittMiljo({
 
 export const arbeidsplassenURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/bedrift',
-    other: 'https://arbeidsplassen.dev.nav.no/bedrift',
+    other: 'https://arbeidsplassen.intern.dev.nav.no/bedrift',
 });
 
 export const kandidatlisteURL = gittMiljo({
