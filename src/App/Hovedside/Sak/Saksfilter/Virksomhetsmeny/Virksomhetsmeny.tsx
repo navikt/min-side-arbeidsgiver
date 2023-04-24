@@ -515,7 +515,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
         </div>
         <ul className="saksfilter_vis-valgte">
             {valgteVirksomheter.map((virksomhet, indeks) =>
-                indeks < 7 ?
+                indeks < 3 ?
                     <VirksomhetChips
                         key={virksomhet.OrganizationNumber}
                         navn={virksomhet.Name}
@@ -547,7 +547,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                             oppdaterValgte(tilstandUtenVirksomhet, "lukk")
                         }}
                     />
-                    : indeks === 7 ?
+                    : indeks === 3 ?
                         <EkstraChip key="ekstraUnderenheter" antall={valgteVirksomheter.length}/>
                         : null
             )}
