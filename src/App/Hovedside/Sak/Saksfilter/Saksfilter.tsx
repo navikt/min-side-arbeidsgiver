@@ -1,25 +1,26 @@
-import React, {FC, useEffect, useState} from "react";
+import React, { FC, useEffect, useState } from 'react';
 import * as Sentry from '@sentry/react';
-import "./Saksfilter.css"
+import './Saksfilter.css';
 import {
     Organisasjon, OrganisasjonEnhet,
-    Virksomhetsmeny
-} from "./Virksomhetsmeny/Virksomhetsmeny";
-import {byggOrganisasjonstre} from "./ByggOrganisasjonstre";
-import {Søkeboks} from './Søkeboks';
-import {Filter} from '../Saksoversikt/useOversiktStateTransitions';
-import {Ekspanderbartpanel} from "../../../../GeneriskeElementer/Ekspanderbartpanel";
-import {BodyShort, Checkbox, CheckboxGroup} from "@navikt/ds-react";
-import {Filter as FilterIkon} from "@navikt/ds-icons";
-import {OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet} from "../../../../api/graphql-types";
-import {sorted} from "../../../../utils/util";
+    Virksomhetsmeny,
+} from './Virksomhetsmeny/Virksomhetsmeny';
+import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
+import { Søkeboks } from './Søkeboks';
+import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
+import { Ekspanderbartpanel } from '../../../../GeneriskeElementer/Ekspanderbartpanel';
+import { Accordion, BodyShort, Checkbox, CheckboxGroup } from '@navikt/ds-react';
+import { Filter as FilterIkon } from '@navikt/ds-icons';
+import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
+import { sorted } from '../../../../utils/util';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 
 type SaksfilterProps = {
     filter: Filter;
     setFilter: (filter: Filter) => void;
-    valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER";
-    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | "ALLEBEDRIFTER") => void;
+    valgteVirksomheter: Organisasjon[] | 'ALLEBEDRIFTER';
+    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | 'ALLEBEDRIFTER') => void;
     sakstypeinfo: Sakstype[] | undefined;
     alleSakstyper: SakstypeOverordnet[];
     oppgaveTilstandInfo: OppgaveTilstandInfo[] | undefined;
@@ -31,15 +32,15 @@ type KollapsHvisMobilProps = {
     children?: React.ReactNode | undefined
 }
 
-const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({width, children}: KollapsHvisMobilProps) => {
+const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({ width, children }: KollapsHvisMobilProps) => {
     if (width < 730) {
-        return <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon/>}>
+        return <Ekspanderbartpanel tittel='Filtrering' ikon={<FilterIkon />}>
             {children}
-        </Ekspanderbartpanel>
+        </Ekspanderbartpanel>;
     } else {
-        return <>{children}</>
+        return <>{children}</>;
     }
-}
+};
 
 
 export const Saksfilter = ({
@@ -52,25 +53,36 @@ export const Saksfilter = ({
                                oppgaveTilstandInfo,
                                alleSakstyper,
                            }: SaksfilterProps) => {
-    const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>()
+    const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>();
     const [width, setWidth] = useState(window.innerWidth);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [visVirksomhetsmeny, setVisVirksomhetsmeny] = useState(searchParams.get("virksomhetsmeny") === "open");
 
+    const handleVisVirksomhetsmeny = (tilstand: boolean) => {
+        setVisVirksomhetsmeny(tilstand);
+        if (tilstand) {
+            searchParams.set("virksomhetsmeny", "open")
+        } else {
+            searchParams.delete("virksomhetsmeny");
+        }
+        setSearchParams(searchParams);
+    }
 
     useEffect(() => {
         byggOrganisasjonstre(organisasjoner)
             .then(setOrganisasjonstre)
-            .catch(Sentry.captureException)
-    }, [organisasjoner])
+            .catch(Sentry.captureException);
+    }, [organisasjoner]);
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", setSize);
-        return () => window.removeEventListener("resize", setSize);
+        window.addEventListener('resize', setSize);
+        return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
 
     if (organisasjonstre === undefined) {
-        return null
+        return null;
     }
 
     const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet) =>
@@ -78,43 +90,56 @@ export const Saksfilter = ({
             navn: sakstypeOverordnet.navn,
             antall: sakstypeinfo === undefined
                 ? undefined
-                : (sakstypeinfo.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0)
-        })
-    )
+                : (sakstypeinfo.find(sakstype => sakstype.navn === sakstypeOverordnet.navn)?.antall ?? 0),
+        }),
+    );
 
-    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(oppgaveTilstand => oppgaveTilstand.tilstand === OppgaveTilstand.Ny)?.antall
+    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(oppgaveTilstand => oppgaveTilstand.tilstand === OppgaveTilstand.Ny)?.antall;
 
     return <KollapsHvisMobil width={width}>
-        <div className="saksfilter">
-            <Virksomhetsmeny organisasjonstre={organisasjonstre}
-                             valgteEnheter={valgteVirksomheter}
-                             settValgteEnheter={setValgteVirksomheter}/>
+        <div className='saksfilter'>
+
+            <Accordion>
+                <Accordion.Item open={visVirksomhetsmeny}>
+                    <Accordion.Header onClick={() => handleVisVirksomhetsmeny(!visVirksomhetsmeny)}>
+                        <BodyShort>Virksomheter
+                            ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})</BodyShort>
+                    </Accordion.Header>
+                    <Accordion.Content>
+                        <Virksomhetsmeny
+                            organisasjonstre={organisasjonstre}
+                            valgteEnheter={valgteVirksomheter}
+                            settValgteEnheter={setValgteVirksomheter}
+                        />
+                    </Accordion.Content>
+                </Accordion.Item>
+            </Accordion>
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
             <CheckboxGroup
-                legend={"Oppgaver"}
-                onChange={ valgteOppgavetilstander =>
-                    setFilter({...filter, oppgaveTilstand: valgteOppgavetilstander})
+                legend={'Oppgaver'}
+                onChange={valgteOppgavetilstander =>
+                    setFilter({ ...filter, oppgaveTilstand: valgteOppgavetilstander })
                 }
             >
                 <Checkbox value={OppgaveTilstand.Ny}>
                     <BodyShort>Uløste oppgaver
                         {
-                            oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? "0"})` : ""
+                            oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''
                         }
                     </BodyShort>
                 </Checkbox>
             </CheckboxGroup>
             {sakstyperForFilter.length > 1 && <CheckboxGroup
-                legend="Type sak"
+                legend='Type sak'
                 value={filter.sakstyper}
                 onChange={valgteSakstyper => {
-                    setFilter({...filter, sakstyper: valgteSakstyper});
+                    setFilter({ ...filter, sakstyper: valgteSakstyper });
                 }}
             >
                 {
-                    sorted(sakstyperForFilter, sakstype => sakstype.navn).map(({navn, antall}) =>
+                    sorted(sakstyperForFilter, sakstype => sakstype.navn).map(({ navn, antall }) =>
                         <Checkbox key={navn} value={navn}>
                             <BodyShort>
                                 {antall === undefined
@@ -127,7 +152,7 @@ export const Saksfilter = ({
             </CheckboxGroup>
             }
         </div>
-    </KollapsHvisMobil>
+    </KollapsHvisMobil>;
 
-}
+};
 
