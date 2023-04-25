@@ -9,7 +9,7 @@ import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../../GeneriskeElementer/Ekspanderbartpanel';
-import { Accordion, BodyShort, Checkbox, CheckboxGroup } from '@navikt/ds-react';
+import { Accordion, BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
 import { sorted } from '../../../../utils/util';
@@ -102,10 +102,10 @@ export const Saksfilter = ({
             <Accordion>
                 <Accordion.Item open={visVirksomhetsmeny}>
                     <Accordion.Header onClick={() => handleVisVirksomhetsmeny(!visVirksomhetsmeny)}>
-                        <BodyShort>Virksomheter
-                            ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})</BodyShort>
+                        <Heading size="small">Virksomheter
+                            ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})</Heading>
                     </Accordion.Header>
-                    <Accordion.Content>
+                    <Accordion.Content className='virksomheter_accordation'>
                         <Virksomhetsmeny
                             organisasjonstre={organisasjonstre}
                             valgteEnheter={valgteVirksomheter}

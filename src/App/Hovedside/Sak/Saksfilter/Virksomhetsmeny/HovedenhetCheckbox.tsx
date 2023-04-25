@@ -1,5 +1,4 @@
 import {BodyShort, Button, Checkbox, Label} from "@navikt/ds-react";
-import {Hovedenhet as HovedenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {Collapse, Expand} from "@navikt/ds-icons";
 import React, {useRef} from "react";
 import "./HovedenhetCheckbox.css";
@@ -97,11 +96,10 @@ export const HovedenhetCheckbox = (
                         className="hovedenhet_innhold"
                         htmlFor={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
                     >
-                        <HovedenhetIkon/>
                         <div>
                             <Label size="medium" as="span">{hovedenhet.Name}</Label>
                             <BodyShort size="small">Org. nr. {hovedenhet.OrganizationNumber}</BodyShort>
-                            <BodyShort size="small">{hovedenhet.underenheter.length} underenheter</BodyShort>
+                            <BodyShort size="small">{hovedenhet.underenheter.length} {hovedenhet.underenheter.length > 1 ? "virksomheter" : "virksomhet"}</BodyShort>
                         </div>
                     </label>
 
@@ -118,9 +116,9 @@ export const HovedenhetCheckbox = (
                             <BodyShort
                                 size="small"
                                 className="hovedenhet_vis-skjul"
-                                aria-label={`${erÅpen ? "Skjul" : "Vis"} underenheter for ${hovedenhet.Name}`}
+                                aria-label={`${erÅpen ? "Skjul" : "Vis"} virksomheter for ${hovedenhet.Name}`}
                             >{erÅpen ? <Collapse aria-hidden={true} style={{pointerEvents: "none"}}/> :
-                                <Expand aria-hidden={true} style={{pointerEvents: "none"}}/>} {erÅpen ? "skjul" : "vis"} underenheter</BodyShort>
+                                <Expand aria-hidden={true} style={{pointerEvents: "none"}}/>} {erÅpen ? "skjul" : "vis"} virksomheter</BodyShort>
                         </Button>
                         : null
                 }

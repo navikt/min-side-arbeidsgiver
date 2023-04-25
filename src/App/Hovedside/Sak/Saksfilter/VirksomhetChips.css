@@ -16,7 +16,13 @@
 }
 
 .virksomhetschips_innhold {
-    width:100%
+    width:100%;
+}
+
+.virksomhetschips_innhold_antall {
+    display: flex;
+    align-items: center;
+
 }
 
 .virksomhetschips_virksomhet {

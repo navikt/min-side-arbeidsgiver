@@ -1,10 +1,9 @@
 import React from "react"
 import {Office1, Office2} from "@navikt/ds-icons";
 
-export const Hovedenhet = () => {
-    return <Office2 width="1.5rem" title="Hovedenhet"/>
-};
+interface UnderenhetProps {
+    style?: React.CSSProperties
+}
 
-export const Underenhet = () => {
-    return <Office1 width="1rem" title="Underenhet"/>
-};
+export const Underenhet = ({style}: UnderenhetProps) =>
+    <Office1 width='2rem' style={style} title='Underenhet' />;
