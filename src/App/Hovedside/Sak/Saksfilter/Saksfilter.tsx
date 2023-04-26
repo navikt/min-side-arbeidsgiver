@@ -118,6 +118,7 @@ export const Saksfilter = ({
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
             <CheckboxGroup
+                value={filter.oppgaveTilstand}
                 legend={'Oppgaver'}
                 onChange={valgteOppgavetilstander =>
                     setFilter({ ...filter, oppgaveTilstand: valgteOppgavetilstander })

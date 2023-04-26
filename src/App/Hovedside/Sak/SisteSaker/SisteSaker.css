@@ -71,3 +71,9 @@
 .saker-lenke_headerlenke__hover {
     text-decoration: none;
 }
+
+.saker-lenke__undertekst {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

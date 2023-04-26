@@ -19,7 +19,7 @@ type SessionStateSaksoversikt = {
     sortering: SakSortering,
     bedrift: string | undefined,
     sakstyper: string[],
-    oppgaveTilstand?: OppgaveTilstand[],
+    oppgaveTilstand: OppgaveTilstand[],
 }
 type SessionStateForside = {
     route: "/",
@@ -61,7 +61,8 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.bedrift === b.bedrift &&
             a.sortering === b.sortering &&
             equalVirksomhetsnumre(a, b) &&
-            equalAsSets(a.sakstyper, b.sakstyper)
+            equalAsSets(a.sakstyper, b.sakstyper) &&
+            equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
     } else {
         return false;
     }
@@ -143,6 +144,7 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
         side: Number.parseInt(search.get("side") ?? '1'),
         sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Frist,
         sakstyper: search.get("sakstyper")?.split(",") ?? [],
+        oppgaveTilstand: search.get("oppgaveTilstand")?.split(",") as OppgaveTilstand[] ?? [] ,
     }
 }
 
@@ -182,6 +184,12 @@ const updateSearchParameters = (current: string, sessionState: SessionStateSakso
         query.delete("sortering")
     } else {
         query.set("sortering", sessionState.sortering);
+    }
+
+    if (sessionState.oppgaveTilstand.length === 0) {
+        query.delete("oppgaveTilstand")
+    } else {
+        query.set("oppgaveTilstand", sessionState.oppgaveTilstand.toString())
     }
 
     return query.toString()

@@ -1,17 +1,15 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, To, useLocation } from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.css';
-import { SaksListe } from '../SaksListe';
 import { useSaker } from '../useSaker';
 import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../../../utils/amplitude';
 import { BodyShort, Heading } from '@navikt/ds-react';
-import { OmSaker } from '../OmSaker';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
-import { SakSortering } from '../../../../api/graphql-types';
+import { OppgaveTilstand, SakSortering } from '../../../../api/graphql-types';
 import { FileFolder } from '@navikt/ds-icons';
-import { PaperplaneIcon, BellDotFillIcon } from '@navikt/aksel-icons';
+import { BellDotFillIcon, PaperplaneIcon } from '@navikt/aksel-icons';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -19,9 +17,10 @@ interface SakerLenkeProps {
     ikon: ReactNode;
     overskrift: string;
     undertekst: string;
+    to: To;
 }
 
-const SakerLenke = ({ ikon, overskrift, undertekst }: SakerLenkeProps) => {
+const SakerLenke = ({ ikon, overskrift, undertekst, to}: SakerLenkeProps) => {
     const [hover, setHover] = useState(false);
     const ikonId = "ikon-id" + overskrift.toLowerCase().replace(' ', '-');
     const lenkeId = "lenke-id" + overskrift.toLowerCase().replace(' ', '-');
@@ -42,10 +41,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst }: SakerLenkeProps) => {
         <Link
             id={lenkeId}
             className={'saker-lenke__ikon' + (hover ? ' saker-lenke__ikon__hover' : '')}
-            to={{
-                pathname: 'saksoversikt',
-                search: location.search,
-            }}
+            to={to}
             onClick={() => {
                 scroll(0, 0);
                 loggNavigasjon('saksoversikt', 'se alle saker', location.pathname);
@@ -55,10 +51,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst }: SakerLenkeProps) => {
         </Link>
 
         <Link className={'saker-lenke_headerlenke' + (hover ? ' saker-lenke_headerlenke__hover' : '')}
-              to={{
-                  pathname: 'saksoversikt',
-                  search: location.search,
-              }}
+              to={to}
               onClick={() => {
                   scroll(0, 0);
                   loggNavigasjon('saksoversikt', 'se alle saker', location.pathname);
@@ -85,6 +78,17 @@ const SisteSaker = () => {
         sakstyper: [],
         oppgaveTilstand: [],
     });
+
+    const sakerMedOppgaverRespons = useSaker(ANTALL_FORSIDESAKER, {
+        side: 1,
+        virksomheter: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon],
+        tekstsoek: '',
+        sortering: SakSortering.Frist,
+        sakstyper: [],
+        oppgaveTilstand: [OppgaveTilstand.Ny],
+    });
+
+    const sakerMedOppgaver = sakerMedOppgaverRespons.data?.saker
 
     useSessionStateForside();
 
@@ -118,7 +122,6 @@ const SisteSaker = () => {
             </div>
         </Link>;
     }
-    console.log(data.saker.sakstyper);
     // @ts-ignore
     return (
         <>
@@ -126,14 +129,23 @@ const SisteSaker = () => {
                 <Heading size='small' level='2'> Saker for dine virksomheter </Heading>
                 <div className='siste_saker_valg_container'>
                     <SakerLenke
+                        to = {{
+                            pathname: 'saksoversikt',
+                            search: location.search,
+                        }}
                         ikon={<PaperplaneIcon title={`Antall saker (${antallSakerForAlleBedrifter})`} />}
                         overskrift={`Antall saker (${antallSakerForAlleBedrifter})`}
-                        undertekst='Inntektsmelding, Permittering, Nedbemanning ...'
+                        undertekst={data.saker.sakstyper.map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')}
                     />
                     <SakerLenke
+                        to = {{
+                            pathname: 'saksoversikt',
+                            search: location.search + "&oppgaveTilstand=NY"
+                        }}
                         ikon={<BellDotFillIcon title='Med oppgaver' />}
-                        overskrift='Med oppgaver'
-                        undertekst='Inntektsmelding 53 st, Lønnstilskudd 3 st ...' />
+                        overskrift={'Med oppgaver ' + (((sakerMedOppgaver?.totaltAntallSaker ?? 0) > 0) ? `(${sakerMedOppgaver?.totaltAntallSaker})` : '')}
+                        undertekst={sakerMedOppgaver?.sakstyper.map((sakstype) => `${sakstype.antall} ${sakstype.navn}`).join(', ') ?? ''}
+                    />
                 </div>
             </div>
         </>
