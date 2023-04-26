@@ -5,12 +5,13 @@ import './SisteSaker.css';
 import { useSaker } from '../useSaker';
 import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../../../utils/amplitude';
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Button, Heading } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { OppgaveTilstand, SakSortering } from '../../../../api/graphql-types';
-import { FileFolder } from '@navikt/ds-icons';
+import { Collapse, Expand } from '@navikt/ds-icons';
 import { BellDotFillIcon, PaperplaneIcon } from '@navikt/aksel-icons';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import { sorted } from '../../../../utils/util';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -19,9 +20,11 @@ interface SakerLenkeProps {
     overskrift: string;
     undertekst: string;
     to: To;
+    ekspander: boolean;
+    setEkspander: (ekspander: boolean) => void;
 }
 
-const SakerLenke = ({ ikon, overskrift, undertekst, to}: SakerLenkeProps) => {
+const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}: SakerLenkeProps) => {
     const [hover, setHover] = useState(false);
     const ikonId = "ikon-id" + overskrift.toLowerCase().replace(' ', '-');
     const lenkeId = "lenke-id" + overskrift.toLowerCase().replace(' ', '-');
@@ -62,7 +65,19 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to}: SakerLenkeProps) => {
                 {overskrift}
             </Heading>
         </Link>
-        <BodyShort className='saker-lenke__undertekst'>{undertekst}</BodyShort>
+        <BodyShort
+            className={'saker-lenke__undertekst ' + (ekspander ? ' saker_lenke__undertekst_ekspandert' : " ")}
+        >{undertekst}</BodyShort>
+        <Button
+            className="saker-lenke__ekspander-knapp"
+            size="xsmall"
+            variant="tertiary"
+            style={{color: "black"}}
+            onClick={() => setEkspander(!ekspander)
+        }
+        >
+            {ekspander ? <Collapse/> : <Expand />}
+        </Button>
 
     </div>;
 };
@@ -70,6 +85,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to}: SakerLenkeProps) => {
 const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(OrganisasjonsDetaljerContext);
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    const [ekspander, setEkspander] = useState(false);
     const location = useLocation();
 
     const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
@@ -108,7 +124,6 @@ const SisteSaker = () => {
     if (loading || !data) return null;
 
     if ((antallSakerForAlleBedrifter ?? 0) === 0) return null;
-
     // @ts-ignore
     return (
         <>
@@ -122,7 +137,9 @@ const SisteSaker = () => {
                         }}
                         ikon={<PaperplaneIcon title={`Antall saker (${antallSakerForAlleBedrifter})`} />}
                         overskrift={`Antall saker (${antallSakerForAlleBedrifter})`}
-                        undertekst={data.saker.sakstyper.map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')}
+                        undertekst={sorted(data.saker.sakstyper, sakstype => sakstype.navn).map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')}
+                        ekspander={ekspander}
+                        setEkspander={setEkspander}
                     />
                     <SakerLenke
                         to = {{
@@ -131,7 +148,11 @@ const SisteSaker = () => {
                         }}
                         ikon={<BellDotFillIcon title='Med oppgaver' />}
                         overskrift={'Med oppgaver ' + (((sakerMedOppgaver?.totaltAntallSaker ?? 0) > 0) ? `(${sakerMedOppgaver?.totaltAntallSaker})` : '')}
-                        undertekst={sakerMedOppgaver?.sakstyper.map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ') ?? ''}
+                        undertekst={sorted(sakerMedOppgaver?.sakstyper ?? [], sakstype => sakstype.navn).map(
+                            (sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')
+                        }
+                        ekspander={ekspander}
+                        setEkspander={setEkspander}
                     />
                 </div>
             </div>
