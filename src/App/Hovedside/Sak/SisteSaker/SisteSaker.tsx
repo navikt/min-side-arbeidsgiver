@@ -10,6 +10,7 @@ import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorag
 import { OppgaveTilstand, SakSortering } from '../../../../api/graphql-types';
 import { FileFolder } from '@navikt/ds-icons';
 import { BellDotFillIcon, PaperplaneIcon } from '@navikt/aksel-icons';
+import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -68,6 +69,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to}: SakerLenkeProps) => {
 
 const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(OrganisasjonsDetaljerContext);
+    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     const location = useLocation();
 
     const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
@@ -107,26 +109,11 @@ const SisteSaker = () => {
 
     if ((antallSakerForAlleBedrifter ?? 0) === 0) return null;
 
-    if (data.saker?.saker?.length === 0) {
-        return <Link className='innsynisak-lenke' to={{
-            pathname: 'saksoversikt',
-            search: location.search,
-        }} onClick={() => {
-            scroll(0, 0);
-            loggNavigasjon('saksoversikt', 'se alle saker', location.pathname);
-        }}>
-            <div className='innsynisak__se-alle-saker'>
-                <FileFolder />
-                <BodyShort> Se saker på tvers av alle
-                    virksomheter {antallSakerForAlleBedrifter !== undefined ? `(${antallSakerForAlleBedrifter})` : ''}</BodyShort>
-            </div>
-        </Link>;
-    }
     // @ts-ignore
     return (
         <>
             <div className='siste_saker'>
-                <Heading size='small' level='2'> Saker for dine virksomheter </Heading>
+                <Heading size='small' level='2'> Saker {Object.entries(organisasjoner).length < 3 ? "": "for dine virksomheter"} </Heading>
                 <div className='siste_saker_valg_container'>
                     <SakerLenke
                         to = {{
@@ -144,7 +131,7 @@ const SisteSaker = () => {
                         }}
                         ikon={<BellDotFillIcon title='Med oppgaver' />}
                         overskrift={'Med oppgaver ' + (((sakerMedOppgaver?.totaltAntallSaker ?? 0) > 0) ? `(${sakerMedOppgaver?.totaltAntallSaker})` : '')}
-                        undertekst={sakerMedOppgaver?.sakstyper.map((sakstype) => `${sakstype.antall} ${sakstype.navn}`).join(', ') ?? ''}
+                        undertekst={sakerMedOppgaver?.sakstyper.map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ') ?? ''}
                     />
                 </div>
             </div>
