@@ -49,7 +49,6 @@ const Hovedside: FunctionComponent = () => {
             <div className='hovedside-container'>
                 <AdvarselBannerTestversjon/>
                 <VarselHvisNedetid/>
-                <GiOssTilbakemelding/>
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
                 <DigiSyfoBedriftsmenyInfo/>
@@ -57,6 +56,7 @@ const Hovedside: FunctionComponent = () => {
                 <AktueltRubrikk/>
                 <SisteSaker/>
                 <TjenesteBoksContainer/>
+                <GiOssTilbakemelding/>
                 <SkjemaveilederContainer/>
                 <BrevFraAltinnContainer/>
                 <NyttigForDegContainer/>

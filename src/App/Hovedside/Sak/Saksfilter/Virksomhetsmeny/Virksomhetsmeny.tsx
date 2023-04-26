@@ -6,7 +6,6 @@ import {EkstraChip, VirksomhetChips} from "../VirksomhetChips";
 import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
 import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
 import fuzzysort from 'fuzzysort';
-import {Hovedenhet} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {count, sum} from '../../../../../utils/util';
 import amplitude from '../../../../../utils/amplitude';
 import {useLoggKlikk} from '../../../../../utils/funksjonerForAmplitudeLogging';
@@ -238,7 +237,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                     }
                 }}
             >
-                <BodyShort> Velg virksomheter {valgteEnheter === "ALLEBEDRIFTER" ? "(Alle valgt)" : ""}</BodyShort>
+                <BodyShort> Velg virksomheter </BodyShort>
                 {virksomhetsmenyÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
             </button>
             {virksomhetsmenyÅpen ?
