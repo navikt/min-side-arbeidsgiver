@@ -10,7 +10,7 @@ import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorag
 import { OppgaveTilstand, SakSortering } from '../../../../api/graphql-types';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { BellDotFillIcon, PaperplaneIcon } from '@navikt/aksel-icons';
-import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonerOgTilgangerContext, OrganisasjonInfo } from '../../../OrganisasjonerOgTilgangerProvider';
 import { sorted } from '../../../../utils/util';
 
 const ANTALL_FORSIDESAKER: number = 3;
@@ -41,8 +41,10 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
             setHover(false);
         }
     })
+    const buttonId = `ekspander-kollaps-${overskrift.replace(" ", "-")}-id`
     return <div className='saker-lenke'>
         <Link
+            tabIndex={-1}
             id={lenkeId}
             className={'saker-lenke__ikon' + (hover ? ' saker-lenke__ikon__hover' : '')}
             to={to}
@@ -69,6 +71,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
             className={'saker-lenke__undertekst ' + (ekspander ? ' saker_lenke__undertekst_ekspandert' : " ")}
         >{undertekst}</BodyShort>
         <Button
+            aria-label={ekspander ? "Kollaps" : "Ekspander"}
             className="saker-lenke__ekspander-knapp"
             size="xsmall"
             variant="tertiary"
@@ -76,7 +79,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
             onClick={() => setEkspander(!ekspander)
         }
         >
-            {ekspander ? <Collapse/> : <Expand />}
+            {ekspander ? <Collapse aria-hidden/> : <Expand aria-hidden/>}
         </Button>
 
     </div>;
@@ -124,18 +127,21 @@ const SisteSaker = () => {
     if (loading || !data) return null;
 
     if ((antallSakerForAlleBedrifter ?? 0) === 0) return null;
+
+    const antallVirksomheter = Object.values(organisasjoner).filter(org => ["BEDR", "AAFY"].includes(org.organisasjon.OrganizationForm)).length;
+
     // @ts-ignore
     return (
         <>
             <div className='siste_saker'>
-                <Heading size='small' level='2'> Saker {Object.entries(organisasjoner).length < 3 ? "": "for dine virksomheter"} </Heading>
+                <Heading size='small' level='2'> Saker {antallVirksomheter > 1 ? "for dine virksomheter" : "" } </Heading>
                 <div className='siste_saker_valg_container'>
                     <SakerLenke
                         to = {{
                             pathname: 'saksoversikt',
                             search: location.search,
                         }}
-                        ikon={<PaperplaneIcon title={`Antall saker (${antallSakerForAlleBedrifter})`} />}
+                        ikon={<PaperplaneIcon aria-hidden/>}
                         overskrift={`Antall saker (${antallSakerForAlleBedrifter})`}
                         undertekst={sorted(data.saker.sakstyper, sakstype => sakstype.navn).map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')}
                         ekspander={ekspander}
@@ -146,7 +152,7 @@ const SisteSaker = () => {
                             pathname: 'saksoversikt',
                             search: location.search + "&oppgaveTilstand=NY"
                         }}
-                        ikon={<BellDotFillIcon title='Med oppgaver' />}
+                        ikon={<BellDotFillIcon aria-hidden/>}
                         overskrift={'Med oppgaver ' + (((sakerMedOppgaver?.totaltAntallSaker ?? 0) > 0) ? `(${sakerMedOppgaver?.totaltAntallSaker})` : '')}
                         undertekst={sorted(sakerMedOppgaver?.sakstyper ?? [], sakstype => sakstype.navn).map(
                             (sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')
