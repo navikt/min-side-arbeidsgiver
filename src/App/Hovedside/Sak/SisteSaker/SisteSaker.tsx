@@ -10,7 +10,7 @@ import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorag
 import { OppgaveTilstand, SakSortering } from '../../../../api/graphql-types';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { BellDotFillIcon, PaperplaneIcon } from '@navikt/aksel-icons';
-import { OrganisasjonerOgTilgangerContext, OrganisasjonInfo } from '../../../OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import { sorted } from '../../../../utils/util';
 
 const ANTALL_FORSIDESAKER: number = 3;
@@ -41,7 +41,6 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
             setHover(false);
         }
     })
-    const buttonId = `ekspander-kollaps-${overskrift.replace(" ", "-")}-id`
     return <div className='saker-lenke'>
         <Link
             tabIndex={-1}
@@ -93,7 +92,7 @@ const SisteSaker = () => {
 
     const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomheter: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon],
+        virksomheter: 'ALLEBEDRIFTER',
         tekstsoek: '',
         sortering: SakSortering.Frist,
         sakstyper: [],
@@ -102,7 +101,7 @@ const SisteSaker = () => {
 
     const sakerMedOppgaverRespons = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomheter: valgtOrganisasjon === undefined ? [] : [valgtOrganisasjon.organisasjon],
+        virksomheter: 'ALLEBEDRIFTER',
         tekstsoek: '',
         sortering: SakSortering.Frist,
         sakstyper: [],
@@ -130,7 +129,6 @@ const SisteSaker = () => {
 
     const antallVirksomheter = Object.values(organisasjoner).filter(org => ["BEDR", "AAFY"].includes(org.organisasjon.OrganizationForm)).length;
 
-    // @ts-ignore
     return (
         <>
             <div className='siste_saker'>
