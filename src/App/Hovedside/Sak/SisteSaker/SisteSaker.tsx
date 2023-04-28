@@ -70,7 +70,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
             className={'saker-lenke__undertekst ' + (ekspander ? ' saker_lenke__undertekst_ekspandert' : " ")}
         >{undertekst}</BodyShort>
         <Button
-            aria-label={ekspander ? "Kollaps" : "Ekspander"}
+            tabIndex ={-1}
             className="saker-lenke__ekspander-knapp"
             size="xsmall"
             variant="tertiary"
@@ -130,37 +130,35 @@ const SisteSaker = () => {
     const antallVirksomheter = Object.values(organisasjoner).filter(org => ["BEDR", "AAFY"].includes(org.organisasjon.OrganizationForm)).length;
 
     return (
-        <>
-            <div className='siste_saker'>
-                <Heading size='small' level='2'> Saker {antallVirksomheter > 1 ? "for dine virksomheter" : "" } </Heading>
-                <div className='siste_saker_valg_container'>
-                    <SakerLenke
-                        to = {{
-                            pathname: 'saksoversikt',
-                            search: location.search,
-                        }}
-                        ikon={<PaperplaneIcon aria-hidden/>}
-                        overskrift={`Antall saker (${antallSakerForAlleBedrifter})`}
-                        undertekst={sorted(data.saker.sakstyper, sakstype => sakstype.navn).map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')}
-                        ekspander={ekspander}
-                        setEkspander={setEkspander}
-                    />
-                    <SakerLenke
-                        to = {{
-                            pathname: 'saksoversikt',
-                            search: location.search + "&oppgaveTilstand=NY"
-                        }}
-                        ikon={<BellDotFillIcon aria-hidden/>}
-                        overskrift={'Med oppgaver ' + (((sakerMedOppgaver?.totaltAntallSaker ?? 0) > 0) ? `(${sakerMedOppgaver?.totaltAntallSaker})` : '')}
-                        undertekst={sorted(sakerMedOppgaver?.sakstyper ?? [], sakstype => sakstype.navn).map(
-                            (sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')
-                        }
-                        ekspander={ekspander}
-                        setEkspander={setEkspander}
-                    />
-                </div>
+        <div className='siste_saker'>
+            <Heading size='small' level='2'> Saker {antallVirksomheter > 1 ? "for dine virksomheter" : "" } </Heading>
+            <div className='siste_saker_valg_container'>
+                <SakerLenke
+                    to = {{
+                        pathname: 'saksoversikt',
+                        search: location.search,
+                    }}
+                    ikon={<PaperplaneIcon aria-hidden/>}
+                    overskrift={`Antall saker (${antallSakerForAlleBedrifter})`}
+                    undertekst={sorted(data.saker.sakstyper, sakstype => sakstype.navn).map((sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')}
+                    ekspander={ekspander}
+                    setEkspander={setEkspander}
+                />
+                <SakerLenke
+                    to = {{
+                        pathname: 'saksoversikt',
+                        search: location.search + "&oppgaveTilstand=NY"
+                    }}
+                    ikon={<BellDotFillIcon aria-hidden/>}
+                    overskrift={'Med oppgaver ' + (((sakerMedOppgaver?.totaltAntallSaker ?? 0) > 0) ? `(${sakerMedOppgaver?.totaltAntallSaker})` : '')}
+                    undertekst={sorted(sakerMedOppgaver?.sakstyper ?? [], sakstype => sakstype.navn).map(
+                        (sakstype) => `${sakstype.navn} ${sakstype.antall}`).join(', ')
+                    }
+                    ekspander={ekspander}
+                    setEkspander={setEkspander}
+                />
             </div>
-        </>
+        </div>
     );
 };
 
