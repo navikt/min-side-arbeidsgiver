@@ -45,7 +45,7 @@ spec:
     - name: ARBEIDSFORHOLD_DOMAIN
       value: https://arbeidsforhold.dev.nav.no
     - name: SYKEFRAVAER_DOMAIN
-      value: https://arbeidsgiver-gcp.dev.nav.no
+      value: https://sykefravarsstatistikk.intern.dev.nav.no
     - name: MILJO
       value: dev
   accessPolicy:
