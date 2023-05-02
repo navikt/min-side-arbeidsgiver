@@ -11,9 +11,9 @@ export const GiOssTilbakemelding = () => {
         .some(org => org.altinntilgang.inntektsmelding);
 
     if (harInntektsmeldingPåTvers) {
-        return <UXSignals />;
+        return null;
     } else {
-        return <UXSignals />;
+        return null;
     }
 };
 
