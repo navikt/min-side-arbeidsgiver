@@ -37,7 +37,8 @@ Interne henvendelser kan sendes via Slack i kanalen #arbeidsgiver-min-side-arbei
 
 ### Lenker til applikasjon
 
-dev:  https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver (i vdi, eller over vpn)
+dev:  https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver (med naisdevice)
 prod: https://arbeidsgiver.nav.no/min-side-arbeidsgiver/
-labs: https://arbeidsgiver.labs.nais.io/min-side-arbeidsgiver/
+dev-lik-labs: https://arbeidsgiver-dev-like.ekstern.dev.nav.no/min-side-arbeidsgiver
+prod-lik-labs: https://arbeidsgiver.ekstern.dev.nav.no/min-side-arbeidsgiver
 logs: https://logs.adeo.no/app/dashboards#/view/754c72d0-76d8-11eb-90cb-7315dfb7dea6
