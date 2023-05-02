@@ -8,7 +8,7 @@ metadata:
 spec:
   image: {{image}}
   ingresses:
-    - https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver
+    - https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver
   liveness:
     path: /min-side-arbeidsgiver/internal/isAlive
     initialDelay: 20
@@ -33,7 +33,7 @@ spec:
     - name: BACKEND_API_URL
       value: http://min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
-      value: https://loginservice.dev.nav.no/login?redirect=https://min-side-arbeidsgiver.dev.nav.no/min-side-arbeidsgiver
+      value: https://loginservice.dev.nav.no/login?redirect=https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver
     - name: PROXY_LOG_LEVEL
       value: debug
     - name: BRUKER_API_URL
