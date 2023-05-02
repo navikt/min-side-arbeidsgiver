@@ -7,7 +7,6 @@ import { SaksListe } from '../SaksListe';
 import { Alerts } from '../../../Alerts/Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from '../OmSaker';
-import { gittMiljo } from '../../../../utils/environment';
 import { Saksfilter } from '../Saksfilter/Saksfilter';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../../../utils/Record';

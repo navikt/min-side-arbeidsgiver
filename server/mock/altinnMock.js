@@ -84,7 +84,7 @@ export const OrganisasjonerResponse = [
     {
         Name: 'TRANØY OG SANDE I VESTFOLD REGNSKAP',
         Type: 'Enterprise',
-        ParentOrganizationNumber: '',
+        ParentOrganizationNumber: null,
         OrganizationNumber: '311388333',
         OrganizationForm: 'FLI',
         Status: 'Active',
