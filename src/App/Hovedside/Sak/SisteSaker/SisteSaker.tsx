@@ -70,7 +70,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
             className={'saker-lenke__undertekst ' + (ekspander ? ' saker_lenke__undertekst_ekspandert' : " ")}
         >{undertekst}</BodyShort>
         <Button
-            tabIndex ={-1}
+            aria-label={`${ekspander ? "Skjul deler av" : "Vis hele"} teksten. (Hele teksten vises for skjermleser)`}
             className="saker-lenke__ekspander-knapp"
             size="xsmall"
             variant="tertiary"
