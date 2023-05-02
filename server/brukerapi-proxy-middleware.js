@@ -14,7 +14,7 @@ export const createNotifikasjonBrukerApiProxyMiddleware = ({ log }) => {
         proxyReqPathResolver: () => '/api/graphql',
         proxyReqOptDecorator: async (options, req) => {
             const tokenXClient = await createTokenXClient();
-            const subject_token = req.cookies['selvbetjening-idtoken'];
+            const subject_token = req.headers.authorization.slice("Bearer ".length);
             const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
 
             options.headers.Authorization = `Bearer ${access_token}`;

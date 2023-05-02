@@ -24,7 +24,9 @@ spec:
   tokenx:
     enabled: true
   idporten:
-    enabled: false
+    enabled: true
+    sidecar:
+      enabled: true
   envFrom:
     - secret: min-side-ag-frontend
   env:
@@ -33,7 +35,7 @@ spec:
     - name: BACKEND_API_URL
       value: http://min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
-      value: https://loginservice.nav.no/login?redirect=https://arbeidsgiver.nav.no/min-side-arbeidsgiver
+      value: https://arbeidsgiver.nav.no/min-side-arbeidsgiver/oauth2/login
     - name: PROXY_LOG_LEVEL
       value: debug
     - name: BRUKER_API_URL

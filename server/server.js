@@ -70,16 +70,6 @@ const indexHtml = Mustache.render(
     }
 );
 
-const selvbetjeningsCookieAsAuthHeaderMiddleware = (req, res, next) => {
-    const subject_token = req.cookies['selvbetjening-idtoken']
-    if (subject_token) {
-        req.headers.authorization = `Bearer ${subject_token}`
-        delete req.cookies['selvbetjening-idtoken']
-    }
-    next();
-};
-
-
 const main = async () => {
     const app = express();
     app.disable('x-powered-by');
@@ -131,7 +121,6 @@ const main = async () => {
     } else {
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler',
-            selvbetjeningsCookieAsAuthHeaderMiddleware,
             tokenXMiddleware(
                 {
                     log: log,
@@ -178,7 +167,6 @@ const main = async () => {
 
         app.use(
             '/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater',
-            selvbetjeningsCookieAsAuthHeaderMiddleware,
             tokenXMiddleware(
                 {
                     log: log,
@@ -223,7 +211,6 @@ const main = async () => {
 
         app.use(
             '/min-side-arbeidsgiver/api',
-            selvbetjeningsCookieAsAuthHeaderMiddleware,
             tokenXMiddleware(
                 {
                     log: log,
