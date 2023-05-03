@@ -36,8 +36,6 @@ spec:
       value: http://localhost:8081
     - name: GIT_COMMIT
       value: {{commit}}
-    - name: ARBEIDSFORHOLD_DOMAIN
-      value: https://arbeidsgiver.labs.nais.io
     - name: SYKEFRAVAER_DOMAIN
       value: https://arbeidsgiver.labs.nav.no
     - name: MILJO

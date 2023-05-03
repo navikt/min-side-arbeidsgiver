@@ -42,8 +42,6 @@ spec:
       value: http://notifikasjon-bruker-api.fager.svc.cluster.local
     - name: GIT_COMMIT
       value: {{commit}}
-    - name: ARBEIDSFORHOLD_DOMAIN
-      value: https://arbeidsgiver.nav.no
     - name: SYKEFRAVAER_DOMAIN
       value: https://arbeidsgiver.nav.no
     - name: MILJO

@@ -22,7 +22,6 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
-    ARBEIDSFORHOLD_DOMAIN = 'http://localhost:8080',
     APIGW_TILTAK_HEADER,
     SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
     MILJO = 'local',
@@ -99,7 +98,6 @@ const main = async () => {
         (await import('./mock/altinnMeldingsboksMock.js')).mock(app);
         (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
-        (await import('./mock/antallArbeidsforholdMock.js')).mock(app);
         (await import('./mock/tiltakApiMock.js')).mock(app);
         (await import('./mock/sykefraværMock.js')).mock(app);
         (await import('./mock/refusjonsStatusMock.js')).mock(app);
@@ -188,24 +186,6 @@ const main = async () => {
                 secure: true,
                 xfwd: true,
                 target: 'http://presenterte-kandidater-api.toi',
-            }),
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/api/antall-arbeidsforhold/',
-            createProxyMiddleware({
-                logLevel: PROXY_LOG_LEVEL,
-                logProvider: _ => log,
-                onError: (err, req, res) => {
-                    log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-                },
-                changeOrigin: true,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver': 'arbeidsforhold/arbeidsgiver-arbeidsforhold',
-                },
-                secure: true,
-                xfwd: true,
-                target: ARBEIDSFORHOLD_DOMAIN,
             }),
         );
 
