@@ -52,6 +52,9 @@ spec:
     outbound:
       external:
         - host: https://arbeidsgiver-gcp.dev.nav.no
+        - host: https://sykefravarsstatistikk.intern.dev.nav.no
+        - host: https://arbeidsforhold.intern.dev.nav.no
+        - host: https://arbeidsgiver.intern.dev.nav.no
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
