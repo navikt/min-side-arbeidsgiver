@@ -102,8 +102,8 @@ export const Saksfilter = ({
             <Accordion>
                 <Accordion.Item open={visVirksomhetsmeny}>
                     <Accordion.Header onClick={() => handleVisVirksomhetsmeny(!visVirksomhetsmeny)}>
-                        <Heading size="small">Virksomheter
-                            ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})</Heading>
+                        Virksomheter
+                            ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})
                     </Accordion.Header>
                     <Accordion.Content className='virksomheter_accordation'>
                         <Virksomhetsmeny
@@ -118,6 +118,7 @@ export const Saksfilter = ({
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
             <CheckboxGroup
+                value={filter.oppgaveTilstand}
                 legend={'Oppgaver'}
                 onChange={valgteOppgavetilstander =>
                     setFilter({ ...filter, oppgaveTilstand: valgteOppgavetilstander })

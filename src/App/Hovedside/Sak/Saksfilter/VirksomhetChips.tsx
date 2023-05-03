@@ -15,9 +15,9 @@ type VirksomhetChipsProp = {
 export const VirksomhetChips = ({ navn, orgnr, antallUndervirksomheter, onLukk }: VirksomhetChipsProp) => {
     const erHovedenhet = antallUndervirksomheter !== null;
     return <li className='virksomhetschips'>
-        {erHovedenhet ? null : <Underenhet style={{marginBlock: "1rem"}}/>}
+        {erHovedenhet ? null : <Underenhet style={{width: "2rem"}}/>}
         <div className='virksomhetschips_innhold'>
-            <BodyShort size='medium' className='virksomhetschips_virksomhet'>{navn}</BodyShort>
+            <BodyShort size='small' className='virksomhetschips_virksomhet'>{navn}</BodyShort>
             <BodyShort size='small'>
                 {erHovedenhet ? 'org. nr.' : 'virksomhetsnr.'} {orgnr}</BodyShort>
             {

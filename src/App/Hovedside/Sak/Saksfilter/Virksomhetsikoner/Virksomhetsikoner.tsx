@@ -6,4 +6,4 @@ interface UnderenhetProps {
 }
 
 export const Underenhet = ({style}: UnderenhetProps) =>
-    <Office1 width='2rem' style={style} title='Underenhet' />;
+    <Office1 width='1rem' style={style} title='Underenhet' />;
