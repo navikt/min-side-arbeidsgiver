@@ -43,7 +43,7 @@ spec:
     - name: GIT_COMMIT
       value: {{commit}}
     - name: ARBEIDSFORHOLD_DOMAIN
-      value: https://arbeidsforhold.dev.nav.no
+      value: https://arbeidsforhold.intern.dev.nav.no
     - name: SYKEFRAVAER_DOMAIN
       value: https://sykefravarsstatistikk.intern.dev.nav.no
     - name: MILJO
