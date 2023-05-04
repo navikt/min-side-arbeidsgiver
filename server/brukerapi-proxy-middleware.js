@@ -14,7 +14,10 @@ export const createNotifikasjonBrukerApiProxyMiddleware = ({ log }) => {
         proxyReqPathResolver: () => '/api/graphql',
         proxyReqOptDecorator: async (options, req) => {
             const tokenXClient = await createTokenXClient();
-            const subject_token = req.headers.authorization.slice("Bearer ".length);
+            const subject_token = (req.headers.authorization || '').replace('Bearer', '').trim();
+            if (subject_token === '') {
+                return Promise.reject("can't exchange token, missing authorization header")
+            }
             const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
 
             options.headers.Authorization = `Bearer ${access_token}`;
