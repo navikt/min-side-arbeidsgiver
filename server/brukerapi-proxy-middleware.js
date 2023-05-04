@@ -10,11 +10,15 @@ const {
 
 export const createNotifikasjonBrukerApiProxyMiddleware = ({ log }) => {
     const audience = `${NAIS_CLUSTER_NAME}:fager:notifikasjon-bruker-api`;
+    const tokenXClientPromise = createTokenXClient();
     return expressHttpProxy('http://notifikasjon-bruker-api.fager.svc.cluster.local', {
         proxyReqPathResolver: () => '/api/graphql',
         proxyReqOptDecorator: async (options, req) => {
-            const tokenXClient = await createTokenXClient();
-            const subject_token = req.headers.authorization.slice("Bearer ".length);
+            const tokenXClient = await tokenXClientPromise;
+            const subject_token = (req.headers.authorization || '').replace('Bearer', '').trim();
+            if (subject_token === '') {
+                return Promise.reject("can't exchange token, missing authorization header")
+            }
             const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
 
             options.headers.Authorization = `Bearer ${access_token}`;
