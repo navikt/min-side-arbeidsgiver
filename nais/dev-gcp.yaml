@@ -25,6 +25,8 @@ spec:
     enabled: true
   idporten:
     enabled: true
+    sidecar:
+      enabled: true
   envFrom:
     - secret: min-side-ag-frontend
   env:
@@ -33,23 +35,23 @@ spec:
     - name: BACKEND_API_URL
       value: http://min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
-      value: https://loginservice.dev.nav.no/login?redirect=https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver
+      value: https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver/oauth2/login
     - name: PROXY_LOG_LEVEL
       value: debug
     - name: BRUKER_API_URL
       value: http://notifikasjon-bruker-api.fager.svc.cluster.local
     - name: GIT_COMMIT
       value: {{commit}}
-    - name: ARBEIDSFORHOLD_DOMAIN
-      value: https://arbeidsforhold.dev.nav.no
     - name: SYKEFRAVAER_DOMAIN
-      value: https://arbeidsgiver-gcp.dev.nav.no
+      value: https://sykefravarsstatistikk.intern.dev.nav.no
     - name: MILJO
       value: dev
   accessPolicy:
     outbound:
       external:
         - host: https://arbeidsgiver-gcp.dev.nav.no
+        - host: https://sykefravarsstatistikk.intern.dev.nav.no
+        - host: https://arbeidsgiver.intern.dev.nav.no
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
