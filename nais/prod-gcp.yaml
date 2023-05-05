@@ -55,6 +55,6 @@ spec:
         - application: notifikasjon-bruker-api
         - application: tiltaksgjennomforing-api
           namespace: arbeidsgiver
-          cluster: dev-fss
+          cluster: prod-fss
         - application: presenterte-kandidater-api
           namespace: toi
