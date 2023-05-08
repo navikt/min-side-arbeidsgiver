@@ -49,13 +49,14 @@ spec:
   accessPolicy:
     outbound:
       external:
-        - host: https://arbeidsgiver-gcp.dev.nav.no
-        - host: https://sykefravarsstatistikk.intern.dev.nav.no
-        - host: https://arbeidsgiver.intern.dev.nav.no
+        - host: arbeidsgiver-gcp.dev.nav.no
+        - host: sykefravarsstatistikk.intern.dev.nav.no
+        - host: arbeidsgiver.intern.dev.nav.no
+        - host: tiltak-proxy.dev-fss-pub.nais.io
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
-        - application: tiltaksgjennomforing-api
+        - application: tiltak-proxy
           namespace: arbeidsgiver
           cluster: dev-fss
         - application: presenterte-kandidater-api

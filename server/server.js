@@ -22,7 +22,6 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
-    APIGW_TILTAK_HEADER,
     SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
     MILJO = 'local',
 } = process.env;
@@ -123,8 +122,8 @@ const main = async () => {
                 {
                     log: log,
                     audience: {
-                        'dev': 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
-                        'prod': 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
+                        'dev': 'dev-fss:arbeidsgiver:tiltak-proxy',
+                        'prod': 'prod-fss:arbeidsgiver:tiltak-proxy',
                     }[MILJO]
                 }),
             createProxyMiddleware({
@@ -158,8 +157,10 @@ const main = async () => {
                 },
                 secure: true,
                 xfwd: true,
-                target: NAIS_CLUSTER_NAME === 'prod-gcp' ? 'https://api-gw.oera.no' : 'https://api-gw-q0.oera.no',
-                ...(APIGW_TILTAK_HEADER ? {headers: {'x-nav-apiKey': APIGW_TILTAK_HEADER}} : {})
+                target: {
+                    'dev': 'https://tiltak-proxy.dev-fss-pub.nais.io',
+                    'prod': 'https://tiltak-proxy.prod-fss-pub.nais.io',
+                }[MILJO],
             }),
         );
 

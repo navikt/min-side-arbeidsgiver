@@ -50,10 +50,11 @@ spec:
     outbound:
       external:
         - host: arbeidsgiver.nav.no
+        - host: tiltak-proxy.prod-fss-pub.nais.io
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
-        - application: tiltaksgjennomforing-api
+        - application: tiltak-proxy
           namespace: arbeidsgiver
           cluster: prod-fss
         - application: presenterte-kandidater-api
