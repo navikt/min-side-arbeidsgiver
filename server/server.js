@@ -6,7 +6,7 @@ import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
-import {createNotifikasjonBrukerApiProxyMiddleware, tokenXMiddleware} from "./brukerapi-proxy-middleware.js";
+import {tokenXMiddleware} from "./tokenx.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
 import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock";
@@ -116,6 +116,16 @@ const main = async () => {
             }
         )
     } else {
+        const proxyOptions = {
+            logLevel: PROXY_LOG_LEVEL,
+            logProvider: _ => log,
+            onError: (err, req, res) => {
+                log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+            },
+            secure: true,
+            xfwd: true,
+            changeOrigin: true,
+        }
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler',
             tokenXMiddleware(
@@ -127,8 +137,7 @@ const main = async () => {
                     }[MILJO]
                 }),
             createProxyMiddleware({
-                logLevel: PROXY_LOG_LEVEL,
-                logProvider: _ => log,
+                ...proxyOptions,
                 selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
                 onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
                     try {
@@ -148,15 +157,9 @@ const main = async () => {
                         return JSON.stringify([])
                     }
                 }),
-                onError: (err, req, res) => {
-                    log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-                },
-                changeOrigin: true,
                 pathRewrite: {
                     '^/min-side-arbeidsgiver/': '/',
                 },
-                secure: true,
-                xfwd: true,
                 target: {
                     'dev': 'https://tiltak-proxy.dev-fss-pub.nais.io',
                     'prod': 'https://tiltak-proxy.prod-fss-pub.nais.io',
@@ -175,17 +178,10 @@ const main = async () => {
                     }[MILJO]
                 }),
             createProxyMiddleware({
-                logLevel: PROXY_LOG_LEVEL,
-                logProvider: _ => log,
-                onError: (err, req, res) => {
-                    log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-                },
-                changeOrigin: true,
+                ...proxyOptions,
                 pathRewrite: {
                     '^/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern': '/ekstern',
                 },
-                secure: true,
-                xfwd: true,
                 target: 'http://presenterte-kandidater-api.toi',
             }),
         );
@@ -201,40 +197,44 @@ const main = async () => {
                     }[MILJO]
                 }),
             createProxyMiddleware({
-                logLevel: PROXY_LOG_LEVEL,
-                logProvider: _ => log,
-                onError: (err, req, res) => {
-                    log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
-                },
-                changeOrigin: true,
+                ...proxyOptions,
                 pathRewrite: {
                     '^/min-side-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
                 },
-                secure: true,
-                xfwd: true,
                 target: BACKEND_API_URL,
             })
         );
 
         app.use(
             '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-            createNotifikasjonBrukerApiProxyMiddleware({log}),
+            tokenXMiddleware(
+                {
+                    log: log,
+                    audience: {
+                        'dev': 'dev-gcp:fager:notifikasjon-bruker-api',
+                        'prod': 'prod-gcp:fager:notifikasjon-bruker-api',
+                    }[MILJO]
+                }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
+                pathRewrite: {
+                    '^/min-side-arbeidsgiver/notifikasjon-bruker-api': '/api/graphql',
+                },
+            }),
         );
 
         app.use(
             '/min-side-arbeidsgiver/sykefravaer',
+            /* Ingen tokenx her fordi vi går mot deres frackend.
+             * Vi har på backlocken å skrive oss over til kafka-versjonen,
+             * så da blir vi kvitt dette unntaket.
+             */
             createProxyMiddleware({
+                ...proxyOptions,
                 target: SYKEFRAVAER_DOMAIN,
-                changeOrigin: true,
                 pathRewrite: {
                     '^/min-side-arbeidsgiver/sykefravaer': '/sykefravarsstatistikk/api/',
-                },
-                secure: true,
-                xfwd: true,
-                logLevel: PROXY_LOG_LEVEL,
-                logProvider: _ => log,
-                onError: (err, req, res) => {
-                    log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
                 },
             }),
         );
@@ -264,9 +264,6 @@ const main = async () => {
     app.get('/min-side-arbeidsgiver/*', (req, res) => {
         res.send(indexHtml);
     });
-
-
-
 
     if (MILJO === 'dev' || MILJO === 'prod') {
         const gauge = new Prometheus.Gauge({

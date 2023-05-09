@@ -1,39 +1,10 @@
 import {Issuer, errors} from 'openid-client';
-import expressHttpProxy from 'express-http-proxy';
 
 const {
-    NAIS_CLUSTER_NAME = 'local',
     TOKEN_X_WELL_KNOWN_URL,
     TOKEN_X_CLIENT_ID,
     TOKEN_X_PRIVATE_JWK
 } = process.env;
-
-export const createNotifikasjonBrukerApiProxyMiddleware = ({ log }) => {
-    const audience = `${NAIS_CLUSTER_NAME}:fager:notifikasjon-bruker-api`;
-    const tokenXClientPromise = createTokenXClient();
-    return expressHttpProxy('http://notifikasjon-bruker-api.fager.svc.cluster.local', {
-        proxyReqPathResolver: () => '/api/graphql',
-        proxyReqOptDecorator: async (options, req) => {
-            const tokenXClient = await tokenXClientPromise;
-            const subject_token = (req.headers.authorization || '').replace('Bearer', '').trim();
-            if (subject_token === '') {
-                return Promise.reject("can't exchange token, missing authorization header")
-            }
-            const {access_token} = await exchangeToken(tokenXClient, {subject_token, audience});
-
-            options.headers.Authorization = `Bearer ${access_token}`;
-            return options;
-        },
-        proxyErrorHandler: (err, res, next) => {
-            if (err instanceof errors.OPError) {
-                log.info(`token exchange feilet ${err.message}`, err);
-                res.status(401).send();
-            } else {
-                next(err);
-            }
-        }
-    });
-}
 
 const exchangeToken = async (tokenxClient, {subject_token, audience}) => {
     return await tokenxClient.grant(
