@@ -6,7 +6,7 @@ import httpProxyMiddleware, {responseInterceptor} from 'http-proxy-middleware';
 import Prometheus from 'prom-client';
 import {createLogger, format, transports} from 'winston';
 import cookieParser from 'cookie-parser';
-import {createNotifikasjonBrukerApiProxyMiddleware, tokenXMiddleware} from "./brukerapi-proxy-middleware.js";
+import {tokenXMiddleware} from "./tokenx.js";
 import {readFileSync} from 'fs';
 import require from './esm-require.js';
 import {applyNotifikasjonMockMiddleware} from "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock";
@@ -218,7 +218,28 @@ const main = async () => {
 
         app.use(
             '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-            createNotifikasjonBrukerApiProxyMiddleware({log}),
+            tokenXMiddleware(
+                {
+                    log: log,
+                    audience: {
+                        'dev': 'dev-gcp:fager:notifikasjon-bruker-api',
+                        'prod': 'prod-gcp:fager:notifikasjon-bruker-api',
+                    }[MILJO]
+                }),
+            createProxyMiddleware({
+                target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
+                changeOrigin: true,
+                pathRewrite: {
+                    '^/min-side-arbeidsgiver/notifikasjon-bruker-api': '/api/graphql',
+                },
+                secure: true,
+                xfwd: true,
+                logLevel: PROXY_LOG_LEVEL,
+                logProvider: _ => log,
+                onError: (err, req, res) => {
+                    log.error(`${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`);
+                },
+            }),
         );
 
         app.use(
@@ -264,9 +285,6 @@ const main = async () => {
     app.get('/min-side-arbeidsgiver/*', (req, res) => {
         res.send(indexHtml);
     });
-
-
-
 
     if (MILJO === 'dev' || MILJO === 'prod') {
         const gauge = new Prometheus.Gauge({
