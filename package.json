@@ -7,7 +7,7 @@
   "dependencies": {
     "@navikt/aksel-icons": "^2.8.15",
     "@navikt/arbeidsgiver-notifikasjon-widget": "5.4.10",
-    "@navikt/bedriftsmeny": "6.4.1",
+    "@navikt/bedriftsmeny": "6.5.1",
     "@navikt/ds-css": "^2.0.5",
     "@navikt/ds-icons": "^2.0.5",
     "@navikt/ds-react": "^2.0.5",

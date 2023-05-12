@@ -1,5 +1,5 @@
 import {Organisasjon, OrganisasjonEnhet} from "./Virksomhetsmeny/Virksomhetsmeny";
-import {hentAlleJuridiskeEnheter} from "@navikt/bedriftsmeny/lib/hentAlleJuridiskeEnheter";
+import {hentAlleJuridiskeEnheter} from "@navikt/bedriftsmeny/";
 import {sorted} from "../../../../utils/util";
 
 const erHovedenhet = (organisasjon: Organisasjon): boolean =>
