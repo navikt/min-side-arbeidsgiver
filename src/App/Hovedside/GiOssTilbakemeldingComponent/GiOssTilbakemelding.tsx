@@ -13,7 +13,7 @@ export const GiOssTilbakemelding = () => {
     if (harInntektsmeldingPåTvers) {
         return <UXSignals/>;
     } else {
-        return <UXSignals/>;
+        return null;
     }
 };
 
@@ -35,7 +35,7 @@ const UXSignals = () => {
     return <div
         key="tilbakemelding-banner"
         className="tilbakemelding-banner"
-        data-uxsignals-embed="study-nm1hwmzxvl"
+        data-uxsignals-embed="study-yoz8qmkdor"
         {...(gittMiljo({
             prod: {},
             other: {
