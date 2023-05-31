@@ -47,7 +47,7 @@ const aktuelt: Array<AktueltProps> = [
         visTil: new Date('2023-06-04T23:59:59+02:00'),
         tilgangssjekk:
                 valgtOrganisasjon => valgtOrganisasjon.syfotilgang ||
-                valgtOrganisasjon.altinntilgang.inntektsmelding
+                valgtOrganisasjon.altinntilgang.inntektsmelding,
     },
 ]
 
@@ -74,7 +74,7 @@ export const AktueltRubrikk = () => {
         </Heading>
         <div className="aktuelt">
             {aktueltMedTilgang.map((props) =>
-                <Aktuelt {...props} />
+                <Aktuelt key={props.tittel} {...props} />
             )}
         </div>
     </div>

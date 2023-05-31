@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react';
-import { LoggInn } from './LoggInn/LoggInn';
 import { SpinnerMedBanner } from './Spinner';
 import { Innlogget, LoginContext } from './LoginProvider';
 
@@ -9,7 +8,8 @@ const LoginBoundary: FunctionComponent = props => {
     if (innlogget === Innlogget.INNLOGGET) {
         return <>{props.children}</>
     } else if (innlogget === Innlogget.IKKE_INNLOGGET) {
-        return <LoggInn />
+        window.location.href = '/min-side-arbeidsgiver/redirect-til-login';
+        return null
     } else {
         return <SpinnerMedBanner />
     }

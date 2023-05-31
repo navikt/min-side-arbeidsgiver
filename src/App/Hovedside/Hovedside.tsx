@@ -2,7 +2,6 @@ import React, {FunctionComponent, useContext, useEffect} from 'react';
 import {OrganisasjonerOgTilgangerContext} from '../OrganisasjonerOgTilgangerProvider';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import {VarselHvisNedetid} from '../LoggInn/VarselOmNedetid/VarselHvisNedetid';
 import {Alerts} from '../Alerts/Alerts';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
@@ -48,7 +47,6 @@ const Hovedside: FunctionComponent = () => {
             <Brodsmulesti brodsmuler={[]}/>
             <div className='hovedside-container'>
                 <AdvarselBannerTestversjon/>
-                <VarselHvisNedetid/>
                 <UndersokelseInntektsmelding/>
                 <Alerts/>
                 <DigiSyfoBedriftsmenyInfo/>
