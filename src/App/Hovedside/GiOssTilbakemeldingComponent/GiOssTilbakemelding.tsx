@@ -5,6 +5,10 @@ import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgange
 import { gittMiljo } from '../../../utils/environment';
 
 export const GiOssTilbakemelding = () => {
+    return null //disable UX-signals
+}
+
+export const GiOssTilbakemeldingDisabled = () => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     const harInntektsmeldingPåTvers = Record
         .values(organisasjoner)
