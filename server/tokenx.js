@@ -64,7 +64,6 @@ export const tokenXMiddleware = (
             audience
         });
         req.headers.authorization = `Bearer ${access_token}`;
-        log.info("tokenx completed. authorization header is set.")
         next();
     } catch (err) {
         if (err instanceof errors.OPError) {
