@@ -54,8 +54,7 @@ export const SakPanel = ({
                     <OppgaveIkon/>
                     <div>
                         {paminnelse ? <BodyShort size="small" className="paminnelse"> Påminnelse </BodyShort> : null}
-                        <BodyShort size="small"> Oppgave
-                            venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
+                        <BodyShort size="small"> Oppgave venter {frist == null ? "" : ` – frist ${dateFormat.format(new Date(frist))}`}</BodyShort>
                     </div>
                 </div>
             }
