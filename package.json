@@ -6,8 +6,8 @@
   "homepage": "/min-side-arbeidsgiver",
   "dependencies": {
     "@navikt/aksel-icons": "^2.8.15",
-    "@navikt/arbeidsgiver-notifikasjon-widget": "6.0.0-rc4",
-    "@navikt/bedriftsmeny": "6.8.0-rc4",
+    "@navikt/arbeidsgiver-notifikasjon-widget": "6.0.0-rc5",
+    "@navikt/bedriftsmeny": "6.8.0-rc5",
     "@navikt/ds-css": "^3.4.2",
     "@navikt/ds-icons": "^3.4.2",
     "@navikt/ds-react": "^3.4.2",
