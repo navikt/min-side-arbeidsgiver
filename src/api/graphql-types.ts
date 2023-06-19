@@ -65,6 +65,7 @@ export type Oppgave = {
   sorteringTidspunkt: Scalars['ISO8601DateTime'];
   tekst: Scalars['String'];
   tilstand?: Maybe<OppgaveTilstand>;
+  utfoertTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   utgaattTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   virksomhet: Virksomhet;
 };
