@@ -81,7 +81,7 @@ export const HovedenhetCheckbox = (
                 className="hovedenhet_container"
                 role="menuitemcheckbox"
                 aria-checked={hovedenhet.valgt}
-                aria-expanded={hovedenhet.åpen}
+                aria-expanded={hovedenhet.valgt}
             >
                 <div className="hovedenhet">
                     <Checkbox
@@ -102,26 +102,7 @@ export const HovedenhetCheckbox = (
                             <BodyShort size="small">{hovedenhet.underenheter.length} {hovedenhet.underenheter.length > 1 ? "virksomheter" : "virksomhet"}</BodyShort>
                         </div>
                     </label>
-
                 </div>
-                {
-                    visFlere ? <Button
-                            variant="tertiary"
-                            style={{width: "100%"}}
-                            onClick={() => {
-                                toggleÅpen()
-                            }}
-                            className="hovedenhet_vis-skjul-container"
-                        >
-                            <BodyShort
-                                size="small"
-                                className="hovedenhet_vis-skjul"
-                                aria-label={`${erÅpen ? "Skjul" : "Vis"} virksomheter for ${hovedenhet.Name}`}
-                            >{erÅpen ? <Collapse aria-hidden={true} style={{pointerEvents: "none"}}/> :
-                                <Expand aria-hidden={true} style={{pointerEvents: "none"}}/>} {erÅpen ? "skjul" : "vis"} virksomheter</BodyShort>
-                        </Button>
-                        : null
-                }
             </div>
             {erÅpen ? children : null}
         </>

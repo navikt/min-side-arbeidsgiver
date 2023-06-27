@@ -1,29 +1,28 @@
-import React, {useEffect, useRef, useState} from "react"
-import {BodyShort, Button, CheckboxGroup, Search} from "@navikt/ds-react";
-import {Collapse, Expand} from "@navikt/ds-icons";
-import "./Virksomhetsmeny.css"
-import {EkstraChip, VirksomhetChips} from "../VirksomhetChips";
-import {UnderenhetCheckboks} from "./UnderenhetCheckboks";
-import {HovedenhetCheckbox} from "./HovedenhetCheckbox";
+import React, { useEffect, useRef, useState } from 'react';
+import { BodyShort, Button, CheckboxGroup, Search } from '@navikt/ds-react';
+import { Collapse, Expand } from '@navikt/ds-icons';
+import './Virksomhetsmeny.css';
+import { EkstraChip, VirksomhetChips } from '../VirksomhetChips';
+import { UnderenhetCheckboks } from './UnderenhetCheckboks';
+import { HovedenhetCheckbox } from './HovedenhetCheckbox';
 import fuzzysort from 'fuzzysort';
-import {count, sum} from '../../../../../utils/util';
+import { count, sum } from '../../../../../utils/util';
 import amplitude from '../../../../../utils/amplitude';
-import {useLoggKlikk} from '../../../../../utils/funksjonerForAmplitudeLogging';
-import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
-import {useOnClickOutside} from "../../../../hooks/UseOnClickOutside";
+import { useLoggKlikk } from '../../../../../utils/funksjonerForAmplitudeLogging';
+import { useKeyboardEvent } from '../../../../hooks/useKeyboardEvent';
+import { useOnClickOutside } from '../../../../hooks/UseOnClickOutside';
+import { Set } from 'immutable'
 
-export type Props = {
+export type VirksomhetsmenyProps = {
     organisasjonstre: OrganisasjonEnhet[],
-    valgteEnheter: Organisasjon[] | "ALLEBEDRIFTER",
-    settValgteEnheter: (enheter: Organisasjon[] | "ALLEBEDRIFTER") => void,
-    juridiskEnhetEkspandert?: boolean,
+    valgteEnheter: Set<string>,
+    settValgteEnheter: (enheter: Set<string>) => void,
 }
 
 export type OrganisasjonEnhet = {
-    juridiskEnhet: Organisasjon,
-    organisasjoner: Organisasjon[]
+    hovedenhet: Organisasjon,
+    underenheter: Organisasjon[]
 }
-
 
 export type Organisasjon = {
     Name: string,
@@ -40,60 +39,19 @@ export type Organisasjon = {
  * @param organisasjonstre
  * @param valgteEnheter
  * @param settValgteEnheter
- * @param juridiskEnhetEkspandert Default 'true', vil styre om det skal sendes
- * kun organisasjoner/underenheter til valgteEnheter. Ved å velge 'false', vil juridisk enhet sendes uten at
- * tilhørende organisasjoner hentes ut eksplisitt.
  * @constructor
  */
-
-
 export const Virksomhetsmeny = ({
                                     organisasjonstre,
                                     valgteEnheter,
                                     settValgteEnheter,
-                                    juridiskEnhetEkspandert = true
-                                }: Props) => {
-    const alleVirksomheter = organisasjonstre
-        .map(({juridiskEnhet, organisasjoner}): Hovedenhet => {
-            const juridiskEnhetValgt = valgteEnheter === "ALLEBEDRIFTER" ||
-                valgteEnheter.some(v => v.OrganizationNumber === juridiskEnhet.OrganizationNumber)
-            return {
-                ...juridiskEnhet,
-                valgt: juridiskEnhetValgt ||
-                    organisasjoner.every(underenhet =>
-                        valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)
-                    ),
-                åpen: !juridiskEnhetValgt &&
-                    organisasjoner.some(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)) &&
-                    !organisasjoner.every(underenhet => valgteEnheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)),
-                søkMatch: true,
-                underenheter: organisasjoner.map((organisasjon): Underenhet => {
-                    return {
-                        ...organisasjon,
-                        valgt: juridiskEnhetValgt || valgteEnheter.some((valgtEnhet) => organisasjon.OrganizationNumber === valgtEnhet.OrganizationNumber),
-                        søkMatch: true,
-                    }
-                })
-            }
-        })
+                                }: VirksomhetsmenyProps) => {
 
-    const handlesettValgteEnheter = (valgteEnheter: Array<Underenhet | Hovedenhet>) => {
-        const hovedenheterValgt = valgteEnheter.filter(ve => "underenheter" in ve)
-        const alleHovedenheterValgt = hovedenheterValgt.length === organisasjonstre.length
-        if (alleHovedenheterValgt) {
-            settValgteEnheter("ALLEBEDRIFTER")
-            return
-        }
-        settValgteEnheter(valgteEnheter.flatMap(enhet => {
-            if ("underenheter" in enhet) {
-                return juridiskEnhetEkspandert ? enhet.underenheter : [enhet]
-            } else {
-                return [enhet]
-            }
-        }))
-    }
-
-    return <VirksomhetsmenyIntern alleVirksomheter={alleVirksomheter} setValgteVirksomheter={handlesettValgteEnheter} valgteEnheter = {valgteEnheter}/>
+    return <VirksomhetsmenyIntern
+        alleVirksomheter={organisasjonstre}
+        setValgteVirksomheter={settValgteEnheter}
+        valgteEnheter={valgteEnheter}
+    />
 }
 
 
@@ -104,33 +62,31 @@ export interface Underenhet extends Organisasjon {
 
 export interface Hovedenhet extends Organisasjon {
     valgt: boolean,
-    åpen: boolean,
     søkMatch: boolean,
     underenheter: Array<Underenhet>,
 }
 
-type VirksomhetsmenyProps = {
-    alleVirksomheter: Array<Hovedenhet>,
-    setValgteVirksomheter: (a: Array<Underenhet | Hovedenhet>) => void,
-    valgteEnheter: Organisasjon[] | "ALLEBEDRIFTER",
+type VirksomhetsmenyInternProps = {
+    organisasjonstre: OrganisasjonEnhet[],
+    valgteEnheter: Set<string>,
+    settValgteEnheter: (enheter: Set<string>) => void,
 }
 
 const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | Underenhet> =>
     virksomheter.flatMap(hovedenhet => {
         if (hovedenhet.valgt) {
-            return [hovedenhet]
+            return [hovedenhet, ... hovedenhet.underenheter.filter(underenhet => underenhet.valgt)]
         } else {
             return hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
         }
     })
 
-const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgteEnheter }: VirksomhetsmenyProps) => {
-    const [alleVirksomheterIntern, setAlleVirksomheterIntern] = useState(alleVirksomheter);
+const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter, settValgteEnheter}: VirksomhetsmenyInternProps) => {
+    const [valgteEnheterIntern, setValgteEnheterIntern] = useState(valgteEnheter);
     const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
     const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
     const loggVelgKlikk = useLoggKlikk("velg")
-    const loggVelgAlleKlikk = useLoggKlikk("velg alle")
-    const loggFjernAlleKlikk = useLoggKlikk("fjern alle")
+    const loggFjernFiltreringKlikk = useLoggKlikk("fjern filtrering")
     const loggVelgUtenforKlikk = useLoggKlikk("velg utenfor")
     const searchRef = useRef<HTMLInputElement>(null)
     const fjernAlleKnappRef = useRef<HTMLButtonElement>(null)
@@ -158,7 +114,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
         })
     };
 
-    const valgteVirksomheter = kunValgteVirksomheter(alleVirksomheter)
     const [valgtEnhet, setValgtEnhet] = useState(valgteVirksomheter[0] ?? alleVirksomheterIntern[0])
     const enhetRefs: Record<string, HTMLInputElement> = {}
     const focusEnhet = () => {
@@ -175,14 +130,14 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
     useOnClickOutside(virksomhetsmenyRef, () => {
         if (virksomhetsmenyÅpen) {
             loggVelgUtenforKlikk()
-            oppdaterValgte(alleVirksomheterIntern, 'lukk');
+            oppdaterValgte(valgteEnheterIntern, 'lukk');
         }
     });
 
     useKeyboardEvent('keydown', virksomhetsmenyRef,(event) => {
         if (event.key === 'Escape') {
             if (virksomhetsmenyÅpen) {
-                oppdaterValgte(alleVirksomheterIntern, 'lukk');
+                oppdaterValgte(valgteEnheterIntern, 'lukk');
             }
         }
     })
@@ -198,7 +153,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
         }));
 
     const oppdaterValgte = (
-        valgte: Array<Hovedenhet>,
+        valgte: Set<string>,
         commit: "lukk" | "forbliÅpen"
     ) => {
         if (commit === "lukk") {
@@ -225,10 +180,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
 
     return <div className="virksomheter">
         <div className="virksomheter_container" ref={virksomhetsmenyRef}>
-            <button
-                className="virksomheter_menyknapp"
-                aria-haspopup="true"
-                aria-controls="virksomheter_virksomhetsmeny"
+            <VirksomhetsmenyKnapp
                 onClick={() => {
                     if (virksomhetsmenyÅpen) {
                         oppdaterValgte(alleVirksomheterIntern, "lukk")
@@ -236,10 +188,8 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                         setVirksomhetsmenyÅpen(true)
                     }
                 }}
-            >
-                <BodyShort> Velg virksomheter </BodyShort>
-                {virksomhetsmenyÅpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
-            </button>
+                åpen={virksomhetsmenyÅpen}
+            />
             {virksomhetsmenyÅpen ?
                 <div id="virksomheter_virksomhetsmeny" className="virksomheter_virksomhetsmeny" role="menu">
                     <div className="virksomheter_virksomhetsmeny_sok">
@@ -322,7 +272,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                             }
                             if (e.key === 'End') {
                                 let sisteEnhet = alleVirksomheterIntern[alleVirksomheterIntern.length - 1]
-                                if (sisteEnhet.åpen && sisteEnhet.underenheter.length > 0) {
+                                if (sisteEnhet.valgt && sisteEnhet.underenheter.length > 0) {
                                     setValgtEnhet(sisteEnhet.underenheter[sisteEnhet.underenheter.length - 1])
                                 } else {
                                     setValgtEnhet(sisteEnhet)
@@ -358,27 +308,34 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                             }
 
                         }}
-                        onChange={(e) => {
+                        onChange={(checkedEnheter) => {
                             setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
-                                if (e.includes(hovedenhet.OrganizationNumber) !== hovedenhet.valgt) {
-                                    return {
-                                        ...hovedenhet,
-                                        valgt: e.includes(hovedenhet.OrganizationNumber),
-                                        underenheter: hovedenhet.underenheter.map((underenhet) =>
-                                            ({
-                                                ...underenhet,
-                                                valgt: e.includes(hovedenhet.OrganizationNumber)
-                                            })
-                                        )
+                                const hovedenhetChecked = checkedEnheter.includes(hovedenhet.OrganizationNumber)
+                                if (hovedenhetChecked !== hovedenhet.valgt) {
+                                    if (hovedenhetChecked) {
+                                        return {
+                                            ...hovedenhet,
+                                            valgt: checkedEnheter.includes(hovedenhet.OrganizationNumber),
+                                        }
+                                    } else {
+                                        return {
+                                            ...hovedenhet,
+                                            valgt: checkedEnheter.includes(hovedenhet.OrganizationNumber),
+                                            underenheter: hovedenhet.underenheter.map((underenhet) =>
+                                                ({
+                                                    ...underenhet,
+                                                    valgt: false,
+                                                })
+                                            )
+                                        }
                                     }
                                 } else {
                                     return {
                                         ...hovedenhet,
-                                        valgt: hovedenhet.underenheter.every(underenhet => e.includes(underenhet.OrganizationNumber)),
                                         underenheter: hovedenhet.underenheter.map((underenhet) =>
                                             ({
                                                 ...underenhet,
-                                                valgt: e.includes(underenhet.OrganizationNumber)
+                                                valgt: checkedEnheter.includes(underenhet.OrganizationNumber)
                                             })
                                         )
                                     }
@@ -395,14 +352,14 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                                                     enhetRefs[id] = ref
                                                 }}
                                                 hovedenhet={hovedenhet}
-                                                erÅpen={hovedenhet.åpen}
+                                                erÅpen={hovedenhet.valgt}
                                                 gåTilForrige={() => {
                                                     const forrigeIndex = Math.max(0, (alleVirksomheterIntern.indexOf(hovedenhet)) - 1)
                                                     const forrigeHovedenhet = alleVirksomheterIntern[forrigeIndex];
                                                     if (forrigeHovedenhet === hovedenhet) {
                                                         return
                                                     }
-                                                    if (forrigeHovedenhet.åpen && forrigeHovedenhet.underenheter.length > 0) {
+                                                    if (forrigeHovedenhet.valgt && forrigeHovedenhet.underenheter.length > 0) {
                                                         setValgtEnhet(forrigeHovedenhet.underenheter[forrigeHovedenhet.underenheter.length - 1])
                                                     } else {
                                                         setValgtEnhet(forrigeHovedenhet)
@@ -420,7 +377,7 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                                                     setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhetIntern => {
                                                             return {
                                                                 ...hovedenhetIntern,
-                                                                åpen: hovedenhetIntern.OrganizationNumber === hovedenhet.OrganizationNumber ? !hovedenhetIntern.åpen : hovedenhetIntern.åpen
+                                                                valgt: hovedenhetIntern.OrganizationNumber === hovedenhet.OrganizationNumber ? !hovedenhetIntern.valgt : hovedenhetIntern.valgt
                                                             }
                                                         }
                                                     ))
@@ -483,13 +440,6 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                         > Velg
                         </Button>
                         <Button
-                            onClick={() => {
-                                loggVelgAlleKlikk()
-                                oppdaterValgte(settAlleTil(true), "lukk")
-                            }}
-                            variant="secondary"
-                        > Velg alle </Button>
-                        <Button
                             variant="tertiary"
                             ref={fjernAlleKnappRef}
                             onKeyDown={(event) => {
@@ -501,11 +451,11 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
                                 }
                             }}
                             onClick={() => {
-                                loggFjernAlleKlikk()
-                                oppdaterValgte(settAlleTil(false), "forbliÅpen")
+                                loggFjernFiltreringKlikk()
+                                oppdaterValgte(Set(), "forbliÅpen")
                             }}
                         >
-                            Fjern alle
+                            Fjern filtrering
                         </Button>
                     </div>
 
@@ -554,3 +504,17 @@ const VirksomhetsmenyIntern = ({ alleVirksomheter, setValgteVirksomheter, valgte
     </div>;
 }
 
+type VirksomhetsmenyKnappProps = {
+    onClick: () => void;
+    åpen: boolean;
+}
+const VirksomhetsmenyKnapp = ({onClick, åpen}: VirksomhetsmenyKnappProps) =>
+    <button
+        className="virksomheter_menyknapp"
+        aria-haspopup="true"
+        aria-controls="virksomheter_virksomhetsmeny"
+        onClick={onClick}
+    >
+        <BodyShort> Velg virksomheter </BodyShort>
+        {åpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
+    </button>

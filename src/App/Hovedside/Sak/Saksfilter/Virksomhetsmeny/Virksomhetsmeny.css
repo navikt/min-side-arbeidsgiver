@@ -107,19 +107,11 @@
     align-items: center;
 }
 
-.virksomheter_virksomhetsmeny_sok_checkbox_underenheter_tekst {
-
-}
-
 .virksomheter_virksomhetsmeny_footer {
     display: flex;
-    justify-content: space-between;
-    padding: 1rem;
+    padding: 16px;
+    gap: 16px;
     border-top: solid 2px var(--a-border-divider);
-}
-
-.virksomheter_virksomhetsmeny_footer > *  {
-    flex: 0 0 29%;
 }
 
 .virksomheter_menyknapp:hover {
