@@ -1,20 +1,23 @@
 import {BodyShort, Checkbox, Label} from "@navikt/ds-react";
 import React, {useRef} from "react";
-import { Underenhet} from "./Virksomhetsmeny";
+import { Organisasjon } from './Virksomhetsmeny';
 import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
 import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
+import {Set} from 'immutable';
 
 
 type UnderenhetCheckboksProps = {
     setEnhetRef: (id: string, ref: HTMLInputElement) => void;
-    underenhet: Underenhet;
+    valgteOrgnr: Set<string>;
+    underenhet: Organisasjon;
     gåTilForrige: () => void;
     gåTilNeste: () => void;
     gåTilHovedenhet: () => void;
+    tabbable: boolean;
 };
 
 export const UnderenhetCheckboks = (
-    {setEnhetRef, underenhet, gåTilForrige, gåTilNeste, gåTilHovedenhet}: UnderenhetCheckboksProps
+    {setEnhetRef, underenhet, valgteOrgnr, gåTilForrige, gåTilNeste, gåTilHovedenhet, tabbable}: UnderenhetCheckboksProps
 ) => {
     const containerRef = useRef<HTMLDivElement>(null)
     useKeyboardEvent('keydown', containerRef, (event) => {
@@ -42,12 +45,13 @@ export const UnderenhetCheckboks = (
     return <div ref={containerRef}
                 className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
                 role="menuitemcheckbox"
-                aria-checked={underenhet.valgt}>
+                aria-checked={valgteOrgnr.has(underenhet.OrganizationNumber)}>
         <Checkbox
             ref={input => input !== null && setEnhetRef(underenhet.OrganizationNumber, input)}
             value={underenhet.OrganizationNumber}
             id={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
+            tabIndex={tabbable ? 0 : -1}
         >
 
         </Checkbox>

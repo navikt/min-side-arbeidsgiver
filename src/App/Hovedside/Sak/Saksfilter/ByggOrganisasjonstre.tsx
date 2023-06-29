@@ -28,12 +28,12 @@ export async function byggOrganisasjonstre(
 
     const resultat = hovedenheter
         .map(hovedenhet => ({
-                juridiskEnhet: hovedenhet,
-                organisasjoner: underenheter.filter(underenhet =>
+                hovedenhet: hovedenhet,
+                underenheter: underenheter.filter(underenhet =>
                     underenhet.ParentOrganizationNumber === hovedenhet.OrganizationNumber
                 )
             })
         )
-        .filter(orgtre => orgtre.organisasjoner.length > 0);
-    return sorted(resultat, a => a.juridiskEnhet.Name);
+        .filter(orgtre => orgtre.underenheter.length > 0);
+    return sorted(resultat, a => a.hovedenhet.Name);
 }

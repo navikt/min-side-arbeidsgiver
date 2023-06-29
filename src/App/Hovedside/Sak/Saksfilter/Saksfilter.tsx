@@ -14,13 +14,14 @@ import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
 import { sorted } from '../../../../utils/util';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import { Set } from 'immutable'
 
 
 type SaksfilterProps = {
     filter: Filter;
     setFilter: (filter: Filter) => void;
-    valgteVirksomheter: Organisasjon[] | 'ALLEBEDRIFTER';
-    setValgteVirksomheter: (valgteVirksomheter: Organisasjon[] | 'ALLEBEDRIFTER') => void;
+    valgteVirksomheter: Set<string>;
+    setValgteVirksomheter: (valgteVirksomheter: Set<string>) => void;
     sakstypeinfo: Sakstype[] | undefined;
     alleSakstyper: SakstypeOverordnet[];
     oppgaveTilstandInfo: OppgaveTilstandInfo[] | undefined;
@@ -103,13 +104,14 @@ export const Saksfilter = ({
                 <Accordion.Item open={visVirksomhetsmeny}>
                     <Accordion.Header onClick={() => handleVisVirksomhetsmeny(!visVirksomhetsmeny)}>
                         Virksomheter
-                            ({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})
+                            {/*({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})*/}
+                            ({valgteVirksomheter.size})
                     </Accordion.Header>
                     <Accordion.Content className='virksomheter_accordation'>
                         <Virksomhetsmeny
                             organisasjonstre={organisasjonstre}
                             valgteEnheter={valgteVirksomheter}
-                            settValgteEnheter={setValgteVirksomheter}
+                            setValgteEnheter={setValgteVirksomheter}
                         />
                     </Accordion.Content>
                 </Accordion.Item>

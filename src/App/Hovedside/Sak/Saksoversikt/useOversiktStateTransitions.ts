@@ -12,12 +12,12 @@ import {
     SakSortering,
     Sakstype,
 } from '../../../../api/graphql-types';
-
+import Immutable, { Set } from 'immutable';
 
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomheter: Organisasjon[] | 'ALLEBEDRIFTER',
+    virksomheter: Set<string>,
     sortering: SakSortering,
     sakstyper: string[],
     oppgaveTilstand: OppgaveTilstand[],
@@ -192,20 +192,6 @@ const finnForrigeSaker = (state: State): Array<Sak> | null => {
     }
 };
 
-
-function equalVirksomhetsnumre(a: Filter, b: Filter) {
-    const virksomheterA = a.virksomheter;
-    const virksomheterB = b.virksomheter;
-    if (virksomheterA === 'ALLEBEDRIFTER' && virksomheterB === 'ALLEBEDRIFTER') {
-        return true;
-    } else if (Array.isArray(virksomheterA) && Array.isArray(virksomheterB)) {
-        return virksomheterA.length === virksomheterB.length &&
-            virksomheterA.every(aVirksomhet => virksomheterB.some(bVirksomhet => aVirksomhet.OrganizationNumber === bVirksomhet.OrganizationNumber));
-    } else {
-        return false;
-    }
-}
-
 export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every(aa => b.includes(aa));
 }
@@ -213,7 +199,7 @@ export function equalAsSets(a: string[], b: string[]) {
 export const equalFilter = (a: Filter, b: Filter): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
-    equalVirksomhetsnumre(a, b) &&
+    Immutable.is(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand);

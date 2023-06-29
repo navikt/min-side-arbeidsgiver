@@ -6,6 +6,7 @@ import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 import { Organisasjon } from '../altinn/organisasjon';
 import { useSaker } from './Hovedside/Sak/useSaker';
 import { SakSortering } from '../api/graphql-types';
+import { Set } from 'immutable';
 
 interface Props {
     children: React.ReactNode;
@@ -30,7 +31,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
     const { data, loading } = useSaker(0, {
         side: 1,
-        virksomheter: "ALLEBEDRIFTER",
+        virksomheter: Set(),
         tekstsoek: '',
         sortering: SakSortering.Opprettet,
         sakstyper: [],

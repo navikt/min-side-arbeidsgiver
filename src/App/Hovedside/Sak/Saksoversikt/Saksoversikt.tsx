@@ -13,6 +13,7 @@ import * as Record from '../../../../utils/Record';
 import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
+import { Set } from 'immutable'
 
 export const SIDE_SIZE = 30;
 
@@ -41,8 +42,8 @@ export const Saksoversikt = () => {
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
     const {state, byttFilter} = useOversiktStateTransitions(orgs)
 
-    const handleValgteVirksomheter = (valgte: Organisasjon[] | "ALLEBEDRIFTER") => {
-        byttFilter({...state.filter, virksomheter: (valgte === "ALLEBEDRIFTER" || valgte.length === orgs.length ? "ALLEBEDRIFTER" : valgte)})
+    const handleValgteVirksomheter = (valgte: Set<string>) => {
+        byttFilter({...state.filter, virksomheter: valgte})
     }
 
     const alleSakstyper = useAlleSakstyper()
@@ -59,7 +60,7 @@ export const Saksoversikt = () => {
             setValgteVirksomheter={handleValgteVirksomheter}
         />
         <div className='saksoversikt'>
-            {(state.filter.virksomheter.length === 0)
+            {(state.filter.virksomheter.size === 0)
                 ? <div className='saksoversikt-empty'>
                     <Heading level="2" size="large">
                         Velg virksomhet for å se saker

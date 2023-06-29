@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { forwardRef, KeyboardEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import { BodyShort, Button, CheckboxGroup, Search } from '@navikt/ds-react';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import './Virksomhetsmeny.css';
-import { EkstraChip, VirksomhetChips } from '../VirksomhetChips';
 import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
 import fuzzysort from 'fuzzysort';
@@ -11,12 +10,14 @@ import amplitude from '../../../../../utils/amplitude';
 import { useLoggKlikk } from '../../../../../utils/funksjonerForAmplitudeLogging';
 import { useKeyboardEvent } from '../../../../hooks/useKeyboardEvent';
 import { useOnClickOutside } from '../../../../hooks/UseOnClickOutside';
-import { Set } from 'immutable'
+import { Map, Set } from 'immutable';
+import FocusTrap from 'focus-trap-react';
+import { EkstraChip, VirksomhetChips } from '../VirksomhetChips';
 
 export type VirksomhetsmenyProps = {
     organisasjonstre: OrganisasjonEnhet[],
     valgteEnheter: Set<string>,
-    settValgteEnheter: (enheter: Set<string>) => void,
+    setValgteEnheter: (enheter: Set<string>) => void,
 }
 
 export type OrganisasjonEnhet = {
@@ -33,24 +34,31 @@ export type Organisasjon = {
     ParentOrganizationNumber: string | null,
 }
 
-
 /**
  *
  * @param organisasjonstre
  * @param valgteEnheter
- * @param settValgteEnheter
+ * @param setValgteEnheter
  * @constructor
  */
-export const Virksomhetsmeny = ({
-                                    organisasjonstre,
-                                    valgteEnheter,
-                                    settValgteEnheter,
-                                }: VirksomhetsmenyProps) => {
+export const Virksomhetsmeny = (
+    {
+        organisasjonstre,
+        valgteEnheter,
+        setValgteEnheter,
+    }: VirksomhetsmenyProps
+) => {
+    // Den interne virksomhetsmenyen holder styr på hva som er 'checked'. Det
+    // er noe annet enn hva som er *valgt*, for hvis man har huket av for en
+    // hovedenhet, men ikke huket av for en underenhet, så skal man se *alle*
+    // underenhetene. Men hvis man har huket av for hovedenheten *og* noen
+    // underenheter, så skal kun de avhukede underenhetene vises.
+
 
     return <VirksomhetsmenyIntern
-        alleVirksomheter={organisasjonstre}
-        setValgteVirksomheter={settValgteEnheter}
+        organisasjonstre={organisasjonstre}
         valgteEnheter={valgteEnheter}
+        setValgteEnheter={setValgteEnheter}
     />
 }
 
@@ -69,58 +77,109 @@ export interface Hovedenhet extends Organisasjon {
 type VirksomhetsmenyInternProps = {
     organisasjonstre: OrganisasjonEnhet[],
     valgteEnheter: Set<string>,
-    settValgteEnheter: (enheter: Set<string>) => void,
+    setValgteEnheter: (enheter: Set<string>) => void,
 }
 
-const kunValgteVirksomheter = (virksomheter: Hovedenhet[]): Array<Hovedenhet | Underenhet> =>
-    virksomheter.flatMap(hovedenhet => {
-        if (hovedenhet.valgt) {
-            return [hovedenhet, ... hovedenhet.underenheter.filter(underenhet => underenhet.valgt)]
-        } else {
-            return hovedenhet.underenheter.filter(underenhet => underenhet.valgt)
-        }
-    })
+const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, setValgteEnheter}: VirksomhetsmenyInternProps) => {
+    const alleOrganisasjoner = useMemo(
+        () => organisasjonstre.flatMap(({hovedenhet, underenheter}) =>
+            // Put elements in same order as their visual order, so it can be used for array navigation
+            [hovedenhet, ... underenheter]),
+        [organisasjonstre]
+    )
+    const childrenMap = useMemo(
+        () => Map(
+            organisasjonstre.map(({hovedenhet, underenheter}): [string, Set<string>] =>
+                [hovedenhet.OrganizationNumber, Set(underenheter.map(it => it.OrganizationNumber))]
+            )
+        ),
+        [organisasjonstre]
+    )
+    const parentMap = useMemo(
+        () => Map(
+            organisasjonstre.flatMap(({hovedenhet, underenheter}): [string, string][] =>
+                underenheter.map(it => [it.OrganizationNumber, hovedenhet.OrganizationNumber])
+            )
+        ),
+        [organisasjonstre]
+    )
 
-const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter, settValgteEnheter}: VirksomhetsmenyInternProps) => {
-    const [valgteEnheterIntern, setValgteEnheterIntern] = useState(valgteEnheter);
+    const pills = useMemo(() => {
+            const pills = []
+            for (let {hovedenhet, underenheter} of organisasjonstre) {
+                if (valgteOrgnr.has(hovedenhet.OrganizationNumber)) {
+                    const antallUnderValgt = count(underenheter, it => valgteOrgnr.has(it.OrganizationNumber))
+                    if (antallUnderValgt === 0) {
+                        pills.push(hovedenhet)
+                    } else {
+                        pills.push(... underenheter.filter(it => valgteOrgnr.has(it.OrganizationNumber)))
+                    }
+                }
+            }
+            return pills
+        },
+        [organisasjonstre, valgteOrgnr]
+    )
+
+    // TODO: We must normalize the external `valgteOrgnr`, as they might not
+    // follow our assumptions that underenhet are checked only if hovedenhet is.
+    const [valgteOrgnrIntern, setValgteOrgnrIntern] = useState(valgteOrgnr);
+    const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
     const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
-    const virksomhetsmenyRef = useRef<HTMLDivElement>(null);
     const loggVelgKlikk = useLoggKlikk("velg")
     const loggFjernFiltreringKlikk = useLoggKlikk("fjern filtrering")
     const loggVelgUtenforKlikk = useLoggKlikk("velg utenfor")
-    const searchRef = useRef<HTMLInputElement>(null)
-    const fjernAlleKnappRef = useRef<HTMLButtonElement>(null)
-    const velgKnappRef = useRef<HTMLButtonElement>(null)
-    const focusSearch = () => {
-        searchRef.current?.focus()
-    }
-    const focusFjernAlleKnapp = () => {
-        fjernAlleKnappRef.current?.focus()
-    }
-    const focusVelgKnapp = () => {
-        velgKnappRef.current?.focus()
-    }
-    const amplitudeValgteVirksomheter = (valgte: Array<Hovedenhet>) => {
+
+    const virksomhetsmenyRef = useRef<HTMLInputElement>(null);
+
+    const amplitudeValgteVirksomheter = (valgte: Set<string>) => {
         amplitude.logEvent("velg-virksomheter", {
-            antallHovedenheterValgt: count(valgte, hovedenhet => hovedenhet.valgt),
-            antallHovedenheterTotalt: alleVirksomheter.length,
-            antallUnderenheterValgt: sum(valgte, hovedenhet =>
-                count(hovedenhet.underenheter, underenhet => underenhet.valgt)
-            ),
-            antallUnderenheterEksplisittValgt: sum(valgte, hovedenhet =>
-                hovedenhet.valgt ? 0 : count(hovedenhet.underenheter, underenhet => underenhet.valgt)
-            ),
-            antallUnderenheterTotalt: sum(valgte, hovedenhet => hovedenhet.underenheter.length),
+            antallHovedenheterValgt: valgte.count(orgnr => childrenMap.has(orgnr)),
+            antallHovedenheterTotalt: alleOrganisasjoner.length,
+            antallUnderenheterValgt: valgte.count(orgnr => parentMap.has(orgnr)),
+            antallUnderenheterTotalt: sum(organisasjonstre, hovedenhet => hovedenhet.underenheter.length),
         })
     };
 
-    const [valgtEnhet, setValgtEnhet] = useState(valgteVirksomheter[0] ?? alleVirksomheterIntern[0])
-    const enhetRefs: Record<string, HTMLInputElement> = {}
-    const focusEnhet = () => {
-        let organizationNumber = valgtEnhet?.OrganizationNumber;
-        enhetRefs[organizationNumber]?.focus()
-        enhetRefs[organizationNumber]?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"})
+    /* is org visible for user on screen? */
+    const isVisible = (orgnr: string) => {
+        if (søketreff !== undefined && !søketreff.has(orgnr)) {
+            return false
+        }
+        if (valgteOrgnr.has(orgnr)) {
+            return true
+        }
+
+        const parentOrgnr = parentMap.get(orgnr)
+        if (parentOrgnr !== undefined) {
+            return valgteOrgnr.has(parentOrgnr)
+        }
+        return false
     }
+
+    /* TODO: array assumed non-empty below */
+    /* TODO: assumes search is not active */
+    const førsteEnhet = alleOrganisasjoner
+        .find(it => isVisible(it.OrganizationNumber))
+        ?.OrganizationNumber
+    const sisteEnhet = alleOrganisasjoner
+        // @ts-ignore
+        .findLast(it => isVisible(it.OrganizationNumber))
+        ?.OrganizationNumber
+    const [valgtEnhet, setValgtEnhet] = useState<string | undefined>(førsteEnhet)
+    const enhetRefs: Record<string, HTMLInputElement> = {}
+
+    const setEnhetRef = (id: string, ref: HTMLInputElement) => {
+        enhetRefs[id] = ref
+    }
+
+    const focusEnhet = () => {
+        if (valgtEnhet != null) {
+            enhetRefs[valgtEnhet]?.focus()
+            enhetRefs[valgtEnhet]?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"})
+        }
+    }
+
     useEffect(() => {
         if (virksomhetsmenyÅpen) {
             focusEnhet()
@@ -130,384 +189,308 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter, settValgteEnhe
     useOnClickOutside(virksomhetsmenyRef, () => {
         if (virksomhetsmenyÅpen) {
             loggVelgUtenforKlikk()
-            oppdaterValgte(valgteEnheterIntern, 'lukk');
+            lukkMedValg(valgteOrgnrIntern);
         }
     });
 
     useKeyboardEvent('keydown', virksomhetsmenyRef,(event) => {
         if (event.key === 'Escape') {
             if (virksomhetsmenyÅpen) {
-                oppdaterValgte(valgteEnheterIntern, 'lukk');
+                lukkMedValg(valgteOrgnrIntern);
             }
         }
     })
 
-    const settAlleTil = (valgt: boolean): Array<Hovedenhet> =>
-        alleVirksomheterIntern.map(hovedenhet => ({
-            ...hovedenhet,
-            valgt: valgt,
-            underenheter: hovedenhet.underenheter.map(underenhet => ({
-                ...underenhet,
-                valgt: valgt
-            }))
-        }));
+    const lukkMedValg = (valgte: Set<string>) => {
+        setValgtEnhet(førsteEnhet)
+        setValgteEnheter(valgte)
+        setSøketreff(undefined)
+        setValgteOrgnrIntern(valgte)
+        setVirksomhetsmenyÅpen(false)
+        amplitudeValgteVirksomheter(valgte)
+    }
 
-    const oppdaterValgte = (
-        valgte: Set<string>,
-        commit: "lukk" | "forbliÅpen"
-    ) => {
-        if (commit === "lukk") {
-            const virksomheter = kunValgteVirksomheter(valgte)
-            setValgtEnhet(virksomheter[0])
-            setValgteVirksomheter(virksomheter)
-            setVirksomhetsmenyÅpen(false)
-            setAlleVirksomheterIntern(valgte.map(hovedenhet => ({
-                ...hovedenhet,
-                åpen: hovedenhet.underenheter.some(underenhet =>
-                    virksomheter.some(v => v.OrganizationNumber === underenhet.OrganizationNumber)
-                ),
-                søkMatch: true,
-                underenheter: hovedenhet.underenheter.map(underenhet => ({
-                    ...underenhet,
-                    søkMatch: true,
-                }))
-            })))
-            amplitudeValgteVirksomheter(valgte)
-        } else if (commit === "forbliÅpen") {
-            setAlleVirksomheterIntern(valgte)
+    const onVirksomhetsmenyKnappClick = () => {
+        if (virksomhetsmenyÅpen) {
+            lukkMedValg(valgteOrgnrIntern)
+        } else {
+            setValgteOrgnrIntern(valgteOrgnr)
+            setVirksomhetsmenyÅpen(true)
         }
+    }
+
+
+    const utledNyeValgte = (nyeValgte: Set<string>): Set<string> => {
+        // NOTE:
+        // Hvis man un-checker en hovedenhet, så forsvinner check-box-ene
+        // til underenhetene i GUI-et. Men de blir fjernet som en konsekvens av
+        // at effekten til denne handleren, så i dette kallet vil underenhetene fortsatt
+        // være i `checkedElement`. Det er først i senere kall at de vil ha forsvunnet
+        // fra listen.
+        const fjernedeHovedenheter = valgteOrgnrIntern.subtract(nyeValgte)
+            .filter(it => parentMap.get(it) === undefined)
+
+        const implisittFjernedUnderenehter: Set<string> = fjernedeHovedenheter.flatMap(it =>
+            childrenMap.get(it) ?? Set<string>()
+        )
+
+        // NOTE:
+        // På grunn av søk, så er det mulig å klikke på underenheter
+        // uten at hovedenhet er huket av.
+        const lagtTil = nyeValgte.subtract(valgteOrgnrIntern)
+        const implisittValgteHovedenheter: Set<string> =
+            lagtTil.flatMap(it => {
+                const parent = parentMap.get(it)
+                if (parent === undefined) {
+                    return []
+                }
+                return [parent]
+            })
+
+        return nyeValgte
+            .subtract(implisittFjernedUnderenehter)
+            .union(implisittValgteHovedenheter)
+    }
+
+    const onSearchChange = (søkeord: string) => {
+        if (søkeord.trim().length === 0) {
+            setSøketreff(undefined)
+        } else {
+            // noinspection JSVoidFunctionReturnValueUsed,TypeScriptValidateTypes
+            const fuzzyResultsNavn = fuzzysort.go(søkeord, alleOrganisasjoner, {keys: ['Name', "OrganizationNumber"]});
+            const matches = Set(fuzzyResultsNavn.map(({ obj }) => obj.OrganizationNumber))
+            const parents = matches.flatMap(it => {
+                const parent = parentMap.get(it)
+                if (parent === undefined) {
+                    return []
+                } else {
+                    return [parent]
+                }
+            })
+            setSøketreff(matches.union(parents));
+        }
+    }
+
+    const onCheckboxGroupKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'Home') {
+            setValgtEnhet(førsteEnhet)
+            event.preventDefault()
+        }
+        if (event.key === 'End') {
+            setValgtEnhet(sisteEnhet)
+            event.preventDefault()
+        }
+        if (event.key === 'Enter') {
+            // TODO:  oppdaterValgte(alleVirksomheterIntern.map(hovedenhet => {
+            // TODO:      if (hovedenhet.OrganizationNumber === valgtEnhet.OrganizationNumber) {
+            // TODO:          return {
+            // TODO:              ...hovedenhet,
+            // TODO:              valgt: !valgtEnhet.valgt,
+            // TODO:              underenheter: hovedenhet.underenheter.map(underenhet => ({
+            // TODO:                  ...underenhet,
+            // TODO:                  valgt: !valgtEnhet.valgt
+            // TODO:              }))
+            // TODO:          }
+            // TODO:      } else {
+            // TODO:          const underenheter = hovedenhet.underenheter.map(underenhet =>
+            // TODO:              underenhet.OrganizationNumber === valgtEnhet.OrganizationNumber ?
+            // TODO:                  {...underenhet, valgt: !valgtEnhet.valgt} :
+            // TODO:                  underenhet
+            // TODO:          );
+            // TODO:          return {
+            // TODO:              ...hovedenhet,
+            // TODO:              valgt: underenheter.every(underenhet => underenhet.valgt),
+            // TODO:              underenheter,
+            // TODO:          }
+            // TODO:      }
+            // TODO:
+            // TODO:  }), "lukk")
+            event.preventDefault()
+        }
+    }
+    const onCheckboxGroupChange = (checkedEnheter: string[]) => {
+        setValgteOrgnrIntern(utledNyeValgte(Set<string>(checkedEnheter)))
+    }
+
+    const onVelgButtonClick = () => {
+        loggVelgKlikk()
+        lukkMedValg(valgteOrgnrIntern)
+    }
+
+    const onFjernButtonClick = () => {
+        loggFjernFiltreringKlikk()
+        setValgteOrgnrIntern(Set())
+    }
+
+    const onHovedenhetGåTilForrige = () => {
+        // TODO const forrigeIndex = Math.max(0, (alleVirksomheterIntern.indexOf(hovedenhet)) - 1)
+        // TODO const forrigeHovedenhet = alleVirksomheterIntern[forrigeIndex];
+        // TODO if (forrigeHovedenhet === hovedenhet) {
+        // TODO     return
+        // TODO }
+        // TODO if (forrigeHovedenhet.valgt && forrigeHovedenhet.underenheter.length > 0) {
+        // TODO     setValgtEnhet(forrigeHovedenhet.underenheter[forrigeHovedenhet.underenheter.length - 1])
+        // TODO } else {
+        // TODO     setValgtEnhet(forrigeHovedenhet)
+        // TODO }
+    }
+
+    const onHovedenhetGåTilUnderenhet = () => {
+        // TODO setValgtEnhet(hovedenhet.underenheter[0])
+    }
+
+    const onHovedenhetGåTilNeste = () => {
+        // TODO const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
+        // TODO const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
+        // TODO setValgtEnhet(nesteHovedenhet)
+    }
+
+    const onUnderenhetGåTilHovedenhet = (hovedenhet: Organisasjon) => {
+        setValgtEnhet(hovedenhet.OrganizationNumber);
+    }
+
+    const onUnderenhetGåTilForrige = (hovedenhet: Organisasjon, underenheter: Organisasjon[], idx: number) => {
+        if (idx === 0) {
+            setValgtEnhet(hovedenhet.OrganizationNumber);
+        } else {
+            setValgtEnhet(underenheter[idx - 1].OrganizationNumber);
+        }
+    }
+    const onUnderenhetGåTilNeste = () => {
+        // TODO: if (idx < underenheter.length - 1) {
+        // TODO:     setValgtEnhet(underenheter[idx + 1]);
+        // TODO: } else {
+        // TODO:     const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1);
+        // TODO:     const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
+        // TODO:     if (nesteHovedenhet === hovedenhet) {
+        // TODO:         return;
+        // TODO:     }
+        // TODO:     setValgtEnhet(nesteHovedenhet);
+        // TODO: }
     }
 
     return <div className="virksomheter">
         <div className="virksomheter_container" ref={virksomhetsmenyRef}>
-            <VirksomhetsmenyKnapp
-                onClick={() => {
-                    if (virksomhetsmenyÅpen) {
-                        oppdaterValgte(alleVirksomheterIntern, "lukk")
-                    } else {
-                        setVirksomhetsmenyÅpen(true)
-                    }
-                }}
-                åpen={virksomhetsmenyÅpen}
-            />
-            {virksomhetsmenyÅpen ?
-                <div id="virksomheter_virksomhetsmeny" className="virksomheter_virksomhetsmeny" role="menu">
-                    <div className="virksomheter_virksomhetsmeny_sok">
-                        <Search
-                            ref={searchRef}
-                            label="Søk etter virksomhet"
-                            variant="simple"
-                            onKeyDown={(event) => {
-                                if (event.key === 'Tab') {
-                                    if (event.shiftKey) {
-                                        focusFjernAlleKnapp()
-                                    } else {
-                                        focusEnhet()
-                                    }
-                                    event.preventDefault()
-                                }
-                            }}
-                            onChange={(søkeord) => {
-                                if (søkeord.length === 0) {
-                                    setAlleVirksomheterIntern(
-                                        alleVirksomheterIntern.map(hovedenhet => {
-                                                return ({
-                                                    ...hovedenhet,
-                                                    søkMatch: true,
-                                                    åpen: hovedenhet.valgt || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
-                                                    underenheter: hovedenhet.underenheter.map(underenhet => {
-                                                        return {
-                                                            ...underenhet,
-                                                            søkMatch: true
-                                                        }
-                                                    })
-                                                });
-                                            }
-                                        )
-                                    )
-                                } else {
-                                    const flatArrayAlleEnheter = alleVirksomheterIntern.flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter]);
-                                    const fuzzyResultsNavn = fuzzysort.go(søkeord, flatArrayAlleEnheter, {keys: ['Name', "OrganizationNumber"]});
-                                    const fuzzyResultsUnique = new Set(fuzzyResultsNavn.map(({obj}) => obj));
-                                    const søksreslutater = alleVirksomheterIntern.map(hovedenhet => {
-                                        const isOrHasMatch = fuzzyResultsUnique.has(hovedenhet) || hovedenhet.underenheter.some(underenhet => fuzzyResultsUnique.has(underenhet));
-                                        return {
-                                            ...hovedenhet,
-                                            søkMatch: isOrHasMatch,
-                                            åpen: isOrHasMatch || hovedenhet.underenheter.some(underenhet => underenhet.valgt),
-                                            underenheter: hovedenhet.underenheter.map(underenhet => {
-                                                return {
-                                                    ...underenhet,
-                                                    søkMatch: fuzzyResultsUnique.has(underenhet)
-                                                }
-                                            })
-                                        }
-                                    })
-                                    setAlleVirksomheterIntern(søksreslutater);
-                                }
-                            }}/>
-                    </div>
-                    <CheckboxGroup
-                        className="virksomheter_virksomhetsmeny_sok_checkbox"
-                        legend="Velg virksomheter"
-                        hideLegend
-                        value={
-                            alleVirksomheterIntern
-                                .flatMap(hovedenhet => [hovedenhet, ...hovedenhet.underenheter])
-                                .filter(enhet => enhet.valgt)
-                                .map(enhet => enhet.OrganizationNumber)
-                        }
-                        onKeyDown={(e) => {
-                            if (e.key === 'Tab') {
-                                if (e.shiftKey) {
-                                    focusSearch()
-                                } else {
-                                    focusVelgKnapp()
-                                }
-                                e.preventDefault()
-                            }
-                            if (e.key === 'Home') {
-                                setValgtEnhet(alleVirksomheterIntern[0])
-                                e.preventDefault()
-                            }
-                            if (e.key === 'End') {
-                                let sisteEnhet = alleVirksomheterIntern[alleVirksomheterIntern.length - 1]
-                                if (sisteEnhet.valgt && sisteEnhet.underenheter.length > 0) {
-                                    setValgtEnhet(sisteEnhet.underenheter[sisteEnhet.underenheter.length - 1])
-                                } else {
-                                    setValgtEnhet(sisteEnhet)
-                                }
-                                e.preventDefault()
-                            }
-                            if (e.key === 'Enter') {
-                                oppdaterValgte(alleVirksomheterIntern.map(hovedenhet => {
-                                    if (hovedenhet.OrganizationNumber === valgtEnhet.OrganizationNumber) {
-                                        return {
-                                            ...hovedenhet,
-                                            valgt: !valgtEnhet.valgt,
-                                            underenheter: hovedenhet.underenheter.map(underenhet => ({
-                                                ...underenhet,
-                                                valgt: !valgtEnhet.valgt
-                                            }))
-                                        }
-                                    } else {
-                                        const underenheter = hovedenhet.underenheter.map(underenhet =>
-                                            underenhet.OrganizationNumber === valgtEnhet.OrganizationNumber ?
-                                                {...underenhet, valgt: !valgtEnhet.valgt} :
-                                                underenhet
-                                        );
-                                        return {
-                                            ...hovedenhet,
-                                            valgt: underenheter.every(underenhet => underenhet.valgt),
-                                            underenheter,
-                                        }
-                                    }
-
-                                }), "lukk")
-                                e.preventDefault()
-                            }
-
-                        }}
-                        onChange={(checkedEnheter) => {
-                            setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhet => {
-                                const hovedenhetChecked = checkedEnheter.includes(hovedenhet.OrganizationNumber)
-                                if (hovedenhetChecked !== hovedenhet.valgt) {
-                                    if (hovedenhetChecked) {
-                                        return {
-                                            ...hovedenhet,
-                                            valgt: checkedEnheter.includes(hovedenhet.OrganizationNumber),
-                                        }
-                                    } else {
-                                        return {
-                                            ...hovedenhet,
-                                            valgt: checkedEnheter.includes(hovedenhet.OrganizationNumber),
-                                            underenheter: hovedenhet.underenheter.map((underenhet) =>
-                                                ({
-                                                    ...underenhet,
-                                                    valgt: false,
-                                                })
-                                            )
-                                        }
-                                    }
-                                } else {
-                                    return {
-                                        ...hovedenhet,
-                                        underenheter: hovedenhet.underenheter.map((underenhet) =>
-                                            ({
-                                                ...underenhet,
-                                                valgt: checkedEnheter.includes(underenhet.OrganizationNumber)
-                                            })
-                                        )
-                                    }
-                                }
-                            }))
-                        }}
+            <VirksomhetsmenyKnapp onClick={onVirksomhetsmenyKnappClick} åpen={virksomhetsmenyÅpen} />
+            <Conditionally when={virksomhetsmenyÅpen}>
+                <FocusTrap focusTrapOptions={{clickOutsideDeactivates: true}}>
+                    <div
+                        id="virksomheter_virksomhetsmeny"
+                        className="virksomheter_virksomhetsmeny"
+                        role="menu"
                     >
-                        {
-                            alleVirksomheterIntern.map((hovedenhet) => {
-                                    return hovedenhet.søkMatch ?
-                                        <div key={hovedenhet.OrganizationNumber}>
-                                            <HovedenhetCheckbox
-                                                setEnhetRef={(id, ref) => {
-                                                    enhetRefs[id] = ref
-                                                }}
-                                                hovedenhet={hovedenhet}
-                                                erÅpen={hovedenhet.valgt}
-                                                gåTilForrige={() => {
-                                                    const forrigeIndex = Math.max(0, (alleVirksomheterIntern.indexOf(hovedenhet)) - 1)
-                                                    const forrigeHovedenhet = alleVirksomheterIntern[forrigeIndex];
-                                                    if (forrigeHovedenhet === hovedenhet) {
-                                                        return
-                                                    }
-                                                    if (forrigeHovedenhet.valgt && forrigeHovedenhet.underenheter.length > 0) {
-                                                        setValgtEnhet(forrigeHovedenhet.underenheter[forrigeHovedenhet.underenheter.length - 1])
-                                                    } else {
-                                                        setValgtEnhet(forrigeHovedenhet)
-                                                    }
-                                                }}
-                                                gåTilNeste={() => {
-                                                    const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
-                                                    const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
-                                                    setValgtEnhet(nesteHovedenhet)
-                                                }}
-                                                gåTilUnderenhet={() => {
-                                                    setValgtEnhet(hovedenhet.underenheter[0])
-                                                }}
-                                                toggleÅpen={() => {
-                                                    setAlleVirksomheterIntern(alleVirksomheterIntern.map(hovedenhetIntern => {
-                                                            return {
-                                                                ...hovedenhetIntern,
-                                                                valgt: hovedenhetIntern.OrganizationNumber === hovedenhet.OrganizationNumber ? !hovedenhetIntern.valgt : hovedenhetIntern.valgt
-                                                            }
-                                                        }
-                                                    ))
-                                                }}
-                                            >
-                                                {
-                                                    hovedenhet.underenheter.map((underenhet, idx) =>
-                                                        underenhet.søkMatch ?
-                                                            <UnderenhetCheckboks
-                                                                setEnhetRef={(id, ref) => {
-                                                                    enhetRefs[id] = ref
-                                                                }}
-                                                                gåTilHovedenhet={() => {
-                                                                    setValgtEnhet(hovedenhet)
-                                                                }}
-                                                                gåTilForrige={() => {
-                                                                    if (idx === 0) {
-                                                                        setValgtEnhet(hovedenhet)
-                                                                    } else {
-                                                                        setValgtEnhet(hovedenhet.underenheter[idx - 1])
-                                                                    }
-                                                                }}
-                                                                gåTilNeste={() => {
-                                                                    if (idx < hovedenhet.underenheter.length - 1) {
-                                                                        setValgtEnhet(hovedenhet.underenheter[idx + 1])
-                                                                    } else {
-                                                                        const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
-                                                                        const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
-                                                                        if (nesteHovedenhet === hovedenhet) {
-                                                                            return
-                                                                        }
-                                                                        setValgtEnhet(nesteHovedenhet)
-                                                                    }
-                                                                }}
-                                                                key={underenhet.OrganizationNumber}
-                                                                underenhet={underenhet}/> : null
-                                                    )
-                                                }
-                                            </HovedenhetCheckbox>
-                                        </div> :
-                                        null;
-                                }
-                            )}
-                    </CheckboxGroup>
-                    <div className="virksomheter_virksomhetsmeny_footer">
-                        <Button
-                            ref={velgKnappRef}
-                            onKeyDown={(event) => {
-                                if (event.key === 'Tab') {
-                                    if (event.shiftKey) {
-                                        focusEnhet()
-                                        event.preventDefault()
-                                    }
-                                }
-                            }}
-                            onClick={() => {
-                                loggVelgKlikk()
-                                oppdaterValgte(alleVirksomheterIntern, "lukk")
-                            }}
-                        > Velg
-                        </Button>
-                        <Button
-                            variant="tertiary"
-                            ref={fjernAlleKnappRef}
-                            onKeyDown={(event) => {
-                                if (event.key === 'Tab') {
-                                    if (!event.shiftKey) {
-                                        focusSearch()
-                                        event.preventDefault()
-                                    }
-                                }
-                            }}
-                            onClick={() => {
-                                loggFjernFiltreringKlikk()
-                                oppdaterValgte(Set(), "forbliÅpen")
-                            }}
+                        <Søkeboks onChange={onSearchChange} />
+                        <CheckboxGroup
+                            className="virksomheter_virksomhetsmeny_sok_checkbox"
+                            legend="Velg virksomheter"
+                            hideLegend
+                            value={valgteOrgnrIntern.toArray()}
+                            onKeyDown={onCheckboxGroupKeyDown}
+                            onChange={onCheckboxGroupChange}
                         >
-                            Fjern filtrering
-                        </Button>
-                    </div>
+                            {
+                                organisasjonstre.map(({hovedenhet, underenheter}) => {
+                                        if (søketreff && !søketreff.has(hovedenhet.OrganizationNumber)) {
+                                            return null
+                                        }
+                                        return <div key={hovedenhet.OrganizationNumber}>
+                                            <HovedenhetCheckbox
+                                                setEnhetRef={setEnhetRef}
+                                                hovedenhet={hovedenhet}
+                                                valgteOrgnr={valgteOrgnrIntern}
+                                                gåTilForrige={() => onHovedenhetGåTilForrige() }
+                                                gåTilNeste={() => onHovedenhetGåTilNeste() }
+                                                gåTilUnderenhet={() => onHovedenhetGåTilUnderenhet() }
+                                                tabbable={valgtEnhet === hovedenhet.OrganizationNumber}
+                                                antallUnderenheter={underenheter.length}
+                                                antallValgteUnderenheter={count(underenheter, it => valgteOrgnrIntern.has(it.OrganizationNumber))}
+                                            />
+                                            <Conditionally
+                                                when={valgteOrgnrIntern.has(hovedenhet.OrganizationNumber) || (søketreff !== undefined && underenheter.some(it => søketreff.has(it.OrganizationNumber)))}
+                                            >
+                                                { underenheter.flatMap((underenhet, idx) => {
+                                                        if (søketreff && !søketreff.has(underenhet.OrganizationNumber)) {
+                                                            return []
+                                                        }
 
-
-                </div> : null}
-        </div>
-        <ul className="saksfilter_vis-valgte">
-            {valgteVirksomheter.map((virksomhet, indeks) =>
-                indeks < 3 ?
-                    <VirksomhetChips
-                        key={virksomhet.OrganizationNumber}
-                        navn={virksomhet.Name}
-                        orgnr={virksomhet.OrganizationNumber}
-                        antallUndervirksomheter={"underenheter" in virksomhet ? virksomhet.underenheter?.length : null}
-                        onLukk={() => {
-                            const tilstandUtenVirksomhet = alleVirksomheterIntern.map(hovedenhet => {
-                                if (hovedenhet.OrganizationNumber === virksomhet.OrganizationNumber) {
-                                    return {
-                                        ...hovedenhet,
-                                        valgt: false,
-                                        underenheter: hovedenhet.underenheter.map(underenhet => ({
-                                            ...underenhet,
-                                            valgt: false
-                                        }))
+                                                        return [<UnderenhetCheckboks
+                                                            valgteOrgnr={valgteOrgnrIntern}
+                                                            setEnhetRef={setEnhetRef}
+                                                            gåTilHovedenhet={() => onUnderenhetGåTilHovedenhet(hovedenhet) }
+                                                            gåTilForrige={ () => onUnderenhetGåTilForrige(hovedenhet, underenheter, idx) }
+                                                            gåTilNeste={() => onUnderenhetGåTilNeste() }
+                                                            key={underenhet.OrganizationNumber}
+                                                            underenhet={underenhet}
+                                                            tabbable={valgtEnhet === underenhet.OrganizationNumber}
+                                                        />]
+                                                    }
+                                                )}
+                                            </Conditionally>
+                                        </div>
                                     }
-                                } else {
-                                    return {
-                                        ...hovedenhet,
-                                        underenheter: hovedenhet.underenheter.map(underenhet =>
-                                            underenhet.OrganizationNumber === virksomhet.OrganizationNumber ?
-                                                {...underenhet, valgt: false} :
-                                                underenhet
-                                        )
+                                )}
+                        </CheckboxGroup>
+                        <div className="virksomheter_virksomhetsmeny_footer">
+                            <Button onClick={onVelgButtonClick}>
+                                Velg
+                            </Button>
+                            <Button
+                                variant="tertiary"
+                                onClick={onFjernButtonClick}
+                            >
+                                Fjern filtrering
+                            </Button>
+                        </div>
+                    </div>
+                </FocusTrap>
+            </Conditionally>
+        </div>
+        <Conditionally when={pills.length > 0}>
+            <ul className="saksfilter_vis-valgte">
+                {pills.map((virksomhet, indeks) =>
+                    indeks < 3 ?
+                        <VirksomhetChips
+                            key={virksomhet.OrganizationNumber}
+                            navn={virksomhet.Name}
+                            orgnr={virksomhet.OrganizationNumber}
+                            // TODO: antallUndervirksomheter={"underenheter" in virksomhet ? virksomhet.underenheter?.length : null}
+                            antallUndervirksomheter={null}
+                            onLukk={() => {
+                                let valgte = valgteOrgnr.remove(virksomhet.OrganizationNumber);
+
+                                // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
+                                const parent = virksomhet.ParentOrganizationNumber
+                                if (typeof parent === 'string') {
+                                    const underenheter = childrenMap.get(parent) ?? Set()
+                                    if (underenheter.every(it => !valgte.has(it))) {
+                                        valgte = valgte.remove(parent)
                                     }
                                 }
-
-                            });
-                            oppdaterValgte(tilstandUtenVirksomhet, "lukk")
-                        }}
-                    />
-                    : indeks === 3 ?
-                        <EkstraChip key="ekstraUnderenheter" antall={valgteVirksomheter.length} offsett={3}/>
-                        : null
-            )}
-        </ul>
-    </div>;
+                                setValgteEnheter(valgte)
+                            }}
+                        />
+                        : indeks === 3 ?
+                            <EkstraChip key="ekstraUnderenheter" ekstra={pills.length - 3}/>
+                            : null
+                )}
+            </ul>
+        </Conditionally>
+    </div>
 }
+
+type ConditionallyProps = {
+    when: boolean;
+    children: ReactNode;
+}
+const Conditionally = ({when, children}: ConditionallyProps) =>
+    when ? <>{children}</> : null
+
 
 type VirksomhetsmenyKnappProps = {
     onClick: () => void;
     åpen: boolean;
 }
+
 const VirksomhetsmenyKnapp = ({onClick, åpen}: VirksomhetsmenyKnappProps) =>
     <button
         className="virksomheter_menyknapp"
@@ -518,3 +501,16 @@ const VirksomhetsmenyKnapp = ({onClick, åpen}: VirksomhetsmenyKnappProps) =>
         <BodyShort> Velg virksomheter </BodyShort>
         {åpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
     </button>
+
+type SøkeboksProps = {
+    onChange: (text: string) => void;
+}
+const Søkeboks = forwardRef<HTMLDivElement, SøkeboksProps>(({onChange}, ref) =>
+    <div className="virksomheter_virksomhetsmeny_sok">
+        <Search
+            ref={ref}
+            label="Søk etter virksomhet"
+            variant="simple"
+            onChange={onChange}
+        />
+    </div>)

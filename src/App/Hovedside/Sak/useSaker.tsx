@@ -55,7 +55,7 @@ export function useSaker(
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => orgnr) : [];
 
-    const virksomhetsnumre = virksomheter === "ALLEBEDRIFTER" ? orgs : virksomheter.map(org => org.OrganizationNumber)
+    const virksomhetsnumre = virksomheter.isEmpty() ? orgs : virksomheter.toArray();
     const variables = {
         virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,

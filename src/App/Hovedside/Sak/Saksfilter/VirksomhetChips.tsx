@@ -39,14 +39,13 @@ export const VirksomhetChips = ({ navn, orgnr, antallUndervirksomheter, onLukk }
 };
 
 type EkstraChipProp = {
-    antall: number
-    offsett: number
+    ekstra: number
 }
-export const EkstraChip = ({ antall, offsett }: EkstraChipProp) => {
+export const EkstraChip = ({ ekstra }: EkstraChipProp) => {
     return <li className='virksomhetschips_extra'>
         <div className='virksomhetschips_innhold'>
             <BodyShort size='medium' className='virksomhetschips_virksomhet_ekstra'> ...
-                + {antall - offsett} </BodyShort>
+                + {ekstra} </BodyShort>
         </div>
     </li>;
 };
