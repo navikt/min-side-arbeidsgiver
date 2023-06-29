@@ -11,9 +11,6 @@ type HovedenhetCheckboxProp = {
     setEnhetRef: (id: string, ref: HTMLInputElement) => void;
     hovedenhet: Organisasjon,
     valgteOrgnr: Set<string>,
-    gåTilForrige: () => void,
-    gåTilNeste: () => void,
-    gåTilUnderenhet: () => void,
     tabbable: boolean,
     antallUnderenheter: number,
     antallValgteUnderenheter: number,
@@ -25,59 +22,11 @@ export const HovedenhetCheckbox = (
             setEnhetRef,
             hovedenhet,
             valgteOrgnr,
-            gåTilForrige,
-            gåTilNeste,
-            gåTilUnderenhet,
             tabbable,
             antallUnderenheter,
             antallValgteUnderenheter,
         }: HovedenhetCheckboxProp,
     ) => {
-        const containerRef = useRef<HTMLDivElement>(null)
-        // const visFlere = hovedenhet.underenheter.some(u => u.søkMatch)
-
-        // useKeyboardEvent('keydown', containerRef, (event) => {
-        //     if (event.key === 'ArrowUp' || event.key === 'Up') {
-        //         gåTilForrige()
-        //
-        //         event.preventDefault()
-        //         return;
-        //     }
-        //
-        //     if (event.key === 'ArrowDown' || event.key === 'Down') {
-        //         if (visFlere && erÅpen) {
-        //             gåTilUnderenhet()
-        //         } else {
-        //             gåTilNeste()
-        //         }
-        //
-        //         event.preventDefault()
-        //         return;
-        //     }
-        //
-        //     if (event.key === 'ArrowRight' || event.key === 'Right') {
-        //         if (visFlere) {
-        //             if (erÅpen) {
-        //                 gåTilUnderenhet()
-        //             } else {
-        //                 toggleÅpen()
-        //             }
-        //         }
-        //
-        //         event.preventDefault()
-        //         return;
-        //     }
-        //
-        //     if (event.key === 'ArrowLeft' || event.key === 'Left') {
-        //         if (visFlere && erÅpen) {
-        //             toggleÅpen()
-        //         }
-        //
-        //         event.preventDefault()
-        //         return;
-        //     }
-        // })
-
         const valgt = valgteOrgnr.has(hovedenhet.OrganizationNumber)
 
         const virksomheter = (n: number) => `virksomhet${n > 1 ? 'er' : ''}`
@@ -87,7 +36,6 @@ export const HovedenhetCheckbox = (
             : `${antallValgteUnderenheter} av ${antallUnderenheter} ${virksomheter(antallUnderenheter)} valgt`
 
         return <div
-                ref={containerRef}
                 className="hovedenhet_container"
                 role="menuitemcheckbox"
                 aria-checked={valgt}

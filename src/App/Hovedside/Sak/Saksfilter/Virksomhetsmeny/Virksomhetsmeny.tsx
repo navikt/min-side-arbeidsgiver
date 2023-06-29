@@ -143,18 +143,18 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
 
     /* is org visible for user on screen? */
     const isVisible = (orgnr: string) => {
-        if (søketreff !== undefined && !søketreff.has(orgnr)) {
-            return false
-        }
-        if (valgteOrgnr.has(orgnr)) {
-            return true
+        if (søketreff !== undefined) {
+            return søketreff.has(orgnr)
         }
 
         const parentOrgnr = parentMap.get(orgnr)
+
+        // Underenheter er ikke nødvendigvis synlig
         if (parentOrgnr !== undefined) {
-            return valgteOrgnr.has(parentOrgnr)
+            return valgteOrgnrIntern.has(parentOrgnr)
         }
-        return false
+
+        return true
     }
 
     /* TODO: array assumed non-empty below */
@@ -215,6 +215,7 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
             lukkMedValg(valgteOrgnrIntern)
         } else {
             setValgteOrgnrIntern(valgteOrgnr)
+            setValgtEnhet(førsteEnhet)
             setVirksomhetsmenyÅpen(true)
         }
     }
@@ -281,33 +282,48 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
             event.preventDefault()
         }
         if (event.key === 'Enter') {
-            // TODO:  oppdaterValgte(alleVirksomheterIntern.map(hovedenhet => {
-            // TODO:      if (hovedenhet.OrganizationNumber === valgtEnhet.OrganizationNumber) {
-            // TODO:          return {
-            // TODO:              ...hovedenhet,
-            // TODO:              valgt: !valgtEnhet.valgt,
-            // TODO:              underenheter: hovedenhet.underenheter.map(underenhet => ({
-            // TODO:                  ...underenhet,
-            // TODO:                  valgt: !valgtEnhet.valgt
-            // TODO:              }))
-            // TODO:          }
-            // TODO:      } else {
-            // TODO:          const underenheter = hovedenhet.underenheter.map(underenhet =>
-            // TODO:              underenhet.OrganizationNumber === valgtEnhet.OrganizationNumber ?
-            // TODO:                  {...underenhet, valgt: !valgtEnhet.valgt} :
-            // TODO:                  underenhet
-            // TODO:          );
-            // TODO:          return {
-            // TODO:              ...hovedenhet,
-            // TODO:              valgt: underenheter.every(underenhet => underenhet.valgt),
-            // TODO:              underenheter,
-            // TODO:          }
-            // TODO:      }
-            // TODO:
-            // TODO:  }), "lukk")
+            if (valgtEnhet !== undefined) {
+                lukkMedValg(utledNyeValgte(valgteOrgnrIntern.add(valgtEnhet)))
+            } else {
+                lukkMedValg(valgteOrgnrIntern)
+            }
             event.preventDefault()
         }
+        if (event.key === 'ArrowUp' || event.key === 'Up') {
+            let valgtIdx = alleOrganisasjoner.findIndex(it => it.OrganizationNumber === valgtEnhet)
+            let idx = valgtIdx - 1
+
+            for ( ; idx >= 0 && !isVisible(alleOrganisasjoner[idx].OrganizationNumber); idx--) {
+            }
+
+            if (idx < 0) {
+                // valgtEnhet undret, da det allerede er første synlige
+            } else {
+                setValgtEnhet(alleOrganisasjoner[idx].OrganizationNumber)
+            }
+
+            event.preventDefault()
+            return;
+        }
+
+        if (event.key === 'ArrowDown' || event.key === 'Down') {
+            let valgtIdx = alleOrganisasjoner.findIndex(it => it.OrganizationNumber === valgtEnhet)
+            let idx = valgtIdx + 1
+
+            for ( ; idx < alleOrganisasjoner.length && !isVisible(alleOrganisasjoner[idx].OrganizationNumber); idx++) {
+            }
+
+            if (idx >= alleOrganisasjoner.length) {
+                // valgtEnhet undret, da det allerede er siste synlige
+            } else {
+                setValgtEnhet(alleOrganisasjoner[idx].OrganizationNumber)
+            }
+
+            event.preventDefault()
+            return;
+        }
     }
+
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
         setValgteOrgnrIntern(utledNyeValgte(Set<string>(checkedEnheter)))
     }
@@ -320,53 +336,6 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
     const onFjernButtonClick = () => {
         loggFjernFiltreringKlikk()
         setValgteOrgnrIntern(Set())
-    }
-
-    const onHovedenhetGåTilForrige = () => {
-        // TODO const forrigeIndex = Math.max(0, (alleVirksomheterIntern.indexOf(hovedenhet)) - 1)
-        // TODO const forrigeHovedenhet = alleVirksomheterIntern[forrigeIndex];
-        // TODO if (forrigeHovedenhet === hovedenhet) {
-        // TODO     return
-        // TODO }
-        // TODO if (forrigeHovedenhet.valgt && forrigeHovedenhet.underenheter.length > 0) {
-        // TODO     setValgtEnhet(forrigeHovedenhet.underenheter[forrigeHovedenhet.underenheter.length - 1])
-        // TODO } else {
-        // TODO     setValgtEnhet(forrigeHovedenhet)
-        // TODO }
-    }
-
-    const onHovedenhetGåTilUnderenhet = () => {
-        // TODO setValgtEnhet(hovedenhet.underenheter[0])
-    }
-
-    const onHovedenhetGåTilNeste = () => {
-        // TODO const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1)
-        // TODO const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
-        // TODO setValgtEnhet(nesteHovedenhet)
-    }
-
-    const onUnderenhetGåTilHovedenhet = (hovedenhet: Organisasjon) => {
-        setValgtEnhet(hovedenhet.OrganizationNumber);
-    }
-
-    const onUnderenhetGåTilForrige = (hovedenhet: Organisasjon, underenheter: Organisasjon[], idx: number) => {
-        if (idx === 0) {
-            setValgtEnhet(hovedenhet.OrganizationNumber);
-        } else {
-            setValgtEnhet(underenheter[idx - 1].OrganizationNumber);
-        }
-    }
-    const onUnderenhetGåTilNeste = () => {
-        // TODO: if (idx < underenheter.length - 1) {
-        // TODO:     setValgtEnhet(underenheter[idx + 1]);
-        // TODO: } else {
-        // TODO:     const nesteIndex = Math.min(alleVirksomheterIntern.indexOf(hovedenhet) + 1, alleVirksomheterIntern.length - 1);
-        // TODO:     const nesteHovedenhet = alleVirksomheterIntern[nesteIndex];
-        // TODO:     if (nesteHovedenhet === hovedenhet) {
-        // TODO:         return;
-        // TODO:     }
-        // TODO:     setValgtEnhet(nesteHovedenhet);
-        // TODO: }
     }
 
     return <div className="virksomheter">
@@ -398,9 +367,6 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
                                                 setEnhetRef={setEnhetRef}
                                                 hovedenhet={hovedenhet}
                                                 valgteOrgnr={valgteOrgnrIntern}
-                                                gåTilForrige={() => onHovedenhetGåTilForrige() }
-                                                gåTilNeste={() => onHovedenhetGåTilNeste() }
-                                                gåTilUnderenhet={() => onHovedenhetGåTilUnderenhet() }
                                                 tabbable={valgtEnhet === hovedenhet.OrganizationNumber}
                                                 antallUnderenheter={underenheter.length}
                                                 antallValgteUnderenheter={count(underenheter, it => valgteOrgnrIntern.has(it.OrganizationNumber))}
@@ -416,9 +382,6 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
                                                         return [<UnderenhetCheckboks
                                                             valgteOrgnr={valgteOrgnrIntern}
                                                             setEnhetRef={setEnhetRef}
-                                                            gåTilHovedenhet={() => onUnderenhetGåTilHovedenhet(hovedenhet) }
-                                                            gåTilForrige={ () => onUnderenhetGåTilForrige(hovedenhet, underenheter, idx) }
-                                                            gåTilNeste={() => onUnderenhetGåTilNeste() }
                                                             key={underenhet.OrganizationNumber}
                                                             underenhet={underenhet}
                                                             tabbable={valgtEnhet === underenhet.OrganizationNumber}

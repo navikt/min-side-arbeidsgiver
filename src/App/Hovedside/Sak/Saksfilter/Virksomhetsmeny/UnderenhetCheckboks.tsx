@@ -10,40 +10,13 @@ type UnderenhetCheckboksProps = {
     setEnhetRef: (id: string, ref: HTMLInputElement) => void;
     valgteOrgnr: Set<string>;
     underenhet: Organisasjon;
-    gåTilForrige: () => void;
-    gåTilNeste: () => void;
-    gåTilHovedenhet: () => void;
     tabbable: boolean;
 };
 
 export const UnderenhetCheckboks = (
-    {setEnhetRef, underenhet, valgteOrgnr, gåTilForrige, gåTilNeste, gåTilHovedenhet, tabbable}: UnderenhetCheckboksProps
+    {setEnhetRef, underenhet, valgteOrgnr, tabbable}: UnderenhetCheckboksProps
 ) => {
-    const containerRef = useRef<HTMLDivElement>(null)
-    useKeyboardEvent('keydown', containerRef, (event) => {
-        if (event.key === 'ArrowUp' || event.key === 'Up') {
-            gåTilForrige()
-
-            event.preventDefault()
-            return;
-        }
-
-        if (event.key === 'ArrowDown' || event.key === 'Down') {
-            gåTilNeste()
-
-            event.preventDefault()
-            return;
-        }
-
-        if (event.key === 'ArrowLeft' || event.key === 'Left') {
-            gåTilHovedenhet()
-
-            event.preventDefault()
-            return;
-        }
-    })
-    return <div ref={containerRef}
-                className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
+    return <div className="virksomheter_virksomhetsmeny_sok_checkbox_underenhet"
                 role="menuitemcheckbox"
                 aria-checked={valgteOrgnr.has(underenhet.OrganizationNumber)}>
         <Checkbox
