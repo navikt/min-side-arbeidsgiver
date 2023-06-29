@@ -1,20 +1,16 @@
-import React, { FC, useEffect, useState } from 'react';
-import * as Sentry from '@sentry/react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import './Saksfilter.css';
-import {
-    Organisasjon, OrganisasjonEnhet,
-    Virksomhetsmeny,
-} from './Virksomhetsmeny/Virksomhetsmeny';
-import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
+import { Virksomhetsmeny, } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../../GeneriskeElementer/Ekspanderbartpanel';
-import { Accordion, BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
+import { Accordion, BodyShort, Checkbox, CheckboxGroup } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
 import { sorted } from '../../../../utils/util';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Set } from 'immutable'
+import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 
 type SaksfilterProps = {
@@ -25,7 +21,6 @@ type SaksfilterProps = {
     sakstypeinfo: Sakstype[] | undefined;
     alleSakstyper: SakstypeOverordnet[];
     oppgaveTilstandInfo: OppgaveTilstandInfo[] | undefined;
-    organisasjoner: Organisasjon[];
 }
 
 type KollapsHvisMobilProps = {
@@ -47,15 +42,14 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({ width, children }: Kollap
 export const Saksfilter = ({
                                valgteVirksomheter,
                                setValgteVirksomheter,
-                               organisasjoner,
                                filter,
                                setFilter,
                                sakstypeinfo,
                                oppgaveTilstandInfo,
                                alleSakstyper,
                            }: SaksfilterProps) => {
-    const [organisasjonstre, setOrganisasjonstre] = useState<OrganisasjonEnhet[]>();
     const [width, setWidth] = useState(window.innerWidth);
+    const {organisasjonstre} = useContext(OrganisasjonerOgTilgangerContext)
     const [searchParams, setSearchParams] = useSearchParams();
     const [visVirksomhetsmeny, setVisVirksomhetsmeny] = useState(searchParams.get("virksomhetsmeny") === "open");
 
@@ -68,12 +62,6 @@ export const Saksfilter = ({
         }
         setSearchParams(searchParams);
     }
-
-    useEffect(() => {
-        byggOrganisasjonstre(organisasjoner)
-            .then(setOrganisasjonstre)
-            .catch(Sentry.captureException);
-    }, [organisasjoner]);
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -109,7 +97,6 @@ export const Saksfilter = ({
                     </Accordion.Header>
                     <Accordion.Content className='virksomheter_accordation'>
                         <Virksomhetsmeny
-                            organisasjonstre={organisasjonstre}
                             valgteEnheter={valgteVirksomheter}
                             setValgteEnheter={setValgteVirksomheter}
                         />

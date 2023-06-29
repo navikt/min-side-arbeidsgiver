@@ -1,10 +1,8 @@
-import {BodyShort, Button, Checkbox, Label} from "@navikt/ds-react";
-import {Collapse, Expand} from "@navikt/ds-icons";
-import React, {useRef} from "react";
+import {BodyShort, Checkbox, Label} from "@navikt/ds-react";
+import React from "react";
 import "./HovedenhetCheckbox.css";
-import { Hovedenhet, Organisasjon } from './Virksomhetsmeny';
-import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
 import {Set} from 'immutable'
+import { Organisasjon } from '../../../../../altinn/organisasjon';
 
 
 type HovedenhetCheckboxProp = {

@@ -87,7 +87,7 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
 
 const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(OrganisasjonsDetaljerContext);
-    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const [ekspander, setEkspander] = useState(false);
     const location = useLocation();
 

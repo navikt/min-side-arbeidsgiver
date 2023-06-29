@@ -3,7 +3,6 @@ import { SIDE_SIZE } from './Saksoversikt';
 import { useSessionState } from './useOversiktSessionStorage';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
-import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import {
     OppgaveTilstand,
     OppgaveTilstandInfo,
@@ -13,6 +12,7 @@ import {
     Sakstype,
 } from '../../../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
+import { Organisasjon } from '../../../../altinn/organisasjon';
 
 export type Filter = {
     side: number,

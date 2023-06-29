@@ -1,11 +1,11 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useMemo} from 'react';
 import * as Sentry from '@sentry/react';
 import {Query} from '../../../api/graphql-types';
 import {AlertContext} from "../../Alerts/Alerts";
 import { Filter } from './Saksoversikt/useOversiktStateTransitions';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
-import * as Record from '../../../utils/Record';
+import { Set } from 'immutable'
+import { OrganisasjonEnhet, OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 
 type SakerResultat = Pick<Query, "saker">
 
@@ -47,15 +47,55 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
     }
 `
 
+const beregnVirksomhetsnummer = (organisasjonstre: OrganisasjonEnhet[], virksomheter: Set<string>): string[] => {
+    // for hovedenheter H:
+    //    hvis existerer valg underenhet, ignorer H
+    //    ellers, legg til alle H.underenheter
+
+    //  [X] H
+    //     [ ] U1
+    //     [ ] U2
+    // internal = { H }
+    // extendal = { H, U1, U2 }
+
+    //  [X] H
+    //     [X] U1
+    //     [ ] U2
+    // internal = { H, U1 }
+    // external = { H, U1 }
+
+    if (virksomheter.isEmpty()) {
+        return organisasjonstre.flatMap(({underenheter}) =>
+            underenheter.map(it => it.OrganizationNumber)
+        )
+    }
+
+    return organisasjonstre.flatMap(({hovedenhet, underenheter}) => {
+        if (virksomheter.has(hovedenhet.OrganizationNumber)) {
+            const underenheterOrgnr = underenheter.map(it => it.OrganizationNumber)
+            const valgteUnderenheter = underenheterOrgnr.filter(it => virksomheter.has(it))
+            if (valgteUnderenheter.length === 0) {
+                return underenheterOrgnr
+            } else {
+                return valgteUnderenheter
+            }
+        } else {
+            return []
+        }
+    })
+}
+
 export function useSaker(
     pageSize: number,
     {side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand}: Filter,
 ) {
-    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => orgnr) : [];
+    const { organisasjonstre } = useContext(OrganisasjonerOgTilgangerContext)
 
-    const virksomhetsnumre = virksomheter.isEmpty() ? orgs : virksomheter.toArray();
+    const virksomhetsnumre = useMemo(
+        () => beregnVirksomhetsnummer(organisasjonstre, virksomheter),
+        [organisasjonstre, virksomheter]
+    )
+
     const variables = {
         virksomhetsnumre,
         tekstsoek: (tekstsoek === "") ? null : tekstsoek,

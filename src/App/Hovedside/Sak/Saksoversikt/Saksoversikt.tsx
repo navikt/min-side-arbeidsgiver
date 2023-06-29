@@ -10,7 +10,6 @@ import { OmSaker } from '../OmSaker';
 import { Saksfilter } from '../Saksfilter/Saksfilter';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../../../utils/Record';
-import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable'
@@ -40,6 +39,7 @@ export const Saksoversikt = () => {
     const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
+
     const {state, byttFilter} = useOversiktStateTransitions(orgs)
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
@@ -55,35 +55,26 @@ export const Saksoversikt = () => {
             alleSakstyper={alleSakstyper}
             setFilter={byttFilter}
             oppgaveTilstandInfo={state.oppgaveTilstandInfo}
-            organisasjoner={orgs}
             valgteVirksomheter={state.filter.virksomheter}
             setValgteVirksomheter={handleValgteVirksomheter}
         />
         <div className='saksoversikt'>
-            {(state.filter.virksomheter.size === 0)
-                ? <div className='saksoversikt-empty'>
-                    <Heading level="2" size="large">
-                        Velg virksomhet for å se saker
-                    </Heading>
-                </div>
-                : <><Alerts/>
-                    <div className="saksoversikt__header">
-                        <StatusLine state={state}/>
-                    </div>
+            <Alerts/>
+            <div className="saksoversikt__header">
+                <StatusLine state={state}/>
+            </div>
 
-                    <div className="saksoversikt__saksliste-header">
-                        <VelgSortering state={state} byttFilter={byttFilter}/>
-                        <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true}/>
-                    </div>
+            <div className="saksoversikt__saksliste-header">
+                <VelgSortering state={state} byttFilter={byttFilter}/>
+                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true}/>
+            </div>
 
-                    <SaksListeBody state={state}/>
+            <SaksListeBody state={state}/>
 
-                    <div className="saksoversikt__saksliste-footer">
-                        <HvaVisesHer/>
-                        <Sidevelger state={state} byttFilter={byttFilter}skjulForMobil={false}/>
-                    </div>
-                </>
-            }
+            <div className="saksoversikt__saksliste-footer">
+                <HvaVisesHer/>
+                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false}/>
+            </div>
         </div>
     </div>
 };

@@ -5,10 +5,10 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSessionStorage } from '../../../hooks/useStorage';
 import {equalAsSets, Filter} from './useOversiktStateTransitions';
-import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
 import { Set } from 'immutable';
+import { Organisasjon } from '../../../../altinn/organisasjon';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 

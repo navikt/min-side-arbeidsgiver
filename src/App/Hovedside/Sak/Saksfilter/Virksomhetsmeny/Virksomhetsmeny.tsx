@@ -1,4 +1,4 @@
-import React, { forwardRef, KeyboardEvent, ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, KeyboardEvent, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { BodyShort, Button, CheckboxGroup, Search } from '@navikt/ds-react';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import './Virksomhetsmeny.css';
@@ -13,25 +13,12 @@ import { useOnClickOutside } from '../../../../hooks/UseOnClickOutside';
 import { Map, Set } from 'immutable';
 import FocusTrap from 'focus-trap-react';
 import { EkstraChip, VirksomhetChips } from '../VirksomhetChips';
+import { OrganisasjonerOgTilgangerContext } from '../../../../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../../../../../altinn/organisasjon';
 
 export type VirksomhetsmenyProps = {
-    organisasjonstre: OrganisasjonEnhet[],
     valgteEnheter: Set<string>,
     setValgteEnheter: (enheter: Set<string>) => void,
-}
-
-export type OrganisasjonEnhet = {
-    hovedenhet: Organisasjon,
-    underenheter: Organisasjon[]
-}
-
-export type Organisasjon = {
-    Name: string,
-    Type: string,
-    OrganizationNumber: string,
-    OrganizationForm: string,
-    Status: string,
-    ParentOrganizationNumber: string | null,
 }
 
 /**
@@ -43,7 +30,6 @@ export type Organisasjon = {
  */
 export const Virksomhetsmeny = (
     {
-        organisasjonstre,
         valgteEnheter,
         setValgteEnheter,
     }: VirksomhetsmenyProps
@@ -54,39 +40,27 @@ export const Virksomhetsmeny = (
     // underenhetene. Men hvis man har huket av for hovedenheten *og* noen
     // underenheter, så skal kun de avhukede underenhetene vises.
 
-
     return <VirksomhetsmenyIntern
-        organisasjonstre={organisasjonstre}
         valgteEnheter={valgteEnheter}
         setValgteEnheter={setValgteEnheter}
     />
 }
 
-
-export interface Underenhet extends Organisasjon {
-    valgt: boolean,
-    søkMatch: boolean,
-}
-
-export interface Hovedenhet extends Organisasjon {
-    valgt: boolean,
-    søkMatch: boolean,
-    underenheter: Array<Underenhet>,
-}
-
 type VirksomhetsmenyInternProps = {
-    organisasjonstre: OrganisasjonEnhet[],
     valgteEnheter: Set<string>,
     setValgteEnheter: (enheter: Set<string>) => void,
 }
 
-const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, setValgteEnheter}: VirksomhetsmenyInternProps) => {
+
+const VirksomhetsmenyIntern = ({ valgteEnheter: valgteOrgnrExternal, setValgteEnheter}: VirksomhetsmenyInternProps) => {
+    const {organisasjonstre} = useContext(OrganisasjonerOgTilgangerContext)
     const alleOrganisasjoner = useMemo(
         () => organisasjonstre.flatMap(({hovedenhet, underenheter}) =>
             // Put elements in same order as their visual order, so it can be used for array navigation
             [hovedenhet, ... underenheter]),
         [organisasjonstre]
     )
+
     const childrenMap = useMemo(
         () => Map(
             organisasjonstre.map(({hovedenhet, underenheter}): [string, Set<string>] =>
@@ -95,6 +69,7 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
         ),
         [organisasjonstre]
     )
+
     const parentMap = useMemo(
         () => Map(
             organisasjonstre.flatMap(({hovedenhet, underenheter}): [string, string][] =>
@@ -105,25 +80,35 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
     )
 
     const pills = useMemo(() => {
-            const pills = []
+            const pills: (Organisasjon & {antallUnderenheter?: number})[] = []
             for (let {hovedenhet, underenheter} of organisasjonstre) {
-                if (valgteOrgnr.has(hovedenhet.OrganizationNumber)) {
-                    const antallUnderValgt = count(underenheter, it => valgteOrgnr.has(it.OrganizationNumber))
+                if (valgteOrgnrExternal.has(hovedenhet.OrganizationNumber)) {
+                    const antallUnderValgt = count(underenheter, it => valgteOrgnrExternal.has(it.OrganizationNumber))
                     if (antallUnderValgt === 0) {
-                        pills.push(hovedenhet)
+                        pills.push({...hovedenhet, antallUnderenheter: underenheter.length})
                     } else {
-                        pills.push(... underenheter.filter(it => valgteOrgnr.has(it.OrganizationNumber)))
+                        pills.push(... underenheter.filter(it => valgteOrgnrExternal.has(it.OrganizationNumber)))
                     }
                 }
             }
             return pills
         },
-        [organisasjonstre, valgteOrgnr]
+        [organisasjonstre, valgteOrgnrExternal]
     )
 
-    // TODO: We must normalize the external `valgteOrgnr`, as they might not
-    // follow our assumptions that underenhet are checked only if hovedenhet is.
-    const [valgteOrgnrIntern, setValgteOrgnrIntern] = useState(valgteOrgnr);
+    const parentsOf = (orgnr: Set<string>): Set<string> =>
+        orgnr.flatMap(it => {
+                const x = parentMap.get(it)
+                return x === undefined ? [] : [x]
+            }
+        );
+
+    const internalizedValgteOrgnrFromExternal = useMemo(
+        () => valgteOrgnrExternal.union(parentsOf(valgteOrgnrExternal)),
+        [valgteOrgnrExternal, parentMap]
+    )
+
+    const [valgteOrgnrIntern, setValgteOrgnrIntern] = useState(internalizedValgteOrgnrFromExternal)
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
     const [virksomhetsmenyÅpen, setVirksomhetsmenyÅpen] = useState(false);
     const loggVelgKlikk = useLoggKlikk("velg")
@@ -157,8 +142,6 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
         return true
     }
 
-    /* TODO: array assumed non-empty below */
-    /* TODO: assumes search is not active */
     const førsteEnhet = alleOrganisasjoner
         .find(it => isVisible(it.OrganizationNumber))
         ?.OrganizationNumber
@@ -174,7 +157,7 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
     }
 
     const focusEnhet = () => {
-        if (valgtEnhet != null) {
+        if (valgtEnhet !== undefined) {
             enhetRefs[valgtEnhet]?.focus()
             enhetRefs[valgtEnhet]?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"})
         }
@@ -214,7 +197,7 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
         if (virksomhetsmenyÅpen) {
             lukkMedValg(valgteOrgnrIntern)
         } else {
-            setValgteOrgnrIntern(valgteOrgnr)
+            setValgteOrgnrIntern(internalizedValgteOrgnrFromExternal)
             setValgtEnhet(førsteEnhet)
             setVirksomhetsmenyÅpen(true)
         }
@@ -239,14 +222,7 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
         // På grunn av søk, så er det mulig å klikke på underenheter
         // uten at hovedenhet er huket av.
         const lagtTil = nyeValgte.subtract(valgteOrgnrIntern)
-        const implisittValgteHovedenheter: Set<string> =
-            lagtTil.flatMap(it => {
-                const parent = parentMap.get(it)
-                if (parent === undefined) {
-                    return []
-                }
-                return [parent]
-            })
+        const implisittValgteHovedenheter = parentsOf(lagtTil);
 
         return nyeValgte
             .subtract(implisittFjernedUnderenehter)
@@ -297,7 +273,7 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
             }
 
             if (idx < 0) {
-                // valgtEnhet undret, da det allerede er første synlige
+                setValgtEnhet(førsteEnhet)
             } else {
                 setValgtEnhet(alleOrganisasjoner[idx].OrganizationNumber)
             }
@@ -416,10 +392,9 @@ const VirksomhetsmenyIntern = ({ organisasjonstre, valgteEnheter: valgteOrgnr, s
                             key={virksomhet.OrganizationNumber}
                             navn={virksomhet.Name}
                             orgnr={virksomhet.OrganizationNumber}
-                            // TODO: antallUndervirksomheter={"underenheter" in virksomhet ? virksomhet.underenheter?.length : null}
-                            antallUndervirksomheter={null}
+                            antallUndervirksomheter={virksomhet.antallUnderenheter ?? null}
                             onLukk={() => {
-                                let valgte = valgteOrgnr.remove(virksomhet.OrganizationNumber);
+                                let valgte = valgteOrgnrExternal.remove(virksomhet.OrganizationNumber);
 
                                 // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
                                 const parent = virksomhet.ParentOrganizationNumber

@@ -1,9 +1,8 @@
 import {BodyShort, Checkbox, Label} from "@navikt/ds-react";
-import React, {useRef} from "react";
-import { Organisasjon } from './Virksomhetsmeny';
+import React  from "react";
 import {Underenhet as UnderenhetIkon} from "../Virksomhetsikoner/Virksomhetsikoner";
-import {useKeyboardEvent} from "../../../../hooks/useKeyboardEvent";
 import {Set} from 'immutable';
+import { Organisasjon } from '../../../../../altinn/organisasjon';
 
 
 type UnderenhetCheckboksProps = {
