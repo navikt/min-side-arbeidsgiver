@@ -12,9 +12,7 @@ import { useKeyboardEvent } from '../../../../hooks/useKeyboardEvent';
 import { useOnClickOutside } from '../../../../hooks/UseOnClickOutside';
 import { Map, Set } from 'immutable';
 import FocusTrap from 'focus-trap-react';
-import { EkstraChip, VirksomhetChips } from '../VirksomhetChips';
 import { OrganisasjonerOgTilgangerContext } from '../../../../OrganisasjonerOgTilgangerProvider';
-import { Organisasjon } from '../../../../../altinn/organisasjon';
 
 export type VirksomhetsmenyProps = {
     valgteEnheter: Set<string>,
@@ -53,7 +51,7 @@ type VirksomhetsmenyInternProps = {
 
 
 const VirksomhetsmenyIntern = ({ valgteEnheter: valgteOrgnrExternal, setValgteEnheter}: VirksomhetsmenyInternProps) => {
-    const {organisasjonstre} = useContext(OrganisasjonerOgTilgangerContext)
+    const {organisasjonstre, childrenMap} = useContext(OrganisasjonerOgTilgangerContext)
     const alleOrganisasjoner = useMemo(
         () => organisasjonstre.flatMap(({hovedenhet, underenheter}) =>
             // Put elements in same order as their visual order, so it can be used for array navigation
@@ -61,14 +59,6 @@ const VirksomhetsmenyIntern = ({ valgteEnheter: valgteOrgnrExternal, setValgteEn
         [organisasjonstre]
     )
 
-    const childrenMap = useMemo(
-        () => Map(
-            organisasjonstre.map(({hovedenhet, underenheter}): [string, Set<string>] =>
-                [hovedenhet.OrganizationNumber, Set(underenheter.map(it => it.OrganizationNumber))]
-            )
-        ),
-        [organisasjonstre]
-    )
 
     const parentMap = useMemo(
         () => Map(
@@ -79,22 +69,6 @@ const VirksomhetsmenyIntern = ({ valgteEnheter: valgteOrgnrExternal, setValgteEn
         [organisasjonstre]
     )
 
-    const pills = useMemo(() => {
-            const pills: (Organisasjon & {antallUnderenheter?: number})[] = []
-            for (let {hovedenhet, underenheter} of organisasjonstre) {
-                if (valgteOrgnrExternal.has(hovedenhet.OrganizationNumber)) {
-                    const antallUnderValgt = count(underenheter, it => valgteOrgnrExternal.has(it.OrganizationNumber))
-                    if (antallUnderValgt === 0) {
-                        pills.push({...hovedenhet, antallUnderenheter: underenheter.length})
-                    } else {
-                        pills.push(... underenheter.filter(it => valgteOrgnrExternal.has(it.OrganizationNumber)))
-                    }
-                }
-            }
-            return pills
-        },
-        [organisasjonstre, valgteOrgnrExternal]
-    )
 
     const parentsOf = (orgnr: Set<string>): Set<string> =>
         orgnr.flatMap(it => {
@@ -350,7 +324,7 @@ const VirksomhetsmenyIntern = ({ valgteEnheter: valgteOrgnrExternal, setValgteEn
                                             <Conditionally
                                                 when={valgteOrgnrIntern.has(hovedenhet.OrganizationNumber) || (søketreff !== undefined && underenheter.some(it => søketreff.has(it.OrganizationNumber)))}
                                             >
-                                                { underenheter.flatMap((underenhet, idx) => {
+                                                { underenheter.flatMap((underenhet) => {
                                                         if (søketreff && !søketreff.has(underenhet.OrganizationNumber)) {
                                                             return []
                                                         }
@@ -384,35 +358,6 @@ const VirksomhetsmenyIntern = ({ valgteEnheter: valgteOrgnrExternal, setValgteEn
                 </FocusTrap>
             </Conditionally>
         </div>
-        <Conditionally when={pills.length > 0}>
-            <ul className="saksfilter_vis-valgte">
-                {pills.map((virksomhet, indeks) =>
-                    indeks < 3 ?
-                        <VirksomhetChips
-                            key={virksomhet.OrganizationNumber}
-                            navn={virksomhet.Name}
-                            orgnr={virksomhet.OrganizationNumber}
-                            antallUndervirksomheter={virksomhet.antallUnderenheter ?? null}
-                            onLukk={() => {
-                                let valgte = valgteOrgnrExternal.remove(virksomhet.OrganizationNumber);
-
-                                // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
-                                const parent = virksomhet.ParentOrganizationNumber
-                                if (typeof parent === 'string') {
-                                    const underenheter = childrenMap.get(parent) ?? Set()
-                                    if (underenheter.every(it => !valgte.has(it))) {
-                                        valgte = valgte.remove(parent)
-                                    }
-                                }
-                                setValgteEnheter(valgte)
-                            }}
-                        />
-                        : indeks === 3 ?
-                            <EkstraChip key="ekstraUnderenheter" ekstra={pills.length - 3}/>
-                            : null
-                )}
-            </ul>
-        </Conditionally>
     </div>
 }
 
@@ -420,7 +365,7 @@ type ConditionallyProps = {
     when: boolean;
     children: ReactNode;
 }
-const Conditionally = ({when, children}: ConditionallyProps) =>
+export const Conditionally = ({when, children}: ConditionallyProps) =>
     when ? <>{children}</> : null
 
 
@@ -436,7 +381,7 @@ const VirksomhetsmenyKnapp = ({onClick, åpen}: VirksomhetsmenyKnappProps) =>
         aria-controls="virksomheter_virksomhetsmeny"
         onClick={onClick}
     >
-        <BodyShort> Velg virksomheter </BodyShort>
+        <BodyShort>Velg virksomheter</BodyShort>
         {åpen ? <Collapse aria-hidden={true}/> : <Expand aria-hidden={true}/>}
     </button>
 

@@ -88,21 +88,13 @@ export const Saksfilter = ({
     return <KollapsHvisMobil width={width}>
         <div className='saksfilter'>
 
-            <Accordion>
-                <Accordion.Item open={visVirksomhetsmeny}>
-                    <Accordion.Header onClick={() => handleVisVirksomhetsmeny(!visVirksomhetsmeny)}>
-                        Virksomheter
-                            {/*({valgteVirksomheter === 'ALLEBEDRIFTER' ? 'alle valgt' : valgteVirksomheter.length})*/}
-                            ({valgteVirksomheter.size})
-                    </Accordion.Header>
-                    <Accordion.Content className='virksomheter_accordation'>
-                        <Virksomhetsmeny
-                            valgteEnheter={valgteVirksomheter}
-                            setValgteEnheter={setValgteVirksomheter}
-                        />
-                    </Accordion.Content>
-                </Accordion.Item>
-            </Accordion>
+            <div>
+                <BodyShort className="saksfilter_headers">Virksomheter</BodyShort>
+                <Virksomhetsmeny
+                    valgteEnheter={valgteVirksomheter}
+                    setValgteEnheter={setValgteVirksomheter}
+                />
+            </div>
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 

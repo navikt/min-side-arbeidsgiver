@@ -17,6 +17,7 @@ import {AlertContext} from './Alerts/Alerts';
 import * as Sentry from "@sentry/browser";
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
+import { Set, Map } from 'immutable'
 
 type orgnr = string;
 
@@ -58,6 +59,7 @@ export type Context = {
     tilgangTilSyfo: SyfoTilgang;
     visSyfoFeilmelding: boolean;
     harTilganger: boolean;
+    childrenMap: Map<string, Set<string>>;
 };
 
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
@@ -160,7 +162,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
                 .then(setAltinntilganger)
                 .catch((error) => {
                     Sentry.captureException(error);
-                    setAltinntilganger(Record.map(altinntjeneste, () => new Set()));
+                    setAltinntilganger(Record.map(altinntjeneste, () => Set()));
                 }),
             hentAltinnTilgangssøknader()
                 .then(setAltinnTilgangssøknader)
@@ -220,6 +222,15 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         console.error("hente organisasjonstre feilet", {error})
     }
 
+    const childrenMap = useMemo(
+        () => Map(
+            (organisasjonstre ?? []).map(({hovedenhet, underenheter}): [string, Set<string>] =>
+                [hovedenhet.OrganizationNumber, Set(underenheter.map(it => it.OrganizationNumber))]
+            )
+        ),
+        [organisasjonstre]
+    )
+
     if (organisasjoner !== undefined && organisasjonstre !== undefined) {
         const detFinnesEnUnderenhetMedParent = () => {
             return Record.values(organisasjoner).some(org => org.organisasjon.ParentOrganizationNumber);
@@ -235,6 +246,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
             visSyfoFeilmelding,
             tilgangTilSyfo,
             harTilganger,
+            childrenMap,
         };
         return (
             <OrganisasjonerOgTilgangerContext.Provider value={context}>

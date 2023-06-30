@@ -1,7 +1,7 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import { Heading, Pagination, Select } from '@navikt/ds-react';
+import { Chips, Heading, Pagination, Select } from '@navikt/ds-react';
 import { Spinner } from '../../../Spinner';
 import { SaksListe } from '../SaksListe';
 import { Alerts } from '../../../Alerts/Alerts';
@@ -13,6 +13,9 @@ import * as Record from '../../../../utils/Record';
 import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable'
+import { Organisasjon } from '../../../../altinn/organisasjon';
+import { count } from '../../../../utils/util';
+import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
 
 export const SIDE_SIZE = 30;
 
@@ -36,7 +39,7 @@ const useAlleSakstyper = () => {
 }
 
 export const Saksoversikt = () => {
-    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    const {organisasjonstre, organisasjoner, childrenMap} = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, {organisasjon}) => organisasjon) : [];
 
@@ -47,6 +50,56 @@ export const Saksoversikt = () => {
     }
 
     const alleSakstyper = useAlleSakstyper()
+
+    const pills = useMemo(() => {
+            const pills: (Organisasjon & {erHovedenhet: boolean})[] = []
+            for (let {hovedenhet, underenheter} of organisasjonstre) {
+                if (state.filter.virksomheter.has(hovedenhet.OrganizationNumber)) {
+                    const antallUnderValgt = count(underenheter, it => state.filter.virksomheter.has(it.OrganizationNumber))
+                    if (antallUnderValgt === 0) {
+                        pills.push({...hovedenhet, erHovedenhet: true})
+                    } else {
+                        pills.push(...
+                            underenheter.filter(it => state.filter.virksomheter.has(it.OrganizationNumber))
+                                .map(it => ({...it, erHovedenhet: false}))
+                        )
+                    }
+                }
+            }
+            return pills
+        },
+        [organisasjonstre, state.filter.virksomheter]
+    )
+
+    let pillElement: ReactNode = <></>;
+    if (pills.length === 0) {
+        pillElement = <></>
+    } else {
+        pillElement = <Chips>
+                {pills.map((virksomhet) =>
+                        <VirksomhetChips
+                            key={virksomhet.OrganizationNumber}
+                            navn={virksomhet.Name}
+                            erHovedenhet={virksomhet.erHovedenhet}
+                            onLukk={() => {
+                                let valgte = state.filter.virksomheter.remove(virksomhet.OrganizationNumber);
+
+                                // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
+                                const parent = virksomhet.ParentOrganizationNumber
+                                if (typeof parent === 'string') {
+                                   const underenheter = childrenMap.get(parent) ?? Set()
+                                   if (underenheter.every(it => !valgte.has(it))) {
+                                       valgte = valgte.remove(parent)
+                                   }
+                                }
+                                handleValgteVirksomheter(valgte)
+                            }}
+                        />
+                )}
+            </Chips>
+    }
+
+
 
     return <div className="saksoversikt__innhold">
         <Saksfilter
@@ -63,6 +116,7 @@ export const Saksoversikt = () => {
             <div className="saksoversikt__header">
                 <StatusLine state={state}/>
             </div>
+            {pillElement}
 
             <div className="saksoversikt__saksliste-header">
                 <VelgSortering state={state} byttFilter={byttFilter}/>
