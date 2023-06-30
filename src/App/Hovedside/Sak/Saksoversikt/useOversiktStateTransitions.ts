@@ -110,25 +110,27 @@ const reduce = (current: State, action: Action): State => {
                 { ...action.filter, side: 1, sortering: SakSortering.Frist },
             )) {
                 return {
-                    state: 'loading',
+                    ...current,
+                    // state: 'done',
                     filter: action.filter,
-                    sider: current.sider,
-                    startTid: new Date(),
-                    sakstyper: current.sakstyper,
-                    oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                    totaltAntallSaker: current.totaltAntallSaker,
-                    forrigeSaker: finnForrigeSaker(current),
+                    // sider: current.sider,
+                    // startTid: new Date(),
+                    // sakstyper: current.sakstyper,
+                    // oppgaveTilstandInfo: current.oppgaveTilstandInfo,
+                    // totaltAntallSaker: current.totaltAntallSaker,
+                    // forrigeSaker: finnForrigeSaker(current),
                 };
             }
             return {
-                state: 'loading',
+                ...current,
+                // state: 'done',
                 filter: action.filter,
-                sider: undefined,
-                sakstyper: current.sakstyper,
-                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                startTid: new Date(),
-                totaltAntallSaker: undefined,
-                forrigeSaker: finnForrigeSaker(current),
+                // sider: undefined,
+                // sakstyper: current.sakstyper,
+                // oppgaveTilstandInfo: current.oppgaveTilstandInfo,
+                // startTid: new Date(),
+                // totaltAntallSaker: undefined,
+                // forrigeSaker: finnForrigeSaker(current),
             };
         case 'lasting-pågår':
             return {

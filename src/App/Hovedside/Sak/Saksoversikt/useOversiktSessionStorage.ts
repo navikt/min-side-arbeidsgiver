@@ -118,7 +118,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             side: sessionState.side,
             tekstsoek: sessionState.tekstsoek,
             virksomheter: sessionState.virksomhetsnumre === "ALLEBEDRIFTER"
-                ? Set(alleVirksomheter.map(it => it.OrganizationNumber))
+                ? Set<string>()
                 : Set(sessionState.virksomhetsnumre.flatMap(orgnr => {
                     const org = alleVirksomheter.find(org => org.OrganizationNumber === orgnr)
                     return org !== undefined ? [orgnr] : [];
