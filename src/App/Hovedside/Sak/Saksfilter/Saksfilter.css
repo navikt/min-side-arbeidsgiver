@@ -3,7 +3,7 @@
     flex-direction: column;
     min-width: min(22rem, 100%);
     min-height: max(100vh);
-    gap: 2rem;
+    gap: 32px;
     background: var(--a-bg-default);
     padding: 1.5rem;
     padding-bottom: 4rem;
@@ -14,16 +14,4 @@
     .saksfilter {
         min-height: unset;
     }
-}
-
-
-.saksfilter_søk-sak {
-    display: flex;
-    flex-direction: column;
-}
-
-
-.saksfilter_headers {
-    font-weight: 600;
-    margin-bottom: 8px;
 }

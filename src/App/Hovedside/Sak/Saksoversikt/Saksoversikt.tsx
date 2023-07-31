@@ -51,6 +51,17 @@ export const Saksoversikt = () => {
 
     const alleSakstyper = useAlleSakstyper()
 
+    const onTømAlleFilter = () => {
+        byttFilter({
+            side: 1,
+            tekstsoek: "",
+            virksomheter: Set(),
+            sortering: state.filter.sortering,
+            sakstyper: [],
+            oppgaveTilstand: [],
+        })
+    };
+
     const pills = useMemo(() => {
             const pills: (Organisasjon & {erHovedenhet: boolean})[] = []
             for (let {hovedenhet, underenheter} of organisasjonstre) {
@@ -71,11 +82,12 @@ export const Saksoversikt = () => {
         [organisasjonstre, state.filter.virksomheter]
     )
 
-    let pillElement: ReactNode = <></>;
+    let pillElement: ReactNode;
     if (pills.length === 0) {
         pillElement = <></>
     } else {
         pillElement = <Chips>
+            <Chips.Removable onClick={onTømAlleFilter}>Tøm alle filter</Chips.Removable>
                 {pills.map((virksomhet) =>
                         <VirksomhetChips
                             key={virksomhet.OrganizationNumber}

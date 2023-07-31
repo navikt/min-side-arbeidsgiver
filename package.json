@@ -32,7 +32,6 @@
     "amplitude-js": "^7.4.1",
     "core-js": "^3.20.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
-    "focus-trap-react": "^10.1.4",
     "fuzzysort": "^1.1.4",
     "immutable": "^4.3.0",
     "jest-axe": "^4.1.0",

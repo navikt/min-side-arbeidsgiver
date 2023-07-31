@@ -4,11 +4,10 @@ import { Virksomhetsmeny, } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../../GeneriskeElementer/Ekspanderbartpanel';
-import { Accordion, BodyShort, Checkbox, CheckboxGroup } from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
 import { sorted } from '../../../../utils/util';
-import { useSearchParams } from 'react-router-dom';
 import { Set } from 'immutable'
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
@@ -50,18 +49,6 @@ export const Saksfilter = ({
                            }: SaksfilterProps) => {
     const [width, setWidth] = useState(window.innerWidth);
     const {organisasjonstre} = useContext(OrganisasjonerOgTilgangerContext)
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [visVirksomhetsmeny, setVisVirksomhetsmeny] = useState(searchParams.get("virksomhetsmeny") === "open");
-
-    const handleVisVirksomhetsmeny = (tilstand: boolean) => {
-        setVisVirksomhetsmeny(tilstand);
-        if (tilstand) {
-            searchParams.set("virksomhetsmeny", "open")
-        } else {
-            searchParams.delete("virksomhetsmeny");
-        }
-        setSearchParams(searchParams);
-    }
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -87,14 +74,6 @@ export const Saksfilter = ({
 
     return <KollapsHvisMobil width={width}>
         <div className='saksfilter'>
-
-            <div>
-                <BodyShort className="saksfilter_headers">Virksomheter</BodyShort>
-                <Virksomhetsmeny
-                    valgteEnheter={valgteVirksomheter}
-                    setValgteEnheter={setValgteVirksomheter}
-                />
-            </div>
 
             <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
@@ -133,6 +112,14 @@ export const Saksfilter = ({
                 }
             </CheckboxGroup>
             }
+            <div>
+                <Label>Virksomheter</Label>
+                <Virksomhetsmeny
+                    valgteEnheter={valgteVirksomheter}
+                    setValgteEnheter={setValgteVirksomheter}
+                />
+            </div>
+
         </div>
     </KollapsHvisMobil>;
 
