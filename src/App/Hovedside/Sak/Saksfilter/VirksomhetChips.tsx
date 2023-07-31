@@ -1,14 +1,11 @@
 import React from 'react';
 import './VirksomhetChips.css';
-import { BodyShort, Button } from '@navikt/ds-react';
-import { Close } from '@navikt/ds-icons';
-import { Underenhet } from './Virksomhetsikoner/Virksomhetsikoner';
 
 import { Chips } from "@navikt/ds-react";
 
 type VirksomhetChipsProp = {
     navn: string,
-    erHovedenhet?: boolean,
+    erHovedenhet: boolean,
     onLukk: () => void,
 }
 
