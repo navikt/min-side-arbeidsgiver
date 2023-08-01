@@ -113,12 +113,13 @@ export const Virksomhetsmeny = ({ valgteEnheter: valgteEnheterInput, setValgteEn
             value={valgteEnheter.toArray()}
             onChange={onCheckboxGroupChange}
         >
+            <ul className="sak_virksomhetsmeny_hovedenhetliste">
             {
                 organisasjonstre.map(({hovedenhet, underenheter}) => {
                         if (søketreff && !søketreff.has(hovedenhet.OrganizationNumber)) {
                             return null
                         }
-                        return <div key={hovedenhet.OrganizationNumber}>
+                        return <li key={hovedenhet.OrganizationNumber}>
                             <HovedenhetCheckbox
                                 hovedenhet={hovedenhet}
                                 valgteOrgnr={valgteEnheter}
@@ -126,22 +127,24 @@ export const Virksomhetsmeny = ({ valgteEnheter: valgteEnheterInput, setValgteEn
                             <Conditionally
                                 when={valgteEnheter.has(hovedenhet.OrganizationNumber) || (søketreff !== undefined && underenheter.some(it => søketreff.has(it.OrganizationNumber)))}
                             >
+                                <ul>
                                 { underenheter.flatMap((underenhet) => {
                                         if (søketreff && !søketreff.has(underenhet.OrganizationNumber)) {
                                             return []
                                         }
 
-                                        return [<UnderenhetCheckboks
+                                        return [<li key={underenhet.OrganizationNumber}><UnderenhetCheckboks
                                             valgteOrgnr={valgteEnheter}
-                                            key={underenhet.OrganizationNumber}
                                             underenhet={underenhet}
-                                        />]
+                                        /></li>]
                                     }
                                 )}
+                                </ul>
                             </Conditionally>
-                        </div>
+                        </li>
                     }
                 )}
+            </ul>
         </CheckboxGroup>
     </>)
 }
