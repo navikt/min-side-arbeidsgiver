@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from 'react';
 import './Saksfilter.css';
-import { Virksomhetsmeny, } from './Virksomhetsmeny/Virksomhetsmeny';
+import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../../GeneriskeElementer/Ekspanderbartpanel';
@@ -8,7 +8,7 @@ import { BodyShort, Checkbox, CheckboxGroup, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../../api/graphql-types';
 import { sorted } from '../../../../utils/util';
-import { Set } from 'immutable'
+import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 
@@ -22,10 +22,20 @@ type SaksfilterProps = {
     oppgaveTilstandInfo: OppgaveTilstandInfo[] | undefined;
 }
 
+export const oppgaveTilstandTilTekst = (oppgavetilstand: OppgaveTilstand) => {
+    switch (oppgavetilstand) {
+        case OppgaveTilstand.Ny:
+            return 'Uløste oppgaver'
+        default:
+            return ""
+    }
+}
+
 type KollapsHvisMobilProps = {
     width: Number
     children?: React.ReactNode | undefined
 }
+
 
 const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({ width, children }: KollapsHvisMobilProps) => {
     if (width < 730) {
@@ -85,7 +95,7 @@ export const Saksfilter = ({
                 }
             >
                 <Checkbox value={OppgaveTilstand.Ny}>
-                    <BodyShort>Uløste oppgaver
+                    <BodyShort>{oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
                         {
                             oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''
                         }
