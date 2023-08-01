@@ -12,7 +12,7 @@ import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilga
 import * as Record from '../../../../utils/Record';
 import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
-import { Set } from 'immutable'
+import { Set } from 'immutable';
 import { Organisasjon } from '../../../../altinn/organisasjon';
 import { count } from '../../../../utils/util';
 import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
@@ -125,10 +125,10 @@ export const Saksoversikt = () => {
         />
         <div className='saksoversikt'>
             <Alerts/>
+            {pillElement}
             <div className="saksoversikt__header">
                 <StatusLine state={state}/>
             </div>
-            {pillElement}
 
             <div className="saksoversikt__saksliste-header">
                 <VelgSortering state={state} byttFilter={byttFilter}/>
@@ -186,8 +186,6 @@ const VelgSortering: FC<VelgSorteringProps> = ({state, byttFilter}) => {
     </Select>;
 }
 
-
-const noFilterApplied = (filter: Filter) => filter.tekstsoek.trim() === ""
 
 const useCurrentDate = (pollInterval: number) => {
     const [currentDate, setCurrentDate] = useState(() => new Date())
@@ -259,8 +257,8 @@ const StatusLine: FC<{ state: State }> = ({state}) => {
         }
 
         const {totaltAntallSaker, filter} = state
-        if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
-            return "Ingen saker å vise på valgt virksomhet."
+        if (totaltAntallSaker === 0 && filter.tekstsoek.trim() !== "") {
+            return `Ingen treff for «${filter.tekstsoek}».`
         }
 
         if (totaltAntallSaker === 0) {
@@ -293,9 +291,6 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({state}) => {
 
     const {totaltAntallSaker, saker, filter} = state
 
-    if (totaltAntallSaker === 0 && noFilterApplied(filter)) {
-        return null;
-    }
 
     if (totaltAntallSaker === 0) {
         return null;
