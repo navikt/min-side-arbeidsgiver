@@ -127,12 +127,12 @@ casual.define('hovedenhet', (organizationNumber) => ({
 
 const generateUnderenheter = () => {
     const orgnummer = casual.orgnr;
-    const underenheter =  Array(15).fill(null).map(() => casual.underenhet(orgnummer));
+    const underenheter =  Array(casual.integer(1, 11)).fill(null).map(() => casual.underenhet(orgnummer));
     const hovedenhet = casual.hovedenhet(orgnummer);
     return [hovedenhet, ...underenheter];
 }
 
-const andreOrganisasjoner = Array(30).fill(null).flatMap(() => {
+const andreOrganisasjoner = Array(600).fill(null).flatMap(() => {
     return generateUnderenheter();
 });
 
