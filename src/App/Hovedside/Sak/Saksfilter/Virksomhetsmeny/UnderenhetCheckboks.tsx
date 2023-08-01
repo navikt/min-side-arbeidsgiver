@@ -1,7 +1,8 @@
 import {BodyShort, Checkbox} from "@navikt/ds-react";
-import React  from "react";
+import React, { MouseEventHandler }  from "react";
 import {Set} from 'immutable';
 import { Organisasjon } from '../../../../../altinn/organisasjon';
+import { amplitudeFilterKlikk } from '../Saksfilter';
 
 
 type UnderenhetCheckboksProps = {
@@ -19,6 +20,10 @@ export const UnderenhetCheckboks = (
             value={underenhet.OrganizationNumber}
             id={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
+            onClick={(e: React.MouseEvent<HTMLInputElement>) =>
+                //@ts-ignore
+                amplitudeFilterKlikk("organisasjon", "underenhet", e.target.checked)
+            }
         > </Checkbox>
         <label htmlFor={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}>
             <BodyShort size="small" as="span"> {underenhet.Name} </BodyShort>

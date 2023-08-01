@@ -3,6 +3,7 @@ import React from "react";
 import "./HovedenhetCheckbox.css";
 import {Set} from 'immutable'
 import { Organisasjon } from '../../../../../altinn/organisasjon';
+import { amplitudeFilterKlikk } from '../Saksfilter';
 
 
 type HovedenhetCheckboxProp = {
@@ -30,6 +31,10 @@ export const HovedenhetCheckbox = (
                         id={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
                         key={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_list_key`}
                         style={{display: "flex", alignItems: "center"}}
+                        onClick={(e) =>
+                            //@ts-ignore
+                            amplitudeFilterKlikk("organisasjon", "hovedenhet", e.target.checked)
+                    }
                     >
                     </Checkbox>
                     <label

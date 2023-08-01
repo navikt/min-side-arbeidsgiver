@@ -16,6 +16,7 @@ import { Set } from 'immutable';
 import { Organisasjon } from '../../../../altinn/organisasjon';
 import { count } from '../../../../utils/util';
 import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
+import amplitude from '../../../../utils/amplitude';
 
 export const SIDE_SIZE = 30;
 
@@ -37,6 +38,13 @@ const useAlleSakstyper = () => {
     });
     return data?.sakstyper ?? [];
 };
+
+export const amplitudeChipClick = (kategori: string, filternavn: string) => {
+    amplitude.logEvent("chip-click", {
+        "kategori": kategori,
+        "filternavn": filternavn,
+    })
+}
 
 export const Saksoversikt = () => {
     const { organisasjonstre, organisasjoner, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
@@ -60,6 +68,7 @@ export const Saksoversikt = () => {
             sakstyper: [],
             oppgaveTilstand: [],
         });
+        amplitudeChipClick("tøm-alle-filtre", "tøm-falle-filtre");
     };
 
     const organisasjonerTilPills = useMemo(() => {
@@ -93,14 +102,23 @@ export const Saksoversikt = () => {
                 <Chips.Removable
                     variant='neutral'
                     key={sakstype}
-                    onClick={() => byttFilter({...state.filter,  sakstyper: state.filter.sakstyper.filter(it => it !== sakstype) })}
+                    onClick={() => {
+                        byttFilter({...state.filter,  sakstyper: state.filter.sakstyper.filter(it => it !== sakstype) })
+                        amplitudeChipClick("sakstype", sakstype)
+                    }}
                 >{sakstype}</Chips.Removable>,
             )}
             {oppgaveTilstand.map(oppgavetilstand =>
                 <Chips.Removable
                     variant='neutral'
                     key={oppgavetilstand}
-                    onClick={() => byttFilter({...state.filter, oppgaveTilstand: state.filter.oppgaveTilstand.filter(it => it != oppgavetilstand)})}
+                    onClick={() => {
+                        byttFilter({
+                            ...state.filter,
+                            oppgaveTilstand: state.filter.oppgaveTilstand.filter(it => it != oppgavetilstand),
+                        });
+                        amplitudeChipClick("oppgave", oppgavetilstand)
+                    }}
                 >{oppgaveTilstandTilTekst(oppgavetilstand)}</Chips.Removable>,
             )}
             {organisasjonerTilPills.map((virksomhet) =>
@@ -120,6 +138,7 @@ export const Saksoversikt = () => {
                             }
                         }
                         handleValgteVirksomheter(valgte);
+                        amplitudeChipClick("organisasjon", virksomhet.erHovedenhet ? "hovedenhet" : "underenhet");
                     }}
                 />,
             )}

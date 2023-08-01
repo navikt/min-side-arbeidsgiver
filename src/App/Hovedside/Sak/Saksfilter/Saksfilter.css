@@ -5,8 +5,7 @@
     min-height: max(100vh);
     gap: 32px;
     background: var(--a-bg-default);
-    padding: 1.5rem;
-    padding-bottom: 4rem;
+    padding: 24px;
     grid-column-start: 2;
 }
 

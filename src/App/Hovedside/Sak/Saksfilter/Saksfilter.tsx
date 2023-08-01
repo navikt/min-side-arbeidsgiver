@@ -10,6 +10,7 @@ import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } fr
 import { sorted } from '../../../../utils/util';
 import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import amplitude from '../../../../utils/amplitude';
 
 
 type SaksfilterProps = {
@@ -46,6 +47,14 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({ width, children }: Kollap
         return <>{children}</>;
     }
 };
+
+export const amplitudeFilterKlikk = (kategori: string, filternavn: string, checked: boolean) => {
+    amplitude.logEvent("filtervalg", {
+        "kategori": kategori,
+        "filternavn": filternavn,
+        "checked": checked,
+    })
+}
 
 
 export const Saksfilter = ({
@@ -94,7 +103,12 @@ export const Saksfilter = ({
                     setFilter({ ...filter, oppgaveTilstand: valgteOppgavetilstander })
                 }
             >
-                <Checkbox value={OppgaveTilstand.Ny}>
+                <Checkbox
+                    value={OppgaveTilstand.Ny}
+                    onClick={(e) =>
+                        //@ts-ignore
+                        amplitudeFilterKlikk("oppgave", OppgaveTilstand.Ny, e.target.checked)}
+                >
                     <BodyShort>{oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
                         {
                             oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''
@@ -111,7 +125,14 @@ export const Saksfilter = ({
             >
                 {
                     sorted(sakstyperForFilter, sakstype => sakstype.navn).map(({ navn, antall }) =>
-                        <Checkbox key={navn} value={navn}>
+                        <Checkbox
+                            key={navn}
+                            value={navn}
+                            onClick={(e) =>
+                                //@ts-ignore
+                                amplitudeFilterKlikk("sakstype", navn, e.target.checked)
+                        }
+                        >
                             <BodyShort>
                                 {antall === undefined
                                     ? navn

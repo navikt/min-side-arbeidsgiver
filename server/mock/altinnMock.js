@@ -132,7 +132,7 @@ const generateUnderenheter = () => {
     return [hovedenhet, ...underenheter];
 }
 
-const andreOrganisasjoner = Array(600).fill(null).flatMap(() => {
+const andreOrganisasjoner = Array(40).fill(null).flatMap(() => {
     return generateUnderenheter();
 });
 
