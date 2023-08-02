@@ -29,9 +29,6 @@
   justify-content: space-between;
   align-items: center;
 }
-.saksoversikt-empty {
-  color: var(--a-grayalpha-600);
-}
 
 .saksoversikt__skjul-for-mobil {
   display: block;

@@ -1,4 +1,4 @@
-import { BodyShort, Search } from '@navikt/ds-react';
+import { Search } from '@navikt/ds-react';
 import React, {useRef, useState} from 'react';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import './Saksfilter.css'
@@ -14,7 +14,6 @@ export const Søkeboks = ({filter, byttFilter}: SøkeboksProps) => {
 
     return <form
         ref={formRef}
-        className="saksfilter_søk-sak"
         onSubmit={(e) => {
             e.preventDefault()
             byttFilter({...filter, tekstsoek })
@@ -26,11 +25,12 @@ export const Søkeboks = ({filter, byttFilter}: SøkeboksProps) => {
             setTekstsoek(filter.tekstsoek)
         }}
     >
-        <BodyShort className="saksfilter_headers">Søk blant saker</BodyShort>
         <Search
-            label="Søk blandt saker"
+            label="Søk i tittel"
+            description="F.eks. fødselsdato, navn"
+            hideLabel={false}
             size="medium"
-            variant="secondary"
+            variant="primary"
             value={tekstsoek}
             onChange={setTekstsoek}
             onClear={ () => {

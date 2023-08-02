@@ -5,9 +5,10 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSessionStorage } from '../../../hooks/useStorage';
 import {equalAsSets, Filter} from './useOversiktStateTransitions';
-import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import {OppgaveTilstand, SakSortering} from "../../../../api/graphql-types";
+import { Set } from 'immutable';
+import { Organisasjon } from '../../../../altinn/organisasjon';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter'
 
@@ -34,7 +35,7 @@ const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
-    virksomhetsnumre: filter.virksomheter === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : filter.virksomheter.map(virksomhet => virksomhet.OrganizationNumber),
+    virksomhetsnumre: filter.virksomheter.toArray(),
     sakstyper: filter.sakstyper,
     oppgaveTilstand: filter.oppgaveTilstand,
 });
@@ -116,10 +117,12 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
             route: '/saksoversikt',
             side: sessionState.side,
             tekstsoek: sessionState.tekstsoek,
-            virksomheter: sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" as const : sessionState.virksomhetsnumre.flatMap(orgnr => {
-                const org = alleVirksomheter.find(org => org.OrganizationNumber === orgnr)
-                return org !== undefined ? [org] : [];
-            }),
+            virksomheter: sessionState.virksomhetsnumre === "ALLEBEDRIFTER"
+                ? Set<string>()
+                : Set(sessionState.virksomhetsnumre.flatMap(orgnr => {
+                    const org = alleVirksomheter.find(org => org.OrganizationNumber === orgnr)
+                    return org !== undefined ? [orgnr] : [];
+                })),
             sortering: sessionState.sortering,
             sakstyper: sessionState.sakstyper,
             oppgaveTilstand: sessionState.oppgaveTilstand ?? [],

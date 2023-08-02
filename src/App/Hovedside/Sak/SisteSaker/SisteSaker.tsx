@@ -12,6 +12,7 @@ import { Collapse, Expand } from '@navikt/ds-icons';
 import { BellDotFillIcon, PaperplaneIcon } from '@navikt/aksel-icons';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import { sorted } from '../../../../utils/util';
+import { Set } from 'immutable';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
@@ -86,13 +87,13 @@ const SakerLenke = ({ ikon, overskrift, undertekst, to, ekspander, setEkspander}
 
 const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(OrganisasjonsDetaljerContext);
-    const {organisasjoner} = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const [ekspander, setEkspander] = useState(false);
     const location = useLocation();
 
     const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomheter: 'ALLEBEDRIFTER',
+        virksomheter: Set(),
         tekstsoek: '',
         sortering: SakSortering.Frist,
         sakstyper: [],
@@ -101,7 +102,7 @@ const SisteSaker = () => {
 
     const sakerMedOppgaverRespons = useSaker(ANTALL_FORSIDESAKER, {
         side: 1,
-        virksomheter: 'ALLEBEDRIFTER',
+        virksomheter: Set(),
         tekstsoek: '',
         sortering: SakSortering.Frist,
         sakstyper: [],

@@ -1,6 +1,7 @@
 import { altinntjeneste, AltinnFellesInfo, AltinntjenesteId } from './tjenester';
 import * as Record from '../utils/Record';
 import { Organisasjon } from './organisasjon';
+import { Set } from 'immutable'
 
 type Orgnr = string;
 
@@ -29,7 +30,7 @@ const hentAltinntilgangerForEnTjeneste = async (
     }
 
     const orgnr = organisasjoner.map(_ => _.OrganizationNumber);
-    return [id, new Set(orgnr)];
+    return [id, Set(orgnr)];
 };
 
 const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';

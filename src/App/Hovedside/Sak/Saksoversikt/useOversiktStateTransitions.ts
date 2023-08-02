@@ -3,7 +3,6 @@ import { SIDE_SIZE } from './Saksoversikt';
 import { useSessionState } from './useOversiktSessionStorage';
 import { useSaker } from '../useSaker';
 import amplitude from '../../../../utils/amplitude';
-import { Organisasjon } from '../Saksfilter/Virksomhetsmeny/Virksomhetsmeny';
 import {
     OppgaveTilstand,
     OppgaveTilstandInfo,
@@ -12,12 +11,13 @@ import {
     SakSortering,
     Sakstype,
 } from '../../../../api/graphql-types';
-
+import Immutable, { Set } from 'immutable';
+import { Organisasjon } from '../../../../altinn/organisasjon';
 
 export type Filter = {
     side: number,
     tekstsoek: string,
-    virksomheter: Organisasjon[] | 'ALLEBEDRIFTER',
+    virksomheter: Set<string>,
     sortering: SakSortering,
     sakstyper: string[],
     oppgaveTilstand: OppgaveTilstand[],
@@ -104,31 +104,9 @@ const reduce = (current: State, action: Action): State => {
             if (equalFilter(current.filter, action.filter)) {
                 return current;
             }
-
-            if (equalFilter(
-                { ...current.filter, side: 1, sortering: SakSortering.Frist },
-                { ...action.filter, side: 1, sortering: SakSortering.Frist },
-            )) {
-                return {
-                    state: 'loading',
-                    filter: action.filter,
-                    sider: current.sider,
-                    startTid: new Date(),
-                    sakstyper: current.sakstyper,
-                    oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                    totaltAntallSaker: current.totaltAntallSaker,
-                    forrigeSaker: finnForrigeSaker(current),
-                };
-            }
             return {
-                state: 'loading',
+                ...current,
                 filter: action.filter,
-                sider: undefined,
-                sakstyper: current.sakstyper,
-                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                startTid: new Date(),
-                totaltAntallSaker: undefined,
-                forrigeSaker: finnForrigeSaker(current),
             };
         case 'lasting-pågår':
             return {
@@ -192,20 +170,6 @@ const finnForrigeSaker = (state: State): Array<Sak> | null => {
     }
 };
 
-
-function equalVirksomhetsnumre(a: Filter, b: Filter) {
-    const virksomheterA = a.virksomheter;
-    const virksomheterB = b.virksomheter;
-    if (virksomheterA === 'ALLEBEDRIFTER' && virksomheterB === 'ALLEBEDRIFTER') {
-        return true;
-    } else if (Array.isArray(virksomheterA) && Array.isArray(virksomheterB)) {
-        return virksomheterA.length === virksomheterB.length &&
-            virksomheterA.every(aVirksomhet => virksomheterB.some(bVirksomhet => aVirksomhet.OrganizationNumber === bVirksomhet.OrganizationNumber));
-    } else {
-        return false;
-    }
-}
-
 export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every(aa => b.includes(aa));
 }
@@ -213,7 +177,7 @@ export function equalAsSets(a: string[], b: string[]) {
 export const equalFilter = (a: Filter, b: Filter): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
-    equalVirksomhetsnumre(a, b) &&
+    Immutable.is(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand);

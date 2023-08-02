@@ -8,6 +8,14 @@ export const useOnClickOutside = (ref: React.RefObject<HTMLElement>, handler: (e
             if (node && node !== event.target && node.contains(event.target as HTMLElement)) {
                 return
             }
+
+            // @ts-ignore
+            if (!document.contains(event.target as HTMLOrSVGElement)){
+                return
+                //Clear-knapp i søkefeltet forsvinner når klikket på.
+                //Dette blir derfor registrert som klikk utenfor dropdown-menyen.
+            }
+
             handler(event);
         };
         document.addEventListener("click", listener);
