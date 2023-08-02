@@ -212,15 +212,13 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = props => {
         beregnOrganisasjonerArgs,
     )
 
-    // TODO: dont ignore errors :'(
-    const [organisasjonstre, error] = useEffectfulAsyncFunction(
+    const [organisasjonstreResponse, error] = useEffectfulAsyncFunction(
         undefined as OrganisasjonEnhet[] | undefined,
         byggOrganisasjonstre,
         [organisasjoner]
     )
-    if (error) {
-        console.error("hente organisasjonstre feilet", {error})
-    }
+
+    const organisasjonstre = error ? [] : organisasjonstreResponse;
 
     const childrenMap = useMemo(
         () => Map(

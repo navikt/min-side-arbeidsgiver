@@ -20,10 +20,7 @@ export const UnderenhetCheckboks = (
             value={underenhet.OrganizationNumber}
             id={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
-            onClick={(e: React.MouseEvent<HTMLInputElement>) =>
-                //@ts-ignore
-                amplitudeFilterKlikk("organisasjon", "underenhet", e.target.checked)
-            }
+            onClick={e => amplitudeFilterKlikk("organisasjon", "underenhet", e.target)}
         > </Checkbox>
         <label htmlFor={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}>
             <BodyShort size="small" as="span"> {underenhet.Name} </BodyShort>

@@ -48,12 +48,14 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({ width, children }: Kollap
     }
 };
 
-export const amplitudeFilterKlikk = (kategori: string, filternavn: string, checked: boolean) => {
-    amplitude.logEvent("filtervalg", {
-        "kategori": kategori,
-        "filternavn": filternavn,
-        "checked": checked,
-    })
+export const amplitudeFilterKlikk = (kategori: string, filternavn: string, target: EventTarget) => {
+    if (target instanceof HTMLInputElement) {
+        amplitude.logEvent("filtervalg", {
+            "kategori": kategori,
+            "filternavn": filternavn,
+            "checked": target.checked,
+        })
+    }
 }
 
 
@@ -105,9 +107,8 @@ export const Saksfilter = ({
             >
                 <Checkbox
                     value={OppgaveTilstand.Ny}
-                    onClick={(e) =>
-                        //@ts-ignore
-                        amplitudeFilterKlikk("oppgave", OppgaveTilstand.Ny, e.target.checked)}
+                    onClick={e =>
+                        amplitudeFilterKlikk("oppgave", OppgaveTilstand.Ny, e.target)}
                 >
                     <BodyShort>{oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
                         {
@@ -128,10 +129,7 @@ export const Saksfilter = ({
                         <Checkbox
                             key={navn}
                             value={navn}
-                            onClick={(e) =>
-                                //@ts-ignore
-                                amplitudeFilterKlikk("sakstype", navn, e.target.checked)
-                        }
+                            onClick={e => amplitudeFilterKlikk("sakstype", navn, e.target) }
                         >
                             <BodyShort>
                                 {antall === undefined

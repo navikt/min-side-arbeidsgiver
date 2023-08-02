@@ -104,33 +104,9 @@ const reduce = (current: State, action: Action): State => {
             if (equalFilter(current.filter, action.filter)) {
                 return current;
             }
-
-            if (equalFilter(
-                { ...current.filter, side: 1, sortering: SakSortering.Frist },
-                { ...action.filter, side: 1, sortering: SakSortering.Frist },
-            )) {
-                return {
-                    ...current,
-                    // state: 'done',
-                    filter: action.filter,
-                    // sider: current.sider,
-                    // startTid: new Date(),
-                    // sakstyper: current.sakstyper,
-                    // oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                    // totaltAntallSaker: current.totaltAntallSaker,
-                    // forrigeSaker: finnForrigeSaker(current),
-                };
-            }
             return {
                 ...current,
-                // state: 'done',
                 filter: action.filter,
-                // sider: undefined,
-                // sakstyper: current.sakstyper,
-                // oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                // startTid: new Date(),
-                // totaltAntallSaker: undefined,
-                // forrigeSaker: finnForrigeSaker(current),
             };
         case 'lasting-pågår':
             return {

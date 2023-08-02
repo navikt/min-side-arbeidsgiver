@@ -23,7 +23,7 @@ export const HovedenhetCheckbox = (
         return <div
                 role="menuitemcheckbox"
                 aria-checked={valgt}
-                aria-expanded={valgt} // TODO: if no underenheter shown because of search, then don't have property ?
+                aria-expanded={valgt}
             >
                 <div className="hovedenhet">
                     <Checkbox
@@ -31,10 +31,7 @@ export const HovedenhetCheckbox = (
                         id={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
                         key={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_list_key`}
                         style={{display: "flex", alignItems: "center"}}
-                        onClick={(e) =>
-                            //@ts-ignore
-                            amplitudeFilterKlikk("organisasjon", "hovedenhet", e.target.checked)
-                    }
+                        onClick={e => amplitudeFilterKlikk('organisasjon', 'hovedenhet', e.target)}
                     >
                     </Checkbox>
                     <label
