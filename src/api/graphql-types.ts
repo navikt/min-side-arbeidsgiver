@@ -21,6 +21,7 @@ export type Beskjed = {
   lenke: Scalars['String'];
   merkelapp: Scalars['String'];
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
+  sak?: Maybe<SakMetadata>;
   sorteringTidspunkt: Scalars['ISO8601DateTime'];
   tekst: Scalars['String'];
   virksomhet: Virksomhet;
@@ -62,6 +63,7 @@ export type Oppgave = {
   merkelapp: Scalars['String'];
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
   paaminnelseTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
+  sak?: Maybe<SakMetadata>;
   sorteringTidspunkt: Scalars['ISO8601DateTime'];
   tekst: Scalars['String'];
   tilstand?: Maybe<OppgaveTilstand>;
@@ -121,6 +123,11 @@ export type Sak = {
   sisteStatus: SakStatus;
   tittel: Scalars['String'];
   virksomhet: Virksomhet;
+};
+
+export type SakMetadata = {
+  __typename?: 'SakMetadata';
+  tittel: Scalars['String'];
 };
 
 export enum SakSortering {
