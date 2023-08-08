@@ -1,7 +1,18 @@
 import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import { Chips, Heading, Pagination, Select } from '@navikt/ds-react';
+import {
+    Dropdown,
+    Button,
+    Chips,
+    Heading,
+    Pagination,
+    Select,
+    Link,
+    Modal,
+    BodyLong,
+    TextField,
+} from '@navikt/ds-react';
 import { Spinner } from '../../../Spinner';
 import { SaksListe } from '../SaksListe';
 import { Alerts } from '../../../Alerts/Alerts';
@@ -17,6 +28,7 @@ import { Organisasjon } from '../../../../altinn/organisasjon';
 import { count } from '../../../../utils/util';
 import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
 import amplitude from '../../../../utils/amplitude';
+import { LagreFilter, LagretFilter } from './LagreFilter';
 
 export const SIDE_SIZE = 30;
 
@@ -40,11 +52,12 @@ const useAlleSakstyper = () => {
 };
 
 export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent("chip-click", {
-        "kategori": kategori,
-        "filternavn": filternavn,
-    })
-}
+    amplitude.logEvent('chip-click', {
+        'kategori': kategori,
+        'filternavn': filternavn,
+    });
+};
+
 
 export const Saksoversikt = () => {
     const { organisasjonstre, organisasjoner, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
@@ -52,6 +65,9 @@ export const Saksoversikt = () => {
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
 
     const { state, byttFilter } = useOversiktStateTransitions(orgs);
+    const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
+    const [lagredeFilter, setLagredeFilter] = useState<LagretFilter[]>([]);
+
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
@@ -68,8 +84,19 @@ export const Saksoversikt = () => {
             sakstyper: [],
             oppgaveTilstand: [],
         });
-        amplitudeChipClick("tøm-alle-filtre", "tøm-falle-filtre");
+        amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
+
+    useEffect(()=>{
+        if (valgtFilter == null){
+            return
+        }
+        byttFilter(valgtFilter.filter)
+    },[valgtFilter])
+
+    useEffect(() => {
+        Modal.setAppElement("#root");
+    },[])
 
     const organisasjonerTilPills = useMemo(() => {
             const pills: (Organisasjon & { erHovedenhet: boolean })[] = [];
@@ -103,8 +130,11 @@ export const Saksoversikt = () => {
                     variant='neutral'
                     key={sakstype}
                     onClick={() => {
-                        byttFilter({...state.filter,  sakstyper: state.filter.sakstyper.filter(it => it !== sakstype) })
-                        amplitudeChipClick("sakstype", sakstype)
+                        byttFilter({
+                            ...state.filter,
+                            sakstyper: state.filter.sakstyper.filter(it => it !== sakstype),
+                        });
+                        amplitudeChipClick('sakstype', sakstype);
                     }}
                 >{sakstype}</Chips.Removable>,
             )}
@@ -117,7 +147,7 @@ export const Saksoversikt = () => {
                             ...state.filter,
                             oppgaveTilstand: state.filter.oppgaveTilstand.filter(it => it != oppgavetilstand),
                         });
-                        amplitudeChipClick("oppgave", oppgavetilstand)
+                        amplitudeChipClick('oppgave', oppgavetilstand);
                     }}
                 >{oppgaveTilstandTilTekst(oppgavetilstand)}</Chips.Removable>,
             )}
@@ -138,7 +168,7 @@ export const Saksoversikt = () => {
                             }
                         }
                         handleValgteVirksomheter(valgte);
-                        amplitudeChipClick("organisasjon", virksomhet.erHovedenhet ? "hovedenhet" : "underenhet");
+                        amplitudeChipClick('organisasjon', virksomhet.erHovedenhet ? 'hovedenhet' : 'underenhet');
                     }}
                 />,
             )}
@@ -158,11 +188,17 @@ export const Saksoversikt = () => {
         />
         <div className='saksoversikt'>
             <Alerts />
-            {pillElement}
             <div className='saksoversikt__header'>
-                <StatusLine state={state} />
+                <LagreFilter
+                    state={state}
+                    lagredeFilter={lagredeFilter}
+                    setLagredeFilter={setLagredeFilter}
+                    valgtFilter={valgtFilter}
+                    setValgtFilter={setValgtFilter}
+                />
             </div>
-
+            <StatusLine state={state} />
+            {pillElement}
             <div className='saksoversikt__saksliste-header'>
                 <VelgSortering state={state} byttFilter={byttFilter} />
                 <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
@@ -299,11 +335,11 @@ const StatusLine: FC<{ state: State }> = ({ state }) => {
         }
 
         if (state.totaltAntallSaker !== undefined) {
-            return `Viser ${totaltAntallSaker} saker`;
+            return `${totaltAntallSaker} saker`;
         }
         return '';
     };
-    return <Heading level='2' size='medium' aria-live='polite' aria-atomic='true'>
+    return <Heading level='2' size='small' aria-live='polite' aria-atomic='true'>
         {statusText()}
     </Heading>;
 };
@@ -322,7 +358,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
         return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
     }
 
-    const { totaltAntallSaker, saker, filter } = state;
+    const { totaltAntallSaker, saker } = state;
 
 
     if (totaltAntallSaker === 0) {
