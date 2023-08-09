@@ -2,16 +2,11 @@ import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState 
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
 import {
-    Dropdown,
-    Button,
     Chips,
     Heading,
     Pagination,
     Select,
-    Link,
     Modal,
-    BodyLong,
-    TextField,
 } from '@navikt/ds-react';
 import { Spinner } from '../../../Spinner';
 import { SaksListe } from '../SaksListe';
@@ -87,16 +82,16 @@ export const Saksoversikt = () => {
         amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
 
-    useEffect(()=>{
-        if (valgtFilter == null){
-            return
+    useEffect(() => {
+        if (valgtFilter == null) {
+            return;
         }
-        byttFilter(valgtFilter.filter)
-    },[valgtFilter])
+        byttFilter(valgtFilter.filter);
+    }, [valgtFilter]);
 
     useEffect(() => {
-        Modal.setAppElement("#root");
-    },[])
+        Modal.setAppElement('#root');
+    }, []);
 
     const organisasjonerTilPills = useMemo(() => {
             const pills: (Organisasjon & { erHovedenhet: boolean })[] = [];
@@ -117,14 +112,25 @@ export const Saksoversikt = () => {
         },
         [organisasjonstre, state.filter.virksomheter],
     );
-    const { sakstyper, oppgaveTilstand } = state.filter;
+    const { sakstyper, oppgaveTilstand, tekstsoek, virksomheter} = state.filter;
 
     let pillElement: ReactNode;
-    if (organisasjonerTilPills.length + sakstyper.length + oppgaveTilstand.length === 0) {
+    if (organisasjonerTilPills.length + sakstyper.length + oppgaveTilstand.length + tekstsoek.trim().length === 0) {
         pillElement = <></>;
     } else {
         pillElement = <Chips>
             <Chips.Removable onClick={onTømAlleFilter}>Tøm alle filter</Chips.Removable>
+            {
+                tekstsoek.trim() !== '' ?
+                    <Chips.Removable
+                        variant='neutral'
+                        onClick={() => {
+                            byttFilter({ ...state.filter, tekstsoek: '' });
+                        }}>
+                        {`Tekstsøk: «${tekstsoek}»`}
+                    </Chips.Removable>
+                    : null}
+
             {sakstyper.map(sakstype =>
                 <Chips.Removable
                     variant='neutral'
@@ -132,7 +138,7 @@ export const Saksoversikt = () => {
                     onClick={() => {
                         byttFilter({
                             ...state.filter,
-                            sakstyper: state.filter.sakstyper.filter(it => it !== sakstype),
+                            sakstyper: sakstyper.filter(it => it !== sakstype),
                         });
                         amplitudeChipClick('sakstype', sakstype);
                     }}
@@ -145,7 +151,7 @@ export const Saksoversikt = () => {
                     onClick={() => {
                         byttFilter({
                             ...state.filter,
-                            oppgaveTilstand: state.filter.oppgaveTilstand.filter(it => it != oppgavetilstand),
+                            oppgaveTilstand: oppgaveTilstand.filter(it => it != oppgavetilstand),
                         });
                         amplitudeChipClick('oppgave', oppgavetilstand);
                     }}
@@ -157,15 +163,13 @@ export const Saksoversikt = () => {
                     navn={virksomhet.Name}
                     erHovedenhet={virksomhet.erHovedenhet}
                     onLukk={() => {
-                        let valgte = state.filter.virksomheter.remove(virksomhet.OrganizationNumber);
+                        let valgte = virksomheter.remove(virksomhet.OrganizationNumber);
 
                         // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
                         const parent = virksomhet.ParentOrganizationNumber;
-                        if (typeof parent === 'string') {
-                            const underenheter = childrenMap.get(parent) ?? Set();
-                            if (underenheter.every(it => !valgte.has(it))) {
-                                valgte = valgte.remove(parent);
-                            }
+                        const underenheter = childrenMap.get(parent) ?? Set();
+                        if (underenheter.every(it => !valgte.has(it))) {
+                            valgte = valgte.remove(parent);
                         }
                         handleValgteVirksomheter(valgte);
                         amplitudeChipClick('organisasjon', virksomhet.erHovedenhet ? 'hovedenhet' : 'underenhet');

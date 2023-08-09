@@ -59,7 +59,7 @@ export const LagreFilter = ({
                         variant='tertiary'
                         onClick={() => {
                             setOpenSlett(true);
-                        } //TODO: Etter å lagre endringer er fortsatt 'Lagre endringer'-knappen synlig}
+                        }}
                     >
                         Slett
                     </Button>
@@ -77,6 +77,7 @@ export const LagreFilter = ({
                         lagredeFilter.map(lagretFilter =>
                             <Dropdown.Menu.List.Item onClick={() => {
                                 setValgtFilter(lagretFilter);
+
                             }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,
@@ -156,10 +157,12 @@ export const LagreFilter = ({
             open={openEndre}
             setOpen={setOpenEndre}
             onSubmit={() => {
-                setLagredeFilter([{
+                const nyttFilter = {
                     navn: valgtFilter?.navn ?? '',
                     filter: state.filter,
-                }, ...lagredeFilter.filter(filter => filter.navn != valgtFilter?.navn)]);
+                };
+                setLagredeFilter([nyttFilter, ...lagredeFilter.filter(filter => filter.navn != valgtFilter?.navn)]);
+                setValgtFilter(nyttFilter);
                 setOpenEndre(false);
             }}
         >
