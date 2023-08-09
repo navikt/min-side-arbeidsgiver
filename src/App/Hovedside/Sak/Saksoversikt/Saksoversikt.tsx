@@ -1,29 +1,24 @@
-import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, {FC, ReactNode, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import {
-    Chips,
-    Heading,
-    Pagination,
-    Select,
-    Modal,
-} from '@navikt/ds-react';
-import { Spinner } from '../../../Spinner';
-import { SaksListe } from '../SaksListe';
-import { Alerts } from '../../../Alerts/Alerts';
-import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
-import { OmSaker } from '../OmSaker';
-import { oppgaveTilstandTilTekst, Saksfilter } from '../Saksfilter/Saksfilter';
-import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import {Chips, Heading, Modal, Pagination, Select,} from '@navikt/ds-react';
+import {Spinner} from '../../../Spinner';
+import {SaksListe} from '../SaksListe';
+import {Alerts} from '../../../Alerts/Alerts';
+import {Filter, State, useOversiktStateTransitions} from './useOversiktStateTransitions';
+import {OmSaker} from '../OmSaker';
+import {oppgaveTilstandTilTekst, Saksfilter} from '../Saksfilter/Saksfilter';
+import {OrganisasjonerOgTilgangerContext} from '../../../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../../../utils/Record';
-import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
-import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
-import { Set } from 'immutable';
-import { Organisasjon } from '../../../../altinn/organisasjon';
-import { count } from '../../../../utils/util';
-import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
+import {Query, Sak, SakSortering} from '../../../../api/graphql-types';
+import {gql, TypedDocumentNode, useQuery} from '@apollo/client';
+import {Set} from 'immutable';
+import {Organisasjon} from '../../../../altinn/organisasjon';
+import {count} from '../../../../utils/util';
+import {VirksomhetChips} from '../Saksfilter/VirksomhetChips';
 import amplitude from '../../../../utils/amplitude';
-import { LagreFilter, LagretFilter } from './LagreFilter';
+import {LagreFilter, LagretFilter} from './LagreFilter';
+import {useRemoteStorage} from "../../../hooks/useStorage";
 
 export const SIDE_SIZE = 30;
 
@@ -60,7 +55,6 @@ export const Saksoversikt = () => {
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
 
     const { state, byttFilter } = useOversiktStateTransitions(orgs);
-
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });

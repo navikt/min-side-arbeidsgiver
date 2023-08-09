@@ -73,7 +73,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                 {lagredeFilter.length > 0 ? <><Dropdown.Menu.List>
                     {
                         lagredeFilter.map(lagretFilter =>
-                            <Dropdown.Menu.List.Item onClick={() => {
+                            <Dropdown.Menu.List.Item key={lagretFilter.navn} onClick={() => {
                                 setValgtFilter(lagretFilter);
                                 byttFilter(lagretFilter.filter);
                             }}>
