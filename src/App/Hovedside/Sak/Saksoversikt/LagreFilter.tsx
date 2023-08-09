@@ -1,8 +1,9 @@
-import { equalFilter, Filter, State } from './useOversiktStateTransitions';
+import { equalFilter, Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedKnapper } from '../../../../GeneriskeElementer/ModalMedKnapper';
+import { Organisasjon } from '@navikt/bedriftsmeny';
 
 export type LagretFilter = {
     navn: string,
@@ -11,20 +12,14 @@ export type LagretFilter = {
 
 type LagreFilterProps = {
     state: State,
-    lagredeFilter: LagretFilter[],
-    setLagredeFilter: (LagredeFilter: LagretFilter[]) => void,
-    valgtFilter: LagretFilter | null,
-    setValgtFilter: (LagretFilter: LagretFilter | null) => void,
+    byttFilter: (filter: Filter) => void
 }
 
 
-export const LagreFilter = ({
-                                state,
-                                lagredeFilter,
-                                setLagredeFilter,
-                                valgtFilter,
-                                setValgtFilter,
-                            }: LagreFilterProps) => {
+export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
+    const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
+    const [lagredeFilter, setLagredeFilter] = useState<LagretFilter[]>([]);
+
     const [openEndre, setOpenEndre] = useState(false);
     const [openSlett, setOpenSlett] = useState(false);
     const [openLagre, setOpenLagre] = useState(false);
@@ -39,6 +34,9 @@ export const LagreFilter = ({
         setFeilmeldingStatus('ok');
     }, [openLagre]);
 
+    console.log("Valgt filter: ", valgtFilter);
+    console.log("State.filter: ", state.filter);
+    if (valgtFilter?.filter != null) console.log("EQ filters: ", equalFilter(valgtFilter?.filter, state.filter));
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -77,7 +75,7 @@ export const LagreFilter = ({
                         lagredeFilter.map(lagretFilter =>
                             <Dropdown.Menu.List.Item onClick={() => {
                                 setValgtFilter(lagretFilter);
-
+                                byttFilter(lagretFilter.filter);
                             }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,

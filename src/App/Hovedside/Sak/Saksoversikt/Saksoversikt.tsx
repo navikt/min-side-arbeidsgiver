@@ -60,8 +60,6 @@ export const Saksoversikt = () => {
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
 
     const { state, byttFilter } = useOversiktStateTransitions(orgs);
-    const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
-    const [lagredeFilter, setLagredeFilter] = useState<LagretFilter[]>([]);
 
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
@@ -81,13 +79,6 @@ export const Saksoversikt = () => {
         });
         amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
-
-    useEffect(() => {
-        if (valgtFilter == null) {
-            return;
-        }
-        byttFilter(valgtFilter.filter);
-    }, [valgtFilter]);
 
     useEffect(() => {
         Modal.setAppElement('#root');
@@ -193,13 +184,7 @@ export const Saksoversikt = () => {
         <div className='saksoversikt'>
             <Alerts />
             <div className='saksoversikt__header'>
-                <LagreFilter
-                    state={state}
-                    lagredeFilter={lagredeFilter}
-                    setLagredeFilter={setLagredeFilter}
-                    valgtFilter={valgtFilter}
-                    setValgtFilter={setValgtFilter}
-                />
+                <LagreFilter state={state} byttFilter={byttFilter}/>
             </div>
             <StatusLine state={state} />
             {pillElement}
