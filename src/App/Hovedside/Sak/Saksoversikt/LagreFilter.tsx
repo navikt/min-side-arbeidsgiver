@@ -3,7 +3,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedKnapper } from '../../../../GeneriskeElementer/ModalMedKnapper';
-import { Organisasjon } from '@navikt/bedriftsmeny';
+import { useRemoteStorage } from '../../../hooks/useStorage';
+import { Set } from 'immutable';
 
 export type LagretFilter = {
     navn: string,
@@ -18,8 +19,17 @@ type LagreFilterProps = {
 
 export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
     const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
-    const [lagredeFilter, setLagredeFilter] = useState<LagretFilter[]>([]);
-
+    const [lagredeFilter, setLagredeFilter] = useRemoteStorage<LagretFilter[]>(
+        'lagrede-filter',
+        [],
+        value => value.map((filter: any) => ({
+            ...filter,
+            filter: {
+                ...filter.filter,
+                virksomheter: Set(filter.filter.virksomheter),
+            },
+        })),
+    );
     const [openEndre, setOpenEndre] = useState(false);
     const [openSlett, setOpenSlett] = useState(false);
     const [openLagre, setOpenLagre] = useState(false);
