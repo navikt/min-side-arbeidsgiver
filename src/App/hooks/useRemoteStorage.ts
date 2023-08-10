@@ -26,8 +26,6 @@ type RemoteStorageState<S> = {
 }
 function remoteStorageReducer<S>(parser: (value: any) => S) {
     return (currentState : RemoteStorageState<S>, action: RemoteStorageAction) => {
-        console.log("remoteStorageReducer", action.type, action);
-        // TODO: close over parser
         if (action.type === 'storage-loading') {
             return {
                 ...currentState,
@@ -47,7 +45,6 @@ function remoteStorageReducer<S>(parser: (value: any) => S) {
             }
         }
         if (action.type === 'storage-loaded') {
-            console.log("storage-loaded", action.loadedStorageItem.data, parser(action.loadedStorageItem.data));
             return {
                 ...currentState,
                 error: null,
@@ -125,7 +122,6 @@ export const useRemoteStorage = <S>(
                 type: 'storage-loading'
             });
             const response = await promise;
-            console.log("resolveToState", response);
             if ((response as StorageError).error !== undefined) {
                 dispatch({
                     type: 'storage-error',
@@ -152,7 +148,11 @@ export const useRemoteStorage = <S>(
                     storageItemConflict: (response as StorageItemConflict),
                 })
             } else {
-                // TODO: this should never happen
+                // this should never happen
+                dispatch({
+                    type: 'storage-failed',
+                    error: `Unknown response type ${response}`
+                })
             }
         } catch (error) {
             dispatch({
@@ -167,7 +167,6 @@ export const useRemoteStorage = <S>(
     }, []);
 
     const setValue = async (value: S) => {
-        console.log("setValue", state.storageItem?.version);
         const valueToStore = value instanceof Function ? value(state.storedValue) : value;
         await resolveToState(putStorage(key, valueToStore, state.storageItem?.version))
     };
