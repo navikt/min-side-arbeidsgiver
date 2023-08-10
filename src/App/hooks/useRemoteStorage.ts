@@ -176,7 +176,6 @@ export const useRemoteStorage = <S>(
         await resolveToState(deleteStorage(key, state.storageItem?.version))
     }
 
-    console.log("useRemoteStorage", state)
     return {
         error: state.error,
         isLoading: state.isLoading,

@@ -1,9 +1,9 @@
-import { equalFilter, Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
+import { equalFilter, Filter, State } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedKnapper } from '../../../../GeneriskeElementer/ModalMedKnapper';
-import { useRemoteStorage } from '../../../hooks/useStorage';
+import { useRemoteStorage } from '../../../hooks/useRemoteStorage';
 import { Set } from 'immutable';
 
 export type LagretFilter = {
@@ -19,7 +19,13 @@ type LagreFilterProps = {
 
 export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
     const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
-    const [lagredeFilter, setLagredeFilter] = useRemoteStorage<LagretFilter[]>(
+    const {
+        storedValue: lagredeFilter,
+        setValue: setLagredeFilter,
+        isLoading,
+        error,
+        storageItemConflict,
+    } = useRemoteStorage<LagretFilter[]>(
         'lagrede-filter',
         [],
         value => value.map((filter: any) => ({
@@ -44,9 +50,12 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
         setFeilmeldingStatus('ok');
     }, [openLagre]);
 
-    console.log("Valgt filter: ", valgtFilter);
-    console.log("State.filter: ", state.filter);
-    if (valgtFilter?.filter != null) console.log("EQ filters: ", equalFilter(valgtFilter?.filter, state.filter));
+    if (lagredeFilter == null) {
+        // TODO: handle isloading and error
+        // TODO: handle conflict
+        return null;
+    }
+
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
