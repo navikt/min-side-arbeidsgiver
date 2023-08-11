@@ -1,12 +1,14 @@
-import { equalFilter, Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
+import { equalFilter, Filter, State } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedKnapper } from '../../../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../../hooks/useStorage';
 import { Set } from 'immutable';
+import { v4 as uuidv4 } from 'uuid';
 
 export type LagretFilter = {
+    uuid: string,
     navn: string,
     filter: Filter
 }
@@ -34,7 +36,6 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
     const [openSlett, setOpenSlett] = useState(false);
     const [openLagre, setOpenLagre] = useState(false);
     const [feilmeldingStatus, setFeilmeldingStatus] = useState<'noInput' | 'duplicate' | 'ok'>('ok');
-
     const feilmeldingRef = React.useRef<HTMLDivElement>(null);
     const handleFocus = () => feilmeldingRef.current?.focus();
 
@@ -44,9 +45,6 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
         setFeilmeldingStatus('ok');
     }, [openLagre]);
 
-    console.log("Valgt filter: ", valgtFilter);
-    console.log("State.filter: ", state.filter);
-    if (valgtFilter?.filter != null) console.log("EQ filters: ", equalFilter(valgtFilter?.filter, state.filter));
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -83,10 +81,12 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                 {lagredeFilter.length > 0 ? <><Dropdown.Menu.List>
                     {
                         lagredeFilter.map(lagretFilter =>
-                            <Dropdown.Menu.List.Item key={lagretFilter.navn} onClick={() => {
-                                setValgtFilter(lagretFilter);
-                                byttFilter(lagretFilter.filter);
-                            }}>
+                            <Dropdown.Menu.List.Item
+                                key={lagretFilter.uuid}
+                                onClick={() => {
+                                    setValgtFilter(lagretFilter);
+                                    byttFilter(lagretFilter.filter);
+                                }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,
                         )
@@ -103,6 +103,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                 </Dropdown.Menu.List>
             </Dropdown.Menu>
         </Dropdown>
+
         <ModalMedKnapper
             overskrift={'Lagre som nytt filter'}
             bekreft={'Lagre'}
@@ -111,7 +112,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
             onSubmit={() => {
                 const filternavn = lagreNavnInputRef.current?.value?.trim() ?? '';
                 if (filternavn !== '' && lagredeFilter.filter(filter => filter.navn === filternavn).length === 0) {
-                    const nyopprettetFilter = { navn: filternavn, filter: state.filter };
+                    const nyopprettetFilter = { uuid: uuidv4(), navn: filternavn, filter: state.filter };
                     setLagredeFilter([nyopprettetFilter, ...lagredeFilter]);
                     setValgtFilter(nyopprettetFilter);
                     setOpenLagre(false);
@@ -145,36 +146,42 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                 ref={lagreNavnInputRef}
             />
         </ModalMedKnapper>
-        <ModalMedKnapper
-            overskrift={`Slett «${valgtFilter?.navn}»`}
-            bekreft={'Slett'}
-            open={openSlett}
-            bekreftVariant='danger'
-            setOpen={setOpenSlett}
-            onSubmit={() => {
-                setLagredeFilter(lagredeFilter.filter(filter => filter != valgtFilter));
-                setValgtFilter(null);
-                setOpenSlett(false);
-            }}
-        >
-            Er du sikker på at du vil slette «{valgtFilter?.navn}»?
-        </ModalMedKnapper>
-        <ModalMedKnapper
-            overskrift={`Endre «${valgtFilter?.navn}»`}
-            bekreft={'Lagre'}
-            open={openEndre}
-            setOpen={setOpenEndre}
-            onSubmit={() => {
-                const nyttFilter = {
-                    navn: valgtFilter?.navn ?? '',
-                    filter: state.filter,
-                };
-                setLagredeFilter([nyttFilter, ...lagredeFilter.filter(filter => filter.navn != valgtFilter?.navn)]);
-                setValgtFilter(nyttFilter);
-                setOpenEndre(false);
-            }}
-        >
-            Er du sikker på at du vil lagre endringene i «{valgtFilter?.navn}»?
-        </ModalMedKnapper>
+        {
+            valgtFilter === null ? null :
+                <>
+                    <ModalMedKnapper
+                        overskrift={`Slett «${valgtFilter.navn}»`}
+                        bekreft={'Slett'}
+                        open={openSlett}
+                        bekreftVariant='danger'
+                        setOpen={setOpenSlett}
+                        onSubmit={() => {
+                            setLagredeFilter(lagredeFilter.filter(filter => filter.uuid !== valgtFilter.uuid));
+                            setValgtFilter(null);
+                            setOpenSlett(false);
+                        }}
+                    >
+                        Er du sikker på at du vil slette «{valgtFilter.navn}»?
+                    </ModalMedKnapper>
+                    <ModalMedKnapper
+                        overskrift={`Endre «${valgtFilter.navn}»`}
+                        bekreft={'Lagre'}
+                        open={openEndre}
+                        setOpen={setOpenEndre}
+                        onSubmit={() => {
+                            const nyttFilter = {
+                                uuid: valgtFilter.uuid,
+                                navn: valgtFilter.navn,
+                                filter: state.filter,
+                            };
+                            setLagredeFilter([nyttFilter, ...lagredeFilter.filter(filter => filter.uuid !== valgtFilter.uuid)]);
+                            setValgtFilter(nyttFilter);
+                            setOpenEndre(false);
+                        }}
+                    >
+                        Er du sikker på at du vil lagre endringene i «{valgtFilter.navn}»?
+                    </ModalMedKnapper>
+                </>
+        }
     </>;
 };
