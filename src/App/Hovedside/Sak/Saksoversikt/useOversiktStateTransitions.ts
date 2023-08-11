@@ -21,6 +21,7 @@ export type Filter = {
     sortering: SakSortering,
     sakstyper: string[],
     oppgaveTilstand: OppgaveTilstand[],
+    valgtFilterId?: string;
 }
 
 export type State = {
@@ -179,5 +180,6 @@ export const equalFilter = (a: Filter, b: Filter): boolean =>
     a.tekstsoek === b.tekstsoek &&
     Immutable.is(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
+    a.valgtFilterId === b.valgtFilterId &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand);

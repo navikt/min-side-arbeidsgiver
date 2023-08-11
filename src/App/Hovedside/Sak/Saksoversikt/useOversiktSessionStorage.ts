@@ -21,6 +21,7 @@ type SessionStateSaksoversikt = {
     bedrift: string | undefined,
     sakstyper: string[],
     oppgaveTilstand: OppgaveTilstand[],
+    valgtFilterId?: string,
 }
 type SessionStateForside = {
     route: "/",
@@ -38,12 +39,15 @@ const filterToSessionState = (filter: Filter): SessionStateSaksoversikt => ({
     virksomhetsnumre: filter.virksomheter.toArray(),
     sakstyper: filter.sakstyper,
     oppgaveTilstand: filter.oppgaveTilstand,
-});
+    valgtFilterId: filter.valgtFilterId,
+})
 
 const equalVirksomhetsnumre = (a: SessionStateSaksoversikt, b: SessionStateSaksoversikt): boolean => {
     const virksomheterA = a.virksomhetsnumre;
     const virksomheterB = b.virksomhetsnumre;
     if (virksomheterA === 'ALLEBEDRIFTER' && virksomheterB === 'ALLEBEDRIFTER') {
+
+
         return true;
     } else if (Array.isArray(virksomheterA) && Array.isArray(virksomheterB)) {
         return virksomheterA.length === virksomheterB.length &&
@@ -61,6 +65,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.tekstsoek === b.tekstsoek &&
             a.bedrift === b.bedrift &&
             a.sortering === b.sortering &&
+            a.valgtFilterId === b.valgtFilterId &&
             equalVirksomhetsnumre(a, b) &&
             equalAsSets(a.sakstyper, b.sakstyper) &&
             equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
@@ -125,9 +130,18 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): [Filter, (fil
                 })),
             sortering: sessionState.sortering,
             sakstyper: sessionState.sakstyper,
-            oppgaveTilstand: sessionState.oppgaveTilstand ?? [],
+            oppgaveTilstand: sessionState.oppgaveTilstand,
+            valgtFilterId: sessionState.valgtFilterId,
         }
-    }, [sessionState.side, sessionState.tekstsoek, sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : sessionState.virksomhetsnumre.join(","), sessionState.sortering])
+    }, [
+        sessionState.side,
+        sessionState.tekstsoek,
+        sessionState.virksomhetsnumre === "ALLEBEDRIFTER" ? "ALLEBEDRIFTER" : sessionState.virksomhetsnumre.join(","),
+        sessionState.sortering,
+        sessionState.sakstyper.join(","),
+        sessionState.oppgaveTilstand.join(","),
+        sessionState.valgtFilterId
+    ])
 
     return [filter, update]
 }
@@ -148,6 +162,7 @@ const extractSearchParameters = (searchString: string): SessionStateSaksoversikt
         sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Frist,
         sakstyper: search.get("sakstyper")?.split(",") ?? [],
         oppgaveTilstand: search.get("oppgaveTilstand")?.split(",") as OppgaveTilstand[] ?? [] ,
+        valgtFilterId: search.get("valgtFilterId") ?? undefined,
     }
 }
 
@@ -193,6 +208,12 @@ const updateSearchParameters = (current: string, sessionState: SessionStateSakso
         query.delete("oppgaveTilstand")
     } else {
         query.set("oppgaveTilstand", sessionState.oppgaveTilstand.toString())
+    }
+
+    if (sessionState.valgtFilterId === undefined) {
+        query.delete("valgtFilterId")
+    } else {
+        query.set("valgtFilterId", sessionState.valgtFilterId)
     }
 
     return query.toString()

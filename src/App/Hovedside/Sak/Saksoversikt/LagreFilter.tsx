@@ -20,7 +20,6 @@ type LagreFilterProps = {
 
 
 export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
-    const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
     const {
         storedValue: lagredeFilter,
         setValue: setLagredeFilter,
@@ -57,6 +56,9 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
         return null;
     }
 
+    const valgtFilter = lagredeFilter.find(lagretFilter => lagretFilter.uuid === state.filter.valgtFilterId);
+    console.log("Valgt filter: ", valgtFilter);
+
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -64,7 +66,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                         className='Saksoversikt-Filter-pill'
                         variant='neutral'
                         onClick={() => {
-                            setValgtFilter(null);
+                            byttFilter({...state.filter, valgtFilterId: undefined})
                         }}
                     >{valgtFilter.navn}</Chips.Removable>
                     {!equalFilter(valgtFilter.filter, state.filter) ? <Button
@@ -96,8 +98,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                             <Dropdown.Menu.List.Item
                                 key={lagretFilter.uuid}
                                 onClick={() => {
-                                    setValgtFilter(lagretFilter);
-                                    byttFilter(lagretFilter.filter);
+                                    byttFilter({ ...lagretFilter.filter, valgtFilterId: lagretFilter.uuid });
                                 }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,
@@ -123,9 +124,10 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
             onSubmit={() => {
                 const filternavn = lagreNavnInputRef.current?.value?.trim() ?? '';
                 if (filternavn !== '' && lagredeFilter.filter(filter => filter.navn === filternavn).length === 0) {
-                    const nyopprettetFilter = { uuid: uuidv4(), navn: filternavn, filter: state.filter };
+                    const filterId = uuidv4();
+                    const nyopprettetFilter = { uuid: filterId, navn: filternavn, filter: { ...state.filter, valgtFilterId: filterId } };
                     setLagredeFilter([nyopprettetFilter, ...lagredeFilter]);
-                    setValgtFilter(nyopprettetFilter);
+                    byttFilter(nyopprettetFilter.filter)
                     setOpenLagre(false);
                 } else {
                     if (filternavn === '') {
@@ -158,7 +160,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
             />
         </ModalMedKnapper>
         {
-            valgtFilter === null ? null :
+            valgtFilter === undefined ? null :
                 <>
                     <ModalMedKnapper
                         overskrift={`Slett «${valgtFilter.navn}»`}
@@ -168,7 +170,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                         setOpen={setOpenSlett}
                         onSubmit={() => {
                             setLagredeFilter(lagredeFilter.filter(filter => filter.uuid !== valgtFilter.uuid));
-                            setValgtFilter(null);
+                            byttFilter({...state.filter, valgtFilterId: undefined})
                             setOpenSlett(false);
                         }}
                     >
@@ -186,7 +188,6 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                                 filter: state.filter,
                             };
                             setLagredeFilter([nyttFilter, ...lagredeFilter.filter(filter => filter.uuid !== valgtFilter.uuid)]);
-                            setValgtFilter(nyttFilter);
                             setOpenEndre(false);
                         }}
                     >
