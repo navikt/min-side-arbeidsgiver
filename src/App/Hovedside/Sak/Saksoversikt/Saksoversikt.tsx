@@ -17,8 +17,7 @@ import {Organisasjon} from '../../../../altinn/organisasjon';
 import {count} from '../../../../utils/util';
 import {VirksomhetChips} from '../Saksfilter/VirksomhetChips';
 import amplitude from '../../../../utils/amplitude';
-import {LagreFilter, LagretFilter} from './LagreFilter';
-import {useRemoteStorage} from "../../../hooks/useStorage";
+import {LagreFilter} from './LagreFilter';
 
 export const SIDE_SIZE = 30;
 

@@ -6,13 +6,13 @@ export const mock = function (app) {
     app.get(
         '/min-side-arbeidsgiver/api/storage/:key',
         (req, res) => {
-            console.log("get storage for key", req.params.key, "=>", storageMock[req.params.key] ? "found" : "not found")
-            const data = storageMock[req.params.key]
-            if (data) {
+            const storageItem = storageMock[req.params.key]
+            console.log("get storage for key", req.params.key, "=>", storageItem ? "found" : "not found", storageItem)
+            if (storageItem) {
                 res.set({
                     'Content-Type': 'application/json',
-                    'version': 1,
-                }).send(data)
+                    'version': `${storageItem.version}`,
+                }).send(storageItem.value)
             } else {
                 res.status(204).send()
             }
@@ -21,18 +21,46 @@ export const mock = function (app) {
         '/min-side-arbeidsgiver/api/storage/:key',
         express.json(),
         (req, res) => {
-            // todo: simulate optimistic locking
-            // const version = req.query.version
-            console.log("put storage for key", req.params.key, "=>", req.body);
-            storageMock[req.params.key] = req.body
-            res.status(200).send()
+            const storageItem = storageMock[req.params.key];
+            if (req.query.version && storageItem && `${storageItem.version}` !== req.query.version) {
+                console.log("put storage for key", req.params.key, "=>", req.body, "failed due to version mismatch")
+                res.status(409).set({
+                    'Content-Type': 'application/json',
+                    'version': `${storageItem.version}`,
+                }).send(storageItem.value)
+            } else {
+                console.log("put storage for key", req.params.key, "=>", req.body)
+
+                storageMock[req.params.key] = {
+                    value: req.body,
+                    version: storageItem && storageItem.version ? storageItem.version + 1 : 1
+                }
+                res.set({
+                    'Content-Type': 'application/json',
+                    'version': storageMock[req.params.key].version,
+                }).send(storageMock[req.params.key].value)
+            }
+
         });
     app.delete(
         '/min-side-arbeidsgiver/api/storage/:key',
         (req, res) => {
-            // todo: simulate optimistic locking
-            // const version = req.query.version
-            delete storageMock[req.params.key]
-            res.status(200).send()
+            const storageItem = storageMock[req.params.key];
+            if (req.query.version && storageItem && `${storageItem.version}` !== req.query.version) {
+                console.log("delete storage for key", req.params.key, "=>", req.body, "failed due to version mismatch")
+
+                res.status(409).set({
+                    'Content-Type': 'application/json',
+                    'version': `${storageItem.version}`,
+                }).send(storageItem.value)
+            } else {
+                console.log("delete storage for key", req.params.key, "=>", req.body)
+
+                delete storageMock[req.params.key]
+                res.set({
+                    'Content-Type': 'application/json',
+                    'version': `${storageItem.version}`,
+                }).send(storageItem.value)
+            }
         });
 }

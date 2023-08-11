@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedKnapper } from '../../../../GeneriskeElementer/ModalMedKnapper';
-import { useRemoteStorage } from '../../../hooks/useStorage';
+import { useRemoteStorage } from '../../../hooks/useRemoteStorage';
 import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -21,7 +21,13 @@ type LagreFilterProps = {
 
 export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
     const [valgtFilter, setValgtFilter] = useState<LagretFilter | null>(null);
-    const [lagredeFilter, setLagredeFilter] = useRemoteStorage<LagretFilter[]>(
+    const {
+        storedValue: lagredeFilter,
+        setValue: setLagredeFilter,
+        isLoading,
+        error,
+        storageItemConflict,
+    } = useRemoteStorage<LagretFilter[]>(
         'lagrede-filter',
         [],
         value => value.map((filter: any) => ({
@@ -44,6 +50,12 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
     useEffect(() => {
         setFeilmeldingStatus('ok');
     }, [openLagre]);
+
+    if (lagredeFilter == null) {
+        // TODO: handle isloading and error
+        // TODO: handle conflict
+        return null;
+    }
 
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -103,7 +115,6 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                 </Dropdown.Menu.List>
             </Dropdown.Menu>
         </Dropdown>
-
         <ModalMedKnapper
             overskrift={'Lagre som nytt filter'}
             bekreft={'Lagre'}
