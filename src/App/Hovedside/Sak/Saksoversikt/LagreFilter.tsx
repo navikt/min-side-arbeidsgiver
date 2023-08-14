@@ -31,11 +31,13 @@ const useLagredeFilter = () : {
     lagreNyttLagretFilter: (navn: string, filter: Filter) => LagretFilter;
     slettLagretFilter: (uuid: string) => void;
     oppdaterLagretFilter: (uuid: string, filter: Filter) => void;
+    reloadLagredeFilter: () => void;
     status: 'initializing' | 'loading' | 'completed' | 'failed';
 } => {
     const {
         storedValue,
         setValue,
+        reload,
         status,
         storageItemConflict,
     } = useRemoteStorage<LagretFilter[]>(
@@ -127,6 +129,7 @@ const useLagredeFilter = () : {
         lagreNyttLagretFilter,
         slettLagretFilter,
         oppdaterLagretFilter,
+        reloadLagredeFilter: reload,
     }
 }
 
@@ -149,6 +152,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
     const {
         status: lagreStatus,
         lagredeFilter,
+        reloadLagredeFilter,
         lagreNyttLagretFilter,
         slettLagretFilter,
         oppdaterLagretFilter
@@ -204,6 +208,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                                 onClick={() => {
                                     setValgtFilterId(lagretFilter.uuid);
                                     byttFilter({ ...lagretFilter.filter });
+                                    reloadLagredeFilter();
                                 }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,

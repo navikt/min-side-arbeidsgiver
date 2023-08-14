@@ -108,6 +108,7 @@ function remoteStorageReducer<S>(parser: (value: any[]) => S) : (currentState : 
 export type UseRemoteStorage<S> = RemoteStorageState<S> & {
     setValue: (value: S, version?: string | null) => void,
     deleteValue: () => void,
+    reload: () => void,
 }
 
 export const useRemoteStorage = <S>(
@@ -171,8 +172,12 @@ export const useRemoteStorage = <S>(
     }
 
     useEffect(() => {
-        resolveToState(getStorage(key))
+        loadValue();
     }, []);
+
+    const loadValue = async () => {
+        await resolveToState(getStorage(key))
+    }
 
     const setValue = async (value: S, version: string | null = null) => {
         const versionToUse = (version !== null ? version : state.storageItem?.version) ?? '0';
@@ -187,6 +192,7 @@ export const useRemoteStorage = <S>(
     return {
         ...state,
         setValue,
-        deleteValue
+        deleteValue,
+        reload: loadValue,
     };
 }
