@@ -1,22 +1,20 @@
 import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import { Chips, Heading, Pagination, Select } from '@navikt/ds-react';
+import { Heading, Pagination, Select } from '@navikt/ds-react';
 import { Spinner } from '../../../Spinner';
 import { SaksListe } from '../SaksListe';
 import { Alerts } from '../../../Alerts/Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from '../OmSaker';
-import { oppgaveTilstandTilTekst, Saksfilter } from '../Saksfilter/Saksfilter';
+import { Saksfilter } from '../Saksfilter/Saksfilter';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../../../utils/Record';
 import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable';
-import { Organisasjon } from '../../../../altinn/organisasjon';
-import { count } from '../../../../utils/util';
-import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
 import amplitude from '../../../../utils/amplitude';
+import {FilterPiller} from './FilterPiller';
 
 export const SIDE_SIZE = 30;
 
@@ -40,11 +38,11 @@ const useAlleSakstyper = () => {
 };
 
 export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent("chip-click", {
-        "kategori": kategori,
-        "filternavn": filternavn,
-    })
-}
+    amplitude.logEvent('chip-click', {
+        'kategori': kategori,
+        'filternavn': filternavn,
+    });
+};
 
 export const Saksoversikt = () => {
     const { organisasjonstre, organisasjoner, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
@@ -59,124 +57,42 @@ export const Saksoversikt = () => {
 
     const alleSakstyper = useAlleSakstyper();
 
-    const onTømAlleFilter = () => {
-        byttFilter({
-            side: 1,
-            tekstsoek: '',
-            virksomheter: Set(),
-            sortering: state.filter.sortering,
-            sakstyper: [],
-            oppgaveTilstand: [],
-        });
-        amplitudeChipClick("tøm-alle-filtre", "tøm-falle-filtre");
-    };
-
-    const organisasjonerTilPills = useMemo(() => {
-            const pills: (Organisasjon & { erHovedenhet: boolean })[] = [];
-            for (let { hovedenhet, underenheter } of organisasjonstre) {
-                if (state.filter.virksomheter.has(hovedenhet.OrganizationNumber)) {
-                    const antallUnderValgt = count(underenheter, it => state.filter.virksomheter.has(it.OrganizationNumber));
-                    if (antallUnderValgt === 0) {
-                        pills.push({ ...hovedenhet, erHovedenhet: true });
-                    } else {
-                        pills.push(...
-                            underenheter.filter(it => state.filter.virksomheter.has(it.OrganizationNumber))
-                                .map(it => ({ ...it, erHovedenhet: false })),
-                        );
-                    }
-                }
-            }
-            return pills;
-        },
-        [organisasjonstre, state.filter.virksomheter],
-    );
-    const { sakstyper, oppgaveTilstand } = state.filter;
-
-    let pillElement: ReactNode;
-    if (organisasjonerTilPills.length + sakstyper.length + oppgaveTilstand.length === 0) {
-        pillElement = <></>;
-    } else {
-        pillElement = <Chips>
-            <Chips.Removable onClick={onTømAlleFilter}>Tøm alle filter</Chips.Removable>
-            {sakstyper.map(sakstype =>
-                <Chips.Removable
-                    variant='neutral'
-                    key={sakstype}
-                    onClick={() => {
-                        byttFilter({...state.filter,  sakstyper: state.filter.sakstyper.filter(it => it !== sakstype) })
-                        amplitudeChipClick("sakstype", sakstype)
-                    }}
-                >{sakstype}</Chips.Removable>,
-            )}
-            {oppgaveTilstand.map(oppgavetilstand =>
-                <Chips.Removable
-                    variant='neutral'
-                    key={oppgavetilstand}
-                    onClick={() => {
-                        byttFilter({
-                            ...state.filter,
-                            oppgaveTilstand: state.filter.oppgaveTilstand.filter(it => it != oppgavetilstand),
-                        });
-                        amplitudeChipClick("oppgave", oppgavetilstand)
-                    }}
-                >{oppgaveTilstandTilTekst(oppgavetilstand)}</Chips.Removable>,
-            )}
-            {organisasjonerTilPills.map((virksomhet) =>
-                <VirksomhetChips
-                    key={virksomhet.OrganizationNumber}
-                    navn={virksomhet.Name}
-                    erHovedenhet={virksomhet.erHovedenhet}
-                    onLukk={() => {
-                        let valgte = state.filter.virksomheter.remove(virksomhet.OrganizationNumber);
-
-                        // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
-                        const parent = virksomhet.ParentOrganizationNumber;
-                        if (typeof parent === 'string') {
-                            const underenheter = childrenMap.get(parent) ?? Set();
-                            if (underenheter.every(it => !valgte.has(it))) {
-                                valgte = valgte.remove(parent);
-                            }
-                        }
-                        handleValgteVirksomheter(valgte);
-                        amplitudeChipClick("organisasjon", virksomhet.erHovedenhet ? "hovedenhet" : "underenhet");
-                    }}
-                />,
-            )}
-        </Chips>;
-    }
 
 
-    return <div className='saksoversikt__innhold'>
-        <Saksfilter
-            filter={state.filter}
-            sakstypeinfo={state.sakstyper}
-            alleSakstyper={alleSakstyper}
-            setFilter={byttFilter}
-            oppgaveTilstandInfo={state.oppgaveTilstandInfo}
-            valgteVirksomheter={state.filter.virksomheter}
-            setValgteVirksomheter={handleValgteVirksomheter}
-        />
-        <div className='saksoversikt'>
-            <Alerts />
-            {pillElement}
-            <div className='saksoversikt__header'>
-                <StatusLine state={state} />
-            </div>
 
-            <div className='saksoversikt__saksliste-header'>
-                <VelgSortering state={state} byttFilter={byttFilter} />
-                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
-            </div>
 
-            <SaksListeBody state={state} />
-
-            <div className='saksoversikt__saksliste-footer'>
-                <HvaVisesHer />
-                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
-            </div>
+return <div className='saksoversikt__innhold'>
+    <Saksfilter
+        filter={state.filter}
+        sakstypeinfo={state.sakstyper}
+        alleSakstyper={alleSakstyper}
+        setFilter={byttFilter}
+        oppgaveTilstandInfo={state.oppgaveTilstandInfo}
+        valgteVirksomheter={state.filter.virksomheter}
+        setValgteVirksomheter={handleValgteVirksomheter}
+    />
+    <div className='saksoversikt'>
+        <Alerts />
+        <FilterPiller state={state} byttFilter={byttFilter}/>
+        <div className='saksoversikt__header'>
+            <StatusLine state={state} />
         </div>
-    </div>;
-};
+
+        <div className='saksoversikt__saksliste-header'>
+            <VelgSortering state={state} byttFilter={byttFilter} />
+            <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+        </div>
+
+        <SaksListeBody state={state} />
+
+        <div className='saksoversikt__saksliste-footer'>
+            <HvaVisesHer />
+            <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
+        </div>
+    </div>
+</div>;
+}
+;
 
 const HvaVisesHer = () => {
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
