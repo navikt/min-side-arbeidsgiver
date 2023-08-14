@@ -53,7 +53,7 @@ export const Saksoversikt = () => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
 
-    const { state, byttFilter } = useOversiktStateTransitions(orgs);
+    const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
@@ -177,7 +177,7 @@ export const Saksoversikt = () => {
         <div className='saksoversikt'>
             <Alerts />
             <div className='saksoversikt__header'>
-                <LagreFilter state={state} byttFilter={byttFilter}/>
+                <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
             </div>
             <StatusLine state={state} />
             {pillElement}

@@ -133,9 +133,10 @@ const useLagredeFilter = () : {
 type LagreFilterProps = {
     state: State,
     byttFilter: (filter: Filter) => void
+    setValgtFilterId: (id: string | undefined) => void
 }
 
-export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
+export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilterProps) => {
 
     const [openEndre, setOpenEndre] = useState(false);
     const [openSlett, setOpenSlett] = useState(false);
@@ -161,7 +162,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
         return null;
     }
 
-    const valgtFilter = lagredeFilter.find(lagretFilter => lagretFilter.uuid === state.filter.valgtFilterId);
+    const valgtFilter = lagredeFilter.find(lagretFilter => lagretFilter.uuid === state.valgtFilterId);
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -169,7 +170,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                         className='Saksoversikt-Filter-pill'
                         variant='neutral'
                         onClick={() => {
-                            byttFilter({...state.filter, valgtFilterId: undefined})
+                            setValgtFilterId(undefined)
                         }}
                     >{valgtFilter.navn}</Chips.Removable>
                     {!equalFilter(valgtFilter.filter, state.filter) ? <Button
@@ -201,7 +202,8 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                             <Dropdown.Menu.List.Item
                                 key={lagretFilter.uuid}
                                 onClick={() => {
-                                    byttFilter({ ...lagretFilter.filter, valgtFilterId: lagretFilter.uuid });
+                                    setValgtFilterId(lagretFilter.uuid);
+                                    byttFilter({ ...lagretFilter.filter });
                                 }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,
@@ -228,7 +230,8 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                 const filternavn = lagreNavnInputRef.current?.value?.trim() ?? '';
                 if (filternavn !== '' && lagredeFilter.filter(filter => filter.navn === filternavn).length === 0) {
                     const nyopprettetfilter = lagreNyttLagretFilter(filternavn, state.filter);
-                    byttFilter({ ...state.filter, valgtFilterId: nyopprettetfilter.uuid })
+                    byttFilter({ ...state.filter })
+                    setValgtFilterId(nyopprettetfilter.uuid);
                     setOpenLagre(false);
                 } else {
                     if (filternavn === '') {
@@ -271,7 +274,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                         setOpen={setOpenSlett}
                         onSubmit={() => {
                             slettLagretFilter(valgtFilter.uuid)
-                            byttFilter({...state.filter, valgtFilterId: undefined})
+                            setValgtFilterId(undefined);
                             setOpenSlett(false);
                         }}
                     >
