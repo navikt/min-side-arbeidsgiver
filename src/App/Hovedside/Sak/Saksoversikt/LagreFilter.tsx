@@ -6,6 +6,7 @@ import {ModalMedKnapper} from '../../../../GeneriskeElementer/ModalMedKnapper';
 import {useRemoteStorage} from '../../../hooks/useRemoteStorage';
 import {Set} from 'immutable';
 import {v4 as uuidv4} from 'uuid';
+import {useLoggKlikk} from "../../../../utils/funksjonerForAmplitudeLogging";
 
 export type LagretFilter = {
     uuid: string,
@@ -147,6 +148,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
     const [feilmeldingStatus, setFeilmeldingStatus] = useState<'noInput' | 'duplicate' | 'ok'>('ok');
     const feilmeldingRef = React.useRef<HTMLDivElement>(null);
     const handleFocus = () => feilmeldingRef.current?.focus();
+    const logKlikk = useLoggKlikk();
 
     const lagreNavnInputRef = useRef<HTMLInputElement>(null);
     const {
@@ -174,12 +176,16 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                         className='Saksoversikt-Filter-pill'
                         variant='neutral'
                         onClick={() => {
-                            setValgtFilterId(undefined)
+                            setValgtFilterId(undefined);
+                            logKlikk('fjerne-valgt-filter')
                         }}
                     >{valgtFilter.navn}</Chips.Removable>
                     {!equalFilter(valgtFilter.filter, state.filter) ? <Button
                         variant='tertiary'
-                        onClick={() => setOpenEndre(true)}
+                        onClick={() => {
+                            setOpenEndre(true);
+                            logKlikk('åpne-endre-valgt-filter');
+                        }}
                     >
                         Lagre endringer
                     </Button> : null}
@@ -187,6 +193,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                         variant='tertiary'
                         onClick={() => {
                             setOpenSlett(true);
+                            logKlikk('åpne-slett-valgt-filter');
                         }}
                     >
                         Slett
@@ -209,6 +216,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                                     setValgtFilterId(lagretFilter.uuid);
                                     byttFilter({ ...lagretFilter.filter });
                                     reloadLagredeFilter();
+                                    logKlikk('bytt-valgt-filter');
                                 }}>
                                 {lagretFilter.navn}
                             </Dropdown.Menu.List.Item>,
@@ -220,6 +228,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                     <Dropdown.Menu.List.Item
                         onClick={() => {
                             setOpenLagre(true);
+                            logKlikk('åpne-lagre-som-nytt-filter');
                         }}>
                         Lagre som nytt filter
                     </Dropdown.Menu.List.Item>
@@ -238,6 +247,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                     byttFilter({ ...state.filter })
                     setValgtFilterId(nyopprettetfilter.uuid);
                     setOpenLagre(false);
+                    logKlikk('lagre-som-nytt-valgt-filter');
                 } else {
                     if (filternavn === '') {
                         setFeilmeldingStatus('noInput');
@@ -281,6 +291,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                             slettLagretFilter(valgtFilter.uuid)
                             setValgtFilterId(undefined);
                             setOpenSlett(false);
+                            logKlikk('slett-valgt-filter');
                         }}
                     >
                         Er du sikker på at du vil slette «{valgtFilter.navn}»?
@@ -293,6 +304,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                         onSubmit={() => {
                             oppdaterLagretFilter(valgtFilter.uuid, state.filter);
                             setOpenEndre(false);
+                            logKlikk('endre-valgt-filter');
                         }}
                     >
                         Er du sikker på at du vil lagre endringene i «{valgtFilter.navn}»?

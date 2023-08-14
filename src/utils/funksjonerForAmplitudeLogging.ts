@@ -146,9 +146,9 @@ export const loggNavigasjonTags = (
 }
 
 
-export const useLoggKlikk = (knapp: string) => {
+export const useLoggKlikk = () => {
     const {pathname} = useLocation()
-    return (annet: Record<string, any> = {}) =>
+    return (knapp: string, annet: Record<string, any> = {}) =>
         amplitude.logEvent('klikk', {
             knapp,
             pathname,
