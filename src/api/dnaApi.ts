@@ -70,6 +70,15 @@ export async function getStorage(key: string): Promise<StorageItemResponse> {
                 'Accept': 'application/json',
             }
         });
+        if (respons.status === 204) {
+            return {
+                loadedStorageItem: {
+                    key,
+                    data: [],
+                    version: respons.headers.get('version'),
+                }
+            };
+        }
         const jsonResult = await respons.json();
         return {
             loadedStorageItem: {
@@ -169,7 +178,7 @@ export async function deleteStorage(key: string, version: string | null = null):
 }
 export type StorageItem = {
     key: string,
-    data: any,
+    data: any[],
     version: string | null,
 }
 export type StorageItemDeleted = {

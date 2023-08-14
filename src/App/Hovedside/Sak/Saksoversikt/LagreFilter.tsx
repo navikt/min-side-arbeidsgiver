@@ -1,11 +1,11 @@
-import { equalFilter, Filter, State } from './useOversiktStateTransitions';
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
-import { StarIcon } from '@navikt/aksel-icons';
-import { ModalMedKnapper } from '../../../../GeneriskeElementer/ModalMedKnapper';
-import { useRemoteStorage } from '../../../hooks/useRemoteStorage';
-import { Set } from 'immutable';
-import { v4 as uuidv4 } from 'uuid';
+import {equalFilter, Filter, State} from './useOversiktStateTransitions';
+import React, {useEffect, useRef, useState} from 'react';
+import {Alert, Button, Chips, Dropdown, ErrorSummary, TextField} from '@navikt/ds-react';
+import {StarIcon} from '@navikt/aksel-icons';
+import {ModalMedKnapper} from '../../../../GeneriskeElementer/ModalMedKnapper';
+import {useRemoteStorage} from '../../../hooks/useRemoteStorage';
+import {Set} from 'immutable';
+import {v4 as uuidv4} from 'uuid';
 
 export type LagretFilter = {
     uuid: string,
@@ -13,18 +13,30 @@ export type LagretFilter = {
     filter: Filter
 }
 
-type LagreFilterProps = {
-    state: State,
-    byttFilter: (filter: Filter) => void
+function mapStatus(status: "initializing" | "loading" | "error" | "loaded" | "updated" | "deleted" | "conflict") {
+    let mapped: 'initializing' | 'loading' | 'completed' | 'failed' = 'initializing';
+    if (['loading', 'conflict'].includes(status)) {
+        mapped = 'loading';
+    }
+    if (['loaded', 'updated', 'deleted'].includes(status)) {
+        mapped = 'completed';
+    }
+    if ('error' === status) {
+        mapped = 'failed';
+    }
+    return mapped;
 }
-
-
-export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
+const useLagredeFilter = () : {
+    lagredeFilter: LagretFilter[];
+    lagreNyttLagretFilter: (navn: string, filter: Filter) => LagretFilter;
+    slettLagretFilter: (uuid: string) => void;
+    oppdaterLagretFilter: (uuid: string, filter: Filter) => void;
+    status: 'initializing' | 'loading' | 'completed' | 'failed';
+} => {
     const {
-        storedValue: lagredeFilter,
-        setValue: setLagredeFilter,
-        isLoading,
-        error,
+        storedValue,
+        setValue,
+        status,
         storageItemConflict,
     } = useRemoteStorage<LagretFilter[]>(
         'lagrede-filter',
@@ -37,6 +49,94 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
             },
         })),
     );
+    const [action, setAction] = useState<{
+        action: 'lagre' | 'slett' | 'oppdater',
+        lagretFilter: LagretFilter,
+    } | undefined>();
+
+    // handle conflict
+    useEffect(() => {
+        if (storageItemConflict && action !== undefined) {
+            const existingFilter = storageItemConflict.currentStorageItem.data.find((filter) => filter.uuid === action.lagretFilter.uuid);
+            if (existingFilter !== undefined) {
+                setValue(
+                    storageItemConflict.currentStorageItem.data.map((filter) => filter.uuid === action.lagretFilter.uuid ? action.lagretFilter : filter),
+                    storageItemConflict.currentStorageItem.version
+                );
+            } else {
+                setValue(
+                    [...storageItemConflict.currentStorageItem.data, action.lagretFilter],
+                    storageItemConflict.currentStorageItem.version
+                );
+            }
+        }
+    }, [storageItemConflict, action]);
+
+    // update store value / API call
+    useEffect(() => {
+        if (action) {
+            const lagredeFilter = storedValue ?? [];
+            if (action.action === 'lagre') {
+                setValue([...lagredeFilter, action.lagretFilter!]);
+            }
+            if (action.action === 'slett') {
+                setValue(lagredeFilter.filter((lagretFilter: any) => lagretFilter.uuid !== action.lagretFilter.uuid));
+            }
+            if (action.action === 'oppdater') {
+                setValue(lagredeFilter.map((lagretFilter: any) => lagretFilter.uuid === action.lagretFilter.uuid ? action.lagretFilter : lagretFilter));
+            }
+        }
+    }, [action]);
+
+    useEffect(() => {
+        setAction(undefined);
+    }, [storedValue]);
+
+    const lagredeFilter = storedValue ?? [];
+    const lagreNyttLagretFilter = (navn: string, filter: Filter) => {
+        const uuid = uuidv4();
+        const nyttLagretFilter = {
+            uuid,
+            navn,
+            filter: {
+                ...filter,
+                valgtFilterId: uuid, // TODO: id burde ikke være en del av filteret
+            }
+        };
+        setAction({ action: 'lagre', lagretFilter: nyttLagretFilter });
+        return nyttLagretFilter;
+    };
+
+    const slettLagretFilter = (uuid: string) => {
+        const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
+        if (lagretFilter) {
+            setAction({ action: 'slett', lagretFilter });
+        }
+    };
+
+    const oppdaterLagretFilter = (uuid: string, filter: Filter) => {
+        const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
+        if (lagretFilter) {
+            setAction({action: 'oppdater', lagretFilter: {...lagretFilter, filter}});
+        }
+    };
+
+    return {
+        status: mapStatus(status),
+        lagredeFilter,
+        lagreNyttLagretFilter,
+        slettLagretFilter,
+        oppdaterLagretFilter,
+    }
+}
+
+type LagreFilterProps = {
+    state: State,
+    byttFilter: (filter: Filter) => void
+}
+
+export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
+
     const [openEndre, setOpenEndre] = useState(false);
     const [openSlett, setOpenSlett] = useState(false);
     const [openLagre, setOpenLagre] = useState(false);
@@ -45,20 +145,23 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
     const handleFocus = () => feilmeldingRef.current?.focus();
 
     const lagreNavnInputRef = useRef<HTMLInputElement>(null);
+    const {
+        status: lagreStatus,
+        lagredeFilter,
+        lagreNyttLagretFilter,
+        slettLagretFilter,
+        oppdaterLagretFilter
+    } = useLagredeFilter(); // TODO: hadde vært fint å refreshe fra store når valgtFilterId endres
 
     useEffect(() => {
         setFeilmeldingStatus('ok');
     }, [openLagre]);
 
-    if (lagredeFilter == null) {
-        // TODO: handle isloading and error
-        // TODO: handle conflict
+    if (lagreStatus === 'initializing') {
         return null;
     }
 
     const valgtFilter = lagredeFilter.find(lagretFilter => lagretFilter.uuid === state.filter.valgtFilterId);
-    console.log("Valgt filter: ", valgtFilter);
-
     return <>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -124,10 +227,8 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
             onSubmit={() => {
                 const filternavn = lagreNavnInputRef.current?.value?.trim() ?? '';
                 if (filternavn !== '' && lagredeFilter.filter(filter => filter.navn === filternavn).length === 0) {
-                    const filterId = uuidv4();
-                    const nyopprettetFilter = { uuid: filterId, navn: filternavn, filter: { ...state.filter, valgtFilterId: filterId } };
-                    setLagredeFilter([nyopprettetFilter, ...lagredeFilter]);
-                    byttFilter(nyopprettetFilter.filter)
+                    const nyopprettetfilter = lagreNyttLagretFilter(filternavn, state.filter);
+                    byttFilter({ ...state.filter, valgtFilterId: nyopprettetfilter.uuid })
                     setOpenLagre(false);
                 } else {
                     if (filternavn === '') {
@@ -169,7 +270,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                         bekreftVariant='danger'
                         setOpen={setOpenSlett}
                         onSubmit={() => {
-                            setLagredeFilter(lagredeFilter.filter(filter => filter.uuid !== valgtFilter.uuid));
+                            slettLagretFilter(valgtFilter.uuid)
                             byttFilter({...state.filter, valgtFilterId: undefined})
                             setOpenSlett(false);
                         }}
@@ -182,12 +283,7 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                         open={openEndre}
                         setOpen={setOpenEndre}
                         onSubmit={() => {
-                            const nyttFilter = {
-                                uuid: valgtFilter.uuid,
-                                navn: valgtFilter.navn,
-                                filter: state.filter,
-                            };
-                            setLagredeFilter([nyttFilter, ...lagredeFilter.filter(filter => filter.uuid !== valgtFilter.uuid)]);
+                            oppdaterLagretFilter(valgtFilter.uuid, state.filter);
                             setOpenEndre(false);
                         }}
                     >
@@ -195,5 +291,11 @@ export const LagreFilter = ({ state, byttFilter }: LagreFilterProps) => {
                     </ModalMedKnapper>
                 </>
         }
-    </>;
+        {lagreStatus === 'failed'
+            ? <Alert variant='error' size='small'>
+                Noe gikk galt og vi kunne dessverre ikke lagre filtret. Prøv igjen senere.
+            </Alert>
+            : null
+        }
+    </>
 };

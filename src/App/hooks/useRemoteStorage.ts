@@ -5,11 +5,14 @@ import {
     putStorage,
     StorageError,
     StorageItem,
-    StorageItemConflict, StorageItemDeleted, StorageItemLoaded,
-    StorageItemResponse, StorageItemUpdated
+    StorageItemConflict,
+    StorageItemDeleted,
+    StorageItemLoaded,
+    StorageItemResponse,
+    StorageItemUpdated
 } from "../../api/dnaApi";
 
-type RemoteStorageAction =
+type RemoteStorageAction<S> =
     | { type: 'storage-loading' }
     | { type: 'storage-failed', error: any }
     | { type: 'storage-error', error: StorageError }
@@ -18,35 +21,36 @@ type RemoteStorageAction =
     | { type: 'storage-deleted', deletedStorageItem: StorageItem }
     | { type: 'storage-conflict', storageItemConflict: StorageItemConflict }
 type RemoteStorageState<S> = {
-    isLoading: boolean,
+    status: 'initializing' | 'loading'| 'error'| 'loaded'| 'updated'| 'deleted'| 'conflict',
     error: any,
     storedValue: S | null,
     storageItem: StorageItem | null,
     storageItemConflict: StorageItemConflict | null,
 }
-function remoteStorageReducer<S>(parser: (value: any) => S) {
-    return (currentState : RemoteStorageState<S>, action: RemoteStorageAction) => {
+function remoteStorageReducer<S>(parser: (value: any[]) => S) : (currentState : RemoteStorageState<S>, action: RemoteStorageAction<S>) => RemoteStorageState<S> {
+    return (currentState : RemoteStorageState<S>, action: RemoteStorageAction<S>) => {
         if (action.type === 'storage-loading') {
             return {
                 ...currentState,
+                status: 'loading',
                 error: null,
                 storageItemConflict: null,
                 storageItem: null,
-                isLoading: true,
             };
         }
         if (action.type === 'storage-error') {
             return {
                 ...currentState,
+                status: 'error',
                 error: action.error,
                 storageItemConflict: null,
                 storageItem: null,
-                isLoading: false,
             }
         }
         if (action.type === 'storage-loaded') {
             return {
                 ...currentState,
+                status: 'loaded',
                 error: null,
                 storageItemConflict: null,
                 storageItem: action.loadedStorageItem,
@@ -57,6 +61,7 @@ function remoteStorageReducer<S>(parser: (value: any) => S) {
         if (action.type === 'storage-updated') {
             return {
                 ...currentState,
+                status: 'updated',
                 error: null,
                 storageItemConflict: null,
                 storageItem: action.updatedStorageItem,
@@ -67,6 +72,7 @@ function remoteStorageReducer<S>(parser: (value: any) => S) {
         if (action.type === 'storage-deleted') {
             return {
                 ...currentState,
+                status: 'deleted',
                 error: null,
                 storageItemConflict: null,
                 storageItem: action.deletedStorageItem,
@@ -77,6 +83,7 @@ function remoteStorageReducer<S>(parser: (value: any) => S) {
         if (action.type === 'storage-conflict') {
             return {
                 ...currentState,
+                status: 'conflict',
                 error: null,
                 storageItemConflict: action.storageItemConflict,
                 storageItem: null,
@@ -86,6 +93,7 @@ function remoteStorageReducer<S>(parser: (value: any) => S) {
         if (action.type === 'storage-failed') {
             return {
                 ...currentState,
+                status: 'error',
                 error: action.error,
                 storageItemConflict: null,
                 storageItem: null,
@@ -98,7 +106,7 @@ function remoteStorageReducer<S>(parser: (value: any) => S) {
 }
 
 export type UseRemoteStorage<S> = RemoteStorageState<S> & {
-    setValue: (value: S) => void,
+    setValue: (value: S, version?: string | null) => void,
     deleteValue: () => void,
 }
 
@@ -109,7 +117,7 @@ export const useRemoteStorage = <S>(
 ): UseRemoteStorage<S> => {
 
     const [state, dispatch] = useReducer(remoteStorageReducer(parser), {
-        isLoading: false,
+        status: 'initializing',
         error: null,
         storedValue: initialValue,
         storageItem: null,
@@ -166,9 +174,10 @@ export const useRemoteStorage = <S>(
         resolveToState(getStorage(key))
     }, []);
 
-    const setValue = async (value: S) => {
+    const setValue = async (value: S, version: string | null = null) => {
+        const versionToUse = (version !== null ? version : state.storageItem?.version) ?? '0';
         const valueToStore = value instanceof Function ? value(state.storedValue) : value;
-        await resolveToState(putStorage(key, valueToStore, state.storageItem?.version))
+        await resolveToState(putStorage(key, valueToStore, versionToUse))
     };
 
     const deleteValue = async () => {
@@ -176,11 +185,7 @@ export const useRemoteStorage = <S>(
     }
 
     return {
-        error: state.error,
-        isLoading: state.isLoading,
-        storageItem: state.storageItem,
-        storageItemConflict: state.storageItemConflict,
-        storedValue: state.storedValue,
+        ...state,
         setValue,
         deleteValue
     };
