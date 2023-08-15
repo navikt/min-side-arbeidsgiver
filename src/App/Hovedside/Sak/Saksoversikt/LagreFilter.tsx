@@ -135,7 +135,7 @@ const useLagredeFilter = (): {
 
     return {
         status: statusMapping[status],
-        lagredeFilter,
+        lagredeFilter: lagredeFilter.sort((a, b) => a.navn.localeCompare(b.navn)),
         lagreNyttLagretFilter,
         slettLagretFilter,
         oppdaterLagretFilter,
