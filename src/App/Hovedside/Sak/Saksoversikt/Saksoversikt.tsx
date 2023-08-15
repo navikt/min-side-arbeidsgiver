@@ -57,42 +57,37 @@ export const Saksoversikt = () => {
 
     const alleSakstyper = useAlleSakstyper();
 
+    return <div className='saksoversikt__innhold'>
+        <Saksfilter
+            filter={state.filter}
+            sakstypeinfo={state.sakstyper}
+            alleSakstyper={alleSakstyper}
+            setFilter={byttFilter}
+            oppgaveTilstandInfo={state.oppgaveTilstandInfo}
+            valgteVirksomheter={state.filter.virksomheter}
+            setValgteVirksomheter={handleValgteVirksomheter}
+        />
+        <div className='saksoversikt'>
+            <Alerts />
+            <FilterPiller state={state} byttFilter={byttFilter}/>
+            <div className='saksoversikt__header'>
+                <StatusLine state={state} />
+            </div>
 
+            <div className='saksoversikt__saksliste-header'>
+                <VelgSortering state={state} byttFilter={byttFilter} />
+                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+            </div>
 
+            <SaksListeBody state={state} />
 
-
-return <div className='saksoversikt__innhold'>
-    <Saksfilter
-        filter={state.filter}
-        sakstypeinfo={state.sakstyper}
-        alleSakstyper={alleSakstyper}
-        setFilter={byttFilter}
-        oppgaveTilstandInfo={state.oppgaveTilstandInfo}
-        valgteVirksomheter={state.filter.virksomheter}
-        setValgteVirksomheter={handleValgteVirksomheter}
-    />
-    <div className='saksoversikt'>
-        <Alerts />
-        <FilterPiller state={state} byttFilter={byttFilter}/>
-        <div className='saksoversikt__header'>
-            <StatusLine state={state} />
+            <div className='saksoversikt__saksliste-footer'>
+                <HvaVisesHer />
+                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
+            </div>
         </div>
-
-        <div className='saksoversikt__saksliste-header'>
-            <VelgSortering state={state} byttFilter={byttFilter} />
-            <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
-        </div>
-
-        <SaksListeBody state={state} />
-
-        <div className='saksoversikt__saksliste-footer'>
-            <HvaVisesHer />
-            <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
-        </div>
-    </div>
-</div>;
-}
-;
+    </div>;
+};
 
 const HvaVisesHer = () => {
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
