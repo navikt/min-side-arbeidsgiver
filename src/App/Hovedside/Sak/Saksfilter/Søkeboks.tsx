@@ -1,5 +1,5 @@
 import { Search } from '@navikt/ds-react';
-import React, {useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Filter } from '../Saksoversikt/useOversiktStateTransitions';
 import './Saksfilter.css'
 
@@ -11,6 +11,10 @@ export type SøkeboksProps = {
 export const Søkeboks = ({filter, byttFilter}: SøkeboksProps) => {
     const formRef = useRef<HTMLFormElement>(null)
     const [tekstsoek, setTekstsoek] = useState(filter.tekstsoek)
+
+    useEffect(() => {
+        setTekstsoek(filter.tekstsoek)
+    },[filter.tekstsoek])
 
     return <form
         ref={formRef}

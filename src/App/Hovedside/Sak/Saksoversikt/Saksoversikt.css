@@ -4,7 +4,6 @@
   gap: 1rem;
   background-color: var(--a-gray-100);
   margin: 1rem;
-  padding: 1rem 0;
   grid-column-start: 3
 }
 
@@ -24,8 +23,8 @@
 .saksoversikt__header {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 4rem;
-  row-gap: 1rem;
+  column-gap: 64px;
+  row-gap: 16px;
   justify-content: space-between;
   align-items: center;
 }
@@ -81,3 +80,13 @@
   grid-template-columns: auto auto;
   align-items: center;
 }
+
+.saksoversikt-filter-pill {
+  font-size: 125%;
+  padding: 4px 16px;
+  display: flex;
+  gap: 4px;
+  align-content: center;
+  letter-spacing: .5px;
+}
+

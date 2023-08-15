@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
 import { Heading, Pagination, Select } from '@navikt/ds-react';
@@ -14,7 +14,8 @@ import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable';
 import amplitude from '../../../../utils/amplitude';
-import {FilterPiller} from './FilterPiller';
+import { LagreFilter } from './LagreFilter';
+import { FilterPiller } from './FilterPiller';
 
 export const SIDE_SIZE = 30;
 
@@ -45,11 +46,11 @@ export const amplitudeChipClick = (kategori: string, filternavn: string) => {
 };
 
 export const Saksoversikt = () => {
-    const { organisasjonstre, organisasjoner, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
 
-    const { state, byttFilter } = useOversiktStateTransitions(orgs);
+    const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
@@ -57,42 +58,37 @@ export const Saksoversikt = () => {
 
     const alleSakstyper = useAlleSakstyper();
 
-
-
-
-
-return <div className='saksoversikt__innhold'>
-    <Saksfilter
-        filter={state.filter}
-        sakstypeinfo={state.sakstyper}
-        alleSakstyper={alleSakstyper}
-        setFilter={byttFilter}
-        oppgaveTilstandInfo={state.oppgaveTilstandInfo}
-        valgteVirksomheter={state.filter.virksomheter}
-        setValgteVirksomheter={handleValgteVirksomheter}
-    />
-    <div className='saksoversikt'>
-        <Alerts />
-        <FilterPiller state={state} byttFilter={byttFilter}/>
-        <div className='saksoversikt__header'>
+    return <div className='saksoversikt__innhold'>
+        <Saksfilter
+            filter={state.filter}
+            sakstypeinfo={state.sakstyper}
+            alleSakstyper={alleSakstyper}
+            setFilter={byttFilter}
+            oppgaveTilstandInfo={state.oppgaveTilstandInfo}
+            valgteVirksomheter={state.filter.virksomheter}
+            setValgteVirksomheter={handleValgteVirksomheter}
+        />
+        <div className='saksoversikt'>
+            <Alerts />
+            <div className='saksoversikt__header'>
+                <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
+            </div>
             <StatusLine state={state} />
-        </div>
+            <FilterPiller state={state} byttFilter={byttFilter}/>
+            <div className='saksoversikt__saksliste-header'>
+                <VelgSortering state={state} byttFilter={byttFilter} />
+                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+            </div>
 
-        <div className='saksoversikt__saksliste-header'>
-            <VelgSortering state={state} byttFilter={byttFilter} />
-            <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
-        </div>
+            <SaksListeBody state={state} />
 
-        <SaksListeBody state={state} />
-
-        <div className='saksoversikt__saksliste-footer'>
-            <HvaVisesHer />
-            <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
+            <div className='saksoversikt__saksliste-footer'>
+                <HvaVisesHer />
+                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
+            </div>
         </div>
-    </div>
-</div>;
-}
-;
+    </div>;
+};
 
 const HvaVisesHer = () => {
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
@@ -215,11 +211,11 @@ const StatusLine: FC<{ state: State }> = ({ state }) => {
         }
 
         if (state.totaltAntallSaker !== undefined) {
-            return `Viser ${totaltAntallSaker} saker`;
+            return `${totaltAntallSaker} saker`;
         }
         return '';
     };
-    return <Heading level='2' size='medium' aria-live='polite' aria-atomic='true'>
+    return <Heading level='2' size='small' aria-live='polite' aria-atomic='true'>
         {statusText()}
     </Heading>;
 };
@@ -238,7 +234,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
         return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
     }
 
-    const { totaltAntallSaker, saker, filter } = state;
+    const { totaltAntallSaker, saker } = state;
 
 
     if (totaltAntallSaker === 0) {
