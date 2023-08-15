@@ -1,22 +1,21 @@
-import React, { FC, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import { Chips, Heading, Pagination, Select } from '@navikt/ds-react';
+import { Label, Pagination, Select } from '@navikt/ds-react';
 import { Spinner } from '../../../Spinner';
 import { SaksListe } from '../SaksListe';
 import { Alerts } from '../../../Alerts/Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from '../OmSaker';
-import { oppgaveTilstandTilTekst, Saksfilter } from '../Saksfilter/Saksfilter';
+import { Saksfilter } from '../Saksfilter/Saksfilter';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../../../utils/Record';
 import { Query, Sak, SakSortering } from '../../../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable';
-import { Organisasjon } from '../../../../altinn/organisasjon';
-import { count } from '../../../../utils/util';
-import { VirksomhetChips } from '../Saksfilter/VirksomhetChips';
 import amplitude from '../../../../utils/amplitude';
+import { LagreFilter } from './LagreFilter';
+import { FilterChips } from './FilterChips';
 
 export const SIDE_SIZE = 30;
 
@@ -40,111 +39,24 @@ const useAlleSakstyper = () => {
 };
 
 export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent("chip-click", {
-        "kategori": kategori,
-        "filternavn": filternavn,
-    })
-}
+    amplitude.logEvent('chip-click', {
+        'kategori': kategori,
+        'filternavn': filternavn,
+    });
+};
 
 export const Saksoversikt = () => {
-    const { organisasjonstre, organisasjoner, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
 
-    const { state, byttFilter } = useOversiktStateTransitions(orgs);
+    const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
     };
 
     const alleSakstyper = useAlleSakstyper();
-
-    const onTømAlleFilter = () => {
-        byttFilter({
-            side: 1,
-            tekstsoek: '',
-            virksomheter: Set(),
-            sortering: state.filter.sortering,
-            sakstyper: [],
-            oppgaveTilstand: [],
-        });
-        amplitudeChipClick("tøm-alle-filtre", "tøm-falle-filtre");
-    };
-
-    const organisasjonerTilPills = useMemo(() => {
-            const pills: (Organisasjon & { erHovedenhet: boolean })[] = [];
-            for (let { hovedenhet, underenheter } of organisasjonstre) {
-                if (state.filter.virksomheter.has(hovedenhet.OrganizationNumber)) {
-                    const antallUnderValgt = count(underenheter, it => state.filter.virksomheter.has(it.OrganizationNumber));
-                    if (antallUnderValgt === 0) {
-                        pills.push({ ...hovedenhet, erHovedenhet: true });
-                    } else {
-                        pills.push(...
-                            underenheter.filter(it => state.filter.virksomheter.has(it.OrganizationNumber))
-                                .map(it => ({ ...it, erHovedenhet: false })),
-                        );
-                    }
-                }
-            }
-            return pills;
-        },
-        [organisasjonstre, state.filter.virksomheter],
-    );
-    const { sakstyper, oppgaveTilstand } = state.filter;
-
-    let pillElement: ReactNode;
-    if (organisasjonerTilPills.length + sakstyper.length + oppgaveTilstand.length === 0) {
-        pillElement = <></>;
-    } else {
-        pillElement = <Chips>
-            <Chips.Removable onClick={onTømAlleFilter}>Tøm alle filter</Chips.Removable>
-            {sakstyper.map(sakstype =>
-                <Chips.Removable
-                    variant='neutral'
-                    key={sakstype}
-                    onClick={() => {
-                        byttFilter({...state.filter,  sakstyper: state.filter.sakstyper.filter(it => it !== sakstype) })
-                        amplitudeChipClick("sakstype", sakstype)
-                    }}
-                >{sakstype}</Chips.Removable>,
-            )}
-            {oppgaveTilstand.map(oppgavetilstand =>
-                <Chips.Removable
-                    variant='neutral'
-                    key={oppgavetilstand}
-                    onClick={() => {
-                        byttFilter({
-                            ...state.filter,
-                            oppgaveTilstand: state.filter.oppgaveTilstand.filter(it => it != oppgavetilstand),
-                        });
-                        amplitudeChipClick("oppgave", oppgavetilstand)
-                    }}
-                >{oppgaveTilstandTilTekst(oppgavetilstand)}</Chips.Removable>,
-            )}
-            {organisasjonerTilPills.map((virksomhet) =>
-                <VirksomhetChips
-                    key={virksomhet.OrganizationNumber}
-                    navn={virksomhet.Name}
-                    erHovedenhet={virksomhet.erHovedenhet}
-                    onLukk={() => {
-                        let valgte = state.filter.virksomheter.remove(virksomhet.OrganizationNumber);
-
-                        // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
-                        const parent = virksomhet.ParentOrganizationNumber;
-                        if (typeof parent === 'string') {
-                            const underenheter = childrenMap.get(parent) ?? Set();
-                            if (underenheter.every(it => !valgte.has(it))) {
-                                valgte = valgte.remove(parent);
-                            }
-                        }
-                        handleValgteVirksomheter(valgte);
-                        amplitudeChipClick("organisasjon", virksomhet.erHovedenhet ? "hovedenhet" : "underenhet");
-                    }}
-                />,
-            )}
-        </Chips>;
-    }
-
 
     return <div className='saksoversikt__innhold'>
         <Saksfilter
@@ -158,11 +70,8 @@ export const Saksoversikt = () => {
         />
         <div className='saksoversikt'>
             <Alerts />
-            {pillElement}
-            <div className='saksoversikt__header'>
-                <StatusLine state={state} />
-            </div>
-
+            <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
+            <FilterChips state={state} byttFilter={byttFilter}/>
             <div className='saksoversikt__saksliste-header'>
                 <VelgSortering state={state} byttFilter={byttFilter} />
                 <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
@@ -208,7 +117,7 @@ const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
     return <Select
         value={state.filter.sortering}
         className='saksoversikt__sortering'
-        label='Sorter på'
+        label={`${state.totaltAntallSaker} saker sortert på`}
         onChange={(e) => {
             byttFilter({ ...state.filter, sortering: e.target.value as SakSortering });
         }}
@@ -283,30 +192,6 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
     />;
 };
 
-const StatusLine: FC<{ state: State }> = ({ state }) => {
-    const statusText = () => {
-        if (state.state === 'error') {
-            return 'Feil ved lasting av saker.';
-        }
-
-        const { totaltAntallSaker, filter } = state;
-        if (totaltAntallSaker === 0 && filter.tekstsoek.trim() !== '') {
-            return `Ingen treff for «${filter.tekstsoek}».`;
-        }
-
-        if (totaltAntallSaker === 0) {
-            return 'Ingen treff.';
-        }
-
-        if (state.totaltAntallSaker !== undefined) {
-            return `Viser ${totaltAntallSaker} saker`;
-        }
-        return '';
-    };
-    return <Heading level='2' size='medium' aria-live='polite' aria-atomic='true'>
-        {statusText()}
-    </Heading>;
-};
 
 
 type SaksListeBodyProps = {
@@ -315,18 +200,21 @@ type SaksListeBodyProps = {
 
 const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
     if (state.state === 'error') {
-        return null;
+        return <Label aria-live='polite' aria-atomic='true'>
+            Feil ved lasting av saker.
+        </Label>
     }
 
     if (state.state === 'loading') {
         return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
     }
 
-    const { totaltAntallSaker, saker, filter } = state;
-
+    const { totaltAntallSaker, saker } = state;
 
     if (totaltAntallSaker === 0) {
-        return null;
+        return <Label aria-live='polite' aria-atomic='true'>
+            Ingen treff.
+        </Label>
     }
 
     return <SaksListe saker={saker} />;

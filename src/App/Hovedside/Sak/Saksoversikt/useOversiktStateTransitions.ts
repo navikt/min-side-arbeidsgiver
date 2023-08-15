@@ -26,6 +26,7 @@ export type Filter = {
 export type State = {
     state: 'loading';
     filter: Filter;
+    valgtFilterId: string | undefined;
     sider: number | undefined;
     totaltAntallSaker: number | undefined;
     forrigeSaker: Array<Sak> | null;
@@ -35,6 +36,7 @@ export type State = {
 } | {
     state: 'done';
     filter: Filter;
+    valgtFilterId: string | undefined;
     sider: number;
     saker: Array<Sak>;
     sakstyper: Array<Sakstype>;
@@ -43,6 +45,7 @@ export type State = {
 } | {
     state: 'error';
     filter: Filter;
+    valgtFilterId: string | undefined;
     sider: number | undefined;
     sakstyper: Array<Sakstype> | undefined;
     totaltAntallSaker: number | undefined;
@@ -51,6 +54,7 @@ export type State = {
 
 type Action =
     | { action: 'bytt-filter', filter: Filter }
+    | { action: 'sett-valgt-filterid', id: string | undefined }
     | { action: 'lasting-pågår' }
     | { action: 'lasting-ferdig', resultat: SakerResultat }
     | { action: 'lasting-feilet' }
@@ -61,7 +65,8 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
 
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
-        filter: sessionState,
+        filter: sessionState.filter,
+        valgtFilterId: sessionState.valgtFilterId,
         forrigeSaker: null,
         sider: undefined,
         totaltAntallSaker: undefined,
@@ -73,8 +78,8 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
     const { loading, data } = useSaker(SIDE_SIZE, state.filter);
 
     useEffect(() => {
-        setSessionState(state.filter)
-    }, [state.filter])
+        setSessionState(state.filter, state.valgtFilterId)
+    }, [state.filter, state.valgtFilterId])
 
     useEffect(() => {
         if (loading) {
@@ -95,6 +100,7 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
     return {
         state,
         byttFilter: (filter: Filter) => dispatch({ action: 'bytt-filter', filter }),
+        setValgtFilterId: (id: string | undefined) => dispatch({ action: 'sett-valgt-filterid', id }),
     };
 };
 
@@ -108,10 +114,16 @@ const reduce = (current: State, action: Action): State => {
                 ...current,
                 filter: action.filter,
             };
+        case 'sett-valgt-filterid':
+            return {
+                ...current,
+                valgtFilterId: action.id,
+            }
         case 'lasting-pågår':
             return {
                 state: 'loading',
                 filter: current.filter,
+                valgtFilterId: current.valgtFilterId,
                 sider: current.sider,
                 sakstyper: current.sakstyper,
                 oppgaveTilstandInfo: current.oppgaveTilstandInfo,
@@ -123,6 +135,7 @@ const reduce = (current: State, action: Action): State => {
             return {
                 state: 'error',
                 filter: current.filter,
+                valgtFilterId: current.valgtFilterId,
                 sider: current.sider,
                 totaltAntallSaker: current.totaltAntallSaker,
                 sakstyper: current.sakstyper,
@@ -138,6 +151,7 @@ const reduce = (current: State, action: Action): State => {
                 return {
                     state: 'loading',
                     filter: { ...current.filter, side: Math.max(1, sider - 1) },
+                    valgtFilterId: current.valgtFilterId,
                     sider,
                     totaltAntallSaker,
                     startTid: new Date(),
@@ -149,6 +163,7 @@ const reduce = (current: State, action: Action): State => {
                 return {
                     state: 'done',
                     filter: current.filter,
+                    valgtFilterId: current.valgtFilterId,
                     sider,
                     saker: action.resultat.saker,
                     sakstyper: action.resultat.sakstyper,

@@ -23,7 +23,7 @@ function useStorage<S>(
     storage: Storage,
     key: string,
     initialValue: S | ((v: S) => S)
-): UseStorage<S>  {
+): UseStorage<S> {
     const [storedValue, setStoredValue] = useState<S>(() => {
         try {
             const item = storage.getItem(key);

@@ -4,10 +4,8 @@
   gap: 1rem;
   background-color: var(--a-gray-100);
   margin: 1rem;
-  padding: 1rem 0;
   grid-column-start: 3
 }
-
 
 .saksoversikt__innhold {
   display: grid;
@@ -19,15 +17,6 @@
     display: flex;
     flex-direction: column;
   }
-}
-
-.saksoversikt__header {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 4rem;
-  row-gap: 1rem;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .saksoversikt__skjul-for-mobil {
@@ -42,7 +31,6 @@
     margin: 0 auto;
   }
 }
-
 
 .saksoversikt__hjelpetekst {
   display: flex;
@@ -81,3 +69,4 @@
   grid-template-columns: auto auto;
   align-items: center;
 }
+
