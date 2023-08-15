@@ -16,14 +16,22 @@ export type LagretFilter = {
 
 function mapStatus(status: "initializing" | "loading" | "error" | "loaded" | "updated" | "deleted" | "conflict") {
     let mapped: 'initializing' | 'loading' | 'completed' | 'failed' = 'initializing';
-    if (['loading', 'conflict'].includes(status)) {
-        mapped = 'loading';
-    }
-    if (['loaded', 'updated', 'deleted'].includes(status)) {
-        mapped = 'completed';
-    }
-    if ('error' === status) {
-        mapped = 'failed';
+    switch (status) {
+        case 'initializing':
+            mapped = 'initializing';
+            break;
+        case 'loading':
+        case 'conflict':
+            mapped = 'loading';
+            break;
+        case 'loaded':
+        case 'updated':
+        case 'deleted':
+            mapped = 'completed';
+            break;
+        case 'error':
+            mapped = 'failed';
+            break;
     }
     return mapped;
 }
@@ -57,6 +65,8 @@ const useLagredeFilter = () : {
         lagretFilter: LagretFilter,
     } | undefined>();
 
+    const lagredeFilter = storedValue ?? [];
+
     // handle conflict
     useEffect(() => {
         if (storageItemConflict && action !== undefined) {
@@ -78,7 +88,6 @@ const useLagredeFilter = () : {
     // update store value / API call
     useEffect(() => {
         if (action) {
-            const lagredeFilter = storedValue ?? [];
             if (action.action === 'lagre') {
                 setValue([...lagredeFilter, action.lagretFilter!]);
             }
@@ -95,7 +104,6 @@ const useLagredeFilter = () : {
         setAction(undefined);
     }, [storedValue]);
 
-    const lagredeFilter = storedValue ?? [];
     const lagreNyttLagretFilter = (navn: string, filter: Filter) => {
         const uuid = uuidv4();
         const nyttLagretFilter = {
