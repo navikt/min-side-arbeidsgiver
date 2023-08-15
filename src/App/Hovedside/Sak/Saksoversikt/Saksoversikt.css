@@ -81,7 +81,7 @@
   align-items: center;
 }
 
-.Saksoversikt-Filter-pill {
+.saksoversikt-filter-pill {
   font-size: 125%;
   padding: 4px 16px;
   display: flex;
@@ -90,6 +90,3 @@
   letter-spacing: .5px;
 }
 
-.Saksoversikt-Filter-pill svg {
-
-}
