@@ -7,7 +7,6 @@
   grid-column-start: 3
 }
 
-
 .saksoversikt__innhold {
   display: grid;
   grid-template-columns: 1fr 22rem min(62rem, calc(100vw - 22rem) ) 22rem 1fr;
@@ -18,15 +17,6 @@
     display: flex;
     flex-direction: column;
   }
-}
-
-.saksoversikt__header {
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 64px;
-  row-gap: 16px;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .saksoversikt__skjul-for-mobil {
@@ -41,7 +31,6 @@
     margin: 0 auto;
   }
 }
-
 
 .saksoversikt__hjelpetekst {
   display: flex;
@@ -79,14 +68,5 @@
 .saksoversikt__sortering {
   grid-template-columns: auto auto;
   align-items: center;
-}
-
-.saksoversikt-filter-pill {
-  font-size: 125%;
-  padding: 4px 16px;
-  display: flex;
-  gap: 4px;
-  align-content: center;
-  letter-spacing: .5px;
 }
 
