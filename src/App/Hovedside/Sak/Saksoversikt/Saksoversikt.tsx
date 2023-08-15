@@ -70,9 +70,7 @@ export const Saksoversikt = () => {
         />
         <div className='saksoversikt'>
             <Alerts />
-            <div className='saksoversikt__header'>
-                <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
-            </div>
+            <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
             <StatusLine state={state} />
             <FilterPiller state={state} byttFilter={byttFilter}/>
             <div className='saksoversikt__saksliste-header'>

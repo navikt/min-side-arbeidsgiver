@@ -56,7 +56,7 @@ export const FilterPiller = ({ state, byttFilter }: FilterPillerProps) => {
     };
 
     let pillElements: ReactNode[] = [
-        <Chips.Removable onClick={onTømAlleFilter}>Tøm alle filter</Chips.Removable>,
+        <Chips.Removable key="EmptyAllFilters" onClick={onTømAlleFilter}>Tøm alle filter</Chips.Removable>,
         ...sakstyper.map(sakstype =>
             <Chips.Removable
                 variant='neutral'
@@ -90,11 +90,9 @@ export const FilterPiller = ({ state, byttFilter }: FilterPillerProps) => {
 
                     // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
                     const parent = virksomhet.ParentOrganizationNumber;
-                    if (typeof parent === 'string') {
-                        const underenheter = childrenMap.get(parent) ?? Set();
-                        if (underenheter.every(it => !valgte.has(it))) {
-                            valgte = valgte.remove(parent);
-                        }
+                    const underenheter = childrenMap.get(parent) ?? Set();
+                    if (underenheter.every(it => !valgte.has(it))) {
+                        valgte = valgte.remove(parent);
                     }
                     handleValgteVirksomheter(valgte);
                     amplitudeChipClick('organisasjon', virksomhet.erHovedenhet ? 'hovedenhet' : 'underenhet');
@@ -102,45 +100,24 @@ export const FilterPiller = ({ state, byttFilter }: FilterPillerProps) => {
             />,
         ),
     ];
-    return <PillDisplayer pillElements={pillElements} />;
+    return <FilterPillerContainer pillElements={pillElements} />;
 };
 
 type PillDisplayerProps = {
     pillElements: ReactNode[],
 }
-const PillDisplayer = ({ pillElements }: PillDisplayerProps) => {
+const FilterPillerContainer = ({ pillElements }: PillDisplayerProps) => {
     const [visAlle, setVisAlle] = useState<boolean>(false);
-    const [antall, setAntall] = useState(pillElements.length);
-    const ref = useRef<HTMLUListElement>(null);
-    const visKnapp = antall < pillElements.length || ((ref.current?.clientHeight ?? 0) > 125);
-
-    useEffect(() => {
-        if (visAlle) return
-        if (ref.current === null) return
-        if (ref.current.clientHeight > 125) {
-            console.log("Høyde: ", ref.current.clientHeight);
-            setAntall(antall - 1);
-        }
-    }, [antall, pillElements, ref.current, visAlle]);
-
-    useEffect(() => {
-        setAntall(pillElements.length)
-    }, [pillElements])
-
-    console.log(" ");
-    console.log("Vis alle: ", visAlle);
-    console.log("antall:", antall);
-    console.log(" ");
+    const maksAntallMinimert = 9;
+    const visKnapp = pillElements.length > maksAntallMinimert;
 
     return <><Chips
-        ref={ref}
         children={
-            visAlle ? pillElements : pillElements.slice(0, antall)
+            visAlle ? pillElements : pillElements.slice(0, maksAntallMinimert)
         }></Chips>
         {visKnapp ? <Button
             variant='tertiary'
             onClick={() => {
-                console.log("KLIKKET KNAPP");
                 setVisAlle(!visAlle);
             }}
             icon={visAlle ? <Collapse /> : <Expand />}
