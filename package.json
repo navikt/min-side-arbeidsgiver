@@ -55,7 +55,10 @@
     "@graphql-codegen/cli": "^2.13.1",
     "@graphql-codegen/typescript": "^2.7.3",
     "@graphql-codegen/typescript-operations": "^2.5.3",
-    "@graphql-codegen/typescript-react-apollo": "^3.3.3"
+    "@graphql-codegen/typescript-react-apollo": "^3.3.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.0",
+    "prettier": "^3.0.2"
   },
   "scripts": {
     "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphql ./bruker.graphql",
