@@ -15,7 +15,7 @@ import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable';
 import amplitude from '../../../../utils/amplitude';
 import { LagreFilter } from './LagreFilter';
-import { FilterPiller } from './FilterPiller';
+import { FilterChips } from './FilterChips';
 
 export const SIDE_SIZE = 30;
 
@@ -72,7 +72,7 @@ export const Saksoversikt = () => {
             <Alerts />
             <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
             <StatusLine state={state} />
-            <FilterPiller state={state} byttFilter={byttFilter}/>
+            <FilterChips state={state} byttFilter={byttFilter}/>
             <div className='saksoversikt__saksliste-header'>
                 <VelgSortering state={state} byttFilter={byttFilter} />
                 <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />

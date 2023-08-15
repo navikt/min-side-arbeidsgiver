@@ -172,7 +172,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 {valgtFilter ? <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                         <Chips.Removable
-                            className='lagre-filter-pill'
+                            className='lagre-filter-chip'
                             variant='neutral'
                             onClick={() => {
                                 setValgtFilterId(undefined);
