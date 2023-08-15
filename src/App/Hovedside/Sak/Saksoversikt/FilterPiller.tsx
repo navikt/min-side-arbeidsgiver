@@ -112,37 +112,39 @@ const PillDisplayer = ({ pillElements }: PillDisplayerProps) => {
     const [visAlle, setVisAlle] = useState<boolean>(false);
     const [antall, setAntall] = useState(pillElements.length);
     const ref = useRef<HTMLUListElement>(null);
-    const visKnapp = antall < pillElements.length || (ref.current?.clientHeight ?? 0 > 125);
-
+    const visKnapp = antall < pillElements.length || ((ref.current?.clientHeight ?? 0) > 125);
 
     useEffect(() => {
-        if (visAlle) {
-            setAntall(pillElements.length);
-        } else {
-            if (ref.current?.clientHeight ?? 0 > 125) {
-                setAntall(antall - 1);
-            }
+        if (visAlle) return
+        if (ref.current === null) return
+        if (ref.current.clientHeight > 125) {
+            console.log("Høyde: ", ref.current.clientHeight);
+            setAntall(antall - 1);
         }
-        console.log("    ");
-        console.log("Vis alle: ", visAlle);
-        console.log("Antall: ", antall);
-        console.log("Pills.length: ", pillElements.length);
-    }, [ antall, visAlle, pillElements]);
+    }, [antall, pillElements, ref.current, visAlle]);
 
     useEffect(() => {
         setAntall(pillElements.length)
     }, [pillElements])
 
+    console.log(" ");
+    console.log("Vis alle: ", visAlle);
+    console.log("antall:", antall);
+    console.log(" ");
+
     return <><Chips
         ref={ref}
         children={
-            pillElements.slice(0, antall)
+            visAlle ? pillElements : pillElements.slice(0, antall)
         }></Chips>
         {visKnapp ? <Button
             variant='tertiary'
-            onClick={() => setVisAlle(!visAlle)}
+            onClick={() => {
+                console.log("KLIKKET KNAPP");
+                setVisAlle(!visAlle);
+            }}
             icon={visAlle ? <Collapse /> : <Expand />}
-            style={{maxWidth:'12rem'}}
+            style={{ maxWidth: '12rem' }}
         >
             {visAlle ? 'Vis færre filter' : 'Vis alle filter'}
         </Button> : null
