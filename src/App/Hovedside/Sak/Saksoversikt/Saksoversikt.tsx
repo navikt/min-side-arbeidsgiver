@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import { Heading, Pagination, Select } from '@navikt/ds-react';
+import { Label, Pagination, Select } from '@navikt/ds-react';
 import { Spinner } from '../../../Spinner';
 import { SaksListe } from '../SaksListe';
 import { Alerts } from '../../../Alerts/Alerts';
@@ -71,7 +71,6 @@ export const Saksoversikt = () => {
         <div className='saksoversikt'>
             <Alerts />
             <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
-            <StatusLine state={state} />
             <FilterChips state={state} byttFilter={byttFilter}/>
             <div className='saksoversikt__saksliste-header'>
                 <VelgSortering state={state} byttFilter={byttFilter} />
@@ -118,7 +117,7 @@ const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
     return <Select
         value={state.filter.sortering}
         className='saksoversikt__sortering'
-        label='Sorter på'
+        label={`${state.totaltAntallSaker} saker sortert på`}
         onChange={(e) => {
             byttFilter({ ...state.filter, sortering: e.target.value as SakSortering });
         }}
@@ -193,30 +192,6 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
     />;
 };
 
-const StatusLine: FC<{ state: State }> = ({ state }) => {
-    const statusText = () => {
-        if (state.state === 'error') {
-            return 'Feil ved lasting av saker.';
-        }
-
-        const { totaltAntallSaker, filter } = state;
-        if (totaltAntallSaker === 0 && filter.tekstsoek.trim() !== '') {
-            return `Ingen treff for «${filter.tekstsoek}».`;
-        }
-
-        if (totaltAntallSaker === 0) {
-            return 'Ingen treff.';
-        }
-
-        if (state.totaltAntallSaker !== undefined) {
-            return `${totaltAntallSaker} saker`;
-        }
-        return '';
-    };
-    return <Heading level='2' size='small' aria-live='polite' aria-atomic='true'>
-        {statusText()}
-    </Heading>;
-};
 
 
 type SaksListeBodyProps = {
@@ -225,7 +200,9 @@ type SaksListeBodyProps = {
 
 const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
     if (state.state === 'error') {
-        return null;
+        return <Label aria-live='polite' aria-atomic='true'>
+            Feil ved lasting av saker.
+        </Label>
     }
 
     if (state.state === 'loading') {
@@ -234,9 +211,10 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
 
     const { totaltAntallSaker, saker } = state;
 
-
     if (totaltAntallSaker === 0) {
-        return null;
+        return <Label aria-live='polite' aria-atomic='true'>
+            Ingen treff.
+        </Label>
     }
 
     return <SaksListe saker={saker} />;
