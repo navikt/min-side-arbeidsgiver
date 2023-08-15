@@ -104,6 +104,7 @@ const main = async () => {
         (await import('./mock/refusjonsStatusMock.js')).mock(app);
         (await import('./mock/presenterteKandidaterMock.js')).mock(app);
         (await import('./mock/featureRequestMock.js')).mock(app);
+        (await import('./mock/storageMock.js')).mock(app);
 
         const {applyNotifikasjonMockMiddleware} = require('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
 

@@ -1,0 +1,11 @@
+.ModalMedKnapper-Innhold {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ModalMedKnapper-Knapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
