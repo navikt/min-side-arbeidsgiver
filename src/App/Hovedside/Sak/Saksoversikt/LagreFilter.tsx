@@ -17,13 +17,16 @@ export type LagretFilter = {
 }
 
 const statusMapping = {
+    'initializing': 'initializing',
+
     'loading': 'loading',
     'conflict': 'loading',
+
     'loaded': 'completed',
     'updated': 'completed',
     'deleted': 'completed',
+
     'error': 'failed',
-    'initializing': 'initializing',
 } as const;
 
 const useLagredeFilter = (): {
@@ -52,7 +55,7 @@ const useLagredeFilter = (): {
         })),
     );
     const [action, setAction] = useState<{
-        action: 'lagre' | 'slett' | 'oppdater',
+        type: 'lagre' | 'slett' | 'oppdater',
         lagretFilter: LagretFilter,
     } | undefined>();
 
@@ -61,17 +64,31 @@ const useLagredeFilter = (): {
     // handle conflict
     useEffect(() => {
         if (storageItemConflict && action !== undefined) {
-            const existingFilter = storageItemConflict.currentStorageItem.data.find((filter) => filter.uuid === action.lagretFilter.uuid);
-            if (existingFilter !== undefined) {
+            if (action.type === 'slett') {
                 setValue(
-                    storageItemConflict.currentStorageItem.data.map((filter) => filter.uuid === action.lagretFilter.uuid ? action.lagretFilter : filter),
-                    storageItemConflict.currentStorageItem.version,
+                    storageItemConflict.currentStorageItem.data.filter((filter: any) => filter.uuid !== action.lagretFilter.uuid),
+                    storageItemConflict.currentStorageItem.version
                 );
-            } else {
+
+            } else if (action.type === 'lagre') {
                 setValue(
                     [...storageItemConflict.currentStorageItem.data, action.lagretFilter],
                     storageItemConflict.currentStorageItem.version,
                 );
+
+            } else if (action.type === 'oppdater') {
+                const existingFilter = storageItemConflict.currentStorageItem.data.find((filter) => filter.uuid === action.lagretFilter.uuid);
+                if (existingFilter !== undefined) {
+                    setValue(
+                        storageItemConflict.currentStorageItem.data.map((filter) => filter.uuid === action.lagretFilter.uuid ? action.lagretFilter : filter),
+                        storageItemConflict.currentStorageItem.version,
+                    );
+                } else {
+                    setValue(
+                        [...storageItemConflict.currentStorageItem.data, action.lagretFilter],
+                        storageItemConflict.currentStorageItem.version,
+                    );
+                }
             }
         }
     }, [storageItemConflict, action]);
@@ -79,13 +96,13 @@ const useLagredeFilter = (): {
     // update store value / API call
     useEffect(() => {
         if (action) {
-            if (action.action === 'lagre') {
+            if (action.type === 'lagre') {
                 setValue([...lagredeFilter, action.lagretFilter!]);
             }
-            if (action.action === 'slett') {
+            if (action.type === 'slett') {
                 setValue(lagredeFilter.filter((lagretFilter: any) => lagretFilter.uuid !== action.lagretFilter.uuid));
             }
-            if (action.action === 'oppdater') {
+            if (action.type === 'oppdater') {
                 setValue(lagredeFilter.map((lagretFilter: any) => lagretFilter.uuid === action.lagretFilter.uuid ? action.lagretFilter : lagretFilter));
             }
         }
@@ -98,21 +115,21 @@ const useLagredeFilter = (): {
     const lagreNyttLagretFilter = (navn: string, filter: Filter) => {
         const uuid = uuidv4();
         const nyttLagretFilter = { uuid, navn, filter };
-        setAction({ action: 'lagre', lagretFilter: nyttLagretFilter });
+        setAction({ type: 'lagre', lagretFilter: nyttLagretFilter });
         return nyttLagretFilter;
     };
 
     const slettLagretFilter = (uuid: string) => {
         const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
         if (lagretFilter) {
-            setAction({ action: 'slett', lagretFilter });
+            setAction({ type: 'slett', lagretFilter });
         }
     };
 
     const oppdaterLagretFilter = (uuid: string, filter: Filter) => {
         const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
         if (lagretFilter) {
-            setAction({ action: 'oppdater', lagretFilter: { ...lagretFilter, filter } });
+            setAction({ type: 'oppdater', lagretFilter: { ...lagretFilter, filter } });
         }
     };
 
