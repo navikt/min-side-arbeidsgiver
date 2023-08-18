@@ -37,6 +37,12 @@ export const BeskjedIkon = () => (
 );
 
 export const TidslinjeLinjeIkon = () => (
+    <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="11.5" y1="32" x2="11.5" stroke="#979797" />
+    </svg>
+);
+
+export const TidslinjeLinjeIkonKort = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="11.5" y1="24" x2="11.5" stroke="#979797" />
     </svg>

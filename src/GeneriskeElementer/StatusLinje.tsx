@@ -2,17 +2,35 @@ import React, { FC, ReactNode } from 'react';
 import { Tag } from '@navikt/ds-react';
 import './StatusLinje.css';
 import { StopWatch } from '@navikt/ds-icons';
-import { Notifikasjon, OppgaveTidslinjeElement, OppgaveTilstand } from '../api/graphql-types';
-import { formatterDato, uformellDatotekst } from '../utils/dato-funksjoner';
+import { OppgaveTidslinjeElement, OppgaveTilstand } from '../api/graphql-types';
+import { dateFormat } from '../App/Hovedside/Sak/SakPanel';
 
 export interface StatusLinjeProps {
     oppgave: OppgaveTidslinjeElement;
     className?: string;
 }
 
+export const uformellDatotekst = (dato: Date) => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    switch (dateFormat.format(dato)) {
+        case dateFormat.format(today):
+            return 'i dag';
+        case dateFormat.format(yesterday):
+            return 'i går';
+        case dateFormat.format(tomorrow):
+            return 'i morgen';
+        default:
+            return dateFormat.format(dato);
+    }
+};
+
 export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
     if (oppgave.__typename !== 'OppgaveTidslinjeElement') {
-        console.log('Buuuuuu', oppgave.__typename);
         return null;
     }
 
@@ -55,10 +73,10 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
                     oppgave.frist !== undefined &&
                     oppgave.paaminnelseTidspunkt === undefined
                 ) {
-                    innhold = <>Frist {formatterDato(new Date(oppgave.frist))}</>;
+                    innhold = <>Frist {dateFormat.format(new Date(oppgave.frist))}</>;
                 } else {
                     innhold = (
-                        <>Påminnelse &ndash; Frist {formatterDato(new Date(oppgave.frist))}</>
+                        <>Påminnelse &ndash; Frist {dateFormat.format(new Date(oppgave.frist))}</>
                     );
                 }
                 return (

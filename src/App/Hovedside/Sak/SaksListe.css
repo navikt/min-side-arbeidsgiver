@@ -47,25 +47,15 @@ ul.saks-liste .sakscontainer .saksfrist .paminnelse{
   font-weight: 700;
 }
 
-ul.saks-liste .sakscontainer .beskjed-element {
-  display: grid;
-  grid-template-columns: 24px auto;
-  grid-template-row: repeat(2, auto);
-  grid-template-areas:
-  "tidspunkt tidspunkt"
-  "ikon tittel";
-  column-gap: 4px;
-}
-
-ul.saks-liste .sakscontainer .oppgave-element {
+ul.saks-liste .sakscontainer .tidslinje-element {
   display: grid;
   grid-template-columns: 24px auto;
   grid-template-row: repeat(3, auto);
   grid-template-areas:
   "tidspunkt tidspunkt"
   "ikon tittel"
-  "null paaminnelse";
-  column-gap: 4px;
+  "linje paaminnelse";
+  column-gap: 8px;
 }
 
 .tidslinje-element-tidspunkt {
@@ -82,4 +72,19 @@ ul.saks-liste .sakscontainer .oppgave-element {
 .oppgave-element-paaminnelse {
   grid-area: paaminnelse;
 }
+
+.tidslinje-linje {
+  grid-area: linje;
+}
+
+.tidslinje-vis-mer-knapp{
+  max-width: 8rem;
+  padding: 8px 0 0 0 ;
+}
+
+.tidslinje-vis-mer {
+  display: flex;
+  gap: 8px;
+}
+
 
