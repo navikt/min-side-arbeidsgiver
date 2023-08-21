@@ -226,6 +226,7 @@ const main = async () => {
             })
         );
 
+        // TODO: fjern denne når vi tenker alle klienter er oppdatert med ny kode
         app.use(
             '/min-side-arbeidsgiver/sykefravaer',
             /* Ingen tokenx her fordi vi går mot deres frackend.
