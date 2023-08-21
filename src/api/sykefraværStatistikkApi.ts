@@ -11,7 +11,7 @@ export type Sykefraværsrespons = z.infer<typeof Sykefraværsrespons> | undefine
 export async function hentSykefravær(
     orgnr: string,
 ): Promise<Sykefraværsrespons> {
-    const url = `/min-side-arbeidsgiver/sykefravaerstatistikk/${orgnr}`;
+    const url = `/min-side-arbeidsgiver/api/sykefravaerstatistikk/${orgnr}`;
     const respons = await fetch(url);
     if (respons.ok) {
         try {
