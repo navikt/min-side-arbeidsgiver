@@ -1,6 +1,5 @@
-import { BodyShort, Button, Detail, Heading, Switch } from '@navikt/ds-react';
+import { BodyShort, Button, Detail, Heading } from '@navikt/ds-react';
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import './SaksListe.css';
 import {
     NyOppgaveIkon,
@@ -11,9 +10,7 @@ import {
 } from './OppgaveBeskjedIkoner';
 import {
     BeskjedTidslinjeElement,
-    OppgaveMetadata,
     OppgaveTidslinjeElement,
-    OppgaveTilstand,
     Sak,
     TidslinjeElement,
 } from '../../../api/graphql-types';
@@ -34,7 +31,7 @@ type SakPanelProps = {
 
 export const SakPanel = ({
     placeholder,
-    sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje, frister, oppgaver },
+    sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
@@ -134,7 +131,7 @@ const Tidslinjeelement = ({
 };
 
 const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
-    const { tittel, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
+    const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
         <div className="tidslinje-element">
             <Detail className="tidslinje-element-tidspunkt">
@@ -143,7 +140,7 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
             <div className="tidslinje-element-ikon">
                 <BeskjedIkon />
             </div>
-            <BodyShort className="tidslinje-element-tittel">{tittel}</BodyShort>
+            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div className="tidslinje-linje">
                 {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkonKort />}
             </div>
@@ -152,7 +149,7 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
 };
 
 const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
-    const { status, tittel, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
+    const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
 
     const ikon = {
@@ -165,8 +162,8 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
             <Detail className="tidslinje-element-tidspunkt">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
-            <div className="tidslinje-element-ikon">{ikon[status]}</div>
-            <BodyShort className="tidslinje-element-tittel">{tittel}</BodyShort>
+            <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
+            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div>
                 <StatusLinje
                     className={'oppgave-element-paaminnelse'}

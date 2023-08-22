@@ -34,7 +34,7 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
         return null;
     }
 
-    switch (oppgave.status) {
+    switch (oppgave.tilstand) {
         case OppgaveTilstand.Utfoert:
             return (
                 <Tag

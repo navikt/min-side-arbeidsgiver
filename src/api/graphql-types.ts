@@ -30,7 +30,7 @@ export type Beskjed = {
 export type BeskjedTidslinjeElement = {
   __typename?: 'BeskjedTidslinjeElement';
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
-  tittel: Scalars['String'];
+  tekst: Scalars['String'];
 };
 
 export type BrukerKlikk = {
@@ -90,8 +90,8 @@ export type OppgaveTidslinjeElement = {
   frist?: Maybe<Scalars['ISO8601Date']>;
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
   paaminnelseTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
-  status: OppgaveTilstand;
-  tittel: Scalars['String'];
+  tekst: Scalars['String'];
+  tilstand: OppgaveTilstand;
   utfoertTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   utgaattTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
 };
