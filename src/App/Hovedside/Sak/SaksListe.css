@@ -16,7 +16,6 @@ ul.saks-liste .sakscontainer {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  min-height: 10rem;
 }
 
 @media (max-width: 1250px) {

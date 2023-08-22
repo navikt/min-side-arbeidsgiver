@@ -21,7 +21,7 @@ import { Collapse, Expand } from '@navikt/ds-icons';
 export const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
     month: 'short',
-    day: '2-digit',
+    day: 'numeric',
 });
 
 type SakPanelProps = {
