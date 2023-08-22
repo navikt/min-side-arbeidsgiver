@@ -54,8 +54,8 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                 tidslinje {
                     __typename
                     ... on OppgaveTidslinjeElement {
-                        tittel
-                        status
+                        tekst
+                        tilstand
                         frist
                         opprettetTidspunkt
                         paaminnelseTidspunkt
@@ -63,7 +63,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                         utgaattTidspunkt
                     }
                     ... on BeskjedTidslinjeElement {
-                        tittel
+                        tekst
                         opprettetTidspunkt
                     }
                 }
