@@ -15,7 +15,7 @@ ul.saks-liste .sakscontainer {
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: 8px;
   min-height: 10rem;
 }
 

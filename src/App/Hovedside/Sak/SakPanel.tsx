@@ -38,11 +38,7 @@ export const SakPanel = ({
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
-    const [frist] = frister;
-    const paminnelse: boolean = oppgaver.some(
-        (oppgave: OppgaveMetadata) =>
-            oppgave.tilstand === OppgaveTilstand.Ny && oppgave.paaminnelseTidspunkt !== null
-    );
+
     const [tidslinjeOpen, setTidslinjeOpen] = useState(false);
 
     return (
