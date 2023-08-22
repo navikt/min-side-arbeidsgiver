@@ -226,22 +226,6 @@ const main = async () => {
             })
         );
 
-        // TODO: fjern denne når vi tenker alle klienter er oppdatert med ny kode
-        app.use(
-            '/min-side-arbeidsgiver/sykefravaer',
-            /* Ingen tokenx her fordi vi går mot deres frackend.
-             * Vi har på backlocken å skrive oss over til kafka-versjonen,
-             * så da blir vi kvitt dette unntaket.
-             */
-            createProxyMiddleware({
-                ...proxyOptions,
-                target: SYKEFRAVAER_DOMAIN,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/sykefravaer': '/sykefravarsstatistikk/api/',
-                },
-            })
-        );
-
         app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
             const target = new URL(LOGIN_URL);
             target.searchParams.set('redirect', req.get('referer'));
