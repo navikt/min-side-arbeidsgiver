@@ -39,13 +39,15 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
             return (
                 <Tag
                     size="small"
-                    className={`tidslinje_StatusLinje ${className}`}
+                    className={className}
                     variant="success"
                 >
-                    Fullført{' '}
-                    {oppgave.utfoertTidspunkt === undefined
+                    <StatusIkonMedTekst icon={<StopWatch/>}>
+                    Utført{' '}
+                    {oppgave.utfoertTidspunkt === null
                         ? null
                         : uformellDatotekst(new Date(oppgave.utfoertTidspunkt))}
+                    </StatusIkonMedTekst>
                 </Tag>
             );
 
@@ -53,7 +55,7 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
             return (
                 <Tag
                     size="small"
-                    className={`tidslinje_StatusLinje ${className}`}
+                    className={className}
                     variant="neutral"
                 >
                     <StatusIkonMedTekst icon={<StopWatch aria-hidden={true} />}>
@@ -63,15 +65,15 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
             );
 
         case OppgaveTilstand.Ny:
-            if (oppgave.frist === undefined && oppgave.paaminnelseTidspunkt === undefined) {
+            if (oppgave.frist === null && oppgave.paaminnelseTidspunkt === null) {
                 return null;
             } else {
                 let innhold;
-                if (oppgave.frist === undefined && oppgave.paaminnelseTidspunkt !== undefined) {
+                if (oppgave.frist === null && oppgave.paaminnelseTidspunkt !== null) {
                     innhold = <>Påminnelse</>;
                 } else if (
-                    oppgave.frist !== undefined &&
-                    oppgave.paaminnelseTidspunkt === undefined
+                    oppgave.frist !== null &&
+                    oppgave.paaminnelseTidspunkt === null
                 ) {
                     innhold = <>Frist {dateFormat.format(new Date(oppgave.frist))}</>;
                 } else {
@@ -80,7 +82,7 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
                     );
                 }
                 return (
-                    <StatusMedFristPaminnelse className={className ?? ''}>
+                    <StatusMedFristPaminnelse className={className}>
                         {' '}
                         {innhold}{' '}
                     </StatusMedFristPaminnelse>
@@ -93,12 +95,12 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
 
 type StatusMedFristPaminnelseProps = {
     children: ReactNode;
-    className: string;
+    className?: string;
 };
 
 const StatusMedFristPaminnelse = ({ children, className }: StatusMedFristPaminnelseProps) => {
     return (
-        <Tag size="small" className={`tidslinje_StatusLinje ${className}`} variant="warning">
+        <Tag size="small" className={className} variant="warning">
             <StatusIkonMedTekst icon={<StopWatch aria-hidden={true} />}>
                 {children}
             </StatusIkonMedTekst>
@@ -113,7 +115,7 @@ type StatusIkonMedTekstProps = {
 };
 
 const StatusIkonMedTekst: FC<StatusIkonMedTekstProps> = ({ icon, className, children }) => (
-    <span className={`tidslinje_oppgave_status_text ${className}`}>
+    <span className={className}>
         {icon} {children}
     </span>
 );
