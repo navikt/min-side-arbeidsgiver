@@ -22,7 +22,6 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
-    SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
     MILJO = 'local',
 } = process.env;
 
