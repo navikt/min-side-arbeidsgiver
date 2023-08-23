@@ -54,6 +54,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                 tidslinje {
                     __typename
                     ... on OppgaveTidslinjeElement {
+                        id
                         tekst
                         tilstand
                         frist
@@ -63,6 +64,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                         utgaattTidspunkt
                     }
                     ... on BeskjedTidslinjeElement {
+                        id
                         tekst
                         opprettetTidspunkt
                     }

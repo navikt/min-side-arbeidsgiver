@@ -17,6 +17,7 @@ import {
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { StatusLinje } from '../../../GeneriskeElementer/StatusLinje';
 import { Collapse, Expand } from '@navikt/ds-icons';
+import { undefined } from 'zod';
 
 export const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
@@ -31,7 +32,7 @@ type SakPanelProps = {
 
 export const SakPanel = ({
                              placeholder,
-                             sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
+                             sak: { id, lenke, tittel, virksomhet, sisteStatus, tidslinje },
                          }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
@@ -58,7 +59,7 @@ export const SakPanel = ({
             <div>
                 {tidslinje.map((tidslinjeelement, i) => (
                     <Tidslinjeelement
-                        key={`tidslinje-element_${i}`}
+                        key={id}
                         tidslinjeelement={tidslinjeelement}
                         indeks={i}
                         apen={tidslinjeOpen}
@@ -171,8 +172,8 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 />
             </div>
             <div className='tidslinje-linje'>
-                {erSist || !tidslinjeOpen ? null : frist === undefined &&
-                paaminnelseTidspunkt === undefined ? (
+                {erSist || !tidslinjeOpen ? null : frist === null &&
+                paaminnelseTidspunkt === null ? (
                     <TidslinjeLinjeIkonKort />
                 ) : (
                     <TidslinjeLinjeIkon />

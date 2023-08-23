@@ -29,6 +29,7 @@ export type Beskjed = {
 
 export type BeskjedTidslinjeElement = {
   __typename?: 'BeskjedTidslinjeElement';
+  id: Scalars['ID'];
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
   tekst: Scalars['String'];
 };
@@ -88,6 +89,7 @@ export type OppgaveMetadata = {
 export type OppgaveTidslinjeElement = {
   __typename?: 'OppgaveTidslinjeElement';
   frist?: Maybe<Scalars['ISO8601Date']>;
+  id: Scalars['ID'];
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
   paaminnelseTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   tekst: Scalars['String'];
