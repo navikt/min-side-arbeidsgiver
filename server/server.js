@@ -96,6 +96,7 @@ const main = async () => {
         (await import('./mock/altinnMeldingsboksMock.js')).mock(app);
         (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
+        (await import('./mock/antallArbeidsforholdMock.js')).mock(app);
         (await import('./mock/tiltakApiMock.js')).mock(app);
         (await import('./mock/sykefraværMock.js')).mock(app);
         (await import('./mock/refusjonsStatusMock.js')).mock(app);
@@ -186,6 +187,27 @@ const main = async () => {
                     '^/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern': '/ekstern',
                 },
                 target: 'http://presenterte-kandidater-api.toi',
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                    prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                pathRewrite: {
+                    '^/min-side-arbeidsgiver/api/antall-arbeidsforhold': '/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
+                },
+                target: {
+                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io',
+                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io',
+                }[MILJO],
             })
         );
 

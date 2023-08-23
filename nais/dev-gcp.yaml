@@ -50,11 +50,15 @@ spec:
         - host: arbeidsgiver-gcp.dev.nav.no
         - host: arbeidsgiver.intern.dev.nav.no
         - host: tiltak-proxy.dev-fss-pub.nais.io
+        - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
         - application: tiltak-proxy
           namespace: arbeidsgiver
+          cluster: dev-fss
+        - application: aareg-innsyn-arbeidsgiver-api
+          namespace: arbeidsforhold
           cluster: dev-fss
         - application: presenterte-kandidater-api
           namespace: toi
