@@ -1,3 +1,5 @@
+import {altinnUrl} from "../api/altinnApi";
+
 interface Environment {
     MILJO: string,
     NAIS_APP_IMAGE: string,
@@ -33,6 +35,26 @@ export const gittMiljo = <T>(e: Miljo<T>): T => {
 
 export const caseMiljo = <T>(e: Miljo<(miljo: string) => T>): T =>
     gittMiljo(e)(environment.MILJO)
+
+caseMiljo({
+    prod: () => {
+        // noop
+    },
+    other: () => {
+        fetch('/min-side-arbeidsgiver/debug', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                message: 'Ukjent miljø i frontend',
+                environment,
+                userAgent: navigator.userAgent,
+                url: window.location.href,
+            }),
+        });
+    }
+})
 
 export default environment;
 
