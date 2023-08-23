@@ -85,6 +85,16 @@ const main = async () => {
         })
     );
 
+    app.use(
+        '/min-side-arbeidsgiver/debug',
+        express.json(),
+        (req, res) => {
+            log.info(`debug: ${JSON.stringify(req.body)}`);
+
+            res.status(204).send();
+        }
+    );
+
     if (MILJO === 'dev') {
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
     }
