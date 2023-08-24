@@ -191,7 +191,7 @@ const main = async () => {
         );
 
         app.use(
-            '/min-side-arbeidsgiver/api/antall-arbeidsforhold',
+            '/min-side-arbeidsgiver/antall-arbeidsforhold',
             tokenXMiddleware({
                 log: log,
                 audience: {
@@ -202,7 +202,8 @@ const main = async () => {
             createProxyMiddleware({
                 ...proxyOptions,
                 pathRewrite: {
-                    '^/min-side-arbeidsgiver/api/antall-arbeidsforhold': '/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
+                    '^/min-side-arbeidsgiver/antall-arbeidsforhold':
+                        '/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
                 },
                 target: {
                     dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io',
