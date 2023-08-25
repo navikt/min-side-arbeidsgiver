@@ -32,11 +32,12 @@ jobs:
       - run: npm ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-          PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/
 
       - run: npm run lint
 
       - run: npm run build
+        env:
+          PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/
 
       - uses: docker/login-action@v1
         with:
