@@ -76,7 +76,7 @@ jobs:
         uses: navikt/frontend/actions/cdn-upload/v1@main
         with:
           cdn-team-name: fager
-          source: ./build
+          source: ./build/
           destination: '/min-side-arbeidsgiver'
 
       - name: Lag sentry release
