@@ -78,12 +78,7 @@ ul.saks-liste .sakscontainer .tidslinje-element {
 
 .tidslinje-vis-mer-knapp{
   max-width: 8rem;
-  padding: 8px 0 0 0 ;
-}
-
-.tidslinje-vis-mer {
-  display: flex;
-  gap: 8px;
+  padding: 8px 0 0 0;
 }
 
 

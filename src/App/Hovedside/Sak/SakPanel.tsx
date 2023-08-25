@@ -2,22 +2,22 @@ import { BodyShort, Button, Detail, Heading } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import './SaksListe.css';
 import {
+    BeskjedIkon,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
-    BeskjedIkon,
     TidslinjeLinjeIkon,
     TidslinjeLinjeIkonKort,
 } from './OppgaveBeskjedIkoner';
 import {
     BeskjedTidslinjeElement,
     OppgaveTidslinjeElement,
+    OppgaveTilstand,
     Sak,
     TidslinjeElement,
 } from '../../../api/graphql-types';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { StatusLinje } from '../../../GeneriskeElementer/StatusLinje';
 import { Collapse, Expand } from '@navikt/ds-icons';
-import { undefined } from 'zod';
 
 export const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
@@ -32,7 +32,7 @@ type SakPanelProps = {
 
 export const SakPanel = ({
                              placeholder,
-                             sak: { id, lenke, tittel, virksomhet, sisteStatus, tidslinje },
+                             sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
                          }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
@@ -59,7 +59,7 @@ export const SakPanel = ({
             <div>
                 {tidslinje.map((tidslinjeelement, i) => (
                     <Tidslinjeelement
-                        key={id}
+                        key={tidslinjeelement.id}
                         tidslinjeelement={tidslinjeelement}
                         indeks={i}
                         apen={tidslinjeOpen}
@@ -73,16 +73,9 @@ export const SakPanel = ({
                     className='tidslinje-vis-mer-knapp'
                     variant='tertiary'
                     onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
+                    icon={tidslinjeOpen ? <Collapse/> : <Expand/>}
                 >
-                    {tidslinjeOpen ? (
-                        <div className='tidslinje-vis-mer'>
-                            <Collapse /> <BodyShort> Vis mindre </BodyShort>
-                        </div>
-                    ) : (
-                        <div className='tidslinje-vis-mer'>
-                            <Expand /> <BodyShort> Vis mer </BodyShort>
-                        </div>
-                    )}
+                        {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
                 </Button>
             ) : null}
         </div>
@@ -172,12 +165,12 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 />
             </div>
             <div className='tidslinje-linje'>
-                {erSist || !tidslinjeOpen ? null : frist === null &&
-                paaminnelseTidspunkt === null ? (
-                    <TidslinjeLinjeIkonKort />
-                ) : (
-                    <TidslinjeLinjeIkon />
-                )}
+                {erSist || !tidslinjeOpen ? null
+                    : (tilstand === OppgaveTilstand.Ny && frist === null && paaminnelseTidspunkt === null) ? (
+                        <TidslinjeLinjeIkonKort />
+                    ) : (
+                        <TidslinjeLinjeIkon />
+                    )}
             </div>
         </div>
     );

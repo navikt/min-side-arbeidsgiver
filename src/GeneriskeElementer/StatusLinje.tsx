@@ -115,7 +115,7 @@ type StatusIkonMedTekstProps = {
 };
 
 const StatusIkonMedTekst: FC<StatusIkonMedTekstProps> = ({ icon, className, children }) => (
-    <span className={className}>
+    <span className={`statuslinje_tekstmedikon ${className}`} >
         {icon} {children}
     </span>
 );

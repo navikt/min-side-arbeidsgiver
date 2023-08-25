@@ -5,3 +5,8 @@
   align-items: center;
   gap: 0.5ch;
 }
+
+.statuslinje_tekstmedikon {
+  display: flex;
+  gap: 4px;
+}
