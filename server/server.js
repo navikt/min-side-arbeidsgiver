@@ -98,6 +98,7 @@ const main = async () => {
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
         (await import('./mock/antallArbeidsforholdMock.js')).mock(app);
         (await import('./mock/tiltakApiMock.js')).mock(app);
+        (await import('./mock/sykefraværMock.js')).mock(app);
         (await import('./mock/refusjonsStatusMock.js')).mock(app);
         (await import('./mock/presenterteKandidaterMock.js')).mock(app);
         (await import('./mock/storageMock.js')).mock(app);
