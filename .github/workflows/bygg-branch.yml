@@ -13,15 +13,19 @@ jobs:
   bygg:
     name: Bygg branch
     runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      packages: 'write'
     steps:
       - name: Sjekk ut kode
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       - uses: actions/setup-node@v3
         with:
-          node-version: '16.14.2'
+          node-version: '18'
           registry-url: https://npm.pkg.github.com/
           cache: 'npm'
 
@@ -32,6 +36,8 @@ jobs:
       - run: npm run lint
 
       - run: npm run build
+        env:
+          PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/build/
 
       - uses: docker/login-action@v1
         with:
@@ -44,3 +50,10 @@ jobs:
           docker build --tag $IMAGE_BASE:$GITHUB_SHA .
           echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
           docker push $IMAGE_BASE:$GITHUB_SHA
+
+      - id: upload
+        uses: navikt/frontend/actions/cdn-upload/v1@main
+        with:
+          cdn-team-name: fager
+          source: ./build/
+          destination: '/min-side-arbeidsgiver'
