@@ -27,6 +27,13 @@ export type Beskjed = {
   virksomhet: Virksomhet;
 };
 
+export type BeskjedTidslinjeElement = {
+  __typename?: 'BeskjedTidslinjeElement';
+  id: Scalars['ID'];
+  opprettetTidspunkt: Scalars['ISO8601DateTime'];
+  tekst: Scalars['String'];
+};
+
 export type BrukerKlikk = {
   __typename?: 'BrukerKlikk';
   id: Scalars['ID'];
@@ -79,6 +86,18 @@ export type OppgaveMetadata = {
   tilstand: OppgaveTilstand;
 };
 
+export type OppgaveTidslinjeElement = {
+  __typename?: 'OppgaveTidslinjeElement';
+  frist?: Maybe<Scalars['ISO8601Date']>;
+  id: Scalars['ID'];
+  opprettetTidspunkt: Scalars['ISO8601DateTime'];
+  paaminnelseTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
+  tekst: Scalars['String'];
+  tilstand: OppgaveTilstand;
+  utfoertTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
+  utgaattTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
+};
+
 export enum OppgaveTilstand {
   Ny = 'NY',
   Utfoert = 'UTFOERT',
@@ -121,6 +140,7 @@ export type Sak = {
   merkelapp: Scalars['String'];
   oppgaver: Array<OppgaveMetadata>;
   sisteStatus: SakStatus;
+  tidslinje: Array<TidslinjeElement>;
   tittel: Scalars['String'];
   virksomhet: Virksomhet;
 };
@@ -170,6 +190,8 @@ export type SakstypeOverordnet = {
   __typename?: 'SakstypeOverordnet';
   navn: Scalars['String'];
 };
+
+export type TidslinjeElement = BeskjedTidslinjeElement | OppgaveTidslinjeElement;
 
 export type UgyldigId = {
   __typename?: 'UgyldigId';
