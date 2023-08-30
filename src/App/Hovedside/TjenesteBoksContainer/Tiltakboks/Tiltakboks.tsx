@@ -1,21 +1,22 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {tiltaksgjennomforingURL} from '../../../../lenker';
-import {OrganisasjonsDetaljerContext} from '../../../OrganisasjonDetaljerProvider';
+import React, { useContext, useEffect, useState } from 'react';
+import { tiltaksgjennomforingURL } from '../../../../lenker';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './Tiltakboks.css';
 import tiltakikon from './tiltakboks-ikon.svg';
-import {Arbeidsavtale, hentArbeidsavtaler} from '../../../../api/arbeidsavtalerApi';
-import {Tjenesteboks} from "../Tjenesteboks";
-import {BodyShort} from "@navikt/ds-react";
-import * as Record from '../../../../utils/Record'
+import { Arbeidsavtale, useArbeidsavtaler } from '../../../../api/useArbeidsavtaler';
+import { Tjenesteboks } from '../Tjenesteboks';
+import { BodyShort } from '@navikt/ds-react';
+import * as Record from '../../../../utils/Record';
+import * as Sentry from '@sentry/browser';
 
 const displayname = {
-    'ARBEIDSTRENING': 'arbeidstrening',
-    'MIDLERTIDIG_LONNSTILSKUDD': 'lønnstilskudd',
-    'VARIG_LONNSTILSKUDD': 'varig lønnstilskudd',
-    'SOMMERJOBB': 'sommerjobb',
-    'INKLUDERINGSTILSKUDD': 'inkluderingstilskudd',
-    'MENTOR': 'mentortilskudd',
-}
+    ARBEIDSTRENING: 'arbeidstrening',
+    MIDLERTIDIG_LONNSTILSKUDD: 'lønnstilskudd',
+    VARIG_LONNSTILSKUDD: 'varig lønnstilskudd',
+    SOMMERJOBB: 'sommerjobb',
+    INKLUDERINGSTILSKUDD: 'inkluderingstilskudd',
+    MENTOR: 'mentortilskudd',
+};
 
 const displayorder: (keyof typeof displayname)[] = [
     'ARBEIDSTRENING',
@@ -24,75 +25,64 @@ const displayorder: (keyof typeof displayname)[] = [
     'SOMMERJOBB',
     'INKLUDERINGSTILSKUDD',
     'MENTOR',
-]
+];
 
 const Tiltakboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber
-    const [avtaleoversikt, setAvtaleoversikt] = useState<Record<string, number>>({})
+    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
 
-    useEffect(() => {
-        if (orgnr !== undefined) {
-            hentArbeidsavtaler(orgnr)
-                .then((avtaler: Arbeidsavtale[]) => {
-                    const avtalerMedTiltaktype = (tiltaktype: string) =>
-                        avtaler.filter((avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype).length;
-                    setAvtaleoversikt({
-                        'ARBEIDSTRENING': avtalerMedTiltaktype('ARBEIDSTRENING'),
-                        'MIDLERTIDIG_LONNSTILSKUDD': avtalerMedTiltaktype('MIDLERTIDIG_LONNSTILSKUDD'),
-                        'VARIG_LONNSTILSKUDD': avtalerMedTiltaktype('VARIG_LONNSTILSKUDD'),
-                        'SOMMERJOBB': avtalerMedTiltaktype('SOMMERJOBB'),
-                        'INKLUDERINGSTILSKUDD': avtalerMedTiltaktype('INKLUDERINGSTILSKUDD'),
-                        'MENTOR': avtalerMedTiltaktype('MENTOR'),
-                    })
-                })
-                .catch(_ => {
-                    setAvtaleoversikt({})
-                });
-        }
-    }, [orgnr]);
+    const { data: avtaler = [] } = useArbeidsavtaler();
 
-    const tiltakUrl = orgnr !== undefined && orgnr !== ''
-        ? `${tiltaksgjennomforingURL}&bedrift=${orgnr}`
-        : tiltaksgjennomforingURL;
+    const avtalerMedTiltaktype = (tiltaktype: string) =>
+        avtaler.filter((avtale: Arbeidsavtale) => avtale.tiltakstype === tiltaktype).length;
 
-    const tallElems = displayorder.flatMap(avtaletype => {
-        const antall = avtaleoversikt[avtaletype] ?? 0;
+    const tiltakUrl =
+        orgnr !== undefined && orgnr !== ''
+            ? `${tiltaksgjennomforingURL}&bedrift=${orgnr}`
+            : tiltaksgjennomforingURL;
+
+    const tallElems = displayorder.flatMap((avtaletype) => {
+        const antall = avtalerMedTiltaktype(avtaletype);
         return antall > 0
             ? [
-                <div key={`${avtaletype}-tall`} className='antall'>{antall}</div>,
-                <div key={`${avtaletype}-tekst`} className='tekst'>{displayname[avtaletype]}</div>,
-            ]
+                  <div key={`${avtaletype}-tall`} className="antall">
+                      {antall}
+                  </div>,
+                  <div key={`${avtaletype}-tekst`} className="tekst">
+                      {displayname[avtaletype]}
+                  </div>,
+              ]
             : [];
-    })
+    });
 
-    return <Tjenesteboks
-        ikon={tiltakikon}
-        href={tiltakUrl}
-        tittel={'Avtaler om tiltak'}
-        aria-label={'Tiltak. Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb. ' +
-            'De ulike tiltakene krever egne tilganger i Altinn'}
-    >
-        <div className={"tiltakboks"}>
-            {tallElems.length > 0
-                ? <div className='tekstMedTallContainer'>
-                    { tallElems }
-                </div>
-                : <TekstUtenTall />
+    return (
+        <Tjenesteboks
+            ikon={tiltakikon}
+            href={tiltakUrl}
+            tittel={'Avtaler om tiltak'}
+            aria-label={
+                'Tiltak. Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb. ' +
+                'De ulike tiltakene krever egne tilganger i Altinn'
             }
-        </div>
-    </Tjenesteboks>;
+        >
+            <div className={'tiltakboks'}>
+                {tallElems.length > 0 ? (
+                    <div className="tekstMedTallContainer">{tallElems}</div>
+                ) : (
+                    <TekstUtenTall />
+                )}
+            </div>
+        </Tjenesteboks>
+    );
 };
 
-const TekstUtenTall = () =>
+const TekstUtenTall = () => (
     <>
-        <BodyShort className='avsnitt'>
+        <BodyShort className="avsnitt">
             Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb.
         </BodyShort>
-        <BodyShort >
-            De ulike tiltakene krever egne tilganger i Altinn
-        </BodyShort>
-    </>;
-
+        <BodyShort>De ulike tiltakene krever egne tilganger i Altinn</BodyShort>
+    </>
+);
 
 export default Tiltakboks;
