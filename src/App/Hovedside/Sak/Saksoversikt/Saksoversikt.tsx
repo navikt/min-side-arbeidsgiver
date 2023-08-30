@@ -19,7 +19,7 @@ import { FilterChips } from './FilterChips';
 
 export const SIDE_SIZE = 30;
 
-type SakstypeOverordnetArray = Pick<Query, 'sakstyper'>
+type SakstypeOverordnetArray = Pick<Query, 'sakstyper'>;
 
 const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
     query {
@@ -40,15 +40,17 @@ const useAlleSakstyper = () => {
 
 export const amplitudeChipClick = (kategori: string, filternavn: string) => {
     amplitude.logEvent('chip-click', {
-        'kategori': kategori,
-        'filternavn': filternavn,
+        kategori: kategori,
+        filternavn: filternavn,
     });
 };
 
 export const Saksoversikt = () => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjoner ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon) : [];
+    const orgs = organisasjoner
+        ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
+        : [];
 
     const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
 
@@ -58,76 +60,89 @@ export const Saksoversikt = () => {
 
     const alleSakstyper = useAlleSakstyper();
 
-    return <div className='saksoversikt__innhold'>
-        <Saksfilter
-            filter={state.filter}
-            sakstypeinfo={state.sakstyper}
-            alleSakstyper={alleSakstyper}
-            setFilter={byttFilter}
-            oppgaveTilstandInfo={state.oppgaveTilstandInfo}
-            valgteVirksomheter={state.filter.virksomheter}
-            setValgteVirksomheter={handleValgteVirksomheter}
-        />
-        <div className='saksoversikt'>
-            <Alerts />
-            <LagreFilter state={state} byttFilter={byttFilter} setValgtFilterId={setValgtFilterId}/>
-            <FilterChips state={state} byttFilter={byttFilter}/>
-            <div className='saksoversikt__saksliste-header'>
-                <VelgSortering state={state} byttFilter={byttFilter} />
-                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
-            </div>
+    return (
+        <div className="saksoversikt__innhold">
+            <Saksfilter
+                filter={state.filter}
+                sakstypeinfo={state.sakstyper}
+                alleSakstyper={alleSakstyper}
+                setFilter={byttFilter}
+                oppgaveTilstandInfo={state.oppgaveTilstandInfo}
+                valgteVirksomheter={state.filter.virksomheter}
+                setValgteVirksomheter={handleValgteVirksomheter}
+            />
+            <div className="saksoversikt">
+                <Alerts />
+                <LagreFilter
+                    state={state}
+                    byttFilter={byttFilter}
+                    setValgtFilterId={setValgtFilterId}
+                />
+                <FilterChips state={state} byttFilter={byttFilter} />
+                <div className="saksoversikt__saksliste-header">
+                    <VelgSortering state={state} byttFilter={byttFilter} />
+                    <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+                </div>
 
-            <SaksListeBody state={state} />
+                <SaksListeBody state={state} />
 
-            <div className='saksoversikt__saksliste-footer'>
-                <HvaVisesHer />
-                <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
+                <div className="saksoversikt__saksliste-footer">
+                    <HvaVisesHer />
+                    <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
+                </div>
             </div>
         </div>
-    </div>;
+    );
 };
 
 const HvaVisesHer = () => {
     const hjelpetekstButton = useRef<HTMLButtonElement>(null);
-    return <div className='saksoversikt__hjelpetekst'>
-        <OmSaker id='hjelptekst' ref={hjelpetekstButton} />
-        <button
-            className={'saksoversikt__knapp'}
-            onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                hjelpetekstButton.current?.focus();
-                hjelpetekstButton.current?.click();
-            }}> Hva vises her?
-        </button>
-    </div>;
-
+    return (
+        <div className="saksoversikt__hjelpetekst">
+            <OmSaker id="hjelptekst" ref={hjelpetekstButton} />
+            <button
+                className={'saksoversikt__knapp'}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    hjelpetekstButton.current?.focus();
+                    hjelpetekstButton.current?.click();
+                }}
+            >
+                {' '}
+                Hva vises her?
+            </button>
+        </div>
+    );
 };
 
 type VelgSorteringProps = {
     state: State;
     byttFilter: (filter: Filter) => void;
-}
+};
 
 const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
     if (state.sider === undefined || state.sider === 0) {
         return null;
     }
 
-    return <Select
-        value={state.filter.sortering}
-        className='saksoversikt__sortering'
-        label={`${state.totaltAntallSaker} saker sortert på`}
-        onChange={(e) => {
-            byttFilter({ ...state.filter, sortering: e.target.value as SakSortering });
-        }}
-    >
-        {sorteringsrekkefølge.map(key => (
-            <option key={key} value={key}>{sorteringsnavn[key]}</option>
-        ))}
-    </Select>;
+    return (
+        <Select
+            value={state.filter.sortering}
+            className="saksoversikt__sortering"
+            label={`${state.totaltAntallSaker} saker sortert på`}
+            onChange={(e) => {
+                byttFilter({ ...state.filter, sortering: e.target.value as SakSortering });
+            }}
+        >
+            {sorteringsrekkefølge.map((key) => (
+                <option key={key} value={key}>
+                    {sorteringsnavn[key]}
+                </option>
+            ))}
+        </Select>
+    );
 };
-
 
 const useCurrentDate = (pollInterval: number) => {
     const [currentDate, setCurrentDate] = useState(() => new Date());
@@ -148,9 +163,9 @@ const useCurrentDate = (pollInterval: number) => {
 };
 
 const sorteringsnavn: Record<SakSortering, string> = {
-    'OPPDATERT': 'Oppdatert',
-    'OPPRETTET': 'Opprettet',
-    'FRIST': 'Frist',
+    OPPDATERT: 'Oppdatert',
+    OPPRETTET: 'Opprettet',
+    FRIST: 'Frist',
 };
 
 const sorteringsrekkefølge: SakSortering[] = [
@@ -163,7 +178,7 @@ type SidevelgerProp = {
     state: State;
     byttFilter: (filter: Filter) => void;
     skjulForMobil: boolean;
-}
+};
 
 const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = false }) => {
     const [width, setWidth] = useState(window.innerWidth);
@@ -178,31 +193,33 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
         return null;
     }
 
-    return <Pagination
-        count={state.sider}
-        page={state.filter.side}
-        className={`saksoversikt__paginering ${skjulForMobil ? 'saksoversikt__skjul-for-mobil' : ''}`}
-        siblingCount={width < 920 ? 0 : 1}
-        boundaryCount={width < 800 ? 0 : 1}
-        onPageChange={
-            side => {
+    return (
+        <Pagination
+            count={state.sider}
+            page={state.filter.side}
+            className={`saksoversikt__paginering ${
+                skjulForMobil ? 'saksoversikt__skjul-for-mobil' : ''
+            }`}
+            siblingCount={width < 920 ? 0 : 1}
+            boundaryCount={width < 800 ? 0 : 1}
+            onPageChange={(side) => {
                 byttFilter({ ...state.filter, side });
-            }
-        }
-    />;
+            }}
+        />
+    );
 };
-
-
 
 type SaksListeBodyProps = {
     state: State;
-}
+};
 
 const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
     if (state.state === 'error') {
-        return <Label aria-live='polite' aria-atomic='true'>
-            Feil ved lasting av saker.
-        </Label>
+        return (
+            <Label aria-live="polite" aria-atomic="true">
+                Feil ved lasting av saker.
+            </Label>
+        );
     }
 
     if (state.state === 'loading') {
@@ -212,9 +229,11 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
     const { totaltAntallSaker, saker } = state;
 
     if (totaltAntallSaker === 0) {
-        return <Label aria-live='polite' aria-atomic='true'>
-            Ingen treff.
-        </Label>
+        return (
+            <Label aria-live="polite" aria-atomic="true">
+                Ingen treff.
+            </Label>
+        );
     }
 
     return <SaksListe saker={saker} />;
@@ -223,7 +242,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
 type LasterProps = {
     forrigeSaker?: Array<Sak>;
     startTid: Date;
-}
+};
 
 const Laster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
     const nåtid = useCurrentDate(50);
