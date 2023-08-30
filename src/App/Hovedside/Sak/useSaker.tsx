@@ -35,7 +35,6 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                 id
                 tittel
                 lenke
-                merkelapp
                 virksomhet {
                     navn
                     virksomhetsnummer
@@ -44,12 +43,6 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                     type
                     tekst
                     tidspunkt
-                }
-                frister
-                oppgaver {
-                    tilstand
-                    paaminnelseTidspunkt
-                    frist
                 }
                 tidslinje {
                     __typename
