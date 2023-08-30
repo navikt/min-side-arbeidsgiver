@@ -1,9 +1,9 @@
-import {OrganisasjonerResponse} from './altinnMock.js';
+import { OrganisasjonerResponse } from './userInfoMock.js';
 
 const reportees = {
     _links: {},
     _embedded: {
-        reportees: OrganisasjonerResponse.map(org => ({
+        reportees: OrganisasjonerResponse.map((org) => ({
             ...org,
             _links: {
                 self: {
@@ -25,7 +25,7 @@ let getRandomInt = (min, max) => {
 
 let randomStatus = () => (Math.random() < 0.5 ? 'Ulest' : 'Lest');
 
-const uniqueMessageId = (id => () => {
+const uniqueMessageId = ((id) => () => {
     id += 1;
     return `r${id}`;
 })(0);
@@ -59,8 +59,7 @@ const randomMessage = (org) => {
                 href: '/min-side-arbeidsgiver/mock/tt02.altinn.no/api/r50179335/messages/a9069768',
             },
             portalview: {
-                href:
-                    '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Correspondence/Correspondences.aspx?ReporteeElementID=9069768&ESC=5562&ESEC=1',
+                href: '/min-side-arbeidsgiver/mock/tt02.altinn.no/Pages/ServiceEngine/Correspondence/Correspondences.aspx?ReporteeElementID=9069768&ESC=5562&ESEC=1',
             },
             metadata: {
                 href: '/min-side-arbeidsgiver/mock/tt02.altinn.no/api/metadata/correspondence/5562/1',
@@ -79,7 +78,7 @@ const randomMessages = (org) => {
 };
 
 let allMessages = {};
-OrganisasjonerResponse.forEach(org => {
+OrganisasjonerResponse.forEach((org) => {
     allMessages[`reportee${org.OrganizationNumber}`] = {
         _links: {
             portalview: {
@@ -100,10 +99,10 @@ const getMessagesForReportee = (reporteeId) => {
 };
 
 export const mock = (app) => {
-        app.use('/min-side-arbeidsgiver/mock/tt02.altinn.no/api/reportees', (req, res) => {
-            res.send(reportees);
-        });
-        app.use(`/min-side-arbeidsgiver/mock/tt02.altinn.no/api/:id/messages`, (req, res) => {
-            res.send(getMessagesForReportee(req.params.id));
-        });
-    }
+    app.use('/min-side-arbeidsgiver/mock/tt02.altinn.no/api/reportees', (req, res) => {
+        res.send(reportees);
+    });
+    app.use(`/min-side-arbeidsgiver/mock/tt02.altinn.no/api/:id/messages`, (req, res) => {
+        res.send(getMessagesForReportee(req.params.id));
+    });
+};
