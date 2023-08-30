@@ -62,7 +62,7 @@ const UserInfoRespons = z.object({
             id: z.custom<AltinntjenesteId>(),
             tjenestekode: z.string(),
             tjenesteversjon: z.string(),
-            organisasjoner: z.array(Organisasjon),
+            organisasjoner: z.array(z.string()),
         })
     ),
 });

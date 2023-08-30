@@ -149,9 +149,6 @@ const organisasjonerMedRettigheter = [
     '999999999',
 ];
 
-const rettigheterSkjemaDefaultResponse = OrganisasjonerResponse.filter(({ OrganizationNumber }) =>
-    organisasjonerMedRettigheter.includes(OrganizationNumber)
-);
 const alleTjenester = [
     {
         id: 'ekspertbistand',
@@ -240,67 +237,21 @@ export const mock = (app) => {
                     id: 'mentortilskudd',
                     tjenestekode: '5216',
                     tjenesteversjon: '1',
-                    organisasjoner: [
-                        {
-                            Name: 'BALLSTAD OG HAMARØY',
-                            Type: 'Business',
-                            OrganizationNumber: '182345674',
-                            ParentOrganizationNumber: '118345674',
-                            OrganizationForm: 'BEDR',
-                            Status: 'Active',
-                        },
-                        {
-                            Name: 'BALLSTAD OG HORTEN',
-                            Type: 'Enterprise',
-                            OrganizationNumber: '118345674',
-                            OrganizationForm: 'AS',
-                            Status: 'Active',
-                        },
-                        {
-                            Name: 'NAV ENGERDAL',
-                            Type: 'Business',
-                            ParentOrganizationNumber: '812345674',
-                            OrganizationNumber: '119985432',
-                            OrganizationForm: 'BEDR',
-                            Status: 'Active',
-                        },
-                        {
-                            Name: 'NAV HAMAR',
-                            Type: 'Business',
-                            ParentOrganizationNumber: '812345674',
-                            OrganizationNumber: '119988432',
-                            OrganizationForm: 'BEDR',
-                            Status: 'Active',
-                        },
-                    ],
+                    organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
                 },
                 {
                     id: 'inntektsmelding',
                     tjenestekode: '4936',
                     tjenesteversjon: '1',
-                    organisasjoner: [
-                        {
-                            Name: 'BALLSTAD OG HAMARØY',
-                            Type: 'Business',
-                            OrganizationNumber: '182345674',
-                            ParentOrganizationNumber: '118345674',
-                            OrganizationForm: 'BEDR',
-                            Status: 'Active',
-                        },
-                        {
-                            Name: 'BALLSTAD OG HORTEN',
-                            Type: 'Enterprise',
-                            OrganizationNumber: '118345674',
-                            OrganizationForm: 'AS',
-                            Status: 'Active',
-                        },
-                    ],
+                    organisasjoner: ['182345674', '118345674'],
                 },
                 ...alleTjenester
                     .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
                     .map((tjeneste) => ({
                         ...tjeneste,
-                        organisasjoner: rettigheterSkjemaDefaultResponse,
+                        organisasjoner: OrganisasjonerResponse.map(
+                            ({ OrganizationNumber }) => OrganizationNumber
+                        ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
                     })),
             ],
         });

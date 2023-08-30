@@ -180,26 +180,12 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                         setVisFeilmelding(true);
                         addAlert('TilgangerAltinn');
                     }
-
-                    // TODO: flytt filter til backend
-                    const gyldigeOrganisasjoner = organisasjoner.filter(
-                        (org) =>
-                            org.OrganizationForm === 'BEDR' ||
-                            org.OrganizationForm === 'AAFY' ||
-                            org.Type === 'Enterprise'
-                    );
-                    setAltinnorganisasjoner(gyldigeOrganisasjoner);
+                    setAltinnorganisasjoner(organisasjoner);
                     setAltinntilganger(
-                        Record.fromEntries(
-                            tilganger.map((it) => [
-                                it.id,
-                                // TODO: vurder minimering av kontrakt fra backend. trenger kun orgnr i tilgangen
-                                Set(it.organisasjoner.map((it) => it.OrganizationNumber)),
-                            ])
-                        )
+                        Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
                     );
 
-                    if (gyldigeOrganisasjoner.length !== 0) {
+                    if (organisasjoner.length !== 0) {
                         hentAltinnRaporteeIdentiteter().then((result) => {
                             if (result instanceof Error) {
                                 autentiserAltinnBruker(window.location.href);
