@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../App/OrganisasjonDetaljerProvider';
 import useSWR, { SWRResponse } from 'swr';
 import * as Sentry from '@sentry/browser';
+import { Severity } from '@sentry/react';
 
 const PresenterteKandidater = z.object({
     antallKandidater: z.number(),
@@ -18,15 +19,20 @@ export const useAntallKandidater = (): SWRResponse<PresenterteKandidater, any> =
 
     const fetcher = async (url: string) => {
         const respons = await fetch(url);
-        return PresenterteKandidater.parse(await respons.json());
+        if (!respons.ok) {
+            Sentry.captureMessage(
+                `hent antall kandidater fra presenterte-kandidater-api feilet med ${respons.status}`,
+                Severity.Warning
+            );
+            return { antallKandidater: 0 };
+        }
+        try {
+            return PresenterteKandidater.parse(await respons.json());
+        } catch (error) {
+            Sentry.captureException(error);
+            return { antallKandidater: 0 };
+        }
     };
 
-    const respons = useSWR(valgtOrganisasjon !== undefined ? url : null, fetcher);
-    const { error } = respons;
-
-    if (error !== undefined) {
-        Sentry.captureException(error);
-    }
-
-    return respons;
+    return useSWR(valgtOrganisasjon !== undefined ? url : null, fetcher);
 };
