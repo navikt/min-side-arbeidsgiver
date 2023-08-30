@@ -213,6 +213,28 @@ const main = async () => {
         );
 
         app.use(
+            '/min-side-arbeidsgiver/stillingsregistrering-api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:teampam:pam-stillingsregistrering-api',
+                    prod: 'prod-gcp:teampam:pam-stillingsregistrering-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                pathRewrite: {
+                    '^/min-side-arbeidsgiver/stillingsregistrering-api':
+                        '/stillingsregistrering-api',
+                },
+                target: {
+                    dev: 'https://arbeidsplassen.intern.dev.nav.no',
+                    prod: 'https://arbeidsplassen.nav.no',
+                }[MILJO],
+            })
+        );
+
+        app.use(
             '/min-side-arbeidsgiver/api',
             tokenXMiddleware({
                 log: log,
