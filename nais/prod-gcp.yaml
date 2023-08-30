@@ -42,8 +42,6 @@ spec:
       value: http://notifikasjon-bruker-api.fager.svc.cluster.local
     - name: GIT_COMMIT
       value: {{commit}}
-    - name: SYKEFRAVAER_DOMAIN
-      value: https://arbeidsgiver.nav.no
     - name: MILJO
       value: prod
   accessPolicy:
@@ -51,11 +49,15 @@ spec:
       external:
         - host: arbeidsgiver.nav.no
         - host: tiltak-proxy.prod-fss-pub.nais.io
+        - host: aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
         - application: tiltak-proxy
           namespace: arbeidsgiver
+          cluster: prod-fss
+        - application: aareg-innsyn-arbeidsgiver-api
+          namespace: arbeidsforhold
           cluster: prod-fss
         - application: presenterte-kandidater-api
           namespace: toi

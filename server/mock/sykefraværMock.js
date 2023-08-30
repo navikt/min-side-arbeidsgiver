@@ -16,7 +16,7 @@ const bedriftEllerBransjeRespons = () => {
 
 export const mock = (app) => {
     app.use(
-        `/min-side-arbeidsgiver/sykefravaer/:orgnr/sykefravarshistorikk/legemeldtsykefravarsprosent`,
+        `/min-side-arbeidsgiver/api/sykefravaerstatistikk/:orgnr`,
         (req, res) => {
             res.send(bedriftEllerBransjeRespons());
         },

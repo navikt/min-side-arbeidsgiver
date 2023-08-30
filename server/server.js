@@ -22,7 +22,6 @@ const {
     NAIS_CLUSTER_NAME = 'local',
     BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
-    SYKEFRAVAER_DOMAIN = 'http://localhost:8080',
     MILJO = 'local',
 } = process.env;
 
@@ -97,6 +96,7 @@ const main = async () => {
         (await import('./mock/altinnMeldingsboksMock.js')).mock(app);
         (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
+        (await import('./mock/antallArbeidsforholdMock.js')).mock(app);
         (await import('./mock/tiltakApiMock.js')).mock(app);
         (await import('./mock/sykefraværMock.js')).mock(app);
         (await import('./mock/refusjonsStatusMock.js')).mock(app);
@@ -191,6 +191,28 @@ const main = async () => {
         );
 
         app.use(
+            '/min-side-arbeidsgiver/antall-arbeidsforhold',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                    prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                pathRewrite: {
+                    '^/min-side-arbeidsgiver/antall-arbeidsforhold':
+                        '/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
+                },
+                target: {
+                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io',
+                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io',
+                }[MILJO],
+            })
+        );
+
+        app.use(
             '/min-side-arbeidsgiver/api',
             tokenXMiddleware({
                 log: log,
@@ -222,21 +244,6 @@ const main = async () => {
                 target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
                 pathRewrite: {
                     '^/min-side-arbeidsgiver/notifikasjon-bruker-api': '/api/graphql',
-                },
-            })
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/sykefravaer',
-            /* Ingen tokenx her fordi vi går mot deres frackend.
-             * Vi har på backlocken å skrive oss over til kafka-versjonen,
-             * så da blir vi kvitt dette unntaket.
-             */
-            createProxyMiddleware({
-                ...proxyOptions,
-                target: SYKEFRAVAER_DOMAIN,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/sykefravaer': '/sykefravarsstatistikk/api/',
                 },
             })
         );

@@ -1,5 +1,5 @@
 import {lenkeTilForebyggefravar} from '../../../../lenker';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import * as Sentry from "@sentry/browser";
 import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
 import './ForebyggeFraværboks.css';
@@ -19,7 +19,7 @@ const ForebyggeFraværboks = () => {
         href={lenkeTilForebyggefravar + valgtbedrift()}
         tittel='Forebygge fravær'
         aria-label={beskrivelse}
-        >
+    >
         <Beskrivelse/>
     </Tjenesteboks>;
 };
@@ -27,15 +27,14 @@ const ForebyggeFraværboks = () => {
 const beskrivelse = 'Verktøy for å forebygge fravær i din virksomhet.'
 
 const Beskrivelse = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
     const [sykefravær, setSykefravær] = useState<Sykefraværsrespons | undefined>(undefined);
 
-    const statistikktype = (type:string) => {
+    const statistikktype = (type: string) => {
         switch (type) {
+            case 'NÆRING':
             case 'BRANSJE':
                 return 'bransje'
-            case 'NÆRING':
-                return 'næring'
             default :
                 return 'bedrift'
         }
