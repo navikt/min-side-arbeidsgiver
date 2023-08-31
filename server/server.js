@@ -255,7 +255,14 @@ const main = async () => {
         });
     }
 
-    app.use('/min-side-arbeidsgiver/', express.static(BUILD_PATH, { index: false }));
+    app.use(
+        '/min-side-arbeidsgiver/',
+        express.static(BUILD_PATH, {
+            index: false,
+            etag: false,
+            maxAge: '1h',
+        })
+    );
 
     app.get('/min-side-arbeidsgiver/internal/isAlive', (req, res) => res.sendStatus(200));
     app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) => res.sendStatus(200));
