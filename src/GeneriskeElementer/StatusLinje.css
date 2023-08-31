@@ -1,0 +1,12 @@
+
+.tidslinje_oppgave_status_text {
+  grid-column-start: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.5ch;
+}
+
+.statuslinje_tekstmedikon {
+  display: flex;
+  gap: 4px;
+}
