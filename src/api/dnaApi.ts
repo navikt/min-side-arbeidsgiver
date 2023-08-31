@@ -1,7 +1,7 @@
-import { Organisasjon } from '../altinn/organisasjon';
-import { z } from 'zod';
-import * as Sentry from '@sentry/browser';
-import { AltinntjenesteId } from '../altinn/tjenester';
+import {Organisasjon} from '../altinn/organisasjon';
+import {z} from "zod";
+import * as Sentry from "@sentry/browser";
+
 
 const digiSyfoVirksomheterURL = '/min-side-arbeidsgiver/api/narmesteleder/virksomheter-v3';
 const DigiSyfoOrganisasjon = z.object({
@@ -17,17 +17,16 @@ export async function hentSyfoVirksomheter(): Promise<DigiSyfoOrganisasjonRespon
     if (respons.ok) {
         return DigiSyfoOrganisasjonResponse.parse(await respons.json());
     }
-    throw new Error(
-        `Kall til ${digiSyfoVirksomheterURL} feilet med ${respons.status}:${respons.statusText}`
-    );
+    throw new Error(`Kall til ${digiSyfoVirksomheterURL} feilet med ${respons.status}:${respons.statusText}`);
 }
+
 
 const RefusjonStatus = z.object({
     virksomhetsnummer: z.string(),
     statusoversikt: z.object({
-        KLAR_FOR_INNSENDING: z.number().optional(),
+        "KLAR_FOR_INNSENDING": z.number().optional(),
     }),
-    tilgang: z.boolean(),
+    tilgang: z.boolean()
 });
 const RefusjonStatusResponse = z.array(RefusjonStatus);
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
@@ -40,41 +39,25 @@ export async function hentRefusjonstatus(): Promise<RefusjonStatus[]> {
         try {
             return RefusjonStatusResponse.parse(data);
         } catch (error) {
-            Sentry.captureException(error);
+            Sentry.captureException(error)
         }
     }
-    throw new Error(
-        `Kall til ${refusjonstatusURL} feilet med ${respons.status}:${respons.statusText}`
-    );
+    throw new Error(`Kall til ${refusjonstatusURL} feilet med ${respons.status}:${respons.statusText}`);
 }
+
 
 const sjekkInnloggetURL = '/min-side-arbeidsgiver/api/innlogget';
 export const sjekkInnlogget = async (): Promise<boolean> => {
-    const { ok } = await fetch(sjekkInnloggetURL);
-    return ok;
-};
+    const {ok} = await fetch(sjekkInnloggetURL)
+    return ok
+}
 
-const UserInfoRespons = z.object({
-    altinnError: z.boolean(),
-    organisasjoner: z.array(Organisasjon),
-    tilganger: z.array(
-        z.object({
-            id: z.custom<AltinntjenesteId>(),
-            tjenestekode: z.string(),
-            tjenesteversjon: z.string(),
-            organisasjoner: z.array(z.string()),
-        })
-    ),
-});
-export type UserInfo = z.infer<typeof UserInfoRespons>;
-export async function hentUserInfo(): Promise<UserInfo> {
-    const respons = await fetch('/min-side-arbeidsgiver/api/userInfo/v1');
+export async function hentOrganisasjoner(): Promise<Organisasjon[]> {
+    const respons = await fetch('/min-side-arbeidsgiver/api/organisasjoner');
     if (respons.ok) {
-        return UserInfoRespons.parse(await respons.json());
+        return await respons.json();
     } else {
-        throw new Error(
-            `Kall til '/min-side-arbeidsgiver/api/userInfo/v1' feilet med ${respons.status}:${respons.statusText}`
-        );
+        throw new Error(`Kall til '/min-side-arbeidsgiver/api/organisasjoner' feilet med ${respons.status}:${respons.statusText}`);
     }
 }
 const storageUrl = `/min-side-arbeidsgiver/api/storage`;
@@ -84,8 +67,8 @@ export async function getStorage(key: string): Promise<StorageItemResponse> {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json',
-            },
+                'Accept': 'application/json',
+            }
         });
         if (respons.status === 204) {
             return {
@@ -93,7 +76,7 @@ export async function getStorage(key: string): Promise<StorageItemResponse> {
                     key,
                     data: [],
                     version: respons.headers.get('version'),
-                },
+                }
             };
         }
         const jsonResult = await respons.json();
@@ -102,30 +85,23 @@ export async function getStorage(key: string): Promise<StorageItemResponse> {
                 key,
                 data: jsonResult,
                 version: respons.headers.get('version'),
-            },
+            }
         };
     } catch (error) {
-        return { error };
+        return {error};
     }
 }
 
-export async function putStorage(
-    key: string,
-    data: any,
-    version: string | null = null
-): Promise<StorageItemResponse> {
+export async function putStorage(key: string, data: any, version: string | null = null): Promise<StorageItemResponse> {
     try {
-        const respons = await fetch(
-            `${storageUrl}/${key}${version !== null ? `?version=${version}` : ''}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-                body: JSON.stringify(data),
-            }
-        );
+        const respons = await fetch(`${storageUrl}/${key}${(version !== null ? `?version=${version}` : '')}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
 
         if (respons.status === 409) {
             return {
@@ -138,44 +114,38 @@ export async function putStorage(
                     key,
                     data,
                     version,
-                },
-            };
+                }
+            }
         } else if (respons.ok) {
             return {
                 updatedStorageItem: {
                     key,
                     data: await respons.json(),
                     version: respons.headers.get('version'),
-                },
+                }
             };
         } else {
             return {
                 error: {
                     status: respons.status,
                     statusText: respons.statusText,
-                },
+                }
             };
         }
     } catch (error) {
-        return { error };
+        return {error};
     }
 }
 
-export async function deleteStorage(
-    key: string,
-    version: string | null = null
-): Promise<StorageItemResponse> {
+export async function deleteStorage(key: string, version: string | null = null): Promise<StorageItemResponse> {
     try {
-        const respons = await fetch(
-            `${storageUrl}/${key}${version !== null ? `?version=${version}` : ''}`,
-            {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                },
-            }
-        );
+        const respons = await fetch(`${storageUrl}/${key}${(version !== null ? `?version=${version}` : '')}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+        });
         if (respons.status === 409) {
             return {
                 currentStorageItem: {
@@ -184,51 +154,47 @@ export async function deleteStorage(
                     version: respons.headers.get('version'),
                 },
                 rejectedStorageItem: null,
-            };
+            }
         } else if (respons.ok) {
             return {
                 deletedStorageItem: {
                     key,
                     data: await respons.json(),
                     version: respons.headers.get('version'),
-                },
+                }
             };
         } else {
             return {
                 error: {
                     status: respons.status,
                     statusText: respons.statusText,
-                },
+                }
             };
         }
     } catch (error) {
-        return { error };
+        return {error};
     }
+
 }
 export type StorageItem = {
-    key: string;
-    data: any[];
-    version: string | null;
-};
+    key: string,
+    data: any[],
+    version: string | null,
+}
 export type StorageItemDeleted = {
-    deletedStorageItem: StorageItem;
-};
+    deletedStorageItem: StorageItem,
+}
 export type StorageItemUpdated = {
-    updatedStorageItem: StorageItem;
-};
+    updatedStorageItem: StorageItem,
+}
 export type StorageItemLoaded = {
-    loadedStorageItem: StorageItem;
-};
+    loadedStorageItem: StorageItem,
+}
 export type StorageItemConflict = {
-    currentStorageItem: StorageItem;
-    rejectedStorageItem: StorageItem | null;
-};
+    currentStorageItem: StorageItem,
+    rejectedStorageItem: StorageItem | null,
+}
 export type StorageError = {
-    error: any;
-};
-export type StorageItemResponse =
-    | StorageItemLoaded
-    | StorageItemUpdated
-    | StorageItemDeleted
-    | StorageItemConflict
-    | StorageError;
+    error: any,
+}
+export type StorageItemResponse = StorageItemLoaded | StorageItemUpdated | StorageItemDeleted | StorageItemConflict | StorageError;

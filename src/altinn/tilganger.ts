@@ -1,4 +1,37 @@
-import { altinntjeneste, AltinntjenesteId } from './tjenester';
+import { altinntjeneste, AltinnFellesInfo, AltinntjenesteId } from './tjenester';
+import * as Record from '../utils/Record';
+import { Organisasjon } from './organisasjon';
+import { Set } from 'immutable'
+
+type Orgnr = string;
+
+export const hentAltinntilganger = async (): Promise<Record<AltinntjenesteId, Set<Orgnr>>> => {
+    const enkelttilganger = await Promise.all(
+        Record.mapToArray(altinntjeneste, hentAltinntilgangerForEnTjeneste)
+    );
+    return Record.fromEntries(enkelttilganger);
+};
+
+const hentAltinntilgangerForEnTjeneste = async (
+    id: AltinntjenesteId,
+    tjeneste: AltinnFellesInfo
+): Promise<[AltinntjenesteId, Set<Orgnr>]> => {
+    const respons = await fetch(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=' +
+            tjeneste.tjenestekode +
+            '&serviceEdition=' +
+            tjeneste.tjenesteversjon
+    );
+
+    let organisasjoner: Organisasjon[] = [];
+
+    if (respons.ok) {
+        organisasjoner = await respons.json();
+    }
+
+    const orgnr = organisasjoner.map(_ => _.OrganizationNumber);
+    return [id, Set(orgnr)];
+};
 
 const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';
 
@@ -34,28 +67,26 @@ export interface AltinnTilgangssøknadskjemaDTO {
     serviceEdition: number;
 }
 
-export const opprettAltinnTilgangssøknad = async (
-    skjema: AltinnTilgangssøknadskjema
-): Promise<AltinnTilgangssøknad | null> => {
+export const opprettAltinnTilgangssøknad = async (skjema: AltinnTilgangssøknadskjema): Promise<AltinnTilgangssøknad | null> => {
     const dto: AltinnTilgangssøknadskjemaDTO = {
         orgnr: skjema.orgnr,
         redirectUrl: skjema.redirectUrl,
         serviceCode: altinntjeneste[skjema.altinnId].tjenestekode,
-        serviceEdition: parseInt(altinntjeneste[skjema.altinnId].tjenesteversjon),
-    };
+        serviceEdition: parseInt(altinntjeneste[skjema.altinnId].tjenesteversjon)
+    }
 
     const response = await fetch(altinnTilgangssøknadUrl, {
-        method: 'POST',
+       'method' : 'POST',
         body: JSON.stringify(dto),
         headers: {
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
+           'content-type': 'application/json',
+           'accept': 'application/json'
+        }
     });
 
     if (!response.ok) {
         return null;
     }
 
-    return (await response.json()) as AltinnTilgangssøknad;
+    return await response.json() as AltinnTilgangssøknad;
 };

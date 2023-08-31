@@ -103,7 +103,7 @@ export const OrganisasjonerResponse = [
         ParentOrganizationNumber: '121488424',
         OrganizationForm: 'BEDR',
         Status: 'Active',
-    },
+    }
 ];
 casual.define('orgnr', () => casual.integer(100000000, 999999999).toString());
 
@@ -127,18 +127,15 @@ casual.define('hovedenhet', (organizationNumber) => ({
 
 const generateUnderenheter = () => {
     const orgnummer = casual.orgnr;
-    const underenheter = Array(casual.integer(1, 11))
-        .fill(null)
-        .map(() => casual.underenhet(orgnummer));
+    const underenheter =  Array(casual.integer(1, 11)).fill(null).map(() => casual.underenhet(orgnummer));
     const hovedenhet = casual.hovedenhet(orgnummer);
     return [hovedenhet, ...underenheter];
-};
+}
 
-const andreOrganisasjoner = Array(40)
-    .fill(null)
-    .flatMap(() => {
-        return generateUnderenheter();
-    });
+const andreOrganisasjoner = Array(40).fill(null).flatMap(() => {
+    return generateUnderenheter();
+});
+
 
 const organisasjonerMedRettigheter = [
     '182345674',
@@ -148,112 +145,74 @@ const organisasjonerMedRettigheter = [
     '121488424',
     '999999999',
 ];
+const rettigheterSkjemaDefaultResponse = OrganisasjonerResponse
+    .filter(({OrganizationNumber}) => organisasjonerMedRettigheter.includes(OrganizationNumber));
 
-const alleTjenester = [
+const mentortilskuddskjemaResponse = [
     {
-        id: 'ekspertbistand',
-        tjenestekode: '5384',
-        tjenesteversjon: '1',
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '182345674',
+        ParentOrganizationNumber: '118345674',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
     },
     {
-        id: 'inntektsmelding',
-        tjenestekode: '4936',
-        tjenesteversjon: '1',
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '118345674',
+        OrganizationForm: 'AS',
+        Status: 'Active',
     },
     {
-        id: 'utsendtArbeidstakerEØS',
-        tjenestekode: '4826',
-        tjenesteversjon: '1',
+        Name: 'NAV ENGERDAL',
+        Type: 'Business',
+        ParentOrganizationNumber: '812345674',
+        OrganizationNumber: '119985432',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
     },
     {
-        id: 'arbeidstrening',
-        tjenestekode: '5332',
-        tjenesteversjon: '1',
+        Name: 'NAV HAMAR',
+        Type: 'Business',
+        ParentOrganizationNumber: '812345674',
+        OrganizationNumber: '119988432',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    }
+];
+
+
+const InntektsmeldingSkjemaResponse = [
+    {
+        Name: 'BALLSTAD OG HAMARØY',
+        Type: 'Business',
+        OrganizationNumber: '182345674',
+        ParentOrganizationNumber: '118345674',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
     },
     {
-        id: 'arbeidsforhold',
-        tjenestekode: '5441',
-        tjenesteversjon: '1',
-    },
-    {
-        id: 'midlertidigLønnstilskudd',
-        tjenestekode: '5516',
-        tjenesteversjon: '1',
-    },
-    {
-        id: 'varigLønnstilskudd',
-        tjenestekode: '5516',
-        tjenesteversjon: '2',
-    },
-    {
-        id: 'sommerjobb',
-        tjenestekode: '5516',
-        tjenesteversjon: '3',
-    },
-    {
-        id: 'mentortilskudd',
-        tjenestekode: '5516',
-        tjenesteversjon: '4',
-    },
-    {
-        id: 'inkluderingstilskudd',
-        tjenestekode: '5516',
-        tjenesteversjon: '5',
-    },
-    {
-        id: 'sykefravarstatistikk',
-        tjenestekode: '3403',
-        tjenesteversjon: '1',
-    },
-    {
-        id: 'forebyggefravar',
-        tjenestekode: '5934',
-        tjenesteversjon: '1',
-    },
-    {
-        id: 'rekruttering',
-        tjenestekode: '5078',
-        tjenesteversjon: '1',
-    },
-    {
-        id: 'tilskuddsbrev',
-        tjenestekode: '5278',
-        tjenesteversjon: '1',
-    },
-    {
-        id: 'yrkesskade',
-        tjenestekode: '5902',
-        tjenesteversjon: '1',
+        Name: 'BALLSTAD OG HORTEN',
+        Type: 'Enterprise',
+        OrganizationNumber: '118345674',
+        OrganizationForm: 'AS',
+        Status: 'Active',
     },
 ];
 
 export const mock = (app) => {
-    app.use('/min-side-arbeidsgiver/api/userInfo/v1', (req, res) => {
-        return res.send({
-            altinnError: casual.boolean,
-            organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner],
-            tilganger: [
-                {
-                    id: 'mentortilskudd',
-                    tjenestekode: '5216',
-                    tjenesteversjon: '1',
-                    organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
-                },
-                {
-                    id: 'inntektsmelding',
-                    tjenestekode: '4936',
-                    tjenesteversjon: '1',
-                    organisasjoner: ['182345674', '118345674'],
-                },
-                ...alleTjenester
-                    .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
-                    .map((tjeneste) => ({
-                        ...tjeneste,
-                        organisasjoner: OrganisasjonerResponse.map(
-                            ({ OrganizationNumber }) => OrganizationNumber
-                        ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
-                    })),
-            ],
-        });
-    });
-};
+    app.use('/min-side-arbeidsgiver/api/organisasjoner', (req, res) => res.send([...OrganisasjonerResponse, ...andreOrganisasjoner]));
+    app.use(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=5216&serviceEdition=1',
+        (req, res) => res.send(mentortilskuddskjemaResponse)
+    );
+    app.use(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/?serviceKode=4936&serviceEdition=1',
+        (req, res) => res.send(InntektsmeldingSkjemaResponse)
+    );
+    app.use(
+        '/min-side-arbeidsgiver/api/rettigheter-til-skjema/',
+        (req, res) => res.send(rettigheterSkjemaDefaultResponse)
+    );
+}
