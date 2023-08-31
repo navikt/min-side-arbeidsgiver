@@ -23,7 +23,7 @@ class SentryDebugTransport implements SentryTypes.Transport {
     }
 
     sendEvent(event: SentryTypes.Event): PromiseLike<SentryTypes.Response> {
-        console.error('would have sent to sentry', event);
+        console.error('would have sent to sentry', JSON.stringify(event, null, 2));
         return Promise.resolve({ status: 'success' });
     }
 }
