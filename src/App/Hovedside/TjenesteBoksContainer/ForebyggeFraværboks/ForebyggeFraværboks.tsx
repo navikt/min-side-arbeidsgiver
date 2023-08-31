@@ -1,9 +1,8 @@
 import { lenkeTilForebyggefravar } from '../../../../lenker';
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
 import './ForebyggeFraværboks.css';
-import { useSykefravær } from '../../../../api/useSykefravær';
+import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 
 const ForebyggeFraværboks = () => {
@@ -37,7 +36,7 @@ const Beskrivelse = () => {
         }
     };
 
-    const { data: sykefravær } = useSykefravær();
+    const sykefravær = useSykefravær();
 
     if (sykefravær !== undefined) {
         return (

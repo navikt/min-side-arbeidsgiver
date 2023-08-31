@@ -1,14 +1,12 @@
 import React from 'react';
 import { kandidatlisteURL } from '../../../../lenker';
 import { Tjenesteboks } from '../Tjenesteboks';
-import { useAntallKandidater } from '../../../../api/useAntallKandidater';
+import { useAntallKandidater } from './useAntallKandidater';
 import ikon from './kandidatlisteboks-ikon.svg';
 import './Kandidatlisteboks.css';
 
 const Kandidatlisteboks = () => {
-    const { data } = useAntallKandidater();
-
-    const antallKandidater = data?.antallKandidater ?? 0;
+    const antallKandidater = useAntallKandidater();
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href =

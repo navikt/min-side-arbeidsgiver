@@ -1,19 +1,12 @@
 import React from 'react';
-import * as Sentry from '@sentry/browser';
 import { innsynAaregURL } from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
-import { useAntallArbeidsforholdFraAareg } from '../../../../api/useAntallArbeidsforholdFraAareg';
+import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './ArbeidsforholdBoks.css';
 import { Tjenesteboks } from '../Tjenesteboks';
 
 const Arbeidsforholdboks = () => {
-    const { data, error } = useAntallArbeidsforholdFraAareg();
-
-    if (error !== undefined) {
-        return null;
-    }
-
-    const antallArbeidsforhold = data?.second ?? 0;
+    const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
