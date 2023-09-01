@@ -28,12 +28,11 @@ const log_events_counter = new Prometheus.Counter({
     labelNames: ['level'],
 });
 
-const maskFormat = format((info) => {
-    return {
-        ...info,
-        message: info.message.replace(/\d{9,}/g, (match) => '*'.repeat(match.length)),
-    };
-});
+const maskFormat = format((info) => ({
+    ...info,
+    message: info.message.replace(/\d{9,}/g, (match) => '*'.repeat(match.length)),
+}));
+
 // proxy calls to log.<level> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get
 const log = new Proxy(
     createLogger({
