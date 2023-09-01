@@ -28,10 +28,6 @@ spec:
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
       value: https://arbeidsgiver.ekstern.dev.nav.no/fake-login/login?issuer=selvbetjening&sub=123456789&domain=arbeidsgiver.ekstern.dev.nav.no&redirect=https://arbeidsgiver.ekstern.dev.nav.no/min-side-arbeidsgiver/
-    - name: PROXY_LOG_LEVEL
-      value: debug
-    - name: BRUKER_API_URL
-      value: http://localhost:8081
     - name: GIT_COMMIT
       value: {{commit}}
     - name: MILJO
