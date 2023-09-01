@@ -232,6 +232,7 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
+                pathRewrite: { '^/': '' },
                 target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
             })
         );
