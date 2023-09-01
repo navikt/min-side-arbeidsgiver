@@ -293,8 +293,15 @@ const main = async () => {
         }, 60 * 1000);
     }
 
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
         log.info(`Server listening on port ${PORT}`);
+    });
+
+    process.on('SIGTERM', () => {
+        log.info('SIGTERM signal received: closing HTTP server');
+        server.close(() => {
+            log.info('HTTP server closed');
+        });
     });
 };
 
