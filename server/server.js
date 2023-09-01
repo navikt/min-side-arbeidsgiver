@@ -20,7 +20,6 @@ const {
     GIT_COMMIT = '?',
     LOGIN_URL = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver',
     NAIS_CLUSTER_NAME = 'local',
-    BACKEND_API_URL = 'http://localhost:8080',
     PROXY_LOG_LEVEL = 'info',
     MILJO = 'local',
 } = process.env;
@@ -36,7 +35,7 @@ const log = new Proxy(
         transports: [
             new transports.Console({
                 timestamp: true,
-                format: format.json(),
+                format: format.combine(format.splat(), format.json()),
             }),
         ],
     }),
@@ -132,7 +131,7 @@ const main = async () => {
             changeOrigin: true,
         };
         app.use(
-            '/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler',
+            '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
             tokenXMiddleware({
                 log: log,
                 audience: {
@@ -149,7 +148,7 @@ const main = async () => {
                         try {
                             if (proxyRes.statusCode >= 400) {
                                 log.warn(
-                                    `tiltaksgjennomforing-api/avtaler feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
+                                    `tiltaksgjennomforing-api feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
                                 );
                                 return JSON.stringify([]);
                             }
@@ -162,23 +161,20 @@ const main = async () => {
                                 return JSON.stringify(data);
                             }
                         } catch (error) {
-                            log.error(`tiltaksgjennomforing-api/avtaler feilet ${error}`);
+                            log.error(`tiltaksgjennomforing-api feilet ${error}`);
                             return JSON.stringify([]);
                         }
                     }),
                 },
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/': '/',
-                },
                 target: {
-                    dev: 'https://tiltak-proxy.dev-fss-pub.nais.io',
-                    prod: 'https://tiltak-proxy.prod-fss-pub.nais.io',
+                    dev: 'https://tiltak-proxy.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
+                    prod: 'https://tiltak-proxy.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
                 }[MILJO],
             })
         );
 
         app.use(
-            '/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater',
+            '/min-side-arbeidsgiver/presenterte-kandidater-api',
             tokenXMiddleware({
                 log: log,
                 audience: {
@@ -188,15 +184,12 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern': '/ekstern',
-                },
                 target: 'http://presenterte-kandidater-api.toi',
             })
         );
 
         app.use(
-            '/min-side-arbeidsgiver/antall-arbeidsforhold',
+            '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
             tokenXMiddleware({
                 log: log,
                 audience: {
@@ -206,13 +199,9 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/antall-arbeidsforhold':
-                        '/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
-                },
                 target: {
-                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io',
-                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io',
+                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
+                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
                 }[MILJO],
             })
         );
@@ -228,10 +217,7 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/api': '/ditt-nav-arbeidsgiver-api/api',
-                },
-                target: BACKEND_API_URL,
+                target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
             })
         );
 
@@ -246,10 +232,7 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local',
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/notifikasjon-bruker-api': '/api/graphql',
-                },
+                target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
             })
         );
 
@@ -279,24 +262,6 @@ const main = async () => {
     app.get('/min-side-arbeidsgiver/*', (req, res) => {
         res.send(indexHtml);
     });
-
-    if (MILJO === 'dev' || MILJO === 'prod') {
-        const gauge = new Prometheus.Gauge({
-            name: 'backend_api_gw',
-            help: 'Hvorvidt frontend-server naar backend-server. up=1, down=0',
-        });
-        setInterval(async () => {
-            try {
-                const res = await fetch(
-                    `${BACKEND_API_URL}/ditt-nav-arbeidsgiver-api/internal/actuator/health`
-                );
-                gauge.set(res.ok ? 1 : 0);
-            } catch (error) {
-                log.error(`healthcheck error: ${gauge.name}`, error);
-                gauge.set(0);
-            }
-        }, 60 * 1000);
-    }
 
     const server = app.listen(PORT, () => {
         log.info(`Server listening on port ${PORT}`);

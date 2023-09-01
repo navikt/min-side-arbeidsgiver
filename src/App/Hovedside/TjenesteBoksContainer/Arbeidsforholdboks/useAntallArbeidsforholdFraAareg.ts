@@ -9,7 +9,7 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
             ? {
-                  url: '/min-side-arbeidsgiver/antall-arbeidsforhold',
+                  url: '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
                   jurenhet: valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? '',
                   orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
               }
