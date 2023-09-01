@@ -45,7 +45,7 @@ interface Arbeidsavtale {
     tiltakstype: string;
 }
 
-const arbeidsavtaleResponsType = z.array(
+const ArbeidsavtaleResponsType = z.array(
     z.object({
         tiltakstype: z.string(),
     })
@@ -54,11 +54,14 @@ const arbeidsavtaleResponsType = z.array(
 const fetcher = async (url: string) => {
     try {
         const respons = await fetch(url);
-        if (respons.ok) {
-            return arbeidsavtaleResponsType.parse(await respons.json());
-        }
+        if (respons.status === 200) return ArbeidsavtaleResponsType.parse(await respons.json());
+        if (respons.status === 401) return [];
+        Sentry.captureMessage(
+            `hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${respons.status}, ${respons.statusText}`
+        );
+        return [];
     } catch (error) {
         Sentry.captureException(error);
     }
-    return arbeidsavtaleResponsType.parse([]);
+    return [];
 };

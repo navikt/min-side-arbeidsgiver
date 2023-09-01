@@ -3,7 +3,6 @@ import useSWR from 'swr';
 import { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import * as Sentry from '@sentry/browser';
-import { Severity } from '@sentry/react';
 
 export const useAntallArbeidsforholdFraAareg = (): number => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -18,14 +17,12 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
         fetcher
     );
 
-    return data?.second ?? 0;
+    return data ?? 0;
 };
 
 const Oversikt = z.object({
     second: z.number().optional(),
 });
-
-type AntallArbeidsforholdType = z.infer<typeof Oversikt>;
 
 const fetcher = async ({
     url,
@@ -36,7 +33,6 @@ const fetcher = async ({
     jurenhet: string;
     orgnr: string;
 }) => {
-    const standardRespons: AntallArbeidsforholdType = { second: -1 };
     try {
         const respons = await fetch(url, {
             headers: {
@@ -44,18 +40,15 @@ const fetcher = async ({
                 orgnr,
             },
         });
-        if (!respons.ok) {
-            Sentry.captureMessage(
-                `hent antall arbeidsforhold fra aareg feilet med ${respons.status}`,
-                Severity.Warning
-            );
-            return standardRespons;
-        }
+        if (respons.status === 200) return Oversikt.parse(await respons.json()).second;
+        if (respons.status === 401) return 0;
 
-        const oversikt = Oversikt.parse(await respons.json());
-        return oversikt.second === 0 ? standardRespons : oversikt;
+        Sentry.captureMessage(
+            `hent antall arbeidsforhold fra aareg feilet med ${respons.status}, ${respons.statusText}`
+        );
+        return 0;
     } catch (error) {
         Sentry.captureException(error);
-        return standardRespons;
+        return 0;
     }
 };

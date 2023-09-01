@@ -15,7 +15,7 @@ export const useAntallKandidater = (): number => {
         fetcher
     );
 
-    return data?.antallKandidater ?? 0;
+    return data ?? 0;
 };
 
 const PresenterteKandidater = z.object({
@@ -25,16 +25,16 @@ const PresenterteKandidater = z.object({
 const fetcher = async (url: string) => {
     try {
         const respons = await fetch(url);
-        if (!respons.ok) {
-            Sentry.captureMessage(
-                `hent antall kandidater fra presenterte-kandidater-api feilet med ${respons.status}`,
-                Severity.Warning
-            );
-            return { antallKandidater: 0 };
-        }
-        return PresenterteKandidater.parse(await respons.json());
+
+        if (respons.status === 200)
+            return PresenterteKandidater.parse(await respons.json()).antallKandidater;
+        if (respons.status === 401) return 0;
+        Sentry.captureMessage(
+            `hent antall kandidater fra presenterte-kandidater-api feilet med ${respons.status}, ${respons.statusText}`
+        );
+        return 0;
     } catch (error) {
         Sentry.captureException(error);
-        return { antallKandidater: 0 };
+        return 0;
     }
 };

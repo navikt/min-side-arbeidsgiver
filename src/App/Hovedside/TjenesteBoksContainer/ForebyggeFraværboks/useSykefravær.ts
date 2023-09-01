@@ -28,7 +28,13 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
 const fetcher = async (url: string) => {
     try {
         const respons = await fetch(url);
-        return Sykefraværsrespons.parse(await respons.json());
+        if (respons.status === 204) return undefined;
+        if (respons.status === 200) return Sykefraværsrespons.parse(await respons.json());
+        if (respons.status === 401) return undefined;
+        Sentry.captureMessage(
+            `hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${respons.status}, ${respons.statusText}`
+        );
+        return undefined;
     } catch (error) {
         Sentry.captureException(error);
         return undefined;
