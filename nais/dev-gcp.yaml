@@ -34,10 +34,6 @@ spec:
       value: /etc/ssl/ca-bundle.pem
     - name: LOGIN_URL
       value: https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver/oauth2/login
-    - name: PROXY_LOG_LEVEL
-      value: debug
-    - name: BRUKER_API_URL
-      value: http://notifikasjon-bruker-api.fager.svc.cluster.local
     - name: GIT_COMMIT
       value: {{commit}}
     - name: MILJO

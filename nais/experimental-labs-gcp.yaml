@@ -26,14 +26,8 @@ spec:
   env:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
-    - name: BACKEND_API_URL
-      value: http://demo-min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
       value: https://arbeidsgiver.ekstern.dev.nav.no/fake-login/login?issuer=selvbetjening&sub=123456789&domain=ekstern.dev.nav.no&redirect=https://arbeidsgiver-dev-lik.ekstern.dev.nav.no/min-side-arbeidsgiver/
-    - name: PROXY_LOG_LEVEL
-      value: debug
-    - name: BRUKER_API_URL
-      value: http://localhost:8081
     - name: GIT_COMMIT
       value: {{commit}}
     - name: MILJO
