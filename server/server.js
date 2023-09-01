@@ -119,11 +119,13 @@ const main = async () => {
     } else {
         const proxyOptions = {
             logLevel: PROXY_LOG_LEVEL,
-            logProvider: (_) => log,
-            onError: (err, req, res) => {
-                log.error(
-                    `${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`
-                );
+            logger: log,
+            on: {
+                error: (err, req, res) => {
+                    log.error(
+                        `${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`
+                    );
+                },
             },
             secure: true,
             xfwd: true,
@@ -141,27 +143,30 @@ const main = async () => {
             createProxyMiddleware({
                 ...proxyOptions,
                 selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
-                onProxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
-                    try {
-                        if (proxyRes.statusCode >= 400) {
-                            log.warn(
-                                `tiltaksgjennomforing-api/avtaler feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
-                            );
+                on: {
+                    ...proxyOptions.on,
+                    proxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
+                        try {
+                            if (proxyRes.statusCode >= 400) {
+                                log.warn(
+                                    `tiltaksgjennomforing-api/avtaler feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
+                                );
+                                return JSON.stringify([]);
+                            }
+                            if (proxyRes.headers['content-type'] === 'application/json') {
+                                const data = JSON.parse(responseBuffer.toString('utf8')).map(
+                                    (elem) => ({
+                                        tiltakstype: elem.tiltakstype,
+                                    })
+                                );
+                                return JSON.stringify(data);
+                            }
+                        } catch (error) {
+                            log.error(`tiltaksgjennomforing-api/avtaler feilet ${error}`);
                             return JSON.stringify([]);
                         }
-                        if (proxyRes.headers['content-type'] === 'application/json') {
-                            const data = JSON.parse(responseBuffer.toString('utf8')).map(
-                                (elem) => ({
-                                    tiltakstype: elem.tiltakstype,
-                                })
-                            );
-                            return JSON.stringify(data);
-                        }
-                    } catch (error) {
-                        log.error(`tiltaksgjennomforing-api/avtaler feilet ${error}`);
-                        return JSON.stringify([]);
-                    }
-                }),
+                    }),
+                },
                 pathRewrite: {
                     '^/min-side-arbeidsgiver/': '/',
                 },
