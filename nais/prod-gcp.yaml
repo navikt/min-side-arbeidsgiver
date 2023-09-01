@@ -32,14 +32,8 @@ spec:
   env:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
-    - name: BACKEND_API_URL
-      value: http://min-side-arbeidsgiver-api.fager
     - name: LOGIN_URL
       value: https://arbeidsgiver.nav.no/min-side-arbeidsgiver/oauth2/login
-    - name: PROXY_LOG_LEVEL
-      value: debug
-    - name: BRUKER_API_URL
-      value: http://notifikasjon-bruker-api.fager.svc.cluster.local
     - name: GIT_COMMIT
       value: {{commit}}
     - name: MILJO
