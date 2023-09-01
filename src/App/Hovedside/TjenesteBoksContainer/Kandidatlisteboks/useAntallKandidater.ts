@@ -3,7 +3,6 @@ import { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { Severity } from '@sentry/react';
 
 export const useAntallKandidater = (): number => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
