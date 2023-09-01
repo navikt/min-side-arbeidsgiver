@@ -1,5 +1,4 @@
 import path from 'path';
-import fetch from 'node-fetch';
 import express from 'express';
 import Mustache from 'mustache';
 import httpProxyMiddleware, { responseInterceptor } from 'http-proxy-middleware';
@@ -20,7 +19,6 @@ const {
     GIT_COMMIT = '?',
     LOGIN_URL = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver',
     NAIS_CLUSTER_NAME = 'local',
-    PROXY_LOG_LEVEL = 'info',
     MILJO = 'local',
 } = process.env;
 
@@ -29,9 +27,17 @@ const log_events_counter = new Prometheus.Counter({
     help: 'Antall log events fordelt på level',
     labelNames: ['level'],
 });
+
+const maskFormat = format((info) => {
+    return {
+        ...info,
+        message: info.message.replace(/\d{9,}/g, (match) => '*'.repeat(match.length)),
+    };
+});
 // proxy calls to log.<level> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get
 const log = new Proxy(
     createLogger({
+        format: maskFormat(),
         transports: [
             new transports.Console({
                 timestamp: true,
