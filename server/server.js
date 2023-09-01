@@ -122,7 +122,6 @@ const main = async () => {
         );
     } else {
         const proxyOptions = {
-            logLevel: PROXY_LOG_LEVEL,
             logger: log,
             on: {
                 error: (err, req, res) => {
