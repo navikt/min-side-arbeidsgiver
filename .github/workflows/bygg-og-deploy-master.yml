@@ -87,7 +87,7 @@ jobs:
           npx -p @sentry/cli sentry-cli releases new "${{ github.sha }}"
           npx -p @sentry/cli sentry-cli releases files "${{ github.sha }}" upload-sourcemaps build/static/js \
               --url-prefix '~/min-side-arbeidsgiver/static/js'
-          npx -p @sentry-cli sentry-cli releases set-commits --auto "${{ github.sha }}"
+          npx -p @sentry/cli sentry-cli releases set-commits --auto "${{ github.sha }}"
           npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"
 
 
