@@ -275,7 +275,7 @@ const main = async () => {
 
     const terminator = createHttpTerminator({
         server,
-        gracefulTerminationTimeout: 15_000, // defaults: terminator=5s, k8s=30s
+        gracefulTerminationTimeout: 30_000, // defaults: terminator=5s, k8s=30s
     });
 
     process.on('SIGTERM', () => {
