@@ -1,5 +1,6 @@
 import { caseMiljo, gittMiljo } from '../utils/environment';
 import { navtjenester } from '../altinn/tjenester';
+import { useEffect } from 'react';
 
 export const altinnUrl = gittMiljo({
     prod: 'https://altinn.no',
@@ -53,11 +54,11 @@ export const autentiserAltinnBruker = (returnUrl: string) => {
         },
         other: () => {
             /* disable redirect outside prod. enable if needed */
-        }
-    })
+        },
+    });
 };
 
-const altinnFetch = async (info: RequestInfo) => {
+export const altinnFetch = async (info: RequestInfo) => {
     const props: RequestInit = {
         redirect: 'manual',
         credentials: 'include',
@@ -68,16 +69,17 @@ const altinnFetch = async (info: RequestInfo) => {
             apikey: gittMiljo({
                 prod: 'DE7173AF-3A43-47E3-A7A2-E8AB4D88C253',
                 other: '2C585F91-5741-4568-8FD7-3807A45AFDD7',
-            })
+            }),
         },
     };
-    const response = await fetch(info, props);
-
-    if (response.ok) {
-        return response.json();
-    } else {
-        throw new Error(`fetch ${info}: http-status ${response.status}`);
-    }
+    try {
+        const response = await fetch(info, props);
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error(`fetch ${info}: http-status ${response.status}`);
+        }
+    } catch (error) {}
 };
 
 export const hentAltinnRaporteeIdentiteter: () => Promise<
@@ -92,49 +94,6 @@ export const hentAltinnRaporteeIdentiteter: () => Promise<
             result[orgnr] = element._links.messages.href;
         });
         return result;
-    } catch (error) {
-        return error instanceof Error ? error : new Error(`ukjent feil: ${error}`);
-    }
-};
-
-
-const tilskuddsbrev = navtjenester.tilskuddsbrev
-
-const tiltaksbrevFilter =
-    `ServiceCode+eq+'${tilskuddsbrev.tjenestekode}'+and+ServiceEdition+eq+${tilskuddsbrev.tjenesteversjon}`;
-
-export const hentMeldingsboks = async (meldingsboksUrl: string): Promise<Meldingsboks | Error> => {
-    const hentBrev = async () => {
-        const maksBrev = 10;
-        const tiltaksbrevUrl = `${meldingsboksUrl}?$top=${maksBrev +
-            1}&$orderby=CreatedDate+desc&$filter=${tiltaksbrevFilter}`;
-        const tiltaksbrev = await altinnFetch(tiltaksbrevUrl);
-        const alleBrevIRespons: AltinnBrev[] = tiltaksbrev._embedded.messages.map(
-            (responsBrev: any): AltinnBrev => ({
-                key: responsBrev.MessageId,
-                tittel: responsBrev.Subject,
-                status: responsBrev.Status,
-                datoSendt: new Date(responsBrev.CreatedDate),
-                portalview: responsBrev._links.portalview.href,
-            })
-        );
-
-        const portalview: string = tiltaksbrev._links.portalview.href;
-        const finnesFlereBrev = alleBrevIRespons.length >= maksBrev;
-        const brev = alleBrevIRespons.slice(0, maksBrev);
-        return { portalview, brev, finnesFlereBrev };
-    };
-
-    const hentAntallUleste = async () => {
-        const ulesteTiltaksbrevUrl = `${meldingsboksUrl}?$top=10&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`;
-        const ulesteTiltaksbrev = await altinnFetch(ulesteTiltaksbrevUrl);
-        const antallUlesteIRespons: number = ulesteTiltaksbrev._embedded.messages.length;
-        return { antallUleste: antallUlesteIRespons };
-    };
-
-    try {
-        const [brev, antallUleste] = await Promise.all([hentBrev(), hentAntallUleste()]);
-        return { ...brev, ...antallUleste };
     } catch (error) {
         return error instanceof Error ? error : new Error(`ukjent feil: ${error}`);
     }
