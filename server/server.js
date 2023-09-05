@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import Mustache from 'mustache';
 import httpProxyMiddleware, { responseInterceptor } from 'http-proxy-middleware';
+import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
 import cookieParser from 'cookie-parser';
@@ -272,10 +273,18 @@ const main = async () => {
         log.info(`Server listening on port ${PORT}`);
     });
 
+    const terminator = createHttpTerminator({
+        server,
+        gracefulTerminationTimeout: 15_000, // defaults: terminator=5s, k8s=30s
+    });
+
     process.on('SIGTERM', () => {
         log.info('SIGTERM signal received: closing HTTP server');
-        server.close(() => {
-            log.info('HTTP server closed');
+        terminator.terminate().then(() => {
+            server.close(() => {
+                log.info('HTTP server closed');
+                process.exit(0);
+            });
         });
     });
 };
