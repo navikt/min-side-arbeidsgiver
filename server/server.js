@@ -280,12 +280,7 @@ const main = async () => {
 
     process.on('SIGTERM', () => {
         log.info('SIGTERM signal received: closing HTTP server');
-        terminator.terminate().then(() => {
-            server.close(() => {
-                log.info('HTTP server closed');
-                process.exit(0);
-            });
-        });
+        terminator.terminate();
     });
 };
 
