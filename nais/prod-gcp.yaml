@@ -15,7 +15,6 @@ spec:
   readiness:
     path: /min-side-arbeidsgiver/internal/isReady
     initialDelay: 20
-  terminationGracePeriodSeconds: 60
   prometheus:
     enabled: true
     path: /min-side-arbeidsgiver/internal/metrics
