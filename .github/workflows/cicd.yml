@@ -1,33 +1,14 @@
-name: Bygg og deploy master
+name: CICD
 
 on:
     push:
-        branches:
-            - 'master'
+    workflow_dispatch:
 
 jobs:
-    test:
-        name: Test
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '16.14.2'
-                  registry-url: https://npm.pkg.github.com/
-                  cache: 'npm'
-
-            - name: Installer avhengigheter
-              run: npm ci --ignore-scripts --no-optional
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-
     bygg:
         name: Bygg
         runs-on: ubuntu-latest
         needs: test
-        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
         permissions:
             contents: 'read'
             id-token: 'write'
@@ -91,7 +72,7 @@ jobs:
             id-token: 'write'
         runs-on: ubuntu-latest
         timeout-minutes: 3
-        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/master'
         needs: bygg
         steps:
             - name: Sjekk ut kode
@@ -116,6 +97,7 @@ jobs:
 
     deploy-prod-gcp:
         name: Deploy til prod-gcp
+        if: github.ref == 'refs/heads/master'
         permissions:
             contents: 'read'
             id-token: 'write'
@@ -142,6 +124,7 @@ jobs:
 
     deploy-prodlik-demo-gcp:
         name: Deploy prod-lik demo
+        if: github.ref == 'refs/heads/master'
         permissions:
             contents: 'read'
             id-token: 'write'
@@ -170,6 +153,7 @@ jobs:
 
     deploy-devlik-demo-gcp:
         name: Deploy dev-lik demo
+        if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         permissions:
             contents: 'read'
