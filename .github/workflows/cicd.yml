@@ -5,10 +5,9 @@ on:
     workflow_dispatch:
 
 jobs:
-    bygg:
-        name: Bygg
+    cicd:
+        name: CICD
         runs-on: ubuntu-latest
-        needs: test
         permissions:
             contents: 'read'
             id-token: 'write'
@@ -40,7 +39,7 @@ jobs:
                   PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/build/
 
             - uses: nais/docker-build-push@v0
-              id: gar-push
+              id: dockerpush
               with:
                   team: fager
                   tag: ${{ github.sha }}
@@ -65,116 +64,45 @@ jobs:
                   npx -p @sentry/cli sentry-cli releases set-commits --auto "${{ github.sha }}"
                   npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"
 
-    deploy-dev-gcp:
-        name: Deploy til dev-gcp
-        permissions:
-            contents: 'read'
-            id-token: 'write'
-        runs-on: ubuntu-latest
-        timeout-minutes: 3
-        if: github.ref == 'refs/heads/master'
-        needs: bygg
-        steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
-
-            - uses: nais/login@v0
-              id: login
-              with:
-                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                  team: fager
-
             - name: Deploy til dev-gcp
               uses: nais/deploy/actions/deploy@v1
+              if: github.ref == 'refs/heads/master'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  IMAGE: ${{ steps.dockerpush.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
                   CLUSTER: dev-gcp
                   RESOURCE: nais/dev-gcp.yaml
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
 
-    deploy-prod-gcp:
-        name: Deploy til prod-gcp
-        if: github.ref == 'refs/heads/master'
-        permissions:
-            contents: 'read'
-            id-token: 'write'
-        runs-on: ubuntu-latest
-        needs: bygg
-        steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
-            - uses: nais/login@v0
-              id: login
-              with:
-                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                  team: fager
             - name: Deploy til prod-gcp
               uses: nais/deploy/actions/deploy@v1
+              if: github.ref == 'refs/heads/master'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  IMAGE: ${{ steps.dockerpush.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
                   CLUSTER: prod-gcp
                   RESOURCE: nais/prod-gcp.yaml
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
 
-    deploy-prodlik-demo-gcp:
-        name: Deploy prod-lik demo
-        if: github.ref == 'refs/heads/master'
-        permissions:
-            contents: 'read'
-            id-token: 'write'
-        runs-on: ubuntu-latest
-        needs: bygg
-        steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
-
-            - uses: nais/login@v0
-              id: login
-              with:
-                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                  team: fager
-
             - name: Deploy til labs-gcp
               uses: nais/deploy/actions/deploy@v1
+              if: github.ref == 'refs/heads/master'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  IMAGE: ${{ steps.dockerpush.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
                   CLUSTER: dev-gcp
                   RESOURCE: nais/labs-gcp.yaml
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
 
-    deploy-devlik-demo-gcp:
-        name: Deploy dev-lik demo
-        if: github.ref == 'refs/heads/master'
-        runs-on: ubuntu-latest
-        permissions:
-            contents: 'read'
-            id-token: 'write'
-        needs: bygg
-        steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
-
-            - uses: nais/login@v0
-              id: login
-              with:
-                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
-                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
-                  team: fager
-
             - name: Deploy til labs-gcp
+              if: github.ref == 'refs/heads/master'
               uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  IMAGE: ${{ steps.dockerpush.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
                   CLUSTER: dev-gcp
                   RESOURCE: nais/experimental-labs-gcp.yaml
                   PRINT_PAYLOAD: true
