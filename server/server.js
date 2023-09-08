@@ -58,9 +58,6 @@ const log = new Proxy(
 log.info(`Frackend startup: ${JSON.stringify({ NAIS_CLUSTER_NAME, MILJO, GIT_COMMIT })}`);
 
 let BUILD_PATH = path.join(process.cwd(), '../build');
-if (NAIS_CLUSTER_NAME === 'local') {
-    BUILD_PATH = path.join(process.cwd(), '../public');
-}
 
 const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
     SETTINGS: `
