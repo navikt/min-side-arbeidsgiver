@@ -22,7 +22,7 @@ jobs:
                   cache: 'npm'
 
             - name: Installer avhengigheter (client)
-              run: npm ci --production --ignore-scripts --no-optional
+              run: npm ci
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
