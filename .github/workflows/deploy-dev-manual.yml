@@ -6,10 +6,12 @@ jobs:
     deploy-dev-manual:
         name: deploy dev manual
         runs-on: ubuntu-latest
+        permissions:
+            contents: 'read'
+            id-token: 'write'
 
         steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
 
             - uses: nais/login@v0
               id: login
@@ -32,10 +34,12 @@ jobs:
     deploy-labs-manual:
         name: deploy labs manual
         runs-on: ubuntu-latest
+        permissions:
+            contents: 'read'
+            id-token: 'write'
 
         steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
 
             - uses: nais/login@v0
               id: login
@@ -53,4 +57,4 @@ jobs:
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
                   REF: ${{ github.sha }}
-                  IMAGE: ${{ env.IMAGE }}
+                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
