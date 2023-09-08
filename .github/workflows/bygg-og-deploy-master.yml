@@ -1,161 +1,184 @@
 name: Bygg og deploy master
 
 on:
-  push:
-    branches:
-      - 'master'
+    push:
+        branches:
+            - 'master'
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  IMAGE_BASE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver
-  IMAGE: ghcr.io/${{ github.repository }}/min-side-arbeidsgiver:${{ github.sha }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v2
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Sjekk ut kode
+              uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16.14.2'
-          registry-url: https://npm.pkg.github.com/
-          cache: 'npm'
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '16.14.2'
+                  registry-url: https://npm.pkg.github.com/
+                  cache: 'npm'
 
-      - name: Installer avhengigheter
-        run:  npm ci --ignore-scripts --no-optional
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - name: Installer avhengigheter
+              run: npm ci --ignore-scripts --no-optional
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
+    bygg:
+        name: Bygg
+        runs-on: ubuntu-latest
+        needs: test
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        permissions:
+            contents: 'read'
+            id-token: 'write'
+            packages: 'write'
+        steps:
+            - name: Sjekk ut kode
+              uses: actions/checkout@v3
 
-  bygg:
-    name: Bygg
-    runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-      packages: 'write'
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: '18'
+                  registry-url: https://npm.pkg.github.com/
+                  cache: 'npm'
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          registry-url: https://npm.pkg.github.com/
-          cache: 'npm'
+            - name: Installer avhengigheter
+              run: npm ci --production --ignore-scripts --no-optional
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
-      - name: Installer avhengigheter
-        run:  npm ci --production --ignore-scripts --no-optional
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - run: npm run lint
 
-      - run: npm run lint
+            - run: npm run build
+              env:
+                  PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/build/
 
-      - run: npm run build
-        env:
-          PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/build/
+            - uses: nais/docker-build-push@v0
+              id: gar-push
+              with:
+                  team: fager
+                  tag: ${{ github.sha }}
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
 
-      - uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+            - id: upload
+              uses: navikt/frontend/actions/cdn-upload/v1@main
+              with:
+                  cdn-team-name: fager
+                  source: ./build/
+                  destination: '/min-side-arbeidsgiver'
 
-      - name: Bygg, tag og push Docker-image
-        run: |
-          docker build --tag $IMAGE --tag $IMAGE_BASE:latest .
-          echo $GITHUB_TOKEN | docker login docker.pkg.github.com -u $GITHUB_REPOSITORY --password-stdin
-          docker push $IMAGE
+            - name: Lag sentry release
+              continue-on-error: true
+              env:
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+              run: |
+                  npx -p @sentry/cli sentry-cli releases new "${{ github.sha }}"
+                  npx -p @sentry/cli sentry-cli releases files "${{ github.sha }}" upload-sourcemaps build/static/js \
+                      --url-prefix '~/min-side-arbeidsgiver/static/js'
+                  npx -p @sentry/cli sentry-cli releases set-commits --auto "${{ github.sha }}"
+                  npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"
 
-      - id: upload
-        uses: navikt/frontend/actions/cdn-upload/v1@main
-        with:
-          cdn-team-name: fager
-          source: ./build/
-          destination: '/min-side-arbeidsgiver'
+    deploy-dev-gcp:
+        name: Deploy til dev-gcp
+        runs-on: ubuntu-latest
+        timeout-minutes: 3
+        if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+        needs: bygg
+        steps:
+            - name: Sjekk ut kode
+              uses: actions/checkout@v3
 
-      - name: Lag sentry release
-        continue-on-error: true
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: |
-          npx -p @sentry/cli sentry-cli releases new "${{ github.sha }}"
-          npx -p @sentry/cli sentry-cli releases files "${{ github.sha }}" upload-sourcemaps build/static/js \
-              --url-prefix '~/min-side-arbeidsgiver/static/js'
-          npx -p @sentry/cli sentry-cli releases set-commits --auto "${{ github.sha }}"
-          npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"
+            - uses: nais/login@v0
+              id: login
+              with:
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  team: fager
 
+            - name: Deploy til dev-gcp
+              uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  CLUSTER: dev-gcp
+                  RESOURCE: nais/dev-gcp.yaml
+                  PRINT_PAYLOAD: true
+                  VAR: commit=${{ github.sha }}
 
-  deploy-dev-gcp:
-    name: Deploy til dev-gcp
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
-    needs: bygg
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v2
+    deploy-prod-gcp:
+        name: Deploy til prod-gcp
+        runs-on: ubuntu-latest
+        needs: bygg
+        steps:
+            - name: Sjekk ut kode
+              uses: actions/checkout@v3
+            - uses: nais/login@v0
+              id: login
+              with:
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  team: fager
+            - name: Deploy til prod-gcp
+              uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  CLUSTER: prod-gcp
+                  RESOURCE: nais/prod-gcp.yaml
+                  PRINT_PAYLOAD: true
+                  VAR: commit=${{ github.sha }}
 
-      - name: Deploy til dev-gcp
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-gcp
-          RESOURCE: nais/dev-gcp.yaml
-          PRINT_PAYLOAD: true
-          VAR: commit=${{ github.sha }}
+    deploy-prodlik-demo-gcp:
+        name: Deploy prod-lik demo
+        runs-on: ubuntu-latest
+        needs: bygg
+        steps:
+            - name: Sjekk ut kode
+              uses: actions/checkout@v3
 
-  deploy-prod-gcp:
-    name: Deploy til prod-gcp
-    runs-on: ubuntu-latest
-    needs: bygg
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v2
-      - name: Deploy til prod-gcp
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: prod-gcp
-          RESOURCE: nais/prod-gcp.yaml
-          PRINT_PAYLOAD: true
-          VAR: commit=${{ github.sha }}
+            - uses: nais/login@v0
+              id: login
+              with:
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  team: fager
 
-  deploy-prodlik-demo-gcp:
-    name: Deploy prod-lik demo
-    runs-on: ubuntu-latest
-    needs: bygg
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v2
+            - name: Deploy til labs-gcp
+              uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  CLUSTER: dev-gcp
+                  RESOURCE: nais/labs-gcp.yaml
+                  PRINT_PAYLOAD: true
+                  VAR: commit=${{ github.sha }}
 
-      - name: Deploy til labs-gcp
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-gcp
-          RESOURCE: nais/labs-gcp.yaml
-          PRINT_PAYLOAD: true
-          VAR: commit=${{ github.sha }}
+    deploy-devlik-demo-gcp:
+        name: Deploy dev-lik demo
+        runs-on: ubuntu-latest
+        needs: bygg
+        steps:
+            - name: Sjekk ut kode
+              uses: actions/checkout@v3
 
-  deploy-devlik-demo-gcp:
-    name: Deploy dev-lik demo
-    runs-on: ubuntu-latest
-    needs: bygg
-    steps:
-      - name: Sjekk ut kode
-        uses: actions/checkout@v2
+            - uses: nais/login@v0
+              id: login
+              with:
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  team: fager
 
-      - name: Deploy til labs-gcp
-        uses: nais/deploy/actions/deploy@v1
-        env:
-          APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: dev-gcp
-          RESOURCE: nais/experimental-labs-gcp.yaml
-          PRINT_PAYLOAD: true
-          VAR: commit=${{ github.sha }}
+            - name: Deploy til labs-gcp
+              uses: nais/deploy/actions/deploy@v1
+              env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
+                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
+                  CLUSTER: dev-gcp
+                  RESOURCE: nais/experimental-labs-gcp.yaml
+                  PRINT_PAYLOAD: true
+                  VAR: commit=${{ github.sha }}
