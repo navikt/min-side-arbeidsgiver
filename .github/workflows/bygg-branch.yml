@@ -15,8 +15,7 @@ jobs:
             id-token: 'write'
             packages: 'write'
         steps:
-            - name: Sjekk ut kode
-              uses: actions/checkout@v3
+            - uses: actions/checkout@v3
               with:
                   fetch-depth: 0
 
