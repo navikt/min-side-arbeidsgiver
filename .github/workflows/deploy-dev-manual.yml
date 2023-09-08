@@ -57,4 +57,4 @@ jobs:
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
                   REF: ${{ github.sha }}
-                  IMAGE: ${{ env.IMAGE }}
+                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}

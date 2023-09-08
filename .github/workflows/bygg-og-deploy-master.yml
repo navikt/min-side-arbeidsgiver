@@ -41,10 +41,16 @@ jobs:
                   registry-url: https://npm.pkg.github.com/
                   cache: 'npm'
 
-            - name: Installer avhengigheter
+            - name: Installer avhengigheter (client)
               run: npm ci --production --ignore-scripts --no-optional
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+
+            - name: Installer avhengigheter (server)
+              run: npm ci --production --ignore-scripts --no-optional
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+              working-directory: ./server
 
             - run: npm run lint
 
