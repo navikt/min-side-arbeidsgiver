@@ -12,24 +12,25 @@ const { reporteeMessagesUrls } = useContext(OrganisasjonerOgTilgangerContext);
 export const useAltinnMeldingsboks = (
     valgtOrganisasjon: OrganisasjonInfo | undefined
 ): Meldingsboks | undefined => {
-    if (valgtOrganisasjon === undefined) return;
-    if (!valgtOrganisasjon.altinntilgang.tilskuddsbrev) {
-        return;
-    }
-
-    const messagesUrl = reporteeMessagesUrls[valgtOrganisasjon.organisasjon.OrganizationNumber];
-    if (messagesUrl === undefined) return;
+    const messagesUrl =
+        valgtOrganisasjon?.altinntilgang.tilskuddsbrev !== undefined
+            ? reporteeMessagesUrls[valgtOrganisasjon.organisasjon.OrganizationNumber]
+            : undefined;
 
     const { data: brev, error: brevError } = useSWR(
-        `${messagesUrl}?$orderby=CreatedDate+desc&$filter=${tiltaksbrevFilter}`,
+        messagesUrl !== undefined
+            ? `${messagesUrl}?$orderby=CreatedDate+desc&$filter=${tiltaksbrevFilter}`
+            : null,
         hentBrev
     );
     const { data: antallUleste, error: ulesteError } = useSWR(
-        `${messagesUrl}?$top=10&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`,
+        messagesUrl !== undefined
+            ? `${messagesUrl}?$top=10&$filter=${tiltaksbrevFilter}+and+Status+eq+'Ulest'`
+            : null,
         hentAntallUleste
     );
 
-    if (brevError || ulesteError) {
+    if (brevError !== undefined || ulesteError !== undefined) {
         autentiserAltinnBruker(window.location.href);
     } else if (brev === undefined || antallUleste === undefined) {
         return;
