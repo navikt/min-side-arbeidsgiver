@@ -2,6 +2,7 @@ import path from 'path';
 import express from 'express';
 import Mustache from 'mustache';
 import httpProxyMiddleware, { responseInterceptor } from 'http-proxy-middleware';
+import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
 import cookieParser from 'cookie-parser';
@@ -57,9 +58,6 @@ const log = new Proxy(
 log.info(`Frackend startup: ${JSON.stringify({ NAIS_CLUSTER_NAME, MILJO, GIT_COMMIT })}`);
 
 let BUILD_PATH = path.join(process.cwd(), '../build');
-if (NAIS_CLUSTER_NAME === 'local') {
-    BUILD_PATH = path.join(process.cwd(), '../public');
-}
 
 const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
     SETTINGS: `
@@ -272,11 +270,14 @@ const main = async () => {
         log.info(`Server listening on port ${PORT}`);
     });
 
+    const terminator = createHttpTerminator({
+        server,
+        gracefulTerminationTimeout: 15_000, // defaults: terminator=5s, k8s=30s
+    });
+
     process.on('SIGTERM', () => {
         log.info('SIGTERM signal received: closing HTTP server');
-        server.close(() => {
-            log.info('HTTP server closed');
-        });
+        terminator.terminate();
     });
 };
 
