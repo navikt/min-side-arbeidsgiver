@@ -7,11 +7,11 @@ import {
 } from './OrganisasjonerOgTilgangerProvider';
 import useSWR from 'swr';
 
-const { reporteeMessagesUrls } = useContext(OrganisasjonerOgTilgangerContext);
-
 export const useAltinnMeldingsboks = (
     valgtOrganisasjon: OrganisasjonInfo | undefined
 ): Meldingsboks | undefined => {
+    const { reporteeMessagesUrls } = useContext(OrganisasjonerOgTilgangerContext);
+
     const messagesUrl =
         valgtOrganisasjon?.altinntilgang.tilskuddsbrev !== undefined
             ? reporteeMessagesUrls[valgtOrganisasjon.organisasjon.OrganizationNumber]
@@ -42,7 +42,7 @@ export const useAltinnMeldingsboks = (
 const tilskuddsbrev = navtjenester.tilskuddsbrev;
 const tiltaksbrevFilter = `ServiceCode+eq+'${tilskuddsbrev.tjenestekode}'+and+ServiceEdition+eq+${tilskuddsbrev.tjenesteversjon}`;
 
-const hentBrev = async (messagesUrl: string, tiltaksbrevURL: string) => {
+const hentBrev = async (tiltaksbrevURL: string) => {
     const maksBrev = 10;
     const tiltaksbrev = await altinnFetch(`${tiltaksbrevURL}&$top=${maksBrev + 1}`);
     const alleBrevIRespons: AltinnBrev[] = tiltaksbrev._embedded.messages.map(

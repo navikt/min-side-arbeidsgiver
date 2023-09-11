@@ -1,6 +1,4 @@
 import { caseMiljo, gittMiljo } from '../utils/environment';
-import { navtjenester } from '../altinn/tjenester';
-import { useEffect } from 'react';
 
 export const altinnUrl = gittMiljo({
     prod: 'https://altinn.no',
