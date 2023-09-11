@@ -72,14 +72,13 @@ export const altinnFetch = async (info: RequestInfo) => {
             }),
         },
     };
-    try {
-        const response = await fetch(info, props);
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error(`fetch ${info}: http-status ${response.status}`);
-        }
-    } catch (error) {}
+
+    const response = await fetch(info, props);
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`fetch ${info}: http-status ${response.status}`);
+    }
 };
 
 export const hentAltinnRaporteeIdentiteter: () => Promise<
