@@ -40,15 +40,22 @@ export const autentiserAltinnBruker = (returnUrl: string) => {
     const now = Date.now();
     const second = 1_000; /* i millisekunder */
 
+    function altinnLoginRedirect() {
+        if (lastRedirect < now - 60 * second) {
+            sessionStorage.setItem(storageName, now.toString());
+            const encodedUri = encodeURIComponent(returnUrl);
+            window.location.replace(
+                `${altinnUrl}/Pages/ExternalAuthentication/Redirect.aspx?returnUrl=${encodedUri}`
+            );
+        }
+    }
+
     caseMiljo({
         prod: () => {
-            if (lastRedirect < now - 60 * second) {
-                sessionStorage.setItem(storageName, now.toString());
-                const encodedUri = encodeURIComponent(returnUrl);
-                window.location.replace(
-                    `${altinnUrl}/Pages/ExternalAuthentication/Redirect.aspx?returnUrl=${encodedUri}`
-                );
-            }
+            altinnLoginRedirect();
+        },
+        dev: () => {
+            altinnLoginRedirect();
         },
         other: () => {
             /* disable redirect outside prod. enable if needed */
