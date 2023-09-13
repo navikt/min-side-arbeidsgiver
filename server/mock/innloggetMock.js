@@ -1,13 +1,14 @@
 import fetch from 'node-fetch';
 
+const sessions = {};
 export const mock = function (app) {
     app.get('/min-side-arbeidsgiver/api/innlogget', (req, res) => {
-        const token = req.cookies.hasOwnProperty('selvbetjening-idtoken');
+        const token = sessions[req.ip];
         if (token) {
-            console.log('innlogget? ja (cookie selvbetjening-idtoken eksisterer)');
+            console.log('innlogget? ja (session eksisterer)');
             res.status(200).send();
         } else {
-            console.log('innlogget? nei (cookie selvbetjening-idtoken mangler)');
+            console.log('innlogget? nei (session mangler)');
             res.status(401).send();
         }
     });
@@ -20,8 +21,8 @@ export const mock = function (app) {
             body: `sub=00112233445&aud=${encodeURIComponent('bruker-api')}&acr=Level4`,
         });
         const token = await response.text();
-        res.cookie('selvbetjening-idtoken', token);
-        console.log(`login: setter selvbetjening-idtoken til ${token}`);
+        sessions[req.ip] = token;
+        console.log(`login: setter session til ${token}`);
         res.redirect(req.get('referer'));
     });
 };
