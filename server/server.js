@@ -18,7 +18,7 @@ const {
     PORT = 8080,
     NAIS_APP_IMAGE = '?',
     GIT_COMMIT = '?',
-    LOGIN_URL = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver',
+    LOGIN_URL = '',
     NAIS_CLUSTER_NAME = 'local',
     MILJO = 'local',
 } = process.env;
