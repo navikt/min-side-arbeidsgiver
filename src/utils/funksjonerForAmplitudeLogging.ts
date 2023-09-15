@@ -2,7 +2,7 @@ import amplitude from '../utils/amplitude';
 import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 import { Innlogget } from '../App/LoginProvider';
 import { basename } from '../paths';
-import { Enhet, hentUnderenhet } from '../api/enhetsregisteretApi';
+import { Enhet, useHentUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 
 interface EventProps {
@@ -61,23 +61,21 @@ const finnSektorNavn = (eregOrg: Enhet) => {
     }
 };
 
-const hentInfoFraEreg = async (organisasjon: OrganisasjonInfo): Promise<EregInfo | undefined> => {
+const hentInfoFraEreg = (organisasjon: OrganisasjonInfo): EregInfo | undefined => {
     try {
-        const underenhet = await hentUnderenhet(organisasjon.organisasjon.OrganizationNumber)
+        const underenhet = useHentUnderenhet(organisasjon.organisasjon.OrganizationNumber);
         if (underenhet === undefined) {
-            return undefined
+            return undefined;
         }
         const antallAnsatte = finnAntallAnsattebøtte(Number(underenhet.antallAnsatte));
         const sektor = finnSektorNavn(underenhet);
         return { antallAnsatte, sektor };
-    } catch(e) {
+    } catch (e) {
         return undefined;
     }
 };
 
-export const loggBedriftValgtOgTilganger = async (
-    org: OrganisasjonInfo | undefined,
-) => {
+export const loggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined) => {
     if (org === undefined) return;
 
     let tilgangskombinasjon = '';
@@ -101,7 +99,7 @@ export const loggBedriftValgtOgTilganger = async (
         tilgangskombinasjon += 'varig lønnstilskudd';
     }
 
-    const eregInfo = await hentInfoFraEreg(org);
+    const eregInfo = hentInfoFraEreg(org);
     const virksomhetsinfo: any = {
         url: baseUrl,
         tilgangskombinasjon,
@@ -119,7 +117,7 @@ export const loggNavigasjon = (
     destinasjon: string | undefined,
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
-    currentPagePath?: string,
+    currentPagePath?: string
 ) => {
     loggNavigasjonTags(destinasjon, lenketekst, currentPagePath ?? '', {});
 };
@@ -129,7 +127,7 @@ export const loggNavigasjonTags = (
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
     currentPagePath: string,
-    tags: Record<string, string>,
+    tags: Record<string, string>
 ) => {
     if (destinasjon !== undefined && destinasjon !== '') {
         const { origin, pathname } = new URL(destinasjon, baseUrl);
@@ -143,15 +141,14 @@ export const loggNavigasjonTags = (
         ...tags,
     };
     amplitude.logEvent('navigere', navigasjonsInfo);
-}
-
+};
 
 export const useLoggKlikk = () => {
-    const {pathname} = useLocation()
+    const { pathname } = useLocation();
     return (knapp: string, annet: Record<string, any> = {}) =>
         amplitude.logEvent('klikk', {
             knapp,
             pathname,
-            ...annet
-        })
-}
+            ...annet,
+        });
+};
