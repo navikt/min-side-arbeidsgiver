@@ -66,41 +66,23 @@ const Enhet = z
 
 export type Enhet = z.infer<typeof Enhet>;
 
-async function hentUnderenhet(orgnr: string): Promise<Enhet | undefined> {
-    const respons = await fetch(hentUnderenhetApiURL(orgnr)).catch((_) => undefined);
-
-    if (respons === undefined || !respons.ok) {
-        return undefined;
-    }
-    const enhet = await respons.json();
-
+async function fetcher(underenhetUrl: string): Promise<Enhet | undefined> {
     try {
-        return Enhet.parse(enhet);
+        const respons = await fetch(underenhetUrl);
+        if (respons.status === 200) {
+            const enhet = await respons.json();
+            return Enhet.parse(enhet);
+        }
+        return undefined;
     } catch (error) {
         return undefined;
     }
 }
 
 export const useHentUnderenhet = (orgnr: string) => {
-    return useSWR(hentUnderenhetApiURL(orgnr), hentUnderenhet).data;
+    return useSWR(hentUnderenhetApiURL(orgnr), fetcher).data;
 };
 
-export async function hentOverordnetEnhet(orgnr: string): Promise<Enhet | undefined> {
-    const respons = await fetch(hentOverordnetEnhetApiLink(orgnr)).catch((_) => undefined);
-    if (respons === undefined || !respons.ok) {
-        return undefined;
-    }
-    const enhet = await respons.json();
-
-    try {
-        return Enhet.parse(enhet);
-    } catch (error) {
-        Sentry.captureException(error);
-        /* We don't know if the parser we introduce with zod is too strict.
-         * Untill we have seen that this does not happen, we keep the current,
-         * type-unsafe behaviour. When we see that the parser is corrent, we
-         * should return undefined, or propagate the error in some other way.
-         */
-        return enhet;
-    }
-}
+export const useHentOverordnetEnhet = (orgnr: string) => {
+    return useSWR(hentOverordnetEnhetApiLink(orgnr), fetcher).data;
+};

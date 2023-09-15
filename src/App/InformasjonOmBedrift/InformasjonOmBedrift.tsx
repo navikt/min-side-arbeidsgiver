@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
-import { Enhet, hentOverordnetEnhet, useHentUnderenhet } from '../../api/enhetsregisteretApi';
+import { Enhet, useHentOverordnetEnhet, useHentUnderenhet } from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet/Underenhet';
 import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
@@ -12,7 +12,7 @@ interface Enheter {
     hovedenhet: Enhet;
 }
 
-const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
+const hentEnheter = (orgnr: string): Enheter | undefined => {
     const underenhet = useHentUnderenhet(orgnr);
     if (underenhet === undefined) {
         return undefined;
@@ -20,7 +20,7 @@ const hentEnheter = async (orgnr: string): Promise<Enheter | undefined> => {
     if (underenhet.overordnetEnhet === undefined) {
         return undefined;
     }
-    const hovedenhet = await hentOverordnetEnhet(underenhet.overordnetEnhet);
+    const hovedenhet = useHentOverordnetEnhet(underenhet.overordnetEnhet);
     if (hovedenhet === undefined) {
         return undefined;
     }
@@ -34,7 +34,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
 
     useEffect(() => {
         if (orgnr !== '') {
-            hentEnheter(orgnr).then(setEnheter);
+            setEnheter(hentEnheter(orgnr));
         } else {
             setEnheter(undefined);
         }
