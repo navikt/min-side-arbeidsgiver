@@ -72,7 +72,6 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
 const grace_time_ms = MILJO === 'local' ? 1_000 : 15_000;
 function delay(timeout_ms) {
     return new Promise((resolve) => {
-        // delay ready signal
         setTimeout(() => {
             resolve();
         }, timeout_ms);
