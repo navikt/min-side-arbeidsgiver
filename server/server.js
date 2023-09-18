@@ -70,6 +70,7 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
 });
 
 const main = async () => {
+    let appReady = false;
     const app = express();
     app.disable('x-powered-by');
     app.set('views', BUILD_PATH);
@@ -256,7 +257,9 @@ const main = async () => {
     );
 
     app.get('/min-side-arbeidsgiver/internal/isAlive', (req, res) => res.sendStatus(200));
-    app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) => res.sendStatus(200));
+    app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) =>
+        res.sendStatus(appReady ? 200 : 500)
+    );
 
     app.get('/min-side-arbeidsgiver/informasjon-om-tilgangsstyring', (req, res) => {
         res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger');
@@ -268,11 +271,14 @@ const main = async () => {
 
     const server = app.listen(PORT, () => {
         log.info(`Server listening on port ${PORT}`);
+        setTimeout(() => {
+            appReady = true;
+        }, 5_000);
     });
 
     const terminator = createHttpTerminator({
         server,
-        gracefulTerminationTimeout: 15_000, // defaults: terminator=5s, k8s=30s
+        gracefulTerminationTimeout: 30_000, // defaults: terminator=5s, k8s=30s
     });
 
     process.on('SIGTERM', () => {
