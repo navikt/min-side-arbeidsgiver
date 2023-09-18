@@ -5,7 +5,7 @@
     "type": "module",
     "main": "server.js",
     "dependencies": {
-        "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "6.3.8",
+        "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "6.4.0",
         "apollo-server-express": "3.12.1",
         "casual": "^1.6.2",
         "cookie-parser": "^1.4.6",
@@ -13,7 +13,7 @@
         "express-http-proxy": "1.6.3",
         "http-proxy-middleware": "3.0.0-beta.1",
         "http-terminator": "3.2.0",
-    "jsdom": "^16.4.0",
+        "jsdom": "^16.4.0",
         "mustache": "^4.2.0",
         "node-fetch": "^3.2.10",
         "openid-client": "5.1.9",
