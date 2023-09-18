@@ -80,6 +80,8 @@ function delay(timeout_ms) {
 
 const main = async () => {
     const app = express();
+    const lightship = await createLightship();
+
     app.disable('x-powered-by');
     app.set('views', BUILD_PATH);
     app.use(cookieParser());
@@ -280,7 +282,6 @@ const main = async () => {
         res.send(indexHtml);
     });
 
-    const lightship = await createLightship();
     lightship.queueBlockingTask(delay(grace_time_ms));
 
     const server = app.listen(PORT, () => {
