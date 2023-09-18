@@ -2,7 +2,6 @@ import path from 'path';
 import express from 'express';
 import Mustache from 'mustache';
 import httpProxyMiddleware, { responseInterceptor } from 'http-proxy-middleware';
-import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
 import cookieParser from 'cookie-parser';
@@ -10,6 +9,7 @@ import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
 import { applyNotifikasjonMockMiddleware } from '@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock';
+import { createLightship } from 'lightship';
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -68,6 +68,16 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
             }
         `,
 });
+
+const grace_time_ms = MILJO === 'local' ? 1_000 : 15_000;
+function delay(timeout_ms) {
+    return new Promise((resolve) => {
+        // delay ready signal
+        setTimeout(() => {
+            resolve();
+        }, timeout_ms);
+    });
+}
 
 const main = async () => {
     const app = express();
@@ -255,8 +265,13 @@ const main = async () => {
         })
     );
 
-    app.get('/min-side-arbeidsgiver/internal/isAlive', (req, res) => res.sendStatus(200));
-    app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) => res.sendStatus(200));
+    // could remove these, but lightship mounts at root. see https://github.com/gajus/lightship/issues/53
+    app.get('/min-side-arbeidsgiver/internal/isAlive', (req, res) =>
+        res.sendStatus(lightship.isServerShuttingDown() ? 500 : 200)
+    );
+    app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) =>
+        res.sendStatus(lightship.isServerReady() ? 200 : 500)
+    );
 
     app.get('/min-side-arbeidsgiver/informasjon-om-tilgangsstyring', (req, res) => {
         res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger');
@@ -266,18 +281,19 @@ const main = async () => {
         res.send(indexHtml);
     });
 
+    const lightship = await createLightship();
+    lightship.queueBlockingTask(delay(grace_time_ms));
+
     const server = app.listen(PORT, () => {
         log.info(`Server listening on port ${PORT}`);
+        lightship.signalReady();
     });
 
-    const terminator = createHttpTerminator({
-        server,
-        gracefulTerminationTimeout: 15_000, // defaults: terminator=5s, k8s=30s
-    });
+    lightship.registerShutdownHandler(async () => {
+        log.info('SIGTERM signal received: closing HTTP server after a short delay');
+        await delay(grace_time_ms);
 
-    process.on('SIGTERM', () => {
-        log.info('SIGTERM signal received: closing HTTP server');
-        terminator.terminate();
+        server.close();
     });
 };
 
