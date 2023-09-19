@@ -3,14 +3,12 @@ import {
     OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
 } from './OrganisasjonerOgTilgangerProvider';
-import { Meldingsboks } from '../api/altinnApi';
 import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 import { Organisasjon } from '../altinn/organisasjon';
 import { useSaker } from './Hovedside/Sak/useSaker';
 import { SakSortering } from '../api/graphql-types';
 import { Set } from 'immutable';
-import { useAltinnMeldingsboks } from './useAltinnMeldingsboks';
 
 interface Props {
     children: React.ReactNode;
@@ -20,7 +18,6 @@ export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
     valgtOrganisasjon: OrganisasjonInfo | undefined;
     antallAnnonser: number;
-    altinnMeldingsboks: Meldingsboks | undefined;
     antallSakerForAlleBedrifter: number | undefined;
 };
 
@@ -66,8 +63,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         }
     };
 
-    const altinnMeldingsboks = useAltinnMeldingsboks(valgtOrganisasjon);
-
     useEffect(() => {
         if (valgtOrganisasjon !== undefined && organisasjoner !== undefined) {
             setValgtOrganisasjon(organisasjoner[valgtOrganisasjon.organisasjon.OrganizationNumber]);
@@ -82,7 +77,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         antallAnnonser,
         endreOrganisasjon,
         valgtOrganisasjon,
-        altinnMeldingsboks,
         antallSakerForAlleBedrifter,
     };
     return (
