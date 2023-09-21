@@ -2,19 +2,13 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import raf from 'raf';
 import * as Sentry from '@sentry/react';
 import 'whatwg-fetch';
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch';
-import smoothscroll from 'smoothscroll-polyfill';
 import environment, { gittMiljo } from './utils/environment';
 import '@navikt/ds-css';
 import App from './App/App';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
-
-raf.polyfill();
-smoothscroll.polyfill();
 
 class SentryDebugTransport implements SentryTypes.Transport {
     close(timeout?: number): PromiseLike<boolean> {
