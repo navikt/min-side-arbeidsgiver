@@ -15,6 +15,8 @@ export default defineConfig({
             '/min-side-arbeidsgiver/mock': 'http://localhost:8080',
             '/min-side-arbeidsgiver/redirect-til-login': 'http://localhost:8080',
             '/min-side-arbeidsgiver/notifikasjon-bruker-api': 'http://localhost:8080',
+            '/min-side-arbeidsgiver/tiltaksgjennomforing-api': 'http://localhost:8080',
+            '/min-side-arbeidsgiver/presenterte-kandidater-api': 'http://localhost:8080',
         },
     },
 });

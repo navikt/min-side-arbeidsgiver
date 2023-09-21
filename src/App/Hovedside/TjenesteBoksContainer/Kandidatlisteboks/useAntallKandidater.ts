@@ -11,7 +11,23 @@ export const useAntallKandidater = (): number => {
         valgtOrganisasjon !== undefined
             ? `/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater?virksomhetsnummer=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
             : null,
-        fetcher
+        fetcher,
+        {
+            onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+                if ((error.status === 502 || error.status === 503) && retryCount <= 5) {
+                    setTimeout(() => revalidate({ retryCount }), 1000);
+                } else {
+                    Sentry.captureMessage(
+                        `hent antall kandidater fra presenterte-kandidater-api feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                }
+            },
+            fallbackData: 0,
+        }
     );
 
     return data ?? 0;
@@ -22,18 +38,9 @@ const PresenterteKandidater = z.object({
 });
 
 const fetcher = async (url: string) => {
-    try {
-        const respons = await fetch(url);
+    const respons = await fetch(url);
 
-        if (respons.status === 200)
-            return PresenterteKandidater.parse(await respons.json()).antallKandidater;
-        if (respons.status === 401) return 0;
-        Sentry.captureMessage(
-            `hent antall kandidater fra presenterte-kandidater-api feilet med ${respons.status}, ${respons.statusText}`
-        );
-        return 0;
-    } catch (error) {
-        Sentry.captureException(error);
-        return 0;
-    }
+    if (respons.status === 401) return;
+    if (respons.status !== 200) throw respons;
+    return PresenterteKandidater.parse(await respons.json()).antallKandidater;
 };
