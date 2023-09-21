@@ -31,6 +31,43 @@ Sentry.init({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',
     release: environment.GIT_COMMIT,
     environment: window.location.hostname,
+    beforeSend: (event) => {
+        const sanitize = (url: string) => {
+            /* Cleaner solution with `new URL(url)` does not work because of realtive URLs. */
+
+            /* Extract search parameters */
+            const search = /\?([^#]*)(#.*)?$/.exec(url)?.[1];
+            if (search === undefined) {
+                return url;
+            }
+
+            /* Sanitize search params */
+            const searchParams = new URLSearchParams(search);
+            searchParams.forEach((value, key) => {
+                searchParams.set(key, value.replaceAll(/./g, '*'));
+            });
+
+            /* Reinsert search params */
+            return url.replace(/\?([^#]*)((#.*)?)$/, (_match, _search, fragment) => {
+                return `?${searchParams.toString()}${fragment}`;
+            });
+        };
+
+        if (typeof event.request?.url === 'string') {
+            event.request.url = sanitize(event.request.url);
+        }
+
+        if (typeof event.request?.headers?.Referer === 'string') {
+            event.request.headers.Referer = sanitize(event.request.headers.Referer);
+        }
+
+        for (const breadcrumb of event.breadcrumbs ?? []) {
+            if (typeof breadcrumb.data?.url === 'string') {
+                breadcrumb.data.url = sanitize(breadcrumb.data.url);
+            }
+        }
+        return event;
+    },
     autoSessionTracking: false,
     ...gittMiljo<SentryTypes.Options>({
         prod: {},
