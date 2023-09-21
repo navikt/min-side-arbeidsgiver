@@ -8,10 +8,11 @@ const BrevFraAltinnContainer: React.FunctionComponent = (_) => {
     if (valgtOrganisasjon !== undefined && valgtOrganisasjon.altinntilgang.tilskuddsbrev) {
         return (
             <Alert variant="info">
-                <Heading size="medium" level="3">
-                    Tilskuddsbrev om NAV-tiltak fra Altinn innboks
+                <Heading spacing size="small" level="3">
+                    Hvor er tilskuddsbrevene?
                 </Heading>
-                <BodyLong>Tilskuddsbrev om NAV-tiltak ligger i Altinn innboks.</BodyLong>
+                For å finne tilskuddsbrev om NAV-tiltak må du gå til Altinn innboks på aktuell
+                virksomhet. Vi har fjernet lenken fra Min side – arbeidsgiver.
             </Alert>
         );
     } else {
