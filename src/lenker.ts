@@ -1,8 +1,12 @@
-import {gittMiljo} from './utils/environment';
-import {altinnUrl} from "./api/altinnApi";
+import { gittMiljo } from './utils/environment';
 
-export const skjemaForArbeidsgiverURL =
-    'https://www.nav.no/soknader/nb/bedrift';
+export const altinnUrl = gittMiljo({
+    prod: 'https://altinn.no',
+    dev: 'https://tt02.altinn.no',
+    other: '/min-side-arbeidsgiver/mock/tt02.altinn.no',
+});
+
+export const skjemaForArbeidsgiverURL = 'https://www.nav.no/soknader/nb/bedrift';
 
 export const innsynAaregURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
@@ -20,7 +24,7 @@ export const refosoURL = gittMiljo({
     prod: 'https://tiltak-refusjon.nav.no/refusjon',
     other: 'https://tiltak-refusjon.intern.dev.nav.no/refusjon',
     demo: ' https://tiltak-refusjon-arbeidsgiver-labs.ekstern.dev.nav.no/refusjon',
-})
+});
 
 export const arbeidsplassenURL = gittMiljo({
     prod: 'https://arbeidsplassen.nav.no/bedrift',
@@ -35,15 +39,14 @@ export const kandidatlisteURL = gittMiljo({
 export const kontaktskjemaURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/kontakt-oss/kontaktskjema',
     other: 'https://arbeidsgiver-kontakt-oss.intern.dev.nav.no/kontakt-oss/kontaktskjema',
-})
+});
 
 export const ringOssTLF = gittMiljo({
-    prod: "tel:55553336",
-    other: "tel:00000000"
-})
+    prod: 'tel:55553336',
+    other: 'tel:00000000',
+});
 
-export const infoOmTilgangsstyringURL =
-    'https://www.nav.no/arbeidsgiver/tilganger'
+export const infoOmTilgangsstyringURL = 'https://www.nav.no/arbeidsgiver/tilganger';
 
 export const infoOmNærmesteLederURL =
     'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
@@ -57,12 +60,11 @@ export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
 export const beOmTilgangIAltinnLink = (
     orgnr: string,
     serviceKode: string,
-    serviceEditionKode: string,
+    serviceEditionKode: string
 ) =>
     `${altinnUrl}/ui/DelegationRequest?offeredBy=${orgnr}&resources=${serviceKode}_${serviceEditionKode}`;
 
-export const lenkeTilDittNavPerson =
-    'https://www.nav.no/person/dittnav/';
+export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
 
 export const lenkeTilForebyggefravar = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/forebygge-fravar/',
@@ -87,6 +89,3 @@ export const tiltaksgjennomforingURL = gittMiljo({
     demo: 'https://tiltaksgjennomforing-labs.ekstern.dev.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
     other: 'https://tiltaksgjennomforing.intern.dev.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
 });
-
-
-
