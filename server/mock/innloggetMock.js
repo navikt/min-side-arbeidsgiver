@@ -1,5 +1,3 @@
-import fetch from 'node-fetch';
-
 const sessions = {};
 export const mock = function (app) {
     app.get('/min-side-arbeidsgiver/api/innlogget', (req, res) => {
