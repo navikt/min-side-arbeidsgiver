@@ -15,8 +15,7 @@
         "http-terminator": "3.2.0",
         "jsdom": "^16.4.0",
         "mustache": "^4.2.0",
-        "node-fetch": "^3.2.10",
-        "openid-client": "5.1.9",
+        "openid-client": "5.5.0",
         "prom-client": "^13.2.0",
         "prometheus-api-metrics": "^3.2.0",
         "winston": "3.4.0"
