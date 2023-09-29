@@ -65,6 +65,11 @@ const log = new Proxy(
     }
 );
 
+const cookieScraperPlugin = (proxyServer, options) => {
+    proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
+        delete proxyReq.header['cookie'];
+    });
+};
 // copy with mods from http-proxy-middleware https://github.com/chimurai/http-proxy-middleware/blob/master/src/plugins/default/logger-plugin.ts
 const loggerPlugin = (proxyServer, options) => {
     proxyServer.on('error', (err, req, res, target) => {
@@ -198,7 +203,13 @@ const main = async () => {
             xfwd: true,
             changeOrigin: true,
             ejectPlugins: true,
-            plugins: [debugProxyErrorsPlugin, errorResponsePlugin, loggerPlugin, proxyEventsPlugin],
+            plugins: [
+                cookieScraperPlugin,
+                debugProxyErrorsPlugin,
+                errorResponsePlugin,
+                loggerPlugin,
+                proxyEventsPlugin,
+            ],
         };
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
