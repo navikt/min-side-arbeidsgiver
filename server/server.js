@@ -196,7 +196,6 @@ const main = async () => {
             },
             secure: true,
             xfwd: true,
-            changeOrigin: true,
             ejectPlugins: true,
             plugins: [debugProxyErrorsPlugin, errorResponsePlugin, loggerPlugin, proxyEventsPlugin],
         };
