@@ -66,9 +66,8 @@ const log = new Proxy(
 
 const cookieScraperPlugin = (proxyServer, options) => {
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
-        if (proxyReq.header['cookie']) {
-            log.info('removing cookie from proxyReq. size=', proxyReq.header['cookie'].size);
-            delete proxyReq.header['cookie'];
+        if (proxyReq.getHeader('cookie')) {
+            proxyReq.removeHeader('cookie');
         }
     });
 };
