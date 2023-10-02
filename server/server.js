@@ -221,13 +221,9 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                pathRewrite: {
-                    '^/min-side-arbeidsgiver/stillingsregistrering-api':
-                        '/stillingsregistrering-api',
-                },
                 target: {
-                    dev: 'https://arbeidsplassen.intern.dev.nav.no',
-                    prod: 'https://arbeidsplassen.nav.no',
+                    dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
+                    prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
                 }[MILJO],
             })
         );
