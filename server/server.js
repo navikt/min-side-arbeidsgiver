@@ -10,7 +10,6 @@ import httpProxyMiddleware, {
 import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
-import cookieParser from 'cookie-parser';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
@@ -65,6 +64,13 @@ const log = new Proxy(
     }
 );
 
+const cookieScraperPlugin = (proxyServer, options) => {
+    proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
+        if (proxyReq.getHeader('cookie')) {
+            proxyReq.removeHeader('cookie');
+        }
+    });
+};
 // copy with mods from http-proxy-middleware https://github.com/chimurai/http-proxy-middleware/blob/master/src/plugins/default/logger-plugin.ts
 const loggerPlugin = (proxyServer, options) => {
     proxyServer.on('error', (err, req, res, target) => {
@@ -139,7 +145,6 @@ const main = async () => {
     const app = express();
     app.disable('x-powered-by');
     app.set('views', BUILD_PATH);
-    app.use(cookieParser());
 
     app.use('/*', (req, res, next) => {
         res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
@@ -198,7 +203,13 @@ const main = async () => {
             xfwd: true,
             changeOrigin: true,
             ejectPlugins: true,
-            plugins: [debugProxyErrorsPlugin, errorResponsePlugin, loggerPlugin, proxyEventsPlugin],
+            plugins: [
+                cookieScraperPlugin,
+                debugProxyErrorsPlugin,
+                errorResponsePlugin,
+                loggerPlugin,
+                proxyEventsPlugin,
+            ],
         };
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
