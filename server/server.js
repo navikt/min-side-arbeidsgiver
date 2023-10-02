@@ -1,10 +1,15 @@
 import path from 'path';
 import express from 'express';
 import Mustache from 'mustache';
-import httpProxyMiddleware, { responseInterceptor } from 'http-proxy-middleware';
+import httpProxyMiddleware, {
+    debugProxyErrorsPlugin,
+    errorResponsePlugin,
+    proxyEventsPlugin,
+    responseInterceptor,
+} from 'http-proxy-middleware';
+import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
-import cookieParser from 'cookie-parser';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
@@ -17,7 +22,7 @@ const {
     PORT = 8080,
     NAIS_APP_IMAGE = '?',
     GIT_COMMIT = '?',
-    LOGIN_URL = 'http://localhost:8080/ditt-nav-arbeidsgiver-api/local/selvbetjening-login?redirect=http://localhost:3000/min-side-arbeidsgiver',
+    LOGIN_URL = '',
     NAIS_CLUSTER_NAME = 'local',
     MILJO = 'local',
 } = process.env;
@@ -26,6 +31,11 @@ const log_events_counter = new Prometheus.Counter({
     name: 'logback_events_total',
     help: 'Antall log events fordelt på level',
     labelNames: ['level'],
+});
+const proxy_events_counter = new Prometheus.Counter({
+    name: 'proxy_events_total',
+    help: 'Antall proxy events',
+    labelNames: ['target', 'proxystatus', 'status', 'errcode'],
 });
 
 const maskFormat = format((info) => ({
@@ -54,12 +64,71 @@ const log = new Proxy(
     }
 );
 
+const cookieScraperPlugin = (proxyServer, options) => {
+    proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
+        if (proxyReq.getHeader('cookie')) {
+            proxyReq.removeHeader('cookie');
+        }
+    });
+};
+// copy with mods from http-proxy-middleware https://github.com/chimurai/http-proxy-middleware/blob/master/src/plugins/default/logger-plugin.ts
+const loggerPlugin = (proxyServer, options) => {
+    proxyServer.on('error', (err, req, res, target) => {
+        const hostname = req?.headers?.host;
+        // target is undefined when websocket errors
+        const errReference = 'https://nodejs.org/api/errors.html#errors_common_system_errors'; // link to Node Common Systems Errors page
+        proxy_events_counter.inc({
+            target: target.host,
+            proxystatus: null,
+            status: res.statusCode,
+            errcode: err.code || 'unknown',
+        });
+        const level =
+            /HPE_INVALID/.test(err.code) ||
+            ['ECONNRESET', 'ENOTFOUND', 'ECONNREFUSED', 'ETIMEDOUT'].includes(err.code)
+                ? 'warn'
+                : 'error';
+        log.log(
+            level,
+            '[HPM] Error occurred while proxying request %s to %s [%s] (%s)',
+            `${hostname}${req?.host}${req?.path}`,
+            `${target?.href}`,
+            err.code || err,
+            errReference
+        );
+    });
+
+    proxyServer.on('proxyRes', (proxyRes, req, res) => {
+        const originalUrl = req.originalUrl ?? `${req.baseUrl || ''}${req.url}`;
+        const pathUpToSearch = proxyRes.req.path.replace(/\?.*$/, '');
+        const exchange = `[HPM] ${req.method} ${originalUrl} -> ${proxyRes.req.protocol}//${proxyRes.req.host}${pathUpToSearch} [${proxyRes.statusCode}]`;
+        proxy_events_counter.inc({
+            target: proxyRes.req.host,
+            proxystatus: proxyRes.statusCode,
+            status: res.statusCode,
+            errcode: null,
+        });
+        log.info(exchange);
+    });
+
+    /**
+     * When client opens WebSocket connection
+     */
+    proxyServer.on('open', (socket) => {
+        log.info('[HPM] Client connected: %o', socket.address());
+    });
+
+    /**
+     * When client closes WebSocket connection
+     */
+    proxyServer.on('close', (req, proxySocket, proxyHead) => {
+        log.info('[HPM] Client disconnected: %o', proxySocket.address());
+    });
+};
+
 log.info(`Frackend startup: ${JSON.stringify({ NAIS_CLUSTER_NAME, MILJO, GIT_COMMIT })}`);
 
 let BUILD_PATH = path.join(process.cwd(), '../build');
-if (NAIS_CLUSTER_NAME === 'local') {
-    BUILD_PATH = path.join(process.cwd(), '../public');
-}
 
 const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
     SETTINGS: `
@@ -72,10 +141,10 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
 });
 
 const main = async () => {
+    let appReady = false;
     const app = express();
     app.disable('x-powered-by');
     app.set('views', BUILD_PATH);
-    app.use(cookieParser());
 
     app.use('/*', (req, res, next) => {
         res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
@@ -133,6 +202,14 @@ const main = async () => {
             secure: true,
             xfwd: true,
             changeOrigin: true,
+            ejectPlugins: true,
+            plugins: [
+                cookieScraperPlugin,
+                debugProxyErrorsPlugin,
+                errorResponsePlugin,
+                loggerPlugin,
+                proxyEventsPlugin,
+            ],
         };
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
@@ -276,7 +353,9 @@ const main = async () => {
     );
 
     app.get('/min-side-arbeidsgiver/internal/isAlive', (req, res) => res.sendStatus(200));
-    app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) => res.sendStatus(200));
+    app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) =>
+        res.sendStatus(appReady ? 200 : 500)
+    );
 
     app.get('/min-side-arbeidsgiver/informasjon-om-tilgangsstyring', (req, res) => {
         res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger');
@@ -288,13 +367,19 @@ const main = async () => {
 
     const server = app.listen(PORT, () => {
         log.info(`Server listening on port ${PORT}`);
+        setTimeout(() => {
+            appReady = true;
+        }, 5_000);
+    });
+
+    const terminator = createHttpTerminator({
+        server,
+        gracefulTerminationTimeout: 30_000, // defaults: terminator=5s, k8s=30s
     });
 
     process.on('SIGTERM', () => {
         log.info('SIGTERM signal received: closing HTTP server');
-        server.close(() => {
-            log.info('HTTP server closed');
-        });
+        terminator.terminate();
     });
 };
 

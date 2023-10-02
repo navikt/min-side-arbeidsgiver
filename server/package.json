@@ -1,26 +1,25 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "license": "MIT",
-  "type": "module",
-  "main": "server.js",
-  "dependencies": {
-    "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "6.3.8",
-    "apollo-server-express": "3.11.1",
-    "casual": "^1.6.2",
-    "cookie-parser": "^1.4.6",
-    "express": "^4.17.3",
-    "express-http-proxy": "1.6.3",
-    "http-proxy-middleware": "3.0.0-beta.1",
-    "jsdom": "^16.4.0",
-    "mustache": "^4.2.0",
-    "node-fetch": "^3.2.10",
-    "openid-client": "5.1.9",
-    "prom-client": "^13.2.0",
-    "prometheus-api-metrics": "^3.2.0",
-    "winston": "3.4.0"
-  },
-  "scripts": {
-    "start": "node server.js"
-  }
+    "name": "server",
+    "version": "1.0.0",
+    "license": "MIT",
+    "type": "module",
+    "main": "server.js",
+    "dependencies": {
+        "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "6.4.0",
+        "apollo-server-express": "3.12.1",
+        "casual": "^1.6.2",
+        "express": "^4.17.3",
+        "express-http-proxy": "1.6.3",
+        "http-proxy-middleware": "3.0.0-beta.1",
+        "http-terminator": "3.2.0",
+        "jsdom": "^16.4.0",
+        "mustache": "^4.2.0",
+        "openid-client": "5.5.0",
+        "prom-client": "^13.2.0",
+        "prometheus-api-metrics": "^3.2.0",
+        "winston": "3.4.0"
+    },
+    "scripts": {
+        "start": "node server.js"
+    }
 }
