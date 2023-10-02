@@ -13,11 +13,14 @@ interface PamStatusAnnonser {
     PUBLISERT: number;
 }
 
-export const hentAntallannonser = async (): Promise<number> => {
+export const hentAntallannonser = async (orgnr: string): Promise<number> => {
     const respons = await fetch(
         '/min-side-arbeidsgiver/stillingsregistrering-api/api/stillinger/numberByStatus',
         {
             method: 'GET',
+            headers: {
+                organizationNumber: orgnr,
+            },
         }
     );
     if (respons.ok) {

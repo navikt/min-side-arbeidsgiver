@@ -56,7 +56,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
 
         if (orgInfo.altinntilgang.rekruttering) {
             settBedriftIPam(orgInfo.organisasjon.OrganizationNumber).then(() =>
-                hentAntallannonser().then(setantallAnnonser)
+                hentAntallannonser(orgInfo.organisasjon.OrganizationNumber).then(setantallAnnonser)
             );
         } else {
             setantallAnnonser(0);
