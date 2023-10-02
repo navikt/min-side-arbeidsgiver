@@ -45,6 +45,7 @@ spec:
         - host: arbeidsgiver.intern.dev.nav.no
         - host: tiltak-proxy.dev-fss-pub.nais.io
         - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
+        - host: arbeidsplassen.intern.dev.nav.no
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
@@ -56,3 +57,5 @@ spec:
           cluster: dev-fss
         - application: presenterte-kandidater-api
           namespace: toi
+        - application: pam-stillingsregistrering-api
+          namespace: teampam

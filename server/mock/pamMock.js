@@ -1,10 +1,9 @@
 export const mock = (app) => {
-    app.use(
-        '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/arbeidsgiver/:id',
-        (req, res) => res.sendStatus(200)
+    app.use('/min-side-arbeidsgiver/stillingsregistrering-api/api/arbeidsgiver/:id', (req, res) =>
+        res.sendStatus(200)
     );
     app.use(
-        '/min-side-arbeidsgiver/mock/arbeidsplassen.nav.no/stillingsregistrering-api/api/stillinger/numberByStatus',
+        '/min-side-arbeidsgiver/stillingsregistrering-api/api/stillinger/numberByStatus',
         (req, res) => {
             res.send({
                 TIL_GODKJENNING: 17,
@@ -15,5 +14,6 @@ export const mock = (app) => {
                 AVVIST: 0,
                 PUBLISERT: 5,
             });
-        });
-}
+        }
+    );
+};
