@@ -8,7 +8,6 @@
         "@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock": "6.4.0",
         "apollo-server-express": "3.12.1",
         "casual": "^1.6.2",
-        "cookie-parser": "^1.4.6",
         "express": "^4.17.3",
         "express-http-proxy": "1.6.3",
         "http-proxy-middleware": "3.0.0-beta.1",
