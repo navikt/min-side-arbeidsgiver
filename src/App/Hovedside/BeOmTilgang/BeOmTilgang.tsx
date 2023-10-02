@@ -1,9 +1,7 @@
-import React, {FC, FunctionComponent, MouseEventHandler, useContext} from 'react';
-import {Ekspanderbartpanel} from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import {
-    OrganisasjonInfo,
-} from '../../OrganisasjonerOgTilgangerProvider';
-import {OrganisasjonsDetaljerContext} from '../../OrganisasjonDetaljerProvider';
+import React, { FC, FunctionComponent, MouseEventHandler, useContext } from 'react';
+import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
+import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import {
     AltinntilgangAlleredeSøkt,
@@ -11,11 +9,11 @@ import {
     BeOmSyfotilgang,
 } from './TjenesteInfo/TjenesteInfo';
 import './BeOmTilgang.css';
-import {altinntjeneste, AltinntjenesteId} from '../../../altinn/tjenester';
-import {opprettAltinnTilgangssøknad} from '../../../altinn/tilganger';
-import {beOmTilgangIAltinnLink} from '../../../lenker';
-import {LinkableFragment} from '../../../GeneriskeElementer/LinkableFragment';
-import {Alert, BodyShort, Heading} from "@navikt/ds-react";
+import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
+import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
+import { beOmTilgangIAltinnLink } from '../../../lenker';
+import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
+import { Alert, BodyShort, Heading } from '@navikt/ds-react';
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'rekruttering',
@@ -31,24 +29,23 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'inkluderingstilskudd',
     'mentortilskudd',
     'inntektsmelding',
-    'tilskuddsbrev',
 ];
 
 const beOmTilgangUrlFallback = (
     altinnId: AltinntjenesteId,
-    valgtOrganisasjon: OrganisasjonInfo,
+    valgtOrganisasjon: OrganisasjonInfo
 ): string => {
     const tjeneste = altinntjeneste[altinnId];
     return beOmTilgangIAltinnLink(
         valgtOrganisasjon.organisasjon.OrganizationNumber,
         tjeneste.tjenestekode,
-        tjeneste.tjenesteversjon,
+        tjeneste.tjenesteversjon
     );
 };
 
 const opprettSøknad = (
     altinnId: AltinntjenesteId,
-    valgtOrganisasjon: OrganisasjonInfo,
+    valgtOrganisasjon: OrganisasjonInfo
 ): MouseEventHandler<unknown> => {
     let harTrykket = false; /* ikke opprett to søknader hvis bruker klikker raskt på knappen. */
     return () => {
@@ -63,7 +60,7 @@ const opprettSøknad = (
             altinnId,
             redirectUrl: redirectUrl.toString(),
         })
-            .then(søknad => {
+            .then((søknad) => {
                 if (søknad === null) {
                     window.location.href = beOmTilgangUrlFallback(altinnId, valgtOrganisasjon);
                 } else {
@@ -77,22 +74,26 @@ const opprettSøknad = (
 };
 
 const BeOmTilgang: FunctionComponent = () => {
-    const {valgtOrganisasjon} = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const tjenesteinfoBokser: JSX.Element[] = [];
     if (valgtOrganisasjon === undefined) {
         return null;
     }
 
-    if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang){
-        return <TilgangContainer>
-            <BodyShort>Noen i virksomheten må gi deg riktig tilgang i Altinn. Nå er du kun satt opp som nærmeste leder.</BodyShort>
-        </TilgangContainer>
+    if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang) {
+        return (
+            <TilgangContainer>
+                <BodyShort>
+                    Noen i virksomheten må gi deg riktig tilgang i Altinn. Nå er du kun satt opp som
+                    nærmeste leder.
+                </BodyShort>
+            </TilgangContainer>
+        );
     }
 
     if (!valgtOrganisasjon.syfotilgang) {
-        tjenesteinfoBokser.push(<BeOmSyfotilgang/>);
+        tjenesteinfoBokser.push(<BeOmSyfotilgang />);
     }
-
 
     if (valgtOrganisasjon.reporteetilgang) {
         for (let altinnId of altinnIdIRekkefølge) {
@@ -106,88 +107,94 @@ const BeOmTilgang: FunctionComponent = () => {
                         altinnId={altinnId}
                         onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
                         eksternSide={true}
-                    />,
+                    />
                 );
             } else if (tilgangsøknad.tilgang === 'søknad opprettet') {
                 tjenesteinfoBokser.push(
-                    <BeOmTilgangBoks altinnId={altinnId} href={tilgangsøknad.url} eksternSide={true}/>,
+                    <BeOmTilgangBoks
+                        altinnId={altinnId}
+                        href={tilgangsøknad.url}
+                        eksternSide={true}
+                    />
                 );
             } else if (tilgangsøknad.tilgang === 'søkt') {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
                         altinnId={altinnId}
-                        type='info'
-                        status='Tilgang etterspurt'
+                        type="info"
+                        status="Tilgang etterspurt"
                         statusBeskrivelse={`
                             Du vil motta et varsel fra Altinn når
                             forespørselen er behandlet og tilganger er på plass.
                     `}
-                    />,
+                    />
                 );
             } else if (tilgangsøknad.tilgang === 'godkjent') {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
                         altinnId={altinnId}
-                        type='suksess'
-                        status='Forespørsel godkjent'
+                        type="suksess"
+                        status="Forespørsel godkjent"
                         statusBeskrivelse={`
                         Forespørselen er behandlet og er godkjent. Det kan
                         ta litt tid før tjenesten blir tilgjengelig for deg.
                     `}
-                    />,
+                    />
                 );
             }
         }
     }
     if (tjenesteinfoBokser.length <= 0) {
-        return null
+        return null;
     }
 
     return (
         <TilgangContainer>
-                <Ekspanderbartpanel
-                    tittel='Tjenester du kan be om tilgang til'
-                    apen={new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'}
-                >
-                    <div className='be-om-tilgang__innhold'>
-                        <Alert variant="info" size="medium" className='be-om-tilgang__info'>
-                            Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du
-                            kan be om tilgang til de spesifikke tjenestene ved å følge lenkene
-                            under.
-                        </Alert>
-                        <Organisasjonsbeskrivelse
-                            navn={valgtOrganisasjon.organisasjon.Name}
-                            orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
-                        />
-                        <ul className='be-om-tilgang__tjenesteinfo-bokser'>
-                            {tjenesteinfoBokser.map((tjenesteinfoboks, index) => (
-                                <li key={index} className='be-om-tilgang__tjenesteinfo'>
-                                    {tjenesteinfoboks}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </Ekspanderbartpanel>
+            <Ekspanderbartpanel
+                tittel="Tjenester du kan be om tilgang til"
+                apen={
+                    new URLSearchParams(window.location.search).get('fragment') === 'be-om-tilgang'
+                }
+            >
+                <div className="be-om-tilgang__innhold">
+                    <Alert variant="info" size="medium" className="be-om-tilgang__info">
+                        Du har ikke rettighetene som kreves for å bruke disse tjenestene. Du kan be
+                        om tilgang til de spesifikke tjenestene ved å følge lenkene under.
+                    </Alert>
+                    <Organisasjonsbeskrivelse
+                        navn={valgtOrganisasjon.organisasjon.Name}
+                        orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
+                    />
+                    <ul className="be-om-tilgang__tjenesteinfo-bokser">
+                        {tjenesteinfoBokser.map((tjenesteinfoboks, index) => (
+                            <li key={index} className="be-om-tilgang__tjenesteinfo">
+                                {tjenesteinfoboks}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </Ekspanderbartpanel>
         </TilgangContainer>
     );
 };
 
-interface props{
-    children: JSX.Element
+interface props {
+    children: JSX.Element;
 }
 
-const TilgangContainer: FC<props>= ({children}) =>
-    <LinkableFragment fragment='be-om-tilgang'>
-        <div className='be-om-tilgang'>
-            <div className='be-om-tilgang__tittel'>
-                <div className='divider'/>
-                <Heading size="small" level="2" className='tekst'>
+const TilgangContainer: FC<props> = ({ children }) => (
+    <LinkableFragment fragment="be-om-tilgang">
+        <div className="be-om-tilgang">
+            <div className="be-om-tilgang__tittel">
+                <div className="divider" />
+                <Heading size="small" level="2" className="tekst">
                     Trenger du tilgang til flere tjenester?
                 </Heading>
-                <div className='divider'/>
+                <div className="divider" />
             </div>
             {children}
         </div>
     </LinkableFragment>
+);
 
 export default BeOmTilgang;

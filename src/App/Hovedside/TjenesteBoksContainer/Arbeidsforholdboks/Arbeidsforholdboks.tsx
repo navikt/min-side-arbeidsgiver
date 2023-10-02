@@ -1,25 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { innsynAaregURL } from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforholdikon.svg';
-import { hentAntallArbeidsforholdFraAareg } from '../../../../api/arbeidsforholdApi';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './ArbeidsforholdBoks.css';
 import { Tjenesteboks } from '../Tjenesteboks';
 
 const Arbeidsforholdboks = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const [antallArbeidsforhold, setAntallArbeidsforhold] = useState('–');
-    useEffect(() => {
-        if (valgtOrganisasjon)
-            hentAntallArbeidsforholdFraAareg(
-                valgtOrganisasjon.organisasjon.OrganizationNumber,
-                valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? ''
-            ).then((antallArbeidsforholdRespons) =>
-                setAntallArbeidsforhold(
-                    antallArbeidsforholdRespons > 0 ? antallArbeidsforholdRespons.toString() : '–'
-                )
-            );
-    }, [valgtOrganisasjon]);
+    const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
+
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
     const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
 
@@ -33,7 +21,9 @@ const Arbeidsforholdboks = () => {
             <div className="arbeidsforholdboks">
                 <span>
                     {' '}
-                    <span className="antall-arbeidsforhold">{antallArbeidsforhold}</span>
+                    <span className="antall-arbeidsforhold">
+                        {antallArbeidsforhold > 0 ? antallArbeidsforhold : '-'}
+                    </span>
                     arbeidsforhold (aktive og avsluttede){' '}
                 </span>
                 <div className="bunntekst">

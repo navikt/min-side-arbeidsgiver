@@ -6,11 +6,6 @@ import {
     hentUserInfo,
     RefusjonStatus,
 } from '../api/dnaApi';
-import {
-    autentiserAltinnBruker,
-    hentAltinnRaporteeIdentiteter,
-    ReporteeMessagesUrls,
-} from '../api/altinnApi';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
@@ -58,7 +53,6 @@ export type OrganisasjonEnhet = {
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     organisasjonstre: OrganisasjonEnhet[];
-    reporteeMessagesUrls: ReporteeMessagesUrls;
     visFeilmelding: boolean;
     tilgangTilSyfo: SyfoTilgang;
     visSyfoFeilmelding: boolean;
@@ -154,7 +148,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<
         AltinnTilgangssøknad[] | undefined
     >([]);
-    const [reporteeMessagesUrls, setReporteeMessagesUrls] = useState<ReporteeMessagesUrls>({});
 
     const [syfoVirksomheter, setSyfoVirksomheter] = useState<DigiSyfoOrganisasjon[] | undefined>(
         undefined
@@ -184,19 +177,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                     setAltinntilganger(
                         Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
                     );
-
-                    if (organisasjoner.length !== 0) {
-                        hentAltinnRaporteeIdentiteter().then((result) => {
-                            if (result instanceof Error) {
-                                autentiserAltinnBruker(window.location.href);
-                                setReporteeMessagesUrls({});
-                            } else {
-                                setReporteeMessagesUrls(result);
-                            }
-                        });
-                    } else {
-                        setReporteeMessagesUrls({});
-                    }
                 })
                 .catch((error) => {
                     Sentry.captureException(error);
@@ -287,7 +267,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         const context: Context = {
             organisasjoner,
             organisasjonstre,
-            reporteeMessagesUrls,
             visFeilmelding,
             visSyfoFeilmelding,
             tilgangTilSyfo,
