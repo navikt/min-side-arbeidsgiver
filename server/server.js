@@ -10,7 +10,6 @@ import httpProxyMiddleware, {
 import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
-import cookieParser from 'cookie-parser';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
@@ -67,7 +66,10 @@ const log = new Proxy(
 
 const cookieScraperPlugin = (proxyServer, options) => {
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
-        delete proxyReq.header['cookie'];
+        if (proxyReq.header['cookie']) {
+            log.info('removing cookie from proxyReq. size=', proxyReq.header['cookie'].size);
+            delete proxyReq.header['cookie'];
+        }
     });
 };
 // copy with mods from http-proxy-middleware https://github.com/chimurai/http-proxy-middleware/blob/master/src/plugins/default/logger-plugin.ts
@@ -144,7 +146,6 @@ const main = async () => {
     const app = express();
     app.disable('x-powered-by');
     app.set('views', BUILD_PATH);
-    app.use(cookieParser());
 
     app.use('/*', (req, res, next) => {
         res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
