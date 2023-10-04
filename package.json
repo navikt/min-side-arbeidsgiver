@@ -31,10 +31,10 @@
         "swr": "^2.2.2",
         "typescript": "4.5.4",
         "uuid": "^9.0.0",
-        "vite": "4.4.9",
-        "vite-tsconfig-paths": "4.2.0",
+        "vite": "4.4.10",
+        "vite-tsconfig-paths": "4.2.1",
         "whatwg-fetch": "^3.6.2",
-        "zod": "^3.12.0"
+        "zod": "^3.22.3"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "^2.13.1",
