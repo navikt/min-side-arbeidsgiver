@@ -192,13 +192,6 @@ const main = async () => {
     } else {
         const proxyOptions = {
             logger: log,
-            on: {
-                error: (err, req, res) => {
-                    log.error(
-                        `${req.method} ${req.path} => [${res.statusCode}:${res.statusText}]: ${err.message}`
-                    );
-                },
-            },
             secure: true,
             xfwd: true,
             changeOrigin: true,
@@ -224,7 +217,6 @@ const main = async () => {
                 ...proxyOptions,
                 selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
                 on: {
-                    ...proxyOptions.on,
                     proxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
                         try {
                             if (proxyRes.statusCode >= 400) {
