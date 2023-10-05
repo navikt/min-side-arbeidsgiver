@@ -18,10 +18,5 @@ export default defineConfig({
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api': 'http://localhost:8080',
             '/min-side-arbeidsgiver/presenterte-kandidater-api': 'http://localhost:8080',
         },
-        headers: {
-            'Cache-Control': 'private, no-cache, no-store, must-revalidate',
-            Expires: '-1',
-            Pragma: 'no-cache',
-        },
     },
 });

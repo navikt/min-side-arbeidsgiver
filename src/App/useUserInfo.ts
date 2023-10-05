@@ -2,24 +2,30 @@ import { z } from 'zod';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
 import { Organisasjon } from '../altinn/organisasjon';
-import { AltinntjenesteId } from '../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import * as Record from '../utils/Record';
+import { Set } from 'immutable';
 
 const UserInfoRespons = z.object({
     altinnError: z.boolean(),
     organisasjoner: z.array(Organisasjon),
-    tilganger: z.array(
-        z.object({
-            id: z.custom<AltinntjenesteId>(),
-            tjenestekode: z.string(),
-            tjenesteversjon: z.string(),
-            organisasjoner: z.array(z.string()),
-        })
-    ),
+    tilganger: z
+        .array(
+            z.object({
+                id: z.custom<AltinntjenesteId>(),
+                tjenestekode: z.string(),
+                tjenesteversjon: z.string(),
+                organisasjoner: z.array(z.string()),
+            })
+        )
+        .transform((tilganger) =>
+            Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
+        ),
 });
 const fallbackData = {
     altinnError: false,
     organisasjoner: [],
-    tilganger: [],
+    tilganger: Record.map(altinntjeneste, () => Set<string>()),
 };
 type UserInfo = z.infer<typeof UserInfoRespons>;
 export const useUserInfo = (): UserInfo => {

@@ -212,13 +212,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         setAltinnorganisasjoner(userInfo.organisasjoner);
     }, [userInfo.organisasjoner]);
     useEffect(() => {
-        if (userInfo.tilganger.length > 0) {
-            setAltinntilganger(
-                Record.fromEntries(userInfo.tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
-            );
-        } else {
-            setAltinntilganger(Record.map(altinntjeneste, () => Set()));
-        }
+        setAltinntilganger(userInfo.tilganger);
     }, [userInfo.tilganger]);
 
     const beregnOrganisasjonerArgs = [
