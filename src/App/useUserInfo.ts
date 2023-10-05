@@ -29,7 +29,7 @@ const fallbackData = {
 };
 type UserInfo = z.infer<typeof UserInfoRespons>;
 export const useUserInfo = (): UserInfo => {
-    const { data } = useSWR('/min-side-arbeidsgiver/api/userInfo/v1', fetcher, {
+    const { data, error } = useSWR('/min-side-arbeidsgiver/api/userInfo/v1', fetcher, {
         onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
             if ((error.status === 502 || error.status === 503) && retryCount <= 5) {
                 setTimeout(() => revalidate({ retryCount }), 500);
@@ -44,7 +44,7 @@ export const useUserInfo = (): UserInfo => {
         fallbackData,
     });
 
-    return data ?? fallbackData;
+    return data ?? { ...fallbackData, altinnError: error !== undefined };
 };
 
 const fetcher = async (url: string) => {
