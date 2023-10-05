@@ -229,31 +229,35 @@ const alleTjenester = [
 
 export const mock = (app) => {
     app.use('/min-side-arbeidsgiver/api/userInfo/v1', (req, res) => {
-        return res.send({
-            altinnError: casual.boolean,
-            organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner],
-            tilganger: [
-                {
-                    id: 'mentortilskudd',
-                    tjenestekode: '5216',
-                    tjenesteversjon: '1',
-                    organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
-                },
-                {
-                    id: 'inntektsmelding',
-                    tjenestekode: '4936',
-                    tjenesteversjon: '1',
-                    organisasjoner: ['182345674', '118345674'],
-                },
-                ...alleTjenester
-                    .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
-                    .map((tjeneste) => ({
-                        ...tjeneste,
-                        organisasjoner: OrganisasjonerResponse.map(
-                            ({ OrganizationNumber }) => OrganizationNumber
-                        ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
-                    })),
-            ],
-        });
+        if (Math.random() < 0.1) {
+            res.sendStatus(502);
+        } else {
+            res.send({
+                altinnError: casual.boolean,
+                organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner],
+                tilganger: [
+                    {
+                        id: 'mentortilskudd',
+                        tjenestekode: '5216',
+                        tjenesteversjon: '1',
+                        organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
+                    },
+                    {
+                        id: 'inntektsmelding',
+                        tjenestekode: '4936',
+                        tjenesteversjon: '1',
+                        organisasjoner: ['182345674', '118345674'],
+                    },
+                    ...alleTjenester
+                        .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
+                        .map((tjeneste) => ({
+                            ...tjeneste,
+                            organisasjoner: OrganisasjonerResponse.map(
+                                ({ OrganizationNumber }) => OrganizationNumber
+                            ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
+                        })),
+                ],
+            });
+        }
     });
 };
