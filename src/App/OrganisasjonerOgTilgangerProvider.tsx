@@ -3,7 +3,6 @@ import {
     DigiSyfoOrganisasjon,
     hentRefusjonstatus,
     hentSyfoVirksomheter,
-    hentUserInfo,
     RefusjonStatus,
 } from '../api/dnaApi';
 import * as Record from '../utils/Record';
@@ -17,6 +16,7 @@ import * as Sentry from '@sentry/browser';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
+import { useUserInfo } from './useUserInfo';
 
 type orgnr = string;
 
@@ -167,24 +167,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                     tidMs,
                 });
             },
-            hentUserInfo()
-                .then(({ organisasjoner, tilganger, altinnError }) => {
-                    if (altinnError) {
-                        setVisFeilmelding(true);
-                        addAlert('TilgangerAltinn');
-                    }
-                    setAltinnorganisasjoner(organisasjoner);
-                    setAltinntilganger(
-                        Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
-                    );
-                })
-                .catch((error) => {
-                    Sentry.captureException(error);
-                    setAltinntilganger(Record.map(altinntjeneste, () => Set()));
-                    setAltinnorganisasjoner([]);
-                    setVisFeilmelding(true);
-                    addAlert('TilgangerAltinn');
-                }),
             hentAltinnTilgangssøknader()
                 .then(setAltinnTilgangssøknader)
                 .catch((error) => {
@@ -219,6 +201,25 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                 })
         );
     }, []);
+    const userInfo = useUserInfo();
+    useEffect(() => {
+        if (userInfo.altinnError) {
+            addAlert('TilgangerAltinn');
+            setVisFeilmelding(true);
+        }
+    }, [userInfo.altinnError]);
+    useEffect(() => {
+        setAltinnorganisasjoner(userInfo.organisasjoner);
+    }, [userInfo.organisasjoner]);
+    useEffect(() => {
+        if (userInfo.tilganger.length > 0) {
+            setAltinntilganger(
+                Record.fromEntries(userInfo.tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
+            );
+        } else {
+            setAltinntilganger(Record.map(altinntjeneste, () => Set()));
+        }
+    }, [userInfo.tilganger]);
 
     const beregnOrganisasjonerArgs = [
         altinnorganisasjoner,
