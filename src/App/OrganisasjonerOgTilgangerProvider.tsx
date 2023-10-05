@@ -203,13 +203,17 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     }, []);
     const userInfo = useUserInfo();
     useEffect(() => {
+        if (!userInfo.loaded) {
+            // ikke set organisasjoner og tilganger før de er lastet
+            return;
+        }
         if (userInfo.altinnError) {
             addAlert('TilgangerAltinn');
             setVisFeilmelding(true);
         }
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
-    }, [userInfo.altinnError, userInfo.organisasjoner, userInfo.tilganger]);
+    }, [JSON.stringify(userInfo)]);
 
     const beregnOrganisasjonerArgs = [
         altinnorganisasjoner,

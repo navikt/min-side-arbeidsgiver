@@ -5,8 +5,10 @@ import { Organisasjon } from '../altinn/organisasjon';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
+import { useState } from 'react';
 
 const UserInfoRespons = z.object({
+    loaded: z.boolean(),
     altinnError: z.boolean(),
     organisasjoner: z.array(Organisasjon),
     tilganger: z
@@ -22,13 +24,9 @@ const UserInfoRespons = z.object({
             Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
         ),
 });
-const fallbackData = {
-    altinnError: false,
-    organisasjoner: [],
-    tilganger: Record.map(altinntjeneste, () => Set<string>()),
-};
 type UserInfo = z.infer<typeof UserInfoRespons>;
 export const useUserInfo = (): UserInfo => {
+    const [exhausted, setExhausted] = useState(false);
     const { data, error } = useSWR('/min-side-arbeidsgiver/api/userInfo/v1', fetcher, {
         onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
             if ((error.status === 502 || error.status === 503) && retryCount <= 5) {
@@ -39,12 +37,18 @@ export const useUserInfo = (): UserInfo => {
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error
                     }`
                 );
+                setExhausted(true);
             }
         },
-        fallbackData,
     });
-
-    return data ?? { ...fallbackData, altinnError: error !== undefined };
+    return {
+        ...(data ?? {
+            organisasjoner: [],
+            tilganger: Record.map(altinntjeneste, () => Set<string>()),
+        }),
+        altinnError: data?.altinnError ?? error !== undefined,
+        loaded: data?.loaded ?? exhausted,
+    };
 };
 
 const fetcher = async (url: string) => {
