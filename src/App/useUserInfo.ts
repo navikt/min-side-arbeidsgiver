@@ -8,7 +8,7 @@ import { Set } from 'immutable';
 import { useState } from 'react';
 
 const UserInfoRespons = z.object({
-    loaded: z.boolean(),
+    loaded: z.boolean().optional().default(true),
     altinnError: z.boolean(),
     organisasjoner: z.array(Organisasjon),
     tilganger: z
