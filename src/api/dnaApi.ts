@@ -54,29 +54,6 @@ export const sjekkInnlogget = async (): Promise<boolean> => {
     return ok;
 };
 
-const UserInfoRespons = z.object({
-    altinnError: z.boolean(),
-    organisasjoner: z.array(Organisasjon),
-    tilganger: z.array(
-        z.object({
-            id: z.custom<AltinntjenesteId>(),
-            tjenestekode: z.string(),
-            tjenesteversjon: z.string(),
-            organisasjoner: z.array(z.string()),
-        })
-    ),
-});
-export type UserInfo = z.infer<typeof UserInfoRespons>;
-export async function hentUserInfo(): Promise<UserInfo> {
-    const respons = await fetch('/min-side-arbeidsgiver/api/userInfo/v1');
-    if (respons.ok) {
-        return UserInfoRespons.parse(await respons.json());
-    } else {
-        throw new Error(
-            `Kall til '/min-side-arbeidsgiver/api/userInfo/v1' feilet med ${respons.status}:${respons.statusText}`
-        );
-    }
-}
 const storageUrl = `/min-side-arbeidsgiver/api/storage`;
 export async function getStorage(key: string): Promise<StorageItemResponse> {
     try {
