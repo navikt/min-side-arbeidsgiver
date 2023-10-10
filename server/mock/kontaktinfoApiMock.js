@@ -47,7 +47,7 @@ const response = [
 
 export const mock = (app) => {
     app.post('/min-side-arbeidsgiver/api/kontaktinfo/v1/', (req, res) => {
-        //const randomRespons = response[Math.floor(Math.random() * 4)];
-        return res.send(response[1]);
+        const randomRespons = response[Math.floor(Math.random() * 5)];
+        return res.send(randomRespons);
     });
 };
