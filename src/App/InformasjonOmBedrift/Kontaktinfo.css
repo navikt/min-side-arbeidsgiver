@@ -1,0 +1,11 @@
+.kontaktinfo{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 32rem;
+    margin-top: 16px;
+}
+
+.kontaktinfo p {
+    margin: 0;
+}
