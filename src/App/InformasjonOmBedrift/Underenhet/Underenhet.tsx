@@ -1,19 +1,21 @@
 import React from 'react';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
-import { Office1 as UnderenhetIkon } from "@navikt/ds-icons";
+import { Office1 as UnderenhetIkon } from '@navikt/ds-icons';
 import { enhetsregisteretUnderenhetLink } from '../../../lenker';
 import './Underenhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { Enhet } from '../../../api/enhetsregisteretApi';
-import {BodyShort, Heading} from "@navikt/ds-react";
+import { BodyShort, Heading } from '@navikt/ds-react';
+import { KontaktinfoType, KontaktinfoUnderenhet } from '../Kontaktinfo';
 
 interface Props {
     underenhet: Enhet;
+    kontaktinfo: KontaktinfoType | null;
 }
 
-const Underenhet = ({ underenhet }: Props) => {
-    const adresse = underenhet?.beliggenhetsadresse
+const Underenhet = ({ underenhet, kontaktinfo }: Props) => {
+    const adresse = underenhet?.beliggenhetsadresse;
     return (
         <>
             <div className="underenhet-info">
@@ -26,27 +28,19 @@ const Underenhet = ({ underenhet }: Props) => {
                 </Tekstboks>
                 <Tekstboks className="underenhet-orgnr">
                     <BodyShort>Virksomhetsnummer</BodyShort>
-                    <BodyShort>
-                        {underenhet.organisasjonsnummer}
-                    </BodyShort>
+                    <BodyShort>{underenhet.organisasjonsnummer}</BodyShort>
                 </Tekstboks>
 
-                <Tekstboks  className="underenhet-adresse">
+                <Tekstboks className="underenhet-adresse">
                     <BodyShort>Beliggenhetsadresse</BodyShort>
+                    <BodyShort>{adresse?.adresse?.[0] ?? ''}</BodyShort>
                     <BodyShort>
-                        { adresse?.adresse?.[0] ?? '' }
-                    </BodyShort>
-                    <BodyShort>
-                        { adresse?.postnummer ?? '' }
-                        { ' ' }
-                        { adresse?.poststed ?? '' }
+                        {adresse?.postnummer ?? ''} {adresse?.poststed ?? ''}
                     </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="underenhet-kode">
-                    <BodyShort>
-                        Næringskoder
-                    </BodyShort>
+                    <BodyShort>Næringskoder</BodyShort>
                     <BodyShort>
                         {underenhet.naeringskode1
                             ? `${underenhet.naeringskode1.kode}. ${underenhet.naeringskode1.beskrivelse}`
@@ -72,7 +66,7 @@ const Underenhet = ({ underenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </div>
-            <hr />
+            <KontaktinfoUnderenhet kontaktinfo={kontaktinfo} />
         </>
     );
 };

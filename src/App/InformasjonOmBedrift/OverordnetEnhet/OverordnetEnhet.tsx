@@ -2,17 +2,19 @@ import React from 'react';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
-import { Office2 as JuridiskEnhetIkon } from "@navikt/ds-icons";
+import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { Enhet } from '../../../api/enhetsregisteretApi';
-import {BodyShort, Heading} from "@navikt/ds-react";
+import { BodyShort, Heading } from '@navikt/ds-react';
+import { KontaktinfoHovedenhet, KontaktinfoType } from '../Kontaktinfo';
 
 interface Props {
     overordnetenhet: Enhet;
+    kontaktinfo: KontaktinfoType | null;
 }
 
-const OverordnetEnhet = ({overordnetenhet}: Props) => {
+const OverordnetEnhet = ({ overordnetenhet, kontaktinfo }: Props) => {
     const { forretningsadresse, postadresse } = overordnetenhet;
     return (
         <div className="overordnet-enhet-info">
@@ -32,49 +34,49 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
 
                 <Tekstboks className="overordnetenhet-orgform">
                     <BodyShort>Organisasjonsform</BodyShort>
-                    <BodyShort> {overordnetenhet.organisasjonsform ? overordnetenhet.organisasjonsform.beskrivelse : ''}</BodyShort>
+                    <BodyShort>
+                        {' '}
+                        {overordnetenhet.organisasjonsform
+                            ? overordnetenhet.organisasjonsform.beskrivelse
+                            : ''}
+                    </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse1">
                     <BodyShort>Forretningsadresse</BodyShort>
-                    <BodyShort> { forretningsadresse ? forretningsadresse.adresse?.[0] : ''}</BodyShort>
                     <BodyShort>
-                        {forretningsadresse?.postnummer ?? ''}
                         {' '}
-                        {forretningsadresse?.poststed ?? ''}
+                        {forretningsadresse ? forretningsadresse.adresse?.[0] : ''}
+                    </BodyShort>
+                    <BodyShort>
+                        {forretningsadresse?.postnummer ?? ''} {forretningsadresse?.poststed ?? ''}
                     </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse2">
                     <BodyShort>Postadresse</BodyShort>
-                    <BodyShort> { postadresse?.adresse?.[0] ?? '' } </BodyShort>
+                    <BodyShort> {postadresse?.adresse?.[0] ?? ''} </BodyShort>
                     <BodyShort>
-                        {postadresse?.postnummer ?? ''}
-                        {' '}
-                        {postadresse?.poststed ?? ''}
+                        {postadresse?.postnummer ?? ''} {postadresse?.poststed ?? ''}
                     </BodyShort>
                 </Tekstboks>
             </div>
 
             <Tekstboks className="overordnetenhet-kode">
+                <BodyShort>Næringskoder</BodyShort>
                 <BodyShort>
-                    Næringskoder
-                </BodyShort>
-                <BodyShort>
-                    {overordnetenhet.naeringskode1 ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}` : ''}
+                    {overordnetenhet.naeringskode1
+                        ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}`
+                        : ''}
                 </BodyShort>
             </Tekstboks>
 
-            {(overordnetenhet.hjemmeside ?? '') !== '' &&
+            {(overordnetenhet.hjemmeside ?? '') !== '' && (
                 <Tekstboks className="overordnetenhet-hjemmeside">
-                    <BodyShort>
-                        Hjemmeside
-                    </BodyShort>
-                    <BodyShort>
-                        {overordnetenhet.hjemmeside}
-                    </BodyShort>
+                    <BodyShort>Hjemmeside</BodyShort>
+                    <BodyShort>{overordnetenhet.hjemmeside}</BodyShort>
                 </Tekstboks>
-            }
+            )}
 
             <LenkeMedLogging
                 href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
@@ -84,6 +86,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
                 <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                 <NyFaneIkon />
             </LenkeMedLogging>
+            <KontaktinfoHovedenhet kontaktinfo={kontaktinfo} />
         </div>
     );
 };
