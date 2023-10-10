@@ -7,8 +7,14 @@ import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
 
+const DigiSyfoOrganisasjon = z.object({
+    organisasjon: Organisasjon,
+    antallSykmeldte: z.number(),
+});
+export type DigiSyfoOrganisasjon = z.infer<typeof DigiSyfoOrganisasjon>;
 const UserInfoRespons = z.object({
     altinnError: z.boolean(),
+    digisyfoError: z.boolean(),
     organisasjoner: z.array(Organisasjon),
     tilganger: z
         .array(
@@ -22,6 +28,12 @@ const UserInfoRespons = z.object({
         .transform((tilganger) =>
             Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
         ),
+    digisyfoOrganisasjoner: z.array(
+        z.object({
+            organisasjon: Organisasjon,
+            antallSykmeldte: z.number(),
+        })
+    ),
 });
 type UserInfoDto = z.infer<typeof UserInfoRespons>;
 type UserInfo = UserInfoDto & {
@@ -51,8 +63,10 @@ export const useUserInfo = (): UserInfo => {
             },
             fallbackData: {
                 organisasjoner: [],
+                digisyfoOrganisasjoner: [],
                 tilganger: Record.map(altinntjeneste, () => Set<string>()),
                 altinnError: false,
+                digisyfoError: false,
             },
         }
     );
