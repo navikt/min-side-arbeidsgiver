@@ -2,7 +2,7 @@ import { z } from 'zod';
 import React, { useState } from 'react';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { Alert, BodyShort, Heading } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading, HelpText } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
 
@@ -72,8 +72,17 @@ const AltinnLenke = () => (
         loggLenketekst={'Oppdatere kofuvi Altinn ekstern lenke'}
         href="https://www.altinn.no/hjelp/profil/kontaktinformasjon-og-varslinger/"
     >
-        Oppdatere varseladresse i Altinn{' '}
+        Les om varslingsadresser på Altinn
     </LenkeMedLogging>
+);
+
+const TittelMedHjelpetekst = ({ children }: { children: React.ReactNode }) => (
+    <div className="kontaktinfo-tittel">
+        <Heading size="small">{children}</Heading>
+        <HelpText title="Hva brukes det til?">
+            Varslingsadressen brukes slik det offentlige kan kommunisere digitalt med virksomheten.
+        </HelpText>
+    </div>
 );
 
 interface KontaktinfoProps {
@@ -85,11 +94,7 @@ export const KontaktinfoUnderenhet = ({ kontaktinfo }: KontaktinfoProps) => {
     if (kontaktinfo.eposter.length === 0) return null;
     return (
         <div className="kontaktinfo">
-            <Heading size="small">Varslingsadresser for underenhet</Heading>
-            <Alert variant="info">
-                Varslingsadressen brukes slik at virksomheten kan kommunisere digitalt med det
-                offentlige. Det er frivillig å ha varslingsadresse på underenheten.
-            </Alert>
+            <TittelMedHjelpetekst>Varslingsadresser for underenhet</TittelMedHjelpetekst>
             <div>
                 <Heading size="xsmall">E-post</Heading>
                 {kontaktinfo!.eposter.map((epost) => (
@@ -105,19 +110,15 @@ export const KontaktinfoHovedenhet = ({ kontaktinfo }: KontaktinfoProps) => {
     if (kontaktinfo === null) return null;
     return (
         <div className="kontaktinfo">
-            <Heading size="small">Varslingsadresser for hovedenhet</Heading>
+            <TittelMedHjelpetekst>Varslingsadresser for hovedenhet</TittelMedHjelpetekst>
             {kontaktinfo.eposter.length === 0 ? (
                 <Alert variant="warning">
-                    Det mangler varslingsadresse. Dere er pålagt å ha minst en e-post eller
-                    mobilnummer for varsling slik at virksomheten kan kommunisere digitalt med det
-                    offentlige.
+                    Det mangler varslingsadresse. Varslingsadressen brukes slik det offentlige kan
+                    kommunisere digitalt med virksomheten. Dere er må å ha minst en e-post eller
+                    mobilnummer for varsling.
                 </Alert>
             ) : (
                 <>
-                    <Alert variant="info">
-                        Varslingsadressen brukes slik at virksomheten kan kommunisere digitalt med
-                        det offentlige.
-                    </Alert>
                     <div>
                         <Heading size="xsmall">E-post</Heading>
                         {kontaktinfo!.eposter.map((epost) => (

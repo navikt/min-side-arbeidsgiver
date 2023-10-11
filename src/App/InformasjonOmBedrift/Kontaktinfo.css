@@ -9,3 +9,9 @@
 .kontaktinfo p {
     margin: 0;
 }
+
+.kontaktinfo-tittel{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
