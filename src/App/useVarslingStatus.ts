@@ -49,7 +49,6 @@ export const useVarslingStatus = (): VarslingStatus => {
             fallbackData,
         }
     );
-    console.log('useVarslingStatus', data);
 
     return data;
 };
