@@ -87,7 +87,7 @@ const ManglerKofuviAlert = () => {
                 </Heading>
                 Virksomheten mangler varslingsadresse (en e-post eller et mobilnummer). Legg inn det
                 slik at NAV kan kommunisere digitalt med dere. Varslingsadressen brukes slik at det
-                offentlige kan kommunisere digitalt med virksomheten.
+                offentlige kan kommunisere digitalt med virksomheten. <br />
                 <LenkeMedLogging
                     href="https://www.altinn.no/hjelp/profil/kontaktinformasjon-og-varslinger/"
                     loggLenketekst="Les om varslingsadresse i Altinn"
