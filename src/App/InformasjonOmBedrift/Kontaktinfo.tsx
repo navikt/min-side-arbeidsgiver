@@ -91,16 +91,26 @@ interface KontaktinfoProps {
 
 export const KontaktinfoUnderenhet = ({ kontaktinfo }: KontaktinfoProps) => {
     if (kontaktinfo === null) return null;
-    if (kontaktinfo.eposter.length === 0) return null;
+    if (kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0) return null;
     return (
         <div className="kontaktinfo">
             <TittelMedHjelpetekst>Varslingsadresser for underenhet</TittelMedHjelpetekst>
-            <div>
-                <Heading size="xsmall">E-post</Heading>
-                {kontaktinfo!.eposter.map((epost) => (
-                    <BodyShort key={epost}>{epost}</BodyShort>
-                ))}
-            </div>
+            {kontaktinfo.eposter.length > 0 ? (
+                <div>
+                    <Heading size="xsmall">E-post</Heading>
+                    {kontaktinfo.eposter.map((epost) => (
+                        <BodyShort key={epost}>{epost}</BodyShort>
+                    ))}
+                </div>
+            ) : null}
+            {kontaktinfo.telefonnumre.length > 0 ? (
+                <div>
+                    <Heading size="xsmall">SMS</Heading>
+                    {kontaktinfo.telefonnumre.map((telefonnummer) => (
+                        <BodyShort key={telefonnummer}>{telefonnummer}</BodyShort>
+                    ))}
+                </div>
+            ) : null}
             <AltinnLenke />
         </div>
     );
@@ -111,7 +121,7 @@ export const KontaktinfoHovedenhet = ({ kontaktinfo }: KontaktinfoProps) => {
     return (
         <div className="kontaktinfo">
             <TittelMedHjelpetekst>Varslingsadresser for hovedenhet</TittelMedHjelpetekst>
-            {kontaktinfo.eposter.length === 0 ? (
+            {kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0 ? (
                 <Alert variant="warning">
                     Det mangler varslingsadresse. Varslingsadressen brukes slik det offentlige kan
                     kommunisere digitalt med virksomheten. Dere er må å ha minst en e-post eller
@@ -119,12 +129,22 @@ export const KontaktinfoHovedenhet = ({ kontaktinfo }: KontaktinfoProps) => {
                 </Alert>
             ) : (
                 <>
-                    <div>
-                        <Heading size="xsmall">E-post</Heading>
-                        {kontaktinfo!.eposter.map((epost) => (
-                            <BodyShort key={epost}>{epost}</BodyShort>
-                        ))}
-                    </div>
+                    {kontaktinfo.eposter.length > 0 ? (
+                        <div>
+                            <Heading size="xsmall">E-post</Heading>
+                            {kontaktinfo.eposter.map((epost) => (
+                                <BodyShort key={epost}>{epost}</BodyShort>
+                            ))}
+                        </div>
+                    ) : null}
+                    {kontaktinfo.telefonnumre.length > 0 ? (
+                        <div>
+                            <Heading size="xsmall">SMS</Heading>
+                            {kontaktinfo.telefonnumre.map((telefonnummer) => (
+                                <BodyShort key={telefonnummer}>{telefonnummer}</BodyShort>
+                            ))}
+                        </div>
+                    ) : null}
                 </>
             )}
             <AltinnLenke />

@@ -20,7 +20,7 @@ const response = [
         },
         underenhet: {
             eposter: [],
-            telefonnumre: [],
+            telefonnumre: ['+4700000'],
         },
     },
     {
@@ -36,7 +36,7 @@ const response = [
     {
         hovedenhet: {
             eposter: ['post@firma.no', 'post1@firma.no'],
-            telefonnumre: [],
+            telefonnumre: ['+4700000'],
         },
         underenhet: {
             eposter: [],
