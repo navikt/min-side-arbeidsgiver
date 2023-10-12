@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Alert } from '@navikt/ds-react';
+import { useVarslingStatus } from '../useVarslingStatus';
 
 type AlertProps = {
     content: React.ReactNode;
@@ -69,7 +70,7 @@ export const AlertsProvider: FunctionComponent = (props) => {
 
 export const Alerts = () => {
     const { alerts } = useContext(AlertContext);
-    let alertList = Array.from(alerts);
+    const alertList = Array.from(alerts);
     if (alertList.length === 0) {
         return null;
     }
