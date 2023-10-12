@@ -59,6 +59,9 @@ const fetcher = async ({ url, virksomhetsnummer }: { url: string; virksomhetsnum
     const respons = await fetch(url, {
         method: 'POST',
         body: JSON.stringify({ virksomhetsnummer }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
 
     if (respons.status !== 200) throw respons;
