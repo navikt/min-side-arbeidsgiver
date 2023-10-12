@@ -39,17 +39,15 @@ type UserInfoDto = z.infer<typeof UserInfoRespons>;
 type UserInfo = UserInfoDto & {
     loaded: boolean;
 };
-function expBackoff(retryCount: number) {
-    return ~~((Math.random() + 0.5) * (1 << Math.min(retryCount, 8))) * 100;
-}
 export const useUserInfo = (): UserInfo => {
-    const [exhausted, setExhausted] = useState(false);
+    const [retries, setRetries] = useState(0);
     const { data, error, isLoading, isValidating } = useSWR(
         '/min-side-arbeidsgiver/api/userInfo/v1',
         fetcher,
         {
-            onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-                if (retryCount == 5) {
+            onSuccess: () => setRetries(0),
+            onError: (error) => {
+                if (retries === 5) {
                     Sentry.captureMessage(
                         `hent userInfo fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined
@@ -57,10 +55,10 @@ export const useUserInfo = (): UserInfo => {
                                 : error
                         }`
                     );
-                    setExhausted(true);
                 }
-                setTimeout(() => revalidate({ retryCount }), expBackoff(retryCount));
+                setRetries((x) => x + 1);
             },
+            errorRetryInterval: 100,
             fallbackData: {
                 organisasjoner: [],
                 digisyfoOrganisasjoner: [],
@@ -71,6 +69,7 @@ export const useUserInfo = (): UserInfo => {
         }
     );
     const finished = error === undefined && !isLoading && !isValidating;
+    const exhausted = retries >= 5;
     return {
         ...data,
         altinnError: data.altinnError || error !== undefined,
