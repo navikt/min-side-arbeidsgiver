@@ -34,7 +34,6 @@ export const useVarslingStatus = (): VarslingStatus => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                console.log('error', error);
                 if (retries === 5) {
                     Sentry.captureMessage(
                         `hent varslingStatus fra min-side-arbeidsgiver feilet med ${

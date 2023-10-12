@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { Alert } from '@navikt/ds-react';
-import { useVarslingStatus } from '../useVarslingStatus';
 
 type AlertProps = {
     content: React.ReactNode;
