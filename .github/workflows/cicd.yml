@@ -37,6 +37,8 @@ jobs:
             - run: npm run build
               env:
                   PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/build/
+                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+                  SENTRY_LOG_LEVEL: info
 
             - uses: nais/docker-build-push@v0
               id: dockerpush
@@ -52,17 +54,6 @@ jobs:
                   cdn-team-name: fager
                   source: ./build/
                   destination: '/min-side-arbeidsgiver'
-
-            - name: Lag sentry release
-              continue-on-error: true
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-              run: |
-                  npx -p @sentry/cli sentry-cli releases new "${{ github.sha }}"
-                  npx -p @sentry/cli sentry-cli releases files "${{ github.sha }}" upload-sourcemaps build/static/js \
-                      --url-prefix '~/min-side-arbeidsgiver/static/js'
-                  npx -p @sentry/cli sentry-cli releases set-commits --auto "${{ github.sha }}"
-                  npx -p @sentry/cli sentry-cli releases finalize "${{ github.sha }}"
 
             - name: Deploy til dev-gcp
               uses: nais/deploy/actions/deploy@v1
