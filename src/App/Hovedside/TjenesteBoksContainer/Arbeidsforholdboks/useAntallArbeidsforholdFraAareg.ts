@@ -1,11 +1,12 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import * as Sentry from '@sentry/browser';
 
 export const useAntallArbeidsforholdFraAareg = (): number => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const [retries, setRetries] = useState(0);
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
             ? {
@@ -14,14 +15,31 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
                   orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
               }
             : null,
-        fetcher
+        fetcher,
+        {
+            onSuccess: () => setRetries(0),
+            onError: (error) => {
+                setRetries((x) => x + 1);
+                if (retries === 5) {
+                    Sentry.captureMessage(
+                        `hent antall arbeidsforhold fra aareg feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                }
+            },
+            errorRetryInterval: 300,
+            fallbackData: 0,
+        }
     );
 
-    return data ?? 0;
+    return data;
 };
 
 const Oversikt = z.object({
-    second: z.number().optional(),
+    second: z.number().nullable(),
 });
 
 const fetcher = async ({
@@ -33,22 +51,13 @@ const fetcher = async ({
     jurenhet: string;
     orgnr: string;
 }) => {
-    try {
-        const respons = await fetch(url, {
-            headers: {
-                jurenhet,
-                orgnr,
-            },
-        });
-        if (respons.status === 200) return Oversikt.parse(await respons.json()).second;
-        if (respons.status === 401) return 0;
+    const respons = await fetch(url, {
+        headers: {
+            jurenhet,
+            orgnr,
+        },
+    });
+    if (respons.status !== 200) throw respons;
 
-        Sentry.captureMessage(
-            `hent antall arbeidsforhold fra aareg feilet med ${respons.status}, ${respons.statusText}`
-        );
-        return 0;
-    } catch (error) {
-        Sentry.captureException(error);
-        return 0;
-    }
+    return Oversikt.parse(await respons.json()).second ?? 0;
 };
