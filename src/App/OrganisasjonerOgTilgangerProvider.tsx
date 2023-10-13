@@ -1,10 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
-import {
-    DigiSyfoOrganisasjon,
-    hentRefusjonstatus,
-    hentSyfoVirksomheter,
-    RefusjonStatus,
-} from '../api/dnaApi';
+import { hentRefusjonstatus, RefusjonStatus } from '../api/dnaApi';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
@@ -16,7 +11,7 @@ import * as Sentry from '@sentry/browser';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
-import { useUserInfo } from './useUserInfo';
+import { DigiSyfoOrganisasjon, useUserInfo } from './useUserInfo';
 
 type orgnr = string;
 
@@ -173,21 +168,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                     Sentry.captureException(error);
                     setAltinnTilgangssøknader([]);
                 }),
-            hentSyfoVirksomheter()
-                .then((virksomheter) => {
-                    setSyfoVirksomheter(virksomheter);
-                    setTilgangTilSyfo(
-                        virksomheter.length > 0 ? SyfoTilgang.TILGANG : SyfoTilgang.IKKE_TILGANG
-                    );
-                    amplitude.setUserProperties({ syfotilgang: virksomheter.length > 0 });
-                })
-                .catch((error) => {
-                    Sentry.captureException(error);
-                    setSyfoVirksomheter([]);
-                    setVisSyfoFeilmelding(true);
-                    setTilgangTilSyfo(SyfoTilgang.IKKE_TILGANG);
-                    addAlert('TilgangerDigiSyfo');
-                }),
             hentRefusjonstatus()
                 .then((refusjonstatus) => {
                     setAlleRefusjonsstatus(refusjonstatus);
@@ -211,8 +191,19 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
             addAlert('TilgangerAltinn');
             setVisFeilmelding(true);
         }
+        if (userInfo.digisyfoError) {
+            addAlert('TilgangerDigiSyfo');
+            setVisSyfoFeilmelding(true);
+        }
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
+        setSyfoVirksomheter(userInfo.digisyfoOrganisasjoner);
+        setTilgangTilSyfo(
+            userInfo.digisyfoOrganisasjoner.length > 0
+                ? SyfoTilgang.TILGANG
+                : SyfoTilgang.IKKE_TILGANG
+        );
+        amplitude.setUserProperties({ syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0 });
     }, [JSON.stringify(userInfo)]);
 
     const beregnOrganisasjonerArgs = [

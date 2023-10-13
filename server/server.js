@@ -164,7 +164,6 @@ const main = async () => {
     if (MILJO === 'local' || MILJO === 'demo') {
         (await import('./mock/innloggetMock.js')).mock(app);
         (await import('./mock/pamMock.js')).mock(app);
-        (await import('./mock/syfoMock.js')).mock(app);
         (await import('./mock/userInfoMock.js')).mock(app);
         (await import('./mock/altinnMeldingsboksMock.js')).mock(app);
         (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
