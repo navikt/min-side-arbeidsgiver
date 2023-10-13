@@ -69,7 +69,7 @@ export const AlertsProvider: FunctionComponent = (props) => {
 
 export const Alerts = () => {
     const { alerts } = useContext(AlertContext);
-    let alertList = Array.from(alerts);
+    const alertList = Array.from(alerts);
     if (alertList.length === 0) {
         return null;
     }

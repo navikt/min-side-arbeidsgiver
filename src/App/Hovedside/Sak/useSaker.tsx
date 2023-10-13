@@ -9,6 +9,7 @@ import {
     OrganisasjonEnhet,
     OrganisasjonerOgTilgangerContext,
 } from '../../OrganisasjonerOgTilgangerProvider';
+import { ServerError } from '@apollo/client/link/utils';
 
 type SakerResultat = Pick<Query, 'saker'>;
 
@@ -146,7 +147,9 @@ export function useSaker(
 
     useEffect(() => {
         if (error) {
-            Sentry.captureException(error);
+            if ((error.networkError as ServerError)?.statusCode !== 401) {
+                Sentry.captureException(error);
+            }
             return;
         }
 
