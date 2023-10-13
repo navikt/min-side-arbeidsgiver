@@ -6,7 +6,7 @@ import { enhetsregisteretUnderenhetLink } from '../../../lenker';
 import './Underenhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { Enhet } from '../../../api/enhetsregisteretApi';
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from '../Kontaktinfo';
 
 interface Props {
@@ -19,19 +19,19 @@ const Underenhet = ({ underenhet }: Props) => {
         <>
             <div className="underenhet-info">
                 <Tekstboks className="underenhet-navn">
-                    <BodyShort>Virksomhet</BodyShort>
+                    <Label>Underenhet</Label>
                     <Heading size="medium" level="2" className="underenhet-info__navn">
                         <UnderenhetIkon aria-hidden="true" title="underenhet" />
                         {underenhet.navn}
                     </Heading>
                 </Tekstboks>
                 <Tekstboks className="underenhet-orgnr">
-                    <BodyShort>Virksomhetsnummer</BodyShort>
+                    <Label>Virksomhetsnummer</Label>
                     <BodyShort>{underenhet.organisasjonsnummer}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="underenhet-adresse">
-                    <BodyShort>Beliggenhetsadresse</BodyShort>
+                    <Label>Beliggenhetsadresse</Label>
                     <BodyShort>{adresse?.adresse?.[0] ?? ''}</BodyShort>
                     <BodyShort>
                         {adresse?.postnummer ?? ''} {adresse?.poststed ?? ''}
@@ -39,7 +39,7 @@ const Underenhet = ({ underenhet }: Props) => {
                 </Tekstboks>
 
                 <Tekstboks className="underenhet-kode">
-                    <BodyShort>Næringskoder</BodyShort>
+                    <Label>Næringskoder</Label>
                     <BodyShort>
                         {underenhet.naeringskode1
                             ? `${underenhet.naeringskode1.kode}. ${underenhet.naeringskode1.beskrivelse}`
