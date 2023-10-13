@@ -58,12 +58,12 @@ const App: FunctionComponent = () => {
                     revalidateOnFocus: false,
                 }}
             >
-                <LoginBoundary>
-                    <NotifikasjonWidgetProvider
-                        miljo={miljø}
-                        apiUrl={`${basename}/notifikasjon-bruker-api`}
-                    >
-                        <BrowserRouter basename={basename}>
+                <BrowserRouter basename={basename}>
+                    <LoginBoundary>
+                        <NotifikasjonWidgetProvider
+                            miljo={miljø}
+                            apiUrl={`${basename}/notifikasjon-bruker-api`}
+                        >
                             <AmplitudeSidevisningEventLogger>
                                 <Routes>
                                     <Route
@@ -174,9 +174,9 @@ const App: FunctionComponent = () => {
                                     />
                                 </Routes>
                             </AmplitudeSidevisningEventLogger>
-                        </BrowserRouter>
-                    </NotifikasjonWidgetProvider>
-                </LoginBoundary>
+                        </NotifikasjonWidgetProvider>
+                    </LoginBoundary>
+                </BrowserRouter>
             </SWRConfig>
         </div>
     );
