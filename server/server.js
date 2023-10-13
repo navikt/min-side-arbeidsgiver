@@ -165,6 +165,7 @@ const main = async () => {
         (await import('./mock/innloggetMock.js')).mock(app);
         (await import('./mock/pamMock.js')).mock(app);
         (await import('./mock/userInfoMock.js')).mock(app);
+        (await import('./mock/varslingStatusMock.js')).mock(app);
         (await import('./mock/altinnMeldingsboksMock.js')).mock(app);
         (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
