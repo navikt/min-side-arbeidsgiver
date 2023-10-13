@@ -65,7 +65,7 @@ const Underenhet = ({ underenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </div>
-            <KontaktinfoUnderenhet orgnr={underenhet.organisasjonsnummer} />
+            <KontaktinfoUnderenhet />
         </>
     );
 };

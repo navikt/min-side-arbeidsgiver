@@ -7,14 +7,13 @@ import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, Heading } from '@navikt/ds-react';
 import { KontaktinfoHovedenhet } from '../Kontaktinfo';
-import { Enheter } from '../InformasjonOmBedrift';
+import { Enhet } from '../../../api/enhetsregisteretApi';
 
 interface Props {
-    enheter: Enheter;
+    overordnetenhet: Enhet;
 }
 
-const OverordnetEnhet = ({ enheter }: Props) => {
-    const overordnetenhet = enheter.hovedenhet;
+const OverordnetEnhet = ({ overordnetenhet }: Props) => {
     const { forretningsadresse, postadresse } = overordnetenhet;
     return (
         <div className="overordnet-enhet-info">
@@ -86,7 +85,7 @@ const OverordnetEnhet = ({ enheter }: Props) => {
                 <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                 <NyFaneIkon />
             </LenkeMedLogging>
-            <KontaktinfoHovedenhet orgnr={enheter.underenhet.organisasjonsnummer} />
+            <KontaktinfoHovedenhet />
         </div>
     );
 };

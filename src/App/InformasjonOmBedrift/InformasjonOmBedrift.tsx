@@ -6,6 +6,7 @@ import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.css';
 import { Panel } from '@navikt/ds-react';
+import useSWR from 'swr';
 
 export interface Enheter {
     underenhet: Enhet;
@@ -57,7 +58,7 @@ const InformasjonOmBedrift: FunctionComponent = () => {
                         <Underenhet underenhet={enheter.underenhet} />
                     </Kontaktpanel>
                     <Kontaktpanel>
-                        <OverordnetEnhet enheter={enheter} />
+                        <OverordnetEnhet overordnetenhet={enheter.hovedenhet} />
                     </Kontaktpanel>
                 </div>
             ) : (

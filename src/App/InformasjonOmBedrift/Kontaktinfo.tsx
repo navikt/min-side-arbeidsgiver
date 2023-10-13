@@ -1,24 +1,20 @@
 import { z } from 'zod';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { Alert, BodyShort, Heading, HelpText } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading, Label, HelpText } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+
+const KontaktinfoDetaljer = z.object({
+    eposter: z.array(z.string()),
+    telefonnumre: z.array(z.string()),
+});
 
 const KontaktinfoRespons = z.object({
-    hovedenhet: z
-        .object({
-            eposter: z.array(z.string()),
-            telefonnumre: z.array(z.string()),
-        })
-        .nullable(),
-    underenhet: z
-        .object({
-            eposter: z.array(z.string()),
-            telefonnumre: z.array(z.string()),
-        })
-        .nullable(),
+    hovedenhet: KontaktinfoDetaljer.nullable(),
+    underenhet: KontaktinfoDetaljer.nullable(),
 });
 
 const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
@@ -36,7 +32,9 @@ const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
     return KontaktinfoRespons.parse(await response.json());
 };
 
-export const useKontaktinfo = (orgnr?: string) => {
+const useKontaktinfo = () => {
+    const orgnr = useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
+        ?.OrganizationNumber;
     const [retries, setRetries] = useState(0);
 
     const { data: kontaktinfo } = useSWR(
@@ -80,40 +78,51 @@ const TittelMedHjelpetekst = ({ children }: { children: React.ReactNode }) => (
     </div>
 );
 
-interface KontaktinfoProps {
-    orgnr?: string;
-}
+type KontaktinfoDetaljer = z.infer<typeof KontaktinfoDetaljer>;
+const KontaktinfoListe = ({ kontaktinfo }: { kontaktinfo: KontaktinfoDetaljer }) => (
+    <>
+        {kontaktinfo.eposter.length > 0 ? (
+            <div>
+                <Label>E-post</Label>
+                <ul>
+                    {kontaktinfo.eposter.map((epost) => (
+                        <li key={epost}>
+                            <BodyShort>{epost}</BodyShort>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        ) : null}
+        {kontaktinfo.telefonnumre.length > 0 ? (
+            <div>
+                <Label>SMS</Label>
+                <ul>
+                    {kontaktinfo.telefonnumre.map((telefonnummer) => (
+                        <li key={telefonnummer}>
+                            <BodyShort>{telefonnummer}</BodyShort>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        ) : null}
+    </>
+);
 
-export const KontaktinfoUnderenhet = ({ orgnr }: KontaktinfoProps) => {
-    const kontaktinfo = useKontaktinfo(orgnr)?.underenhet ?? null;
+export const KontaktinfoUnderenhet = () => {
+    const kontaktinfo = useKontaktinfo()?.underenhet ?? null;
     if (kontaktinfo === null) return null;
     if (kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0) return null;
     return (
         <div className="kontaktinfo">
             <TittelMedHjelpetekst>Varslingsadresser for underenhet</TittelMedHjelpetekst>
-            {kontaktinfo.eposter.length > 0 ? (
-                <div>
-                    <Heading size="xsmall">E-post</Heading>
-                    {kontaktinfo.eposter.map((epost) => (
-                        <BodyShort key={epost}>{epost}</BodyShort>
-                    ))}
-                </div>
-            ) : null}
-            {kontaktinfo.telefonnumre.length > 0 ? (
-                <div>
-                    <Heading size="xsmall">SMS</Heading>
-                    {kontaktinfo.telefonnumre.map((telefonnummer) => (
-                        <BodyShort key={telefonnummer}>{telefonnummer}</BodyShort>
-                    ))}
-                </div>
-            ) : null}
+            <KontaktinfoListe kontaktinfo={kontaktinfo} />
             <AltinnLenke />
         </div>
     );
 };
 
-export const KontaktinfoHovedenhet = ({ orgnr }: KontaktinfoProps) => {
-    const kontaktinfo = useKontaktinfo(orgnr)?.hovedenhet ?? null;
+export const KontaktinfoHovedenhet = () => {
+    const kontaktinfo = useKontaktinfo()?.hovedenhet ?? null;
     if (kontaktinfo === null) return null;
     return (
         <div className="kontaktinfo">
@@ -125,24 +134,7 @@ export const KontaktinfoHovedenhet = ({ orgnr }: KontaktinfoProps) => {
                     mobilnummer for varsling.
                 </Alert>
             ) : (
-                <>
-                    {kontaktinfo.eposter.length > 0 ? (
-                        <div>
-                            <Heading size="xsmall">E-post</Heading>
-                            {kontaktinfo.eposter.map((epost) => (
-                                <BodyShort key={epost}>{epost}</BodyShort>
-                            ))}
-                        </div>
-                    ) : null}
-                    {kontaktinfo.telefonnumre.length > 0 ? (
-                        <div>
-                            <Heading size="xsmall">SMS</Heading>
-                            {kontaktinfo.telefonnumre.map((telefonnummer) => (
-                                <BodyShort key={telefonnummer}>{telefonnummer}</BodyShort>
-                            ))}
-                        </div>
-                    ) : null}
-                </>
+                <KontaktinfoListe kontaktinfo={kontaktinfo} />
             )}
             <AltinnLenke />
         </div>
