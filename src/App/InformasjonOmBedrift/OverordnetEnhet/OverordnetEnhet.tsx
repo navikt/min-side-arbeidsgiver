@@ -5,7 +5,7 @@ import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
 import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading, Label } from '@navikt/ds-react';
 import { KontaktinfoHovedenhet } from '../Kontaktinfo';
 import { Enheter } from '../InformasjonOmBedrift';
 
@@ -19,7 +19,7 @@ const OverordnetEnhet = ({ enheter }: Props) => {
     return (
         <div className="overordnet-enhet-info">
             <Tekstboks className="overordnetenhet-navn">
-                <BodyShort>Overordnet enhet</BodyShort>
+                <Label>Hovedenhet</Label>
                 <Heading size="medium" level="2" className="overordnet-enhet-info__navn">
                     <JuridiskEnhetIkon aria-hidden="true" title="juridisk enhet" />
                     {overordnetenhet.navn}
@@ -28,12 +28,12 @@ const OverordnetEnhet = ({ enheter }: Props) => {
 
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
-                    <BodyShort>Organisasjonsnummer</BodyShort>
+                    <Label>Organisasjonsnummer</Label>
                     <BodyShort> {overordnetenhet.organisasjonsnummer}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">
-                    <BodyShort>Organisasjonsform</BodyShort>
+                    <Label>Organisasjonsform</Label>
                     <BodyShort>
                         {' '}
                         {overordnetenhet.organisasjonsform
@@ -43,7 +43,7 @@ const OverordnetEnhet = ({ enheter }: Props) => {
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse1">
-                    <BodyShort>Forretningsadresse</BodyShort>
+                    <Label>Forretningsadresse</Label>
                     <BodyShort>
                         {' '}
                         {forretningsadresse ? forretningsadresse.adresse?.[0] : ''}
@@ -54,7 +54,7 @@ const OverordnetEnhet = ({ enheter }: Props) => {
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse2">
-                    <BodyShort>Postadresse</BodyShort>
+                    <Label>Postadresse</Label>
                     <BodyShort> {postadresse?.adresse?.[0] ?? ''} </BodyShort>
                     <BodyShort>
                         {postadresse?.postnummer ?? ''} {postadresse?.poststed ?? ''}
@@ -63,7 +63,7 @@ const OverordnetEnhet = ({ enheter }: Props) => {
             </div>
 
             <Tekstboks className="overordnetenhet-kode">
-                <BodyShort>Næringskoder</BodyShort>
+                <Label>Næringskoder</Label>
                 <BodyShort>
                     {overordnetenhet.naeringskode1
                         ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}`
@@ -73,7 +73,7 @@ const OverordnetEnhet = ({ enheter }: Props) => {
 
             {(overordnetenhet.hjemmeside ?? '') !== '' && (
                 <Tekstboks className="overordnetenhet-hjemmeside">
-                    <BodyShort>Hjemmeside</BodyShort>
+                    <Label>Hjemmeside</Label>
                     <BodyShort>{overordnetenhet.hjemmeside}</BodyShort>
                 </Tekstboks>
             )}
