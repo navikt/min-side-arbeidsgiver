@@ -1,0 +1,23 @@
+.kontaktinfo {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 32rem;
+    margin-top: 16px;
+}
+
+.kontaktinfo li {
+    margin: 0;
+    list-style: none;
+}
+
+.kontaktinfo ul {
+    margin: 0;
+    padding: 0;
+}
+
+.kontaktinfo-tittel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}

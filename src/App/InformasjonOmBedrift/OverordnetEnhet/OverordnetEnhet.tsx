@@ -2,22 +2,23 @@ import React from 'react';
 import Tekstboks from '../Tekstboks/Tekstboks';
 import NyFaneIkon from '../ikoner/NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
-import { Office2 as JuridiskEnhetIkon } from "@navikt/ds-icons";
+import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import { KontaktinfoHovedenhet } from '../Kontaktinfo';
 import { Enhet } from '../../../api/enhetsregisteretApi';
-import {BodyShort, Heading} from "@navikt/ds-react";
 
 interface Props {
     overordnetenhet: Enhet;
 }
 
-const OverordnetEnhet = ({overordnetenhet}: Props) => {
+const OverordnetEnhet = ({ overordnetenhet }: Props) => {
     const { forretningsadresse, postadresse } = overordnetenhet;
     return (
-        <div className="overordnet-enhet-info">
+        <div>
             <Tekstboks className="overordnetenhet-navn">
-                <BodyShort>Overordnet enhet</BodyShort>
+                <Label>Hovedenhet</Label>
                 <Heading size="medium" level="2" className="overordnet-enhet-info__navn">
                     <JuridiskEnhetIkon aria-hidden="true" title="juridisk enhet" />
                     {overordnetenhet.navn}
@@ -26,55 +27,55 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
 
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
-                    <BodyShort>Organisasjonsnummer</BodyShort>
+                    <Label>Organisasjonsnummer</Label>
                     <BodyShort> {overordnetenhet.organisasjonsnummer}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">
-                    <BodyShort>Organisasjonsform</BodyShort>
-                    <BodyShort> {overordnetenhet.organisasjonsform ? overordnetenhet.organisasjonsform.beskrivelse : ''}</BodyShort>
+                    <Label>Organisasjonsform</Label>
+                    <BodyShort>
+                        {' '}
+                        {overordnetenhet.organisasjonsform
+                            ? overordnetenhet.organisasjonsform.beskrivelse
+                            : ''}
+                    </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse1">
-                    <BodyShort>Forretningsadresse</BodyShort>
-                    <BodyShort> { forretningsadresse ? forretningsadresse.adresse?.[0] : ''}</BodyShort>
+                    <Label>Forretningsadresse</Label>
                     <BodyShort>
-                        {forretningsadresse?.postnummer ?? ''}
                         {' '}
-                        {forretningsadresse?.poststed ?? ''}
+                        {forretningsadresse ? forretningsadresse.adresse?.[0] : ''}
+                    </BodyShort>
+                    <BodyShort>
+                        {forretningsadresse?.postnummer ?? ''} {forretningsadresse?.poststed ?? ''}
                     </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse2">
-                    <BodyShort>Postadresse</BodyShort>
-                    <BodyShort> { postadresse?.adresse?.[0] ?? '' } </BodyShort>
+                    <Label>Postadresse</Label>
+                    <BodyShort> {postadresse?.adresse?.[0] ?? ''} </BodyShort>
                     <BodyShort>
-                        {postadresse?.postnummer ?? ''}
-                        {' '}
-                        {postadresse?.poststed ?? ''}
+                        {postadresse?.postnummer ?? ''} {postadresse?.poststed ?? ''}
                     </BodyShort>
                 </Tekstboks>
             </div>
 
             <Tekstboks className="overordnetenhet-kode">
+                <Label>Næringskoder</Label>
                 <BodyShort>
-                    Næringskoder
-                </BodyShort>
-                <BodyShort>
-                    {overordnetenhet.naeringskode1 ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}` : ''}
+                    {overordnetenhet.naeringskode1
+                        ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}`
+                        : ''}
                 </BodyShort>
             </Tekstboks>
 
-            {(overordnetenhet.hjemmeside ?? '') !== '' &&
+            {(overordnetenhet.hjemmeside ?? '') !== '' && (
                 <Tekstboks className="overordnetenhet-hjemmeside">
-                    <BodyShort>
-                        Hjemmeside
-                    </BodyShort>
-                    <BodyShort>
-                        {overordnetenhet.hjemmeside}
-                    </BodyShort>
+                    <Label>Hjemmeside</Label>
+                    <BodyShort>{overordnetenhet.hjemmeside}</BodyShort>
                 </Tekstboks>
-            }
+            )}
 
             <LenkeMedLogging
                 href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
@@ -84,6 +85,7 @@ const OverordnetEnhet = ({overordnetenhet}: Props) => {
                 <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                 <NyFaneIkon />
             </LenkeMedLogging>
+            <KontaktinfoHovedenhet />
         </div>
     );
 };

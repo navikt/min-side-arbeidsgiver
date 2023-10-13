@@ -3,7 +3,7 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 import bedriftinfoikon from './infoombedriftikon.svg';
 import './Bedriftsinfoknapp.css';
 import { InternalLenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
-import {TittelMedIkon} from "../../../../GeneriskeElementer/TittelMedIkon";
+import { TittelMedIkon } from '../../../../GeneriskeElementer/TittelMedIkon';
 
 const Bedriftsinfoknapp = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -14,12 +14,16 @@ const Bedriftsinfoknapp = () => {
 
     return (
         <InternalLenkepanelMedLogging
-            to={"/bedriftsinformasjon" + '?bedrift=' + valgtOrganisasjon.organisasjon.OrganizationNumber}
-            onClick={()=>scroll(0,0)}
+            to={
+                '/bedriftsinformasjon' +
+                '?bedrift=' +
+                valgtOrganisasjon.organisasjon.OrganizationNumber
+            }
+            onClick={() => scroll(0, 0)}
             className="bedriftsinfo-knapp"
             loggLenketekst="Informasjon om din virksomhet"
         >
-            <TittelMedIkon tittel={"Informasjon fra enhetsregisteret"} ikon={bedriftinfoikon}/>
+            <TittelMedIkon tittel={'Om virksomheten'} ikon={bedriftinfoikon} />
         </InternalLenkepanelMedLogging>
     );
 };
