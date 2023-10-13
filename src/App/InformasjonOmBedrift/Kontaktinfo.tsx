@@ -21,11 +21,6 @@ const KontaktinfoRespons = z.object({
         .nullable(),
 });
 
-export interface KontaktinfoType {
-    eposter: string[];
-    telefonnumre: string[];
-}
-
 const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
     const body = { virksomhetsnummer: orgnr };
     const response = await fetch(url, {
