@@ -1,10 +1,24 @@
 import { defineConfig } from 'vite';
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     base: '/',
-    plugins: [react()],
+    plugins: [
+        react(),
+        sentryVitePlugin({
+            url: 'https://sentry.gc.nav.no/',
+            org: 'nav',
+            project: 'min-side-arbeidsgiver',
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            release: {
+                name: process.env.GITHUB_SHA,
+                // onprem trenger legacy upload
+                uploadLegacySourcemaps: './build/assets',
+            },
+        }),
+    ],
     build: {
         outDir: 'build',
         sourcemap: true,
