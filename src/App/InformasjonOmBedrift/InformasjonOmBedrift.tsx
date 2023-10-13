@@ -6,7 +6,6 @@ import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.css';
 import { Panel } from '@navikt/ds-react';
-import useSWR from 'swr';
 
 export interface Enheter {
     underenhet: Enhet;
