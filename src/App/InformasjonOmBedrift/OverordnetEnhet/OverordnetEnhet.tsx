@@ -5,16 +5,16 @@ import { enhetsregisteretOverordnetenhetLink } from '../../../lenker';
 import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { Enhet } from '../../../api/enhetsregisteretApi';
 import { BodyShort, Heading } from '@navikt/ds-react';
-import { KontaktinfoHovedenhet, KontaktinfoType } from '../Kontaktinfo';
+import { KontaktinfoHovedenhet } from '../Kontaktinfo';
+import { Enheter } from '../InformasjonOmBedrift';
 
 interface Props {
-    overordnetenhet: Enhet;
-    kontaktinfo: KontaktinfoType | null;
+    enheter: Enheter;
 }
 
-const OverordnetEnhet = ({ overordnetenhet, kontaktinfo }: Props) => {
+const OverordnetEnhet = ({ enheter }: Props) => {
+    const overordnetenhet = enheter.hovedenhet;
     const { forretningsadresse, postadresse } = overordnetenhet;
     return (
         <div className="overordnet-enhet-info">
@@ -86,7 +86,7 @@ const OverordnetEnhet = ({ overordnetenhet, kontaktinfo }: Props) => {
                 <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                 <NyFaneIkon />
             </LenkeMedLogging>
-            <KontaktinfoHovedenhet kontaktinfo={kontaktinfo} />
+            <KontaktinfoHovedenhet orgnr={enheter.underenhet.organisasjonsnummer} />
         </div>
     );
 };

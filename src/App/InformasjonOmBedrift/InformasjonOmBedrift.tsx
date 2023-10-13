@@ -6,9 +6,8 @@ import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import './InformasjonOmBedrift.css';
 import { Panel } from '@navikt/ds-react';
-import { useKontaktinfo } from './Kontaktinfo';
 
-interface Enheter {
+export interface Enheter {
     underenhet: Enhet;
     hovedenhet: Enhet;
 }
@@ -45,8 +44,6 @@ const InformasjonOmBedrift: FunctionComponent = () => {
         }
     }, [orgnr]);
 
-    const kontaktinfo = useKontaktinfo(orgnr);
-
     return (
         <>
             <Brodsmulesti
@@ -57,16 +54,10 @@ const InformasjonOmBedrift: FunctionComponent = () => {
             {enheter !== undefined ? (
                 <div className="">
                     <Kontaktpanel>
-                        <Underenhet
-                            underenhet={enheter.underenhet}
-                            kontaktinfo={kontaktinfo?.underenhet ?? null}
-                        />
+                        <Underenhet underenhet={enheter.underenhet} />
                     </Kontaktpanel>
                     <Kontaktpanel>
-                        <OverordnetEnhet
-                            overordnetenhet={enheter.hovedenhet}
-                            kontaktinfo={kontaktinfo?.hovedenhet ?? null}
-                        />
+                        <OverordnetEnhet enheter={enheter} />
                     </Kontaktpanel>
                 </div>
             ) : (

@@ -86,10 +86,11 @@ const TittelMedHjelpetekst = ({ children }: { children: React.ReactNode }) => (
 );
 
 interface KontaktinfoProps {
-    kontaktinfo: KontaktinfoType | null;
+    orgnr?: string;
 }
 
-export const KontaktinfoUnderenhet = ({ kontaktinfo }: KontaktinfoProps) => {
+export const KontaktinfoUnderenhet = ({ orgnr }: KontaktinfoProps) => {
+    const kontaktinfo = useKontaktinfo(orgnr)?.underenhet ?? null;
     if (kontaktinfo === null) return null;
     if (kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0) return null;
     return (
@@ -116,7 +117,8 @@ export const KontaktinfoUnderenhet = ({ kontaktinfo }: KontaktinfoProps) => {
     );
 };
 
-export const KontaktinfoHovedenhet = ({ kontaktinfo }: KontaktinfoProps) => {
+export const KontaktinfoHovedenhet = ({ orgnr }: KontaktinfoProps) => {
+    const kontaktinfo = useKontaktinfo(orgnr)?.hovedenhet ?? null;
     if (kontaktinfo === null) return null;
     return (
         <div className="kontaktinfo">

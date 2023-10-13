@@ -7,14 +7,13 @@ import './Underenhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { Enhet } from '../../../api/enhetsregisteretApi';
 import { BodyShort, Heading } from '@navikt/ds-react';
-import { KontaktinfoType, KontaktinfoUnderenhet } from '../Kontaktinfo';
+import { KontaktinfoUnderenhet } from '../Kontaktinfo';
 
 interface Props {
     underenhet: Enhet;
-    kontaktinfo: KontaktinfoType | null;
 }
 
-const Underenhet = ({ underenhet, kontaktinfo }: Props) => {
+const Underenhet = ({ underenhet }: Props) => {
     const adresse = underenhet?.beliggenhetsadresse;
     return (
         <>
@@ -66,7 +65,7 @@ const Underenhet = ({ underenhet, kontaktinfo }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </div>
-            <KontaktinfoUnderenhet kontaktinfo={kontaktinfo} />
+            <KontaktinfoUnderenhet orgnr={underenhet.organisasjonsnummer} />
         </>
     );
 };
