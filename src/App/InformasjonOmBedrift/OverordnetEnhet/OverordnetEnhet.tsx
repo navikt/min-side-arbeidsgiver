@@ -16,7 +16,7 @@ interface Props {
 const OverordnetEnhet = ({ overordnetenhet }: Props) => {
     const { forretningsadresse, postadresse } = overordnetenhet;
     return (
-        <div className="overordnet-enhet-info">
+        <div>
             <Tekstboks className="overordnetenhet-navn">
                 <Label>Hovedenhet</Label>
                 <Heading size="medium" level="2" className="overordnet-enhet-info__navn">

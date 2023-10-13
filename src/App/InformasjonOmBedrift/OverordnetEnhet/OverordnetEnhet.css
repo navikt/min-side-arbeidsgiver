@@ -1,6 +1,4 @@
-.overordnet-enhet-info {
-  margin-top: 1.5rem;
-}
+
 @media (min-width: 768px) {
   .overordnet-enhet-info__container {
     width: 32rem;

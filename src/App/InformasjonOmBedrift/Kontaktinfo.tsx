@@ -6,6 +6,8 @@ import { Alert, BodyShort, Heading, Label, HelpText } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
+import NyFaneIkon from './ikoner/NyFaneIkon';
 
 const KontaktinfoDetaljer = z.object({
     eposter: z.array(z.string()),
@@ -64,8 +66,10 @@ const AltinnLenke = () => (
     <LenkeMedLogging
         loggLenketekst={'Oppdatere kofuvi Altinn ekstern lenke'}
         href="https://www.altinn.no/hjelp/profil/kontaktinformasjon-og-varslinger/"
+        target="_blank"
     >
         Les om varslingsadresser på Altinn
+        <NyFaneIkon />
     </LenkeMedLogging>
 );
 
@@ -73,7 +77,7 @@ const TittelMedHjelpetekst = ({ children }: { children: React.ReactNode }) => (
     <div className="kontaktinfo-tittel">
         <Heading size="small">{children}</Heading>
         <HelpText title="Hva brukes det til?">
-            Varslingsadressen brukes slik det offentlige kan kommunisere digitalt med virksomheten.
+            Varslingsadressen brukes av det offentlige for å kommunisere digitalt med virksomheten.
         </HelpText>
     </div>
 );

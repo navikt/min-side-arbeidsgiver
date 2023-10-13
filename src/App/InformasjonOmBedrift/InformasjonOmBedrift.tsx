@@ -53,14 +53,14 @@ const InformasjonOmBedrift: FunctionComponent = () => {
                 ]}
             />
             {enheter !== undefined ? (
-                <div className="">
+                <>
                     <Kontaktpanel>
                         <Underenhet underenhet={enheter.underenhet} />
                     </Kontaktpanel>
                     <Kontaktpanel>
                         <OverordnetEnhet overordnetenhet={enheter.hovedenhet} />
                     </Kontaktpanel>
-                </div>
+                </>
             ) : (
                 <Kontaktpanel>
                     <div>Kunne ikke hente informasjon</div>
