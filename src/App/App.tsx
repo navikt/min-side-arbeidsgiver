@@ -84,7 +84,7 @@ const App: FunctionComponent = () => {
                                                                     element={
                                                                         <SideTittelWrapper
                                                                             tittel={
-                                                                                'Virksomhetsprofil'
+                                                                                'Om virksomheten'
                                                                             }
                                                                             setTittel={
                                                                                 setSidetittel
