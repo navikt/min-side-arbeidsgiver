@@ -30,7 +30,7 @@ const AmplitudeSidevisningEventLogger: FunctionComponent = (props) => {
     const location = useLocation();
 
     useEffect(() => {
-        loggSidevisning(location.pathname, true);
+        loggSidevisning(location.pathname);
     }, [location.pathname]);
 
     return <>{props.children}</>;
