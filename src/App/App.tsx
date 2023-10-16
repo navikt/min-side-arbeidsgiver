@@ -2,7 +2,7 @@ import React, { FunctionComponent, useContext, useEffect, useState } from 'react
 import { BrowserRouter, Route, Link as RouterLink, Routes, useLocation } from 'react-router-dom';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
-import LoginBoundary from './LoginBoundary';
+import { LoginBoundary } from './LoginBoundary';
 import { AlertsProvider } from './Alerts/Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
@@ -10,7 +10,6 @@ import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
 import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
-import { Innlogget, LoginContext, LoginProvider } from './LoginProvider';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import Banner from './HovedBanner/HovedBanner';
 import { Saksoversikt } from './Hovedside/Sak/Saksoversikt/Saksoversikt';
@@ -28,14 +27,9 @@ const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
 });
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = (props) => {
-    const location = useLocation();
-    const { innlogget } = useContext(LoginContext);
-
     useEffect(() => {
-        if (innlogget !== Innlogget.LASTER) {
-            loggSidevisning(location.pathname, innlogget);
-        }
-    }, [location.pathname, innlogget]);
+        loggSidevisning(location.pathname, true);
+    }, [location.pathname]);
 
     return <>{props.children}</>;
 };
