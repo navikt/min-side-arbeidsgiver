@@ -63,114 +63,93 @@ const App: FunctionComponent = () => {
                     >
                         <BrowserRouter basename={basename}>
                             <AmplitudeSidevisningEventLogger>
-                                <Routes>
-                                    <Route
-                                        path="*"
-                                        element={
-                                            <AlertsProvider>
-                                                <OrganisasjonerOgTilgangerProvider>
-                                                    <OrganisasjonsDetaljerProvider>
-                                                        <Banner sidetittel={sidetittel} />
-                                                        <Routes>
-                                                            <Route
-                                                                path="/bedriftsinformasjon"
-                                                                element={
-                                                                    <SideTittelWrapper
-                                                                        tittel={'Om virksomheten'}
-                                                                        setTittel={setSidetittel}
-                                                                    >
-                                                                        <InformasjonOmBedrift />
-                                                                    </SideTittelWrapper>
-                                                                }
+                                <AlertsProvider>
+                                    <OrganisasjonerOgTilgangerProvider>
+                                        <OrganisasjonsDetaljerProvider>
+                                            <Banner sidetittel={sidetittel} />
+                                            <Routes>
+                                                <Route
+                                                    path="/bedriftsinformasjon"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Om virksomheten'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <InformasjonOmBedrift />
+                                                        </SideTittelWrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Min side – arbeidsgiver'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <Hovedside />
+                                                        </SideTittelWrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/mangler-tilgang"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Min side – arbeidsgiver'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <ManglerTilgangContainer />
+                                                        </SideTittelWrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/saksoversikt"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Saksoversikt'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <Brodsmulesti
+                                                                brodsmuler={[
+                                                                    {
+                                                                        url: '/saksoversikt',
+                                                                        title: 'Saksoversikt',
+                                                                        handleInApp: true,
+                                                                    },
+                                                                ]}
                                                             />
-                                                            <Route
-                                                                path="/"
-                                                                element={
-                                                                    <SideTittelWrapper
-                                                                        tittel={
-                                                                            'Min side – arbeidsgiver'
-                                                                        }
-                                                                        setTittel={setSidetittel}
-                                                                    >
-                                                                        <Hovedside />
-                                                                    </SideTittelWrapper>
-                                                                }
-                                                            />
-                                                            <Route
-                                                                path="/mangler-tilgang"
-                                                                element={
-                                                                    <SideTittelWrapper
-                                                                        tittel={
-                                                                            'Min side – arbeidsgiver'
-                                                                        }
-                                                                        setTittel={setSidetittel}
-                                                                    >
-                                                                        <ManglerTilgangContainer />
-                                                                    </SideTittelWrapper>
-                                                                }
-                                                            />
-                                                            <Route
-                                                                path="/saksoversikt"
-                                                                element={
-                                                                    <SideTittelWrapper
-                                                                        tittel={'Saksoversikt'}
-                                                                        setTittel={setSidetittel}
-                                                                    >
-                                                                        <Brodsmulesti
-                                                                            brodsmuler={[
-                                                                                {
-                                                                                    url: '/saksoversikt',
-                                                                                    title: 'Saksoversikt',
-                                                                                    handleInApp:
-                                                                                        true,
-                                                                                },
-                                                                            ]}
-                                                                        />
-                                                                        <Saksoversikt />
-                                                                    </SideTittelWrapper>
-                                                                }
-                                                            />
-                                                            <Route
-                                                                path="/sak-restore-session"
-                                                                element={
-                                                                    <SideTittelWrapper
-                                                                        tittel={'Saksoversikt'}
-                                                                        setTittel={setSidetittel}
-                                                                    >
-                                                                        <SaksoversiktRestoreSession />
-                                                                    </SideTittelWrapper>
-                                                                }
-                                                            />
-                                                            <Route
-                                                                path="*"
-                                                                element={
-                                                                    <Alert
-                                                                        style={{
-                                                                            width: 'calc(clamp(15rem, 50rem, 100vw - 2rem))',
-                                                                            margin: '2rem auto',
-                                                                        }}
-                                                                        variant={'error'}
-                                                                    >
-                                                                        {' '}
-                                                                        Finner ikke siden.{' '}
-                                                                        <Link
-                                                                            as={RouterLink}
-                                                                            to={'/'}
-                                                                        >
-                                                                            {' '}
-                                                                            Gå til Min side
-                                                                            arbeidsgiver
-                                                                        </Link>{' '}
-                                                                    </Alert>
-                                                                }
-                                                            />
-                                                        </Routes>
-                                                    </OrganisasjonsDetaljerProvider>
-                                                </OrganisasjonerOgTilgangerProvider>
-                                            </AlertsProvider>
-                                        }
-                                    />
-                                </Routes>
+                                                            <Saksoversikt />
+                                                        </SideTittelWrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/sak-restore-session"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Saksoversikt'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <SaksoversiktRestoreSession />
+                                                        </SideTittelWrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="*"
+                                                    element={
+                                                        <Alert
+                                                            className={'app-finner-ikke-siden'}
+                                                            variant={'error'}
+                                                        >
+                                                            Finner ikke siden.{' '}
+                                                            <Link as={RouterLink} to={'/'}>
+                                                                Gå til Min side arbeidsgiver
+                                                            </Link>
+                                                        </Alert>
+                                                    }
+                                                />
+                                            </Routes>
+                                        </OrganisasjonsDetaljerProvider>
+                                    </OrganisasjonerOgTilgangerProvider>
+                                </AlertsProvider>
                             </AmplitudeSidevisningEventLogger>
                         </BrowserRouter>
                     </NotifikasjonWidgetProvider>
