@@ -1,19 +1,20 @@
+
 @media (min-width: 768px) {
-    .overordnet-enhet-info__container {
-        width: 32rem;
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .overordnet-enhet-info__container .tekstboks {
-        width: 16rem;
-    }
+  .overordnet-enhet-info__container {
+    width: 32rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .overordnet-enhet-info__container .tekstboks {
+    width: 16rem;
+  }
 }
 .overordnet-enhet-info__navn {
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    gap: 0.5rem;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  gap: 0.5rem
 }
 .overordnet-enhet-info__navn .overordnetenhet-ikon {
-    margin-right: 0.3rem;
+  margin-right: 0.3rem;
 }

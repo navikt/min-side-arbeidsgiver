@@ -27,6 +27,8 @@ const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
 });
 
 const AmplitudeSidevisningEventLogger: FunctionComponent = (props) => {
+    const location = useLocation();
+
     useEffect(() => {
         loggSidevisning(location.pathname, true);
     }, [location.pathname]);
