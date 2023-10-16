@@ -1,14 +1,14 @@
 .informasjon-om-bedrift {
-    margin: 24px auto;
-    padding: 2rem;
-    max-width: 60rem;
-    width: 100%;
+  margin: 24px auto;
+  padding: 2rem;
+  max-width: 60rem;
+  width: 100%;
 }
 
 .informasjon-om-bedrift .ny-fane-ikon {
-    margin-top: 3px;
+  margin-top: 3px;
 }
 
 .informasjon-om-bedrift hr {
-    width: 100%;
+  width: 100%;
 }
