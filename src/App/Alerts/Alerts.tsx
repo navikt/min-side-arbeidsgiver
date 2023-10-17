@@ -74,12 +74,12 @@ export const Alerts = () => {
         return null;
     }
     return (
-        <div role="status">
+        <>
             {alertList.sort().map((alertType) => (
                 <Alert key={alertType} variant="error" role="status">
                     {ALERTS[alertType].content}
                 </Alert>
             ))}
-        </div>
+        </>
     );
 };
