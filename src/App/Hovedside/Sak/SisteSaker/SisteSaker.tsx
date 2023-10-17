@@ -14,7 +14,7 @@ import { InternalLenkepanelMedLogging } from '../../../../GeneriskeElementer/Len
 
 const ANTALL_FORSIDESAKER: number = 3;
 
-export const Saksikon = () => (
+const Saksikon = () => (
     <svg
         className="saker-lenke__ikon"
         width="56"
@@ -83,14 +83,14 @@ const SisteSaker = () => {
         >
             <div className="siste_saker">
                 <Saksikon />
-                <Heading size={'small'}>
+                <Heading size="small">
                     {`Saker ${
                         antallVirksomheter > 1 ? 'for dine virksomheter' : ''
                     } (${antallSakerForAlleBedrifter})`}
                 </Heading>
                 <div className="saker-lenke__undertekst">
                     {sorted(data.saker.sakstyper, (sakstype) => sakstype.navn).map((sakstype) => (
-                        <Tag size="small" variant="neutral">
+                        <Tag key={sakstype.navn} size="small" variant="neutral">
                             {sakstype.navn}
                         </Tag>
                     ))}
