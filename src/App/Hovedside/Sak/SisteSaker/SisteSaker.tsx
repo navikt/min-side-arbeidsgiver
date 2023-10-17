@@ -1,75 +1,37 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
-import { Link, To, useLocation } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './SisteSaker.css';
 import { useSaker } from '../useSaker';
-import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../../../utils/amplitude';
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { Heading, Tag } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../../../api/graphql-types';
-import { PaperplaneIcon } from '@navikt/aksel-icons';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import { sorted } from '../../../../utils/util';
 import { Set } from 'immutable';
+import { InternalLenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
 const ANTALL_FORSIDESAKER: number = 3;
 
-interface SakerLenkeProps {
-    ikon: ReactNode;
-    overskrift: string;
-    undertekst: string;
-    to: To;
-}
-
-const SakerLenke = ({ ikon, overskrift, undertekst, to }: SakerLenkeProps) => {
-    const [hover, setHover] = useState(false);
-    const ikonId = 'ikon-id' + overskrift.toLowerCase().replace(' ', '-');
-    const lenkeId = 'lenke-id' + overskrift.toLowerCase().replace(' ', '-');
-
-    addEventListener('mouseover', (e) => {
-        const target = e.target as HTMLElement;
-        if (target.id === ikonId) {
-            setHover(true);
-        } else if (target.id === lenkeId) {
-            setHover(true);
-        } else {
-            setHover(false);
-        }
-    });
-    return (
-        <div className="saker-lenke">
-            <Link
-                tabIndex={-1}
-                id={lenkeId}
-                className={'saker-lenke__ikon' + (hover ? ' saker-lenke__ikon__hover' : '')}
-                to={to}
-                onClick={() => {
-                    scroll(0, 0);
-                    loggNavigasjon('saksoversikt', 'se alle saker', location.pathname);
-                }}
-            >
-                {ikon}
-            </Link>
-
-            <Link
-                className={
-                    'saker-lenke_headerlenke' + (hover ? ' saker-lenke_headerlenke__hover' : '')
-                }
-                to={to}
-                onClick={() => {
-                    scroll(0, 0);
-                    loggNavigasjon('saksoversikt', 'se alle saker', location.pathname);
-                }}
-            >
-                <Heading id={ikonId} size={'small'}>
-                    {overskrift}
-                </Heading>
-            </Link>
-            <BodyShort className="saker-lenke__undertekst ">{undertekst}</BodyShort>
-        </div>
-    );
-};
+export const Saksikon = () => (
+    <svg
+        className="saker-lenke__ikon"
+        width="56"
+        height="56"
+        viewBox="0 0 56 56"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <rect width="56" height="56" rx="4" fill="#C1CB33" fillOpacity="0.5" />
+        <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M21.3172 20.3204C21.043 20.1924 20.7188 20.2418 20.4951 20.4455C20.2714 20.6492 20.192 20.9673 20.2937 21.2523L22.7036 28L20.2937 34.7478C20.192 35.0327 20.2714 35.3509 20.4951 35.5546C20.7188 35.7583 21.043 35.8076 21.3172 35.6797L36.3172 28.6797C36.5812 28.5564 36.75 28.2914 36.75 28C36.75 27.7086 36.5812 27.4436 36.3172 27.3204L21.3172 20.3204ZM24.0286 27.25L22.3104 22.4392L34.2265 28L22.3104 33.5609L24.0286 28.75H27.5C27.9142 28.75 28.25 28.4142 28.25 28C28.25 27.5858 27.9142 27.25 27.5 27.25H24.0286Z"
+            fill="#262626"
+        />
+    </svg>
+);
 
 const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(
@@ -109,23 +71,32 @@ const SisteSaker = () => {
     ).length;
 
     return (
-        <div className="siste_saker">
-            <div className="siste_saker_valg_container">
-                <SakerLenke
-                    to={{
-                        pathname: 'saksoversikt',
-                        search: location.search,
-                    }}
-                    ikon={<PaperplaneIcon aria-hidden />}
-                    overskrift={`Alle saker ${
+        <InternalLenkepanelMedLogging
+            to={{
+                pathname: 'saksoversikt',
+                search: location.search,
+            }}
+            onClick={() => {
+                scroll(0, 0);
+            }}
+            loggLenketekst={`Saker for dine virksomheter`}
+        >
+            <div className="siste_saker">
+                <Saksikon />
+                <Heading size={'small'}>
+                    {`Saker ${
                         antallVirksomheter > 1 ? 'for dine virksomheter' : ''
                     } (${antallSakerForAlleBedrifter})`}
-                    undertekst={sorted(data.saker.sakstyper, (sakstype) => sakstype.navn)
-                        .map((sakstype) => `${sakstype.navn} ${sakstype.antall}`)
-                        .join(', ')}
-                />
+                </Heading>
+                <div className="saker-lenke__undertekst">
+                    {sorted(data.saker.sakstyper, (sakstype) => sakstype.navn).map((sakstype) => (
+                        <Tag size="small" variant="neutral">
+                            {sakstype.navn}
+                        </Tag>
+                    ))}
+                </div>
             </div>
-        </div>
+        </InternalLenkepanelMedLogging>
     );
 };
 
