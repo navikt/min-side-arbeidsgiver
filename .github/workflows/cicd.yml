@@ -36,7 +36,6 @@ jobs:
 
             - run: npm run build
               env:
-                  PUBLIC_URL: https://cdn.nav.no/fager/min-side-arbeidsgiver/build/
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
                   SENTRY_LOG_LEVEL: info
 
