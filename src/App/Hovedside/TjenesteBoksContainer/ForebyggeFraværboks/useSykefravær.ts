@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import * as Sentry from '@sentry/browser';
 
@@ -14,29 +14,38 @@ export type Sykefraværsrespons = z.infer<typeof Sykefraværsrespons>;
 
 export const useSykefravær = (): Sykefraværsrespons | undefined => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
+    const [retries, setRetries] = useState(0);
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
             ? `/min-side-arbeidsgiver/api/sykefravaerstatistikk/${valgtOrganisasjon.organisasjon.OrganizationNumber}`
             : null,
-        fetcher
+        fetcher,
+        {
+            onSuccess: () => setRetries(0),
+            onError: (error) => {
+                if (retries === 5) {
+                    Sentry.captureMessage(
+                        `hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                }
+                setRetries((x) => x + 1);
+            },
+            errorRetryInterval: 300,
+        }
     );
 
     return data;
 };
 
 const fetcher = async (url: string) => {
-    try {
-        const respons = await fetch(url);
-        if (respons.status === 204) return undefined;
-        if (respons.status === 200) return Sykefraværsrespons.parse(await respons.json());
-        if (respons.status === 401) return undefined;
-        Sentry.captureMessage(
-            `hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${respons.status}, ${respons.statusText}`
-        );
-        return undefined;
-    } catch (error) {
-        Sentry.captureException(error);
-        return undefined;
-    }
+    const respons = await fetch(url);
+
+    if (respons.status === 204) return undefined;
+    if (respons.status !== 200) throw respons;
+
+    return Sykefraværsrespons.parse(await respons.json());
 };
