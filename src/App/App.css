@@ -12,3 +12,8 @@
   justify-content: center;
   margin-top: 8rem;
 }
+
+.app-finner-ikke-siden {
+  width: calc(clamp(15rem, 50rem, 100vw - 2rem));
+  margin: 2rem auto;
+}
