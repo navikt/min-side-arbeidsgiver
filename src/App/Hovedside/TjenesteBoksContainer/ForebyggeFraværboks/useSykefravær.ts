@@ -44,7 +44,8 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
 const fetcher = async (url: string) => {
     const respons = await fetch(url);
 
-    if (respons.status !== 200 && respons.status !== 204) throw respons;
+    if (respons.status === 204) return undefined;
+    if (respons.status !== 200) throw respons;
 
-    return respons.status === 200 ? Sykefraværsrespons.parse(await respons.json()) : undefined;
+    return Sykefraværsrespons.parse(await respons.json());
 };
