@@ -53,7 +53,7 @@ jobs:
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: dev-gcp
-                  RESOURCE: nais/experimental-labs-gcp.yaml
+                  RESOURCE: nais/demo-devlik.yaml
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
                   REF: ${{ github.sha }}
