@@ -6,7 +6,7 @@ metadata:
   labels:
     team: fager
 spec:
-  image: {{image}}
+  image: {{{image}}}
   ingresses:
     - https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver
   liveness:
@@ -35,7 +35,7 @@ spec:
     - name: LOGIN_URL
       value: https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver/oauth2/login
     - name: GIT_COMMIT
-      value: {{commit}}
+      value: {{{commit}}}
     - name: MILJO
       value: dev
   accessPolicy:

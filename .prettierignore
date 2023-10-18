@@ -1,2 +1,3 @@
 Dockerfile
 .prettierignore
+nais/*.yaml
