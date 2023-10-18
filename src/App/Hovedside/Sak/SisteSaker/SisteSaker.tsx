@@ -12,8 +12,6 @@ import { sorted } from '../../../../utils/util';
 import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 
-const ANTALL_FORSIDESAKER: number = 3;
-
 const Saksikon = () => (
     <svg
         className="saker-lenke__ikon"
@@ -40,7 +38,7 @@ const SisteSaker = () => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const location = useLocation();
 
-    const { loading, data } = useSaker(ANTALL_FORSIDESAKER, {
+    const { loading, data } = useSaker(0, {
         side: 1,
         virksomheter: Set(),
         tekstsoek: '',
