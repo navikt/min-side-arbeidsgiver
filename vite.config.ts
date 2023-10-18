@@ -15,7 +15,10 @@ export default defineConfig({
             release: {
                 name: process.env.GITHUB_SHA,
                 // onprem trenger legacy upload
-                uploadLegacySourcemaps: './build/assets',
+                uploadLegacySourcemaps: {
+                    paths: ['./build/assets'],
+                    urlPrefix: '/fager/min-side-arbeidsgiver/build/assets/',
+                },
             },
         }),
     ],
