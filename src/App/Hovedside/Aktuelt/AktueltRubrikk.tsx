@@ -46,7 +46,7 @@ const aktuelt: Array<AktueltProps> = [
         lenke: 'https://www.nav.no/inntektsmelding-sykepenger#ny-inntektsmelding',
         tittel: 'Ny løsning for å sende inntektsmelding for sykepenger',
         visFra: new Date('2023-09-11T10:00:00+02:00'),
-        visTil: new Date('2024-09-11T10:00:00+02:00'),
+        visTil: new Date('2023-09-12T10:00:00+02:00'),
         tilgangssjekk: (valgtOrganisasjon) => valgtOrganisasjon.altinntilgang.inntektsmelding,
     },
 ];
