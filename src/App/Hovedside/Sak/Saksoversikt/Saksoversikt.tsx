@@ -16,6 +16,7 @@ import { Set } from 'immutable';
 import amplitude from '../../../../utils/amplitude';
 import { LagreFilter } from './LagreFilter';
 import { FilterChips } from './FilterChips';
+import { ServerError } from '@apollo/client/link/utils';
 
 export const SIDE_SIZE = 30;
 
@@ -32,7 +33,9 @@ const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
 const useAlleSakstyper = () => {
     const { data } = useQuery(HENT_SAKSTYPER, {
         onError: (error) => {
-            Sentry.captureException(error);
+            if ((error.networkError as ServerError)?.statusCode !== 401) {
+                Sentry.captureException(error);
+            }
         },
     });
     return data?.sakstyper ?? [];
