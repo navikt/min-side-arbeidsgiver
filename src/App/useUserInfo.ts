@@ -12,6 +12,14 @@ const DigiSyfoOrganisasjon = z.object({
     antallSykmeldte: z.number(),
 });
 export type DigiSyfoOrganisasjon = z.infer<typeof DigiSyfoOrganisasjon>;
+const RefusjonStatus = z.object({
+    virksomhetsnummer: z.string(),
+    statusoversikt: z.object({
+        KLAR_FOR_INNSENDING: z.number().optional(),
+    }),
+    tilgang: z.boolean(),
+});
+export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 const UserInfoRespons = z.object({
     altinnError: z.boolean(),
     digisyfoError: z.boolean(),
@@ -34,6 +42,7 @@ const UserInfoRespons = z.object({
             antallSykmeldte: z.number(),
         })
     ),
+    refusjoner: z.array(RefusjonStatus),
 });
 type UserInfoDto = z.infer<typeof UserInfoRespons>;
 type UserInfo = UserInfoDto & {
@@ -61,6 +70,7 @@ export const useUserInfo = (): UserInfo => {
             errorRetryInterval: 100,
             fallbackData: {
                 organisasjoner: [],
+                refusjoner: [],
                 digisyfoOrganisasjoner: [],
                 tilganger: Record.map(altinntjeneste, () => Set<string>()),
                 altinnError: false,

@@ -246,7 +246,7 @@ export const mock = (app) => {
                         id: 'inntektsmelding',
                         tjenestekode: '4936',
                         tjenesteversjon: '1',
-                        organisasjoner: ['182345674', '118345674'],
+                        organisasjoner: ['182345674', '118345674', '999999999', '121488424'],
                     },
                     ...alleTjenester
                         .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
@@ -324,6 +324,31 @@ export const mock = (app) => {
                             Status: 'Active',
                         },
                         antallSykmeldte: 4,
+                    },
+                ],
+                refusjoner: [
+                    {
+                        virksomhetsnummer: '999999999',
+                        statusoversikt: {
+                            KLAR_FOR_INNSENDING: 3,
+                            FOR_TIDLIG: 1,
+                        },
+                        tilgang: true,
+                    },
+                    {
+                        virksomhetsnummer: '121488424',
+                        statusoversikt: {
+                            KLAR_FOR_INNSENDING: 1,
+                            FOR_TIDLIG: 2,
+                        },
+                        tilgang: true,
+                    },
+                    {
+                        virksomhetsnummer: '182345674',
+                        statusoversikt: {
+                            FOR_TIDLIG: 2,
+                        },
+                        tilgang: true,
                     },
                 ],
             });
