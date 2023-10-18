@@ -76,24 +76,24 @@ jobs:
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
 
-            - name: Deploy til labs-gcp
+            - name: Deploy prodlik demo til dev-gcp
               uses: nais/deploy/actions/deploy@v1
               if: github.ref == 'refs/heads/master'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   IMAGE: ${{ steps.dockerpush.outputs.image }}
                   CLUSTER: dev-gcp
-                  RESOURCE: nais/labs-gcp.yaml
+                  RESOURCE: nais/demo-prodlik.yaml
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
 
-            - name: Deploy til labs-gcp
+            - name: Deploy dev-lik demo til dev-gcp
               if: github.ref == 'refs/heads/master'
               uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   IMAGE: ${{ steps.dockerpush.outputs.image }}
                   CLUSTER: dev-gcp
-                  RESOURCE: nais/experimental-labs-gcp.yaml
+                  RESOURCE: nais/demo-devlik.yaml
                   PRINT_PAYLOAD: true
                   VAR: commit=${{ github.sha }}
