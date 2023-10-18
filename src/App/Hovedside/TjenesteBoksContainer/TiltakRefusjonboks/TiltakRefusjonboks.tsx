@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
-import {refosoURL} from '../../../../lenker';
+import React, { useContext } from 'react';
+import { refosoURL } from '../../../../lenker';
 import tiltakrefusjonikon from './tiltakrefusjonboks.svg';
-import {StortTall, Tjenesteboks} from "../Tjenesteboks";
-import {OrganisasjonsDetaljerContext} from "../../../OrganisasjonDetaljerProvider";
+import { StortTall, Tjenesteboks } from '../Tjenesteboks';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const TiltakRefusjonboks = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -10,23 +10,29 @@ const TiltakRefusjonboks = () => {
         return null;
     }
 
-    const url = valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
-        ? `${refosoURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-        : refosoURL;
+    const url =
+        valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
+            ? `${refosoURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
+            : refosoURL;
 
-    const klareForInnsending = valgtOrganisasjon.refusjonstatus["KLAR_FOR_INNSENDING"]
+    const klareForInnsending = valgtOrganisasjon.refusjonstatus['KLAR_FOR_INNSENDING'];
 
-        return <Tjenesteboks
+    return (
+        <Tjenesteboks
             ikon={tiltakrefusjonikon}
             href={url}
             tittel="Refusjon for lønnstilskudd og sommerjobb"
             aria-label="Refusjon for lønnstilskudd og sommerjobb. Søk og se refusjon for lønnstilskudd og sommerjobb"
         >
-            {klareForInnsending === undefined ? null : <>
-                <StortTall>{klareForInnsending}</StortTall> refusjoner klare for innsending. <br/>
-            </>}
+            {klareForInnsending === undefined ? null : (
+                <>
+                    <StortTall>{klareForInnsending}</StortTall> refusjoner klare for innsending.{' '}
+                    <br />
+                </>
+            )}
             Søk og se refusjon
-        </Tjenesteboks>;
+        </Tjenesteboks>
+    );
 };
 
 export default TiltakRefusjonboks;

@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
-import { hentRefusjonstatus, RefusjonStatus } from '../api/dnaApi';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, hentAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
@@ -11,7 +10,7 @@ import * as Sentry from '@sentry/browser';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
-import { DigiSyfoOrganisasjon, useUserInfo } from './useUserInfo';
+import { DigiSyfoOrganisasjon, RefusjonStatus, useUserInfo } from './useUserInfo';
 
 type orgnr = string;
 
@@ -167,17 +166,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                 .catch((error) => {
                     Sentry.captureException(error);
                     setAltinnTilgangssøknader([]);
-                }),
-            hentRefusjonstatus()
-                .then((refusjonstatus) => {
-                    setAlleRefusjonsstatus(refusjonstatus);
-                })
-                .catch((error) => {
-                    Sentry.captureException(error);
-                    setAlleRefusjonsstatus([]);
-                    // har ikke egen alert type på dette, da det mest sannsynlig er altinn som feiler
-                    setVisFeilmelding(true);
-                    addAlert('TilgangerAltinn');
                 })
         );
     }, []);
@@ -203,6 +191,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
                 ? SyfoTilgang.TILGANG
                 : SyfoTilgang.IKKE_TILGANG
         );
+        setAlleRefusjonsstatus(userInfo.refusjoner);
         amplitude.setUserProperties({ syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0 });
     }, [JSON.stringify(userInfo)]);
 
