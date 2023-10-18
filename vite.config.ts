@@ -17,7 +17,7 @@ export default defineConfig({
                 // onprem trenger legacy upload
                 uploadLegacySourcemaps: {
                     paths: ['./build/assets'],
-                    urlPrefix: '/fager/min-side-arbeidsgiver/build/assets/',
+                    urlPrefix: '~/fager/min-side-arbeidsgiver/build/assets/',
                 },
             },
         }),
