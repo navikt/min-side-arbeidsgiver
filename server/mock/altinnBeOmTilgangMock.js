@@ -5,7 +5,7 @@ const søknader = [
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5278',
         serviceEdition: 1,
-        cratedDateTime: '',
+        createdDateTime: '',
         lastChangedDateTime: '',
     },
     {
@@ -14,7 +14,7 @@ const søknader = [
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5332',
         serviceEdition: 1,
-        cratedDateTime: '',
+        createdDateTime: '',
         lastChangedDateTime: '',
     },
     {
@@ -23,7 +23,7 @@ const søknader = [
         submitUrl: '/mock-altinn/skjema/',
         serviceCode: '5516',
         serviceEdition: 1,
-        cratedDateTime: '',
+        createdDateTime: '',
         lastChangedDateTime: '',
     },
     {
@@ -32,7 +32,7 @@ const søknader = [
         submitUrl: '/mock-altinn/skjema/',
         serviceCode: '5216',
         serviceEdition: 1,
-        cratedDateTime: '',
+        createdDateTime: '',
         lastChangedDateTime: '',
     },
 ];
