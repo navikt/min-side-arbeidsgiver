@@ -33,12 +33,6 @@ export type OrganisasjonInfo = {
     };
 };
 
-export enum SyfoTilgang {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
-
 export type OrganisasjonEnhet = {
     hovedenhet: Organisasjon;
     underenheter: Organisasjon[];
@@ -47,7 +41,6 @@ export type OrganisasjonEnhet = {
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     organisasjonstre: OrganisasjonEnhet[];
-    tilgangTilSyfo: SyfoTilgang;
     childrenMap: Map<string, Set<string>>;
 };
 
@@ -58,7 +51,6 @@ const beregnOrganisasjoner = (
     syfoVirksomheter: DigiSyfoOrganisasjon[] | undefined,
     altinntilganger: Record<AltinntjenesteId, Set<string>> | undefined,
     altinnTilgangssøknader: AltinnTilgangssøknad[] | undefined,
-    tilgangTilSyfo: SyfoTilgang,
     alleRefusjonsstatus: RefusjonStatus[] | undefined
 ): Record<orgnr, OrganisasjonInfo> | undefined => {
     if (
@@ -67,7 +59,6 @@ const beregnOrganisasjoner = (
             syfoVirksomheter &&
             altinntilganger &&
             altinnTilgangssøknader &&
-            tilgangTilSyfo !== SyfoTilgang.LASTER &&
             alleRefusjonsstatus !== undefined
         )
     ) {
@@ -134,7 +125,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [syfoVirksomheter, setSyfoVirksomheter] = useState<DigiSyfoOrganisasjon[] | undefined>(
         undefined
     );
-    const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
     const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(
         undefined
     );
@@ -155,11 +145,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
         setSyfoVirksomheter(userInfo.digisyfoOrganisasjoner);
-        setTilgangTilSyfo(
-            userInfo.digisyfoOrganisasjoner.length > 0
-                ? SyfoTilgang.TILGANG
-                : SyfoTilgang.IKKE_TILGANG
-        );
         setAlleRefusjonsstatus(userInfo.refusjoner);
         amplitude.setUserProperties({ syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0 });
     }, [JSON.stringify(userInfo)]);
@@ -169,7 +154,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         syfoVirksomheter,
         altinntilganger,
         altinnTilgangssøknader,
-        tilgangTilSyfo,
         alleRefusjonsstatus,
     ] as const;
 
@@ -214,7 +198,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const context: Context = {
         organisasjoner,
         organisasjonstre,
-        tilgangTilSyfo,
         childrenMap,
     };
     return (
