@@ -4,7 +4,7 @@ const søknader = [
         status: 'Unopened',
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5278',
-        serviceEdition: '1',
+        serviceEdition: 1,
         cratedDateTime: '',
         lastChangedDateTime: '',
     },
@@ -13,7 +13,7 @@ const søknader = [
         status: 'Created',
         submitUrl: 'https://fake-altinn/send-inn-soknad/',
         serviceCode: '5332',
-        serviceEdition: '1',
+        serviceEdition: 1,
         cratedDateTime: '',
         lastChangedDateTime: '',
     },
@@ -22,7 +22,7 @@ const søknader = [
         status: 'Unopened',
         submitUrl: '/mock-altinn/skjema/',
         serviceCode: '5516',
-        serviceEdition: '1',
+        serviceEdition: 1,
         cratedDateTime: '',
         lastChangedDateTime: '',
     },
@@ -31,14 +31,14 @@ const søknader = [
         status: 'Unopened',
         submitUrl: '/mock-altinn/skjema/',
         serviceCode: '5216',
-        serviceEdition: '1',
+        serviceEdition: 1,
         cratedDateTime: '',
         lastChangedDateTime: '',
-    }
-]
+    },
+];
 
 export const mock = (app) => {
     app.use('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', (req, res) => {
         res.send(søknader);
     });
-}
+};
