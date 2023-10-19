@@ -1,85 +1,72 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, ReactNode, useContext, useMemo, useState } from 'react';
 import { Alert } from '@navikt/ds-react';
+import { Set } from 'immutable';
 
-type AlertProps = {
-    content: React.ReactNode;
-};
 type Context = {
     alerts: Set<AlertType>;
-    addAlert: (subsystem: SubSystem) => void;
-    clearAlert: (subsystem: SubSystem) => void;
+    setSystemAlert: (system: System, alerting: boolean) => void;
 };
 
-const ALERTS: Record<AlertType, AlertProps> = {
-    Altinn: {
-        content: (
-            <>
-                Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan du
-                prøve å laste siden på nytt.
-            </>
-        ),
-    },
-    DigiSyfo: {
-        content: (
-            <>
-                Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge opp.
-                Vi jobber med å løse saken så raskt som mulig
-            </>
-        ),
-    },
+export type System = 'UserInfoAltinn' | 'UserInfoDigiSyfo' | 'SakerAltinn';
+export const AlertContext = React.createContext<Context>({} as Context);
+
+export const AlertsProvider: FunctionComponent = (props) => {
+    const [alertingSystems, setAlertingSystems] = useState<Set<System>>(() => Set());
+
+    const setSystemAlert = (system: System, alerting: boolean) => {
+        setAlertingSystems((it) => (alerting ? it.add(system) : it.delete(system)));
+    };
+
+    const alerts = useMemo(
+        () => alertingSystems.map((system) => systemToAlertType[system]),
+        [alertingSystems]
+    );
+
+    return (
+        <AlertContext.Provider value={{ setSystemAlert, alerts }}>
+            {props.children}
+        </AlertContext.Provider>
+    );
 };
 
 type AlertType = 'Altinn' | 'DigiSyfo';
-export type SubSystem = 'TilgangerAltinn' | 'TilgangerDigiSyfo' | 'Saker';
-
-export const AlertContext = React.createContext<Context>({} as Context);
-
-const subSystemToAlertType: Record<SubSystem, AlertType> = {
-    TilgangerAltinn: 'Altinn',
-    TilgangerDigiSyfo: 'DigiSyfo',
-    Saker: 'Altinn',
-};
-
-export const AlertsProvider: FunctionComponent = (props) => {
-    const [subsystems, setSubsystems] = useState<Set<SubSystem>>(new Set());
-    const [alerts, setAlerts] = useState<Set<AlertType>>(new Set());
-    const addAlert = (subsystem: SubSystem) => {
-        setSubsystems(new Set(subsystems.add(subsystem)));
-    };
-    const clearAlert = (subsystem: SubSystem) => {
-        if (!subsystems.delete(subsystem)) {
-            setSubsystems(new Set(subsystems));
-        }
-    };
-
-    useEffect(() => {
-        setAlerts(
-            new Set(Array.from(subsystems).map((subsystem) => subSystemToAlertType[subsystem]))
-        );
-    }, [subsystems]);
-
-    const context: Context = {
-        alerts,
-        addAlert,
-        clearAlert,
-    };
-
-    return <AlertContext.Provider value={context}>{props.children}</AlertContext.Provider>;
-};
 
 export const Alerts = () => {
     const { alerts } = useContext(AlertContext);
-    const alertList = Array.from(alerts);
-    if (alertList.length === 0) {
+    if (alerts.size === 0) {
         return null;
     }
     return (
         <>
-            {alertList.sort().map((alertType) => (
-                <Alert key={alertType} variant="error" role="status">
-                    {ALERTS[alertType].content}
-                </Alert>
-            ))}
+            {alerts
+                .toArray()
+                .sort()
+                .map((alertType) => (
+                    <Alert key={alertType} variant="error" role="status">
+                        {ALERTS[alertType]}
+                    </Alert>
+                ))}
         </>
     );
+};
+
+const systemToAlertType: Record<System, AlertType> = {
+    UserInfoAltinn: 'Altinn',
+    UserInfoDigiSyfo: 'DigiSyfo',
+    SakerAltinn: 'Altinn',
+};
+
+const ALERTS: Record<AlertType, ReactNode> = {
+    Altinn: (
+        <>
+            Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan du prøve
+            å laste siden på nytt.
+        </>
+    ),
+    DigiSyfo: (
+        <>
+            Vi har problemer med å hente informasjon om eventuelle sykmeldte du skal følge opp. Vi
+            jobber med å løse saken så raskt som mulig
+        </>
+    ),
 };

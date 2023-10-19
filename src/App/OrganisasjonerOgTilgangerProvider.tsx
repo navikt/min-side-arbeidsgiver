@@ -138,7 +138,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(
         undefined
     );
-    const { addAlert } = useContext(AlertContext);
+    const { setSystemAlert } = useContext(AlertContext);
     const altinnTilgangssøknader = useAltinnTilgangssøknader();
     const userInfo = useUserInfo();
     useEffect(() => {
@@ -146,12 +146,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
             // ikke set organisasjoner og tilganger før de er lastet
             return;
         }
-        if (userInfo.altinnError) {
-            addAlert('TilgangerAltinn');
-        }
-        if (userInfo.digisyfoError) {
-            addAlert('TilgangerDigiSyfo');
-        }
+
+        setSystemAlert('UserInfoAltinn', userInfo.altinnError);
+        setSystemAlert('UserInfoDigiSyfo', userInfo.digisyfoError);
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
         setSyfoVirksomheter(userInfo.digisyfoOrganisasjoner);
