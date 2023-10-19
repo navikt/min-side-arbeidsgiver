@@ -1,10 +1,8 @@
 import { altinntjeneste, AltinntjenesteId } from './tjenester';
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
-import { Simulate } from 'react-dom/test-utils';
-import error = Simulate.error;
+import { useMemo } from 'react';
 
 const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';
 
@@ -24,8 +22,7 @@ const AltinnTilgangssøknadResponse = z.array(AltinnTilgangssøknad);
 type AltinnTilgangssøknadResponse = z.infer<typeof AltinnTilgangssøknadResponse>;
 
 export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
-    const [tilgangssøknader, setTilgangssøknader] = useState<AltinnTilgangssøknadResponse>([]);
-    const { data, error } = useSWR(altinnTilgangssøknadUrl, fetcher, {
+    const { data } = useSWR(altinnTilgangssøknadUrl, fetcher, {
         onError: (error) => {
             Sentry.captureMessage(
                 `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
@@ -37,11 +34,7 @@ export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
         errorRetryInterval: 300,
     });
 
-    useEffect(() => {
-        setTilgangssøknader(data);
-    }, [JSON.stringify(data), error]);
-
-    return tilgangssøknader;
+    return useMemo(() => data, [JSON.stringify(data)]);
 };
 
 const fetcher = async (url: string) => {
