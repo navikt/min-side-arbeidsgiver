@@ -11,6 +11,7 @@ import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
 import { DigiSyfoOrganisasjon, RefusjonStatus, useUserInfo } from './useUserInfo';
+import { IngenTilganger } from './IngenTilganger/IngenTilganger';
 
 type orgnr = string;
 
@@ -50,7 +51,6 @@ export type Context = {
     visFeilmelding: boolean;
     tilgangTilSyfo: SyfoTilgang;
     visSyfoFeilmelding: boolean;
-    harTilganger: boolean;
     childrenMap: Map<string, Set<string>>;
 };
 
@@ -230,32 +230,31 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         [organisasjonstre]
     );
 
-    if (organisasjoner !== undefined && organisasjonstre !== undefined) {
-        const detFinnesEnUnderenhetMedParent = () => {
-            return Record.values(organisasjoner).some(
-                (org) => org.organisasjon.ParentOrganizationNumber
-            );
-        };
-
-        const harTilganger = detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0;
-
-        const context: Context = {
-            organisasjoner,
-            organisasjonstre,
-            visFeilmelding,
-            visSyfoFeilmelding,
-            tilgangTilSyfo,
-            harTilganger,
-            childrenMap,
-        };
-        return (
-            <OrganisasjonerOgTilgangerContext.Provider value={context}>
-                {props.children}
-            </OrganisasjonerOgTilgangerContext.Provider>
-        );
-    } else {
+    if (organisasjoner === undefined || organisasjonstre === undefined) {
         return <SpinnerMedBanner />;
     }
+
+    const harTilganger = Record.values(organisasjoner).some(
+        (org) => org.organisasjon.ParentOrganizationNumber
+    );
+
+    if (!harTilganger) {
+        return <IngenTilganger />;
+    }
+
+    const context: Context = {
+        organisasjoner,
+        organisasjonstre,
+        visFeilmelding,
+        visSyfoFeilmelding,
+        tilgangTilSyfo,
+        childrenMap,
+    };
+    return (
+        <OrganisasjonerOgTilgangerContext.Provider value={context}>
+            {props.children}
+        </OrganisasjonerOgTilgangerContext.Provider>
+    );
 };
 
 const sjekkTilgangssøknader = (

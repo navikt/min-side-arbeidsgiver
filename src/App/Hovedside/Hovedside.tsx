@@ -1,5 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import React, { FunctionComponent } from 'react';
 import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
 import { Alerts } from '../Alerts/Alerts';
@@ -15,7 +14,6 @@ import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding/Under
 import { KontaktFelt } from './KontaktFelt/KontaktFelt';
 import { useOversiktsfilterClearing } from './Sak/Saksoversikt/useOversiktSessionStorage';
 import { DigiSyfoBedriftsmenyInfo } from './DigiSyfoBedriftsmenyInfo';
-import { useNavigate } from 'react-router-dom';
 import { AktueltRubrikk } from './Aktuelt/AktueltRubrikk';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
@@ -24,17 +22,6 @@ import { Alert, Heading } from '@navikt/ds-react';
 import { useVarslingStatus } from '../useVarslingStatus';
 
 const Hovedside: FunctionComponent = () => {
-    const { organisasjoner, visFeilmelding, tilgangTilSyfo, visSyfoFeilmelding, harTilganger } =
-        useContext(OrganisasjonerOgTilgangerContext);
-    const navigate = useNavigate();
-    useEffect(() => {
-        const skalViseManglerTilgangBoks = !harTilganger && !visFeilmelding && !visSyfoFeilmelding;
-
-        if (skalViseManglerTilgangBoks) {
-            navigate({ pathname: 'mangler-tilgang' }, { replace: true });
-        }
-    }, [organisasjoner, tilgangTilSyfo, visFeilmelding, visSyfoFeilmelding, harTilganger]);
-
     useOversiktsfilterClearing();
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions

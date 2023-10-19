@@ -7,7 +7,7 @@ import { AlertsProvider } from './Alerts/Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
-import { ManglerTilgangContainer } from './Hovedside/ManglerTilgangContainer/ManglerTilgangContainer';
+import { IngenTilganger } from './IngenTilganger/IngenTilganger';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
@@ -89,17 +89,6 @@ const App: FunctionComponent = () => {
                                                             setTittel={setSidetittel}
                                                         >
                                                             <Hovedside />
-                                                        </SideTittelWrapper>
-                                                    }
-                                                />
-                                                <Route
-                                                    path="/mangler-tilgang"
-                                                    element={
-                                                        <SideTittelWrapper
-                                                            tittel={'Min side – arbeidsgiver'}
-                                                            setTittel={setSidetittel}
-                                                        >
-                                                            <ManglerTilgangContainer />
                                                         </SideTittelWrapper>
                                                     }
                                                 />

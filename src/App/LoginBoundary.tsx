@@ -4,6 +4,7 @@ import { sjekkInnlogget } from '../api/dnaApi';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 import { Alert } from '@navikt/ds-react';
+import { SimpleBanner } from './HovedBanner/HovedBanner';
 
 export const LoginBoundary: FunctionComponent = (props) => {
     const [innlogget, setInnlogget] = useState(Innlogget.LASTER);
@@ -30,10 +31,7 @@ export const LoginBoundary: FunctionComponent = (props) => {
         ]).then(() => {});
         return (
             <>
-                <Bedriftsmeny
-                    sidetittel="Min side – arbeidsgiver"
-                    undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
-                />
+                <SimpleBanner />
                 <Spinner />
             </>
         );
@@ -46,10 +44,7 @@ export const LoginBoundary: FunctionComponent = (props) => {
         ]).then(() => {});
         return (
             <>
-                <Bedriftsmeny
-                    sidetittel="Min side – arbeidsgiver"
-                    undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
-                />
+                <SimpleBanner />
                 <Alert variant="error">Uventet feil. Prøv å last siden på nytt.</Alert>
             </>
         );
