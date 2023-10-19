@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import * as Record from '../utils/Record';
-import { AltinnTilgangssøknad, hentAltinnTilgangssøknader } from '../altinn/tilganger';
+import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
 import { Organisasjon } from '../altinn/organisasjon';
 import { AlertContext } from './Alerts/Alerts';
-import * as Sentry from '@sentry/browser';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
@@ -139,9 +138,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [altinntilganger, setAltinntilganger] = useState<
         Record<AltinntjenesteId, Set<string>> | undefined
     >(undefined);
-    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<
-        AltinnTilgangssøknad[] | undefined
-    >([]);
 
     const [syfoVirksomheter, setSyfoVirksomheter] = useState<DigiSyfoOrganisasjon[] | undefined>(
         undefined
@@ -153,22 +149,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         undefined
     );
     const { addAlert } = useContext(AlertContext);
-    useEffect(() => {
-        measureAll(
-            (tidMs) => {
-                amplitude.logEvent('komponent-lastet', {
-                    komponent: 'OrganisasjonerOgTilgangerProvider',
-                    tidMs,
-                });
-            },
-            hentAltinnTilgangssøknader()
-                .then(setAltinnTilgangssøknader)
-                .catch((error) => {
-                    Sentry.captureException(error);
-                    setAltinnTilgangssøknader([]);
-                })
-        );
-    }, []);
+    const altinnTilgangssøknader = useAltinnTilgangssøknader();
     const userInfo = useUserInfo();
     useEffect(() => {
         if (!userInfo.loaded) {
