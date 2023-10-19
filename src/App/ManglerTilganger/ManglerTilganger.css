@@ -1,0 +1,24 @@
+.ingen-tilgang-bakgrunn {
+    width: 100%;
+    max-width: 60rem;
+    margin: 40px auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+@media (max-width: 1000px) {
+    .ingen-tilgang-bakgrunn {
+        padding: 0 16px;
+    }
+}
+
+.ingen-tilgang-container {
+    display: grid;
+
+    /* 200px er litt tilfeldig valgt. */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+    gap: 16px;
+}

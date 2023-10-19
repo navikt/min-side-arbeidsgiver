@@ -11,6 +11,7 @@ import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
 import { DigiSyfoOrganisasjon, RefusjonStatus, useUserInfo } from './useUserInfo';
+import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 
 type orgnr = string;
 
@@ -47,10 +48,7 @@ export type OrganisasjonEnhet = {
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     organisasjonstre: OrganisasjonEnhet[];
-    visFeilmelding: boolean;
     tilgangTilSyfo: SyfoTilgang;
-    visSyfoFeilmelding: boolean;
-    harTilganger: boolean;
     childrenMap: Map<string, Set<string>>;
 };
 
@@ -147,8 +145,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         undefined
     );
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
-    const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
-    const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(
         undefined
     );
@@ -177,11 +173,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         }
         if (userInfo.altinnError) {
             addAlert('TilgangerAltinn');
-            setVisFeilmelding(true);
         }
         if (userInfo.digisyfoError) {
             addAlert('TilgangerDigiSyfo');
-            setVisSyfoFeilmelding(true);
         }
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
@@ -230,32 +224,29 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         [organisasjonstre]
     );
 
-    if (organisasjoner !== undefined && organisasjonstre !== undefined) {
-        const detFinnesEnUnderenhetMedParent = () => {
-            return Record.values(organisasjoner).some(
-                (org) => org.organisasjon.ParentOrganizationNumber
-            );
-        };
-
-        const harTilganger = detFinnesEnUnderenhetMedParent() && Record.length(organisasjoner) > 0;
-
-        const context: Context = {
-            organisasjoner,
-            organisasjonstre,
-            visFeilmelding,
-            visSyfoFeilmelding,
-            tilgangTilSyfo,
-            harTilganger,
-            childrenMap,
-        };
-        return (
-            <OrganisasjonerOgTilgangerContext.Provider value={context}>
-                {props.children}
-            </OrganisasjonerOgTilgangerContext.Provider>
-        );
-    } else {
+    if (organisasjoner === undefined || organisasjonstre === undefined) {
         return <SpinnerMedBanner />;
     }
+
+    const harTilganger = Record.values(organisasjoner).some(
+        (org) => org.organisasjon.ParentOrganizationNumber
+    );
+
+    if (!harTilganger) {
+        return <ManglerTilganger />;
+    }
+
+    const context: Context = {
+        organisasjoner,
+        organisasjonstre,
+        tilgangTilSyfo,
+        childrenMap,
+    };
+    return (
+        <OrganisasjonerOgTilgangerContext.Provider value={context}>
+            {props.children}
+        </OrganisasjonerOgTilgangerContext.Provider>
+    );
 };
 
 const sjekkTilgangssøknader = (
