@@ -5,6 +5,7 @@ import './IngenTilganger.css';
 import { Heading, LinkPanel } from '@navikt/ds-react';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { SimpleBanner } from '../HovedBanner/HovedBanner';
+import { Alerts } from '../Alerts/Alerts';
 
 export const IngenTilganger: FunctionComponent = () => {
     return (
@@ -12,6 +13,8 @@ export const IngenTilganger: FunctionComponent = () => {
             <SimpleBanner />
             <Brodsmulesti brodsmuler={[]} />
             <div className="ingen-tilgang-bakgrunn">
+                <Alerts />
+
                 <Heading size="large" level="1">
                     Du mangler tilganger som arbeidsgiver
                 </Heading>

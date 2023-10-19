@@ -48,9 +48,7 @@ export type OrganisasjonEnhet = {
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     organisasjonstre: OrganisasjonEnhet[];
-    visFeilmelding: boolean;
     tilgangTilSyfo: SyfoTilgang;
-    visSyfoFeilmelding: boolean;
     childrenMap: Map<string, Set<string>>;
 };
 
@@ -147,8 +145,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         undefined
     );
     const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
-    const [visSyfoFeilmelding, setVisSyfoFeilmelding] = useState(false);
-    const [visFeilmelding, setVisFeilmelding] = useState(false);
     const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(
         undefined
     );
@@ -177,11 +173,9 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         }
         if (userInfo.altinnError) {
             addAlert('TilgangerAltinn');
-            setVisFeilmelding(true);
         }
         if (userInfo.digisyfoError) {
             addAlert('TilgangerDigiSyfo');
-            setVisSyfoFeilmelding(true);
         }
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
@@ -245,8 +239,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const context: Context = {
         organisasjoner,
         organisasjonstre,
-        visFeilmelding,
-        visSyfoFeilmelding,
         tilgangTilSyfo,
         childrenMap,
     };
