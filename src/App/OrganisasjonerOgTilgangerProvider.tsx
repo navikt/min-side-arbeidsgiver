@@ -11,7 +11,7 @@ import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
 import { DigiSyfoOrganisasjon, RefusjonStatus, useUserInfo } from './useUserInfo';
-import { IngenTilganger } from './IngenTilganger/IngenTilganger';
+import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 
 type orgnr = string;
 
@@ -233,7 +233,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     );
 
     if (!harTilganger) {
-        return <IngenTilganger />;
+        return <ManglerTilganger />;
     }
 
     const context: Context = {

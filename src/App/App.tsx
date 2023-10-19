@@ -7,7 +7,7 @@ import { AlertsProvider } from './Alerts/Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
-import { IngenTilganger } from './IngenTilganger/IngenTilganger';
+import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
