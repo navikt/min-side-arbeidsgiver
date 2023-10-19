@@ -35,6 +35,7 @@ export default defineConfig({
             '/min-side-arbeidsgiver/notifikasjon-bruker-api': 'http://localhost:8080',
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api': 'http://localhost:8080',
             '/min-side-arbeidsgiver/presenterte-kandidater-api': 'http://localhost:8080',
+            '/min-side-arbeidsgiver/stillingsregistrering-api': 'http://localhost:8080',
         },
     },
 });
