@@ -4,7 +4,6 @@ import {
     OrganisasjonInfo,
 } from './OrganisasjonerOgTilgangerProvider';
 import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
-import { hentAntallannonser, settBedriftIPam } from '../api/pamApi';
 import { Organisasjon } from '../altinn/organisasjon';
 import { useSaker } from './Hovedside/Sak/useSaker';
 import { SakSortering } from '../api/graphql-types';
@@ -17,7 +16,6 @@ interface Props {
 export type Context = {
     endreOrganisasjon: (org: Organisasjon) => void;
     valgtOrganisasjon: OrganisasjonInfo | undefined;
-    antallAnnonser: number;
     antallSakerForAlleBedrifter: number | undefined;
 };
 
@@ -25,7 +23,6 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
-    const [antallAnnonser, setantallAnnonser] = useState(-1);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(
         undefined
     );
@@ -53,14 +50,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     const endreOrganisasjon = async (org: Organisasjon) => {
         const orgInfo = organisasjoner[org.OrganizationNumber];
         setValgtOrganisasjon(orgInfo);
-
-        if (orgInfo.altinntilgang.rekruttering) {
-            settBedriftIPam(orgInfo.organisasjon.OrganizationNumber).then(() =>
-                hentAntallannonser(orgInfo.organisasjon.OrganizationNumber).then(setantallAnnonser)
-            );
-        } else {
-            setantallAnnonser(0);
-        }
     };
 
     useEffect(() => {
@@ -74,7 +63,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [valgtOrganisasjon]);
 
     let defaultContext: Context = {
-        antallAnnonser,
         endreOrganisasjon,
         valgtOrganisasjon,
         antallSakerForAlleBedrifter,

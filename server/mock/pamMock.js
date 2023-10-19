@@ -12,7 +12,7 @@ export const mock = (app) => {
                 TIL_AVSLUTTING: 0,
                 AVSLUTTET: 5,
                 AVVIST: 0,
-                PUBLISERT: 5,
+                PUBLISERT: 10,
             });
         }
     );
