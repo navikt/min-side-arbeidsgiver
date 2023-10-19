@@ -29,8 +29,10 @@ const Pamboks = () => {
                 <div className={'pamboks__bunntekst'}>
                     <span>
                         {' '}
-                        <span className={'pamboks__antall'}>{antallAnnonser}</span>stillingsannonser
-                        (aktive)
+                        <span className={'pamboks__antall'}>{antallAnnonser}</span>
+                        {antallAnnonser > 1
+                            ? 'stillingsannonser (aktive)'
+                            : 'stillingsannonse (aktiv)'}
                     </span>
                     <div className={'pamboks__bunntekst'}>Lag et jobbtreff</div>
                 </div>
