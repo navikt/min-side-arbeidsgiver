@@ -1,8 +1,10 @@
 import { altinntjeneste, AltinntjenesteId } from './tjenester';
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as Sentry from '@sentry/browser';
+import { Simulate } from 'react-dom/test-utils';
+import error = Simulate.error;
 
 const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';
 
@@ -21,24 +23,25 @@ export type AltinnTilgangssøknad = z.infer<typeof AltinnTilgangssøknad>;
 const AltinnTilgangssøknadResponse = z.array(AltinnTilgangssøknad);
 type AltinnTilgangssøknadResponse = z.infer<typeof AltinnTilgangssøknadResponse>;
 
-export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse | undefined => {
-    const [retries, setRetries] = useState(0);
-    const { data } = useSWR(altinnTilgangssøknadUrl, fetcher, {
-        onSuccess: () => setRetries(0),
+export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
+    const [tilgangssøknader, setTilgangssøknader] = useState<AltinnTilgangssøknadResponse>([]);
+    const { data, error } = useSWR(altinnTilgangssøknadUrl, fetcher, {
         onError: (error) => {
-            if (retries === 5) {
-                Sentry.captureMessage(
-                    `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
-                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
-                    }`
-                );
-            }
-            setRetries((x) => x + 1);
+            Sentry.captureMessage(
+                `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
+                    error.status !== undefined ? `${error.status} ${error.statusText}` : error
+                }`
+            );
         },
+        fallbackData: [],
         errorRetryInterval: 300,
     });
 
-    return data;
+    useEffect(() => {
+        setTilgangssøknader(data);
+    }, [JSON.stringify(data), error]);
+
+    return tilgangssøknader;
 };
 
 const fetcher = async (url: string) => {

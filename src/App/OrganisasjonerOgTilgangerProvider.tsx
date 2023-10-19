@@ -122,12 +122,6 @@ const beregnOrganisasjoner = (
         })
     );
 };
-const measureAll = (done: (duration: number) => void, ...args: Promise<any>[]) => {
-    const started = performance.now();
-    Promise.all(args).finally(() => {
-        done(performance.now() - started);
-    });
-};
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<Organisasjon[] | undefined>(
