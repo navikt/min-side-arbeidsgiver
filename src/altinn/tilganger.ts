@@ -9,9 +9,9 @@ const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssokn
 const AltinnTilgangssøknad = z.object({
     orgnr: z.string(),
     serviceCode: z.string(),
-    serviceEdition: z.string(),
+    serviceEdition: z.number(),
     status: z.string(),
-    cratedDateTime: z.string(),
+    createdDateTime: z.string(),
     lastChangedDateTime: z.string(),
     submitUrl: z.string(),
 });
