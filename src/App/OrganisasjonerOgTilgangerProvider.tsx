@@ -23,7 +23,6 @@ export type Søknadsstatus =
 export type OrganisasjonInfo = {
     organisasjon: Organisasjon;
     altinntilgang: Record<AltinntjenesteId, boolean>;
-    altinnsøknad: Record<AltinntjenesteId, Søknadsstatus>;
     syfotilgang: boolean;
     antallSykmeldte: number;
     reporteetilgang: boolean;
@@ -40,11 +39,37 @@ export type OrganisasjonEnhet = {
 
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
+    altinnTilgangssøknad: undefined | Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>>;
     organisasjonstre: OrganisasjonEnhet[];
     childrenMap: Map<string, Set<string>>;
 };
 
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
+
+const beregnAltinnTilgangssøknad = (
+    altinnorganisasjoner: Organisasjon[] | undefined,
+    altinntilganger: Record<AltinntjenesteId, Set<string>> | undefined,
+    altinnTilgangssøknader: AltinnTilgangssøknad[] | undefined
+): Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>> | undefined => {
+    if (
+        altinnorganisasjoner === undefined ||
+        altinntilganger === undefined ||
+        altinnTilgangssøknader === undefined
+    ) {
+        return undefined;
+    }
+
+    return Record.fromEntries(
+        altinnorganisasjoner.map((org) => {
+            return [
+                org.OrganizationNumber,
+                Record.map(altinntilganger, (id: AltinntjenesteId) =>
+                    sjekkTilgangssøknader(org.OrganizationNumber, id, altinnTilgangssøknader)
+                ),
+            ];
+        })
+    );
+};
 
 const beregnOrganisasjoner = (
     altinnorganisasjoner: Organisasjon[] | undefined,
@@ -83,16 +108,6 @@ const beregnOrganisasjoner = (
                         altinntilganger,
                         (id: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): boolean =>
                             orgnrMedTilgang.has(org.OrganizationNumber)
-                    ),
-                    altinnsøknad: Record.map(
-                        altinntilganger,
-                        (id: AltinntjenesteId, _orgnrMedTilgang: Set<orgnr>) =>
-                            sjekkTilgangssøknader(
-                                org.OrganizationNumber,
-                                id,
-                                _orgnrMedTilgang,
-                                altinnTilgangssøknader
-                            )
                     ),
                     syfotilgang: syfoVirksomheter.some(
                         ({ organisasjon }) =>
@@ -180,6 +195,12 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         [organisasjonstre]
     );
 
+    const altinnTilgangssøknad = beregnAltinnTilgangssøknad(
+        altinnorganisasjoner,
+        altinntilganger,
+        altinnTilgangssøknader
+    );
+
     if (organisasjoner === undefined || organisasjonstre === undefined) {
         return <SpinnerMedBanner />;
     }
@@ -196,6 +217,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         organisasjoner,
         organisasjonstre,
         childrenMap,
+        altinnTilgangssøknad,
     };
     return (
         <OrganisasjonerOgTilgangerContext.Provider value={context}>
@@ -207,7 +229,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
 const sjekkTilgangssøknader = (
     orgnr: orgnr,
     id: AltinntjenesteId,
-    _orgnrMedTilgang: Set<orgnr>,
     altinnTilgangssøknader: AltinnTilgangssøknad[]
 ): Søknadsstatus => {
     const { tjenestekode, tjenesteversjon } = altinntjeneste[id];

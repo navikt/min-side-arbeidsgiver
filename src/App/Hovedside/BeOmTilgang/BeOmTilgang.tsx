@@ -1,6 +1,9 @@
 import React, { FC, FunctionComponent, MouseEventHandler, useContext } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerProvider';
+import {
+    OrganisasjonerOgTilgangerContext,
+    OrganisasjonInfo,
+} from '../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
 import {
@@ -75,6 +78,8 @@ const opprettSøknad = (
 
 const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { altinnTilgangssøknad } = useContext(OrganisasjonerOgTilgangerContext);
+
     const tjenesteinfoBokser: JSX.Element[] = [];
     if (valgtOrganisasjon === undefined) {
         return null;
@@ -96,12 +101,14 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     if (valgtOrganisasjon.reporteetilgang) {
+        const tilgangssøknader =
+            altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.OrganizationNumber];
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
-            const tilgangsøknad = valgtOrganisasjon.altinnsøknad[altinnId];
+            const tilgangsøknad = tilgangssøknader?.[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            } else if (tilgangsøknad.tilgang === 'ikke søkt') {
+            } else if (tilgangsøknad === undefined || tilgangsøknad.tilgang === 'ikke søkt') {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
                         altinnId={altinnId}
