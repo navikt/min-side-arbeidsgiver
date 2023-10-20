@@ -195,10 +195,14 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         [organisasjonstre]
     );
 
-    const altinnTilgangssøknad = beregnAltinnTilgangssøknad(
-        altinnorganisasjoner,
-        altinntilganger,
-        altinnTilgangssøknader
+    const altinnTilgangssøknad = useMemo(
+        () =>
+            beregnAltinnTilgangssøknad(
+                altinnorganisasjoner,
+                altinntilganger,
+                altinnTilgangssøknader
+            ),
+        [altinnorganisasjoner, altinntilganger, altinnTilgangssøknader]
     );
 
     if (organisasjoner === undefined || organisasjonstre === undefined) {
