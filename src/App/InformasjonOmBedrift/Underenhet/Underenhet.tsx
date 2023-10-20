@@ -5,12 +5,12 @@ import { Office1 as UnderenhetIkon } from '@navikt/ds-icons';
 import { enhetsregisteretUnderenhetLink } from '../../../lenker';
 import './Underenhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { Enhet } from '../../../api/enhetsregisteretApi';
+import { Hovedenhet } from '../../../api/enhetsregisteretApi';
 import { BodyShort, Heading, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from '../Kontaktinfo';
 
 interface Props {
-    underenhet: Enhet;
+    underenhet: Hovedenhet;
 }
 
 const Underenhet = ({ underenhet }: Props) => {
