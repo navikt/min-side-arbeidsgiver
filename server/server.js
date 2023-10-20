@@ -354,6 +354,7 @@ const main = async () => {
 
     app.get('/min-side-arbeidsgiver/*', (req, res) => {
         res.setHeader('Cache-Control', 'public, max-age=3600');
+        res.setHeader('Etag', GIT_COMMIT);
         res.send(indexHtml);
     });
 
