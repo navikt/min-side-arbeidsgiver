@@ -1,24 +1,48 @@
 import { altinntjeneste, AltinntjenesteId } from './tjenester';
+import { z } from 'zod';
+import useSWR from 'swr';
+import * as Sentry from '@sentry/browser';
+import { useMemo } from 'react';
 
 const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';
 
-export interface AltinnTilgangssøknad {
-    orgnr: string;
-    serviceCode: string;
-    serviceEdition: string;
-    status: string;
-    cratedDateTime: string;
-    lastChangedDateTime: string;
-    submitUrl: string;
-}
+const AltinnTilgangssøknad = z.object({
+    orgnr: z.string(),
+    serviceCode: z.string(),
+    serviceEdition: z.number(),
+    status: z.string(),
+    createdDateTime: z.string(),
+    lastChangedDateTime: z.string(),
+    submitUrl: z.string(),
+});
 
-export const hentAltinnTilgangssøknader = async () => {
-    const response = await fetch(altinnTilgangssøknadUrl);
+export type AltinnTilgangssøknad = z.infer<typeof AltinnTilgangssøknad>;
 
-    if (!response.ok) {
-        throw new Error();
-    }
-    return (await response.json()) as AltinnTilgangssøknad[];
+const AltinnTilgangssøknadResponse = z.array(AltinnTilgangssøknad);
+type AltinnTilgangssøknadResponse = z.infer<typeof AltinnTilgangssøknadResponse>;
+
+export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
+    const { data } = useSWR(altinnTilgangssøknadUrl, fetcher, {
+        onError: (error) => {
+            Sentry.captureMessage(
+                `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
+                    error.status !== undefined ? `${error.status} ${error.statusText}` : error
+                }`
+            );
+        },
+        fallbackData: [],
+        errorRetryInterval: 300,
+    });
+
+    return useMemo(() => data, [JSON.stringify(data)]);
+};
+
+const fetcher = async (url: string) => {
+    const respons = await fetch(url);
+
+    if (respons.status !== 200) throw respons;
+
+    return AltinnTilgangssøknadResponse.parse(await respons.json());
 };
 
 export interface AltinnTilgangssøknadskjema {
