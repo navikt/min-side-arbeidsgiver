@@ -47,6 +47,7 @@ const UserInfoRespons = z.object({
 type UserInfoDto = z.infer<typeof UserInfoRespons>;
 type UserInfo = UserInfoDto & {
     loaded: boolean;
+    errorStatus: number | undefined;
 };
 export const useUserInfo = (): UserInfo => {
     const [retries, setRetries] = useState(0);
@@ -84,6 +85,7 @@ export const useUserInfo = (): UserInfo => {
         ...data,
         altinnError: data.altinnError || error !== undefined,
         loaded: finished || exhausted,
+        errorStatus: error?.status,
     };
 };
 

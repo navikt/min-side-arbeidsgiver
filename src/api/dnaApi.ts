@@ -1,9 +1,3 @@
-const sjekkInnloggetURL = '/min-side-arbeidsgiver/api/innlogget';
-export const sjekkInnlogget = async (): Promise<boolean> => {
-    const { ok } = await fetch(sjekkInnloggetURL);
-    return ok;
-};
-
 const storageUrl = `/min-side-arbeidsgiver/api/storage`;
 export async function getStorage(key: string): Promise<StorageItemResponse> {
     try {
