@@ -1,21 +1,21 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Spinner } from './Spinner';
-import { sjekkInnlogget } from '../api/dnaApi';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
 import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 import { Alert } from '@navikt/ds-react';
 import { SimpleBanner } from './HovedBanner/HovedBanner';
+import { useUserInfo } from './useUserInfo';
 
 export const LoginBoundary: FunctionComponent = (props) => {
-    const [innlogget, setInnlogget] = useState(Innlogget.LASTER);
+    const { loaded, errorStatus } = useUserInfo();
 
-    useEffect(() => {
-        sjekkInnlogget()
-            .then((innloggetResultat) => {
-                setInnlogget(innloggetResultat ? Innlogget.INNLOGGET : Innlogget.IKKE_INNLOGGET);
-            })
-            .catch(() => setInnlogget(Innlogget.FEIL));
-    }, []);
+    let innlogget: Innlogget;
+    if (!loaded) {
+        innlogget = Innlogget.LASTER;
+    } else if (errorStatus === 401) {
+        innlogget = Innlogget.IKKE_INNLOGGET;
+    } else {
+        innlogget = Innlogget.INNLOGGET;
+    }
 
     if (innlogget === Innlogget.INNLOGGET) {
         return <>{props.children}</>;
@@ -55,5 +55,4 @@ export enum Innlogget {
     LASTER,
     IKKE_INNLOGGET,
     INNLOGGET,
-    FEIL,
 }
