@@ -1,12 +1,11 @@
 import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
 import * as Record from '../utils/Record';
-import { AltinnTilgangssøknad, hentAltinnTilgangssøknader } from '../altinn/tilganger';
+import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
 import { Organisasjon } from '../altinn/organisasjon';
 import { AlertContext } from './Alerts/Alerts';
-import * as Sentry from '@sentry/browser';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
@@ -34,12 +33,6 @@ export type OrganisasjonInfo = {
     };
 };
 
-export enum SyfoTilgang {
-    LASTER,
-    IKKE_TILGANG,
-    TILGANG,
-}
-
 export type OrganisasjonEnhet = {
     hovedenhet: Organisasjon;
     underenheter: Organisasjon[];
@@ -48,7 +41,6 @@ export type OrganisasjonEnhet = {
 export type Context = {
     organisasjoner: Record<orgnr, OrganisasjonInfo>;
     organisasjonstre: OrganisasjonEnhet[];
-    tilgangTilSyfo: SyfoTilgang;
     childrenMap: Map<string, Set<string>>;
 };
 
@@ -59,7 +51,6 @@ const beregnOrganisasjoner = (
     syfoVirksomheter: DigiSyfoOrganisasjon[] | undefined,
     altinntilganger: Record<AltinntjenesteId, Set<string>> | undefined,
     altinnTilgangssøknader: AltinnTilgangssøknad[] | undefined,
-    tilgangTilSyfo: SyfoTilgang,
     alleRefusjonsstatus: RefusjonStatus[] | undefined
 ): Record<orgnr, OrganisasjonInfo> | undefined => {
     if (
@@ -68,7 +59,6 @@ const beregnOrganisasjoner = (
             syfoVirksomheter &&
             altinntilganger &&
             altinnTilgangssøknader &&
-            tilgangTilSyfo !== SyfoTilgang.LASTER &&
             alleRefusjonsstatus !== undefined
         )
     ) {
@@ -123,12 +113,6 @@ const beregnOrganisasjoner = (
         })
     );
 };
-const measureAll = (done: (duration: number) => void, ...args: Promise<any>[]) => {
-    const started = performance.now();
-    Promise.all(args).finally(() => {
-        done(performance.now() - started);
-    });
-};
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<Organisasjon[] | undefined>(
@@ -137,54 +121,27 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const [altinntilganger, setAltinntilganger] = useState<
         Record<AltinntjenesteId, Set<string>> | undefined
     >(undefined);
-    const [altinnTilgangssøknader, setAltinnTilgangssøknader] = useState<
-        AltinnTilgangssøknad[] | undefined
-    >([]);
 
     const [syfoVirksomheter, setSyfoVirksomheter] = useState<DigiSyfoOrganisasjon[] | undefined>(
         undefined
     );
-    const [tilgangTilSyfo, setTilgangTilSyfo] = useState(SyfoTilgang.LASTER);
     const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(
         undefined
     );
-    const { addAlert } = useContext(AlertContext);
-    useEffect(() => {
-        measureAll(
-            (tidMs) => {
-                amplitude.logEvent('komponent-lastet', {
-                    komponent: 'OrganisasjonerOgTilgangerProvider',
-                    tidMs,
-                });
-            },
-            hentAltinnTilgangssøknader()
-                .then(setAltinnTilgangssøknader)
-                .catch((error) => {
-                    Sentry.captureException(error);
-                    setAltinnTilgangssøknader([]);
-                })
-        );
-    }, []);
+    const { setSystemAlert } = useContext(AlertContext);
+    const altinnTilgangssøknader = useAltinnTilgangssøknader();
     const userInfo = useUserInfo();
     useEffect(() => {
         if (!userInfo.loaded) {
             // ikke set organisasjoner og tilganger før de er lastet
             return;
         }
-        if (userInfo.altinnError) {
-            addAlert('TilgangerAltinn');
-        }
-        if (userInfo.digisyfoError) {
-            addAlert('TilgangerDigiSyfo');
-        }
+
+        setSystemAlert('UserInfoAltinn', userInfo.altinnError);
+        setSystemAlert('UserInfoDigiSyfo', userInfo.digisyfoError);
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
         setSyfoVirksomheter(userInfo.digisyfoOrganisasjoner);
-        setTilgangTilSyfo(
-            userInfo.digisyfoOrganisasjoner.length > 0
-                ? SyfoTilgang.TILGANG
-                : SyfoTilgang.IKKE_TILGANG
-        );
         setAlleRefusjonsstatus(userInfo.refusjoner);
         amplitude.setUserProperties({ syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0 });
     }, [JSON.stringify(userInfo)]);
@@ -194,7 +151,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         syfoVirksomheter,
         altinntilganger,
         altinnTilgangssøknader,
-        tilgangTilSyfo,
         alleRefusjonsstatus,
     ] as const;
 
@@ -239,7 +195,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     const context: Context = {
         organisasjoner,
         organisasjonstre,
-        tilgangTilSyfo,
         childrenMap,
     };
     return (

@@ -170,14 +170,11 @@ export function useSaker(
         error,
     ]);
 
-    const { addAlert, clearAlert } = useContext(AlertContext);
-
+    const { setSystemAlert } = useContext(AlertContext);
+    const feilAltinn = data?.saker.feilAltinn ?? false;
     useEffect(() => {
-        if (data?.saker.feilAltinn ?? false) {
-            addAlert('Saker');
-        } else {
-            clearAlert('Saker');
-        }
-    }, [data]);
+        setSystemAlert('SakerAltinn', feilAltinn);
+    }, [feilAltinn]);
+
     return { loading, data, previousData };
 }
