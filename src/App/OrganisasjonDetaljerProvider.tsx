@@ -3,7 +3,7 @@ import {
     OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
 } from './OrganisasjonerOgTilgangerProvider';
-import { loggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
+import { useLoggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { Organisasjon } from '../altinn/organisasjon';
 import { useSaker } from './Hovedside/Sak/useSaker';
 import { SakSortering } from '../api/graphql-types';
@@ -58,9 +58,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
         }
     }, [organisasjoner, valgtOrganisasjon]);
 
-    useEffect(() => {
-        loggBedriftValgtOgTilganger(valgtOrganisasjon);
-    }, [valgtOrganisasjon]);
+    useLoggBedriftValgtOgTilganger(valgtOrganisasjon);
 
     let defaultContext: Context = {
         endreOrganisasjon,

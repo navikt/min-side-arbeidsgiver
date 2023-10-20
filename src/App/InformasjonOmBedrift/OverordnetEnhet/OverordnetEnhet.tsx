@@ -7,10 +7,10 @@ import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, Heading, Label } from '@navikt/ds-react';
 import { KontaktinfoHovedenhet } from '../Kontaktinfo';
-import { Enhet } from '../../../api/enhetsregisteretApi';
+import { Hovedenhet } from '../../../api/enhetsregisteretApi';
 
 interface Props {
-    overordnetenhet: Enhet;
+    overordnetenhet: Hovedenhet;
 }
 
 const OverordnetEnhet = ({ overordnetenhet }: Props) => {
