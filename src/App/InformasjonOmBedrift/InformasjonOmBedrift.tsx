@@ -13,10 +13,11 @@ const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
 
 const InformasjonOmBedrift: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
+    const vnr = valgtOrganisasjon?.organisasjon.OrganizationNumber;
+    const orgnr = valgtOrganisasjon?.organisasjon.ParentOrganizationNumber;
 
     const overordnetenhet = useOverordnetEnhet(orgnr);
-    const { underenhet } = useUnderenhet(orgnr);
+    const { underenhet } = useUnderenhet(vnr);
 
     return (
         <>
