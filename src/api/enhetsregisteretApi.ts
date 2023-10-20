@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 import { z } from 'zod';
 import { gittMiljo } from '../utils/environment';
+import useSWR from 'swr';
 
 export const hentUnderenhetApiURL = (orgnr: string) =>
     gittMiljo({
@@ -31,7 +32,36 @@ const Kode = z.object({
     beskrivelse: z.string(),
 });
 
-const Enhet = z
+const Underenhet = z
+    .object({
+        organisasjonsnummer: z.string(),
+        navn: z.string(),
+        organisasjonsform: Kode,
+        naeringskode1: Kode,
+        naeringskode2: Kode,
+        naeringskode3: Kode,
+        postadresse: Adresse,
+        forretningsadresse: Adresse,
+        hjemmeside: z.string(),
+        overordnetEnhet: z.string(),
+        antallAnsatte: z.number(),
+        beliggenhetsadresse: Adresse,
+        institusjonellSektorkode: Kode,
+    })
+    .partial({
+        organisasjonsform: true,
+        naeringskode1: true,
+        naeringskode2: true,
+        naeringskode3: true,
+        postadresse: true,
+        forretningsadresse: true,
+        hjemmeside: true,
+        overordnetEnhet: true,
+        beliggenhetsadresse: true,
+        institusjonellSektorkode: true,
+    });
+
+const Hovedenhet = z
     .object({
         organisasjonsnummer: z.string(),
         navn: z.string(),
@@ -61,44 +91,53 @@ const Enhet = z
         institusjonellSektorkode: true,
     });
 
-export type Enhet = z.infer<typeof Enhet>;
+export type Hovedenhet = z.infer<typeof Hovedenhet>;
+export type Underenhet = z.infer<typeof Underenhet>;
 
-export async function hentUnderenhet(orgnr: string): Promise<Enhet | undefined> {
-    const respons = await fetch(hentUnderenhetApiURL(orgnr)).catch((_) => undefined);
-    if (respons === undefined || !respons.ok) {
-        return undefined;
-    }
-    const enhet = await respons.json();
+export const useUnderenhet = (
+    orgnr: string | undefined
+): { underenhet: Underenhet | undefined; isLoading: boolean } => {
+    const { data: underenhet, isLoading } = useSWR(
+        orgnr === undefined ? null : hentUnderenhetApiURL(orgnr),
+        fetchUnderenhet,
+        {
+            onError: (error) => {
+                Sentry.captureMessage(
+                    `hent Underenhet fra brreg feilet med ${
+                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
+                    }`
+                );
+            },
+        }
+    );
+    return { underenhet, isLoading };
+};
 
-    try {
-        return Enhet.parse(enhet);
-    } catch (error) {
-        Sentry.captureException(error);
-        /* We don't know if the parser we introduce with zod is too strict.
-         * Untill we have seen that this does not happen, we keep the current,
-         * type-unsafe behaviour. When we see that the parser is corrent, we
-         * should return undefined, or propagate the error in some other way.
-         */
-        return enhet;
-    }
-}
+const fetchUnderenhet = async (url: string) => {
+    const respons = await fetch(url);
+    if (!respons.ok) throw respons;
+    return Underenhet.parse(await respons.json());
+};
 
-export async function hentOverordnetEnhet(orgnr: string): Promise<Enhet | undefined> {
-    const respons = await fetch(hentOverordnetEnhetApiLink(orgnr)).catch((_) => undefined);
-    if (respons === undefined || !respons.ok) {
-        return undefined;
-    }
-    const enhet = await respons.json();
+export const useOverordnetEnhet = (orgnr: string | undefined): Hovedenhet | undefined => {
+    const { data } = useSWR(
+        orgnr === undefined ? null : hentOverordnetEnhetApiLink(orgnr),
+        fetchHovedenhet,
+        {
+            onError: (error) => {
+                Sentry.captureMessage(
+                    `hent OverordnetEnhet fra brreg feilet med ${
+                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
+                    }`
+                );
+            },
+        }
+    );
+    return data;
+};
 
-    try {
-        return Enhet.parse(enhet);
-    } catch (error) {
-        Sentry.captureException(error);
-        /* We don't know if the parser we introduce with zod is too strict.
-         * Untill we have seen that this does not happen, we keep the current,
-         * type-unsafe behaviour. When we see that the parser is corrent, we
-         * should return undefined, or propagate the error in some other way.
-         */
-        return enhet;
-    }
-}
+const fetchHovedenhet = async (url: string) => {
+    const respons = await fetch(url);
+    if (!respons.ok) throw respons;
+    return Hovedenhet.parse(await respons.json());
+};

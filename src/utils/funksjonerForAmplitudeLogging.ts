@@ -1,8 +1,9 @@
 import amplitude from '../utils/amplitude';
 import { OrganisasjonInfo } from '../App/OrganisasjonerOgTilgangerProvider';
 import { basename } from '../paths';
-import { Enhet, hentUnderenhet } from '../api/enhetsregisteretApi';
+import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 interface EventProps {
     url: string;
@@ -50,7 +51,7 @@ const finnAntallAnsattebøtte = (antall: number) => {
     }
 };
 
-const finnSektorNavn = (eregOrg: Enhet) => {
+const finnSektorNavn = (eregOrg: Hovedenhet) => {
     if (eregOrg.naeringskode1) {
         if (eregOrg.naeringskode1.kode.startsWith('84')) {
             return 'offentlig';
@@ -60,56 +61,46 @@ const finnSektorNavn = (eregOrg: Enhet) => {
     }
 };
 
-const hentInfoFraEreg = async (organisasjon: OrganisasjonInfo): Promise<EregInfo | undefined> => {
-    try {
-        const underenhet = await hentUnderenhet(organisasjon.organisasjon.OrganizationNumber);
-        if (underenhet === undefined) {
-            return undefined;
+export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined) => {
+    const { underenhet, isLoading } = useUnderenhet(org?.organisasjon.OrganizationNumber);
+
+    useEffect(() => {
+        if (org === undefined) return;
+        if (isLoading) return;
+
+        let tilgangskombinasjon = '';
+
+        if (org.altinntilgang.rekruttering) {
+            tilgangskombinasjon += 'arbeidsplassen ';
         }
-        const antallAnsatte = finnAntallAnsattebøtte(Number(underenhet.antallAnsatte));
-        const sektor = finnSektorNavn(underenhet);
-        return { antallAnsatte, sektor };
-    } catch (e) {
-        return undefined;
-    }
-};
+        if (org.altinntilgang.sykefravarstatistikk) {
+            tilgangskombinasjon += 'sykefraværsstatistikk ';
+        }
+        if (org.altinntilgang.arbeidstrening) {
+            tilgangskombinasjon += 'arbeidstrening ';
+        }
+        if (org.altinntilgang.arbeidsforhold) {
+            tilgangskombinasjon += 'arbeidsforhold';
+        }
+        if (org.altinntilgang.midlertidigLønnstilskudd) {
+            tilgangskombinasjon += 'midlertidig lønnstilskudd ';
+        }
+        if (org.altinntilgang.varigLønnstilskudd) {
+            tilgangskombinasjon += 'varig lønnstilskudd';
+        }
 
-export const loggBedriftValgtOgTilganger = async (org: OrganisasjonInfo | undefined) => {
-    if (org === undefined) return;
+        const virksomhetsinfo: any = {
+            url: baseUrl,
+            tilgangskombinasjon,
+        };
 
-    let tilgangskombinasjon = '';
+        if (underenhet !== undefined) {
+            virksomhetsinfo.sektor = finnSektorNavn(underenhet);
+            virksomhetsinfo.antallAnsatte = finnAntallAnsattebøtte(underenhet.antallAnsatte);
+        }
 
-    if (org.altinntilgang.rekruttering) {
-        tilgangskombinasjon += 'arbeidsplassen ';
-    }
-    if (org.altinntilgang.sykefravarstatistikk) {
-        tilgangskombinasjon += 'sykefraværsstatistikk ';
-    }
-    if (org.altinntilgang.arbeidstrening) {
-        tilgangskombinasjon += 'arbeidstrening ';
-    }
-    if (org.altinntilgang.arbeidsforhold) {
-        tilgangskombinasjon += 'arbeidsforhold';
-    }
-    if (org.altinntilgang.midlertidigLønnstilskudd) {
-        tilgangskombinasjon += 'midlertidig lønnstilskudd ';
-    }
-    if (org.altinntilgang.varigLønnstilskudd) {
-        tilgangskombinasjon += 'varig lønnstilskudd';
-    }
-
-    const eregInfo = await hentInfoFraEreg(org);
-    const virksomhetsinfo: any = {
-        url: baseUrl,
-        tilgangskombinasjon,
-    };
-    if (eregInfo == undefined) {
         amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
-    } else {
-        virksomhetsinfo.sektor = eregInfo.sektor;
-        virksomhetsinfo.antallAnsatte = eregInfo.antallAnsatte;
-        amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
-    }
+    }, [org, underenhet, isLoading]);
 };
 
 export const loggNavigasjon = (
