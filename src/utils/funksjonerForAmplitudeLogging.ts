@@ -30,7 +30,10 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-const finnAntallAnsattebøtte = (antall: number) => {
+const finnAntallAnsattebøtte = (antall: number | undefined) => {
+    if (antall === undefined) {
+        return undefined;
+    }
     switch (true) {
         case antall === 0:
             return '0';

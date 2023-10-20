@@ -57,6 +57,7 @@ const Underenhet = z
         forretningsadresse: true,
         hjemmeside: true,
         overordnetEnhet: true,
+        antallAnsatte: true,
         beliggenhetsadresse: true,
         institusjonellSektorkode: true,
     });
