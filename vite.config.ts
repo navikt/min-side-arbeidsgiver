@@ -20,6 +20,9 @@ export default defineConfig({
                     urlPrefix: '~/fager/min-side-arbeidsgiver/build/assets/',
                 },
             },
+            setCommits: {
+                auto: true
+            }
         }),
     ],
     build: {
