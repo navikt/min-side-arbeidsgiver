@@ -7,7 +7,7 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
-import NyFaneIkon from './ikoner/NyFaneIkon';
+import NyFaneIkon from './NyFaneIkon';
 
 const KontaktinfoDetaljer = z.object({
     eposter: z.array(z.string()),

@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Link as RouterLink, Routes, useLocation } from 'r
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import { LoginBoundary } from './LoginBoundary';
-import { AlertsProvider } from './Alerts/Alerts';
+import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
 import InformasjonOmBedrift from './InformasjonOmBedrift/InformasjonOmBedrift';
@@ -11,12 +11,12 @@ import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './App.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Banner from './HovedBanner/HovedBanner';
-import { Saksoversikt } from './Hovedside/Sak/Saksoversikt/Saksoversikt';
-import { SaksoversiktRestoreSession } from './Hovedside/Sak/Saksoversikt/SaksoversiktRestoreSession';
+import Banner from './HovedBanner';
+import { Saksoversikt } from './Saksoversikt/Saksoversikt';
+import { SaksoversiktRestoreSession } from './Saksoversikt/SaksoversiktRestoreSession';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
-import Brodsmulesti from './Brodsmulesti/Brodsmulesti';
+import Brodsmulesti from './Brodsmulesti';
 import { SWRConfig } from 'swr';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({

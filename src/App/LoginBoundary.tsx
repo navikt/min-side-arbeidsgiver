@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import { Spinner } from './Spinner';
 import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 import { Alert } from '@navikt/ds-react';
-import { SimpleBanner } from './HovedBanner/HovedBanner';
+import { SimpleBanner } from './HovedBanner';
 import { useUserInfo } from './useUserInfo';
 
 export const LoginBoundary: FunctionComponent = (props) => {

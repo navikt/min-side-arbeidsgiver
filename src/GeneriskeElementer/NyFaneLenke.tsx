@@ -1,5 +1,5 @@
 import React from 'react';
-import NyFaneIkon from '../App/InformasjonOmBedrift/ikoner/NyFaneIkon';
+import NyFaneIkon from '../App/InformasjonOmBedrift/NyFaneIkon';
 import { LenkeMedLogging, Props } from './LenkeMedLogging';
 
 const NyFaneLenke = (props: Props) => (

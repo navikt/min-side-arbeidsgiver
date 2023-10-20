@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { useOverordnetEnhet, useUnderenhet } from '../../api/enhetsregisteretApi';
-import Underenhet from './Underenhet/Underenhet';
-import OverordnetEnhet from './OverordnetEnhet/OverordnetEnhet';
-import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
+import Underenhet from './Underenhet';
+import OverordnetEnhet from './OverordnetEnhet';
+import Brodsmulesti from '../Brodsmulesti';
 import './InformasjonOmBedrift.css';
 import { Panel } from '@navikt/ds-react';
 

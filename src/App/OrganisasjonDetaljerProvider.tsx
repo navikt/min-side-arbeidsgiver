@@ -5,7 +5,7 @@ import {
 } from './OrganisasjonerOgTilgangerProvider';
 import { useLoggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { Organisasjon } from '../altinn/organisasjon';
-import { useSaker } from './Hovedside/Sak/useSaker';
+import { useSaker } from './Saksoversikt/useSaker';
 import { SakSortering } from '../api/graphql-types';
 import { Set } from 'immutable';
 

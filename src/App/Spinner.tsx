@@ -1,6 +1,6 @@
 import React from 'react';
-import Brodsmulesti from './Brodsmulesti/Brodsmulesti';
-import Banner from './HovedBanner/HovedBanner';
+import Brodsmulesti from './Brodsmulesti';
+import Banner from './HovedBanner';
 import { Loader } from '@navikt/ds-react';
 
 export const Spinner = () =>

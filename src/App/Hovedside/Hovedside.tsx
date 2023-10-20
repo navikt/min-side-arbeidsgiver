@@ -1,25 +1,25 @@
 import React, { FunctionComponent } from 'react';
-import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
-import AdvarselBannerTestversjon from './AdvarselBannerTestVersjon/AdvarselBannerTestversjon';
-import { Alerts } from '../Alerts/Alerts';
-import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
+import Brodsmulesti from '../Brodsmulesti';
+import AdvarselBannerTestversjon from './AdvarselBannerTestversjon';
+import { Alerts } from '../Alerts';
+import Tjenestebokser from './Tjenestebokser/Tjenestebokser';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
-import { SkjemaveilederContainer } from './SkjemaveilederContainer/SkjemaveilederContainer';
+import { SøknaderOgSkjemaer } from './SøknaderOgSkjemaer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
-import BrevFraAltinnContainer from './AltinnMeldingsboks/BrevFraAltinnContainer';
+import BrevFraAltinnContainer from './BrevFraAltinnContainer';
 import './Hovedside.css';
-import { GiOssTilbakemelding } from './GiOssTilbakemeldingComponent/GiOssTilbakemelding';
-import SisteSaker from './Sak/SisteSaker/SisteSaker';
-import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding/UndersokelseInntektsmelding';
-import { KontaktFelt } from './KontaktFelt/KontaktFelt';
-import { useOversiktsfilterClearing } from './Sak/Saksoversikt/useOversiktSessionStorage';
+import { GiOssTilbakemelding } from './GiOssTilbakemelding';
+import SisteSaker from './SisteSaker';
+import { UndersokelseInntektsmelding } from './UndersokelseInntektsmelding';
+import { KontaktFelt } from './KontaktFelt';
+import { useOversiktsfilterClearing } from '../Saksoversikt/useOversiktSessionStorage';
 import { DigiSyfoBedriftsmenyInfo } from './DigiSyfoBedriftsmenyInfo';
-import { AktueltRubrikk } from './Aktuelt/AktueltRubrikk';
+import { AktueltRubrikk } from './AktueltRubrikk';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ForebyggeFraværInfoBoks } from './ForebyggeFraværInfoBoks';
 import { Alert, Heading } from '@navikt/ds-react';
-import { useVarslingStatus } from '../useVarslingStatus';
+import { useVarslingStatus } from './useVarslingStatus';
 
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
@@ -37,9 +37,9 @@ const Hovedside: FunctionComponent = () => {
                 <ForebyggeFraværInfoBoks />
                 <AktueltRubrikk />
                 <SisteSaker />
-                <TjenesteBoksContainer />
+                <Tjenestebokser />
                 <GiOssTilbakemelding />
-                <SkjemaveilederContainer />
+                <SøknaderOgSkjemaer />
                 <BrevFraAltinnContainer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />

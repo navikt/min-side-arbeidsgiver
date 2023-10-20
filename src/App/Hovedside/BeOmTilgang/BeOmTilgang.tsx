@@ -5,12 +5,12 @@ import {
     OrganisasjonInfo,
 } from '../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
-import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse/Organisasjonsbeskrivelse';
+import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import {
     AltinntilgangAlleredeSøkt,
     BeOmTilgangBoks,
     BeOmSyfotilgang,
-} from './TjenesteInfo/TjenesteInfo';
+} from './TjenesteInfo';
 import './BeOmTilgang.css';
 import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';

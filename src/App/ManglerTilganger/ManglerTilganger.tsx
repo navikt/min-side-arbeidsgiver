@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import { infoOmTilgangsstyringURL, lenkeTilDittNavPerson } from '../../lenker';
-import Brodsmulesti from '../Brodsmulesti/Brodsmulesti';
+import Brodsmulesti from '../Brodsmulesti';
 import './ManglerTilganger.css';
 import { Heading, LinkPanel } from '@navikt/ds-react';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
-import { SimpleBanner } from '../HovedBanner/HovedBanner';
-import { Alerts } from '../Alerts/Alerts';
+import { SimpleBanner } from '../HovedBanner';
+import { Alerts } from '../Alerts';
 
 export const ManglerTilganger: FunctionComponent = () => {
     return (
