@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useMemo } from 'react';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
@@ -9,7 +9,7 @@ import { AlertContext } from './Alerts/Alerts';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from './hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
-import { DigiSyfoOrganisasjon, RefusjonStatus, useUserInfo } from './useUserInfo';
+import { UserInfoRespons, useUserInfo } from './useUserInfo';
 import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 
 type orgnr = string;
@@ -47,23 +47,18 @@ export type Context = {
 export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
 
 const beregnAltinnTilgangssøknad = (
-    altinnorganisasjoner: Organisasjon[] | undefined,
-    altinntilganger: Record<AltinntjenesteId, Set<string>> | undefined,
+    userInfo: UserInfoRespons | undefined,
     altinnTilgangssøknader: AltinnTilgangssøknad[] | undefined
 ): Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>> | undefined => {
-    if (
-        altinnorganisasjoner === undefined ||
-        altinntilganger === undefined ||
-        altinnTilgangssøknader === undefined
-    ) {
+    if (userInfo === undefined || altinnTilgangssøknader === undefined) {
         return undefined;
     }
 
     return Record.fromEntries(
-        altinnorganisasjoner.map((org) => {
+        userInfo.organisasjoner.map((org) => {
             return [
                 org.OrganizationNumber,
-                Record.map(altinntilganger, (id: AltinntjenesteId) =>
+                Record.map(userInfo.tilganger, (id: AltinntjenesteId) =>
                     sjekkTilgangssøknader(org.OrganizationNumber, id, altinnTilgangssøknader)
                 ),
             ];
@@ -72,30 +67,20 @@ const beregnAltinnTilgangssøknad = (
 };
 
 const beregnOrganisasjoner = (
-    altinnorganisasjoner: Organisasjon[] | undefined,
-    syfoVirksomheter: DigiSyfoOrganisasjon[] | undefined,
-    altinntilganger: Record<AltinntjenesteId, Set<string>> | undefined,
-    alleRefusjonsstatus: RefusjonStatus[] | undefined
+    userInfo: UserInfoRespons | undefined
 ): Record<orgnr, OrganisasjonInfo> | undefined => {
-    if (
-        !(
-            altinnorganisasjoner &&
-            syfoVirksomheter &&
-            altinntilganger &&
-            alleRefusjonsstatus !== undefined
-        )
-    ) {
+    if (userInfo === undefined) {
         return undefined;
     }
 
     const virksomheter = [
-        ...altinnorganisasjoner,
-        ...syfoVirksomheter.map(({ organisasjon }) => organisasjon),
+        ...userInfo.organisasjoner,
+        ...userInfo.digisyfoOrganisasjoner.map(({ organisasjon }) => organisasjon),
     ];
 
     return Record.fromEntries(
         virksomheter.map((org) => {
-            const refusjonstatus = alleRefusjonsstatus.find(
+            const refusjonstatus = userInfo.refusjoner.find(
                 ({ virksomhetsnummer }) => virksomhetsnummer === org.OrganizationNumber
             );
             return [
@@ -103,20 +88,20 @@ const beregnOrganisasjoner = (
                 {
                     organisasjon: org,
                     altinntilgang: Record.map(
-                        altinntilganger,
+                        userInfo.tilganger,
                         (id: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): boolean =>
                             orgnrMedTilgang.has(org.OrganizationNumber)
                     ),
-                    syfotilgang: syfoVirksomheter.some(
+                    syfotilgang: userInfo.digisyfoOrganisasjoner.some(
                         ({ organisasjon }) =>
                             organisasjon.OrganizationNumber === org.OrganizationNumber
                     ),
                     antallSykmeldte:
-                        syfoVirksomheter.find(
+                        userInfo.digisyfoOrganisasjoner.find(
                             ({ organisasjon }) =>
                                 organisasjon.OrganizationNumber === org.OrganizationNumber
                         )?.antallSykmeldte ?? 0,
-                    reporteetilgang: altinnorganisasjoner.some(
+                    reporteetilgang: userInfo.organisasjoner.some(
                         ({ OrganizationNumber }) => OrganizationNumber === org.OrganizationNumber
                     ),
                     refusjonstatus: refusjonstatus?.statusoversikt ?? {},
@@ -128,19 +113,6 @@ const beregnOrganisasjoner = (
 };
 
 export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
-    const [altinnorganisasjoner, setAltinnorganisasjoner] = useState<Organisasjon[] | undefined>(
-        undefined
-    );
-    const [altinntilganger, setAltinntilganger] = useState<
-        Record<AltinntjenesteId, Set<string>> | undefined
-    >(undefined);
-
-    const [syfoVirksomheter, setSyfoVirksomheter] = useState<DigiSyfoOrganisasjon[] | undefined>(
-        undefined
-    );
-    const [alleRefusjonsstatus, setAlleRefusjonsstatus] = useState<RefusjonStatus[] | undefined>(
-        undefined
-    );
     const { setSystemAlert } = useContext(AlertContext);
     const altinnTilgangssøknader = useAltinnTilgangssøknader();
     const { userInfo } = useUserInfo();
@@ -148,28 +120,14 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         setSystemAlert('UserInfoAltinn', userInfo?.altinnError ?? false);
         setSystemAlert('UserInfoDigiSyfo', userInfo?.digisyfoError ?? false);
 
-        if (userInfo === undefined) {
-            return;
+        if (userInfo !== undefined) {
+            amplitude.setUserProperties({
+                syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0,
+            });
         }
-
-        setAltinnorganisasjoner(userInfo.organisasjoner);
-        setAltinntilganger(userInfo.tilganger);
-        setSyfoVirksomheter(userInfo.digisyfoOrganisasjoner);
-        setAlleRefusjonsstatus(userInfo.refusjoner);
-        amplitude.setUserProperties({ syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0 });
     }, [userInfo]);
 
-    const beregnOrganisasjonerArgs = [
-        altinnorganisasjoner,
-        syfoVirksomheter,
-        altinntilganger,
-        alleRefusjonsstatus,
-    ] as const;
-
-    const organisasjoner = useMemo(
-        () => beregnOrganisasjoner(...beregnOrganisasjonerArgs),
-        beregnOrganisasjonerArgs
-    );
+    const organisasjoner = useMemo(() => beregnOrganisasjoner(userInfo), [userInfo]);
 
     const [organisasjonstreResponse, error] = useEffectfulAsyncFunction(
         undefined as OrganisasjonEnhet[] | undefined,
@@ -193,13 +151,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     );
 
     const altinnTilgangssøknad = useMemo(
-        () =>
-            beregnAltinnTilgangssøknad(
-                altinnorganisasjoner,
-                altinntilganger,
-                altinnTilgangssøknader
-            ),
-        [altinnorganisasjoner, altinntilganger, altinnTilgangssøknader]
+        () => beregnAltinnTilgangssøknad(userInfo, altinnTilgangssøknader),
+        [userInfo, altinnTilgangssøknader]
     );
 
     if (organisasjoner === undefined || organisasjonstre === undefined) {
