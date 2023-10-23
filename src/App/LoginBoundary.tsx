@@ -7,11 +7,11 @@ import { Alert } from '@navikt/ds-react';
 export const LoginBoundary: FunctionComponent = (props) => {
     const { userInfo, errorStatus, isError } = useUserInfo();
 
-    if (userInfo !== undefined) {
-        return <>{props.children}</>;
-    } else if (errorStatus === 401) {
+    if (errorStatus === 401) {
         window.location.href = '/min-side-arbeidsgiver/redirect-til-login';
         return null;
+    } else if (userInfo !== undefined) {
+        return <>{props.children}</>;
     } else if (isError) {
         return (
             <>
