@@ -143,21 +143,21 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
     );
     const { setSystemAlert } = useContext(AlertContext);
     const altinnTilgangssøknader = useAltinnTilgangssøknader();
-    const userInfo = useUserInfo();
+    const { userInfo } = useUserInfo();
     useEffect(() => {
-        if (!userInfo.loaded) {
-            // ikke set organisasjoner og tilganger før de er lastet
+        setSystemAlert('UserInfoAltinn', userInfo?.altinnError ?? false);
+        setSystemAlert('UserInfoDigiSyfo', userInfo?.digisyfoError ?? false);
+
+        if (userInfo === undefined) {
             return;
         }
 
-        setSystemAlert('UserInfoAltinn', userInfo.altinnError);
-        setSystemAlert('UserInfoDigiSyfo', userInfo.digisyfoError);
         setAltinnorganisasjoner(userInfo.organisasjoner);
         setAltinntilganger(userInfo.tilganger);
         setSyfoVirksomheter(userInfo.digisyfoOrganisasjoner);
         setAlleRefusjonsstatus(userInfo.refusjoner);
         amplitude.setUserProperties({ syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0 });
-    }, [JSON.stringify(userInfo)]);
+    }, [userInfo]);
 
     const beregnOrganisasjonerArgs = [
         altinnorganisasjoner,
