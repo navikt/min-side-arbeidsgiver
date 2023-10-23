@@ -2,7 +2,7 @@ import { z } from 'zod';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
 import { Organisasjon } from '../altinn/organisasjon';
-import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import { AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
@@ -44,47 +44,34 @@ const UserInfoRespons = z.object({
     ),
     refusjoner: z.array(RefusjonStatus),
 });
-type UserInfoDto = z.infer<typeof UserInfoRespons>;
-type UserInfo = UserInfoDto & {
-    loaded: boolean;
+export type UserInfoRespons = z.infer<typeof UserInfoRespons>;
+
+type UseUserInfoResult = {
+    userInfo: UserInfoRespons | undefined;
+    isError: boolean;
     errorStatus: number | undefined;
 };
-export const useUserInfo = (): UserInfo => {
+
+export const useUserInfo = (): UseUserInfoResult => {
     const [retries, setRetries] = useState(0);
-    const { data, error, isLoading, isValidating } = useSWR(
-        '/min-side-arbeidsgiver/api/userInfo/v1',
-        fetcher,
-        {
-            onSuccess: () => setRetries(0),
-            onError: (error) => {
-                if (retries === 5) {
-                    Sentry.captureMessage(
-                        `hent userInfo fra min-side-arbeidsgiver feilet med ${
-                            error.status !== undefined
-                                ? `${error.status} ${error.statusText}`
-                                : error
-                        }`
-                    );
-                }
-                setRetries((x) => x + 1);
-            },
-            errorRetryInterval: 100,
-            fallbackData: {
-                organisasjoner: [],
-                refusjoner: [],
-                digisyfoOrganisasjoner: [],
-                tilganger: Record.map(altinntjeneste, () => Set<string>()),
-                altinnError: false,
-                digisyfoError: false,
-            },
-        }
-    );
-    const finished = error === undefined && !isLoading && !isValidating;
-    const exhausted = retries >= 5;
+    const { data: userInfo, error } = useSWR('/min-side-arbeidsgiver/api/userInfo/v1', fetcher, {
+        onSuccess: () => setRetries(0),
+        onError: (error) => {
+            if (retries === 5) {
+                Sentry.captureMessage(
+                    `hent userInfo fra min-side-arbeidsgiver feilet med ${
+                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
+                    }`
+                );
+            }
+            setRetries((x) => x + 1);
+        },
+        errorRetryInterval: 100,
+    });
+
     return {
-        ...data,
-        altinnError: data.altinnError || error !== undefined,
-        loaded: finished || exhausted,
+        userInfo,
+        isError: userInfo === undefined && retries >= 5,
         errorStatus: error?.status,
     };
 };
