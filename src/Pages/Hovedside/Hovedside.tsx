@@ -19,7 +19,6 @@ import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div>
             <div className="hovedside-container">
