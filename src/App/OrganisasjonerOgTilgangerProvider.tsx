@@ -75,7 +75,6 @@ const beregnOrganisasjoner = (
     altinnorganisasjoner: Organisasjon[] | undefined,
     syfoVirksomheter: DigiSyfoOrganisasjon[] | undefined,
     altinntilganger: Record<AltinntjenesteId, Set<string>> | undefined,
-    altinnTilgangssøknader: AltinnTilgangssøknad[] | undefined,
     alleRefusjonsstatus: RefusjonStatus[] | undefined
 ): Record<orgnr, OrganisasjonInfo> | undefined => {
     if (
@@ -83,7 +82,6 @@ const beregnOrganisasjoner = (
             altinnorganisasjoner &&
             syfoVirksomheter &&
             altinntilganger &&
-            altinnTilgangssøknader &&
             alleRefusjonsstatus !== undefined
         )
     ) {
@@ -165,7 +163,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
         altinnorganisasjoner,
         syfoVirksomheter,
         altinntilganger,
-        altinnTilgangssøknader,
         alleRefusjonsstatus,
     ] as const;
 
