@@ -1,10 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { Organisasjon } from '../altinn/organisasjon';
-import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import * as Record from '../utils/Record';
-import { Set } from 'immutable';
 import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 
