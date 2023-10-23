@@ -3,9 +3,9 @@ import { kandidatlisteURL } from '../../../../lenker';
 import { Tjenesteboks } from '../Tjenesteboks';
 import { useAntallKandidater } from './useAntallKandidater';
 import ikon from './kandidatlisteboks-ikon.svg';
-import './Kandidatlisteboks.css';
+import './Kandidatlister.css';
 
-const Kandidatlisteboks = () => {
+const Kandidatlister = () => {
     const antallKandidater = useAntallKandidater();
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
@@ -32,4 +32,4 @@ const Kandidatlisteboks = () => {
     );
 };
 
-export default Kandidatlisteboks;
+export default Kandidatlister;

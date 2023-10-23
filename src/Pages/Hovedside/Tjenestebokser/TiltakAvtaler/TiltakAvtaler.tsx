@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { tiltaksgjennomforingURL } from '../../../../lenker';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import './Tiltakboks.css';
-import tiltakikon from './tiltakboks-ikon.svg';
+import './TiltakAvtaler.css';
+import tiltakikon from './TiltakAvtaler.svg';
 import { Avtalenavn, useAvtaleoversikt } from './useAvtaleoversikt';
 import { Tjenesteboks } from '../Tjenesteboks';
 import { BodyShort } from '@navikt/ds-react';
@@ -25,7 +25,7 @@ const displayorder: Avtalenavn[] = [
     'MENTOR',
 ];
 
-const Tiltakboks = () => {
+const TiltakAvtaler = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
 
@@ -77,4 +77,4 @@ const TekstUtenTall = () => (
     </>
 );
 
-export default Tiltakboks;
+export default TiltakAvtaler;

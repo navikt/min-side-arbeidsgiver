@@ -1,11 +1,11 @@
 import { lenkeTilForebyggefravar } from '../../../../lenker';
 import React from 'react';
 import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
-import './ForebyggeFraværboks.css';
+import './ForebyggeFravær.css';
 import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 
-const ForebyggeFraværboks = () => {
+const ForebyggeFravR = () => {
     const valgtbedrift = () => {
         const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
         return orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`;
@@ -53,4 +53,4 @@ const Beskrivelse = () => {
     return <span>{beskrivelse}</span>;
 };
 
-export default ForebyggeFraværboks;
+export default ForebyggeFravR;

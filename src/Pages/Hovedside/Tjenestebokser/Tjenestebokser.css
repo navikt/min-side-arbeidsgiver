@@ -1,0 +1,43 @@
+.tjenesteboks__lenkepanel {
+    min-height: 8rem;
+    height: 100%;
+}
+
+.tjenesteboks-container .tjenesteboks {
+    background-color: white;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    border-radius: var(--a-border-radius-small);
+}
+
+.tjenesteboks-container .tjenesteboks__storttall {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.tjenesteboks-container .tjenesteboks .tjenesteboks-innhold {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.tjenesteboks-container .tjenesteboks:focus-within {
+    box-shadow: var(--a-shadow-focus);
+    outline: none;
+}
+
+.tjenesteboks-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: auto;
+}
+
+@media (min-width: 768px) {
+    .tjenesteboks-container {
+        grid-column-gap: 2rem;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

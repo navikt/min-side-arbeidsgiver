@@ -1,11 +1,11 @@
 import React from 'react';
 import { innsynAaregURL } from '../../../../lenker';
-import arbeidsforholdikon from './arbeidsforholdikon.svg';
+import arbeidsforholdikon from './arbeidsforhold-ikon.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
-import './ArbeidsforholdBoks.css';
+import './Arbeidsforhold.css';
 import { Tjenesteboks } from '../Tjenesteboks';
 
-const Arbeidsforholdboks = () => {
+const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
     const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
@@ -35,4 +35,4 @@ const Arbeidsforholdboks = () => {
     );
 };
 
-export default Arbeidsforholdboks;
+export default Arbeidsforhold;

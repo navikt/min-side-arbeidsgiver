@@ -1,13 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import AdvarselBannerTestversjon from './AdvarselBannerTestversjon';
 import { Alerts } from '../Alerts';
-import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
+import Tjenestebokser from './Tjenestebokser/Tjenestebokser';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import { SøknaderOgSkjemaer } from './SøknaderOgSkjemaer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import BrevFraAltinnContainer from './BrevFraAltinnContainer';
 import './Hovedside.css';
-import { GiOssTilbakemelding } from './GiOssTilbakemelding';
 import SisteSaker from './SisteSaker';
 import { TrengerDuHjelp } from './TrengerDuHjelp';
 import { useOversiktsfilterClearing } from '../Saksoversikt/useOversiktSessionStorage';
@@ -27,8 +26,7 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKofuviAlert />
                 <AktueltRubrikk />
                 <SisteSaker />
-                <TjenesteBoksContainer />
-                <GiOssTilbakemelding />
+                <Tjenestebokser />
                 <SøknaderOgSkjemaer />
                 <BrevFraAltinnContainer />
                 <NyttigForDegContainer />

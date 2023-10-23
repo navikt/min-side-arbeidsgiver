@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { refosoURL } from '../../../../lenker';
-import tiltakrefusjonikon from './tiltakrefusjonboks.svg';
+import tiltakrefusjonikon from './TiltakRefusjoner.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
-const TiltakRefusjonboks = () => {
+const TiltakRefusjoner = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     if (valgtOrganisasjon === undefined) {
         return null;
@@ -35,4 +35,4 @@ const TiltakRefusjonboks = () => {
     );
 };
 
-export default TiltakRefusjonboks;
+export default TiltakRefusjoner;
