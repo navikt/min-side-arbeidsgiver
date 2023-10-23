@@ -3,7 +3,7 @@ import { Tag } from '@navikt/ds-react';
 import './StatusLinje.css';
 import { StopWatch } from '@navikt/ds-icons';
 import { OppgaveTidslinjeElement, OppgaveTilstand } from '../api/graphql-types';
-import { dateFormat } from '../App/Hovedside/Sak/SakPanel';
+import { dateFormat } from '../Pages/Saksoversikt/SakPanel';
 
 export interface StatusLinjeProps {
     oppgave: OppgaveTidslinjeElement;

@@ -6,7 +6,7 @@ import * as Sentry from '@sentry/react';
 import 'whatwg-fetch';
 import environment, { gittMiljo } from './utils/environment';
 import '@navikt/ds-css';
-import App from './App/App';
+import Pages from './Pages/Pages';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
 
@@ -109,11 +109,11 @@ injectDecoratorClientSide({
 
 ReactDOM.render(
     gittMiljo({
-        prod: <App />,
+        prod: <Pages />,
         other: (
             <React.StrictMode>
                 {' '}
-                <App />{' '}
+                <Pages />{' '}
             </React.StrictMode>
         ),
     }),
