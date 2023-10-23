@@ -2,7 +2,7 @@ import { altinntjeneste, AltinntjenesteId } from './tjenester';
 import { z } from 'zod';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';
 
@@ -22,13 +22,20 @@ const AltinnTilgangssøknadResponse = z.array(AltinnTilgangssøknad);
 type AltinnTilgangssøknadResponse = z.infer<typeof AltinnTilgangssøknadResponse>;
 
 export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
+    const [retries, setRetries] = useState(0);
     const { data } = useSWR(altinnTilgangssøknadUrl, fetcher, {
         onError: (error) => {
-            Sentry.captureMessage(
-                `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
-                    error.status !== undefined ? `${error.status} ${error.statusText}` : error
-                }`
-            );
+            if (retries === 5) {
+                Sentry.captureMessage(
+                    `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
+                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
+                    }`
+                );
+            }
+            setRetries((x) => x + 1);
+        },
+        onSuccess: () => {
+            setRetries(0);
         },
         fallbackData: [],
         errorRetryInterval: 300,
