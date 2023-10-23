@@ -2,3 +2,4 @@ Dockerfile
 .prettierignore
 nais/*.yaml
 *.svg
+index.html
