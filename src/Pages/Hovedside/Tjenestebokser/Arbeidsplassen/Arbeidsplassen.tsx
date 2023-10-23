@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { arbeidsplassenURL } from '../../../../lenker';
 import PamboksIkon from './arbeidsplassen-ikon.svg';
 import './Arbeidsplassen.css';
@@ -56,6 +56,7 @@ const PamStatusAnnonser = z.object({
 const useAntallannonser = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
+    const [retries, setRetries] = useState(0);
 
     const { data } = useSWR(
         orgnr === undefined
@@ -67,12 +68,21 @@ const useAntallannonser = () => {
         fetcher,
         {
             onError: (error) => {
-                Sentry.captureMessage(
-                    `hent AntallAnnonser fra stillingsregistrering-api feilet med ${
-                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
-                    }`
-                );
+                if (retries === 5) {
+                    Sentry.captureMessage(
+                        `hent AntallAnnonser fra stillingsregistrering-api feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                }
+                setRetries((x) => x + 1);
             },
+            onSuccess: () => {
+                setRetries(0);
+            },
+            errorRetryInterval: 300,
         }
     );
     return data ?? 0;
