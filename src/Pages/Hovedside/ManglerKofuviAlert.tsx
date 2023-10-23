@@ -1,8 +1,36 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { Alert, Heading } from '@navikt/ds-react';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+
+export const ManglerKofuviAlert = () => {
+    const varslingStatus = manglerKofuviAlert();
+
+    if (varslingStatus.status !== 'MANGLER_KOFUVI') {
+        return null;
+    }
+
+    return (
+        <div role="status">
+            <Alert variant="error" role="status">
+                <Heading spacing size="small" level="2">
+                    Virksomheten må legge inn varslingsadresse
+                </Heading>
+                Virksomheten mangler varslingsadresse (en e-post eller et mobilnummer). Virksomheten
+                din må legge inn dette slik at NAV kan kommunisere digitalt med dere. <br />
+                <LenkeMedLogging
+                    href="https://www.altinn.no/hjelp/profil/kontaktinformasjon-og-varslinger/"
+                    loggLenketekst="Les om varslingsadresse i Altinn"
+                >
+                    Les om varslingsadresse i Altinn
+                </LenkeMedLogging>
+            </Alert>
+        </div>
+    );
+};
 
 const VarslingStatusRespons = z.object({
     status: z.enum(['OK', 'MANGLER_KOFUVI', 'ANNEN_FEIL']),
@@ -16,7 +44,7 @@ const fallbackData: VarslingStatus = {
     varselTimestamp: '',
     kvittertEventTimestamp: '',
 };
-export const useVarslingStatus = (): VarslingStatus => {
+const manglerKofuviAlert = (): VarslingStatus => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(

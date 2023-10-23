@@ -10,6 +10,10 @@ import Pages from './Pages/Pages';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
 
+window.localStorage.removeItem('ForebyggeFraværInfoBoksLukket');
+window.localStorage.removeItem('InntektsmeldingUndersøkelse');
+window.localStorage.removeItem('DigiSyfoBedriftsmenyInfoLukket');
+
 class SentryDebugTransport implements SentryTypes.Transport {
     close(timeout?: number): PromiseLike<boolean> {
         return Promise.resolve(true);
