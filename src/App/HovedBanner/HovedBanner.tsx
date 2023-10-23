@@ -7,6 +7,7 @@ import * as Record from '../../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import amplitude from '../../utils/amplitude';
 import { useLocation } from 'react-router-dom';
+import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 
 interface OwnProps {
     sidetittel?: string;
@@ -15,6 +16,14 @@ interface OwnProps {
 export const SimpleBanner: FunctionComponent<OwnProps> = ({
     sidetittel = 'Min side – arbeidsgiver',
 }) => {
+    useEffect(() => {
+        setBreadcrumbs([
+            {
+                url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver',
+                title: 'Min side – arbeidsgiver',
+            },
+        ]).then(() => {});
+    }, []);
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}
