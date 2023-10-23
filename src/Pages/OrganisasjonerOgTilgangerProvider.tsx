@@ -2,7 +2,6 @@ import React, { FunctionComponent, useContext, useEffect, useMemo } from 'react'
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import { SpinnerMedBanner } from './Spinner';
 import amplitude from '../utils/amplitude';
 import { Organisasjon } from '../altinn/organisasjon';
 import { AlertContext } from './Alerts';
@@ -11,6 +10,7 @@ import { useEffectfulAsyncFunction } from '../hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
 import { UserInfoRespons, useUserInfo } from './useUserInfo';
 import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
+import { SpinnerMedBanner } from './Banner';
 
 type orgnr = string;
 

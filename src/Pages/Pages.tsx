@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Link as RouterLink, Routes, useLocation } from 'react-router-dom';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
@@ -7,16 +7,14 @@ import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
 import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
-import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './Pages.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Banner from './HovedBanner';
+import Banner, { Brodsmulesti } from './Banner';
 import { Saksoversikt } from './Saksoversikt/Saksoversikt';
 import { SaksoversiktRestoreSession } from './Saksoversikt/SaksoversiktRestoreSession';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
-import Brodsmulesti from './Brodsmulesti';
 import { SWRConfig } from 'swr';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({

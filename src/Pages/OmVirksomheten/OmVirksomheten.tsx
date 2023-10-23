@@ -3,9 +3,9 @@ import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { useOverordnetEnhet, useUnderenhet } from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet';
 import OverordnetEnhet from './OverordnetEnhet';
-import Brodsmulesti from '../Brodsmulesti';
 import './OmVirksomheten.css';
 import { Panel } from '@navikt/ds-react';
+import { Brodsmulesti } from '../Banner';
 
 const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
     <Panel className="informasjon-om-bedrift">{children}</Panel>

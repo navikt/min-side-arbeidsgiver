@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import Brodsmulesti from '../Brodsmulesti';
 import AdvarselBannerTestversjon from './AdvarselBannerTestversjon';
 import { Alerts } from '../Alerts';
 import TjenesteBoksContainer from './TjenesteBoksContainer/TjenesteBoksContainer';
@@ -27,7 +26,6 @@ const Hovedside: FunctionComponent = () => {
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     return (
         <div>
-            <Brodsmulesti brodsmuler={[]} />
             <div className="hovedside-container">
                 <AdvarselBannerTestversjon />
                 <UndersokelseInntektsmelding />

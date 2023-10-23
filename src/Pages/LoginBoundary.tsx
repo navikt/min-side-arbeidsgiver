@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Spinner } from './Spinner';
-import { SimpleBanner } from './HovedBanner';
+import { SimpleBanner, SpinnerMedBanner } from './Banner';
 import { useUserInfo } from './useUserInfo';
 import { Alert } from '@navikt/ds-react';
 
@@ -22,11 +21,6 @@ export const LoginBoundary: FunctionComponent = (props) => {
             </>
         );
     } else {
-        return (
-            <>
-                <SimpleBanner />
-                <Spinner />
-            </>
-        );
+        return <SpinnerMedBanner />;
     }
 };

@@ -2,7 +2,6 @@ import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
 import { Label, Pagination, Select } from '@navikt/ds-react';
-import { Spinner } from '../Spinner';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
@@ -17,6 +16,7 @@ import amplitude from '../../utils/amplitude';
 import { LagreFilter } from './LagreFilter';
 import { FilterChips } from './FilterChips';
 import { ServerError } from '@apollo/client/link/utils';
+import { Spinner } from '../Banner';
 
 export const SIDE_SIZE = 30;
 

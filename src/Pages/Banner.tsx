@@ -5,9 +5,9 @@ import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import amplitude from '../utils/amplitude';
-import { useLocation } from 'react-router-dom';
-import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { onBreadcrumbClick, setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
+import { Loader } from '@navikt/ds-react';
 
 interface OwnProps {
     sidetittel?: string;
@@ -47,10 +47,59 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
             undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
             organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
             onOrganisasjonChange={endreOrganisasjon}
-            amplitudeClient={amplitude}
         >
             <NotifikasjonWidget />
         </Bedriftsmeny>
+    );
+};
+
+interface Brodsmule {
+    url: string;
+    title: string;
+    handleInApp: boolean;
+}
+
+interface BrodsmuleProps {
+    brodsmuler: Brodsmule[];
+}
+
+export const Brodsmulesti = ({ brodsmuler }: BrodsmuleProps) => {
+    const navigate = useNavigate();
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+
+    const orgnrdel = valgtOrganisasjon
+        ? `?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
+        : '';
+
+    onBreadcrumbClick((breadcrumb) => {
+        navigate(breadcrumb.url);
+    });
+
+    const defaultBrodsmule: Brodsmule[] = [
+        { url: '/' + orgnrdel, title: 'Min side – arbeidsgiver', handleInApp: true },
+    ];
+
+    const breadcrumbs = defaultBrodsmule.concat(brodsmuler);
+
+    useEffect(() => {
+        setBreadcrumbs(breadcrumbs);
+    }, [JSON.stringify(brodsmuler)]);
+
+    return <></>;
+};
+
+export const Spinner = () => (
+    <div className="app-laster-spinner">
+        <Loader size="3xlarge" />
+    </div>
+);
+
+export const SpinnerMedBanner = () => {
+    return (
+        <>
+            <SimpleBanner />
+            <Spinner />
+        </>
     );
 };
 
