@@ -27,6 +27,7 @@ spec:
     enabled: true
     sidecar:
       enabled: true
+      autoLogin: true
   envFrom:
     - secret: min-side-ag-frontend
   env:
