@@ -129,6 +129,9 @@ const loggerPlugin = (proxyServer, options) => {
 log.info(`Frackend startup: ${JSON.stringify({ NAIS_CLUSTER_NAME, MILJO, GIT_COMMIT })}`);
 
 let BUILD_PATH = path.join(process.cwd(), '../build');
+if (MILJO === 'local') {
+    BUILD_PATH = path.join(process.cwd(), '../');
+}
 
 const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
     SETTINGS: `
