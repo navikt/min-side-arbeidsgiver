@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import { z } from 'zod';
@@ -18,11 +18,30 @@ export type Avtalenavn = keyof Avtaleoversikt;
 
 export const useAvtaleoversikt = (): Avtaleoversikt => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { data: avtaler = [] } = useSWR(
+    const [retries, setRetries] = useState(0);
+    const { data: avtaler } = useSWR(
         valgtOrganisasjon !== undefined
             ? `/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?bedriftNr=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
             : null,
-        fetcher
+        fetcher,
+        {
+            onSuccess: () => setRetries(0),
+            onError: (error) => {
+                if (retries === 5) {
+                    Sentry.captureMessage(
+                        `hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                } else {
+                    setRetries((x) => x + 1);
+                }
+            },
+            errorRetryInterval: 300,
+            fallbackData: [],
+        }
     );
 
     return useMemo(
@@ -52,16 +71,8 @@ const ArbeidsavtaleResponsType = z.array(
 );
 
 const fetcher = async (url: string) => {
-    try {
-        const respons = await fetch(url);
-        if (respons.status === 200) return ArbeidsavtaleResponsType.parse(await respons.json());
-        if (respons.status === 401) return [];
-        Sentry.captureMessage(
-            `hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${respons.status}, ${respons.statusText}`
-        );
-        return [];
-    } catch (error) {
-        Sentry.captureException(error);
-    }
-    return [];
+    const respons = await fetch(url);
+    if (respons.status !== 200) throw respons;
+
+    return ArbeidsavtaleResponsType.parse(await respons.json());
 };
