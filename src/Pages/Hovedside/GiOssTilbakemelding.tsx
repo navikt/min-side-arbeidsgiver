@@ -51,7 +51,7 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
 
             return closed ? null : (
                 <Alert variant="info" closeButton onClose={() => setClosed(true)}>
-                    <Heading spacing size="small" level="3">
+                    <Heading spacing size="small" level="2">
                         Er du leder med personalansvar?
                     </Heading>
                     Vi skal forbedre våre tjenester for inkluderende arbeidsliv, og vil gjerne ha
