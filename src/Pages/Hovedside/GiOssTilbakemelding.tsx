@@ -39,16 +39,19 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
         visFra: new Date('2023-11-13T10:00:00+02:00'),
         visTil: new Date('2023-12-01T10:00:00+02:00'),
         Component: () => {
-            const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+            const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+            const harSyfotilgangPåTvers = Record.values(organisasjoner).some(
+                (org) => org.syfotilgang
+            );
             const [closed, setClosed] = useLocalStorage('ia-bookings-closed', false);
 
-            if (valgtOrganisasjon === null || valgtOrganisasjon?.syfotilgang === false) {
+            if (!harSyfotilgangPåTvers) {
                 return null;
             }
 
             return closed ? null : (
                 <Alert variant="info" closeButton onClose={() => setClosed(true)}>
-                    <Heading spacing size="small" level="3">
+                    <Heading spacing size="small" level="2">
                         Er du leder med personalansvar?
                     </Heading>
                     Vi skal forbedre våre tjenester for inkluderende arbeidsliv, og vil gjerne ha
