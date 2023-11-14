@@ -14,6 +14,7 @@ import { AktueltRubrikk } from './AktueltRubrikk';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
+import { GiOssTilbakemelding } from './GiOssTilbakemelding';
 
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
@@ -24,6 +25,7 @@ const Hovedside: FunctionComponent = () => {
                 <AdvarselBannerTestversjon />
                 <Alerts />
                 <ManglerKofuviAlert />
+                <GiOssTilbakemelding />
                 <AktueltRubrikk />
                 <SisteSaker />
                 <Tjenestebokser />
