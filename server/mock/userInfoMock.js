@@ -149,6 +149,15 @@ const organisasjonerMedRettigheter = [
     '999999999',
 ];
 
+const formLøsOrganisasjon = {
+    Name: 'SALTRØD OG HØNEBY',
+    Type: 'Business',
+    OrganizationNumber: '999999999',
+    ParentOrganizationNumber: '121488424',
+    OrganizationForm: null,
+    Status: 'Active',
+};
+
 const alleTjenester = [
     {
         id: 'ekspertbistand',
@@ -234,7 +243,11 @@ export const mock = (app) => {
         } else {
             res.send({
                 altinnError: casual.boolean,
-                organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner],
+                organisasjoner: [
+                    ...OrganisasjonerResponse,
+                    ...andreOrganisasjoner,
+                    formLøsOrganisasjon,
+                ],
                 tilganger: [
                     {
                         id: 'mentortilskudd',

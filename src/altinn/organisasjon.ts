@@ -4,7 +4,11 @@ export const Organisasjon = z.object({
     Name: z.string(),
     Type: z.string(),
     OrganizationNumber: z.string(),
-    OrganizationForm: z.string(),
+    OrganizationForm: z
+        .string()
+        .nullable()
+        .default('')
+        .transform((o) => o ?? ''),
     Status: z.string(),
     ParentOrganizationNumber: z
         .string()
