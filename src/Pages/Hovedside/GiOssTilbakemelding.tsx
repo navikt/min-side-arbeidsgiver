@@ -39,10 +39,13 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
         visFra: new Date('2023-11-13T10:00:00+02:00'),
         visTil: new Date('2023-12-01T10:00:00+02:00'),
         Component: () => {
-            const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+            const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+            const harSyfotilgangPåTvers = Record.values(organisasjoner).some(
+                (org) => org.syfotilgang
+            );
             const [closed, setClosed] = useLocalStorage('ia-bookings-closed', false);
 
-            if (valgtOrganisasjon === null || valgtOrganisasjon?.syfotilgang === false) {
+            if (!harSyfotilgangPåTvers) {
                 return null;
             }
 
