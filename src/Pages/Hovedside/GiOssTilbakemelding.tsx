@@ -79,8 +79,8 @@ export const GiOssTilbakemelding = () => {
 
     return (
         <>
-            {tilbakemeldingSomSkalVises.map(({ Component }) => (
-                <Component />
+            {tilbakemeldingSomSkalVises.map(({ id, Component }) => (
+                <Component key={id} />
             ))}
         </>
     );
