@@ -37,7 +37,7 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
     {
         id: 'ia-bookings',
         visFra: new Date('2023-11-13T10:00:00+02:00'),
-        visTil: new Date('2023-12-01T10:00:00+02:00'),
+        visTil: new Date('2023-11-15T08:00:00+01:00'),
         Component: () => {
             const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
             const harSyfotilgangPåTvers = Record.values(organisasjoner).some(
