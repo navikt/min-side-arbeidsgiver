@@ -43,7 +43,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     if (orgnr !== null && organisasjoner[orgnr] !== undefined) {
         endreOrganisasjon(organisasjoner[orgnr].organisasjon);
         search.delete('bedrift');
-        navigate({ pathname: '/', search: search.toString() }, { replace: true });
+        navigate({ pathname: pathname, search: search.toString() }, { replace: true });
     }
 
     const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
@@ -87,18 +87,13 @@ interface BrodsmuleProps {
 
 export const Brodsmulesti = ({ brodsmuler }: BrodsmuleProps) => {
     const navigate = useNavigate();
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
-    const orgnrdel = valgtOrganisasjon
-        ? `?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-        : '';
 
     onBreadcrumbClick((breadcrumb) => {
         navigate(breadcrumb.url);
     });
 
     const defaultBrodsmule: Brodsmule[] = [
-        { url: '/' + orgnrdel, title: 'Min side – arbeidsgiver', handleInApp: true },
+        { url: '/', title: 'Min side – arbeidsgiver', handleInApp: true },
     ];
 
     const breadcrumbs = defaultBrodsmule.concat(brodsmuler);
