@@ -5,7 +5,7 @@ import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { onBreadcrumbClick, setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 import { Loader } from '@navikt/ds-react';
 
@@ -35,17 +35,20 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
 const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const search = new URLSearchParams(window.location.search);
-    const pathname = useLocation().pathname.replace(/\/+$/, '');
-    const orgnr = search.get('bedrift');
-    const navigate = useNavigate();
 
-    if (orgnr !== null) {
-        if (organisasjoner[orgnr] !== undefined) {
-            endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+    const navigate = useNavigate();
+    const pathname = useLocation().pathname.replace(/\/+$/, '');
+    const [params, setParams] = useSearchParams();
+    const orgnrFraUrl = params.get('bedrift');
+
+    if (orgnrFraUrl !== null) {
+        if (organisasjoner[orgnrFraUrl] !== undefined) {
+            endreOrganisasjon(organisasjoner[orgnrFraUrl].organisasjon);
         }
-        search.delete('bedrift');
-        navigate({ pathname: pathname, search: search.toString() }, { replace: true });
+        const newParams = new URLSearchParams(params);
+        newParams.delete('bedrift');
+        setParams(newParams);
+        navigate({ pathname: pathname, search: newParams.toString() }, { replace: true });
     }
 
     const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
