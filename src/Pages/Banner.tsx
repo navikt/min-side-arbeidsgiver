@@ -36,7 +36,6 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    const navigate = useNavigate();
     const pathname = useLocation().pathname.replace(/\/+$/, '');
     const [params, setParams] = useSearchParams();
     const orgnrFraUrl = params.get('bedrift');
@@ -48,7 +47,6 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
         const newParams = new URLSearchParams(params);
         newParams.delete('bedrift');
         setParams(newParams);
-        navigate({ pathname: pathname, search: newParams.toString() }, { replace: true });
     }
 
     const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
