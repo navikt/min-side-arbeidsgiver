@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useCallback } from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
@@ -36,6 +36,28 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const { pathname } = useLocation();
+    const search = new URLSearchParams(window.location.search);
+    const orgnr = search.get('bedrift');
+    const navigate = useNavigate();
+
+    if (orgnr !== null && organisasjoner[orgnr] !== undefined) {
+        endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+        search.delete('bedrift');
+        navigate({ pathname: '/', search: search.toString() }, { replace: true });
+    }
+
+    const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
+        const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+        const currentOrgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? null;
+        return [
+            currentOrgnr,
+            (orgnr: string) => {
+                organisasjoner[orgnr] !== undefined &&
+                    endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+            },
+        ];
+    }, []);
+
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
@@ -46,7 +68,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
             sidetittel={sidetittel}
             undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
             organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
-            onOrganisasjonChange={endreOrganisasjon}
+            orgnrSearchParam={useOrgnrHook}
         >
             <NotifikasjonWidget />
         </Bedriftsmeny>

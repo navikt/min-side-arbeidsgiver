@@ -35,7 +35,7 @@ const filterToSessionState = (
     valgtFilterId: string | undefined
 ): SessionStateSaksoversikt => ({
     route: '/saksoversikt',
-    bedrift: new URLSearchParams(window.location.search).get('bedrift') ?? undefined,
+    bedrift: undefined,
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
@@ -171,7 +171,7 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): UseSessionSta
 const extractSearchParameters = (searchString: string): SessionStateSaksoversikt => {
     const search = new URLSearchParams(searchString);
     const sortering = (search.get('sortering') ?? SakSortering.Oppdatert) as SakSortering;
-    const bedrift = search.get('bedrift') ?? undefined;
+    const bedrift = undefined;
     const virksomhetsnumre =
         search.get('virksomhetsnumre') === 'ALLEBEDRIFTER'
             ? 'ALLEBEDRIFTER'

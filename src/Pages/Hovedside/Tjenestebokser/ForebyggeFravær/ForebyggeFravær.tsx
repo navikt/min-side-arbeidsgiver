@@ -1,14 +1,18 @@
 import { lenkeTilForebyggefravar } from '../../../../lenker';
-import React from 'react';
+import React, { useContext } from 'react';
 import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
 import './ForebyggeFravær.css';
 import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const ForebyggeFravR = () => {
     const valgtbedrift = () => {
-        const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
-        return orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`;
+        const orgnr =
+            useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
+                .OrganizationNumber ?? '';
+
+        return orgnr === '' ? '' : `?bedrift=${orgnr}`;
     };
 
     return (
