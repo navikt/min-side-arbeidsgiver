@@ -35,13 +35,15 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
 const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { pathname } = useLocation();
     const search = new URLSearchParams(window.location.search);
+    const pathname = useLocation().pathname.replace(/\/+$/, '');
     const orgnr = search.get('bedrift');
     const navigate = useNavigate();
 
-    if (orgnr !== null && organisasjoner[orgnr] !== undefined) {
-        endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+    if (orgnr !== null) {
+        if (organisasjoner[orgnr] !== undefined) {
+            endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+        }
         search.delete('bedrift');
         navigate({ pathname: pathname, search: search.toString() }, { replace: true });
     }
