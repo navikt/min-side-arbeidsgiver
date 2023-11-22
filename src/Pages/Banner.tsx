@@ -42,9 +42,9 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
 
     useEffect(() => {
         if (orgnrFraUrl === null) return;
-        if (organisasjoner[orgnrFraUrl] === undefined) return;
-
-        endreOrganisasjon(organisasjoner[orgnrFraUrl].organisasjon);
+        if (organisasjoner[orgnrFraUrl] !== undefined) {
+            endreOrganisasjon(organisasjoner[orgnrFraUrl].organisasjon);
+        }
 
         params.delete('bedrift');
         setParams(params, { replace: true });
