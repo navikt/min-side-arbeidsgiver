@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useCallback, cloneElement } from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { onBreadcrumbClick, setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 import { Loader } from '@navikt/ds-react';
 
@@ -34,8 +34,34 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
 
 const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
-    const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+
     const { pathname } = useLocation();
+    const [params, setParams] = useSearchParams();
+    const orgnrFraUrl = params.get('bedrift');
+
+    useEffect(() => {
+        if (orgnrFraUrl === null) return;
+        if (organisasjoner[orgnrFraUrl] !== undefined) {
+            endreOrganisasjon(organisasjoner[orgnrFraUrl].organisasjon);
+        }
+
+        params.delete('bedrift');
+        setParams(params, { replace: true });
+    }, []);
+
+    const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
+        const currentOrgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? null;
+        return [
+            currentOrgnr,
+            (orgnr: string) => {
+                if (organisasjoner[orgnr] !== undefined) {
+                    endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+                }
+            },
+        ];
+    }, [endreOrganisasjon, valgtOrganisasjon]);
+
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
@@ -46,7 +72,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
             sidetittel={sidetittel}
             undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
             organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
-            onOrganisasjonChange={endreOrganisasjon}
+            orgnrSearchParam={useOrgnrHook}
         >
             <NotifikasjonWidget />
         </Bedriftsmeny>
@@ -65,18 +91,13 @@ interface BrodsmuleProps {
 
 export const Brodsmulesti = ({ brodsmuler }: BrodsmuleProps) => {
     const navigate = useNavigate();
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-
-    const orgnrdel = valgtOrganisasjon
-        ? `?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-        : '';
 
     onBreadcrumbClick((breadcrumb) => {
         navigate(breadcrumb.url);
     });
 
     const defaultBrodsmule: Brodsmule[] = [
-        { url: '/' + orgnrdel, title: 'Min side – arbeidsgiver', handleInApp: true },
+        { url: '/', title: 'Min side – arbeidsgiver', handleInApp: true },
     ];
 
     const breadcrumbs = defaultBrodsmule.concat(brodsmuler);

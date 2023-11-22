@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { kandidatlisteURL } from '../../../../lenker';
 import { Tjenesteboks } from '../Tjenesteboks';
 import { useAntallKandidater } from './useAntallKandidater';
 import ikon from './kandidatlisteboks-ikon.svg';
 import './Kandidatlister.css';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Kandidatlister = () => {
     const antallKandidater = useAntallKandidater();
 
-    const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
-    const href =
-        kandidatlisteURL + (orgnummerFraUrl === '' ? '' : `?virksomhet=${orgnummerFraUrl}`);
+    const orgnr =
+        useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
+            .OrganizationNumber ?? '';
+
+    const href = kandidatlisteURL + (orgnr === '' ? '' : `?virksomhet=${orgnr}`);
 
     return antallKandidater === 0 ? null : (
         <Tjenesteboks

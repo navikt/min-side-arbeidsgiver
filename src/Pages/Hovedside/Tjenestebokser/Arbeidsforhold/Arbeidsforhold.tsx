@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { innsynAaregURL } from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforhold-ikon.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
 import { Tjenesteboks } from '../Tjenesteboks';
+import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
-    const orgnummerFraUrl = new URLSearchParams(window.location.search).get('bedrift') ?? '';
-    const href = innsynAaregURL + (orgnummerFraUrl === '' ? '' : `?bedrift=${orgnummerFraUrl}`);
+    const orgnr =
+        useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
+            .OrganizationNumber ?? '';
+    const href = innsynAaregURL + (orgnr === '' ? '' : `?bedrift=${orgnr}`);
 
     return (
         <Tjenesteboks

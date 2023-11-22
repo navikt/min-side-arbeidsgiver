@@ -24,7 +24,7 @@ export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as C
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(
-        undefined
+        organisasjoner[sessionStorage.getItem('bedrift') ?? '']
     );
 
     const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<
