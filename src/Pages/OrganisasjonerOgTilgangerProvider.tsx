@@ -70,6 +70,9 @@ const useBeregnAltinnTilgangssøknad = ():
     }, [userInfo, altinnTilgangssøknader]);
 };
 
+// @ts-ignore
+const buildTimestamp = __BUILD_TIMESTAMP__;
+
 const useBeregnOrganisasjoner = (): Record<orgnr, OrganisasjonInfo> | undefined => {
     const { userInfo } = useUserInfo();
     const { setSystemAlert } = useContext(AlertContext);
@@ -81,6 +84,7 @@ const useBeregnOrganisasjoner = (): Record<orgnr, OrganisasjonInfo> | undefined 
         if (userInfo !== undefined) {
             amplitude.setUserProperties({
                 syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0,
+                buildTimestamp,
             });
         }
     }, [userInfo]);

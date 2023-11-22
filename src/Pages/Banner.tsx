@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useCallback } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useCallback, cloneElement } from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
@@ -34,32 +34,33 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
 
 const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
-    const { endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    const pathname = useLocation().pathname.replace(/\/+$/, '');
+    const { pathname } = useLocation();
     const [params, setParams] = useSearchParams();
     const orgnrFraUrl = params.get('bedrift');
 
-    if (orgnrFraUrl !== null) {
+    useEffect(() => {
+        if (orgnrFraUrl === null) return;
         if (organisasjoner[orgnrFraUrl] !== undefined) {
             endreOrganisasjon(organisasjoner[orgnrFraUrl].organisasjon);
         }
-        const newParams = new URLSearchParams(params);
-        newParams.delete('bedrift');
-        setParams(newParams);
-    }
+
+        params.delete('bedrift');
+        setParams(params, { replace: true });
+    }, []);
 
     const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
-        const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
         const currentOrgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? null;
         return [
             currentOrgnr,
             (orgnr: string) => {
-                organisasjoner[orgnr] !== undefined &&
+                if (organisasjoner[orgnr] !== undefined) {
                     endreOrganisasjon(organisasjoner[orgnr].organisasjon);
+                }
             },
         ];
-    }, []);
+    }, [endreOrganisasjon, valgtOrganisasjon]);
 
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner
