@@ -2,13 +2,15 @@
 // Store copy of oversikts-filter in sessionStorage
 
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './useOversiktStateTransitions';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
+import { Login } from '@navikt/ds-icons';
+import amplitude from 'amplitude-js';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
@@ -104,32 +106,45 @@ export type UseSessionState = [
     },
     (filter: Filter, valgtFilterId: string | undefined) => void,
 ];
+
+const defaultSessionState: SessionStateSaksoversikt = {
+    route: '/saksoversikt',
+    side: 1,
+    tekstsoek: '',
+    virksomhetsnumre: 'ALLEBEDRIFTER',
+    sortering: SakSortering.Oppdatert,
+    bedrift: undefined,
+    sakstyper: [],
+    oppgaveTilstand: [],
+    valgtFilterId: undefined,
+};
+
 export const useSessionState = (alleVirksomheter: Organisasjon[]): UseSessionState => {
-    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() =>
-        extractSearchParameters(window.location.search)
+    const [sessionState, setSessionState] = useSessionStorage(
+        SESSION_STORAGE_KEY,
+        defaultSessionState
     );
 
-    const location = useLocation();
-    const navigate = useNavigate();
+    const [params, setParams] = useSearchParams();
 
     useEffect(() => {
-        const newSessionState = extractSearchParameters(location.search);
-        if (!equalSessionState(sessionState, newSessionState)) {
-            setSessionState(newSessionState);
+        if (params === undefined) return;
+
+        let queryParametre: string[] = [];
+
+        // @ts-ignore
+        for (const key of params.keys()) {
+            queryParametre.push(key);
         }
-    }, [location.search]);
+        if (queryParametre.length === 0) return;
 
-    useEffect(() => {
-        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionState));
-    }, [sessionState]);
+        setParams({}, { replace: true });
+        //console.log('Saksoversikt_query_parametre', { queryParametre }); TODO: Logge til amplitude
+    }, []);
 
     const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
         const newSessionState = filterToSessionState(newFilter, newValgtFilterId);
         if (!equalSessionState(sessionState, newSessionState)) {
-            const search = updateSearchParameters(location.search, newSessionState);
-            if (search !== location.search) {
-                navigate({ search }, { replace: true });
-            }
             setSessionState(newSessionState);
         }
     };
@@ -168,83 +183,6 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): UseSessionSta
     return [{ filter, valgtFilterId: sessionState.valgtFilterId }, update];
 };
 
-const extractSearchParameters = (searchString: string): SessionStateSaksoversikt => {
-    const search = new URLSearchParams(searchString);
-    const sortering = (search.get('sortering') ?? SakSortering.Oppdatert) as SakSortering;
-    const bedrift = undefined;
-    const virksomhetsnumre =
-        search.get('virksomhetsnumre') === 'ALLEBEDRIFTER'
-            ? 'ALLEBEDRIFTER'
-            : search.get('virksomhetsnumre')?.split(',') ?? 'ALLEBEDRIFTER';
-    return {
-        route: '/saksoversikt',
-        bedrift,
-        virksomhetsnumre,
-        tekstsoek: search.get('tekstsoek') ?? '',
-        side: Number.parseInt(search.get('side') ?? '1'),
-        sortering: Object.values(SakSortering).includes(sortering) ? sortering : SakSortering.Frist,
-        sakstyper: search.get('sakstyper')?.split(',') ?? [],
-        oppgaveTilstand: (search.get('oppgaveTilstand')?.split(',') as OppgaveTilstand[]) ?? [],
-        valgtFilterId: search.get('valgtFilterId') ?? undefined,
-    };
-};
-
-const updateSearchParameters = (
-    current: string,
-    sessionState: SessionStateSaksoversikt
-): string => {
-    const query = new URLSearchParams(current);
-
-    if (sessionState.tekstsoek.length > 0) {
-        query.set('tekstsoek', sessionState.tekstsoek);
-    } else {
-        query.delete('tekstsoek');
-    }
-
-    const side = sessionState.side;
-    if (side === 1) {
-        query.delete('side');
-    } else {
-        query.set('side', sessionState.side.toString());
-    }
-
-    if (sessionState.bedrift !== undefined) {
-        query.set('bedrift', sessionState.bedrift);
-    }
-
-    if (sessionState.virksomhetsnumre === 'ALLEBEDRIFTER') {
-        query.delete('virksomhetsnumre');
-    } else {
-        query.set('virksomhetsnumre', sessionState.virksomhetsnumre.join(','));
-    }
-
-    if (sessionState.sakstyper.length > 0) {
-        query.set('sakstyper', sessionState.sakstyper.join(','));
-    } else {
-        query.delete('sakstyper');
-    }
-
-    if (sessionState.sortering === SakSortering.Frist) {
-        query.delete('sortering');
-    } else {
-        query.set('sortering', sessionState.sortering);
-    }
-
-    if (sessionState.oppgaveTilstand.length === 0) {
-        query.delete('oppgaveTilstand');
-    } else {
-        query.set('oppgaveTilstand', sessionState.oppgaveTilstand.toString());
-    }
-
-    if (sessionState.valgtFilterId === undefined) {
-        query.delete('valgtFilterId');
-    } else {
-        query.set('valgtFilterId', sessionState.valgtFilterId);
-    }
-
-    return query.toString();
-};
-
 // Clear sessionStorage with oversikts-filter.
 export const useOversiktsfilterClearing = () => {
     const [, , deleteFromSession] = useSessionStorage<SessionState | undefined>(
@@ -265,15 +203,8 @@ export const useRestoreSessionFromStorage = () => {
     const navigate = useNavigate();
 
     return () => {
-        if (storedSession?.route === '/saksoversikt') {
-            const search = updateSearchParameters(location.search, storedSession);
-            navigate({ pathname: '/saksoversikt', search }, { replace: true });
-        } else if (storedSession?.route === '/') {
-            const search =
-                storedSession.bedrift === undefined
-                    ? undefined
-                    : `bedrift=${storedSession.bedrift}`;
-            navigate({ pathname: '/', search }, { replace: true });
+        if (storedSession?.route === '/') {
+            navigate({ pathname: '/' }, { replace: true });
         } else {
             navigate({ pathname: '/saksoversikt' }, { replace: true });
         }
