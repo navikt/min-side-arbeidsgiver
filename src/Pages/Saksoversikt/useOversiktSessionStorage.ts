@@ -1,16 +1,14 @@
-// Keep oversiktsfilter up to date with query parameters.
 // Store copy of oversikts-filter in sessionStorage
 
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useContext, useEffect, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './useOversiktStateTransitions';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
-import { Login } from '@navikt/ds-icons';
-import amplitude from 'amplitude-js';
+import amplitude from '../../utils/amplitude';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
@@ -128,18 +126,18 @@ export const useSessionState = (alleVirksomheter: Organisasjon[]): UseSessionSta
     const [params, setParams] = useSearchParams();
 
     useEffect(() => {
-        if (params === undefined) return;
+        if (params.size === 0) return;
 
-        let queryParametre: string[] = [];
-
-        // @ts-ignore
-        for (const key of params.keys()) {
-            queryParametre.push(key);
-        }
-        if (queryParametre.length === 0) return;
-
-        setParams({}, { replace: true });
-        //console.log('Saksoversikt_query_parametre', { queryParametre }); TODO: Logge til amplitude
+        setParams(
+            (existing) => {
+                amplitude.logEvent('komponent-lastet', {
+                    komponent: 'saksoversiktSessionStorage',
+                    queryParametere: [...existing.keys()],
+                });
+                return {};
+            },
+            { replace: true }
+        );
     }, []);
 
     const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
@@ -192,21 +190,4 @@ export const useOversiktsfilterClearing = () => {
     useEffect(() => {
         deleteFromSession();
     }, []);
-};
-
-export const useRestoreSessionFromStorage = () => {
-    const [storedSession] = useSessionStorage<SessionState | undefined>(
-        SESSION_STORAGE_KEY,
-        undefined
-    );
-    const location = useLocation();
-    const navigate = useNavigate();
-
-    return () => {
-        if (storedSession?.route === '/') {
-            navigate({ pathname: '/' }, { replace: true });
-        } else {
-            navigate({ pathname: '/saksoversikt' }, { replace: true });
-        }
-    };
 };
