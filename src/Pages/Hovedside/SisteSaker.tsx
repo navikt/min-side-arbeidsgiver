@@ -20,6 +20,8 @@ const Saksikon = () => (
         viewBox="0 0 56 56"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-hidden="true"
     >
         <rect width="56" height="56" rx="4" fill="#C1CB33" fillOpacity="0.5" />
         <path
