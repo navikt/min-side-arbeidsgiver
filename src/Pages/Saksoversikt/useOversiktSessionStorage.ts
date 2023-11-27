@@ -1,6 +1,6 @@
 // Store copy of oversikts-filter in sessionStorage
 
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './useOversiktStateTransitions';
@@ -18,14 +18,12 @@ type SessionStateSaksoversikt = {
     tekstsoek: string;
     virksomhetsnumre: string[] | 'ALLEBEDRIFTER';
     sortering: SakSortering;
-    bedrift: string | undefined;
     sakstyper: string[];
     oppgaveTilstand: OppgaveTilstand[];
     valgtFilterId: string | undefined;
 };
 type SessionStateForside = {
     route: '/';
-    bedrift: string | undefined;
 };
 
 type SessionState = SessionStateSaksoversikt | SessionStateForside;
@@ -35,7 +33,6 @@ const filterToSessionState = (
     valgtFilterId: string | undefined
 ): SessionStateSaksoversikt => ({
     route: '/saksoversikt',
-    bedrift: undefined,
     side: filter.side,
     tekstsoek: filter.tekstsoek,
     sortering: filter.sortering,
@@ -67,12 +64,11 @@ const equalVirksomhetsnumre = (
 
 export const equalSessionState = (a: SessionState, b: SessionState): boolean => {
     if (a.route === '/' && b.route === '/') {
-        return a.bedrift === b.bedrift;
+        return true;
     } else if (a.route === '/saksoversikt' && b.route === '/saksoversikt') {
         return (
             a.side === b.side &&
             a.tekstsoek === b.tekstsoek &&
-            a.bedrift === b.bedrift &&
             a.sortering === b.sortering &&
             a.valgtFilterId === b.valgtFilterId &&
             equalVirksomhetsnumre(a, b) &&
@@ -86,14 +82,14 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
 
 export const useSessionStateForside = (): void => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const [_, setSessionState] = useSessionStorage(SESSION_STORAGE_KEY, { route: '/' });
     const bedrift = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
 
     useEffect(() => {
         const sessionState: SessionStateForside = {
             route: '/',
-            bedrift,
         };
-        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionState));
+        setSessionState(sessionState);
     }, [bedrift]);
 };
 
@@ -111,17 +107,22 @@ const defaultSessionState: SessionStateSaksoversikt = {
     tekstsoek: '',
     virksomhetsnumre: 'ALLEBEDRIFTER',
     sortering: SakSortering.Oppdatert,
-    bedrift: undefined,
     sakstyper: [],
     oppgaveTilstand: [],
     valgtFilterId: undefined,
 };
 
-export const useSessionState = (alleVirksomheter: Organisasjon[]): UseSessionState => {
-    const [sessionState, setSessionState] = useSessionStorage(
+export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
+    const [sessionStorage, setSessionStorage] = useSessionStorage<SessionState>(
         SESSION_STORAGE_KEY,
         defaultSessionState
     );
+    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() =>
+        sessionStorage.route === '/saksoversikt' ? sessionStorage : defaultSessionState
+    );
+    useEffect(() => {
+        setSessionStorage(sessionState);
+    }, [sessionState]);
 
     const [params, setParams] = useSearchParams();
 
