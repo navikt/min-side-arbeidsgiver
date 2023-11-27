@@ -144,9 +144,11 @@ const FilterChipsContainer = ({ chipElements }: FilterChipsContainerProps) => {
 
     return (
         <>
-            <Chips
-                children={visAlle ? chipElements : chipElements.slice(0, maksAntallMinimert)}
-            ></Chips>
+            {chipElements.length > 0 ? (
+                <Chips
+                    children={visAlle ? chipElements : chipElements.slice(0, maksAntallMinimert)}
+                ></Chips>
+            ) : null}
             {visKnapp ? (
                 <Button
                     variant="tertiary"
