@@ -14,9 +14,10 @@ export const HovedenhetCheckbox = ({ hovedenhet, valgteOrgnr }: HovedenhetCheckb
     const valgt = valgteOrgnr.has(hovedenhet.OrganizationNumber);
 
     return (
-        <div role="button" aria-checked={valgt} aria-expanded={valgt}>
+        <div role="button" aria-expanded={valgt}>
             <div className="hovedenhet">
                 <Checkbox
+                    checked={valgt}
                     value={hovedenhet.OrganizationNumber}
                     id={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
                     key={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_list_key`}
