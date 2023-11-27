@@ -73,7 +73,13 @@ export const SakPanel = ({
                     className="tidslinje-vis-mer-knapp"
                     variant="tertiary"
                     onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
-                    icon={tidslinjeOpen ? <Collapse /> : <Expand />}
+                    icon={
+                        tidslinjeOpen ? (
+                            <Collapse aria-hidden="true" />
+                        ) : (
+                            <Expand aria-hidden="true" />
+                        )
+                    }
                 >
                     {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
                 </Button>
@@ -147,9 +153,9 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
     const ikon = {
-        NY: <NyOppgaveIkon />,
-        UTFOERT: <OppgaveUtfortIkon />,
-        UTGAATT: <OppgaveUtfortIkon />,
+        NY: <NyOppgaveIkon title="Ny oppgave" />,
+        UTFOERT: <OppgaveUtfortIkon title="Oppgave er utført" />,
+        UTGAATT: <OppgaveUtfortIkon title="Oppgave er utgått" />,
     };
     return (
         <div className="tidslinje-element">
