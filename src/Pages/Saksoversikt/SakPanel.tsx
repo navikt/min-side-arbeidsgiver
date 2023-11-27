@@ -139,7 +139,7 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
             <div className="tidslinje-element-ikon">
-                <BeskjedIkon />
+                <BeskjedIkon title="Beskjed" />
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div className="tidslinje-linje">
@@ -153,9 +153,9 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
     const ikon = {
-        NY: <NyOppgaveIkon title="Ny oppgave" />,
-        UTFOERT: <OppgaveUtfortIkon title="Oppgave er utført" />,
-        UTGAATT: <OppgaveUtfortIkon title="Oppgave er utgått" />,
+        NY: <NyOppgaveIkon title="Oppgave" />,
+        UTFOERT: <OppgaveUtfortIkon title="Utført oppgave" />,
+        UTGAATT: <OppgaveUtfortIkon title="Utgått oppgave" />,
     };
     return (
         <div className="tidslinje-element">
