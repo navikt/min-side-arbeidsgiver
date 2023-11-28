@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, PropsWithChildren } from 'react';
 import { SimpleBanner, SpinnerMedBanner } from './Banner';
 import { useUserInfo } from './useUserInfo';
 import { Alert } from '@navikt/ds-react';
 
-export const LoginBoundary: FunctionComponent = (props) => {
+export const LoginBoundary: FunctionComponent<PropsWithChildren> = (props) => {
     const { userInfo, errorStatus, isError } = useUserInfo();
 
     if (errorStatus === 401) {

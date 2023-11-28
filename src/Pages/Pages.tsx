@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, PropsWithChildren, useEffect, useState } from 'react';
 import {
     BrowserRouter,
     Route,
@@ -30,7 +30,7 @@ const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     other: 'local',
 });
 
-const AmplitudeSidevisningEventLogger: FunctionComponent = (props) => {
+const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (props) => {
     const location = useLocation();
 
     useEffect(() => {
@@ -45,7 +45,7 @@ interface SideTittelProps {
     setTittel: (tittel: string) => void;
 }
 
-const SideTittelWrapper: FunctionComponent<SideTittelProps> = (props) => {
+const SideTittelWrapper: FunctionComponent<PropsWithChildren<SideTittelProps>> = (props) => {
     useEffect(() => {
         props.setTittel(props.tittel);
     });
