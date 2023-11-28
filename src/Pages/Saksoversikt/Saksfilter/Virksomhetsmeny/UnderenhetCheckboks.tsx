@@ -1,5 +1,5 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../../../altinn/organisasjon';
 import { amplitudeFilterKlikk } from '../Saksfilter';
