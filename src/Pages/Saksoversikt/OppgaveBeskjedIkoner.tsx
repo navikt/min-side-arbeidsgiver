@@ -1,7 +1,15 @@
 import React from 'react';
 
-export const NyOppgaveIkon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const NyOppgaveIkon = ({ title }: { title: string }) => (
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+    >
+        <title>{title}</title>
         <rect width="24" height="24" rx="4" fill="#C77300" />
         <path
             fillRule="evenodd"
@@ -12,8 +20,16 @@ export const NyOppgaveIkon = () => (
     </svg>
 );
 
-export const OppgaveUtfortIkon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const OppgaveUtfortIkon = ({ title }: { title: string }) => (
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+    >
+        <title>{title}</title>
         <rect width="24" height="24" rx="4" fill="#021431" fillOpacity="0.49" />
         <path
             fillRule="evenodd"
@@ -24,8 +40,16 @@ export const OppgaveUtfortIkon = () => (
     </svg>
 );
 
-export const BeskjedIkon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+export const BeskjedIkon = ({ title }: { title: string }) => (
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+    >
+        <title>{title}</title>
         <rect width="24" height="24" rx="4" fill="#3380A5" />
         <path
             fillRule="evenodd"
@@ -37,13 +61,29 @@ export const BeskjedIkon = () => (
 );
 
 export const TidslinjeLinjeIkon = () => (
-    <svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+        width="24"
+        height="32"
+        viewBox="0 0 24 32"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-hidden="true"
+    >
         <line x1="11.5" y1="32" x2="11.5" stroke="#979797" />
     </svg>
 );
 
 export const TidslinjeLinjeIkonKort = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-hidden="true"
+    >
         <line x1="11.5" y1="24" x2="11.5" stroke="#979797" />
     </svg>
 );

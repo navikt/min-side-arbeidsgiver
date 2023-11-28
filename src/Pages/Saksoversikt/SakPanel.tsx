@@ -31,26 +31,26 @@ type SakPanelProps = {
 };
 
 export const SakPanel = ({
-                             placeholder,
-                             sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
-                         }: SakPanelProps) => {
+    placeholder,
+    sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
+}: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
     const [tidslinjeOpen, setTidslinjeOpen] = useState(false);
 
     return (
-        <div className='sakscontainer'>
-            <BodyShort size='small' style={style}>
+        <div className="sakscontainer">
+            <BodyShort size="small" style={style}>
                 {virksomhet.navn.toUpperCase()}
             </BodyShort>
 
             <LenkeMedLogging href={lenke} loggLenketekst={tittel}>
-                <Heading size='small'>{tittel}</Heading>
+                <Heading size="small">{tittel}</Heading>
             </LenkeMedLogging>
             <div style={{ display: 'flex', gap: '16px' }}>
-                <BodyShort size='small' style={style}>
-                    <b>{sisteStatus.tekst}</b>
+                <BodyShort size="small" style={style}>
+                    <strong>{sisteStatus.tekst}</strong>
                 </BodyShort>
                 {tidslinje.length === 0 ? (
                     <Detail>{dateFormat.format(new Date(sisteStatus.tidspunkt))}</Detail>
@@ -70,12 +70,18 @@ export const SakPanel = ({
             </div>
             {tidslinje.length > 1 ? (
                 <Button
-                    className='tidslinje-vis-mer-knapp'
-                    variant='tertiary'
+                    className="tidslinje-vis-mer-knapp"
+                    variant="tertiary"
                     onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
-                    icon={tidslinjeOpen ? <Collapse/> : <Expand/>}
+                    icon={
+                        tidslinjeOpen ? (
+                            <Collapse aria-hidden="true" />
+                        ) : (
+                            <Expand aria-hidden="true" />
+                        )
+                    }
                 >
-                        {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
+                    {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
                 </Button>
             ) : null}
         </div>
@@ -97,12 +103,12 @@ type TidslinjeelementProps = {
 };
 
 const Tidslinjeelement = ({
-                              tidslinjeelement,
-                              indeks,
-                              apen,
-                              antall,
-                              tidslinjeOpen,
-                          }: TidslinjeelementHelperProps) => {
+    tidslinjeelement,
+    indeks,
+    apen,
+    antall,
+    tidslinjeOpen,
+}: TidslinjeelementHelperProps) => {
     if (!apen && indeks > 0) return null;
     if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
         return (
@@ -128,15 +134,15 @@ const Tidslinjeelement = ({
 const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
-        <div className='tidslinje-element'>
-            <Detail className='tidslinje-element-tidspunkt'>
+        <div className="tidslinje-element">
+            <Detail className="tidslinje-element-tidspunkt">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
-            <div className='tidslinje-element-ikon'>
-                <BeskjedIkon />
+            <div className="tidslinje-element-ikon">
+                <BeskjedIkon title="Beskjed" />
             </div>
-            <BodyShort className='tidslinje-element-tittel'>{tekst}</BodyShort>
-            <div className='tidslinje-linje'>
+            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
+            <div className="tidslinje-linje">
                 {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkonKort />}
             </div>
         </div>
@@ -147,30 +153,31 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
     const ikon = {
-        NY: <NyOppgaveIkon />,
-        UTFOERT: <OppgaveUtfortIkon />,
-        UTGAATT: <OppgaveUtfortIkon />,
+        NY: <NyOppgaveIkon title="Oppgave" />,
+        UTFOERT: <OppgaveUtfortIkon title="Utført oppgave" />,
+        UTGAATT: <OppgaveUtfortIkon title="Utgått oppgave" />,
     };
     return (
-        <div className='tidslinje-element'>
-            <Detail className='tidslinje-element-tidspunkt'>
+        <div className="tidslinje-element">
+            <Detail className="tidslinje-element-tidspunkt">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
-            <div className='tidslinje-element-ikon'>{ikon[tilstand]}</div>
-            <BodyShort className='tidslinje-element-tittel'>{tekst}</BodyShort>
+            <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
+            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div>
                 <StatusLinje
                     className={'oppgave-element-paaminnelse'}
                     oppgave={tidslinjeelement as OppgaveTidslinjeElement}
                 />
             </div>
-            <div className='tidslinje-linje'>
-                {erSist || !tidslinjeOpen ? null
-                    : (tilstand === OppgaveTilstand.Ny && frist === null && paaminnelseTidspunkt === null) ? (
-                        <TidslinjeLinjeIkonKort />
-                    ) : (
-                        <TidslinjeLinjeIkon />
-                    )}
+            <div className="tidslinje-linje">
+                {erSist || !tidslinjeOpen ? null : tilstand === OppgaveTilstand.Ny &&
+                  frist === null &&
+                  paaminnelseTidspunkt === null ? (
+                    <TidslinjeLinjeIkonKort />
+                ) : (
+                    <TidslinjeLinjeIkon />
+                )}
             </div>
         </div>
     );
