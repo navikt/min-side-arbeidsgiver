@@ -14,11 +14,7 @@ const Bedriftsinfoknapp = () => {
 
     return (
         <InternalLenkepanelMedLogging
-            to={
-                '/bedriftsinformasjon' +
-                '?bedrift=' +
-                valgtOrganisasjon.organisasjon.OrganizationNumber
-            }
+            to={'/bedriftsinformasjon'}
             onClick={() => scroll(0, 0)}
             className="bedriftsinfo-knapp"
             loggLenketekst="Informasjon om din virksomhet"
