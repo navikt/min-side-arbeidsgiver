@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { SIDE_SIZE } from './Saksoversikt';
-import { useSessionState } from './useOversiktSessionStorage';
+import { useSessionStateOversikt } from './useOversiktSessionStorage';
 import { useSaker } from './useSaker';
 import amplitude from '../../utils/amplitude';
 import {
@@ -15,53 +15,57 @@ import Immutable, { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
 
 export type Filter = {
-    side: number,
-    tekstsoek: string,
-    virksomheter: Set<string>,
-    sortering: SakSortering,
-    sakstyper: string[],
-    oppgaveTilstand: OppgaveTilstand[],
-}
+    side: number;
+    tekstsoek: string;
+    virksomheter: Set<string>;
+    sortering: SakSortering;
+    sakstyper: string[];
+    oppgaveTilstand: OppgaveTilstand[];
+};
 
-export type State = {
-    state: 'loading';
-    filter: Filter;
-    valgtFilterId: string | undefined;
-    sider: number | undefined;
-    totaltAntallSaker: number | undefined;
-    forrigeSaker: Array<Sak> | null;
-    sakstyper: Array<Sakstype> | undefined;
-    oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
-    startTid: Date;
-} | {
-    state: 'done';
-    filter: Filter;
-    valgtFilterId: string | undefined;
-    sider: number;
-    saker: Array<Sak>;
-    sakstyper: Array<Sakstype>;
-    totaltAntallSaker: number;
-    oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
-} | {
-    state: 'error';
-    filter: Filter;
-    valgtFilterId: string | undefined;
-    sider: number | undefined;
-    sakstyper: Array<Sakstype> | undefined;
-    totaltAntallSaker: number | undefined;
-    oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
-}
+export type State =
+    | {
+          state: 'loading';
+          filter: Filter;
+          valgtFilterId: string | undefined;
+          sider: number | undefined;
+          totaltAntallSaker: number | undefined;
+          forrigeSaker: Array<Sak> | null;
+          sakstyper: Array<Sakstype> | undefined;
+          oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
+          startTid: Date;
+      }
+    | {
+          state: 'done';
+          filter: Filter;
+          valgtFilterId: string | undefined;
+          sider: number;
+          saker: Array<Sak>;
+          sakstyper: Array<Sakstype>;
+          totaltAntallSaker: number;
+          oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
+      }
+    | {
+          state: 'error';
+          filter: Filter;
+          valgtFilterId: string | undefined;
+          sider: number | undefined;
+          sakstyper: Array<Sakstype> | undefined;
+          totaltAntallSaker: number | undefined;
+          oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
+      };
 
 type Action =
-    | { action: 'bytt-filter', filter: Filter }
-    | { action: 'sett-valgt-filterid', id: string | undefined }
+    | { action: 'bytt-filter'; filter: Filter }
+    | { action: 'sett-valgt-filterid'; id: string | undefined }
     | { action: 'lasting-pågår' }
-    | { action: 'lasting-ferdig', resultat: SakerResultat }
-    | { action: 'lasting-feilet' }
-
+    | { action: 'lasting-ferdig'; resultat: SakerResultat }
+    | { action: 'lasting-feilet' };
 
 export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) => {
-    const [sessionState, setSessionState] = useSessionState(alleVirksomheter)
+    const [sessionState, setSessionState] = useSessionStateOversikt(alleVirksomheter);
+
+    console.log('useOversiktStateTransitions', { sessionState });
 
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
@@ -78,8 +82,8 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
     const { loading, data } = useSaker(SIDE_SIZE, state.filter);
 
     useEffect(() => {
-        setSessionState(state.filter, state.valgtFilterId)
-    }, [state.filter, state.valgtFilterId])
+        setSessionState(state.filter, state.valgtFilterId);
+    }, [state.filter, state.valgtFilterId]);
 
     useEffect(() => {
         if (loading) {
@@ -100,7 +104,8 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
     return {
         state,
         byttFilter: (filter: Filter) => dispatch({ action: 'bytt-filter', filter }),
-        setValgtFilterId: (id: string | undefined) => dispatch({ action: 'sett-valgt-filterid', id }),
+        setValgtFilterId: (id: string | undefined) =>
+            dispatch({ action: 'sett-valgt-filterid', id }),
     };
 };
 
@@ -118,7 +123,7 @@ const reduce = (current: State, action: Action): State => {
             return {
                 ...current,
                 valgtFilterId: action.id,
-            }
+            };
         case 'lasting-pågår':
             return {
                 state: 'loading',
@@ -186,7 +191,7 @@ const finnForrigeSaker = (state: State): Array<Sak> | null => {
 };
 
 export function equalAsSets(a: string[], b: string[]) {
-    return a.length === b.length && a.every(aa => b.includes(aa));
+    return a.length === b.length && a.every((aa) => b.includes(aa));
 }
 
 export const equalFilter = (a: Filter, b: Filter): boolean =>

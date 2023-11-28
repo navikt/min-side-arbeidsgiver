@@ -1,5 +1,12 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { BrowserRouter, Route, Link as RouterLink, Routes, useLocation } from 'react-router-dom';
+import {
+    BrowserRouter,
+    Route,
+    Link as RouterLink,
+    Routes,
+    useLocation,
+    Navigate,
+} from 'react-router-dom';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import { LoginBoundary } from './LoginBoundary';
@@ -12,7 +19,6 @@ import './Pages.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import Banner, { Brodsmulesti } from './Banner';
 import { Saksoversikt } from './Saksoversikt/Saksoversikt';
-import { SaksoversiktRestoreSession } from './Saksoversikt/SaksoversiktRestoreSession';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
@@ -113,12 +119,10 @@ const Pages: FunctionComponent = () => {
                                                 <Route
                                                     path="/sak-restore-session"
                                                     element={
-                                                        <SideTittelWrapper
-                                                            tittel={'Saksoversikt'}
-                                                            setTittel={setSidetittel}
-                                                        >
-                                                            <SaksoversiktRestoreSession />
-                                                        </SideTittelWrapper>
+                                                        <Navigate
+                                                            to="/saksoversikt"
+                                                            replace={true}
+                                                        />
                                                     }
                                                 />
                                                 <Route
