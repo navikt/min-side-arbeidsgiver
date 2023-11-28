@@ -131,6 +131,7 @@ const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
 
     return (
         <Select
+            autoComplete="off"
             value={state.filter.sortering}
             className="saksoversikt__sortering"
             label={`${state.totaltAntallSaker} saker sortert på`}
