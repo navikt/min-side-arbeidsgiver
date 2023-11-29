@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, PropsWithChildren, useEffect, useState } from 'react';
 
 interface Props {
     fragment: string;
@@ -9,7 +9,10 @@ interface Props {
  * fragment i stede for query parameter.
  */
 
-export const LinkableFragment: FunctionComponent<Props> = ({ fragment, children }) => {
+export const LinkableFragment: FunctionComponent<PropsWithChildren<Props>> = ({
+    fragment,
+    children,
+}) => {
     const [htmlElement, setHtmlElement] = useState<HTMLDivElement | null>(null);
     const shouldScroll = new URLSearchParams(window.location.search).get('fragment') === fragment;
 

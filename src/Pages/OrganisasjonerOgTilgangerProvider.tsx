@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useMemo } from 'react';
+import React, { FunctionComponent, PropsWithChildren, useContext, useEffect, useMemo } from 'react';
 import * as Record from '../utils/Record';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
@@ -157,7 +157,7 @@ const useOrganisasjonstre = (organisasjoner: Record<orgnr, OrganisasjonInfo> | u
     return { organisasjonstre, childrenMap };
 };
 
-export const OrganisasjonerOgTilgangerProvider: FunctionComponent = (props) => {
+export const OrganisasjonerOgTilgangerProvider: FunctionComponent<PropsWithChildren> = (props) => {
     const organisasjoner = useBeregnOrganisasjoner();
     const altinnTilgangssøknad = useBeregnAltinnTilgangssøknad();
 

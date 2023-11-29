@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import { LenkepanelMedLogging } from '../../../GeneriskeElementer/LenkepanelMedLogging';
 import './Tjenesteboks.css';
 import { Heading } from '@navikt/ds-react';
@@ -10,7 +10,7 @@ interface Props {
     'aria-label': string;
 }
 
-export const Tjenesteboks: FC<Props> = (props) => (
+export const Tjenesteboks: FC<PropsWithChildren<Props>> = (props) => (
     <div className="tjenesteboks">
         <div className="tjenesteboks-innhold">
             <div className="tjeneste-boks-banner">
@@ -32,6 +32,6 @@ export const Tjenesteboks: FC<Props> = (props) => (
     </div>
 );
 
-export const StortTall: FC = (props) => {
+export const StortTall: FC<PropsWithChildren> = (props) => {
     return <span className={'tjenesteboks__storttall'}>{props.children}</span>;
 };

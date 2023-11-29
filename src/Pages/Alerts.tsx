@@ -1,4 +1,11 @@
-import React, { FunctionComponent, ReactNode, useContext, useMemo, useState } from 'react';
+import React, {
+    FunctionComponent,
+    PropsWithChildren,
+    ReactNode,
+    useContext,
+    useMemo,
+    useState,
+} from 'react';
 import { Alert } from '@navikt/ds-react';
 import { Set } from 'immutable';
 
@@ -10,7 +17,7 @@ type Context = {
 export type System = 'UserInfoAltinn' | 'UserInfoDigiSyfo' | 'SakerAltinn';
 export const AlertContext = React.createContext<Context>({} as Context);
 
-export const AlertsProvider: FunctionComponent = (props) => {
+export const AlertsProvider: FunctionComponent<PropsWithChildren> = (props) => {
     const [alertingSystems, setAlertingSystems] = useState<Set<System>>(() => Set());
 
     const setSystemAlert = (system: System, alerting: boolean) => {
