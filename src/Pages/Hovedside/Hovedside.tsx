@@ -30,7 +30,6 @@ const Hovedside: FunctionComponent = () => {
                 <SisteSaker />
                 <Tjenestebokser />
                 <SøknaderOgSkjemaer />
-                <BrevFraAltinnContainer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />
                 <div>
