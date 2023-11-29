@@ -5,7 +5,6 @@ import Tjenestebokser from './Tjenestebokser/Tjenestebokser';
 import NyttigForDegContainer from './NyttigForDegContainer/NyttigForDegContainer';
 import { SøknaderOgSkjemaer } from './SøknaderOgSkjemaer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
-import BrevFraAltinnContainer from './BrevFraAltinnContainer';
 import './Hovedside.css';
 import SisteSaker from './SisteSaker';
 import { TrengerDuHjelp } from './TrengerDuHjelp';
