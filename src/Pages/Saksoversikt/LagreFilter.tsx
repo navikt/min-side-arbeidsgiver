@@ -1,6 +1,6 @@
 import { equalFilter, Filter, State } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
+import { Alert, Button, Chips, Dropdown, ErrorSummary, Heading, TextField } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedKnapper } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../hooks/useRemoteStorage';
@@ -199,6 +199,9 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                 </Alert>
             ) : null}
             <div className="lagre-filter__header">
+                <Heading level="3" size="medium" className="saksoversikt__skjult-header-uu">
+                    Velg eller lagre filtervalg
+                </Heading>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     {valgtFilter ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>

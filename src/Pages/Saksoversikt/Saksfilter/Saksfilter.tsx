@@ -4,7 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Checkbox, CheckboxGroup, Label } from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -104,6 +104,9 @@ export const Saksfilter = ({
     return (
         <KollapsHvisMobil width={width}>
             <div className="saksfilter">
+                <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
+                    Saksfilter
+                </Heading>
                 <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
                 <CheckboxGroup

@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import * as Sentry from '@sentry/react';
 import './Saksoversikt.css';
-import { Label, Pagination, Select } from '@navikt/ds-react';
+import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
@@ -76,6 +76,9 @@ export const Saksoversikt = () => {
             />
             <div className="saksoversikt">
                 <Alerts />
+                <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
+                    Mine filtervalg
+                </Heading>
                 <LagreFilter
                     state={state}
                     byttFilter={byttFilter}
@@ -86,7 +89,9 @@ export const Saksoversikt = () => {
                     <VelgSortering state={state} byttFilter={byttFilter} />
                     <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
                 </div>
-
+                <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
+                    Saker resultater
+                </Heading>
                 <SaksListeBody state={state} />
 
                 <div className="saksoversikt__saksliste-footer">

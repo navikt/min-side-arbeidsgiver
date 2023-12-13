@@ -1,5 +1,5 @@
 import React, { ReactNode, useContext, useMemo, useState } from 'react';
-import { Button, Chips } from '@navikt/ds-react';
+import { Button, Chips, Heading } from '@navikt/ds-react';
 import { oppgaveTilstandTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
@@ -125,9 +125,15 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
     ].filter((it) => it !== null);
     if (chipElements.length !== 0) {
         chipElements.unshift(
-            <Chips.Removable key="EmptyAllFilters" onClick={onTømAlleFilter}>
-                Tøm alle filter
-            </Chips.Removable>
+            <>
+                <Heading level="3" size="medium" className="saksoversikt__skjult-header-uu">
+                    Valgte filter
+                </Heading>
+
+                <Chips.Removable key="EmptyAllFilters" onClick={onTømAlleFilter}>
+                    Tøm alle filter
+                </Chips.Removable>
+            </>
         );
     }
 
