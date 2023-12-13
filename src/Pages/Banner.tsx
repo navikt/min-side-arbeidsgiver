@@ -74,7 +74,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
             organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
             orgnrSearchParam={useOrgnrHook}
         >
-            <NotifikasjonWidget />
+            {pathname !== '/saksoversikt' && <NotifikasjonWidget />}
         </Bedriftsmeny>
     );
 };
