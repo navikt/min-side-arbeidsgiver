@@ -67,16 +67,27 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
         : [];
 
-    return (
-        <Bedriftsmeny
-            sidetittel={sidetittel}
-            undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
-            organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
-            orgnrSearchParam={useOrgnrHook}
-        >
-            {pathname !== '/saksoversikt' && <NotifikasjonWidget />}
-        </Bedriftsmeny>
-    );
+    if (pathname === '/saksoversikt') {
+        return (
+            <Bedriftsmeny
+                sidetittel={sidetittel}
+                undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
+                organisasjoner={[]}
+                orgnrSearchParam={useOrgnrHook}
+            />
+        );
+    } else {
+        return (
+            <Bedriftsmeny
+                sidetittel={sidetittel}
+                undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
+                organisasjoner={orgs}
+                orgnrSearchParam={useOrgnrHook}
+            >
+                <NotifikasjonWidget />
+            </Bedriftsmeny>
+        );
+    }
 };
 
 interface Brodsmule {
