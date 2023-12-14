@@ -83,7 +83,7 @@ const SisteSaker = () => {
         >
             <div className="siste_saker">
                 <Saksikon />
-                <Heading size="small">
+                <Heading level="2" size="small">
                     {`Saker ${
                         antallVirksomheter > 1 ? 'for dine virksomheter' : ''
                     } (${antallSakerForAlleBedrifter})`}

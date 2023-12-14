@@ -46,9 +46,7 @@ export const SakPanel = ({
             </BodyShort>
 
             <LenkeMedLogging href={lenke} loggLenketekst={tittel}>
-                <Heading level="3" size="small">
-                    {tittel}
-                </Heading>
+                <BodyShort className="sakstittel">{tittel}</BodyShort>
             </LenkeMedLogging>
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
