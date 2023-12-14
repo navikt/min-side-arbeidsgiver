@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext, useEffect, useCallback, cloneElement } from 'react';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
+import React, { FunctionComponent, useContext, useEffect, useCallback } from 'react';
+import Bedriftsmeny, { MSAIkon } from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
@@ -7,7 +7,8 @@ import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { onBreadcrumbClick, setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
-import { Loader } from '@navikt/ds-react';
+import { Heading, Loader } from '@navikt/ds-react';
+import './Banner.css';
 
 interface OwnProps {
     sidetittel?: string;
@@ -31,6 +32,19 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
         />
     );
 };
+
+const SaksoversiktBanner = () => (
+    <div className="banner__saksoversikt">
+        <div className="banner__saksoversikt__piktogram">
+            <MSAIkon />
+        </div>
+        <div className="banner__saksoversikt__tittel">
+            <Heading level="1" size="xlarge">
+                Saksoversikt
+            </Heading>
+        </div>
+    </div>
+);
 
 const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
@@ -68,12 +82,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
         : [];
 
     return pathname === '/saksoversikt' ? (
-        <Bedriftsmeny
-            sidetittel={sidetittel}
-            undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
-            organisasjoner={[]}
-            orgnrSearchParam={useOrgnrHook}
-        />
+        <SaksoversiktBanner />
     ) : (
         <Bedriftsmeny
             sidetittel={sidetittel}

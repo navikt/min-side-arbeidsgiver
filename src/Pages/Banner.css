@@ -1,0 +1,36 @@
+
+.banner__saksoversikt {
+    display: grid;
+    grid-template-columns: calc(50vw - 30rem) minmax(1rem, 60rem) auto;
+    grid-template-areas: "ikon tittel none";
+    border-bottom: 0.25rem solid var(--a-border-focus-on-inverted);
+    background-color: var(--a-bg-default);
+}
+
+
+
+.banner__saksoversikt__piktogram {
+    grid-area: ikon;
+    justify-self: flex-end;
+    grid-template-columns: 1fr 22rem min(62rem,calc(100vw - 22rem)) 22rem 1fr;
+}
+
+.banner__saksoversikt__piktogram > svg {
+    height: 3.25rem;
+    width: 3.25rem;
+    margin-right: 16px;
+}
+
+@media (max-width: 73rem) {
+    .banner__saksoversikt__piktogram {
+        display: none;
+    }
+
+    .banner__saksoversikt__tittel {
+        padding: 0 0 0 1rem
+    }
+                   }
+
+.banner__saksoversikt__tittel {
+    grid-area: tittel;
+}
