@@ -1,7 +1,6 @@
 .hovedenhet {
     display: flex;
     justify-content: flex-start;
-    padding: 8px 0;
     gap: 16px;
     align-items: flex-start;
 }
