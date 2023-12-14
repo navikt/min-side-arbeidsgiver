@@ -67,11 +67,18 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
         : [];
 
-    return (
+    return pathname === '/saksoversikt' ? (
         <Bedriftsmeny
             sidetittel={sidetittel}
             undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
-            organisasjoner={pathname === '/saksoversikt' ? [] : orgs}
+            organisasjoner={[]}
+            orgnrSearchParam={useOrgnrHook}
+        />
+    ) : (
+        <Bedriftsmeny
+            sidetittel={sidetittel}
+            undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
+            organisasjoner={orgs}
             orgnrSearchParam={useOrgnrHook}
         >
             <NotifikasjonWidget />
