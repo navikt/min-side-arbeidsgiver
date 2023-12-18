@@ -36,10 +36,7 @@ export const kandidatlisteURL = gittMiljo({
     other: 'https://presenterte-kandidater.intern.dev.nav.no/kandidatliste',
 });
 
-export const kontaktskjemaURL = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/kontakt-oss/kontaktskjema',
-    other: 'https://arbeidsgiver-kontakt-oss.intern.dev.nav.no/kontakt-oss/kontaktskjema',
-});
+export const kontaktskjemaURL = 'https://kontaktskjema.arbeidsgiver.nav.no/';
 
 export const ringOssTLF = gittMiljo({
     prod: 'tel:55553336',
