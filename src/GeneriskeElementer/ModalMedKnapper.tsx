@@ -32,7 +32,7 @@ export const ModalMedÅpneknapp = ({
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
-                        bekreftVariant
+                        variant={bekreftVariant}
                         type="button"
                         onClick={() => {
                             onSubmit();
