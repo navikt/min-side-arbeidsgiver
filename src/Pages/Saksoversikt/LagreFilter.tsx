@@ -181,11 +181,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
     const lagreNavnInputFocus = () => lagreNavnInputRef.current?.focus();
 
     useEffect(() => {
-        console.log('effekt påvirket!');
-        if (lagreNavnInputRef !== null) console.log('ref finnes!');
-        if (openLagre) console.log('Åpen!');
         if (lagreNavnInputRef !== null && openLagre) {
-            console.log('Åpen!');
             lagreNavnInputFocus();
         }
     }, [openLagre]);
