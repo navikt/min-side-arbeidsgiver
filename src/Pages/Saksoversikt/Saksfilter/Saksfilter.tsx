@@ -37,7 +37,7 @@ export const oppgaveTilstandTilTekst = (oppgavetilstand: OppgaveTilstand) => {
 };
 
 type KollapsHvisMobilProps = {
-    width: Number;
+    width: number;
     children?: React.ReactNode | undefined;
 };
 
