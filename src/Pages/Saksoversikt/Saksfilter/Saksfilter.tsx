@@ -115,7 +115,6 @@ export const Saksfilter = ({
                 >
                     <Checkbox
                         value={OppgaveTilstand.Ny}
-                        size="small"
                         onClick={(e) =>
                             amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)
                         }
@@ -130,7 +129,6 @@ export const Saksfilter = ({
                     <CheckboxGroup
                         legend="Type sak"
                         value={filter.sakstyper}
-                        size="small"
                         onChange={(valgteSakstyper) => {
                             setFilter({ ...filter, sakstyper: valgteSakstyper });
                         }}
@@ -140,7 +138,6 @@ export const Saksfilter = ({
                                 <Checkbox
                                     key={navn}
                                     value={navn}
-                                    size="small"
                                     onClick={(e) =>
                                         amplitudeFilterKlikk('sakstype', navn, e.target)
                                     }
