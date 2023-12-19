@@ -45,8 +45,7 @@ export const ringOssTLF = gittMiljo({
 
 export const infoOmTilgangsstyringURL = 'https://www.nav.no/arbeidsgiver/tilganger';
 
-export const infoOmNærmesteLederURL =
-    'https://www.nav.no/no/bedrift/oppfolging/sykmeldt-arbeidstaker/digital-sykmelding-informasjon-til-arbeidsgivere/hvordan-melde-inn-naermeste-leder-for-en-sykmeldt_kap';
+export const infoOmNærmesteLederURL = 'https://www.nav.no/arbeidsgiver/tilganger#sykmelding';
 
 export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${orgnr}`;

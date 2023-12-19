@@ -1,62 +1,51 @@
-import { Button, ButtonProps, Heading, Modal } from '@navikt/ds-react';
-import React, { ReactNode } from 'react';
-import './ModalMedKnapper.css'
+import { BodyLong, Button, ButtonProps, Modal } from '@navikt/ds-react';
+import React, { ReactNode, useRef } from 'react';
+import './ModalMedKnapper.css';
 
 export type ModalMedKnapperProps = {
-    overskrift: string,
-    children: ReactNode,
-    bekreft: string,
-    bekreftVariant?: ButtonProps['variant'],
-    open: boolean;
-    setOpen: (open: (open: boolean) => boolean) => void;
+    overskrift: string;
+    knappTekst: string;
+    children: ReactNode;
+    bekreft: string;
+    bekreftVariant?: ButtonProps['variant'];
     onSubmit: () => void;
+};
 
-}
+export const ModalMedÅpneknapp = ({
+    knappTekst,
+    overskrift,
+    bekreftVariant,
+    children,
+    bekreft,
+    onSubmit,
+}: ModalMedKnapperProps) => {
+    const ref = useRef<HTMLDialogElement>(null);
+    return (
+        <div className="py-16">
+            <Button variant="tertiary" onClick={() => ref.current?.showModal()}>
+                {knappTekst}
+            </Button>
 
-export const ModalMedKnapper = ({
-                                    open,
-                                    setOpen,
-                                    overskrift,
-                                    children,
-                                    bekreft,
-                                    bekreftVariant,
-                                    onSubmit,
-                                }: ModalMedKnapperProps) => {
-    return <Modal
-        open={open}
-        aria-label={overskrift}
-        onClose={() => setOpen((x) => !x)}
-    >
-        <Modal.Content>
-            <form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    onSubmit();
-                }}
-                className='ModalMedKnapper-Innhold'
-            >
-                <div>
-                    <Heading spacing level='2' size='medium' id='modal-heading'>
-                        {overskrift}
-                    </Heading>
-                    {children}
-                </div>
-
-                <div className='ModalMedKnapper-Knapper'>
+            <Modal ref={ref} header={{ heading: overskrift, closeButton: false }}>
+                <Modal.Body>
+                    <BodyLong>{children}</BodyLong>
+                </Modal.Body>
+                <Modal.Footer>
                     <Button
-                        variant='tertiary'
-                        type='button'
+                        variant={bekreftVariant}
+                        type="button"
                         onClick={() => {
-                            setOpen(() => false);
+                            onSubmit();
+                            ref.current?.close();
                         }}
                     >
-                        Avbryt
-                    </Button>
-                    <Button variant={bekreftVariant} type='submit'>
                         {bekreft}
                     </Button>
-                </div>
-            </form>
-        </Modal.Content>
-    </Modal>;
+                    <Button type="button" variant="secondary" onClick={() => ref.current?.close()}>
+                        Avbryt
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
 };

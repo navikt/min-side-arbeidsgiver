@@ -19,6 +19,14 @@
   }
 }
 
+.saksoversikt__skjult-header-uu {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .saksoversikt__skjul-for-mobil {
   display: block;
 }

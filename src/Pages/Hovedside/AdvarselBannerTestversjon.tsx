@@ -5,7 +5,7 @@ const AdvarselBannerTestversjon = () => {
     if (window.location.hostname.endsWith('.dev.nav.no')) {
         return (
             <Alert variant="warning" size="medium" className="advarsel-banner-testversjon">
-                <Heading spacing size="small">
+                <Heading level="2" spacing size="small">
                     Dette er en testversjon
                 </Heading>
                 <BodyLong>

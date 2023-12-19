@@ -1,8 +1,17 @@
 import { equalFilter, Filter, State } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
-import { Alert, Button, Chips, Dropdown, ErrorSummary, TextField } from '@navikt/ds-react';
+import {
+    Alert,
+    Button,
+    Chips,
+    Dropdown,
+    ErrorSummary,
+    Heading,
+    Modal,
+    TextField,
+} from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
-import { ModalMedKnapper } from '../../GeneriskeElementer/ModalMedKnapper';
+import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../hooks/useRemoteStorage';
 import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
@@ -160,8 +169,6 @@ type LagreFilterProps = {
 };
 
 export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilterProps) => {
-    const [openEndre, setOpenEndre] = useState(false);
-    const [openSlett, setOpenSlett] = useState(false);
     const [openLagre, setOpenLagre] = useState(false);
     const [feilmeldingStatus, setFeilmeldingStatus] = useState<'noInput' | 'duplicate' | 'ok'>(
         'ok'
@@ -171,6 +178,14 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
     const logKlikk = useLoggKlikk();
 
     const lagreNavnInputRef = useRef<HTMLInputElement>(null);
+    const lagreNavnInputFocus = () => lagreNavnInputRef.current?.focus();
+
+    useEffect(() => {
+        if (lagreNavnInputRef !== null && openLagre) {
+            lagreNavnInputFocus();
+        }
+    }, [openLagre]);
+
     const {
         status: lagreStatus,
         lagredeFilter,
@@ -199,6 +214,9 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                 </Alert>
             ) : null}
             <div className="lagre-filter__header">
+                <Heading level="3" size="medium" className="saksoversikt__skjult-header-uu">
+                    Velg eller lagre filtervalg
+                </Heading>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                     {valgtFilter ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -213,25 +231,32 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                                 {valgtFilter.navn}
                             </Chips.Removable>
                             {!equalFilter(valgtFilter.filter, state.filter) ? (
-                                <Button
-                                    variant="tertiary"
-                                    onClick={() => {
-                                        setOpenEndre(true);
-                                        logKlikk('åpne-endre-valgt-filter');
+                                <ModalMedÅpneknapp
+                                    knappTekst={'Lagre endringer'}
+                                    overskrift={`Endre «${valgtFilter.navn}»`}
+                                    bekreft={'Lagre'}
+                                    onSubmit={() => {
+                                        oppdaterLagretFilter(valgtFilter.uuid, state.filter);
+                                        logKlikk('endre-valgt-filter');
                                     }}
                                 >
-                                    Lagre endringer
-                                </Button>
+                                    Er du sikker på at du vil lagre endringene i «{valgtFilter.navn}
+                                    »?
+                                </ModalMedÅpneknapp>
                             ) : null}
-                            <Button
-                                variant="tertiary"
-                                onClick={() => {
-                                    setOpenSlett(true);
-                                    logKlikk('åpne-slett-valgt-filter');
+                            <ModalMedÅpneknapp
+                                knappTekst={'Slett'}
+                                overskrift={`Slett «${valgtFilter.navn}»`}
+                                bekreft={'Slett'}
+                                bekreftVariant="danger"
+                                onSubmit={() => {
+                                    slettLagretFilter(valgtFilter.uuid);
+                                    setValgtFilterId(undefined);
+                                    logKlikk('slett-valgt-filter');
                                 }}
                             >
-                                Slett
-                            </Button>
+                                Er du sikker på at du vil slette «{valgtFilter.navn}»?
+                            </ModalMedÅpneknapp>
                         </div>
                     ) : null}
                 </div>
@@ -276,82 +301,75 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                         </Dropdown.Menu.List>
                     </Dropdown.Menu>
                 </Dropdown>
-                <ModalMedKnapper
-                    overskrift={'Lagre som nytt filter'}
-                    bekreft={'Lagre'}
+                <Modal
                     open={openLagre}
-                    setOpen={setOpenLagre}
-                    onSubmit={() => {
-                        const filternavn = lagreNavnInputRef.current?.value?.trim() ?? '';
-                        if (filternavn === '') {
-                            setFeilmeldingStatus('noInput');
-                            handleFocus();
-                        } else if (lagredeFilter.some((filter) => filter.navn === filternavn)) {
-                            setFeilmeldingStatus('duplicate');
-                            handleFocus();
-                        } else {
-                            const nyopprettetfilter = lagreNyttLagretFilter(
-                                filternavn,
-                                state.filter
-                            );
-                            setValgtFilterId(nyopprettetfilter.uuid);
-                            setOpenLagre(false);
-                            logKlikk('lagre-som-nytt-valgt-filter');
-                        }
-                    }}
+                    onBeforeInput={() => lagreNavnInputFocus()}
+                    header={{ heading: 'Lagre som nytt filter', closeButton: false }}
                 >
-                    {feilmeldingStatus === 'noInput' ? (
-                        <ErrorSummary ref={feilmeldingRef} heading="Filter må ha et navn">
-                            <ErrorSummary.Item href="#inputfeltFilternavn">
-                                Fyll inn et navn i tekstfeltet
-                            </ErrorSummary.Item>
-                        </ErrorSummary>
-                    ) : feilmeldingStatus === 'duplicate' ? (
-                        <ErrorSummary ref={feilmeldingRef} heading="Filter må ha et unikt navn">
-                            <ErrorSummary.Item href="#inputfeltFilternavn">
-                                Det finnes allerede et lagret filter med dette navnet.
-                            </ErrorSummary.Item>
-                        </ErrorSummary>
-                    ) : null}
-                    <TextField
-                        id="inputfeltFilternavn"
-                        label="Navn"
-                        description="Navnet vises i din liste over lagrede filter"
-                        ref={lagreNavnInputRef}
-                    />
-                </ModalMedKnapper>
-                {valgtFilter === undefined ? null : (
-                    <>
-                        <ModalMedKnapper
-                            overskrift={`Slett «${valgtFilter.navn}»`}
-                            bekreft={'Slett'}
-                            open={openSlett}
-                            bekreftVariant="danger"
-                            setOpen={setOpenSlett}
-                            onSubmit={() => {
-                                slettLagretFilter(valgtFilter.uuid);
-                                setValgtFilterId(undefined);
-                                setOpenSlett(false);
-                                logKlikk('slett-valgt-filter');
+                    <Modal.Body>
+                        <form
+                            id="LagreNyttFilter"
+                            onSubmit={(event) => {
+                                {
+                                    event.preventDefault();
+                                    const filternavn =
+                                        lagreNavnInputRef.current?.value?.trim() ?? '';
+                                    if (filternavn === '') {
+                                        setFeilmeldingStatus('noInput');
+                                        handleFocus();
+                                    } else if (
+                                        lagredeFilter.some((filter) => filter.navn === filternavn)
+                                    ) {
+                                        setFeilmeldingStatus('duplicate');
+                                        handleFocus();
+                                    } else {
+                                        const nyopprettetfilter = lagreNyttLagretFilter(
+                                            filternavn,
+                                            state.filter
+                                        );
+                                        setValgtFilterId(nyopprettetfilter.uuid);
+                                        setOpenLagre(false);
+                                        if (filternavn !== '') {
+                                            lagreNavnInputRef.current!.value = '';
+                                        }
+                                        logKlikk('lagre-som-nytt-valgt-filter');
+                                    }
+                                }
                             }}
                         >
-                            Er du sikker på at du vil slette «{valgtFilter.navn}»?
-                        </ModalMedKnapper>
-                        <ModalMedKnapper
-                            overskrift={`Endre «${valgtFilter.navn}»`}
-                            bekreft={'Lagre'}
-                            open={openEndre}
-                            setOpen={setOpenEndre}
-                            onSubmit={() => {
-                                oppdaterLagretFilter(valgtFilter.uuid, state.filter);
-                                setOpenEndre(false);
-                                logKlikk('endre-valgt-filter');
-                            }}
-                        >
-                            Er du sikker på at du vil lagre endringene i «{valgtFilter.navn}»?
-                        </ModalMedKnapper>
-                    </>
-                )}
+                            {feilmeldingStatus === 'noInput' ? (
+                                <ErrorSummary ref={feilmeldingRef} heading="Filter må ha et navn">
+                                    <ErrorSummary.Item href="#inputfeltFilternavn">
+                                        Fyll inn et navn i tekstfeltet
+                                    </ErrorSummary.Item>
+                                </ErrorSummary>
+                            ) : feilmeldingStatus === 'duplicate' ? (
+                                <ErrorSummary
+                                    ref={feilmeldingRef}
+                                    heading="Filter må ha et unikt navn"
+                                >
+                                    <ErrorSummary.Item href="#inputfeltFilternavn">
+                                        Det finnes allerede et lagret filter med dette navnet.
+                                    </ErrorSummary.Item>
+                                </ErrorSummary>
+                            ) : null}
+                            <TextField
+                                id="inputfeltFilternavn"
+                                label="Navn"
+                                description="Navnet vises i din liste over lagrede filter"
+                                ref={lagreNavnInputRef}
+                            />
+                        </form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" form="LagreNyttFilter">
+                            Lagre
+                        </Button>
+                        <Button variant="secondary" onClick={() => setOpenLagre(false)}>
+                            Avbryt
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         </>
     );
