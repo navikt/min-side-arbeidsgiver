@@ -90,7 +90,7 @@ export const Saksoversikt = () => {
                     <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
                 </div>
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
-                    Saker resultater
+                    Saker
                 </Heading>
                 <SaksListeBody state={state} />
 
