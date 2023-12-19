@@ -18,6 +18,11 @@ ul.saks-liste .sakscontainer {
   gap: 8px;
 }
 
+ul.saks-liste .sakscontainer .sakstittel {
+  font-size: 1.25rem;
+  font-weight: var(--a-font-weight-bold);
+}
+
 @media (max-width: 1250px) {
   ul.saks-liste .sakscontainer {
     grid-template-columns: 1fr;

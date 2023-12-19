@@ -65,8 +65,6 @@ type Action =
 export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) => {
     const [sessionState, setSessionState] = useSessionStateOversikt(alleVirksomheter);
 
-    console.log('useOversiktStateTransitions', { sessionState });
-
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
         filter: sessionState.filter,
