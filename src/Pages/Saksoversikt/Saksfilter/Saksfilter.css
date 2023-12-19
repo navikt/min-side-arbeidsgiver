@@ -3,7 +3,7 @@
     flex-direction: column;
     min-width: min(22rem, 100%);
     min-height: max(100vh);
-    gap: 32px;
+    gap: 16px;
     background: var(--a-bg-default);
     padding: 24px;
     grid-column-start: 2;

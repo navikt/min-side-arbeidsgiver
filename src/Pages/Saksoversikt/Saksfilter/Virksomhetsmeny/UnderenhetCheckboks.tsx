@@ -18,15 +18,16 @@ export const UnderenhetCheckboks = ({ underenhet, valgteOrgnr }: UnderenhetCheck
         >
             <Checkbox
                 value={underenhet.OrganizationNumber}
+                size="small"
                 id={`${underenhet.OrganizationNumber}_UnderenhetCheckbox_id`}
                 className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
+                description={`Virk.nr ${underenhet.OrganizationNumber}`}
                 onClick={(e) => amplitudeFilterKlikk('organisasjon', 'underenhet', e.target)}
             >
                 <BodyShort size="small" as="span">
                     {' '}
                     {underenhet.Name}{' '}
                 </BodyShort>
-                <BodyShort size="small"> {underenhet.OrganizationNumber} </BodyShort>
             </Checkbox>
         </div>
     );
