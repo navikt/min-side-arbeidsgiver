@@ -1,5 +1,5 @@
 import React, { forwardRef, ReactNode, useContext, useMemo, useState } from 'react';
-import { CheckboxGroup, Search } from '@navikt/ds-react';
+import { Button, CheckboxGroup, Search } from '@navikt/ds-react';
 import './Virksomhetsmeny.css';
 import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
@@ -8,6 +8,7 @@ import { sum } from '../../../../utils/util';
 import amplitude from '../../../../utils/amplitude';
 import { Map, Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import { Collapse, Expand } from '@navikt/ds-icons';
 
 export type VirksomhetsmenyProps = {
     valgteEnheter: Set<string>;
@@ -50,6 +51,8 @@ export const Virksomhetsmeny = ({
     );
 
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
+    const [søkeordState, setSøkeordState] = useState<string>('');
+    const [visAlle, setVisAlle] = useState<boolean>(false);
 
     const amplitudeValgteVirksomheter = (valgte: Set<string>) => {
         amplitude.logEvent('velg-virksomheter', {
@@ -88,6 +91,7 @@ export const Virksomhetsmeny = ({
     };
 
     const onSearchChange = (søkeord: string) => {
+        setSøkeordState(søkeord);
         if (søkeord.trim().length === 0) {
             setSøketreff(undefined);
         } else {
@@ -124,10 +128,14 @@ export const Virksomhetsmeny = ({
                 onChange={onCheckboxGroupChange}
             >
                 <ul className="sak_virksomhetsmeny_hovedenhetliste">
-                    {organisasjonstre.map(({ hovedenhet, underenheter }) => {
+                    {organisasjonstre.map(({ hovedenhet, underenheter }, indeks) => {
                         if (søketreff && !søketreff.has(hovedenhet.OrganizationNumber)) {
                             return null;
                         }
+                        if (søkeordState === '' && indeks > 5 && !visAlle) {
+                            return null;
+                        }
+
                         return (
                             <li key={hovedenhet.OrganizationNumber}>
                                 <HovedenhetCheckbox
@@ -168,6 +176,11 @@ export const Virksomhetsmeny = ({
                     })}
                 </ul>
             </CheckboxGroup>
+            {søkeordState === '' && alleOrganisasjoner.length > 5 && !visAlle && (
+                <Button icon={<Expand />} variant="tertiary" onClick={() => setVisAlle(true)}>
+                    Vis flere virksomheter
+                </Button>
+            )}
         </>
     );
 };
