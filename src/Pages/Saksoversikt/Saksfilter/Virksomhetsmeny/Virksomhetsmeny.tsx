@@ -9,6 +9,7 @@ import amplitude from '../../../../utils/amplitude';
 import { Map, Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 import { Collapse, Expand } from '@navikt/ds-icons';
+import { useLoggKlikk } from '../../../../utils/funksjonerForAmplitudeLogging';
 
 export type VirksomhetsmenyProps = {
     valgteEnheter: Set<string>;
@@ -53,6 +54,7 @@ export const Virksomhetsmeny = ({
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
     const [søkeordState, setSøkeordState] = useState<string>('');
     const [visAlle, setVisAlle] = useState<boolean>(false);
+    const visAntall = 10;
 
     const amplitudeValgteVirksomheter = (valgte: Set<string>) => {
         amplitude.logEvent('velg-virksomheter', {
@@ -65,6 +67,8 @@ export const Virksomhetsmeny = ({
             ),
         });
     };
+
+    const loggKlikk = useLoggKlikk();
 
     const utledNyeValgte = (nyeValgte: Set<string>): Set<string> => {
         // NOTE:
@@ -132,7 +136,7 @@ export const Virksomhetsmeny = ({
                         if (søketreff && !søketreff.has(hovedenhet.OrganizationNumber)) {
                             return null;
                         }
-                        if (søkeordState === '' && indeks > 5 && !visAlle) {
+                        if (søkeordState === '' && indeks > visAntall && !visAlle) {
                             return null;
                         }
 
@@ -176,8 +180,15 @@ export const Virksomhetsmeny = ({
                     })}
                 </ul>
             </CheckboxGroup>
-            {søkeordState === '' && alleOrganisasjoner.length > 5 && !visAlle && (
-                <Button icon={<Expand />} variant="tertiary" onClick={() => setVisAlle(true)}>
+            {søkeordState === '' && alleOrganisasjoner.length > visAntall && !visAlle && (
+                <Button
+                    icon={<Expand />}
+                    variant="tertiary"
+                    onClick={() => {
+                        setVisAlle(true);
+                        loggKlikk('vis-alle-virksomheter');
+                    }}
+                >
                     Vis flere virksomheter
                 </Button>
             )}
