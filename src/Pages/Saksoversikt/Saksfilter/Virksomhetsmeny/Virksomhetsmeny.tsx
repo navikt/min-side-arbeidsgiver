@@ -59,7 +59,7 @@ export const Virksomhetsmeny = ({
     const amplitudeValgteVirksomheter = (valgte: Set<string>) => {
         amplitude.logEvent('velg-virksomheter', {
             antallHovedenheterValgt: valgte.count((orgnr) => childrenMap.has(orgnr)),
-            antallHovedenheterTotalt: alleOrganisasjoner.length,
+            antallHovedenheterTotalt: organisasjonstre.length,
             antallUnderenheterValgt: valgte.count((orgnr) => parentMap.has(orgnr)),
             antallUnderenheterTotalt: sum(
                 organisasjonstre,
@@ -121,15 +121,7 @@ export const Virksomhetsmeny = ({
         setValgteEnheter(nyveValgte);
         amplitudeValgteVirksomheter(nyveValgte);
     };
-    console.log(
-        'Vis flere virksomheter: ',
-        søkeordState === '' && alleOrganisasjoner.length > visAntall && !visAlle
-    );
-    console.log('Søkeord: ', søkeordState);
-    console.log("Søkeord = '': ", søkeordState === '');
-    console.log('Alle organisasjoner: ', alleOrganisasjoner);
-    console.log('Organisasjonstre length: ', organisasjonstre.length);
-    console.log('Vis alle: ', visAlle);
+
     return (
         <>
             <Søkeboks onChange={onSearchChange} />
@@ -188,7 +180,7 @@ export const Virksomhetsmeny = ({
                     })}
                 </ul>
             </CheckboxGroup>
-            {søkeordState === '' && alleOrganisasjoner.length > visAntall && !visAlle && (
+            {søkeordState === '' && organisasjonstre.length > visAntall && !visAlle && (
                 <Button
                     icon={<Expand />}
                     variant="tertiary"
