@@ -128,6 +128,7 @@ export const Virksomhetsmeny = ({
     console.log('Søkeord: ', søkeordState);
     console.log("Søkeord = '': ", søkeordState === '');
     console.log('Alle organisasjoner: ', alleOrganisasjoner);
+    console.log('Organisasjonstre length: ', organisasjonstre.length);
     console.log('Vis alle: ', visAlle);
     return (
         <>
