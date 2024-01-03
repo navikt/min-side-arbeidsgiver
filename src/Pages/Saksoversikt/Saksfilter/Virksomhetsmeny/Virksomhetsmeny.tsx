@@ -8,7 +8,7 @@ import { sum } from '../../../../utils/util';
 import amplitude from '../../../../utils/amplitude';
 import { Map, Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { Expand } from '@navikt/ds-icons';
 import { useLoggKlikk } from '../../../../utils/funksjonerForAmplitudeLogging';
 
 export type VirksomhetsmenyProps = {
@@ -121,7 +121,14 @@ export const Virksomhetsmeny = ({
         setValgteEnheter(nyveValgte);
         amplitudeValgteVirksomheter(nyveValgte);
     };
-
+    console.log(
+        'Vis flere virksomheter: ',
+        søkeordState === '' && alleOrganisasjoner.length > visAntall && !visAlle
+    );
+    console.log('Søkeord: ', søkeordState);
+    console.log("Søkeord = '': ", søkeordState === '');
+    console.log('Alle organisasjoner: ', alleOrganisasjoner);
+    console.log('Vis alle: ', visAlle);
     return (
         <>
             <Søkeboks onChange={onSearchChange} />
