@@ -1,14 +1,24 @@
 import React from 'react';
-import { prettyDOM, render } from '@testing-library/react';
+import { getByText, render, waitFor } from '@testing-library/react';
 import { axe } from 'jest-axe';
+import '@testing-library/jest-dom';
 import Pages from '../Pages/Pages';
 
 describe('Backend er nede should not have any accessibility violations', () => {
-    it('foo', async () => {
+    it('under lasting', async () => {
         const { container } = render(<Pages />);
-        console.log(prettyDOM(container));
         const results = await axe(container);
-        console.log(results.violations);
+        expect(results).toHaveNoViolations();
+    });
+
+    it('etter lasting', async () => {
+        const { container } = render(<Pages />);
+        await waitFor(() => {
+            expect(
+                getByText(container, 'Uventet feil. Prøv å last siden på nytt.')
+            ).toBeInTheDocument();
+        });
+        const results = await axe(container);
         expect(results).toHaveNoViolations();
     });
 });

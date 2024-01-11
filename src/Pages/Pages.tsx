@@ -1,11 +1,11 @@
 import React, { FunctionComponent, PropsWithChildren, useEffect, useState } from 'react';
 import {
     BrowserRouter,
-    Route,
     Link as RouterLink,
+    Navigate,
+    Route,
     Routes,
     useLocation,
-    Navigate,
 } from 'react-router-dom';
 import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
