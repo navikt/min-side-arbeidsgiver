@@ -6,6 +6,7 @@ import { AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
+import { gittMiljo } from '../utils/environment';
 
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
@@ -52,9 +53,14 @@ type UseUserInfoResult = {
     errorStatus: number | undefined;
 };
 
+const useUserInfoApiUrl = gittMiljo({
+    prod: '/min-side-arbeidsgiver/api/userInfo/v1',
+    other: '/min-side-arbeidsgiver/api/userInfo/v1',
+    test: 'http://localhost/min-side-arbeidsgiver/api/userInfo/v1', // url i tester kan ikke være relative
+});
 export const useUserInfo = (): UseUserInfoResult => {
     const [retries, setRetries] = useState(0);
-    const { data: userInfo, error } = useSWR('/min-side-arbeidsgiver/api/userInfo/v1', fetcher, {
+    const { data: userInfo, error } = useSWR(useUserInfoApiUrl, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
             if (retries === 5) {
@@ -68,6 +74,11 @@ export const useUserInfo = (): UseUserInfoResult => {
         },
         errorRetryInterval: 100,
     });
+    console.log({
+        userInfo,
+        isError: userInfo === undefined && retries >= 5,
+        errorStatus: error?.status,
+    });
 
     return {
         userInfo,
@@ -79,6 +90,10 @@ export const useUserInfo = (): UseUserInfoResult => {
 const fetcher = async (url: string) => {
     const respons = await fetch(url);
 
+    console.log(
+        'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC' +
+            respons.status
+    );
     if (respons.status !== 200) throw respons;
 
     return UserInfoRespons.parse(await respons.json());
