@@ -54,8 +54,8 @@ type UseUserInfoResult = {
 };
 
 const useUserInfoApiUrl = gittMiljo({
-    prod: '/min-side-arbeidsgiver/api/userInfo/v1',
-    other: '/min-side-arbeidsgiver/api/userInfo/v1',
+    prod: `${__BASE_PATH__}/api/userInfo/v1`,
+    other: `${__BASE_PATH__}/api/userInfo/v1`,
     test: 'http://localhost/min-side-arbeidsgiver/api/userInfo/v1', // url i tester kan ikke være relative
 });
 export const useUserInfo = (): UseUserInfoResult => {

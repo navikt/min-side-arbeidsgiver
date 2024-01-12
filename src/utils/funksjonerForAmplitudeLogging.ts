@@ -1,6 +1,5 @@
 import amplitude from '../utils/amplitude';
 import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerProvider';
-import { basename } from '../paths';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -21,7 +20,7 @@ interface EregInfo {
     sektor?: string;
 }
 
-const baseUrl = `https://arbeidsgiver.nav.no${basename}`;
+const baseUrl = `https://arbeidsgiver.nav.no${__BASE_PATH__}`;
 
 export const loggSidevisning = (pathname: string) => {
     amplitude.logEvent('sidevisning', {

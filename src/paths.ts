@@ -1,1 +1,0 @@
-export const basename = '/min-side-arbeidsgiver';

@@ -5,7 +5,7 @@ import { http, HttpResponse } from 'msw';
 // TODO: mock alle swr kall
 
 export const server = setupServer(
-    http.get('http://localhost/min-side-arbeidsgiver/api/userInfo/v1', () =>
+    http.get(`http://localhost${__BASE_PATH__}/api/userInfo/v1`, () =>
         HttpResponse.json({
             altinnError: false,
             digisyfoError: false,
@@ -143,11 +143,12 @@ export const server = setupServer(
             ],
         })
     ),
-    http.get(/.*arbeidsgiver-arbeidsforhold-api\/antall-arbeidsforhold.*/, () =>
-        HttpResponse.json({
+    http.get(/.*arbeidsgiver-arbeidsforhold-api\/antall-arbeidsforhold.*/, () => {
+        console.log('request mottatt for arbeidsforhold!!!');
+        return HttpResponse.json({
             second: 53,
-        })
-    ),
+        });
+    }),
     http.get(/.*presenterte-kandidater-api\/ekstern\/antallkandidater.*/, () =>
         HttpResponse.json({
             antallKandidater: 85,

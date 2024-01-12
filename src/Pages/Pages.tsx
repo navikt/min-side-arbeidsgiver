@@ -7,7 +7,6 @@ import {
     Routes,
     useLocation,
 } from 'react-router-dom';
-import { basename } from '../paths';
 import Hovedside from './Hovedside/Hovedside';
 import { LoginBoundary } from './LoginBoundary';
 import { AlertsProvider } from './Alerts';
@@ -65,9 +64,9 @@ const Pages: FunctionComponent = () => {
                 <LoginBoundary>
                     <NotifikasjonWidgetProvider
                         miljo={miljø}
-                        apiUrl={`${basename}/notifikasjon-bruker-api`}
+                        apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
                     >
-                        <BrowserRouter basename={basename}>
+                        <BrowserRouter basename={__BASE_PATH__}>
                             <AmplitudeSidevisningEventLogger>
                                 <AlertsProvider>
                                     <OrganisasjonerOgTilgangerProvider>

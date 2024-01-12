@@ -8,6 +8,7 @@ export default defineConfig({
     //     plugins: [react()],
     define: {
         __BUILD_TIMESTAMP__: new Date(),
+        __BASE_PATH__: '/min-side-arbeidsgiver',
     },
     test: {
         globals: true,

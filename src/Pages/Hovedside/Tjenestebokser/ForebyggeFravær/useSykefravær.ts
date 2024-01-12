@@ -17,7 +17,7 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
-            ? `/min-side-arbeidsgiver/api/sykefravaerstatistikk/${valgtOrganisasjon.organisasjon.OrganizationNumber}`
+            ? `${__BASE_PATH__}/api/sykefravaerstatistikk/${valgtOrganisasjon.organisasjon.OrganizationNumber}`
             : null,
         fetcher,
         {

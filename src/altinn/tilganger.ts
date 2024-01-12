@@ -4,7 +4,7 @@ import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
 import { useMemo, useState } from 'react';
 
-const altinnTilgangssøknadUrl = '/min-side-arbeidsgiver/api/altinn-tilgangssoknad';
+const altinnTilgangssøknadUrl = `${__BASE_PATH__}/api/altinn-tilgangssoknad`;
 
 const AltinnTilgangssøknad = z.object({
     orgnr: z.string(),

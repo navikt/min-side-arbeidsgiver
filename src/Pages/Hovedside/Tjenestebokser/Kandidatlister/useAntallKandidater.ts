@@ -9,7 +9,7 @@ export const useAntallKandidater = (): number => {
 
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
-            ? `/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater?virksomhetsnummer=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
+            ? `${__BASE_PATH__}/presenterte-kandidater-api/ekstern/antallkandidater?virksomhetsnummer=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
             : null,
         fetcher,
         {

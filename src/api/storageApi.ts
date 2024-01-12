@@ -1,4 +1,4 @@
-const storageUrl = `/min-side-arbeidsgiver/api/storage`;
+const storageUrl = `${__BASE_PATH__}/api/storage`;
 export async function getStorage(key: string): Promise<StorageItemResponse> {
     try {
         const respons = await fetch(`${storageUrl}/${key}`, {
