@@ -1,4 +1,4 @@
-import React, { FC, FunctionComponent, ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { getByText, render, waitFor } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import '@testing-library/jest-dom';

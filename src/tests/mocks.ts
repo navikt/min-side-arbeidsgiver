@@ -87,7 +87,7 @@ export const server = setupServer(
                 },
             ].map((tjeneste) => ({
                 ...tjeneste,
-                organisasjoner: ['182345674', '118345674', '121212121', '111111111'],
+                organisasjoner: ['182345674', '118345674'],
             })),
             organisasjoner: [
                 {
@@ -110,21 +110,21 @@ export const server = setupServer(
             digisyfoOrganisasjoner: [
                 {
                     organisasjon: {
-                        Name: 'BareSyfo Virksomhet',
-                        OrganizationForm: 'AAFY',
-                        OrganizationNumber: '121212121',
-                        ParentOrganizationNumber: '111111111',
-                        Status: 'Active',
+                        Name: 'BALLSTAD OG HAMARØY',
                         Type: 'Business',
+                        OrganizationNumber: '182345674',
+                        ParentOrganizationNumber: '118345674',
+                        OrganizationForm: 'AAFY',
+                        Status: 'Active',
                     },
                     antallSykmeldte: 4,
                 },
                 {
                     organisasjon: {
-                        Name: 'BareSyfo Juridisk',
+                        Name: 'BALLSTAD OG HORTEN',
                         Type: 'Enterprise',
                         ParentOrganizationNumber: null,
-                        OrganizationNumber: '111111111',
+                        OrganizationNumber: '118345674',
                         OrganizationForm: 'FLI',
                         Status: 'Active',
                     },
@@ -141,6 +141,241 @@ export const server = setupServer(
                     tilgang: true,
                 },
             ],
+        })
+    ),
+    http.get(/.*arbeidsgiver-arbeidsforhold-api\/antall-arbeidsforhold.*/, () =>
+        HttpResponse.json({
+            second: 53,
+        })
+    ),
+    http.get(/.*presenterte-kandidater-api\/ekstern\/antallkandidater.*/, () =>
+        HttpResponse.json({
+            antallKandidater: 85,
+        })
+    ),
+    http.get(/.*stillingsregistrering-api\/api\/stillinger\/numberByStatus.*/, () => {
+        console.log('stillingsregistrering-api/api/stillinger/numberByStatus ETT ELLER ANNET');
+        return HttpResponse.json({ PUBLISERT: 20 });
+    }),
+    http.get(/.*tiltaksgjennomforing-api\/avtaler.*/, () =>
+        HttpResponse.json([
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'VARIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'INKLUDERINGSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'ARBEIDSTRENING',
+            },
+            {
+                tiltakstype: 'INKLUDERINGSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MENTOR',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'ARBEIDSTRENING',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'MENTOR',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'VARIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MENTOR',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'ARBEIDSTRENING',
+            },
+            {
+                tiltakstype: 'INKLUDERINGSTILSKUDD',
+            },
+            {
+                tiltakstype: 'ARBEIDSTRENING',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'VARIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'SOMMERJOBB',
+            },
+            {
+                tiltakstype: 'VARIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'ARBEIDSTRENING',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MENTOR',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+            {
+                tiltakstype: 'MIDLERTIDIG_LONNSTILSKUDD',
+            },
+        ])
+    ),
+    http.get(/.*api\/sykefravaerstatistikk.*/, () =>
+        HttpResponse.json({
+            type: 'BRANSJE',
+            label: 'Barnehager',
+            prosent: 15.8,
         })
     )
 );

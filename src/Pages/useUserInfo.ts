@@ -74,12 +74,6 @@ export const useUserInfo = (): UseUserInfoResult => {
         },
         errorRetryInterval: 100,
     });
-    console.log({
-        userInfo,
-        isError: userInfo === undefined && retries >= 5,
-        errorStatus: error?.status,
-    });
-
     return {
         userInfo,
         isError: userInfo === undefined && retries >= 5,
@@ -89,12 +83,6 @@ export const useUserInfo = (): UseUserInfoResult => {
 
 const fetcher = async (url: string) => {
     const respons = await fetch(url);
-
-    console.log(
-        'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC' +
-            respons.status
-    );
     if (respons.status !== 200) throw respons;
-
     return UserInfoRespons.parse(await respons.json());
 };
