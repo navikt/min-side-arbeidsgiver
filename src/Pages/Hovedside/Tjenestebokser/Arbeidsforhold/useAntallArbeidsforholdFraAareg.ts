@@ -10,7 +10,7 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
             ? {
-                  url: '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
+                  url: `${__BASE_PATH__}/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold`,
                   jurenhet: valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? '',
                   orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
               }
@@ -19,6 +19,7 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
+                console.log('error', error);
                 setRetries((x) => x + 1);
                 if (retries === 5) {
                     Sentry.captureMessage(
@@ -51,12 +52,14 @@ const fetcher = async ({
     jurenhet: string;
     orgnr: string;
 }) => {
+    console.log('før kall til arbeidsforhold');
     const respons = await fetch(url, {
         headers: {
             jurenhet,
             orgnr,
         },
     });
+    console.log('respons fra arbeidsforhold ', respons);
     if (respons.status !== 200) throw respons;
 
     return Oversikt.parse(await respons.json()).second ?? 0;
