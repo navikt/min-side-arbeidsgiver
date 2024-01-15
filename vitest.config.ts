@@ -8,7 +8,7 @@ export default defineConfig({
     //     plugins: [react()],
     define: {
         __BUILD_TIMESTAMP__: new Date(),
-        __BASE_PATH__: '/min-side-arbeidsgiver',
+        __BASE_PATH__: JSON.stringify('http://localhost/min-side-arbeidsgiver'),
     },
     test: {
         globals: true,

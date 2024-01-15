@@ -6,7 +6,6 @@ import { AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
-import { gittMiljo } from '../utils/environment';
 
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
@@ -53,14 +52,9 @@ type UseUserInfoResult = {
     errorStatus: number | undefined;
 };
 
-const useUserInfoApiUrl = gittMiljo({
-    prod: `${__BASE_PATH__}/api/userInfo/v1`,
-    other: `${__BASE_PATH__}/api/userInfo/v1`,
-    test: 'http://localhost/min-side-arbeidsgiver/api/userInfo/v1', // url i tester kan ikke være relative
-});
 export const useUserInfo = (): UseUserInfoResult => {
     const [retries, setRetries] = useState(0);
-    const { data: userInfo, error } = useSWR(useUserInfoApiUrl, fetcher, {
+    const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v1`, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
             if (retries === 5) {
@@ -83,6 +77,8 @@ export const useUserInfo = (): UseUserInfoResult => {
 
 const fetcher = async (url: string) => {
     const respons = await fetch(url);
+
+    console.log('YYYYYYYY', url, respons);
     if (respons.status !== 200) throw respons;
     return UserInfoRespons.parse(await respons.json());
 };

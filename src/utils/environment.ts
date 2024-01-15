@@ -15,7 +15,6 @@ interface Miljo<T> {
     prod: T;
     demo?: T;
     dev?: T;
-    test?: T;
     other: T;
 }
 
@@ -25,8 +24,6 @@ export const gittMiljo = <T>(e: Miljo<T>): T => {
             return e.prod;
         case 'dev':
             return e.hasOwnProperty('dev') ? e.dev! : e.other;
-        case 'test':
-            return e.hasOwnProperty('test') ? e.test! : e.other;
         case 'demo':
             return e.hasOwnProperty('demo') ? e.demo! : e.other;
         default:

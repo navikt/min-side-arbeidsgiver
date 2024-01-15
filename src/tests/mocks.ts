@@ -1,11 +1,10 @@
-// src/mocks/node.js
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 
 // TODO: mock alle swr kall
 
 export const server = setupServer(
-    http.get(`http://localhost${__BASE_PATH__}/api/userInfo/v1`, () =>
+    http.get(`${__BASE_PATH__}/api/userInfo/v1`, () =>
         HttpResponse.json({
             altinnError: false,
             digisyfoError: false,

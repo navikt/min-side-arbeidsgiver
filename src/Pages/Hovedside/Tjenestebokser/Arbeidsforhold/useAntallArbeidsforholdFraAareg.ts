@@ -19,7 +19,6 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                console.log('error', error);
                 setRetries((x) => x + 1);
                 if (retries === 5) {
                     Sentry.captureMessage(
@@ -52,14 +51,12 @@ const fetcher = async ({
     jurenhet: string;
     orgnr: string;
 }) => {
-    console.log('før kall til arbeidsforhold');
     const respons = await fetch(url, {
         headers: {
             jurenhet,
             orgnr,
         },
     });
-    console.log('respons fra arbeidsforhold ', respons);
     if (respons.status !== 200) throw respons;
 
     return Oversikt.parse(await respons.json()).second ?? 0;

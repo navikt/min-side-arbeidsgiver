@@ -27,7 +27,7 @@ export default defineConfig({
     ],
     define: {
         __BUILD_TIMESTAMP__: new Date(),
-        __BASE_PATH__: '/min-side-arbeidsgiver',
+        __BASE_PATH__: JSON.stringify('/min-side-arbeidsgiver'),
     },
     build: {
         outDir: 'build',

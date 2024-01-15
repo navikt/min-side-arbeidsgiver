@@ -62,7 +62,7 @@ const useAntallannonser = () => {
         orgnr === undefined
             ? null
             : {
-                  url: '/min-side-arbeidsgiver/stillingsregistrering-api/api/stillinger/numberByStatus',
+                  url: `${__BASE_PATH__}/stillingsregistrering-api/api/stillinger/numberByStatus`,
                   orgnr,
               },
         fetcher,
@@ -89,7 +89,7 @@ const useAntallannonser = () => {
 };
 
 const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
-    await fetch(`/min-side-arbeidsgiver/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`, {
+    await fetch(`${__BASE_PATH__}/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`, {
         method: 'POST',
     });
 

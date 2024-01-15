@@ -50,7 +50,7 @@ const manglerKofuviAlert = (): VarslingStatus => {
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
             ? {
-                  url: '/min-side-arbeidsgiver/api/varslingStatus/v1',
+                  url: `${__BASE_PATH__}/api/varslingStatus/v1`,
                   virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
               }
             : null,

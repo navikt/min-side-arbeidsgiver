@@ -20,7 +20,7 @@ interface EregInfo {
     sektor?: string;
 }
 
-const baseUrl = `https://arbeidsgiver.nav.no${__BASE_PATH__}`;
+const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;
 
 export const loggSidevisning = (pathname: string) => {
     amplitude.logEvent('sidevisning', {

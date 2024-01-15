@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -15,7 +19,15 @@
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "jsx": "react-jsx",
-    "types": ["vite/client"]
+    "types": [
+      "vite/client"
+    ]
   },
-  "include": ["src", "vite.config.ts", "vite-env.d.ts"],
+  "include": [
+    "src",
+    "vite.config.ts",
+    "vite-env.d.ts",
+    "vitest.config.ts",
+    "vitest.setup.ts"
+  ]
 }
