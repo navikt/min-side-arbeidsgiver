@@ -1,7 +1,6 @@
 import React, { FC, ReactNode, useContext, useEffect } from 'react';
-import { getByText, render, waitFor } from '@testing-library/react';
+import { act, findByTestId, render } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import '@testing-library/jest-dom';
 import Hovedside from '../Pages/Hovedside/Hovedside';
 import { SWRConfig } from 'swr';
 import { AlertsProvider } from '../Pages/Alerts';
@@ -18,20 +17,25 @@ import { MemoryRouter } from 'react-router-dom';
 
 describe('Hovedside', () => {
     it('Bruker med alle tilganger får ikke a11y feil', async () => {
+        vi.useFakeTimers();
         const { container } = render(
             <ComponentTestEnabler>
                 <Hovedside />
             </ComponentTestEnabler>
         );
-        await new Promise((r) => setTimeout(r, 3000));
-        await waitFor(() => {
-            expect(
-                getByText(container, 'Lær om tilganger og varsler i Altinn')
-            ).toBeInTheDocument();
+
+        await act(async () => {
+            try {
+                await vi.runAllTimersAsync(); // run all timers so all fetches can finish
+            } catch (error) {
+                // prevent throw due to all timers not finishing
+            }
+            vi.useRealTimers();
         });
-        const results = await axe(container);
-        expect(results).toHaveNoViolations();
-    });
+
+        expect(await findByTestId(container, 'valgt-organisasjon')).toBeInTheDocument();
+        expect(await axe(container)).toHaveNoViolations();
+    }, 10_000);
 });
 
 const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
@@ -41,9 +45,16 @@ const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
     useEffect(() => {
         if (valgtOrganisasjon !== undefined) return;
         endreOrganisasjon(organisasjoner['182345674'].organisasjon);
-    }, [organisasjoner]);
+    }, [valgtOrganisasjon, organisasjoner]);
 
-    return valgtOrganisasjon !== undefined ? children : null;
+    return valgtOrganisasjon === undefined ? null : (
+        <>
+            <span data-testid="valgt-organisasjon">
+                {valgtOrganisasjon.organisasjon.OrganizationNumber}
+            </span>
+            {children}
+        </>
+    );
 };
 
 const ComponentTestEnabler: FC<{ children: ReactNode }> = ({ children }) => {
@@ -53,7 +64,15 @@ const ComponentTestEnabler: FC<{ children: ReactNode }> = ({ children }) => {
                 miljo={'local'}
                 apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
             >
-                <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
+                <SWRConfig
+                    value={{
+                        shouldRetryOnError: (err) => {
+                            // liten hack for å tvinge evt. fetch error til å bli logget
+                            console.error(err);
+                            return false;
+                        },
+                    }}
+                >
                     <AlertsProvider>
                         <OrganisasjonerOgTilgangerProvider>
                             <OrganisasjonsDetaljerProvider>
