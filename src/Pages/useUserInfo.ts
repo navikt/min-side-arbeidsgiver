@@ -78,7 +78,6 @@ export const useUserInfo = (): UseUserInfoResult => {
 const fetcher = async (url: string) => {
     const respons = await fetch(url);
 
-    console.log('YYYYYYYY', url, respons);
     if (respons.status !== 200) throw respons;
     return UserInfoRespons.parse(await respons.json());
 };
