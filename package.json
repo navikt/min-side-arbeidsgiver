@@ -58,7 +58,7 @@
     "scripts": {
         "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphql ./bruker.graphql",
         "gql:generate": "graphql-codegen",
-        "build": "tsc && vite build --base=https://cdn.nav.no/fager/min-side-arbeidsgiver/build/",
+        "build": "tsc --project tsconfig.build.json && vite build --base=https://cdn.nav.no/fager/min-side-arbeidsgiver/build/",
         "start": "vite",
         "preview": "vite preview --base=/min-side-arbeidsgiver/",
         "lint": "eslint --ext ts,tsx .",
