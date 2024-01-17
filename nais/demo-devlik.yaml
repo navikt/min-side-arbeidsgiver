@@ -6,7 +6,7 @@ metadata:
   labels:
     team: fager
 spec:
-  image: { { { image } } }
+  image: {{{ image }}}
   ingresses:
     - https://arbeidsgiver-dev-like.ekstern.dev.nav.no/min-side-arbeidsgiver
   liveness:
@@ -27,7 +27,7 @@ spec:
     - name: NODE_EXTRA_CA_CERTS
       value: /etc/ssl/ca-bundle.pem
     - name: GIT_COMMIT
-      value: { { { commit } } }
+      value: {{{ commit }}}
     - name: MILJO
       value: demo
   accessPolicy:
