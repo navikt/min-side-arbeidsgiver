@@ -22,7 +22,7 @@ jobs:
                   cache: 'npm'
 
             - name: Installer avhengigheter for test
-              run: ci
+              run: npm ci
               env:
                 NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
 
