@@ -6,7 +6,7 @@ metadata:
   labels:
     team: fager
 spec:
-  image: { { { image } } }
+  image: {{{ image }}}
   ingresses:
     - https://arbeidsgiver-dev-like.ekstern.dev.nav.no/min-side-arbeidsgiver
   liveness:
