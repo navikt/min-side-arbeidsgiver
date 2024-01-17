@@ -25,11 +25,7 @@ jobs:
               run: npm ci
               env:
                 NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-
-            - name: Kjør tester
-              run: npm run test
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - run: npm run test
 
             - name: Installer avhengigheter (client)
               run: npm ci --omit=dev --omit=optional
