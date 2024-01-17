@@ -19,8 +19,8 @@
         "@types/react": "18.2.39",
         "@types/react-dom": "18.2.17",
         "@types/uuid": "^9.0.2",
-        "@typescript-eslint/eslint-plugin": "^5.8.1",
-        "@typescript-eslint/parser": "^5.8.1",
+        "@typescript-eslint/eslint-plugin": "^6.18.1",
+        "@typescript-eslint/parser": "^6.18.1",
         "@vitejs/plugin-react-swc": "3.3.2",
         "amplitude-js": "^7.4.1",
         "core-js": "^3.20.2",
@@ -43,18 +43,26 @@
         "@graphql-codegen/typescript": "^2.7.3",
         "@graphql-codegen/typescript-operations": "^2.5.3",
         "@graphql-codegen/typescript-react-apollo": "^3.3.3",
+        "@testing-library/jest-dom": "^6.2.0",
+        "@testing-library/react": "^14.1.2",
+        "@types/jest-axe": "^3.5.9",
         "husky": "^8.0.3",
+        "jest-axe": "^8.0.0",
         "lint-staged": "^14.0.0",
+        "msw": "2.0.13",
         "npm-run-all": "*",
-        "prettier": "^3.0.2"
+        "prettier": "^3.0.2",
+        "ts-jest": "^29.1.1",
+        "vitest": "^1.2.0"
     },
     "scripts": {
         "gql:cp_schema": "cp ../arbeidsgiver-notifikasjon-produsent-api/app/src/main/resources/bruker.graphql ./bruker.graphql",
         "gql:generate": "graphql-codegen",
-        "build": "tsc && vite build --base=https://cdn.nav.no/fager/min-side-arbeidsgiver/build/",
+        "build": "tsc --project tsconfig.build.json && vite build --base=https://cdn.nav.no/fager/min-side-arbeidsgiver/build/",
         "start": "vite",
         "preview": "vite preview --base=/min-side-arbeidsgiver/",
-        "lint": "eslint --ext ts,tsx ."
+        "lint": "eslint --ext ts,tsx .",
+        "test": "vitest run"
     },
     "lint-staged": {
         "*": "prettier --write"

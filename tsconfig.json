@@ -1,21 +1,18 @@
 {
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
-    "jsx": "react-jsx",
-    "types": ["vite/client"]
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ]
   },
-  "include": ["src", "vite.config.ts", "vite-env.d.ts"],
+  "include": [
+    "src",
+    "vite.config.ts",
+    "vite-env.d.ts",
+    "./vitest.config.ts",
+    "./vitest.setup.ts"
+  ],
+  "exclude": []
 }

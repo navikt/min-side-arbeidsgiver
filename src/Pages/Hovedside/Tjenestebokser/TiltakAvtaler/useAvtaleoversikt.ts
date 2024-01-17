@@ -21,7 +21,7 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
     const [retries, setRetries] = useState(0);
     const { data: avtaler } = useSWR(
         valgtOrganisasjon !== undefined
-            ? `/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?bedriftNr=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
+            ? `${__BASE_PATH__}/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?bedriftNr=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
             : null,
         fetcher,
         {

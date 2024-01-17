@@ -6,13 +6,13 @@ import useSWR from 'swr';
 export const hentUnderenhetApiURL = (orgnr: string) =>
     gittMiljo({
         prod: `https://data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
-        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
+        other: `${__BASE_PATH__}/mock/data.brreg.no/enhetsregisteret/api/underenheter/${orgnr}`,
     });
 
 const hentOverordnetEnhetApiLink = (orgnr: string) =>
     gittMiljo({
         prod: `https://data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
-        other: `/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
+        other: `${__BASE_PATH__}/mock/data.brreg.no/enhetsregisteret/api/enheter/${orgnr}`,
     });
 
 const Adresse = z

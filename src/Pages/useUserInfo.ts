@@ -54,7 +54,7 @@ type UseUserInfoResult = {
 
 export const useUserInfo = (): UseUserInfoResult => {
     const [retries, setRetries] = useState(0);
-    const { data: userInfo, error } = useSWR('/min-side-arbeidsgiver/api/userInfo/v1', fetcher, {
+    const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v1`, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
             if (retries === 5) {
@@ -68,7 +68,6 @@ export const useUserInfo = (): UseUserInfoResult => {
         },
         errorRetryInterval: 100,
     });
-
     return {
         userInfo,
         isError: userInfo === undefined && retries >= 5,
@@ -80,6 +79,5 @@ const fetcher = async (url: string) => {
     const respons = await fetch(url);
 
     if (respons.status !== 200) throw respons;
-
     return UserInfoRespons.parse(await respons.json());
 };

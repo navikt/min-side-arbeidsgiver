@@ -3,7 +3,7 @@ import { gittMiljo } from './utils/environment';
 export const altinnUrl = gittMiljo({
     prod: 'https://altinn.no',
     dev: 'https://tt02.altinn.no',
-    other: '/min-side-arbeidsgiver/mock/tt02.altinn.no',
+    other: `${__BASE_PATH__}/mock/tt02.altinn.no`,
 });
 
 export const skjemaForArbeidsgiverURL = 'https://www.nav.no/soknader/nb/bedrift';

@@ -40,7 +40,7 @@ const useKontaktinfo = () => {
     const [retries, setRetries] = useState(0);
 
     const { data: kontaktinfo } = useSWR(
-        orgnr === undefined ? null : { url: `/min-side-arbeidsgiver/api/kontaktinfo/v1`, orgnr },
+        orgnr === undefined ? null : { url: `${__BASE_PATH__}/api/kontaktinfo/v1`, orgnr },
         fetcher,
         {
             onSuccess: () => setRetries(0),
