@@ -25,7 +25,7 @@ spec:
     enabled: false
   env:
     - name: GIT_COMMIT
-      value: { { { commit } } }
+      value: {{{ commit }}}
     - name: MILJO
       value: demo
   accessPolicy:
