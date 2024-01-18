@@ -1,12 +1,12 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
-import 'whatwg-fetch';
 import environment, { gittMiljo } from './utils/environment';
 import '@navikt/ds-css';
 import Pages from './Pages/Pages';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
+import { initializeFaro } from '@grafana/faro-web-sdk';
 
 window.localStorage.removeItem('ForebyggeFraværInfoBoksLukket');
 window.localStorage.removeItem('InntektsmeldingUndersøkelse');
@@ -22,6 +22,18 @@ class SentryDebugTransport implements SentryTypes.Transport {
         return Promise.resolve({ status: 'success' });
     }
 }
+
+initializeFaro({
+    url: gittMiljo({
+        prod: 'https://telemetry.nav.no/collect',
+        dev: 'https://telemetry.ekstern.dev.nav.no/collect',
+        other: '/collect',
+    }),
+    app: {
+        name: 'min-side-arbeidsgiver',
+        version: environment.GIT_COMMIT,
+    },
+});
 
 Sentry.init({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',

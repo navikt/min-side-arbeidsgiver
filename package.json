@@ -5,6 +5,7 @@
     "private": true,
     "homepage": "/min-side-arbeidsgiver",
     "dependencies": {
+        "@grafana/faro-web-sdk": "1.3.6",
         "@navikt/aksel-icons": "^5.12.0",
         "@navikt/arbeidsgiver-notifikasjon-widget": "6.4.2",
         "@navikt/bedriftsmeny": "6.13.0",
