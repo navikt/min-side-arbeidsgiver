@@ -1,7 +1,5 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import 'whatwg-fetch';
 import environment, { gittMiljo } from './utils/environment';
@@ -73,28 +71,6 @@ Sentry.init({
             transport: SentryDebugTransport,
         },
     }),
-    ignoreErrors: [
-        'Error: Failed to fetch',
-        'TypeError: Failed to fetch',
-        'Error: NetworkError when attempting to fetch resource.',
-        'TypeError: NetworkError when attempting to fetch resource.',
-        'Error: Load failed',
-        'TypeError: Load failed',
-        'Error: cancelled',
-        'TypeError: cancelled',
-        'Error: avbrutt',
-        'TypeError: avbrutt',
-        'Error: cancelado',
-        'TypeError: cancelado',
-        'Error: anulowane',
-        'TypeError: anulowane',
-        'Error: avbruten',
-        'TypeError: avbruten',
-        'Error: anulat',
-        'TypeError: anulat',
-        'Error: The operation was aborted.',
-        'AbortError: The operation was aborted.',
-    ],
 });
 
 injectDecoratorClientSide({
@@ -111,7 +87,8 @@ injectDecoratorClientSide({
     },
 }).catch(Sentry.captureException);
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('app')!);
+root.render(
     gittMiljo({
         prod: <Pages />,
         other: (
@@ -120,6 +97,5 @@ ReactDOM.render(
                 <Pages />{' '}
             </React.StrictMode>
         ),
-    }),
-    document.getElementById('root')
+    })
 );
