@@ -1,14 +1,12 @@
-import 'core-js/stable';
-import 'regenerator-runtime/runtime';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
-import 'whatwg-fetch';
 import environment, { gittMiljo } from './utils/environment';
 import '@navikt/ds-css';
 import Pages from './Pages/Pages';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
+import { initializeFaro } from '@grafana/faro-web-sdk';
 
 window.localStorage.removeItem('ForebyggeFraværInfoBoksLukket');
 window.localStorage.removeItem('InntektsmeldingUndersøkelse');
@@ -24,6 +22,18 @@ class SentryDebugTransport implements SentryTypes.Transport {
         return Promise.resolve({ status: 'success' });
     }
 }
+
+initializeFaro({
+    url: gittMiljo({
+        prod: 'https://telemetry.nav.no/collect',
+        dev: 'https://telemetry.ekstern.dev.nav.no/collect',
+        other: '/collect',
+    }),
+    app: {
+        name: 'min-side-arbeidsgiver',
+        version: environment.GIT_COMMIT,
+    },
+});
 
 Sentry.init({
     dsn: 'https://57108359840e4a28b979e36baf5e5c6c@sentry.gc.nav.no/27',
@@ -73,28 +83,6 @@ Sentry.init({
             transport: SentryDebugTransport,
         },
     }),
-    ignoreErrors: [
-        'Error: Failed to fetch',
-        'TypeError: Failed to fetch',
-        'Error: NetworkError when attempting to fetch resource.',
-        'TypeError: NetworkError when attempting to fetch resource.',
-        'Error: Load failed',
-        'TypeError: Load failed',
-        'Error: cancelled',
-        'TypeError: cancelled',
-        'Error: avbrutt',
-        'TypeError: avbrutt',
-        'Error: cancelado',
-        'TypeError: cancelado',
-        'Error: anulowane',
-        'TypeError: anulowane',
-        'Error: avbruten',
-        'TypeError: avbruten',
-        'Error: anulat',
-        'TypeError: anulat',
-        'Error: The operation was aborted.',
-        'AbortError: The operation was aborted.',
-    ],
 });
 
 injectDecoratorClientSide({
@@ -111,7 +99,8 @@ injectDecoratorClientSide({
     },
 }).catch(Sentry.captureException);
 
-ReactDOM.render(
+const root = createRoot(document.getElementById('app')!);
+root.render(
     gittMiljo({
         prod: <Pages />,
         other: (
@@ -120,6 +109,5 @@ ReactDOM.render(
                 <Pages />{' '}
             </React.StrictMode>
         ),
-    }),
-    document.getElementById('root')
+    })
 );
