@@ -26,11 +26,7 @@ jobs:
               env:
                 NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
             - run: npm run test
-
-            - name: Installer avhengigheter (client)
-              run: npm ci --omit=dev --omit=optional
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - run: npm run lint
 
             - name: Installer avhengigheter (server)
               run: npm ci --omit=dev --omit=optional
@@ -38,8 +34,10 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
               working-directory: ./server
 
-            - run: npm run lint
-
+            - name: Installer avhengigheter (client)
+              run: npm ci --omit=dev --omit=optional
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
             - run: npm run build
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
