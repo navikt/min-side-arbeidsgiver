@@ -21,25 +21,16 @@ jobs:
                   registry-url: https://npm.pkg.github.com/
                   cache: 'npm'
 
-            - name: Installer avhengigheter for test
-              run: npm ci
-              env:
-                NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-            - run: npm run test
-
-            - name: Installer avhengigheter (client)
-              run: npm ci --omit=dev --omit=optional
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-
-            - name: Installer avhengigheter (server)
-              run: npm ci --omit=dev --omit=optional
+            - run: npm ci --omit=dev --omit=optional
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
               working-directory: ./server
 
+            - run: npm ci
+              env:
+                NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+            - run: npm run test
             - run: npm run lint
-
             - run: npm run build
               env:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
