@@ -54,7 +54,7 @@ ul.saks-liste .sakscontainer .saksfrist .paminnelse{
 ul.saks-liste .sakscontainer .tidslinje-element {
   display: grid;
   grid-template-columns: 24px auto;
-  grid-template-row: repeat(3, auto);
+  grid-template-rows: repeat(3, auto);
   grid-template-areas:
   "tidspunkt tidspunkt"
   "ikon tittel"
