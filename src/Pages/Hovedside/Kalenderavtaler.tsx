@@ -62,7 +62,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     status,
     digitalt,
 }) => (
-    <a className="kalenderavtale" href="#">
+    <a className="kalenderavtale" href="/#">
         <BodyShort className="kalenderavtaler_tittel" size="large">
             {' '}
             {tittel}
