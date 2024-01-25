@@ -14,6 +14,7 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { GiOssTilbakemelding } from './GiOssTilbakemelding';
+import { Kalenderavtaler } from './Kalenderavtaler';
 
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
@@ -27,6 +28,7 @@ const Hovedside: FunctionComponent = () => {
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
                 <SisteSaker />
+                {/*<Kalenderavtaler />*/}
                 <Tjenestebokser />
                 <SøknaderOgSkjemaer />
                 <NyttigForDegContainer />
