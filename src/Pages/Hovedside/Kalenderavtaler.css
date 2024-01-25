@@ -1,0 +1,90 @@
+
+.kalenderavtaler{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+}
+
+.kalenderavtale {
+    display: grid;
+    grid-template-areas:
+            "tittel chevron"
+            "linje linje"
+            "tidspunkt tidspunkt"
+            "statussted statussted";
+    grid-template-rows: 2.5rem 1px 5rem 2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    width: calc( 50% - 8px);
+
+    color: var(--a-text-default);
+    background-color: var(--a-white);
+    border-radius: 8px;
+    padding: 8px 20px 16px 20px;
+    text-decoration: none;
+    transition: transform 0ms;
+
+    &:hover {
+        box-shadow: var(--a-shadow-small);
+        outline: 1px solid var(--a-border-action);
+    }
+
+    &:active,
+    &:focus-visible,
+    &:focus {
+        box-shadow: var(--a-shadow-focus);
+        outline: none;
+    }
+
+
+}
+
+.kalenderavtaler_chevron {
+    grid-area: chevron;
+    justify-self: flex-end;
+    transition: transform 200ms;
+}
+
+.kalenderavtale_tidspunkt {
+    grid-area: tidspunkt;
+    font-size: 2.350rem;
+
+}
+
+.kalenderavtale_statussted{
+    grid-area: statussted;
+    display: flex;
+    gap: 8px;
+}
+
+
+.kalenderavtale:hover > .kalenderavtaler_chevron {
+        transform: translateX(4px);
+}
+
+
+
+.kalenderavtaler_tittel {
+    grid-area: tittel;
+}
+
+.kalenderavtaler_linje {
+    grid-area: linje;
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    height: 1px;
+    background-color: rgba(7, 26, 54, 0.21);
+}
+
+.kalenderavtaler_innhold {
+    grid-area: baz;
+}
+
+@media (max-width: 768px) {
+    .kalenderavtale {
+        width: 100%;
+    }
+}
