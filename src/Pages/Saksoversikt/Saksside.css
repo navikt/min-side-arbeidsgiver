@@ -1,0 +1,13 @@
+
+.saksside {
+    display: flex;
+    flex-direction: column;
+    min-width: min(60rem, calc(100% - 16px));
+    margin: 1rem auto;
+    gap: 16px;
+}
+
+.saksside_sak {
+    gap: 1.5rem;
+    background-color: var(--a-bg-default);
+}

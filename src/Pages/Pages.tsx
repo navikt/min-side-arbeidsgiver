@@ -21,6 +21,7 @@ import { Saksoversikt } from './Saksoversikt/Saksoversikt';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
+import { Saksside } from './Saksoversikt/Saksside';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -74,7 +75,7 @@ const Pages: FunctionComponent = () => {
                                             <Banner sidetittel={sidetittel} />
                                             <Routes>
                                                 <Route
-                                                    path="/bedriftsinformasjon"
+                                                    path="bedriftsinformasjon"
                                                     element={
                                                         <SideTittelWrapper
                                                             tittel={'Om virksomheten'}
@@ -96,7 +97,7 @@ const Pages: FunctionComponent = () => {
                                                     }
                                                 />
                                                 <Route
-                                                    path="/saksoversikt"
+                                                    path="saksoversikt"
                                                     element={
                                                         <SideTittelWrapper
                                                             tittel={'Saksoversikt'}
@@ -114,9 +115,29 @@ const Pages: FunctionComponent = () => {
                                                             <Saksoversikt />
                                                         </SideTittelWrapper>
                                                     }
+                                                ></Route>
+                                                <Route
+                                                    path="sak"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Saksoversikt'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <Brodsmulesti
+                                                                brodsmuler={[
+                                                                    {
+                                                                        url: '/saksoversikt',
+                                                                        title: 'Saksoversikt',
+                                                                        handleInApp: true,
+                                                                    },
+                                                                ]}
+                                                            />
+                                                            <Saksside />
+                                                        </SideTittelWrapper>
+                                                    }
                                                 />
                                                 <Route
-                                                    path="/sak-restore-session"
+                                                    path="sak-restore-session"
                                                     element={
                                                         <Navigate
                                                             to="/saksoversikt"
