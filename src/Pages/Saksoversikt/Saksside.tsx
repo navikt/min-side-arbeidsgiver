@@ -139,7 +139,9 @@ export const Saksside = () => {
                     Vi jobber med å løse problemet
                 </Alert>
             ) : (
-                <div className="saksside_sak">{<SakPanel saksside={true} sak={sak} />}</div>
+                <div className="saksside_sak">
+                    {<SakPanel tvingEkspander={true} lenkeTilSak={false} sak={sak} />}
+                </div>
             )}
         </div>
     );

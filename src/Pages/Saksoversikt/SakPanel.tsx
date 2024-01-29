@@ -28,20 +28,20 @@ export const dateFormat = new Intl.DateTimeFormat('no', {
 type SakPanelProps = {
     sak: Sak;
     placeholder?: boolean;
-    saksside?: boolean;
+    tvingEkspander?: boolean;
+    lenkeTilSak?: boolean;
 };
 
 export const SakPanel = ({
     placeholder,
-    saksside,
+    tvingEkspander = false,
+    lenkeTilSak = true,
     sak: { id, lenke, tittel, virksomhet, sisteStatus, tidslinje },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
-    const [tidslinjeOpen, setTidslinjeOpen] = useState(saksside ?? false);
-
-    saksside = saksside ?? false;
+    const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
 
     return (
         <div className="sakscontainer">
@@ -49,15 +49,15 @@ export const SakPanel = ({
                 {virksomhet.navn.toUpperCase()}
             </BodyShort>
 
-            {saksside ? (
+            {lenkeTilSak ? (
+                <LenkeMedLogging href={lenke ?? `/sak?saksid=${id}`} loggLenketekst={tittel}>
+                    <BodyShort className="sakstittel">{tittel}</BodyShort>
+                </LenkeMedLogging>
+            ) : (
                 <Heading size="small" level="2">
                     {' '}
                     {tittel}{' '}
                 </Heading>
-            ) : (
-                <LenkeMedLogging href={lenke ?? `/sak?saksid=${id}`} loggLenketekst={tittel}>
-                    <BodyShort className="sakstittel">{tittel}</BodyShort>
-                </LenkeMedLogging>
             )}
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
@@ -79,7 +79,7 @@ export const SakPanel = ({
                     />
                 ))}
             </div>
-            {tidslinje.length > 1 && saksside === undefined ? (
+            {tidslinje.length > 1 && !tvingEkspander ? (
                 <Button
                     className="tidslinje-vis-mer-knapp"
                     variant="tertiary"
