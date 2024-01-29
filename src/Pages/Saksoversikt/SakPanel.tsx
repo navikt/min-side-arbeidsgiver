@@ -28,26 +28,35 @@ export const dateFormat = new Intl.DateTimeFormat('no', {
 type SakPanelProps = {
     sak: Sak;
     placeholder?: boolean;
+    saksside?: boolean;
 };
 
 export const SakPanel = ({
     placeholder,
-    sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
+    saksside,
+    sak: { id, lenke, tittel, virksomhet, sisteStatus, tidslinje },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
-    const [tidslinjeOpen, setTidslinjeOpen] = useState(false);
-
+    const [tidslinjeOpen, setTidslinjeOpen] = useState(saksside ?? false);
+    0;
     return (
         <div className="sakscontainer">
             <BodyShort size="small" style={style}>
                 {virksomhet.navn.toUpperCase()}
             </BodyShort>
 
-            <LenkeMedLogging href={lenke} loggLenketekst={tittel}>
-                <BodyShort className="sakstittel">{tittel}</BodyShort>
-            </LenkeMedLogging>
+            {saksside ? (
+                <Heading size="small" level="2">
+                    {' '}
+                    {tittel}{' '}
+                </Heading>
+            ) : (
+                <LenkeMedLogging href={lenke ?? `/sak?saksid=${id}`} loggLenketekst={tittel}>
+                    <BodyShort className="sakstittel">{tittel}</BodyShort>
+                </LenkeMedLogging>
+            )}
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
                     <strong>{sisteStatus.tekst}</strong>
@@ -68,7 +77,7 @@ export const SakPanel = ({
                     />
                 ))}
             </div>
-            {tidslinje.length > 1 ? (
+            {tidslinje.length > 1 && saksside === undefined ? (
                 <Button
                     className="tidslinje-vis-mer-knapp"
                     variant="tertiary"
