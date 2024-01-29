@@ -50,7 +50,10 @@ export const SakPanel = ({
             </BodyShort>
 
             {lenkeTilSak ? (
-                <LenkeMedLogging href={lenke ?? `/sak?saksid=${id}`} loggLenketekst={tittel}>
+                <LenkeMedLogging
+                    href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
+                    loggLenketekst={tittel}
+                >
                     <BodyShort className="sakstittel">{tittel}</BodyShort>
                 </LenkeMedLogging>
             ) : (
