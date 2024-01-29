@@ -10,7 +10,7 @@ ul.saks-liste li {
   flex-grow: 1;
 }
 
-ul.saks-liste .sakscontainer {
+.sakscontainer {
   background: var(--a-bg-default);
   padding: 16px;
   display: flex;
@@ -24,34 +24,34 @@ ul.saks-liste .sakscontainer .sakstittel {
 }
 
 @media (max-width: 1250px) {
-  ul.saks-liste .sakscontainer {
+  .sakscontainer {
     grid-template-columns: 1fr;
   }
 }
 
-ul.saks-liste .sakscontainer .sakscontent {
+.sakscontainer .sakscontent {
   display: flex;
   flex-direction: column;
   row-gap: 8px;
 }
 
-ul.saks-liste .sakstekst {
+.sakstekst {
   line-height: var(--a-font-line-height-heading-xsmall);
   font-size: 1.1rem;
 }
 
-ul.saks-liste .sakscontainer .saksfrist {
+.sakscontainer .saksfrist {
   display: flex;
   align-items: center;
   gap:.2rem;
 }
 
-ul.saks-liste .sakscontainer .saksfrist .paminnelse{
+.sakscontainer .saksfrist .paminnelse{
   color: var(--a-red-700);
   font-weight: 700;
 }
 
-ul.saks-liste .sakscontainer .tidslinje-element {
+.sakscontainer .tidslinje-element {
   display: grid;
   grid-template-columns: 24px auto;
   grid-template-rows: repeat(3, auto);
