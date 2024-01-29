@@ -110,7 +110,7 @@ export const Saksside = () => {
     );
 
     const sak = data?.sakById?.sak ?? data?.sakByGrupperingsid?.sak;
-    const feilIAltinn = data?.sakById?.feilAltinn ?? data?.sakByGrupperingsid?.feilAltinn;
+    const feilIAltinn = data?.sakById?.feilAltinn ?? data?.sakByGrupperingsid?.feilAltinn ?? false;
 
     const harFeil = sak === undefined || sak === null;
 

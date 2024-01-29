@@ -40,7 +40,9 @@ export const SakPanel = ({
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
     const [tidslinjeOpen, setTidslinjeOpen] = useState(saksside ?? false);
-    0;
+
+    saksside = saksside ?? false;
+
     return (
         <div className="sakscontainer">
             <BodyShort size="small" style={style}>
