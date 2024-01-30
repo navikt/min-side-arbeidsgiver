@@ -124,7 +124,7 @@ export const Saksside = () => {
 
     const { saksid, grupperingsid, merkelapp } = saksidparametre;
 
-    const skip = !saksid && (!merkelapp || !grupperingsid);
+    const skip = saksid === undefined && (merkelapp === undefined || grupperingsid === undefined);
 
     const { loading, data, error } = useQuery(
         saksid !== null ? HENT_SAK_ID : HENT_SAK_GRUPPERINGSID,
