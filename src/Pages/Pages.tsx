@@ -75,7 +75,7 @@ const Pages: FunctionComponent = () => {
                                             <Banner sidetittel={sidetittel} />
                                             <Routes>
                                                 <Route
-                                                    path="bedriftsinformasjon"
+                                                    path="/bedriftsinformasjon"
                                                     element={
                                                         <SideTittelWrapper
                                                             tittel={'Om virksomheten'}
@@ -97,7 +97,7 @@ const Pages: FunctionComponent = () => {
                                                     }
                                                 />
                                                 <Route
-                                                    path="saksoversikt"
+                                                    path="/saksoversikt"
                                                     element={
                                                         <SideTittelWrapper
                                                             tittel={'Saksoversikt'}
@@ -117,7 +117,7 @@ const Pages: FunctionComponent = () => {
                                                     }
                                                 />
                                                 <Route
-                                                    path="sak"
+                                                    path="/sak"
                                                     element={
                                                         <SideTittelWrapper
                                                             tittel={'Saksoversikt'}
@@ -137,7 +137,7 @@ const Pages: FunctionComponent = () => {
                                                     }
                                                 />
                                                 <Route
-                                                    path="sak-restore-session"
+                                                    path="/sak-restore-session"
                                                     element={
                                                         <Navigate
                                                             to="/saksoversikt"
