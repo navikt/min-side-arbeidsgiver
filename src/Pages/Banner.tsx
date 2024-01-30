@@ -81,7 +81,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
         : [];
 
-    return pathname === '/saksoversikt' ? (
+    return pathname === '/saksoversikt' || pathname === '/sak' ? (
         <SaksoversiktBanner />
     ) : (
         <Bedriftsmeny

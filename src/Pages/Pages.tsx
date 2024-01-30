@@ -21,6 +21,7 @@ import { Saksoversikt } from './Saksoversikt/Saksoversikt';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
+import { Saksside } from './Saksoversikt/Saksside';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -112,6 +113,26 @@ const Pages: FunctionComponent = () => {
                                                                 ]}
                                                             />
                                                             <Saksoversikt />
+                                                        </SideTittelWrapper>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/sak"
+                                                    element={
+                                                        <SideTittelWrapper
+                                                            tittel={'Saksoversikt'}
+                                                            setTittel={setSidetittel}
+                                                        >
+                                                            <Brodsmulesti
+                                                                brodsmuler={[
+                                                                    {
+                                                                        url: '/saksoversikt',
+                                                                        title: 'Saksoversikt',
+                                                                        handleInApp: true,
+                                                                    },
+                                                                ]}
+                                                            />
+                                                            <Saksside />
                                                         </SideTittelWrapper>
                                                     }
                                                 />

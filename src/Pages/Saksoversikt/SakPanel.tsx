@@ -28,16 +28,20 @@ export const dateFormat = new Intl.DateTimeFormat('no', {
 type SakPanelProps = {
     sak: Sak;
     placeholder?: boolean;
+    tvingEkspander?: boolean;
+    lenkeTilSak?: boolean;
 };
 
 export const SakPanel = ({
     placeholder,
-    sak: { lenke, tittel, virksomhet, sisteStatus, tidslinje },
+    tvingEkspander = false,
+    lenkeTilSak = true,
+    sak: { id, lenke, tittel, virksomhet, sisteStatus, tidslinje },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
-    const [tidslinjeOpen, setTidslinjeOpen] = useState(false);
+    const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
 
     return (
         <div className="sakscontainer">
@@ -45,9 +49,18 @@ export const SakPanel = ({
                 {virksomhet.navn.toUpperCase()}
             </BodyShort>
 
-            <LenkeMedLogging href={lenke} loggLenketekst={tittel}>
-                <BodyShort className="sakstittel">{tittel}</BodyShort>
-            </LenkeMedLogging>
+            {lenkeTilSak ? (
+                <LenkeMedLogging
+                    href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
+                    loggLenketekst={tittel}
+                >
+                    <BodyShort className="sakstittel">{tittel}</BodyShort>
+                </LenkeMedLogging>
+            ) : (
+                <Heading size="small" level="2">
+                    {tittel}
+                </Heading>
+            )}
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
                     <strong>{sisteStatus.tekst}</strong>
@@ -68,7 +81,7 @@ export const SakPanel = ({
                     />
                 ))}
             </div>
-            {tidslinje.length > 1 ? (
+            {tidslinje.length > 1 && !tvingEkspander ? (
                 <Button
                     className="tidslinje-vis-mer-knapp"
                     variant="tertiary"
