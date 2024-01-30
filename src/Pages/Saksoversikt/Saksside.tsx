@@ -8,6 +8,7 @@ import { SakResultat } from '../../api/graphql-types';
 import { SakPanel } from './SakPanel';
 import { Alert, Heading } from '@navikt/ds-react';
 import * as Sentry from '@sentry/browser';
+import { useSessionStorage } from '../../hooks/useStorage';
 
 /**
  * Denne typen trengs for at useQuery skal forstå at vi kan få både sakById og sakByGrupperingsid
@@ -93,13 +94,37 @@ const HENT_SAK_GRUPPERINGSID: TypedDocumentNode<SakQueryResponse> = gql`
     }
 `;
 
+type Sakssideparametre = {
+    saksid?: string;
+    grupperingsid?: string;
+    merkelapp?: string;
+};
+
 export const Saksside = () => {
     const [params, setParams] = useSearchParams();
-    const saksid = params.get('saksid');
-    const merkelapp = params.get('merkelapp');
-    const grupperingsid = params.get('grupperingsid');
+    const [saksidparametre, setSaksidparametre] = useSessionStorage<Sakssideparametre>(
+        'sakssideparametre',
+        {}
+    );
 
-    const skip = saksid === null && (merkelapp === null || grupperingsid === null);
+    useEffect(() => {
+        if (params.size === 0) return;
+
+        const saksid = params.get('saksid');
+        const grupperingsid = params.get('grupperingsid');
+        const merkelapp = params.get('merkelapp');
+
+        if (saksid !== null) {
+            setSaksidparametre({ saksid: saksid });
+        } else if (grupperingsid !== null && merkelapp !== null) {
+            setSaksidparametre({ grupperingsid: grupperingsid, merkelapp: merkelapp });
+        }
+        setParams({}, { replace: true });
+    }, [params]);
+
+    const { saksid, grupperingsid, merkelapp } = saksidparametre;
+
+    const skip = !saksid && (!merkelapp || !grupperingsid);
 
     const { loading, data, error } = useQuery(
         saksid !== null ? HENT_SAK_ID : HENT_SAK_GRUPPERINGSID,

@@ -115,7 +115,7 @@ const Pages: FunctionComponent = () => {
                                                             <Saksoversikt />
                                                         </SideTittelWrapper>
                                                     }
-                                                ></Route>
+                                                />
                                                 <Route
                                                     path="sak"
                                                     element={

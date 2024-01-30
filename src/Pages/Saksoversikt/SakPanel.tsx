@@ -58,8 +58,7 @@ export const SakPanel = ({
                 </LenkeMedLogging>
             ) : (
                 <Heading size="small" level="2">
-                    {' '}
-                    {tittel}{' '}
+                    {tittel}
                 </Heading>
             )}
             <div style={{ display: 'flex', gap: '16px' }}>
