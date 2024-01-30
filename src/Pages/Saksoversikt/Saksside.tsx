@@ -127,7 +127,7 @@ export const Saksside = () => {
     const skip = saksid === undefined && (merkelapp === undefined || grupperingsid === undefined);
 
     const { loading, data, error } = useQuery(
-        saksid !== null ? HENT_SAK_ID : HENT_SAK_GRUPPERINGSID,
+        saksid !== undefined ? HENT_SAK_ID : HENT_SAK_GRUPPERINGSID,
         {
             variables: { id: saksid, merkelapp: merkelapp, grupperingsid: grupperingsid },
             skip,
