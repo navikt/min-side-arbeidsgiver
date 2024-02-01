@@ -8,6 +8,7 @@ import './Kontaktinfo.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
 import NyFaneIkon from './NyFaneIkon';
+import { erDriftsforstyrrelse } from '../../utils/util';
 
 const KontaktinfoDetaljer = z.object({
     eposter: z.array(z.string()),
@@ -45,7 +46,7 @@ const useKontaktinfo = () => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5) {
+                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                     Sentry.captureMessage(
                         `hent kontaktinfo fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined

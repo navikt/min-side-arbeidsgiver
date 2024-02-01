@@ -1,11 +1,13 @@
 import { z } from 'zod';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
+import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 export const useAntallKandidater = (): number => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const [retries, setRetries] = useState(0);
 
     const { data } = useSWR(
         valgtOrganisasjon !== undefined
@@ -13,10 +15,9 @@ export const useAntallKandidater = (): number => {
             : null,
         fetcher,
         {
-            onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-                if ((error.status === 502 || error.status === 503) && retryCount <= 5) {
-                    setTimeout(() => revalidate({ retryCount }), 1000);
-                } else {
+            onSuccess: () => setRetries(0),
+            onError: (error) => {
+                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                     Sentry.captureMessage(
                         `hent antall kandidater fra presenterte-kandidater-api feilet med ${
                             error.status !== undefined
@@ -25,8 +26,8 @@ export const useAntallKandidater = (): number => {
                         }`
                     );
                 }
+                setRetries((x) => x + 1);
             },
-            fallbackData: 0,
         }
     );
 
@@ -40,7 +41,7 @@ const PresenterteKandidater = z.object({
 const fetcher = async (url: string) => {
     const respons = await fetch(url);
 
-    if (respons.status === 401) return;
+    if (respons.status === 401) return undefined;
     if (respons.status !== 200) throw respons;
     return PresenterteKandidater.parse(await respons.json()).antallKandidater;
 };

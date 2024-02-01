@@ -6,6 +6,7 @@ import { AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
+import { erDriftsforstyrrelse } from '../utils/util';
 
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
@@ -57,7 +58,7 @@ export const useUserInfo = (): UseUserInfoResult => {
     const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v1`, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
-            if (retries === 5) {
+            if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                 Sentry.captureMessage(
                     `hent userInfo fra min-side-arbeidsgiver feilet med ${
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error

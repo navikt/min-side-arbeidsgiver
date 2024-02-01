@@ -3,6 +3,7 @@ import { z } from 'zod';
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
 import { useMemo, useState } from 'react';
+import { erDriftsforstyrrelse } from '../utils/util';
 
 const altinnTilgangssøknadUrl = `${__BASE_PATH__}/api/altinn-tilgangssoknad`;
 
@@ -25,7 +26,7 @@ export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(altinnTilgangssøknadUrl, fetcher, {
         onError: (error) => {
-            if (retries === 5) {
+            if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                 Sentry.captureMessage(
                     `hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error
