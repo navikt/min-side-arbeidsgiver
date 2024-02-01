@@ -3,7 +3,7 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 import useSWR from 'swr';
 import { z } from 'zod';
 import * as Sentry from '@sentry/browser';
-import { count } from '../../../../utils/util';
+import { count, erDriftsforstyrrelse } from '../../../../utils/util';
 
 export type Avtaleoversikt = {
     ARBEIDSTRENING: number;
@@ -27,7 +27,7 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5) {
+                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                     Sentry.captureMessage(
                         `hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
                             error.status !== undefined

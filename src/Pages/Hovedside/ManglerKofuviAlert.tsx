@@ -5,6 +5,7 @@ import React, { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { erDriftsforstyrrelse } from '../../utils/util';
 
 export const ManglerKofuviAlert = () => {
     const varslingStatus = manglerKofuviAlert();
@@ -44,6 +45,7 @@ const fallbackData: VarslingStatus = {
     varselTimestamp: '',
     kvittertEventTimestamp: '',
 };
+
 const manglerKofuviAlert = (): VarslingStatus => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [retries, setRetries] = useState(0);
@@ -58,7 +60,7 @@ const manglerKofuviAlert = (): VarslingStatus => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5) {
+                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                     Sentry.captureMessage(
                         `hent varslingStatus fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined

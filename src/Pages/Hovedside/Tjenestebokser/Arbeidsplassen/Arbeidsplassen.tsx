@@ -8,6 +8,7 @@ import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
 import { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 const Arbeidsplassen = () => {
     const antallAnnonser = useAntallannonser();
@@ -68,7 +69,7 @@ const useAntallannonser = () => {
         fetcher,
         {
             onError: (error) => {
-                if (retries === 5) {
+                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
                     Sentry.captureMessage(
                         `hent AntallAnnonser fra stillingsregistrering-api feilet med ${
                             error.status !== undefined
