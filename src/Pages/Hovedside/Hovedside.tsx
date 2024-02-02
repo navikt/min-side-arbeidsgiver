@@ -28,7 +28,7 @@ const Hovedside: FunctionComponent = () => {
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
                 <SisteSaker />
-                {/*<Kalenderavtaler />*/}
+                <Kalenderavtaler />
                 <Tjenestebokser />
                 <SøknaderOgSkjemaer />
                 <NyttigForDegContainer />
