@@ -80,7 +80,7 @@ export const Kalenderavtaler: FunctionComponent = () => {
                             )
                         }
                     >
-                        <BodyShort>Vis {visAlle ? 'færre' : 'alle'} avtaler</BodyShort>
+                        <BodyShort>Vis {visAlle ? 'færre' : 'alle kommende'} avtaler</BodyShort>
                     </Button>
                 )}
             </div>
