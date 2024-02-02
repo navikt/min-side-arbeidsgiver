@@ -232,6 +232,7 @@ const main = async () => {
                             {
                                 tekst: 'Dialogmøte Langbein',
                                 startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: '2021-02-04T16:15:00',
                                 tilstand: 'AVLYST',
                                 fysisk: null,
                             },
