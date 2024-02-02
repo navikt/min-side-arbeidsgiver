@@ -20,12 +20,6 @@ const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderAvtal
                 startTidspunkt
                 sluttTidspunkt
                 tilstand
-                fysisk {
-                    adresse
-                    postnummer
-                    poststed
-                }
-                digitalt
                 lenke
             }
         }
@@ -66,8 +60,6 @@ export const Kalenderavtaler: FunctionComponent = () => {
                                 startTidspunkt={new Date(avtale.startTidspunkt)}
                                 sluttTidspunkt={new Date(avtale.sluttTidspunkt)}
                                 tilstand={avtale.tilstand}
-                                fysisk={avtale.fysisk ?? undefined}
-                                digitalt={avtale.digitalt}
                                 lenke={avtale.lenke}
                             />
                         );
@@ -101,8 +93,6 @@ type Kalenderavtale = {
     startTidspunkt: Date;
     sluttTidspunkt?: Date;
     tilstand: KalenderAvtaleTilstand;
-    fysisk?: Adresse;
-    digitalt: boolean;
     lenke: string;
 };
 
@@ -111,8 +101,6 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     startTidspunkt,
     sluttTidspunkt,
     tilstand,
-    fysisk,
-    digitalt,
     lenke,
 }) => (
     <a className="kalenderavtale" href={lenke}>
