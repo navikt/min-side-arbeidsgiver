@@ -58,7 +58,12 @@ export const Kalenderavtaler: FunctionComponent = () => {
                                 key={avtale.id}
                                 tekst={avtale.tekst}
                                 startTidspunkt={new Date(avtale.startTidspunkt)}
-                                sluttTidspunkt={new Date(avtale.sluttTidspunkt)}
+                                sluttTidspunkt={
+                                    avtale.sluttTidspunkt !== null &&
+                                    avtale.sluttTidspunkt !== undefined
+                                        ? new Date(avtale.sluttTidspunkt)
+                                        : undefined
+                                }
                                 tilstand={avtale.tilstand}
                                 lenke={avtale.lenke}
                             />
@@ -102,47 +107,49 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     sluttTidspunkt,
     tilstand,
     lenke,
-}) => (
-    <a className="kalenderavtale" href={lenke}>
-        <BodyShort className="kalenderavtaler_tittel" size="large">
-            {tekst}
-        </BodyShort>
-        <span className="kalenderavtaler_linje" />
-        <ChevronRightIcon
-            width="2rem"
-            height="2rem"
-            aria-hidden={true}
-            className="kalenderavtaler_chevron"
-        />
-        <Tidsformat starttidspunkt={startTidspunkt} slutttidsunkt={sluttTidspunkt} />
-        <div className="kalenderavtale_statussted">
-            <Statustag tilstand={tilstand} />
-            {/*<Sted sted={fysisk} digitalt={digitalt} />*/}
-        </div>
-    </a>
-);
-
-type Tidspunkt = {
-    starttidspunkt: Date;
-    slutttidsunkt?: Date;
+}) => {
+    return (
+        <a className="kalenderavtale" href={lenke}>
+            <BodyShort className="kalenderavtaler_tittel" size="large">
+                {tekst}
+            </BodyShort>
+            <span className="kalenderavtaler_linje" />
+            <ChevronRightIcon
+                width="2rem"
+                height="2rem"
+                aria-hidden={true}
+                className="kalenderavtaler_chevron"
+            />
+            <Tidsformat startTidspunkt={startTidspunkt} sluttTidspunkt={sluttTidspunkt} />
+            <div className="kalenderavtale_statussted">
+                <Statustag tilstand={tilstand} />
+                {/*<Sted sted={fysisk} digitalt={digitalt} />*/}
+            </div>
+        </a>
+    );
 };
 
-const starttidFormat = new Intl.DateTimeFormat('no', {
+type Tidspunkt = {
+    startTidspunkt: Date;
+    sluttTidspunkt?: Date;
+};
+
+const startTidspunktFormat = new Intl.DateTimeFormat('no', {
     month: 'long',
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
 });
 
-const sluttidFormat = new Intl.DateTimeFormat('no', {
+const sluttTidsunktFormat = new Intl.DateTimeFormat('no', {
     hour: 'numeric',
     minute: 'numeric',
 });
 
-const Tidsformat = ({ starttidspunkt, slutttidsunkt }: Tidspunkt) => (
+const Tidsformat = ({ startTidspunkt, sluttTidspunkt }: Tidspunkt) => (
     <BodyShort size="large" className="kalenderavtale_tidspunkt">
-        {`${starttidFormat.format(starttidspunkt)} ${
-            slutttidsunkt === undefined ? `– ${sluttidFormat.format(slutttidsunkt)}` : ''
+        {`${startTidspunktFormat.format(startTidspunkt)} ${
+            sluttTidspunkt !== undefined ? `– ${sluttTidsunktFormat.format(sluttTidspunkt)}` : ''
         }`}
     </BodyShort>
 );

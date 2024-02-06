@@ -207,6 +207,7 @@ const main = async () => {
                             {
                                 tekst: 'Dialogmøte Minni',
                                 startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: null,
                                 tilstand: 'ARBEIDSGIVER_HAR_GODTATT',
                                 digitalt: true,
                                 fysisk: null,
@@ -214,6 +215,7 @@ const main = async () => {
                             {
                                 tekst: 'Dialogmøte Dolly',
                                 startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: '2021-02-04T16:15:00',
                                 tilstand: 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
                                 digitalt: false,
                                 fysisk: {
@@ -225,6 +227,7 @@ const main = async () => {
                             {
                                 tekst: 'Dialogmøte Donald',
                                 startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: null,
                                 tilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
                                 fysisk: null,
                                 digitalt: false,
