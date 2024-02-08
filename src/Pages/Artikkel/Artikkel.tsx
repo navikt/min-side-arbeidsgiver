@@ -1,4 +1,3 @@
-import { KursReddetKommunenFraBemanningskrise } from './Artikler/Kurs_reddet_kommunen_fra_bemanningskrise';
 import { useParams } from 'react-router-dom';
 import { Brodsmulesti } from '../Banner';
 import React, { useContext } from 'react';
