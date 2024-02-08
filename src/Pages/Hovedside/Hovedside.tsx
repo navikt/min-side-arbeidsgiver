@@ -15,6 +15,7 @@ import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { GiOssTilbakemelding } from './GiOssTilbakemelding';
 import { Kalenderavtaler } from './Kalenderavtaler';
+import { ArtikkelLenke } from '../Artikkel/Artikkel';
 
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
@@ -27,6 +28,11 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKofuviAlert />
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
+                <ArtikkelLenke
+                    artikkelId="kurs_reddet_kommunen_fra_bemanningskrise"
+                    tittel="Sliter dere med bemanning innen helsesektorn?"
+                    tekst="Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV."
+                />
                 <SisteSaker />
                 {/*<Kalenderavtaler />*/}
                 <Tjenestebokser />
