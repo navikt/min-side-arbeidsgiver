@@ -39,6 +39,7 @@ export const ArtikkelLenke = ({
 export const Artikkel = () => {
     const { id } = useParams();
 
+    if (id === undefined || id === null || !(id in artikler)) {
         return (
             <Alert className={'app-finner-ikke-siden'} variant={'error'}>
                 Finner ikke siden.{' '}
