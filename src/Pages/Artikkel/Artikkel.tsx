@@ -19,21 +19,21 @@ export const ArtikkelLenke = ({
     tittel: string;
     tekst: string;
 }) => {
-    const { hovedenhetOrganisasjonsform } = useContext(OrganisasjonsDetaljerContext);
-    if (hovedenhetOrganisasjonsform !== 'KOMM') {
-        return null;
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    if (valgtOrganisasjon?.organisasjonstypeForØversteLedd === 'KOMM') {
+        return (
+            <LenkepanelMedLogging
+                loggLenketekst={tittel}
+                href={`/min-side-arbeidsgiver/Artikkel/${artikkelId}`}
+            >
+                <Heading size="medium" level="3">
+                    {tittel}
+                </Heading>
+                <BodyShort> {tekst}</BodyShort>
+            </LenkepanelMedLogging>
+        );
     }
-    return (
-        <LenkepanelMedLogging
-            loggLenketekst={tittel}
-            href={`/min-side-arbeidsgiver/Artikkel/${artikkelId}`}
-        >
-            <Heading size="medium" level="3">
-                {tittel}
-            </Heading>
-            <BodyShort> {tekst}</BodyShort>
-        </LenkepanelMedLogging>
-    );
+    return null;
 };
 
 export const Artikkel = () => {
