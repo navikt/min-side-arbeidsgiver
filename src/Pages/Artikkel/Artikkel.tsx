@@ -39,7 +39,15 @@ export const ArtikkelLenke = ({
 export const Artikkel = () => {
     const { id } = useParams();
 
-    if (id === undefined || id === null || !(id in artikler)) return null;
+        return (
+            <Alert className={'app-finner-ikke-siden'} variant={'error'}>
+                Finner ikke siden.{' '}
+                <Link as={RouterLink} to={'/'}>
+                    Gå til Min side arbeidsgiver
+                </Link>
+            </Alert>
+        );
+    }
 
     if (id in artikler) {
         const { tittel, komponent } = artikler[id as ArtikkelId];
