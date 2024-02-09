@@ -5,7 +5,7 @@ import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { onBreadcrumbClick, setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 import { Heading, Loader } from '@navikt/ds-react';
 import './Banner.css';
@@ -33,7 +33,7 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
     );
 };
 
-const SaksoversiktBanner = () => (
+export const SaksoversiktBanner = () => (
     <div className="banner__saksoversikt">
         <div className="banner__saksoversikt__piktogram">
             <MSAIkon />
@@ -46,11 +46,10 @@ const SaksoversiktBanner = () => (
     </div>
 );
 
-const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
+export const BannerMedBedriftsmeny: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
     const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
-    const { pathname } = useLocation();
     const [params, setParams] = useSearchParams();
     const orgnrFraUrl = params.get('bedrift');
 
@@ -81,9 +80,7 @@ const Banner: FunctionComponent<OwnProps> = ({ sidetittel }) => {
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
         : [];
 
-    return pathname === '/saksoversikt' ? (
-        <SaksoversiktBanner />
-    ) : (
+    return (
         <Bedriftsmeny
             sidetittel={sidetittel}
             undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
@@ -139,5 +136,3 @@ export const SpinnerMedBanner = () => {
         </>
     );
 };
-
-export default Banner;

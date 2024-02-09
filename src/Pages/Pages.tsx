@@ -16,11 +16,13 @@ import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './Pages.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import Banner, { Brodsmulesti } from './Banner';
+import { Brodsmulesti, BannerMedBedriftsmeny, SaksoversiktBanner } from './Banner';
 import { Saksoversikt } from './Saksoversikt/Saksoversikt';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
+import { Saksside } from './Saksoversikt/Saksside';
+import { Artikkel } from './Artikkel/Artikkel';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -36,18 +38,6 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
         loggSidevisning(location.pathname);
     }, [location.pathname]);
 
-    return <>{props.children}</>;
-};
-
-interface SideTittelProps {
-    tittel: string;
-    setTittel: (tittel: string) => void;
-}
-
-const SideTittelWrapper: FunctionComponent<PropsWithChildren<SideTittelProps>> = (props) => {
-    useEffect(() => {
-        props.setTittel(props.tittel);
-    });
     return <>{props.children}</>;
 };
 
@@ -71,37 +61,36 @@ const Pages: FunctionComponent = () => {
                                 <AlertsProvider>
                                     <OrganisasjonerOgTilgangerProvider>
                                         <OrganisasjonsDetaljerProvider>
-                                            <Banner sidetittel={sidetittel} />
                                             <Routes>
                                                 <Route
                                                     path="/bedriftsinformasjon"
                                                     element={
-                                                        <SideTittelWrapper
-                                                            tittel={'Om virksomheten'}
-                                                            setTittel={setSidetittel}
-                                                        >
+                                                        <>
+                                                            <BannerMedBedriftsmeny
+                                                                sidetittel={'Om virksomheten'}
+                                                            />
                                                             <OmVirksomheten />
-                                                        </SideTittelWrapper>
+                                                        </>
                                                     }
                                                 />
                                                 <Route
                                                     path="/"
                                                     element={
-                                                        <SideTittelWrapper
-                                                            tittel={'Min side – arbeidsgiver'}
-                                                            setTittel={setSidetittel}
-                                                        >
+                                                        <>
+                                                            <BannerMedBedriftsmeny
+                                                                sidetittel={
+                                                                    'Min side – arbeidsgiver'
+                                                                }
+                                                            />
                                                             <Hovedside />
-                                                        </SideTittelWrapper>
+                                                        </>
                                                     }
                                                 />
                                                 <Route
                                                     path="/saksoversikt"
                                                     element={
-                                                        <SideTittelWrapper
-                                                            tittel={'Saksoversikt'}
-                                                            setTittel={setSidetittel}
-                                                        >
+                                                        <>
+                                                            <SaksoversiktBanner />
                                                             <Brodsmulesti
                                                                 brodsmuler={[
                                                                     {
@@ -112,7 +101,25 @@ const Pages: FunctionComponent = () => {
                                                                 ]}
                                                             />
                                                             <Saksoversikt />
-                                                        </SideTittelWrapper>
+                                                        </>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/sak"
+                                                    element={
+                                                        <>
+                                                            <SaksoversiktBanner />
+                                                            <Brodsmulesti
+                                                                brodsmuler={[
+                                                                    {
+                                                                        url: '/saksoversikt',
+                                                                        title: 'Saksoversikt',
+                                                                        handleInApp: true,
+                                                                    },
+                                                                ]}
+                                                            />
+                                                            <Saksside />
+                                                        </>
                                                     }
                                                 />
                                                 <Route
@@ -123,6 +130,10 @@ const Pages: FunctionComponent = () => {
                                                             replace={true}
                                                         />
                                                     }
+                                                />
+                                                <Route
+                                                    path="/artikkel/:id"
+                                                    element={<Artikkel />}
                                                 />
                                                 <Route
                                                     path="*"

@@ -1,0 +1,27 @@
+.artikkel-banner {
+    display: flex;
+    margin-bottom: 20px;
+    background-color: var(--a-bg-default);
+    align-items: center;
+    padding:  40px 20px 40px  max(20px, min(40rem, calc(100vw - 42rem)));
+    width: 100%;
+    border-bottom: var(--a-grayalpha-400) 0.25rem solid;
+}
+
+.artikkel-banner-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.artikkel-container {
+    display: flex;
+    margin:  40px 20px 40px  max(20px, min(40rem, calc(100vw - 42rem)));
+    max-width: 40rem;
+}
+
+.artikkel-container > * {
+    gap: 20px;
+
+}
+

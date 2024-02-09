@@ -47,8 +47,8 @@ export type BrukerKlikk = {
   klikketPaa: Scalars['Boolean'];
 };
 
-export type KalenderAvtale = {
-  __typename?: 'KalenderAvtale';
+export type Kalenderavtale = {
+  __typename?: 'Kalenderavtale';
   brukerKlikk: BrukerKlikk;
   digitalt: Scalars['Boolean'];
   fysisk?: Maybe<Adresse>;
@@ -60,11 +60,11 @@ export type KalenderAvtale = {
   sorteringTidspunkt: Scalars['ISO8601DateTime'];
   startTidspunkt: Scalars['ISO8601DateTime'];
   tekst: Scalars['String'];
-  tilstand: KalenderAvtaleTilstand;
+  tilstand: KalenderavtaleTilstand;
   virksomhet: Virksomhet;
 };
 
-export enum KalenderAvtaleTilstand {
+export enum KalenderavtaleTilstand {
   ArbeidsgiverHarGodtatt = 'ARBEIDSGIVER_HAR_GODTATT',
   ArbeidsgiverVilAvlyse = 'ARBEIDSGIVER_VIL_AVLYSE',
   ArbeidsgiverVilEndreTidEllerSted = 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
@@ -72,9 +72,9 @@ export enum KalenderAvtaleTilstand {
   VenterSvarFraArbeidsgiver = 'VENTER_SVAR_FRA_ARBEIDSGIVER'
 }
 
-export type KalenderAvtalerResultat = {
-  __typename?: 'KalenderAvtalerResultat';
-  avtaler: Array<KalenderAvtale>;
+export type KalenderavtalerResultat = {
+  __typename?: 'KalenderavtalerResultat';
+  avtaler: Array<Kalenderavtale>;
   feilAltinn: Scalars['Boolean'];
   feilDigiSyfo: Scalars['Boolean'];
 };
@@ -89,7 +89,7 @@ export type MutationNotifikasjonKlikketPaaArgs = {
   id: Scalars['ID'];
 };
 
-export type Notifikasjon = Beskjed | KalenderAvtale | Oppgave;
+export type Notifikasjon = Beskjed | Kalenderavtale | Oppgave;
 
 export type NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId;
 
@@ -151,7 +151,7 @@ export type OppgaveTilstandInfo = {
 
 export type Query = {
   __typename?: 'Query';
-  kommendeKalenderAvtaler: KalenderAvtalerResultat;
+  kommendeKalenderavtaler: KalenderavtalerResultat;
   notifikasjoner: NotifikasjonerResultat;
   sakByGrupperingsid: SakResultat;
   sakById: SakResultat;
@@ -162,7 +162,7 @@ export type Query = {
 };
 
 
-export type QueryKommendeKalenderAvtalerArgs = {
+export type QueryKommendeKalenderavtalerArgs = {
   virksomhetsnumre?: InputMaybe<Array<Scalars['String']>>;
 };
 
