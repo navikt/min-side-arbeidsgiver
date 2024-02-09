@@ -21,7 +21,6 @@
 }
 
 .artikkel-container > * {
-    grid-column: 2;
     gap: 20px;
 
 }
