@@ -59,7 +59,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ childr
     }, [organisasjoner, valgtOrganisasjon]);
 
     useLoggBedriftValgtOgTilganger(valgtOrganisasjon);
-
     let defaultContext: Context = {
         endreOrganisasjon,
         valgtOrganisasjon,

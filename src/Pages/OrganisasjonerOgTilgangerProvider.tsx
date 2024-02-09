@@ -30,6 +30,7 @@ export type OrganisasjonInfo = {
     refusjonstatus: {
         KLAR_FOR_INNSENDING?: number;
     };
+    organisasjonstypeForØversteLedd?: string;
 };
 
 export type OrganisasjonEnhet = {
@@ -98,6 +99,9 @@ const useBeregnOrganisasjoner = (): Record<orgnr, OrganisasjonInfo> | undefined 
             ...userInfo.organisasjoner,
             ...userInfo.digisyfoOrganisasjoner.map(({ organisasjon }) => organisasjon),
         ];
+        const orgnummerTilOrganisasjon = Record.fromEntries(
+            (virksomheter ?? []).map((it) => [it.OrganizationNumber, it])
+        );
 
         return Record.fromEntries(
             virksomheter.map((org) => {
@@ -125,11 +129,27 @@ const useBeregnOrganisasjoner = (): Record<orgnr, OrganisasjonInfo> | undefined 
                         ),
                         refusjonstatus: refusjonstatus?.statusoversikt ?? {},
                         refusjonstatustilgang: refusjonstatus?.tilgang ?? false,
+                        organisasjonstypeForØversteLedd: hentOrganisasjonsformFraØversteLedd(
+                            org,
+                            orgnummerTilOrganisasjon
+                        ),
                     },
                 ];
             })
         );
     }, [userInfo]);
+};
+
+const hentOrganisasjonsformFraØversteLedd = (
+    org: Organisasjon | undefined,
+    organisasjoner: Record<string, Organisasjon>
+): string | undefined => {
+    if (org === undefined) return undefined;
+
+    const parentOrg = organisasjoner[org.ParentOrganizationNumber];
+    if (parentOrg === undefined) return org.OrganizationForm;
+
+    return hentOrganisasjonsformFraØversteLedd(parentOrg, organisasjoner);
 };
 
 const useOrganisasjonstre = (organisasjoner: Record<orgnr, OrganisasjonInfo> | undefined) => {
