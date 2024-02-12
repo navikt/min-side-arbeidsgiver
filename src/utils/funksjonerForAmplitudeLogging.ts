@@ -94,6 +94,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         const virksomhetsinfo: any = {
             url: baseUrl,
             tilgangskombinasjon,
+            organisasjonstypeForØversteLedd: org.organisasjonstypeForØversteLedd,
         };
 
         if (underenhet !== undefined) {

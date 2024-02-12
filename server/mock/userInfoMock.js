@@ -2,6 +2,38 @@ import casual from 'casual';
 
 export const OrganisasjonerResponse = [
     {
+        Name: 'Andeby kommune',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: null,
+        OrganizationNumber: '112233445',
+        OrganizationForm: 'KOMM',
+        Status: 'Active',
+    },
+    {
+        Name: 'Andeby Mellomorganisasjon',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: '112233445',
+        OrganizationNumber: '112233345',
+        OrganizationForm: 'ORGL',
+        Status: 'Active',
+    },
+    {
+        Name: 'Andeby barnehagestyrer',
+        Type: 'Enterprise',
+        ParentOrganizationNumber: '112233345',
+        OrganizationNumber: '112223345',
+        OrganizationForm: 'ORGL',
+        Status: 'Active',
+    },
+    {
+        Name: 'Andeby barnehage',
+        Type: 'Business',
+        ParentOrganizationNumber: '112223345',
+        OrganizationNumber: '111223345',
+        OrganizationForm: 'BEDR',
+        Status: 'Active',
+    },
+    {
         Name: 'En Juridisk Ehhet AS',
         Type: 'Enterprise',
         ParentOrganizationNumber: null,
