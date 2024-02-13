@@ -41,125 +41,113 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
     return <>{props.children}</>;
 };
 
-const Pages: FunctionComponent = () => {
-    const [sidetittel, setSidetittel] = useState('');
-
-    return (
-        <div className="typo-normal bakgrunnsside">
-            <SWRConfig
-                value={{
-                    revalidateOnFocus: false,
-                }}
-            >
-                <LoginBoundary>
-                    <NotifikasjonWidgetProvider
-                        miljo={miljø}
-                        apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
-                    >
-                        <BrowserRouter basename={__BASE_PATH__}>
-                            <AmplitudeSidevisningEventLogger>
-                                <AlertsProvider>
-                                    <OrganisasjonerOgTilgangerProvider>
-                                        <OrganisasjonsDetaljerProvider>
-                                            <Routes>
-                                                <Route
-                                                    path="/bedriftsinformasjon"
-                                                    element={
-                                                        <>
-                                                            <BannerMedBedriftsmeny
-                                                                sidetittel={'Om virksomheten'}
-                                                            />
-                                                            <OmVirksomheten />
-                                                        </>
-                                                    }
-                                                />
-                                                <Route
-                                                    path="/"
-                                                    element={
-                                                        <>
-                                                            <BannerMedBedriftsmeny
-                                                                sidetittel={
-                                                                    'Min side – arbeidsgiver'
-                                                                }
-                                                            />
-                                                            <Hovedside />
-                                                        </>
-                                                    }
-                                                />
-                                                <Route
-                                                    path="/saksoversikt"
-                                                    element={
-                                                        <>
-                                                            <SaksoversiktBanner />
-                                                            <Brodsmulesti
-                                                                brodsmuler={[
-                                                                    {
-                                                                        url: '/saksoversikt',
-                                                                        title: 'Saksoversikt',
-                                                                        handleInApp: true,
-                                                                    },
-                                                                ]}
-                                                            />
-                                                            <Saksoversikt />
-                                                        </>
-                                                    }
-                                                />
-                                                <Route
-                                                    path="/sak"
-                                                    element={
-                                                        <>
-                                                            <SaksoversiktBanner />
-                                                            <Brodsmulesti
-                                                                brodsmuler={[
-                                                                    {
-                                                                        url: '/saksoversikt',
-                                                                        title: 'Saksoversikt',
-                                                                        handleInApp: true,
-                                                                    },
-                                                                ]}
-                                                            />
-                                                            <Saksside />
-                                                        </>
-                                                    }
-                                                />
-                                                <Route
-                                                    path="/sak-restore-session"
-                                                    element={
-                                                        <Navigate
-                                                            to="/saksoversikt"
-                                                            replace={true}
+const Pages: FunctionComponent = () => (
+    <div className="typo-normal bakgrunnsside">
+        <SWRConfig
+            value={{
+                revalidateOnFocus: false,
+            }}
+        >
+            <LoginBoundary>
+                <NotifikasjonWidgetProvider
+                    miljo={miljø}
+                    apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
+                >
+                    <BrowserRouter basename={__BASE_PATH__}>
+                        <AmplitudeSidevisningEventLogger>
+                            <AlertsProvider>
+                                <OrganisasjonerOgTilgangerProvider>
+                                    <OrganisasjonsDetaljerProvider>
+                                        <Routes>
+                                            <Route
+                                                path="/bedriftsinformasjon"
+                                                element={
+                                                    <>
+                                                        <BannerMedBedriftsmeny
+                                                            sidetittel={'Om virksomheten'}
                                                         />
-                                                    }
-                                                />
-                                                <Route
-                                                    path="/artikkel/:id"
-                                                    element={<Artikkel />}
-                                                />
-                                                <Route
-                                                    path="*"
-                                                    element={
-                                                        <Alert
-                                                            className={'app-finner-ikke-siden'}
-                                                            variant={'error'}
-                                                        >
-                                                            Finner ikke siden.{' '}
-                                                            <Link as={RouterLink} to={'/'}>
-                                                                Gå til Min side arbeidsgiver
-                                                            </Link>
-                                                        </Alert>
-                                                    }
-                                                />
-                                            </Routes>
-                                        </OrganisasjonsDetaljerProvider>
-                                    </OrganisasjonerOgTilgangerProvider>
-                                </AlertsProvider>
-                            </AmplitudeSidevisningEventLogger>
-                        </BrowserRouter>
-                    </NotifikasjonWidgetProvider>
-                </LoginBoundary>
-            </SWRConfig>
-        </div>
-    );
-};
+                                                        <OmVirksomheten />
+                                                    </>
+                                                }
+                                            />
+                                            <Route
+                                                path="/"
+                                                element={
+                                                    <>
+                                                        <BannerMedBedriftsmeny
+                                                            sidetittel={'Min side – arbeidsgiver'}
+                                                        />
+                                                        <Hovedside />
+                                                    </>
+                                                }
+                                            />
+                                            <Route
+                                                path="/saksoversikt"
+                                                element={
+                                                    <>
+                                                        <SaksoversiktBanner />
+                                                        <Brodsmulesti
+                                                            brodsmuler={[
+                                                                {
+                                                                    url: '/saksoversikt',
+                                                                    title: 'Saksoversikt',
+                                                                    handleInApp: true,
+                                                                },
+                                                            ]}
+                                                        />
+                                                        <Saksoversikt />
+                                                    </>
+                                                }
+                                            />
+                                            <Route
+                                                path="/sak"
+                                                element={
+                                                    <>
+                                                        <SaksoversiktBanner />
+                                                        <Brodsmulesti
+                                                            brodsmuler={[
+                                                                {
+                                                                    url: '/saksoversikt',
+                                                                    title: 'Saksoversikt',
+                                                                    handleInApp: true,
+                                                                },
+                                                            ]}
+                                                        />
+                                                        <Saksside />
+                                                    </>
+                                                }
+                                            />
+                                            <Route
+                                                path="/sak-restore-session"
+                                                element={
+                                                    <Navigate to="/saksoversikt" replace={true} />
+                                                }
+                                            />
+                                            <Route path="/artikkel/:id" element={<Artikkel />} />
+                                            <Route
+                                                path="*"
+                                                element={
+                                                    <Alert
+                                                        className={'app-finner-ikke-siden'}
+                                                        variant={'error'}
+                                                    >
+                                                        Finner ikke siden.{' '}
+                                                        <Link as={RouterLink} to={'/'}>
+                                                            Gå til Min side arbeidsgiver
+                                                        </Link>
+                                                    </Alert>
+                                                }
+                                            />
+                                        </Routes>
+                                    </OrganisasjonsDetaljerProvider>
+                                </OrganisasjonerOgTilgangerProvider>
+                            </AlertsProvider>
+                        </AmplitudeSidevisningEventLogger>
+                    </BrowserRouter>
+                </NotifikasjonWidgetProvider>
+            </LoginBoundary>
+        </SWRConfig>
+    </div>
+);
 
 export default Pages;
