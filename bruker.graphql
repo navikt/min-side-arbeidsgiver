@@ -16,7 +16,7 @@ type Query {
     ): SakerResultat!
     sakById(id: ID!): SakResultat!
     sakByGrupperingsid(merkelapp: String!, grupperingsid: String!): SakResultat!
-    kommendeKalenderavtaler(virksomhetsnumre: [String!]): KalenderavtalerResultat!
+    kommendeKalenderavtaler(virksomhetsnumre: [String!]!): KalenderavtalerResultat!
     whoami: String
 }
 

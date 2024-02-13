@@ -190,7 +190,7 @@ const main = async () => {
             {
                 typeDefs: gql(data.toString()),
                 mocks: {
-                    KalenderAvtalerResultat: () => ({
+                    KalenderavtalerResultat: () => ({
                         avtaler: [
                             {
                                 tekst: 'Dialogmøte Mikke',

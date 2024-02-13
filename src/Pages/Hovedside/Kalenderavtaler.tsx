@@ -8,18 +8,24 @@ import {
     LocationPinIcon,
     PersonHeadsetIcon,
 } from '@navikt/aksel-icons';
-import { Adresse, KalenderAvtaleTilstand, Query } from '../../api/graphql-types';
+import { Adresse, KalenderavtaleTilstand, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 
-const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderAvtaler'>> = gql`
+const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
     query HentKalenderavtaler($virksomhetsnumre: [String!]!) {
-        kommendeKalenderAvtaler(virksomhetsnumre: $virksomhetsnumre) {
+        kommendeKalenderavtaler(virksomhetsnumre: $virksomhetsnumre) {
             avtaler {
                 id
                 tekst
                 startTidspunkt
                 sluttTidspunkt
                 tilstand
+                fysisk {
+                    adresse
+                    postnummer
+                    poststed
+                }
+                digitalt
                 lenke
             }
         }
@@ -33,6 +39,7 @@ export const Kalenderavtaler: FunctionComponent = () => {
     const { data, loading, error } = useQuery(HENT_KALENDERAVTALER, {
         variables: { virksomhetsnumre: ['123456789'] },
     });
+
     if (loading) {
         return null;
     }
@@ -41,8 +48,8 @@ export const Kalenderavtaler: FunctionComponent = () => {
     }
 
     const avtaler =
-        data?.kommendeKalenderAvtaler.avtaler!.filter(
-            (avtale) => avtale.tilstand !== KalenderAvtaleTilstand.Avlyst
+        data?.kommendeKalenderavtaler.avtaler!.filter(
+            (avtale) => avtale.tilstand !== KalenderavtaleTilstand.Avlyst
         ) ?? [];
 
     return (
@@ -66,6 +73,8 @@ export const Kalenderavtaler: FunctionComponent = () => {
                                 }
                                 tilstand={avtale.tilstand}
                                 lenke={avtale.lenke}
+                                digitalt={avtale.digitalt}
+                                fysisk={avtale.fysisk ?? undefined}
                             />
                         );
                 })}
@@ -97,7 +106,9 @@ type Kalenderavtale = {
     tekst: string;
     startTidspunkt: Date;
     sluttTidspunkt?: Date;
-    tilstand: KalenderAvtaleTilstand;
+    tilstand: KalenderavtaleTilstand;
+    digitalt: boolean;
+    fysisk?: Adresse;
     lenke: string;
 };
 
@@ -106,6 +117,8 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     startTidspunkt,
     sluttTidspunkt,
     tilstand,
+    fysisk,
+    digitalt,
     lenke,
 }) => {
     return (
@@ -123,7 +136,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
             <Tidsformat startTidspunkt={startTidspunkt} sluttTidspunkt={sluttTidspunkt} />
             <div className="kalenderavtale_statussted">
                 <Statustag tilstand={tilstand} />
-                {/*<Sted sted={fysisk} digitalt={digitalt} />*/}
+                <Sted sted={fysisk} digitalt={digitalt} />
             </div>
         </a>
     );
@@ -155,36 +168,36 @@ const Tidsformat = ({ startTidspunkt, sluttTidspunkt }: Tidspunkt) => (
 );
 
 type Statustag = {
-    tilstand: KalenderAvtaleTilstand;
+    tilstand: KalenderavtaleTilstand;
 };
 
 const Statustag = ({ tilstand }: Statustag) => {
     switch (tilstand) {
-        case KalenderAvtaleTilstand.ArbeidsgiverHarGodtatt:
+        case KalenderavtaleTilstand.ArbeidsgiverHarGodtatt:
             return (
                 <Tag size="small" variant="success-moderate">
                     Du har takket ja
                 </Tag>
             );
-        case KalenderAvtaleTilstand.VenterSvarFraArbeidsgiver:
+        case KalenderavtaleTilstand.VenterSvarFraArbeidsgiver:
             return (
                 <Tag size="small" variant="warning-moderate">
                     Svar på invitasjonen
                 </Tag>
             );
-        case KalenderAvtaleTilstand.ArbeidsgiverVilAvlyse:
+        case KalenderavtaleTilstand.ArbeidsgiverVilAvlyse:
             return (
                 <Tag size="small" variant="neutral-moderate">
                     Du ønsker å avlyse
                 </Tag>
             );
-        case KalenderAvtaleTilstand.ArbeidsgiverVilEndreTidEllerSted:
+        case KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted:
             return (
                 <Tag size="small" variant="neutral-moderate">
                     Du ønsker å endre tid eller sted
                 </Tag>
             );
-        case KalenderAvtaleTilstand.Avlyst:
+        case KalenderavtaleTilstand.Avlyst:
             return (
                 <Tag size="small" variant="error-moderate">
                     Møtet er avlyst
@@ -205,10 +218,10 @@ const Sted = ({ sted, digitalt }: Sted) => (
         {sted !== undefined ? (
             <>
                 <LocationPinIcon aria-hidden={true} fontSize="1.5rem" />
-                <BodyShort size="small">
-                    {' '}
-                    {`${sted.adresse} ${sted.postnummer} ${sted.poststed}`}
-                </BodyShort>
+                <div>
+                    <BodyShort size="small">{sted.adresse}</BodyShort>
+                    <BodyShort size="small">{`${sted.postnummer} ${sted.poststed}`}</BodyShort>
+                </div>
             </>
         ) : digitalt ? (
             <>
