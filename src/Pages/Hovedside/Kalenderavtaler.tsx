@@ -8,7 +8,7 @@ import {
     LocationPinIcon,
     PersonHeadsetIcon,
 } from '@navikt/aksel-icons';
-import { Adresse, KalenderavtaleTilstand, Query } from '../../api/graphql-types';
+import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
@@ -19,8 +19,8 @@ const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtal
                 tekst
                 startTidspunkt
                 sluttTidspunkt
-                tilstand
-                fysisk {
+                avtaletilstand
+                lokasjon {
                     adresse
                     postnummer
                     poststed
@@ -49,7 +49,7 @@ export const Kalenderavtaler: FunctionComponent = () => {
 
     const avtaler =
         data?.kommendeKalenderavtaler.avtaler!.filter(
-            (avtale) => avtale.tilstand !== KalenderavtaleTilstand.Avlyst
+            (avtale) => avtale.avtaletilstand !== KalenderavtaleTilstand.Avlyst
         ) ?? [];
 
     return (
@@ -71,10 +71,10 @@ export const Kalenderavtaler: FunctionComponent = () => {
                                         ? new Date(avtale.sluttTidspunkt)
                                         : undefined
                                 }
-                                tilstand={avtale.tilstand}
+                                tilstand={avtale.avtaletilstand}
                                 lenke={avtale.lenke}
-                                digitalt={avtale.digitalt}
-                                fysisk={avtale.fysisk ?? undefined}
+                                digitalt={avtale.digitalt ?? false}
+                                lokasjon={avtale.lokasjon ?? undefined}
                             />
                         );
                 })}
@@ -108,7 +108,7 @@ type Kalenderavtale = {
     sluttTidspunkt?: Date;
     tilstand: KalenderavtaleTilstand;
     digitalt: boolean;
-    fysisk?: Adresse;
+    lokasjon?: Lokasjon;
     lenke: string;
 };
 
@@ -117,7 +117,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     startTidspunkt,
     sluttTidspunkt,
     tilstand,
-    fysisk,
+    lokasjon,
     digitalt,
     lenke,
 }) => {
@@ -136,7 +136,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
             <Tidsformat startTidspunkt={startTidspunkt} sluttTidspunkt={sluttTidspunkt} />
             <div className="kalenderavtale_statussted">
                 <Statustag tilstand={tilstand} />
-                <Sted sted={fysisk} digitalt={digitalt} />
+                <Sted sted={lokasjon} digitalt={digitalt} />
             </div>
         </a>
     );
@@ -209,7 +209,7 @@ const Statustag = ({ tilstand }: Statustag) => {
 };
 
 type Sted = {
-    sted?: Adresse;
+    sted?: Lokasjon;
     digitalt: boolean;
 };
 

@@ -14,13 +14,6 @@ export type Scalars = {
   ISO8601DateTime: any;
 };
 
-export type Adresse = {
-  __typename?: 'Adresse';
-  adresse: Scalars['String'];
-  postnummer: Scalars['String'];
-  poststed: Scalars['String'];
-};
-
 export type Beskjed = {
   __typename?: 'Beskjed';
   brukerKlikk: BrukerKlikk;
@@ -49,19 +42,31 @@ export type BrukerKlikk = {
 
 export type Kalenderavtale = {
   __typename?: 'Kalenderavtale';
+  avtaletilstand: KalenderavtaleTilstand;
   brukerKlikk: BrukerKlikk;
-  digitalt: Scalars['Boolean'];
-  fysisk?: Maybe<Adresse>;
+  digitalt?: Maybe<Scalars['Boolean']>;
   id: Scalars['ID'];
   lenke: Scalars['String'];
+  lokasjon?: Maybe<Lokasjon>;
   merkelapp: Scalars['String'];
+  opprettetTidspunkt: Scalars['ISO8601DateTime'];
   sak?: Maybe<SakMetadata>;
   sluttTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   sorteringTidspunkt: Scalars['ISO8601DateTime'];
   startTidspunkt: Scalars['ISO8601DateTime'];
   tekst: Scalars['String'];
-  tilstand: KalenderavtaleTilstand;
   virksomhet: Virksomhet;
+};
+
+export type KalenderavtaleTidslinjeElement = {
+  __typename?: 'KalenderavtaleTidslinjeElement';
+  avtaletilstand: KalenderavtaleTilstand;
+  digitalt?: Maybe<Scalars['Boolean']>;
+  id: Scalars['ID'];
+  lokasjon?: Maybe<Lokasjon>;
+  sluttTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
+  startTidspunkt: Scalars['ISO8601DateTime'];
+  tekst: Scalars['String'];
 };
 
 export enum KalenderavtaleTilstand {
@@ -77,6 +82,13 @@ export type KalenderavtalerResultat = {
   avtaler: Array<Kalenderavtale>;
   feilAltinn: Scalars['Boolean'];
   feilDigiSyfo: Scalars['Boolean'];
+};
+
+export type Lokasjon = {
+  __typename?: 'Lokasjon';
+  adresse: Scalars['String'];
+  postnummer: Scalars['String'];
+  poststed: Scalars['String'];
 };
 
 export type Mutation = {
@@ -163,7 +175,7 @@ export type Query = {
 
 
 export type QueryKommendeKalenderavtalerArgs = {
-  virksomhetsnumre?: InputMaybe<Array<Scalars['String']>>;
+  virksomhetsnumre: Array<Scalars['String']>;
 };
 
 
@@ -255,7 +267,7 @@ export type SakstypeOverordnet = {
   navn: Scalars['String'];
 };
 
-export type TidslinjeElement = BeskjedTidslinjeElement | OppgaveTidslinjeElement;
+export type TidslinjeElement = BeskjedTidslinjeElement | KalenderavtaleTidslinjeElement | OppgaveTidslinjeElement;
 
 export type UgyldigId = {
   __typename?: 'UgyldigId';
