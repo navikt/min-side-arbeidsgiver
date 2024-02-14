@@ -1,5 +1,5 @@
 import './Kalenderavtaler.css';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { BodyShort, Button, Heading, Tag } from '@navikt/ds-react';
 import {
     ChevronDownIcon,
@@ -10,6 +10,7 @@ import {
 } from '@navikt/aksel-icons';
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
+import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
     query HentKalenderavtaler($virksomhetsnumre: [String!]!) {
@@ -35,9 +36,12 @@ const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtal
 const VIS_ANTALL = 2;
 
 export const Kalenderavtaler: FunctionComponent = () => {
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [visAlle, settVisAlle] = React.useState(false);
+    const virksomhetsnumre =
+        valgtOrganisasjon !== undefined ? [valgtOrganisasjon?.organisasjon.OrganizationNumber] : [];
     const { data, loading, error } = useQuery(HENT_KALENDERAVTALER, {
-        variables: { virksomhetsnumre: ['123456789'] },
+        variables: { virksomhetsnumre },
     });
 
     if (loading) {
