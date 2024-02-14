@@ -18,7 +18,6 @@ export const HovedenhetCheckbox = ({ hovedenhet, valgteOrgnr }: HovedenhetCheckb
             <div className="hovedenhet">
                 <Checkbox
                     size="small"
-                    checked={valgt}
                     value={hovedenhet.OrganizationNumber}
                     id={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
                     key={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_list_key`}
