@@ -32,6 +32,9 @@ export default defineConfig({
             polyfills: ['es.string.replace', 'esnext.string.replace-all'],
         }),
     ],
+    optimizeDeps: {
+        exclude: ['js-big-decimal'],
+    },
     define: {
         __BUILD_TIMESTAMP__: new Date(),
         __BASE_PATH__: JSON.stringify('/min-side-arbeidsgiver'),

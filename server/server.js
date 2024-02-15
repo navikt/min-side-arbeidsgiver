@@ -196,7 +196,7 @@ const main = async () => {
                                 tekst: 'Dialogmøte Mikke',
                                 startTidspunkt: '2021-02-04T15:15:00',
                                 sluttTidspunkt: null,
-                                fysisk: {
+                                lokasjon: {
                                     adresse: 'Thorvald Meyers gate 2B',
                                     postnummer: '0473',
                                     poststed: 'Oslo',

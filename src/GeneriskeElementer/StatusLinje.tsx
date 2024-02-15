@@ -2,7 +2,12 @@ import React, { FC, ReactNode } from 'react';
 import { Tag } from '@navikt/ds-react';
 import './StatusLinje.css';
 import { StopWatch } from '@navikt/ds-icons';
-import { OppgaveTidslinjeElement, OppgaveTilstand } from '../api/graphql-types';
+import {
+    KalenderavtaleTidslinjeElement,
+    KalenderavtaleTilstand,
+    OppgaveTidslinjeElement,
+    OppgaveTilstand,
+} from '../api/graphql-types';
 import { dateFormat } from '../Pages/Saksoversikt/SakPanel';
 
 export interface StatusLinjeProps {
@@ -108,3 +113,69 @@ const StatusIkonMedTekst: FC<StatusIkonMedTekstProps> = ({ icon, className = '',
         {icon} {children}
     </span>
 );
+
+export const AvtaletilstandLinje = ({
+    kalenderTidslinjeelement,
+}: {
+    kalenderTidslinjeelement: KalenderavtaleTidslinjeElement;
+}) => {
+    if (kalenderTidslinjeelement.__typename !== 'KalenderavtaleTidslinjeElement') {
+        return null;
+    }
+
+    switch (kalenderTidslinjeelement.avtaletilstand) {
+        case KalenderavtaleTilstand.VenterSvarFraArbeidsgiver:
+            return (
+                <Tag
+                    size="small"
+                    className="tidslinje_kalenderavtale_status_text"
+                    variant="warning"
+                >
+                    Svar på invitasjonen
+                </Tag>
+            );
+
+        case KalenderavtaleTilstand.ArbeidsgiverHarGodtatt:
+            return (
+                <Tag
+                    size="small"
+                    className="tidslinje_kalenderavtale_status_text"
+                    variant="success"
+                >
+                    Du har takket ja
+                </Tag>
+            );
+
+        case KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted:
+            return (
+                <Tag
+                    size="small"
+                    className="tidslinje_kalenderavtale_status_text"
+                    variant="neutral"
+                >
+                    Du ønsker å endre tid eller sted
+                </Tag>
+            );
+
+        case KalenderavtaleTilstand.ArbeidsgiverVilAvlyse:
+            return (
+                <Tag
+                    size="small"
+                    className="tidslinje_kalenderavtale_status_text"
+                    variant="neutral"
+                >
+                    Du ønsker å avlyse
+                </Tag>
+            );
+
+        case KalenderavtaleTilstand.Avlyst:
+            return (
+                <Tag size="small" className="tidslinje_kalenderavtale_status_text" variant="info">
+                    Avlyst
+                </Tag>
+            );
+
+        default:
+            return null;
+    }
+};

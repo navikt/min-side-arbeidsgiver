@@ -3,21 +3,29 @@ import React, { useState } from 'react';
 import './SaksListe.css';
 import {
     BeskjedIkon,
+    KalenderavtaleIkon,
+    KalenderavtaleUtgårIkon,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
     TidslinjeLinjeIkon,
     TidslinjeLinjeIkonKort,
+    TidslinjeLinjeIkonLang,
+    TidslinjeLinjeIkonStriplet,
 } from './OppgaveBeskjedIkoner';
 import {
     BeskjedTidslinjeElement,
+    KalenderavtaleTidslinjeElement,
+    KalenderavtaleTilstand,
+    Lokasjon,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { StatusLinje } from '../../GeneriskeElementer/StatusLinje';
+import { AvtaletilstandLinje, StatusLinje } from '../../GeneriskeElementer/StatusLinje';
 import { Collapse, Expand } from '@navikt/ds-icons';
+import { LocationPinIcon, PersonHeadsetIcon } from '@navikt/aksel-icons';
 
 export const dateFormat = new Intl.DateTimeFormat('no', {
     year: 'numeric',
@@ -139,12 +147,21 @@ const Tidslinjeelement = ({
                 tidslinjeOpen={tidslinjeOpen}
             />
         );
+    } else if (tidslinjeelement.__typename === 'KalenderavtaleTidslinjeElement') {
+        return (
+            <KalenderavtaleElement
+                tidslinjeelement={tidslinjeelement}
+                erSist={indeks === antall - 1}
+                tidslinjeOpen={tidslinjeOpen}
+            />
+        );
     } else {
         return null;
     }
 };
 
 const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
+    if (tidslinjeelement.__typename !== 'BeskjedTidslinjeElement') return null;
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
         <div className="tidslinje-element">
@@ -152,7 +169,7 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
             <div className="tidslinje-element-ikon">
-                <BeskjedIkon title="Beskjed" />
+                <BeskjedIkon />
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div className="tidslinje-linje">
@@ -163,12 +180,13 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
 };
 
 const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
+    if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
     const ikon = {
-        NY: <NyOppgaveIkon title="Oppgave" />,
-        UTFOERT: <OppgaveUtfortIkon title="Utført oppgave" />,
-        UTGAATT: <OppgaveUtfortIkon title="Utgått oppgave" />,
+        NY: <NyOppgaveIkon />,
+        UTFOERT: <OppgaveUtfortIkon />,
+        UTGAATT: <OppgaveUtfortIkon />,
     };
     return (
         <div className="tidslinje-element">
@@ -195,3 +213,70 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
         </div>
     );
 };
+
+const KalenderavtaleElement = ({
+    tidslinjeelement,
+    erSist,
+    tidslinjeOpen,
+}: TidslinjeelementProps) => {
+    if (tidslinjeelement.__typename !== 'KalenderavtaleTidslinjeElement') return null;
+
+    const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt } =
+        tidslinjeelement as KalenderavtaleTidslinjeElement;
+    return (
+        <div className="tidslinje-element">
+            <Detail className="tidslinje-element-tidspunkt">
+                {dateFormat.format(new Date(startTidspunkt))}
+            </Detail>
+            <div className="tidslinje-element-ikon">
+                {avtaletilstand === KalenderavtaleTilstand.ArbeidsgiverHarGodtatt ? (
+                    <KalenderavtaleIkon />
+                ) : (
+                    <KalenderavtaleUtgårIkon />
+                )}
+            </div>
+            <div className="tidslinje-element-tittel">
+                <BodyShort>{tekst}</BodyShort>
+                <BodyShort>{startTidspunkt}</BodyShort>
+            </div>
+            <div className="tidslinje-element-detaljer">
+                <Sted sted={lokasjon ?? undefined} digitalt={digitalt ?? false} />
+                <AvtaletilstandLinje
+                    kalenderTidslinjeelement={tidslinjeelement as KalenderavtaleTidslinjeElement}
+                />
+            </div>
+            <div className="tidslinje-linje">
+                {erSist || !tidslinjeOpen ? null : new Date(startTidspunkt) > new Date() ? (
+                    <TidslinjeLinjeIkonStriplet />
+                ) : (
+                    <TidslinjeLinjeIkonLang />
+                )}
+            </div>
+        </div>
+    );
+};
+
+type Sted = {
+    sted?: Lokasjon;
+    digitalt: boolean;
+};
+
+const Sted = ({ sted, digitalt }: Sted) => (
+    <div className="kalenderavtale_sted">
+        {sted !== undefined ? (
+            <>
+                <LocationPinIcon aria-hidden={true} fontSize="1.5rem" />
+                <div>
+                    <Detail>
+                        {sted.adresse}, {sted.postnummer} {sted.poststed}
+                    </Detail>
+                </div>
+            </>
+        ) : digitalt ? (
+            <>
+                <PersonHeadsetIcon aria-hidden={true} fontSize="1.5rem" />{' '}
+                <BodyShort size="small"> Digital avtale </BodyShort>
+            </>
+        ) : null}
+    </div>
+);

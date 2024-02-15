@@ -58,6 +58,7 @@ ul.saks-liste .sakscontainer .sakstittel {
   grid-template-areas:
   "tidspunkt tidspunkt"
   "ikon tittel"
+  "linje tittel"
   "linje paaminnelse";
   column-gap: 8px;
 }
@@ -67,10 +68,18 @@ ul.saks-liste .sakscontainer .sakstittel {
 }
 .tidslinje-element-ikon {
   grid-area: ikon;
+  margin-top: 4px;
 }
 
 .tidslinje-element-tittel {
   grid-area: tittel;
+}
+
+.tidslinje-element-detaljer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  gap: 8px;
 }
 
 .oppgave-element-paaminnelse {
