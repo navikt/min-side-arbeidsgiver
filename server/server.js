@@ -189,6 +189,59 @@ const main = async () => {
             { app, path: '/min-side-arbeidsgiver/notifikasjon-bruker-api' },
             {
                 typeDefs: gql(data.toString()),
+                mocks: {
+                    KalenderavtalerResultat: () => ({
+                        avtaler: [
+                            {
+                                tekst: 'Dialogmøte Mikke',
+                                startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: null,
+                                fysisk: {
+                                    adresse: 'Thorvald Meyers gate 2B',
+                                    postnummer: '0473',
+                                    poststed: 'Oslo',
+                                },
+                                tilstand: 'ARBEIDSGIVER_VIL_AVLYSE',
+                                digitalt: false,
+                            },
+                            {
+                                tekst: 'Dialogmøte Minni',
+                                startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: null,
+                                tilstand: 'ARBEIDSGIVER_HAR_GODTATT',
+                                digitalt: true,
+                                fysisk: null,
+                            },
+                            {
+                                tekst: 'Dialogmøte Dolly',
+                                startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: '2021-02-04T16:15:00',
+                                tilstand: 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
+                                digitalt: false,
+                                fysisk: {
+                                    adresse: 'Thorvald Meyers gate 2B',
+                                    postnummer: '0473',
+                                    poststed: 'Oslo',
+                                },
+                            },
+                            {
+                                tekst: 'Dialogmøte Donald',
+                                startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: null,
+                                tilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
+                                fysisk: null,
+                                digitalt: false,
+                            },
+                            {
+                                tekst: 'Dialogmøte Langbein',
+                                startTidspunkt: '2021-02-04T15:15:00',
+                                sluttTidspunkt: '2021-02-04T16:15:00',
+                                tilstand: 'AVLYST',
+                                fysisk: null,
+                            },
+                        ],
+                    }),
+                },
             }
         );
     } else {

@@ -57,9 +57,19 @@
 .kalenderavtale_statussted{
     grid-area: statussted;
     display: flex;
-    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.kalenderavtale_sted {
+    display: flex;
+    max-width: 15rem;
+    align-items: center;
+}
+
+.kalenderavtale_sted > svg {
+    min-width: 1.5rem;
+}
 
 .kalenderavtale:hover > .kalenderavtaler_chevron {
         transform: translateX(4px);

@@ -34,7 +34,7 @@ const Hovedside: FunctionComponent = () => {
                 {/*    tekst="Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV."*/}
                 {/*/>*/}
                 <SisteSaker />
-                {/*<Kalenderavtaler />*/}
+                <Kalenderavtaler />
                 <Tjenestebokser />
                 <SøknaderOgSkjemaer />
                 <NyttigForDegContainer />
