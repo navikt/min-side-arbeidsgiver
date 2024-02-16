@@ -90,7 +90,7 @@ export const KalenderavtaleUtgårIkon = () => (
         role="img"
     >
         <title>"Kalenderavtale</title>
-        <rect width="24" height="24" rx="4" fill="#AAB0BA" />
+        <rect width="24" height="24" rx="4" fill="#02143173" />
         <path
             fill-rule="evenodd"
             clip-rule="evenodd"
@@ -116,13 +116,13 @@ export const TidslinjeLinjeIkon = () => (
 
 export const TidslinjeLinjeIkonStriplet = () => (
     <svg width="24" height="77" viewBox="0 0 24 77" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="11.5" y1="77" x2="11.5" stroke="#979797" stroke-dasharray="2 2" />
+        <line x1="11.5" y1="77" x2="11.5" stroke="#979797" strokeDasharray="2 2" />
     </svg>
 );
 
 export const TidslinjeLinjeIkonLang = () => (
     <svg width="24" height="77" viewBox="0 0 24 77" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <line x1="11.5" y1="77" x2="11.5" stroke="#979797" stroke-dasharray="2 2" />
+        <line x1="11.5" y1="77" x2="11.5" stroke="#979797" />
     </svg>
 );
 

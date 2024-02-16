@@ -223,21 +223,34 @@ const KalenderavtaleElement = ({
 
     const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt } =
         tidslinjeelement as KalenderavtaleTidslinjeElement;
+
+    const klokkeslett = new Intl.DateTimeFormat('no', {
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+
+    const harPassert = new Date(startTidspunkt) < new Date();
+
     return (
         <div className="tidslinje-element">
             <Detail className="tidslinje-element-tidspunkt">
                 {dateFormat.format(new Date(startTidspunkt))}
             </Detail>
             <div className="tidslinje-element-ikon">
-                {avtaletilstand === KalenderavtaleTilstand.ArbeidsgiverHarGodtatt ? (
-                    <KalenderavtaleIkon />
-                ) : (
+                {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
                     <KalenderavtaleUtgårIkon />
+                ) : (
+                    <KalenderavtaleIkon />
                 )}
             </div>
             <div className="tidslinje-element-tittel">
                 <BodyShort>{tekst}</BodyShort>
-                <BodyShort>{startTidspunkt}</BodyShort>
+                <BodyShort>
+                    kl. {klokkeslett.format(new Date(startTidspunkt))}
+                    {sluttTidspunkt !== undefined
+                        ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
+                        : ''}
+                </BodyShort>
             </div>
             <div className="tidslinje-element-detaljer">
                 <Sted sted={lokasjon ?? undefined} digitalt={digitalt ?? false} />
@@ -246,10 +259,10 @@ const KalenderavtaleElement = ({
                 />
             </div>
             <div className="tidslinje-linje">
-                {erSist || !tidslinjeOpen ? null : new Date(startTidspunkt) > new Date() ? (
-                    <TidslinjeLinjeIkonStriplet />
-                ) : (
+                {erSist || !tidslinjeOpen ? null : harPassert ? (
                     <TidslinjeLinjeIkonLang />
+                ) : (
+                    <TidslinjeLinjeIkonStriplet />
                 )}
             </div>
         </div>
