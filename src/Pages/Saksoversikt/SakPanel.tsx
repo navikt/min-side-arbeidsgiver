@@ -224,14 +224,7 @@ const KalenderavtaleElement = ({
     const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt } =
         tidslinjeelement as KalenderavtaleTidslinjeElement;
 
-    const startTidspunktFormat = new Intl.DateTimeFormat('no', {
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-    });
-
-    const sluttTidsunktFormat = new Intl.DateTimeFormat('no', {
+    const klokkeslett = new Intl.DateTimeFormat('no', {
         hour: 'numeric',
         minute: 'numeric',
     });
@@ -253,9 +246,9 @@ const KalenderavtaleElement = ({
             <div className="tidslinje-element-tittel">
                 <BodyShort>{tekst}</BodyShort>
                 <BodyShort>
-                    {startTidspunktFormat.format(new Date(startTidspunkt))}
+                    kl. {klokkeslett.format(new Date(startTidspunkt))}
                     {sluttTidspunkt !== undefined
-                        ? ` – ${sluttTidsunktFormat.format(new Date(sluttTidspunkt))}`
+                        ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
                         : ''}
                 </BodyShort>
             </div>
