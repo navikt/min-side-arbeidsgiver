@@ -50,6 +50,19 @@ const HENT_SAK_ID: TypedDocumentNode<SakQueryResponse> = gql`
                         tekst
                         opprettetTidspunkt
                     }
+                    ... on KalenderavtaleTidslinjeElement {
+                        id
+                        tekst
+                        avtaletilstand
+                        startTidspunkt
+                        sluttTidspunkt
+                        lokasjon {
+                            adresse
+                            postnummer
+                            postnummer
+                        }
+                        digitalt
+                    }
                 }
             }
         }

@@ -62,6 +62,19 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                         tekst
                         opprettetTidspunkt
                     }
+                    ... on KalenderavtaleTidslinjeElement {
+                        id
+                        tekst
+                        avtaletilstand
+                        startTidspunkt
+                        sluttTidspunkt
+                        lokasjon {
+                            adresse
+                            postnummer
+                            postnummer
+                        }
+                        digitalt
+                    }
                 }
             }
             sakstyper {
