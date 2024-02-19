@@ -9,7 +9,7 @@ export const NyOppgaveIkon = () => (
         xmlns="http://www.w3.org/2000/svg"
         role="img"
     >
-        <title>"Ny Oppgave"</title>
+        <title>Ny Oppgave</title>
         <rect width="24" height="24" rx="4" fill="#C77300" />
         <path
             fillRule="evenodd"
@@ -29,7 +29,7 @@ export const OppgaveUtfortIkon = () => (
         xmlns="http://www.w3.org/2000/svg"
         role="img"
     >
-        <title>"Oppgave utført"</title>
+        <title>Oppgave utført</title>
         <rect width="24" height="24" rx="4" fill="#021431" fillOpacity="0.49" />
         <path
             fillRule="evenodd"
@@ -49,7 +49,7 @@ export const BeskjedIkon = () => (
         xmlns="http://www.w3.org/2000/svg"
         role="img"
     >
-        <title>"Beskjed"</title>
+        <title>Beskjed</title>
         <rect width="24" height="24" rx="4" fill="#3380A5" />
         <path
             fillRule="evenodd"
@@ -60,7 +60,7 @@ export const BeskjedIkon = () => (
     </svg>
 );
 
-export const KalenderavtaleIkon = () => (
+export const KalenderavtaleIkonBlå = ({ title }: { title: string }) => (
     <svg
         width="24"
         height="24"
@@ -69,7 +69,7 @@ export const KalenderavtaleIkon = () => (
         xmlns="http://www.w3.org/2000/svg"
         role="img"
     >
-        <title>"Kalenderavtale</title>
+        <title>{title}</title>
         <rect width="24" height="24" rx="4" fill="#3380A5" />
         <path
             fillRule="evenodd"
@@ -80,7 +80,7 @@ export const KalenderavtaleIkon = () => (
     </svg>
 );
 
-export const KalenderavtaleUtgårIkon = () => (
+export const KalenderavtaleIkonGrå = ({ title }: { title: string }) => (
     <svg
         width="24"
         height="24"
@@ -89,7 +89,7 @@ export const KalenderavtaleUtgårIkon = () => (
         xmlns="http://www.w3.org/2000/svg"
         role="img"
     >
-        <title>"Kalenderavtale</title>
+        <title>{title}</title>
         <rect width="24" height="24" rx="4" fill="#02143173" />
         <path
             fillRule="evenodd"
