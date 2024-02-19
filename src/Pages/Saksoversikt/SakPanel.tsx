@@ -4,7 +4,8 @@ import './SaksListe.css';
 import {
     BeskjedIkon,
     KalenderavtaleIkon,
-    KalenderavtaleUtgårIkon,
+    KalenderavtaleIkonBlå,
+    KalenderavtaleIkonGrå,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
     TidslinjeLinjeIkon,
@@ -238,9 +239,11 @@ const KalenderavtaleElement = ({
             </Detail>
             <div className="tidslinje-element-ikon">
                 {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
-                    <KalenderavtaleUtgårIkon />
+                    <KalenderavtaleIkonGrå
+                        title={harPassert ? 'Avtaletidspunktet har passert.' : 'Møtet er avlyst.'}
+                    />
                 ) : (
-                    <KalenderavtaleIkon />
+                    <KalenderavtaleIkonBlå title={'Kommende kalenderavtale.'} />
                 )}
             </div>
             <div className="tidslinje-element-tittel">
