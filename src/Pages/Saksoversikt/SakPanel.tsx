@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import './SaksListe.css';
 import {
     BeskjedIkon,
-    KalenderavtaleIkon,
     KalenderavtaleIkonBlå,
     KalenderavtaleIkonGrå,
     NyOppgaveIkon,
