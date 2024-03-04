@@ -143,6 +143,21 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
         `,
 });
 
+const proxyOptions = {
+    logger: log,
+    secure: true,
+    xfwd: true,
+    changeOrigin: true,
+    ejectPlugins: true,
+    plugins: [
+        cookieScraperPlugin,
+        debugProxyErrorsPlugin,
+        errorResponsePlugin,
+        loggerPlugin,
+        proxyEventsPlugin,
+    ],
+};
+
 const main = async () => {
     let appReady = false;
     const app = express();
@@ -244,21 +259,15 @@ const main = async () => {
                 },
             }
         );
+        app.use(
+            '/min-side-arbeidsgiver/artikler',
+            createProxyMiddleware({
+                ...proxyOptions,
+                pathRewrite: { '^/': '' },
+                target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
+            })
+        );
     } else {
-        const proxyOptions = {
-            logger: log,
-            secure: true,
-            xfwd: true,
-            changeOrigin: true,
-            ejectPlugins: true,
-            plugins: [
-                cookieScraperPlugin,
-                debugProxyErrorsPlugin,
-                errorResponsePlugin,
-                loggerPlugin,
-                proxyEventsPlugin,
-            ],
-        };
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
             tokenXMiddleware({
@@ -380,6 +389,15 @@ const main = async () => {
                 ...proxyOptions,
                 pathRewrite: { '^/': '' },
                 target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/artikler',
+            createProxyMiddleware({
+                ...proxyOptions,
+                pathRewrite: { '^/': '' },
+                target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
             })
         );
 

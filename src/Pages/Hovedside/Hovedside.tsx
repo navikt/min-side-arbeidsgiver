@@ -15,8 +15,8 @@ import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { GiOssTilbakemelding } from './GiOssTilbakemelding';
 import { Kalenderavtaler } from './Kalenderavtaler';
-import { ArtikkelLenke } from '../Artikkel/Artikkel';
-
+import { ArtikkelLenke, Artikler } from '../Artikkel/Artikkel';
+import * as Record from '../../utils/Record';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
@@ -28,11 +28,14 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKofuviAlert />
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
-                {/*<ArtikkelLenke*/}
-                {/*    artikkelId="kurs_reddet_kommunen_fra_bemanningskrise"*/}
-                {/*    tittel="Sliter dere med bemanning innen helsesektorn?"*/}
-                {/*    tekst="Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV."*/}
-                {/*/>*/}
+                {Record.mapToArray(Artikler, (artikkelId, { tittel, lenkeTekst }) => (
+                    <ArtikkelLenke
+                        key={artikkelId}
+                        artikkelId={artikkelId}
+                        tittel={tittel}
+                        tekst={lenkeTekst}
+                    />
+                ))}
                 <SisteSaker />
                 <Kalenderavtaler />
                 <Tjenestebokser />

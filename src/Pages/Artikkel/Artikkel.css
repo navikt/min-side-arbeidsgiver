@@ -25,3 +25,101 @@
 
 }
 
+
+/*
+* {
+  outline: 1px solid red;
+}
+*/
+
+main {
+    background-color: var(--a-bg-default);
+}
+
+main > article {
+    background-color: var(--a-bg-subtle);
+}
+
+main figure {
+    margin: 0;
+}
+
+main figure img {
+    width: 100%;
+}
+
+
+.artikkel {
+    padding-bottom: 48px;
+}
+
+.navds-box.faktaboks {
+    padding-top: 8px;
+    padding-bottom: 16px;
+    --__ac-box-background: var(--a-surface-subtle);
+}
+
+main footer {
+    padding-bottom: 48px;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: [margin-left] 1fr [main-column] 40rem [margin-right] 2fr [the-end];
+    grid-row-gap: 32px;
+}
+
+.columns > * {
+    grid-column: main-column / margin-right;;
+}
+
+.columns > *.full-width {
+    grid-column: margin-left / the-end;
+}
+
+.overskrift {
+    border-bottom: solid 4px #979797;
+    padding: 30px 0;
+}
+
+.la-oss-snakke {
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.navds-box {
+    --__ac-box-background: var(--a-bg-default);
+    padding-left: var(--a-spacing-4);
+    padding-right: var(--a-spacing-4);
+}
+
+.navds-body-long.navds-body-long {
+    margin: revert;
+}
+
+blockquote {
+    position: relative;
+    font-size: 1.5rem;
+    letter-spacing: -.0013em;
+    line-height: 1.5;
+}
+
+blockquote::before {
+    position: absolute;
+    content: "\201C";
+    font-size: 80px;
+    left: -30pt;
+    bottom: 0;
+}
+
+.skjul-innhold {
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+
+

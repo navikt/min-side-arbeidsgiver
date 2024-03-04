@@ -5,10 +5,25 @@ import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 import './Artikkel.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
+import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
+import { gittMiljo } from '../../utils/environment';
 
 type ArtikkelId = keyof typeof artikler;
 
-const artikler = {};
+type Artikkel = {
+    tittel: string;
+    lenkeTekst: string;
+    objectName: string;
+};
+const artikler = {
+    kurs_reddet_kommunen_fra_bemanningskrise: {
+        tittel: 'Sliter dere med bemanning innen helsesektoren?',
+        lenkeTekst:
+            'Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV.',
+        objectName: 'kurs_reddet_kommunen_fra_bemanningskrise.html',
+    },
+};
+export const Artikler: Record<ArtikkelId, Artikkel> = artikler;
 
 export const ArtikkelLenke = ({
     artikkelId,
@@ -24,12 +39,12 @@ export const ArtikkelLenke = ({
         return (
             <LenkepanelMedLogging
                 loggLenketekst={tittel}
-                href={`/min-side-arbeidsgiver/Artikkel/${artikkelId}`}
+                href={`/min-side-arbeidsgiver/artikkel/${artikkelId}`}
             >
                 <Heading size="medium" level="3">
                     {tittel}
                 </Heading>
-                <BodyShort> {tekst}</BodyShort>
+                <BodyShort>{tekst}</BodyShort>
             </LenkepanelMedLogging>
         );
     }
@@ -38,8 +53,10 @@ export const ArtikkelLenke = ({
 
 export const Artikkel = () => {
     const { id } = useParams();
+    const { tittel, objectName } = artikler[id as ArtikkelId] ?? {};
+    const artikkelHtml = useRawArtikkelHtml({ objectName });
 
-    if (id === undefined || id === null || !(id in artikler)) {
+    if (artikkelHtml === undefined) {
         return (
             <Alert className={'app-finner-ikke-siden'} variant={'error'}>
                 Finner ikke siden.{' '}
@@ -50,24 +67,24 @@ export const Artikkel = () => {
         );
     }
 
-    if (id in artikler) {
-        const { tittel, komponent } = artikler[id as ArtikkelId];
-        return (
-            <>
-                <Brodsmulesti
-                    brodsmuler={[
-                        {
-                            url: '/Artikkel',
-                            title: tittel,
-                            handleInApp: true,
-                        },
-                    ]}
-                />
-                <ArtikkelBanner tittel={tittel} />
-                <div className={'artikkel-container'}>{komponent}</div>
-            </>
-        );
-    }
+    return (
+        <>
+            <Brodsmulesti
+                brodsmuler={[
+                    {
+                        url: `/artikkel/${id}`,
+                        title: tittel,
+                        handleInApp: true,
+                    },
+                ]}
+            />
+            <ArtikkelBanner tittel={tittel} />
+            <div
+                className={'artikkel-container'}
+                dangerouslySetInnerHTML={{ __html: artikkelHtml }}
+            ></div>
+        </>
+    );
 };
 
 const ArtikkelBanner = ({ tittel }: { tittel: string }) => {
