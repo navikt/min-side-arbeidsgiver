@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import * as Sentry from '@sentry/react';
 import environment, { gittMiljo } from './utils/environment';
 import '@navikt/ds-css';
+import '@navikt/arbeidsgiver-notifikasjon-widget/lib/esm/index.css';
 import Pages from './Pages/Pages';
 import * as SentryTypes from '@sentry/types';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
