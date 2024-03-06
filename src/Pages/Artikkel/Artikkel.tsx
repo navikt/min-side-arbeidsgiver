@@ -6,20 +6,21 @@ import './Artikkel.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
-import { gittMiljo } from '../../utils/environment';
 
 type ArtikkelId = keyof typeof artikler;
 
 type Artikkel = {
+    lenketittel: string;
+    lenketekst: string;
     tittel: string;
-    lenkeTekst: string;
     objectName: string;
 };
 const artikler = {
     kurs_reddet_kommunen_fra_bemanningskrise: {
-        tittel: 'Sliter dere med bemanning innen helsesektoren?',
-        lenkeTekst:
+        lenketittel: 'Sliter dere med bemanning innen helsesektoren?',
+        lenketekst:
             'Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV.',
+        tittel: 'NAV-kurs reddet kommunen fra bemanningskrise',
         objectName: 'kurs_reddet_kommunen_fra_bemanningskrise.html',
     },
 };

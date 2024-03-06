@@ -28,12 +28,12 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKofuviAlert />
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
-                {Record.mapToArray(Artikler, (artikkelId, { tittel, lenkeTekst }) => (
+                {Record.mapToArray(Artikler, (artikkelId, { tittel, lenketekst }) => (
                     <ArtikkelLenke
                         key={artikkelId}
                         artikkelId={artikkelId}
                         tittel={tittel}
-                        tekst={lenkeTekst}
+                        tekst={lenketekst}
                     />
                 ))}
                 <SisteSaker />
