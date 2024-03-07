@@ -158,6 +158,17 @@ const proxyOptions = {
     ],
 };
 
+const artiklerProxyMiddleware = createProxyMiddleware({
+    ...proxyOptions,
+    pathRewrite: { '^/': '' },
+    on: {
+        proxyReq: (proxyReq, req, res) => {
+            proxyReq.removeHeader('Authorization');
+        },
+    },
+    target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
+});
+
 const main = async () => {
     let appReady = false;
     const app = express();
@@ -259,14 +270,7 @@ const main = async () => {
                 },
             }
         );
-        app.use(
-            '/min-side-arbeidsgiver/artikler',
-            createProxyMiddleware({
-                ...proxyOptions,
-                pathRewrite: { '^/': '' },
-                target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
-            })
-        );
+        app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
     } else {
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
@@ -392,14 +396,7 @@ const main = async () => {
             })
         );
 
-        app.use(
-            '/min-side-arbeidsgiver/artikler',
-            createProxyMiddleware({
-                ...proxyOptions,
-                pathRewrite: { '^/': '' },
-                target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
-            })
-        );
+        app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
 
         app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
             const target = new URL(LOGIN_URL);
