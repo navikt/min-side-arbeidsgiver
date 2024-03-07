@@ -46,6 +46,7 @@ spec:
         - host: tiltak-proxy.prod-fss-pub.nais.io
         - host: aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io
         - host: arbeidsplassen.nav.no
+        - host: storage.googleapis.com
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
