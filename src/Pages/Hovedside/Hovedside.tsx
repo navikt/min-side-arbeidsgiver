@@ -15,8 +15,7 @@ import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { GiOssTilbakemelding } from './GiOssTilbakemelding';
 import { Kalenderavtaler } from './Kalenderavtaler';
-import { ArtikkelLenke, Artikler } from '../Artikkel/Artikkel';
-import * as Record from '../../utils/Record';
+import { Artikler } from '../Artikkel/Artikkel';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
@@ -28,14 +27,7 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKofuviAlert />
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
-                {Record.mapToArray(Artikler, (artikkelId, { lenketittel, lenketekst }) => (
-                    <ArtikkelLenke
-                        key={artikkelId}
-                        artikkelId={artikkelId}
-                        tittel={lenketittel}
-                        tekst={lenketekst}
-                    />
-                ))}
+                <Artikler />
                 <SisteSaker />
                 <Kalenderavtaler />
                 <Tjenestebokser />

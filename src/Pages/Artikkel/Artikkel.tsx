@@ -6,26 +6,55 @@ import './Artikkel.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
-
-type ArtikkelId = keyof typeof artikler;
+import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
+import * as Record from '../../utils/Record';
 
 type Artikkel = {
     lenketittel: string;
     lenketekst: string;
     tittel: string;
     objectName: string;
+    tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) => boolean;
 };
-const artikler = {
+
+const artikler: Record<string, Artikkel> = {
     kurs_reddet_kommunen_fra_bemanningskrise: {
         lenketittel: 'Sliter dere med bemanning innen helsesektoren?',
         lenketekst:
             'Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV.',
         tittel: 'NAV-kurs reddet kommunen fra bemanningskrise',
         objectName: 'kurs_reddet_kommunen_fra_bemanningskrise.html',
+        tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) =>
+            valgtOrganisasjon.organisasjonstypeForØversteLedd === 'KOMM',
     },
 };
-export const Artikler: Record<ArtikkelId, Artikkel> = artikler;
 
+export const Artikler = () => {
+    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    if (!valgtOrganisasjon) {
+        return null;
+    }
+
+    return (
+        <>
+            {Record.mapToArray(artikler, (artikkelId, artikkel) => ({
+                ...artikkel,
+                artikkelId,
+            }))
+                .filter(({ tilgangssjekk }) => tilgangssjekk(valgtOrganisasjon))
+                .map(({ artikkelId, lenketittel, lenketekst }) => (
+                    <ArtikkelLenke
+                        key={artikkelId}
+                        artikkelId={artikkelId}
+                        tittel={lenketittel}
+                        tekst={lenketekst}
+                    />
+                ))}
+        </>
+    );
+};
+
+type ArtikkelId = keyof typeof artikler;
 export const ArtikkelLenke = ({
     artikkelId,
     tittel,
