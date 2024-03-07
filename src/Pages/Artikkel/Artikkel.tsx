@@ -63,23 +63,17 @@ export const ArtikkelLenke = ({
     artikkelId: ArtikkelId;
     tittel: string;
     tekst: string;
-}) => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    if (valgtOrganisasjon?.organisasjonstypeForØversteLedd === 'KOMM') {
-        return (
-            <LenkepanelMedLogging
-                loggLenketekst={tittel}
-                href={`/min-side-arbeidsgiver/artikkel/${artikkelId}`}
-            >
-                <Heading size="medium" level="3">
-                    {tittel}
-                </Heading>
-                <BodyShort>{tekst}</BodyShort>
-            </LenkepanelMedLogging>
-        );
-    }
-    return null;
-};
+}) => (
+    <LenkepanelMedLogging
+        loggLenketekst={tittel}
+        href={`/min-side-arbeidsgiver/artikkel/${artikkelId}`}
+    >
+        <Heading size="medium" level="3">
+            {tittel}
+        </Heading>
+        <BodyShort>{tekst}</BodyShort>
+    </LenkepanelMedLogging>
+);
 
 export const Artikkel = () => {
     const { id } = useParams();
