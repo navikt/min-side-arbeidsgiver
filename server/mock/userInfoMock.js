@@ -274,7 +274,7 @@ export const mock = (app) => {
             res.sendStatus(502);
         } else {
             res.send({
-                altinnError: casual.boolean,
+                altinnError: Math.random() < 0.1,
                 organisasjoner: [
                     ...OrganisasjonerResponse,
                     ...andreOrganisasjoner,
@@ -302,7 +302,7 @@ export const mock = (app) => {
                             ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
                         })),
                 ],
-                digisyfoError: casual.boolean,
+                digisyfoError: Math.random() < 0.1,
                 digisyfoOrganisasjoner: [
                     {
                         organisasjon: {
