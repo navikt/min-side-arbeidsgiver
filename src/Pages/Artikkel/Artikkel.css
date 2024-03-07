@@ -22,6 +22,73 @@
 
 .artikkel-container > * {
     gap: 20px;
+    letter-spacing: 0.02rem;
+    line-height: 28px;
+}
+
+.artikkel-container  h2 {
+    letter-spacing: 0;
+}
+
+.artikkel-container article {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.artikkel-container section {
+    background-color: var(--a-bg-default);
+    padding: 16px 40px 4px 40px;
+}
+
+
+.artikkel-container figure  {
+    margin: 0;
+}
+
+.artikkel-container a  {
+    color: inherit;
+    text-decoration: none;
+    width: 100%;
+    display: flex;
+    padding: 32px;
+    gap: 16px;
+    background-color: rgba(155, 208, 176, 1);
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.artikkel-container a * {
+    pointer-events: none;
+}
+
+.artikkel-container a:hover {
+    background-color: rgba(155, 208, 176, 0.8);
 
 }
 
+.artikkel-container a > svg {
+    width: 6rem;
+}
+
+.artikkel-container section:not(:first-child) h2 {
+    font-weight: 400;
+}
+
+.artikkel-container  section > section h3 {
+    font-size: 32px;
+    font-weight: 500;
+    margin: 16px 0 16px 0;
+}
+
+.artikkel-container  section > section {
+    display: flex;
+    flex-direction: column;
+    background: var(--a-bg-subtle);
+    border-radius: 8px;
+    margin: 16px 0;
+
+
+}
