@@ -397,7 +397,6 @@ const main = async () => {
             createProxyMiddleware({
                 ...proxyOptions,
                 pathRewrite: { '^/': '' },
-                auth: undefined,
                 target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
             })
         );
