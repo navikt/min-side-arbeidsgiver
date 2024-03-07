@@ -1,8 +1,17 @@
 import useSWR from 'swr';
 import * as Sentry from '@sentry/browser';
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 
-export const useRawArtikkelHtml = ({ objectName }: { objectName: string }): string | undefined => {
+type UseRawHtmlFromStorageResult = {
+    rawHtml: string | undefined;
+    isError: boolean;
+};
+
+export const useRawArtikkelHtml = ({
+    objectName,
+}: {
+    objectName: string;
+}): UseRawHtmlFromStorageResult => {
     const [retries, setRetries] = useState(0);
     const { data: rawHtml } = useSWR(
         objectName === undefined ? null : `/min-side-arbeidsgiver/artikler/${objectName}`,
@@ -10,7 +19,6 @@ export const useRawArtikkelHtml = ({ objectName }: { objectName: string }): stri
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                console.error('error', error);
                 if (retries === 5) {
                     Sentry.captureMessage(
                         `hent raw artikler html feilet med ${
@@ -25,7 +33,10 @@ export const useRawArtikkelHtml = ({ objectName }: { objectName: string }): stri
             errorRetryInterval: 100,
         }
     );
-    return rawHtml;
+    return {
+        rawHtml,
+        isError: rawHtml === undefined && retries >= 5,
+    };
 };
 
 const fetcher = async (url: string) => {

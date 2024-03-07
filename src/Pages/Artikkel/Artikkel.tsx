@@ -1,6 +1,6 @@
 import { Link as RouterLink, useParams } from 'react-router-dom';
-import { Brodsmulesti } from '../Banner';
-import React, { useContext, useEffect, useRef } from 'react';
+import { Brodsmulesti, Spinner } from '../Banner';
+import React, { useContext, useEffect } from 'react';
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 import './Artikkel.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
@@ -110,9 +110,9 @@ const registerLinkClickListeners = (e: HTMLDivElement) => {
 export const Artikkel = () => {
     const { id } = useParams();
     const { tittel, objectName } = artikler[id as ArtikkelId] ?? {};
-    const artikkelHtml = useRawArtikkelHtml({ objectName });
+    const { rawHtml: artikkelHtml, isError } = useRawArtikkelHtml({ objectName });
 
-    if (artikkelHtml === undefined) {
+    if (isError) {
         return (
             <Alert className={'app-finner-ikke-siden'} variant={'error'}>
                 Finner ikke siden.{' '}
@@ -121,6 +121,10 @@ export const Artikkel = () => {
                 </Link>
             </Alert>
         );
+    }
+
+    if (artikkelHtml === undefined) {
+        return <Spinner />;
     }
 
     return (
