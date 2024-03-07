@@ -22,104 +22,69 @@
 
 .artikkel-container > * {
     gap: 20px;
-
+    letter-spacing: 0.02rem;
+    line-height: 28px;
 }
 
-
-/*
-* {
-  outline: 1px solid red;
+.artikkel-container  h2 {
+    letter-spacing: 0;
 }
-*/
 
-main {
+.artikkel-container article {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.artikkel-container section {
     background-color: var(--a-bg-default);
+    padding: 16px 40px 4px 40px;
 }
 
-main > article {
-    background-color: var(--a-bg-subtle);
-}
 
-main figure {
+.artikkel-container figure  {
     margin: 0;
 }
 
-main figure img {
+.artikkel-container a  {
+    color: inherit;
+    text-decoration: none;
     width: 100%;
+    display: flex;
+    padding: 32px;
+    gap: 16px;
+    background-color: rgba(155, 208, 176, 1);
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-size: 24px;
+    font-weight: 600;
 }
 
+.artikkel-container a:hover {
+    background-color: rgba(155, 208, 176, 0.8);
 
-.artikkel {
-    padding-bottom: 48px;
 }
 
-.navds-box.faktaboks {
-    padding-top: 8px;
-    padding-bottom: 16px;
-    --__ac-box-background: var(--a-surface-subtle);
+.artikkel-container a > svg {
+    width: 6rem;
 }
 
-main footer {
-    padding-bottom: 48px;
+.artikkel-container section:not(:first-child) h2 {
+    font-weight: 400;
 }
 
-.columns {
-    display: grid;
-    grid-template-columns: [margin-left] 1fr [main-column] 40rem [margin-right] 2fr [the-end];
-    grid-row-gap: 32px;
+.artikkel-container  section > section h3 {
+    font-size: 32px;
+    font-weight: 500;
+    margin: 16px 0 16px 0;
 }
 
-.columns > * {
-    grid-column: main-column / margin-right;;
+.artikkel-container  section > section {
+    display: flex;
+    flex-direction: column;
+    background: var(--a-bg-subtle);
+    border-radius: 8px;
+    margin: 16px 0;
+
+
 }
-
-.columns > *.full-width {
-    grid-column: margin-left / the-end;
-}
-
-.overskrift {
-    border-bottom: solid 4px #979797;
-    padding: 30px 0;
-}
-
-.la-oss-snakke {
-    padding-top: 16px;
-    padding-bottom: 16px;
-}
-
-.navds-box {
-    --__ac-box-background: var(--a-bg-default);
-    padding-left: var(--a-spacing-4);
-    padding-right: var(--a-spacing-4);
-}
-
-.navds-body-long.navds-body-long {
-    margin: revert;
-}
-
-blockquote {
-    position: relative;
-    font-size: 1.5rem;
-    letter-spacing: -.0013em;
-    line-height: 1.5;
-}
-
-blockquote::before {
-    position: absolute;
-    content: "\201C";
-    font-size: 80px;
-    left: -30pt;
-    bottom: 0;
-}
-
-.skjul-innhold {
-    display: -webkit-box;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-}
-
-
-
