@@ -9,6 +9,7 @@ import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
 import { loggNavigasjon } from '../../utils/funksjonerForAmplitudeLogging';
+import amplitude from '../../utils/amplitude';
 
 type Artikkel = {
     lenketittel: string;
@@ -64,17 +65,26 @@ export const ArtikkelLenke = ({
     artikkelId: ArtikkelId;
     tittel: string;
     tekst: string;
-}) => (
-    <LenkepanelMedLogging
-        loggLenketekst={tittel}
-        href={`/min-side-arbeidsgiver/artikkel/${artikkelId}`}
-    >
-        <Heading size="medium" level="3">
-            {tittel}
-        </Heading>
-        <BodyShort>{tekst}</BodyShort>
-    </LenkepanelMedLogging>
-);
+}) => {
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'artikkel-lenke',
+            artikkelId,
+        });
+    }, []);
+
+    return (
+        <LenkepanelMedLogging
+            loggLenketekst={tittel}
+            href={`/min-side-arbeidsgiver/artikkel/${artikkelId}`}
+        >
+            <Heading size="medium" level="3">
+                {tittel}
+            </Heading>
+            <BodyShort>{tekst}</BodyShort>
+        </LenkepanelMedLogging>
+    );
+};
 
 /**
  * denne funksjonen legger til loggNavigasjon på alle lenker i en artikkel
