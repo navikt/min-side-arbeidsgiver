@@ -60,6 +60,10 @@
     font-weight: 600;
 }
 
+.artikkel-container a * {
+    pointer-events: none;
+}
+
 .artikkel-container a:hover {
     background-color: rgba(155, 208, 176, 0.8);
 

@@ -1,6 +1,6 @@
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { Brodsmulesti } from '../Banner';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 import './Artikkel.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
@@ -8,6 +8,7 @@ import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogg
 import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
+import { loggNavigasjon } from '../../utils/funksjonerForAmplitudeLogging';
 
 type Artikkel = {
     lenketittel: string;
@@ -75,6 +76,27 @@ export const ArtikkelLenke = ({
     </LenkepanelMedLogging>
 );
 
+/**
+ * denne funksjonen legger til loggNavigasjon på alle lenker i en artikkel
+ */
+const registerLinkClickListeners = (e: HTMLDivElement) => {
+    e.querySelectorAll('a').forEach((a) => {
+        a.addEventListener('click', (event) => {
+            if (event.target === null) {
+                return;
+            }
+
+            if ((event.target as HTMLAnchorElement).href !== undefined) {
+                loggNavigasjon(
+                    (event.target as HTMLAnchorElement).href,
+                    a.innerText,
+                    window.location.pathname
+                );
+            }
+        });
+    });
+};
+
 export const Artikkel = () => {
     const { id } = useParams();
     const { tittel, objectName } = artikler[id as ArtikkelId] ?? {};
@@ -106,6 +128,9 @@ export const Artikkel = () => {
             <div
                 className={'artikkel-container'}
                 dangerouslySetInnerHTML={{ __html: artikkelHtml }}
+                ref={(e) => {
+                    e !== null && registerLinkClickListeners(e);
+                }}
             ></div>
         </>
     );
