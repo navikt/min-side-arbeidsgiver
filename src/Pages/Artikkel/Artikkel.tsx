@@ -21,9 +21,9 @@ type Artikkel = {
 
 const artikler: Record<string, Artikkel> = {
     kurs_reddet_kommunen_fra_bemanningskrise: {
-        lenketittel: 'Sliter dere med bemanning innen helsesektoren?',
+        lenketittel: 'Mangler kommunen din folk med rett kompetanse?\n',
         lenketekst:
-            'Les om hvordan Larvik kommune manglet pleieassistenter, men utviklet en god idé sammen med NAV.',
+            'La deg inspirere av Larvik, hvor NAV-kurs reddet kommunen fra bemanningskrise.',
         tittel: 'NAV-kurs reddet kommunen fra bemanningskrise',
         objectName: 'kurs_reddet_kommunen_fra_bemanningskrise.html',
         tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) =>
