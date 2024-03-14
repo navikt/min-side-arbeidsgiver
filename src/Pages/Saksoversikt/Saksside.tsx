@@ -23,6 +23,7 @@ const HENT_SAK_ID: TypedDocumentNode<SakQueryResponse> = gql`
         sakById(id: $id) {
             feilAltinn
             sak {
+                merkelapp
                 tittel
                 lenke
                 tittel
@@ -74,6 +75,7 @@ const HENT_SAK_GRUPPERINGSID: TypedDocumentNode<SakQueryResponse> = gql`
         sakByGrupperingsid(merkelapp: $merkelapp, grupperingsid: $grupperingsid) {
             feilAltinn
             sak {
+                merkelapp
                 tittel
                 lenke
                 tittel
