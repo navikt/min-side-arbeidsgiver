@@ -45,11 +45,13 @@ jobs:
                   identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
 
             - id: upload
-              uses: navikt/frontend/actions/cdn-upload/v1@main
+              uses: nais/deploy/actions/cdn-upload/v2@master
               with:
-                  cdn-team-name: fager
+                  team: fager
                   source: ./build/
                   destination: '/min-side-arbeidsgiver'
+                  identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+                  project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
 
             - name: Deploy til dev-gcp
               uses: nais/deploy/actions/deploy@v1

@@ -44,7 +44,7 @@ export const SakPanel = ({
     placeholder,
     tvingEkspander = false,
     lenkeTilSak = true,
-    sak: { id, lenke, tittel, virksomhet, sisteStatus, tidslinje },
+    sak: { id, lenke, tittel, merkelapp, virksomhet, sisteStatus, tidslinje },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
@@ -60,7 +60,7 @@ export const SakPanel = ({
             {lenkeTilSak ? (
                 <LenkeMedLogging
                     href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
-                    loggLenketekst={tittel}
+                    loggLenketekst={`lenke til sak med merkelapp ${merkelapp}`}
                 >
                     <BodyShort className="sakstittel">{tittel}</BodyShort>
                 </LenkeMedLogging>
