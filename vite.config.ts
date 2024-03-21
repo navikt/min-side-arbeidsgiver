@@ -1,5 +1,4 @@
 import { defineConfig } from 'vite';
-import { sentryVitePlugin } from '@sentry/vite-plugin';
 import legacy from '@vitejs/plugin-legacy';
 import react from '@vitejs/plugin-react-swc';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -10,23 +9,6 @@ export default defineConfig({
     plugins: [
         tsconfigPaths(),
         react(),
-        sentryVitePlugin({
-            url: 'https://sentry.gc.nav.no/',
-            org: 'nav',
-            project: 'min-side-arbeidsgiver',
-            authToken: process.env.SENTRY_AUTH_TOKEN,
-            release: {
-                name: process.env.GITHUB_SHA,
-                // onprem trenger legacy upload
-                uploadLegacySourcemaps: {
-                    paths: ['./build/assets'],
-                    urlPrefix: '~/fager/min-side-arbeidsgiver/build/assets/',
-                },
-                setCommits: {
-                    auto: true,
-                },
-            },
-        }),
         legacy({
             modernPolyfills: ['es.string.replace', 'esnext.string.replace-all'],
             polyfills: ['es.string.replace', 'esnext.string.replace-all'],

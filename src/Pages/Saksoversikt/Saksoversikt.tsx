@@ -1,5 +1,4 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
-import * as Sentry from '@sentry/react';
+import { FC, useContext, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
@@ -34,7 +33,7 @@ const useAlleSakstyper = () => {
     const { data } = useQuery(HENT_SAKSTYPER, {
         onError: (error) => {
             if ((error.networkError as ServerError)?.statusCode !== 401) {
-                Sentry.captureException(error);
+                console.error('#MSA: hentSakstyper feilet', error);
             }
         },
     });

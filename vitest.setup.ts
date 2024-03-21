@@ -14,11 +14,3 @@ afterAll(() => server.close());
 
 // @ts-ignore
 (window as any).environment = { MILJO: 'test' };
-
-vi.mock('@sentry/browser', async () => {
-    return {
-        captureException: console.error,
-        captureMessage: console.error,
-        init: () => {},
-    };
-});

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import * as Sentry from '@sentry/browser';
 import { Organisasjon } from '../altinn/organisasjon';
 import { AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
@@ -59,8 +58,8 @@ export const useUserInfo = (): UseUserInfoResult => {
         onSuccess: () => setRetries(0),
         onError: (error) => {
             if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                Sentry.captureMessage(
-                    `hent userInfo fra min-side-arbeidsgiver feilet med ${
+                console.error(
+                    `#MSA: hent userInfo fra min-side-arbeidsgiver feilet med ${
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error
                     }`
                 );
