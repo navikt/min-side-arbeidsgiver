@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { arbeidsplassenURL } from '../../../../lenker';
 import PamboksIkon from './arbeidsplassen-ikon.svg';
 import './Arbeidsplassen.css';
 import { Tjenesteboks } from '../Tjenesteboks';
 import { z } from 'zod';
 import useSWR from 'swr';
-import * as Sentry from '@sentry/browser';
 import { useContext } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
@@ -70,8 +69,8 @@ const useAntallannonser = () => {
         {
             onError: (error) => {
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent AntallAnnonser fra stillingsregistrering-api feilet med ${
+                    console.error(
+                        `#MSA: hent AntallAnnonser fra stillingsregistrering-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

@@ -2,7 +2,6 @@ import { z } from 'zod';
 import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
-import * as Sentry from '@sentry/browser';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 export const useAntallKandidater = (): number => {
@@ -18,8 +17,8 @@ export const useAntallKandidater = (): number => {
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent antall kandidater fra presenterte-kandidater-api feilet med ${
+                    console.error(
+                        `#MSA: hent antall kandidater fra presenterte-kandidater-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

@@ -1,5 +1,5 @@
 import './Saksside.css';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { useSearchParams } from 'react-router-dom';
@@ -7,7 +7,6 @@ import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { SakResultat } from '../../api/graphql-types';
 import { SakPanel } from './SakPanel';
 import { Alert, Heading } from '@navikt/ds-react';
-import * as Sentry from '@sentry/browser';
 import { useSessionStorage } from '../../hooks/useStorage';
 
 /**
@@ -156,8 +155,8 @@ export const Saksside = () => {
 
     useEffect(() => {
         if (harFeil && !loading && !feilIAltinn) {
-            Sentry.captureMessage(
-                `Saksside: Kunne ikke hente sak. Saksid: ${saksid}, merkelapp: ${merkelapp}. Apollo error: ${error?.message}`
+            console.error(
+                `#MSA: Saksside: Kunne ikke hente sak. Saksid: ${saksid}, merkelapp: ${merkelapp}. Apollo error: ${error?.message}`
             );
         }
     }, [harFeil, loading, feilIAltinn]);

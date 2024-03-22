@@ -1,7 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import * as Sentry from '@sentry/browser';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
@@ -61,8 +60,8 @@ const manglerKofuviAlert = (): VarslingStatus => {
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent varslingStatus fra min-side-arbeidsgiver feilet med ${
+                    console.error(
+                        `#MSA: hent varslingStatus fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

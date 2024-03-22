@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import * as Sentry from '@sentry/browser';
 import { useState } from 'react';
 
 type UseRawHtmlFromStorageResult = {
@@ -20,8 +19,8 @@ export const useRawArtikkelHtml = ({
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 if (retries === 5) {
-                    Sentry.captureMessage(
-                        `hent raw artikler html feilet med ${
+                    console.error(
+                        `#MSA: hent raw artikler html feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

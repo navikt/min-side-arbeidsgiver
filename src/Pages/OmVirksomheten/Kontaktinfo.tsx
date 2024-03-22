@@ -1,12 +1,10 @@
 import { z } from 'zod';
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import useSWR from 'swr';
-import * as Sentry from '@sentry/browser';
-import { Alert, BodyShort, Heading, Label, HelpText } from '@navikt/ds-react';
+import { Alert, BodyShort, Heading, HelpText, Label } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
-import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
 import NyFaneIkon from './NyFaneIkon';
 import { erDriftsforstyrrelse } from '../../utils/util';
 
@@ -47,8 +45,8 @@ const useKontaktinfo = () => {
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent kontaktinfo fra min-side-arbeidsgiver-api feilet med ${
+                    console.error(
+                        `#MSA: hent kontaktinfo fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

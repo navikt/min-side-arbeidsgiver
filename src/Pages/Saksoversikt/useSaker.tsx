@@ -1,6 +1,5 @@
 import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
-import React, { useContext, useEffect, useMemo } from 'react';
-import * as Sentry from '@sentry/react';
+import { useContext, useEffect, useMemo } from 'react';
 import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
 import { Filter } from './useOversiktStateTransitions';
@@ -162,7 +161,7 @@ export function useSaker(
     useEffect(() => {
         if (error) {
             if ((error.networkError as ServerError)?.statusCode !== 401) {
-                Sentry.captureException(error);
+                console.error('#MSA: fetchSaker feilet', error);
             }
             return;
         }
@@ -172,7 +171,9 @@ export function useSaker(
                 .then((_) => {
                     /* effect is seen in return of useLazyQuery */
                 })
-                .catch(Sentry.captureException);
+                .catch((error) => {
+                    console.error('#MSA: fetchSaker feilet', error);
+                });
         }
     }, [
         JSON.stringify(virksomhetsnumre),

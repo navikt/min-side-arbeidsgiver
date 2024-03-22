@@ -2,7 +2,6 @@ import { z } from 'zod';
 import useSWR from 'swr';
 import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import * as Sentry from '@sentry/browser';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 export const useAntallArbeidsforholdFraAareg = (): number => {
@@ -22,8 +21,8 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
             onError: (error) => {
                 setRetries((x) => x + 1);
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent antall arbeidsforhold fra aareg feilet med ${
+                    console.error(
+                        `#MSA: hent antall arbeidsforhold fra aareg feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

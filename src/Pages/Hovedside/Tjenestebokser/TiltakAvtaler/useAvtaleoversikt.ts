@@ -2,7 +2,6 @@ import { useContext, useMemo, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import { z } from 'zod';
-import * as Sentry from '@sentry/browser';
 import { count, erDriftsforstyrrelse } from '../../../../utils/util';
 
 export type Avtaleoversikt = {
@@ -28,8 +27,8 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
+                    console.error(
+                        `#MSA: hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

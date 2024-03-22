@@ -2,7 +2,6 @@ import { z } from 'zod';
 import useSWR from 'swr';
 import { useContext, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
-import * as Sentry from '@sentry/browser';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 const Sykefraværsrespons = z.object({
@@ -25,8 +24,8 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
-                    Sentry.captureMessage(
-                        `hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${
+                    console.error(
+                        `#MSA: hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

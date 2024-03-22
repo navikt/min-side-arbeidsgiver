@@ -32,9 +32,6 @@ jobs:
             - run: npm run test
             - run: npm run lint
             - run: npm run build
-              env:
-                  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-                  SENTRY_LOG_LEVEL: info
 
             - uses: nais/docker-build-push@v0
               id: dockerpush
