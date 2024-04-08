@@ -8,13 +8,13 @@ import { erDriftsforstyrrelse } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
 
 export const ManglerKontonummerAlert = () => {
-    const varslingStatus = manglerKontonummerAlert();
+    const kontonummerStatus = manglerKontonummerAlert();
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     const kanEndreKontonummer =
         valgtOrganisasjon?.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
 
-    if (varslingStatus.status !== 'MANGLER_KONTONUMMER') {
+    if (kontonummerStatus.status !== 'MANGLER_KONTONUMMER') {
         return null;
     }
 
@@ -56,16 +56,16 @@ export const ManglerKontonummerAlert = () => {
     );
 };
 
-const VarslingStatusRespons = z.object({
+const KontonummerStatusRespons = z.object({
     status: z.enum(['OK', 'MANGLER_KONTONUMMER']),
 });
-type VarslingStatus = z.infer<typeof VarslingStatusRespons>;
+type KontonummerStatus = z.infer<typeof KontonummerStatusRespons>;
 
-const fallbackData: VarslingStatus = {
+const fallbackData: KontonummerStatus = {
     status: 'OK',
 };
 
-const manglerKontonummerAlert = (): VarslingStatus => {
+const manglerKontonummerAlert = (): KontonummerStatus => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
@@ -109,5 +109,5 @@ const fetcher = async ({ url, virksomhetsnummer }: { url: string; virksomhetsnum
 
     if (respons.status !== 200) throw respons;
 
-    return VarslingStatusRespons.parse(await respons.json());
+    return KontonummerStatusRespons.parse(await respons.json());
 };
