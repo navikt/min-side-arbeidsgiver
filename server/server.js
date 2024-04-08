@@ -203,6 +203,7 @@ const main = async () => {
         (await import('./mock/presenterteKandidaterMock.js')).mock(app);
         (await import('./mock/storageMock.js')).mock(app);
         (await import('./mock/kontaktinfoApiMock.js')).mock(app);
+        (await import('./mock/kontonummerStatusMock.js')).mock(app);
 
         const {
             applyNotifikasjonMockMiddleware,

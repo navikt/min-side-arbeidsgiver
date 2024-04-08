@@ -4,7 +4,8 @@ import * as Record from '../utils/Record';
 export type AltinnskjemaId =
     | 'ekspertbistand'
     | 'inntektsmelding'
-    | 'utsendtArbeidstakerEØS';
+    | 'utsendtArbeidstakerEØS'
+    | 'endreBankkontonummerForRefusjoner';
 
 export type NAVtjenesteId =
     | 'arbeidstrening'
@@ -20,13 +21,12 @@ export type NAVtjenesteId =
     | 'tilskuddsbrev'
     | 'yrkesskade';
 
-
 export interface AltinnFellesInfo {
     navn: string;
     tjenestekode: string;
     tjenesteversjon: string;
     beOmTilgangTittel?: string;
-    beOmTilgangBeskrivelse: string; /* Fravær av beskrivelse betyr man ikke kan søke om tilgang */
+    beOmTilgangBeskrivelse: string /* Fravær av beskrivelse betyr man ikke kan søke om tilgang */;
 }
 
 export interface Altinnskjema extends AltinnFellesInfo {
@@ -78,7 +78,18 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
             utsendt til et EØS-land eller Sveits.
              `,
         skjemaUrl:
-            'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-a1-for-utsendte-arbeidstakeren-innen-eossveits/'
+            'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-a1-for-utsendte-arbeidstakeren-innen-eossveits/',
+    },
+
+    endreBankkontonummerForRefusjoner: {
+        sort: 'skjema',
+        navn: 'Endre bankkontonummer for refusjoner fra NAV til arbeidsgiver',
+        tjenestekode: '2896',
+        tjenesteversjon: '87',
+        beOmTilgangBeskrivelse: `
+            TODO: Beskrivelse
+        `,
+        skjemaUrl: 'TODO: beskrivelse',
     },
 };
 
@@ -174,7 +185,8 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     forebyggefravar: {
         sort: 'tjeneste',
         navn: 'Forebygge fravær',
-        beOmTilgangBeskrivelse: 'Få tilgang til å redigere eller se endringer andre har gjort i planen for å forebygge fravær.',
+        beOmTilgangBeskrivelse:
+            'Få tilgang til å redigere eller se endringer andre har gjort i planen for å forebygge fravær.',
         tjenestekode: '5934',
         tjenesteversjon: '1',
     },
@@ -205,11 +217,14 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         sort: 'tjeneste',
         navn: 'Meld inn yrkesskade eller yrkessykdom',
         beOmTilgangTittel: 'Meld inn yrkesskade',
-        beOmTilgangBeskrivelse: 'Få mulighet til å melde inn yrkesskade eller yrkessykdom digitalt.',
+        beOmTilgangBeskrivelse:
+            'Få mulighet til å melde inn yrkesskade eller yrkessykdom digitalt.',
         tjenestekode: '5902',
         tjenesteversjon: '1',
     },
 };
 
-export const altinntjeneste: Record<AltinntjenesteId, Altinn>
-    = { ...altinnskjema, ...navtjenester}
+export const altinntjeneste: Record<AltinntjenesteId, Altinn> = {
+    ...altinnskjema,
+    ...navtjenester,
+};
