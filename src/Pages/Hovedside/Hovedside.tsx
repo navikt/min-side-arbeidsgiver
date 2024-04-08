@@ -16,6 +16,7 @@ import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { GiOssTilbakemelding } from './GiOssTilbakemelding';
 import { Kalenderavtaler } from './Kalenderavtaler';
 import { Artikler } from '../Artikkel/Artikkel';
+import { ManglerKontonummerAlert } from './ManglerKontonummerAlert';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
@@ -25,6 +26,7 @@ const Hovedside: FunctionComponent = () => {
                 <AdvarselBannerTestversjon />
                 <Alerts />
                 <ManglerKofuviAlert />
+                {/*<ManglerKontonummerAlert /> venter på api hos PO Utbetaling*/}
                 <GiOssTilbakemelding />
                 <AktueltRubrikk />
                 <Artikler />
