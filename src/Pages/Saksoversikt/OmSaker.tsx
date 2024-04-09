@@ -13,7 +13,7 @@ export const OmSaker = forwardRef<HTMLButtonElement, Props>(({ id }, ref) => (
             <li>Kandidater til dine stillinger</li>
             <li>Permitteringer, oppsigelser eller innskrenkning i arbeidstid</li>
             <li>Refusjon av sykepenger i arbeidsgiverperioden</li>
-            {/*<li>Yrkesskade (kun meldinger sendt inn etter XXX vises)</li>*/}
+            <li>Skademelding for yrkesskade og yrkessykdom, innsendt etter 10. april 2024</li>
         </ul>
         Vi jobber med at flere saker skal vises her etter hvert.
     </HelpText>
