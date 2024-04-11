@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect } from 'react';
 import * as Record from '../../utils/Record';
-import './GiOssTilbakemelding.css';
+import './InfoBokser.css';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
@@ -69,9 +69,33 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
             );
         },
     },
+    {
+        id: 'yrkesskade-infobokser',
+        visFra: new Date('2024-04-11T00:00:00+02:00'),
+        visTil: new Date('2024-06-11T00:00:00+02:00'),
+        Component: () => {
+            const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+            const [closed, setClosed] = useLocalStorage('yrkesskade-infobokser-closed', false);
+
+            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.yrkesskade) {
+                return null;
+            }
+
+            return closed ? null : (
+                <Alert variant="info" closeButton onClose={() => setClosed(true)}>
+                    <Heading spacing size="small" level="2">
+                        Informasjon om innsendt skademelding
+                    </Heading>
+                    Saksoversikten viser kun innmeldte skademeldinger til NAV innsendt etter 11.
+                    april 2024, og kun informasjon om innmeldingen som NAV kan dele med deg. Samme
+                    informasjon har også blitt sendt i Altinn som bekreftelse til virksomheten.
+                </Alert>
+            );
+        },
+    },
 ];
 
-export const GiOssTilbakemelding = () => {
+export const InfoBokser = () => {
     const tilbakemeldingSomSkalVises = tilbakemeldinger.filter(({ visFra, visTil }) =>
         shouldDisplay({
             showFrom: visFra,
