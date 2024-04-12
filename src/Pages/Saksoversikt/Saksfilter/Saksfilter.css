@@ -2,12 +2,16 @@
     display: flex;
     flex-direction: column;
     min-width: min(22rem, 100%);
-    min-height: max(100vh);
+    height: 80vh;
     gap: 16px;
     background: var(--a-bg-default);
     padding: 24px;
     grid-column-start: 2;
+    position: sticky;
+    top: 0;
 }
+
+
 
 @media (max-width: 730px) {
     .saksfilter {
@@ -20,4 +24,37 @@ ul.sak_virksomhetsmeny_hovedenhetliste,
     margin: 0;
     padding: 0;
     list-style-type: none;
+    overflow-y: scroll;
+    max-height: 35vh;
+
+    background:
+        /* Shadow Cover TOP */
+            linear-gradient(
+                    white 30%,
+                    rgba(255, 255, 255, 0)
+            ) center top,
+
+                /* Shadow Cover BOTTOM */
+            linear-gradient(
+                    rgba(255, 255, 255, 0),
+                    white 70%
+            ) center bottom,
+
+                /* Shadow TOP */
+            radial-gradient(
+                    farthest-side at 50% 0,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0)
+            ) center top,
+
+                /* Shadow BOTTOM */
+            radial-gradient(
+                    farthest-side at 50% 100%,
+                    rgba(0, 0, 0, 0.2),
+                    rgba(0, 0, 0, 0)
+            ) center bottom;
+
+    background-repeat: no-repeat;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    background-attachment: local, local, scroll, scroll;
 }
