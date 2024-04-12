@@ -4,7 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -160,6 +160,13 @@ export const Saksfilter = ({
                         setValgteEnheter={setValgteVirksomheter}
                     />
                 </CheckboxGroup>
+                <Button
+                    onClick={() => {
+                        console.log('foo');
+                    }}
+                >
+                    Opprett ny sak
+                </Button>
             </div>
         </KollapsHvisMobil>
     );

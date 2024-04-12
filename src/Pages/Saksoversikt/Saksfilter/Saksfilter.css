@@ -9,6 +9,7 @@
     grid-column-start: 2;
     position: sticky;
     top: 0;
+    margin-bottom: 80px;
 }
 
 
@@ -25,7 +26,7 @@ ul.sak_virksomhetsmeny_hovedenhetliste,
     padding: 0;
     list-style-type: none;
     overflow-y: scroll;
-    max-height: 35vh;
+    max-height: 32vh;
 
     background:
         /* Shadow Cover TOP */
