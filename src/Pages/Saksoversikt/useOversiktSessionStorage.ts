@@ -21,7 +21,7 @@ type SessionStateSaksoversikt = {
     sortering: SakSortering;
     sakstyper: string[];
     oppgaveTilstand: OppgaveTilstand[];
-    valgtFilterId: string | undefined;
+    valgtFilterId?: string;
 };
 type SessionStateForside = {
     route: '/';
@@ -104,7 +104,7 @@ export type UseSessionState = [
 
 const defaultSessionState: SessionStateSaksoversikt = {
     route: '/saksoversikt',
-    side: 1,
+    side: 2,
     tekstsoek: '',
     virksomhetsnumre: 'ALLEBEDRIFTER',
     sortering: SakSortering.Oppdatert,
@@ -121,7 +121,7 @@ const FilterFromSessionState = z.object({
     sortering: z.nativeEnum(SakSortering),
     sakstyper: z.array(z.string()),
     oppgaveTilstand: z.array(z.nativeEnum(OppgaveTilstand)),
-    valgtFilterId: z.string(),
+    valgtFilterId: z.string().optional(),
 });
 
 export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
@@ -129,6 +129,7 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
         SESSION_STORAGE_KEY,
         defaultSessionState
     );
+
     const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
         try {
             return FilterFromSessionState.parse(sessionStorage);
