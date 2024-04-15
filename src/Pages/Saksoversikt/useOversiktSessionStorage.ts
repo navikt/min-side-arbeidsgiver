@@ -104,7 +104,7 @@ export type UseSessionState = [
 
 const defaultSessionState: SessionStateSaksoversikt = {
     route: '/saksoversikt',
-    side: 2,
+    side: 1,
     tekstsoek: '',
     virksomhetsnumre: 'ALLEBEDRIFTER',
     sortering: SakSortering.Oppdatert,
