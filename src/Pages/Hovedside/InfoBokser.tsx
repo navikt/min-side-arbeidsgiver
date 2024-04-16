@@ -16,7 +16,7 @@ type TilbakemeldingProps = {
     Component: FC;
 };
 
-const tilbakemeldinger: Array<TilbakemeldingProps> = [
+const infobokser: Array<TilbakemeldingProps> = [
     {
         id: 'uxsignals',
         visFra: new Date('2022-01-01T00:00:00+02:00'),
@@ -70,7 +70,7 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
         },
     },
     {
-        id: 'yrkesskade-infobokser',
+        id: 'yrkesskade-infoboks',
         visFra: new Date('2024-04-11T00:00:00+02:00'),
         visTil: new Date('2024-06-11T00:00:00+02:00'),
         Component: () => {
@@ -97,7 +97,7 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
 ];
 
 export const InfoBokser = () => {
-    const tilbakemeldingSomSkalVises = tilbakemeldinger.filter(({ visFra, visTil }) =>
+    const infobokserSomSkalVises = infobokser.filter(({ visFra, visTil }) =>
         shouldDisplay({
             showFrom: visFra,
             showUntil: visTil,
@@ -107,7 +107,7 @@ export const InfoBokser = () => {
 
     return (
         <>
-            {tilbakemeldingSomSkalVises.map(({ id, Component }) => (
+            {infobokserSomSkalVises.map(({ id, Component }) => (
                 <Component key={id} />
             ))}
         </>
