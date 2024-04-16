@@ -13,7 +13,7 @@ import { AktueltRubrikk } from './AktueltRubrikk';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
-import { GiOssTilbakemelding } from './GiOssTilbakemelding';
+import { InfoBokser } from './InfoBokser';
 import { Kalenderavtaler } from './Kalenderavtaler';
 import { Artikler } from '../Artikkel/Artikkel';
 import { ManglerKontonummerAlert } from './ManglerKontonummerAlert';
@@ -27,7 +27,7 @@ const Hovedside: FunctionComponent = () => {
                 <Alerts />
                 <ManglerKofuviAlert />
                 {/*<ManglerKontonummerAlert /> venter på api hos PO Utbetaling*/}
-                <GiOssTilbakemelding />
+                <InfoBokser />
                 <AktueltRubrikk />
                 <Artikler />
                 <SisteSaker />
