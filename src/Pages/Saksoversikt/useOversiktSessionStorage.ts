@@ -131,9 +131,18 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
     );
 
     const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
-        try {
-            return FilterFromSessionState.parse(sessionStorage);
-        } catch (e) {
+        const result = FilterFromSessionState.safeParse(sessionStorage);
+        if (result.success) {
+            return result.data;
+        } else {
+            const errors = result.error.errors;
+            console.error(
+                `#MSA: Parse av filter fra SessionStorage feilet på: { ${errors
+                    .map((error) => {
+                        return JSON.stringify({ Felt: error.path[0], Melding: error.message });
+                    })
+                    .join(', ')}}`
+            );
             return defaultSessionState;
         }
     });
