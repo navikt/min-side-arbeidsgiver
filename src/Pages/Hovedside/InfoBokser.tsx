@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect } from 'react';
 import * as Record from '../../utils/Record';
-import './InfoBokser .css';
+import './InfoBokser.css';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
