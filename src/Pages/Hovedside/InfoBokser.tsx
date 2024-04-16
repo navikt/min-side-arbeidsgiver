@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect } from 'react';
 import * as Record from '../../utils/Record';
-import './InfoBokser.css';
+import './InfoBokser .css';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
@@ -86,9 +86,10 @@ const tilbakemeldinger: Array<TilbakemeldingProps> = [
                     <Heading spacing size="small" level="2">
                         Informasjon om innsendt skademelding
                     </Heading>
-                    Saksoversikten viser kun innmeldte skademeldinger til NAV innsendt etter 11.
-                    april 2024, og kun informasjon om innmeldingen som NAV kan dele med deg. Samme
-                    informasjon har også blitt sendt i Altinn som bekreftelse til virksomheten.
+                    Informasjon om skademeldinger er nå tilgjengelig i saker for dine virksomheter.
+                    Saksoversikten viser kun innmeldte skademeldinger til NAV etter 11. april 2024,
+                    og kun informasjon om innmeldingen som NAV kan dele med deg. Samme informasjon
+                    har også blitt sendt i Altinn som bekreftelse til virksomheten.
                 </Alert>
             );
         },
