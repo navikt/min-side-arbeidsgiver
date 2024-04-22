@@ -9,6 +9,7 @@ import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
 import amplitude from '../../utils/amplitude';
+import { z, ZodError } from 'zod';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
@@ -20,7 +21,7 @@ type SessionStateSaksoversikt = {
     sortering: SakSortering;
     sakstyper: string[];
     oppgaveTilstand: OppgaveTilstand[];
-    valgtFilterId: string | undefined;
+    valgtFilterId?: string;
 };
 type SessionStateForside = {
     route: '/';
@@ -112,14 +113,32 @@ const defaultSessionState: SessionStateSaksoversikt = {
     valgtFilterId: undefined,
 };
 
+const FilterFromSessionState = z.object({
+    route: z.literal('/saksoversikt'),
+    side: z.number(),
+    tekstsoek: z.string(),
+    virksomhetsnumre: z.union([z.array(z.string()), z.literal('ALLEBEDRIFTER')]),
+    sortering: z.nativeEnum(SakSortering),
+    sakstyper: z.array(z.string()),
+    oppgaveTilstand: z.array(z.nativeEnum(OppgaveTilstand)),
+    valgtFilterId: z.string().optional(),
+});
+
 export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
     const [sessionStorage, setSessionStorage] = useSessionStorage<SessionState>(
         SESSION_STORAGE_KEY,
         defaultSessionState
     );
-    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() =>
-        sessionStorage.route === '/saksoversikt' ? sessionStorage : defaultSessionState
-    );
+
+    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
+        try {
+            return FilterFromSessionState.parse(sessionStorage);
+        } catch (e) {
+            console.error('#MSA: Parse av filter fra SessionStorage feilet', e);
+            return defaultSessionState;
+        }
+    });
+
     useEffect(() => {
         setSessionStorage(sessionState);
     }, [sessionState]);
