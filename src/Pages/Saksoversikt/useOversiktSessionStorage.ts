@@ -9,7 +9,7 @@ import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
 import amplitude from '../../utils/amplitude';
-import { z } from 'zod';
+import { z, ZodError } from 'zod';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
@@ -131,18 +131,10 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
     );
 
     const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
-        const result = FilterFromSessionState.safeParse(sessionStorage);
-        if (result.success) {
-            return result.data;
-        } else {
-            const errors = result.error.errors;
-            console.error(
-                `#MSA: Parse av filter fra SessionStorage feilet på: { ${errors
-                    .map((error) => {
-                        return JSON.stringify({ Felt: error.path[0], Melding: error.message });
-                    })
-                    .join(', ')}}`
-            );
+        try {
+            return FilterFromSessionState.parse(sessionStorage);
+        } catch (e) {
+            console.error('#MSA: Parse av filter fra SessionStorage feilet', e);
             return defaultSessionState;
         }
     });
