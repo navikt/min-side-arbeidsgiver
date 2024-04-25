@@ -131,10 +131,14 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
     );
 
     const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
-        try {
-            return FilterFromSessionState.parse(sessionStorage);
-        } catch (e) {
-            console.error('#MSA: Parse av filter fra SessionStorage feilet', e);
+        if (sessionStorage.route === '/saksoversikt') {
+            try {
+                return FilterFromSessionState.parse(sessionStorage);
+            } catch (e) {
+                console.error('#MSA: Parse av filter fra SessionStorage feilet', e);
+                return defaultSessionState;
+            }
+        } else {
             return defaultSessionState;
         }
     });
