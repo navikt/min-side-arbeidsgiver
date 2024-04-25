@@ -78,15 +78,28 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg
                 </Heading>
-                <LagreFilter
-                    state={state}
-                    byttFilter={byttFilter}
-                    setValgtFilterId={setValgtFilterId}
-                />
-                <FilterChips state={state} byttFilter={byttFilter} />
-                <div className="saksoversikt__saksliste-header">
-                    <VelgSortering state={state} byttFilter={byttFilter} />
-                    <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        gap: '8px',
+                        position: 'sticky',
+                        padding: '16px 0 16px 0',
+                        top: 0,
+                        background: 'var(--a-bg-subtle)',
+                    }}
+                >
+                    <LagreFilter
+                        state={state}
+                        byttFilter={byttFilter}
+                        setValgtFilterId={setValgtFilterId}
+                    />
+                    <FilterChips state={state} byttFilter={byttFilter} />
+                    <div className="saksoversikt__saksliste-header">
+                        <VelgSortering state={state} byttFilter={byttFilter} />
+                        <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+                    </div>
                 </div>
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
