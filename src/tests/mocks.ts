@@ -466,7 +466,7 @@ export const server = setupServer(
                     saker: [
                         {
                             id: '525a419e-56c9-4194-bb92-2a406a826243',
-                            tittel: 'Permitteringsmelding 14 ansatte',
+                            tittel: 'Permitteringsmelding 14 ansatte TEST',
                             lenke: '#',
                             virksomhet: {
                                 navn: 'Gamle Fredikstad og Riksdalen regnskap',
@@ -503,7 +503,7 @@ export const server = setupServer(
                         },
                         {
                             id: '61ddfc9f-dd0d-4eb3-973e-f53dd7557007',
-                            tittel: 'Søknad om fritak fra arbeidsgiverperioden – gravid ansatt Lena Nilsson',
+                            tittel: 'Søknad om fritak fra arbeidsgiverperioden – gravid ansatt Glovarm Bagasje',
                             lenke: '#',
                             virksomhet: {
                                 navn: 'Gamle Fredikstad og Riksdalen regnskap',
@@ -540,7 +540,7 @@ export const server = setupServer(
                         },
                         {
                             id: '1af36b5b-5630-406e-b989-6b08047e3530',
-                            tittel: 'Varsel om permittering 12 ansatte',
+                            tittel: 'Varsel om permittering 12 ansatte TEST',
                             lenke: '#',
                             virksomhet: {
                                 navn: 'Gamle Fredikstad og Riksdalen regnskap',
