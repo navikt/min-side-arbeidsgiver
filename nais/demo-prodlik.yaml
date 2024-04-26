@@ -8,7 +8,7 @@ metadata:
 spec:
   image: {{{ image }}}
   ingresses:
-    - https://arbeidsgiver.ekstern.dev.nav.no/min-side-arbeidsgiver
+    - https://arbeidsgiver.ansatt.dev.nav.no/min-side-arbeidsgiver
   liveness:
     path: /min-side-arbeidsgiver/internal/isAlive
     initialDelay: 20
