@@ -220,7 +220,7 @@ const main = async () => {
                     KalenderavtalerResultat: () => ({
                         avtaler: [
                             {
-                                tekst: 'Dialogmøte Mikke',
+                                tekst: 'Dialogmøte Sprø Plekter',
                                 startTidspunkt: '2021-02-04T15:15:00',
                                 sluttTidspunkt: null,
                                 lokasjon: {
@@ -232,7 +232,7 @@ const main = async () => {
                                 digitalt: false,
                             },
                             {
-                                tekst: 'Dialogmøte Minni',
+                                tekst: 'Dialogmøte Tastbar Kalender',
                                 startTidspunkt: '2021-02-04T15:15:00',
                                 sluttTidspunkt: null,
                                 tilstand: 'ARBEIDSGIVER_HAR_GODTATT',
@@ -240,7 +240,7 @@ const main = async () => {
                                 fysisk: null,
                             },
                             {
-                                tekst: 'Dialogmøte Dolly',
+                                tekst: 'Dialogmøte Sjalu Streng',
                                 startTidspunkt: '2021-02-04T15:15:00',
                                 sluttTidspunkt: '2021-02-04T16:15:00',
                                 tilstand: 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
@@ -252,7 +252,7 @@ const main = async () => {
                                 },
                             },
                             {
-                                tekst: 'Dialogmøte Donald',
+                                tekst: 'Dialogmøte Myk Penn',
                                 startTidspunkt: '2021-02-04T15:15:00',
                                 sluttTidspunkt: null,
                                 tilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
@@ -260,7 +260,7 @@ const main = async () => {
                                 digitalt: false,
                             },
                             {
-                                tekst: 'Dialogmøte Langbein',
+                                tekst: 'Dialogmøte Lukket Ballong',
                                 startTidspunkt: '2021-02-04T15:15:00',
                                 sluttTidspunkt: '2021-02-04T16:15:00',
                                 tilstand: 'AVLYST',
