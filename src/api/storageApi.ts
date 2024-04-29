@@ -16,15 +16,23 @@ export async function getStorage(key: string): Promise<StorageItemResponse> {
                     version: respons.headers.get('version'),
                 },
             };
+        } else if (respons.ok) {
+            const jsonResult = await respons.json();
+            return {
+                loadedStorageItem: {
+                    key,
+                    data: jsonResult,
+                    version: respons.headers.get('version'),
+                },
+            };
+        } else {
+            return {
+                error: {
+                    status: respons.status,
+                    statusText: respons.statusText,
+                },
+            };
         }
-        const jsonResult = await respons.json();
-        return {
-            loadedStorageItem: {
-                key,
-                data: jsonResult,
-                version: respons.headers.get('version'),
-            },
-        };
     } catch (error) {
         return { error };
     }
