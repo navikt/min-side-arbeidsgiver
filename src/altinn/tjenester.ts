@@ -7,19 +7,21 @@ export type AltinnskjemaId =
     | 'utsendtArbeidstakerEØS'
     | 'endreBankkontonummerForRefusjoner';
 
-export type NAVtjenesteId =
-    | 'arbeidstrening'
-    | 'arbeidsforhold'
-    | 'midlertidigLønnstilskudd'
-    | 'varigLønnstilskudd'
-    | 'sommerjobb'
-    | 'mentortilskudd'
-    | 'inkluderingstilskudd'
-    | 'sykefravarstatistikk'
-    | 'forebyggefravar'
-    | 'rekruttering'
-    | 'tilskuddsbrev'
-    | 'yrkesskade';
+export const NAVtjenesteId = [
+    'arbeidstrening',
+    'arbeidsforhold',
+    'midlertidigLønnstilskudd',
+    'varigLønnstilskudd',
+    'sommerjobb',
+    'mentortilskudd',
+    'inkluderingstilskudd',
+    'sykefravarstatistikk',
+    'forebyggefravar',
+    'rekruttering',
+    'tilskuddsbrev',
+    'yrkesskade',
+];
+export type NAVtjenesteId = (typeof NAVtjenesteId)[number];
 
 export interface AltinnFellesInfo {
     navn: string;
