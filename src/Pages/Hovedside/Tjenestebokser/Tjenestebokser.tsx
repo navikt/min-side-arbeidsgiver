@@ -85,11 +85,11 @@ const Tjenestebokser: FunctionComponent<{ tjenester: TjenesteBoks[] }> = ({ tjen
     }));
 
     return (
-        <div className={'tjenesteboks-container'}>
+        <>
             {tjenestebokser.map(({ tjeneste, Boks }) => (
                 <Boks key={tjeneste} />
             ))}
-        </div>
+        </>
     );
 };
 
