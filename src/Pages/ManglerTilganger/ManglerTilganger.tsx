@@ -1,12 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { infoOmTilgangsstyringURL, lenkeTilDittNavPerson } from '../../lenker';
 import './ManglerTilganger.css';
 import { Heading, LinkPanel } from '@navikt/ds-react';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { SimpleBanner } from '../Banner';
 import { Alerts } from '../Alerts';
+import amplitude from '../../utils/amplitude';
 
 export const ManglerTilganger: FunctionComponent = () => {
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'ManglerTilganger',
+        });
+    }, []);
+
     return (
         <>
             <SimpleBanner />
