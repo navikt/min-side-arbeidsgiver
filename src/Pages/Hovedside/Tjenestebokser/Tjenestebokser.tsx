@@ -75,7 +75,7 @@ const Tjenestebokser: FunctionComponent<{ tjenester: TjenesteBoks[] }> = ({ tjen
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
             komponent: 'tjenestebokser',
-            tjenester: tjenester.toSorted(),
+            tjenester: tjenester.toSorted().join(' '),
         });
     }, []);
 
