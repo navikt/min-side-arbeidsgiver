@@ -75,16 +75,17 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
             .filter(([key, value]) => key in NAVtjenesteId && value === true)
             .map(([key]) => key);
 
-        const tilgangskombinasjonArr = [
+        const tilgangskombinasjon = [
             ...navtjenestetilganger,
             org.syfotilgang ? 'syfo-nærmesteleder' : null,
-        ].filter((e) => e);
-        const tilgangskombinasjon = tilgangskombinasjonArr.toSorted().join(' ');
+        ]
+            .filter((e) => e)
+            .toSorted()
+            .join(' ');
 
         const virksomhetsinfo: any = {
             url: baseUrl,
             tilgangskombinasjon,
-            tilgangskombinasjonArr,
             organisasjonstypeForØversteLedd: org.organisasjonstypeForØversteLedd,
         };
 
