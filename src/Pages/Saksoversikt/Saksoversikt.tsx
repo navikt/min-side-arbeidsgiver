@@ -78,18 +78,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg
                 </Heading>
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                        gap: '8px',
-                        position: 'sticky',
-                        padding: '16px 0 16px 0',
-                        top: 0,
-                        background: 'var(--a-bg-subtle)',
-                    }}
-                >
+                <div className="saksoversikt_sticky_top">
                     <LagreFilter
                         state={state}
                         byttFilter={byttFilter}
