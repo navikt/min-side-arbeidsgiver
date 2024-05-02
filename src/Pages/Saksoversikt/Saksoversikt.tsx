@@ -117,11 +117,7 @@ export const Saksoversikt = () => {
                     Saker
                 </Heading>
                 <SaksListeBody state={state} />
-
-                <div className="saksoversikt__saksliste-footer">
-                    <HvaVisesHer />
-                    <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
-                </div>
+                <HvaVisesHer />
             </div>
         </div>
     );
