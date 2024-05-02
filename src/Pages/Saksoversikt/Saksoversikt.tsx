@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
@@ -16,6 +16,7 @@ import { LagreFilter } from './LagreFilter';
 import { FilterChips } from './FilterChips';
 import { ServerError } from '@apollo/client/link/utils';
 import { Spinner } from '../Banner';
+import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
 
 export const SIDE_SIZE = 30;
 
@@ -95,6 +96,7 @@ export const Saksoversikt = () => {
                 setValgteVirksomheter={handleValgteVirksomheter}
             />
             <div className="saksoversikt">
+                <AdvarselBannerTestversjon />
                 <Alerts />
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg

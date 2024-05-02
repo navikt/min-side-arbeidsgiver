@@ -3,6 +3,7 @@ import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerProvider';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import { NAVtjenesteId } from '../altinn/tjenester';
 
 interface EventProps {
     url: string;
@@ -70,26 +71,17 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         if (org === undefined) return;
         if (isLoading) return;
 
-        let tilgangskombinasjon = '';
+        const navtjenestetilganger = Object.entries(org.altinntilgang)
+            .filter(([key, value]) => key in NAVtjenesteId && value === true)
+            .map(([key]) => key);
 
-        if (org.altinntilgang.rekruttering) {
-            tilgangskombinasjon += 'arbeidsplassen ';
-        }
-        if (org.altinntilgang.sykefravarstatistikk) {
-            tilgangskombinasjon += 'sykefraværsstatistikk ';
-        }
-        if (org.altinntilgang.arbeidstrening) {
-            tilgangskombinasjon += 'arbeidstrening ';
-        }
-        if (org.altinntilgang.arbeidsforhold) {
-            tilgangskombinasjon += 'arbeidsforhold';
-        }
-        if (org.altinntilgang.midlertidigLønnstilskudd) {
-            tilgangskombinasjon += 'midlertidig lønnstilskudd ';
-        }
-        if (org.altinntilgang.varigLønnstilskudd) {
-            tilgangskombinasjon += 'varig lønnstilskudd';
-        }
+        const tilgangskombinasjon = [
+            ...navtjenestetilganger,
+            org.syfotilgang ? 'syfo-nærmesteleder' : null,
+        ]
+            .filter((e) => e)
+            .toSorted()
+            .join(' ');
 
         const virksomhetsinfo: any = {
             url: baseUrl,

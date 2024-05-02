@@ -118,27 +118,24 @@ export const Saksside = () => {
     const [params, setParams] = useSearchParams();
     const [saksidparametre, setSaksidparametre] = useSessionStorage<Sakssideparametre>(
         'sakssideparametre',
-        {}
+        Object.fromEntries(params)
     );
 
     useEffect(() => {
         if (params.size === 0) return;
 
-        const saksid = params.get('saksid');
-        const grupperingsid = params.get('grupperingsid');
-        const merkelapp = params.get('merkelapp');
-
-        if (saksid !== null) {
-            setSaksidparametre({ saksid: saksid });
-        } else if (grupperingsid !== null && merkelapp !== null) {
-            setSaksidparametre({ grupperingsid: grupperingsid, merkelapp: merkelapp });
+        const { saksid, grupperingsid, merkelapp } = Object.fromEntries(params);
+        if (saksid !== undefined) {
+            setSaksidparametre({ saksid });
+        } else if (grupperingsid !== undefined && merkelapp !== undefined) {
+            setSaksidparametre({ grupperingsid, merkelapp });
         }
+
         setParams({}, { replace: true });
     }, [params]);
 
     const { saksid, grupperingsid, merkelapp } = saksidparametre;
-
-    const skip = saksid === undefined && (merkelapp === undefined || grupperingsid === undefined);
+    const skip = saksid === undefined && merkelapp === undefined && grupperingsid === undefined;
 
     const { loading, data, error } = useQuery(
         saksid !== undefined ? HENT_SAK_ID : HENT_SAK_GRUPPERINGSID,
@@ -151,17 +148,15 @@ export const Saksside = () => {
     const sak = data?.sakById?.sak ?? data?.sakByGrupperingsid?.sak;
     const feilIAltinn = data?.sakById?.feilAltinn ?? data?.sakByGrupperingsid?.feilAltinn ?? false;
 
-    const harFeil = sak === undefined || sak === null;
-
     useEffect(() => {
-        if (harFeil && !loading && !feilIAltinn) {
+        if (!sak && !skip && !loading && !feilIAltinn) {
             console.error(
                 `#MSA: Saksside: Kunne ikke hente sak. Saksid: ${saksid}, merkelapp: ${merkelapp}. Apollo error: ${error?.message}`
             );
         }
-    }, [harFeil, loading, feilIAltinn]);
+    }, [sak, skip, loading, feilIAltinn]);
 
-    if (loading) return null;
+    if (loading || skip) return null;
 
     return (
         <div className="saksside">
@@ -170,7 +165,7 @@ export const Saksside = () => {
                 Se alle saker
             </LenkeMedLogging>
 
-            {harFeil ? (
+            {!sak ? (
                 <Alert variant="error">
                     <Heading size="small" level="2">
                         Noe gikk galt
