@@ -130,6 +130,7 @@ export const Saksfilter = ({
                 </CheckboxGroup>
                 {sakstyperForFilter.length > 1 && (
                     <CheckboxGroup
+                        className="saksfilter_sakstyper"
                         legend="Type sak"
                         value={filter.sakstyper}
                         onChange={(valgteSakstyper) => {
@@ -154,7 +155,7 @@ export const Saksfilter = ({
                     </CheckboxGroup>
                 )}
 
-                <CheckboxGroup legend="Virksomheter">
+                <CheckboxGroup legend="Virksomheter" className="saksfilter_virksomhetsmeny">
                     <Virksomhetsmeny
                         valgteEnheter={valgteVirksomheter}
                         setValgteEnheter={setValgteVirksomheter}
