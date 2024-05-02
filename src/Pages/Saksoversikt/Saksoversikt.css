@@ -25,15 +25,22 @@
   justify-content: space-between;
   gap: 8px;
   position: sticky;
-  padding: 16px 0 -16px 0;
-  top: 0;
+  margin-top: -16px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  top: -1px;
   background: var(--a-bg-subtle);
+  transition-delay: 0.5s;
+  box-shadow: 0 50px 0 -60px black;
+  transition-property: box-shadow;
 }
 
-.saksoversikt_sticky_top:after {
-  content: "";
-  display: block;
-  background-color: rgba(255, 255, 255, 0.2);
+.saksoversikt_sticky_top[data-stuck] {
+  transition-delay: 0.5ms;
+  transition-property: box-shadow;
+  box-shadow: 0 50px 50px -60px black;
+
+
 }
 
 

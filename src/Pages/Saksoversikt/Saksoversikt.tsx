@@ -60,7 +60,28 @@ export const Saksoversikt = () => {
         byttFilter({ ...state.filter, virksomheter: valgte });
     };
 
+    const navRef = useRef<HTMLDivElement>(null);
+
     const alleSakstyper = useAlleSakstyper();
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
+                console.log(entry.intersectionRatio);
+                console.log(entry.intersectionRatio < 1);
+            },
+            { threshold: [1] }
+        );
+
+        if (navRef.current) {
+            observer.observe(navRef.current);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     return (
         <div className="saksoversikt__innhold">
@@ -78,7 +99,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg
                 </Heading>
-                <div className="saksoversikt_sticky_top">
+                <div ref={navRef} className="saksoversikt_sticky_top">
                     <LagreFilter
                         state={state}
                         byttFilter={byttFilter}
