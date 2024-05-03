@@ -72,7 +72,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         if (isLoading) return;
 
         const navtjenestetilganger = Object.entries(org.altinntilgang)
-            .filter(([key, value]) => key in NAVtjenesteId && value === true)
+            .filter(([key, value]) => value === true && NAVtjenesteId.includes(key))
             .map(([key]) => key);
 
         const tilgangskombinasjon = [
