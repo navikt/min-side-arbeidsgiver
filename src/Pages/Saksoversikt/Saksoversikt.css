@@ -12,37 +12,41 @@
   grid-template-columns: 1fr 22rem min(62rem, calc(100vw - 22rem) ) 22rem 1fr;
 }
 
-@media (max-width: 730px){
-  .saksoversikt__innhold {
-    display: flex;
-    flex-direction: column;
-  }
-}
-
 .saksoversikt_sticky_top {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 8px;
-  position: sticky;
   margin-top: -16px;
   padding-top: 16px;
   padding-bottom: 8px;
+  position: sticky;
   top: -1px;
   background: var(--a-bg-subtle);
-  transition-delay: 0.5s;
+
   box-shadow: 0 50px 0 -60px black;
-  transition-property: box-shadow;
+  transition: box-shadow 0.5s ease-in-out;
 }
 
 .saksoversikt_sticky_top[data-stuck] {
-  transition-delay: 0.5ms;
-  transition-property: box-shadow;
   box-shadow: 0 50px 50px -60px black;
-
-
 }
 
+@media (max-width: 730px){
+  .saksoversikt__innhold {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .saksoversikt_sticky_top {
+    position: unset;
+    top: unset;
+  }
+
+  .saksoversikt_sticky_top[data-stuck] {
+    box-shadow: none;
+  }
+}
 
 .saksoversikt__skjult-header-uu {
   position: absolute;

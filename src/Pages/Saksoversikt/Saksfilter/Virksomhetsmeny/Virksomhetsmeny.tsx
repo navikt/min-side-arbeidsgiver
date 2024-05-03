@@ -122,7 +122,6 @@ export const Virksomhetsmeny = ({
                 hideLegend
                 value={valgteEnheter.toArray()}
                 onChange={onCheckboxGroupChange}
-                className="sak_virksomhetsmeny_liste-container"
             >
                 <ul className="sak_virksomhetsmeny_hovedenhetliste">
                     {organisasjonstre.map(({ hovedenhet, underenheter }) => {

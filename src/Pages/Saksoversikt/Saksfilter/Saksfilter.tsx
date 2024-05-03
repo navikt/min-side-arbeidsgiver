@@ -130,7 +130,6 @@ export const Saksfilter = ({
                 </CheckboxGroup>
                 {sakstyperForFilter.length > 1 && (
                     <CheckboxGroup
-                        className="saksfilter_sakstyper"
                         legend="Type sak"
                         value={filter.sakstyper}
                         onChange={(valgteSakstyper) => {
@@ -162,6 +161,7 @@ export const Saksfilter = ({
                     />
                 </CheckboxGroup>
                 <Button
+                    variant="secondary"
                     onClick={() => {
                         console.log('foo');
                     }}

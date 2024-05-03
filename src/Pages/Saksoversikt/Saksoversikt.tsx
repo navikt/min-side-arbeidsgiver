@@ -61,16 +61,14 @@ export const Saksoversikt = () => {
         byttFilter({ ...state.filter, virksomheter: valgte });
     };
 
-    const navRef = useRef<HTMLDivElement>(null);
-
     const alleSakstyper = useAlleSakstyper();
+
+    const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
-                console.log(entry.intersectionRatio);
-                console.log(entry.intersectionRatio < 1);
             },
             { threshold: [1] }
         );

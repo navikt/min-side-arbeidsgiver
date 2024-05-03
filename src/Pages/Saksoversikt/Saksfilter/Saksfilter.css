@@ -7,62 +7,10 @@
     background: var(--a-bg-default);
     padding: 24px;
     grid-column-start: 2;
+    overflow-y: scroll;
     position: sticky;
     top: 0;
     margin-bottom: 64px;
-}
-
-
-.saksfilter_sakstyper{
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    max-height: 100%;
-}
-
-.saksfilter_sakstyper > div {
-    overflow-y: scroll;
-
-    background:
-        /* Shadow Cover TOP */
-            linear-gradient(
-                    white 30%,
-                    rgba(255, 255, 255, 0)
-            ) center top,
-
-                /* Shadow Cover BOTTOM */
-            linear-gradient(
-                    rgba(255, 255, 255, 0),
-                    white 70%
-            ) center bottom,
-
-                /* Shadow TOP */
-            radial-gradient(
-                    farthest-side at 50% 0,
-                    rgba(0, 0, 0, 0.2),
-                    rgba(0, 0, 0, 0)
-            ) center top,
-
-                /* Shadow BOTTOM */
-            radial-gradient(
-                    farthest-side at 50% 100%,
-                    rgba(0, 0, 0, 0.2),
-                    rgba(0, 0, 0, 0)
-            ) center bottom;
-
-    background-repeat: no-repeat;
-    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-    background-attachment: local, local, scroll, scroll;
-}
-
-
-.saksfilter_virksomhetsmeny,
-.saksfilter_virksomhetsmeny > div {
-    display: flex;
-    flex-direction: column;
-    max-height: 100%;
-    overflow: hidden;
-
 }
 
 @media (max-width: 730px) {
@@ -72,68 +20,19 @@
 }
 
 
-.sak_virksomhetsmeny_liste-container {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow: hidden;
-    max-height: 45vh;
-}
-
-.sak_virksomhetsmeny_liste-container  > div {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    max-height: 100%;
-    overflow: hidden;
-}
-
-.sak_virksomhetsmeny_hovedenhetliste::-webkit-scrollbar,
-.saksfilter_sakstyper > div::-webkit-scrollbar {
+.saksfilter::-webkit-scrollbar {
     width: 10px; /* Angi ønsket bredde på scroll-baren */
 }
 
-.sak_virksomhetsmeny_hovedenhetliste::-webkit-scrollbar-thumb,
-.saksfilter_sakstyper  > div::-webkit-scrollbar-thumb {
+.saksfilter::-webkit-scrollbar-thumb {
     background-color: #888; /* Angi ønsket farge på scroll-baren */
     border-radius: 5px; /* Angi ønsket avrundingsradius på scroll-baren */
     min-height: 30px; /* Angi ønsket min-høyde på scroll-baren */
 }
 
-.sak_virksomhetsmeny_hovedenhetliste {
+.sak_virksomhetsmeny_hovedenhetliste,
+.sak_virksomhetsmeny_hovedenhetliste ul {
     margin: 0;
     padding: 0;
     list-style-type: none;
-    overflow-y: scroll;
-
-    background:
-        /* Shadow Cover TOP */
-            linear-gradient(
-                    white 30%,
-                    rgba(255, 255, 255, 0)
-            ) center top,
-
-                /* Shadow Cover BOTTOM */
-            linear-gradient(
-                    rgba(255, 255, 255, 0),
-                    white 70%
-            ) center bottom,
-
-                /* Shadow TOP */
-            radial-gradient(
-                    farthest-side at 50% 0,
-                    rgba(0, 0, 0, 0.2),
-                    rgba(0, 0, 0, 0)
-            ) center top,
-
-                /* Shadow BOTTOM */
-            radial-gradient(
-                    farthest-side at 50% 100%,
-                    rgba(0, 0, 0, 0.2),
-                    rgba(0, 0, 0, 0)
-            ) center bottom;
-
-    background-repeat: no-repeat;
-    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
-    background-attachment: local, local, scroll, scroll;
 }
