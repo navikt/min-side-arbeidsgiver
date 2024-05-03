@@ -4,7 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -154,7 +154,7 @@ export const Saksfilter = ({
                     </CheckboxGroup>
                 )}
 
-                <CheckboxGroup legend="Virksomheter">
+                <CheckboxGroup legend="Virksomheter" className="saksfilter_virksomhetsmeny">
                     <Virksomhetsmeny
                         valgteEnheter={valgteVirksomheter}
                         setValgteEnheter={setValgteVirksomheter}

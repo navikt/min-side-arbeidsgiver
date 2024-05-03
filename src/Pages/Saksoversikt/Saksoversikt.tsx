@@ -63,6 +63,25 @@ export const Saksoversikt = () => {
 
     const alleSakstyper = useAlleSakstyper();
 
+    const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
+            },
+            { threshold: [1] }
+        );
+
+        if (navRef.current) {
+            observer.observe(navRef.current);
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
     return (
         <div className="saksoversikt__innhold">
             <Saksfilter
@@ -80,25 +99,23 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg
                 </Heading>
-                <LagreFilter
-                    state={state}
-                    byttFilter={byttFilter}
-                    setValgtFilterId={setValgtFilterId}
-                />
-                <FilterChips state={state} byttFilter={byttFilter} />
-                <div className="saksoversikt__saksliste-header">
-                    <VelgSortering state={state} byttFilter={byttFilter} />
-                    <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+                <div ref={navRef} className="saksoversikt_sticky_top">
+                    <LagreFilter
+                        state={state}
+                        byttFilter={byttFilter}
+                        setValgtFilterId={setValgtFilterId}
+                    />
+                    <FilterChips state={state} byttFilter={byttFilter} />
+                    <div className="saksoversikt__saksliste-header">
+                        <VelgSortering state={state} byttFilter={byttFilter} />
+                        <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+                    </div>
                 </div>
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
                 <SaksListeBody state={state} />
-
-                <div className="saksoversikt__saksliste-footer">
-                    <HvaVisesHer />
-                    <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={false} />
-                </div>
+                <HvaVisesHer />
             </div>
         </div>
     );

@@ -2,11 +2,15 @@
     display: flex;
     flex-direction: column;
     min-width: min(22rem, 100%);
-    min-height: max(100vh);
+    max-height: 100vh;
     gap: 16px;
     background: var(--a-bg-default);
     padding: 24px;
     grid-column-start: 2;
+    overflow-y: scroll;
+    position: sticky;
+    top: 0;
+    margin-bottom: 64px;
 }
 
 @media (max-width: 730px) {
@@ -15,7 +19,18 @@
     }
 }
 
-ul.sak_virksomhetsmeny_hovedenhetliste,
+
+.saksfilter::-webkit-scrollbar {
+    width: 10px; /* Angi ønsket bredde på scroll-baren */
+}
+
+.saksfilter::-webkit-scrollbar-thumb {
+    background-color: #888; /* Angi ønsket farge på scroll-baren */
+    border-radius: 5px; /* Angi ønsket avrundingsradius på scroll-baren */
+    min-height: 30px; /* Angi ønsket min-høyde på scroll-baren */
+}
+
+.sak_virksomhetsmeny_hovedenhetliste,
 .sak_virksomhetsmeny_hovedenhetliste ul {
     margin: 0;
     padding: 0;

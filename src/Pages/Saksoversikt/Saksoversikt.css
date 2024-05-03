@@ -4,7 +4,7 @@
   gap: 16px;
   background-color: var(--a-gray-100);
   margin: 16px;
-  grid-column-start: 3
+  grid-column-start: 3;
 }
 
 .saksoversikt__innhold {
@@ -12,10 +12,39 @@
   grid-template-columns: 1fr 22rem min(62rem, calc(100vw - 22rem) ) 22rem 1fr;
 }
 
+.saksoversikt_sticky_top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: -16px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  position: sticky;
+  top: -1px;
+  background: var(--a-bg-subtle);
+
+  box-shadow: 0 50px 0 -60px black;
+  transition: box-shadow 0.5s ease-in-out;
+}
+
+.saksoversikt_sticky_top[data-stuck] {
+  box-shadow: 0 50px 50px -60px black;
+}
+
 @media (max-width: 730px){
   .saksoversikt__innhold {
     display: flex;
     flex-direction: column;
+  }
+
+  .saksoversikt_sticky_top {
+    position: unset;
+    top: unset;
+  }
+
+  .saksoversikt_sticky_top[data-stuck] {
+    box-shadow: none;
   }
 }
 
@@ -67,10 +96,6 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
-}
-
-.saksoversikt__saksliste-footer {
-  flex-wrap: wrap-reverse;
 }
 
 .saksoversikt__sortering {
