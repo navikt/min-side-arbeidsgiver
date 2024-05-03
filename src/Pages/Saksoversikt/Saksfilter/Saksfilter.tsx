@@ -160,14 +160,6 @@ export const Saksfilter = ({
                         setValgteEnheter={setValgteVirksomheter}
                     />
                 </CheckboxGroup>
-                <Button
-                    variant="secondary"
-                    onClick={() => {
-                        console.log('foo');
-                    }}
-                >
-                    Opprett ny sak
-                </Button>
             </div>
         </KollapsHvisMobil>
     );
