@@ -4,7 +4,17 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Button, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
+import {
+    BodyLong,
+    BodyShort,
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    Detail,
+    Dropdown,
+    Heading,
+    Label,
+} from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -16,6 +26,10 @@ import { sorted } from '../../../utils/util';
 import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
+import { gittMiljo } from '../../../utils/environment';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { opprettInntektsmeldingURL } from '../../../lenker';
+import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -160,7 +174,44 @@ export const Saksfilter = ({
                         setValgteEnheter={setValgteVirksomheter}
                     />
                 </CheckboxGroup>
+                <OpprettInntektsmelding />
             </div>
         </KollapsHvisMobil>
     );
+};
+
+const OpprettInntektsmelding = () => {
+    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const tilgangInntektsmelding = Object.values(organisasjoner).some(
+        (org) => org.altinntilgang?.inntektsmelding === true
+    );
+    if (tilgangInntektsmelding) {
+        return gittMiljo({
+            prod: null,
+            other: (
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '4px',
+                        paddingBottom: '32px',
+                    }}
+                >
+                    <Label children="Opprett inntektsmelding" />
+                    <Detail>
+                        Bruk når NAV ikke forventer å motta en inntektsmelding, for eksempel når
+                        arbeidsgiver ikke skal betale sykepenger i arbeidsgiverperioden.
+                    </Detail>
+                    <LenkeMedLogging
+                        loggLenketekst={'Opprett inntektsmelding manuelt'}
+                        href={opprettInntektsmeldingURL}
+                    >
+                        Opprett inntektsmelding for sykepenger
+                    </LenkeMedLogging>
+                </div>
+            ),
+        });
+    } else {
+        return null;
+    }
 };

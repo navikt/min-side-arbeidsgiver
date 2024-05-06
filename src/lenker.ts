@@ -68,12 +68,6 @@ export const lenkeTilForebyggefravar = gittMiljo({
     other: 'https://forebygge-fravar.intern.dev.nav.no/forebygge-fravar/',
 });
 
-export const lenkeTilForebyggingsplan = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/forebyggingsplan',
-    demo: 'https://arbeidsgiver.ekstern.dev.nav.no/forebyggingsplan',
-    other: 'https://forebyggingsplan-frontend.intern.dev.nav.no/forebyggingsplan',
-});
-
 export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering/',
     demo: 'https://arbeidsgiver.ekstern.dev.nav.no/permittering',
@@ -84,4 +78,9 @@ export const tiltaksgjennomforingURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
     demo: 'https://tiltaksgjennomforing-labs.ekstern.dev.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
     other: 'https://tiltaksgjennomforing.intern.dev.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+});
+
+export const opprettInntektsmeldingURL = gittMiljo({
+    prod: '', //TODO: Finn prod-url
+    other: 'https://arbeidsgiver.intern.dev.nav.no/im-dialog/initiering',
 });
