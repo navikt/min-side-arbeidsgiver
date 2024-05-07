@@ -82,13 +82,6 @@ export const SøknaderOgSkjemaer = () => {
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/krav',
                             })
                         )}
-                        {gittMiljo({
-                            prod: null,
-                            other: lenke(
-                                'Inntektsmelding sykepenger (Opprett manuelt)',
-                                opprettInntektsmeldingURL
-                            ),
-                        })}
                     </>
                 ) : null}
 
@@ -106,6 +99,15 @@ export const SøknaderOgSkjemaer = () => {
                               other: `https://skademelding.intern.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
                           })
                       )
+                    : null}
+                {tilgangInntektsmelding === true
+                    ? gittMiljo({
+                          prod: null,
+                          other: lenke(
+                              'Inntektsmelding sykepenger (Opprett manuelt)',
+                              opprettInntektsmeldingURL
+                          ),
+                      })
                     : null}
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
