@@ -81,6 +81,6 @@ export const tiltaksgjennomforingURL = gittMiljo({
 });
 
 export const opprettInntektsmeldingURL = gittMiljo({
-    prod: '', //TODO: Finn prod-url
+    prod: 'https://arbeidsgiver.nav.no/im-dialog/initiering',
     other: 'https://arbeidsgiver.intern.dev.nav.no/im-dialog/initiering',
 });
