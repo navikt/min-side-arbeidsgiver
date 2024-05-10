@@ -4,17 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import {
-    BodyLong,
-    BodyShort,
-    Button,
-    Checkbox,
-    CheckboxGroup,
-    Detail,
-    Dropdown,
-    Heading,
-    Label,
-} from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, Detail, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -29,7 +19,6 @@ import amplitude from '../../../utils/amplitude';
 import { gittMiljo } from '../../../utils/environment';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -80,6 +69,43 @@ export const amplitudeFilterKlikk = (kategori: string, filternavn: string, targe
     }
 };
 
+/**
+ * TAG-2253 - Slår sammen "Inntektsmelding" og "Inntektsmelding sykepenger" til en sakstype
+ * Når "Inntektsmelding" er faset ut og saker med merkelappen ikke finnes lengre vil den hete
+ * "Inntektsmelding sykepenger" og denne funksjonen kan slettes
+ */
+function sakstyperMedAntall(
+    alleSakstyper: SakstypeOverordnet[],
+    sakstypeinfo: Sakstype[] | undefined
+) {
+    const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet) => ({
+        navn: sakstypeOverordnet.navn,
+        antall:
+            sakstypeinfo === undefined
+                ? undefined
+                : sakstypeinfo.find((sakstype) => sakstype.navn === sakstypeOverordnet.navn)
+                      ?.antall ?? 0,
+    }));
+
+    const sakstyperUtenInntektsmelding = sakstyperForFilter.filter(
+        ({ navn }) => navn !== 'Inntektsmelding' && navn !== 'Inntektsmelding sykepenger'
+    );
+    const antallInntektsmeldingSykepenger = sakstyperForFilter
+        .filter(({ navn }) => navn === 'Inntektsmelding' || navn === 'Inntektsmelding sykepenger')
+        .reduce((acc, { antall }) => acc + (antall ?? 0), 0);
+    return [
+        ...sakstyperUtenInntektsmelding,
+        ...(antallInntektsmeldingSykepenger > 0
+            ? [
+                  {
+                      navn: 'Inntektsmelding sykepenger',
+                      antall: antallInntektsmeldingSykepenger,
+                  },
+              ]
+            : []),
+    ];
+}
+
 export const Saksfilter = ({
     valgteVirksomheter,
     setValgteVirksomheter,
@@ -101,15 +127,7 @@ export const Saksfilter = ({
     if (organisasjonstre === undefined) {
         return null;
     }
-
-    const sakstyperForFilter = alleSakstyper.map((sakstypeOverordnet) => ({
-        navn: sakstypeOverordnet.navn,
-        antall:
-            sakstypeinfo === undefined
-                ? undefined
-                : sakstypeinfo.find((sakstype) => sakstype.navn === sakstypeOverordnet.navn)
-                      ?.antall ?? 0,
-    }));
+    const sakstyperForFilter = sakstyperMedAntall(alleSakstyper, sakstypeinfo);
 
     const antallUløsteOppgaver = oppgaveTilstandInfo?.find(
         (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
