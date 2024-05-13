@@ -117,12 +117,12 @@ const InntektsmeldingGruppe = (
         (sakstype) => !sakstype.includes('Inntektsmelding')
     );
 
-    const handleChange = (valgteSakstyper: string[]) => {
-        if (!valgteSakstyper.includes('Inntektsmelding alle')) {
+    const handleChange = (valgteInntektsmeldingSakstyper: string[]) => {
+        if (!valgteInntektsmeldingSakstyper.includes('Inntektsmelding alle')) {
             setFilter({ ...filter, sakstyper: andreSakstyper });
             return;
         }
-        setFilter({ ...filter, sakstyper: [...andreSakstyper, ...valgteSakstyper] });
+        setFilter({ ...filter, sakstyper: [...andreSakstyper, ...valgteInntektsmeldingSakstyper] });
     };
 
     return (
