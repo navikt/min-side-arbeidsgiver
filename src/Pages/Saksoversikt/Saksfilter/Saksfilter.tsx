@@ -133,6 +133,20 @@ export const Saksfilter = ({
         (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
     )?.antall;
 
+    const inntektsmeldingSakstyper = sakstyperForFilter.filter(({ navn }) =>
+        navn.includes('Inntektsmelding')
+    );
+    const sakstyperUtenInntektsmelding = sakstyperForFilter.filter(
+        ({ navn }) => !navn.includes('Inntektsmelding')
+    );
+    const sakstyper = [
+        ...sakstyperUtenInntektsmelding,
+        {
+            navn: 'Inntektsmelding',
+            antall: inntektsmeldingSakstyper.reduce((acc, { antall }) => acc + (antall ?? 0), 0),
+        },
+    ];
+
     return (
         <KollapsHvisMobil width={width}>
             <div className="saksfilter">
@@ -169,19 +183,41 @@ export const Saksfilter = ({
                         }}
                     >
                         {sorted(sakstyperForFilter, (sakstype) => sakstype.navn).map(
-                            ({ navn, antall }) => (
-                                <Checkbox
-                                    key={navn}
-                                    value={navn}
-                                    onClick={(e) =>
-                                        amplitudeFilterKlikk('sakstype', navn, e.target)
-                                    }
-                                >
-                                    <BodyShort>
-                                        {antall === undefined ? navn : `${navn} (${antall})`}
-                                    </BodyShort>
-                                </Checkbox>
-                            )
+                            ({ navn, antall }) => {
+                                if (navn === 'Inntektsmelding') {
+                                    return (
+                                        <Checkbox
+                                            key={navn}
+                                            value={navn}
+                                            onClick={(e) =>
+                                                amplitudeFilterKlikk('sakstype', navn, e.target)
+                                            }
+                                        >
+                                            <BodyShort>
+                                                {antall === undefined
+                                                    ? navn
+                                                    : `${navn} (${antall})`}
+                                            </BodyShort>
+                                        </Checkbox>
+                                    );
+                                } else {
+                                    return (
+                                        <Checkbox
+                                            key={navn}
+                                            value={navn}
+                                            onClick={(e) =>
+                                                amplitudeFilterKlikk('sakstype', navn, e.target)
+                                            }
+                                        >
+                                            <BodyShort>
+                                                {antall === undefined
+                                                    ? navn
+                                                    : `${navn} (${antall})`}
+                                            </BodyShort>
+                                        </Checkbox>
+                                    );
+                                }
+                            }
                         )}
                     </CheckboxGroup>
                 )}
