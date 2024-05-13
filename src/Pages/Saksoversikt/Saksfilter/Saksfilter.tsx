@@ -141,7 +141,7 @@ export const Saksfilter = ({
     const sakstyper = [
         ...sakstyperUtenInntektsmelding,
         {
-            navn: 'Inntektsmelding',
+            navn: 'Inntektsmelding alle',
             antall: inntektsmeldingSakstyper.reduce((acc, { antall }) => acc + (antall ?? 0), 0),
         },
     ];
@@ -178,12 +178,11 @@ export const Saksfilter = ({
                         legend="Type sak"
                         value={filter.sakstyper}
                         onChange={(valgteSakstyper) => {
-                            console.log({ valgteSakstyper });
                             setFilter({ ...filter, sakstyper: valgteSakstyper });
                         }}
                     >
                         {sorted(sakstyper, (sakstype) => sakstype.navn).map(({ navn, antall }) => {
-                            if (navn === 'Inntektsmelding') {
+                            if (navn === 'Inntektsmelding alle') {
                                 return (
                                     <>
                                         <Checkbox
@@ -195,8 +194,8 @@ export const Saksfilter = ({
                                         >
                                             <BodyShort>
                                                 {antall === undefined
-                                                    ? navn
-                                                    : `${navn} (${antall})`}
+                                                    ? 'Inntektsmelding'
+                                                    : `Inntektsmelding (${antall})`}
                                             </BodyShort>
                                         </Checkbox>
                                         {inntektsmeldingSakstyper.map(({ navn, antall }) => {
