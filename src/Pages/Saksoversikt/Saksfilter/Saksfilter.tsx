@@ -143,7 +143,7 @@ const InntektsmeldingGruppe = (
             </Checkbox>
             {valgte.length < 1
                 ? null
-                : inntektsmeldingSakstyper.map(({ navn, antall }) => {
+                : sorted(inntektsmeldingSakstyper, ({ navn }) => navn).map(({ navn, antall }) => {
                       const [forbokstav, ...resten] = navn.replace('Inntektsmelding ', '');
                       const visningsNavn = [forbokstav.toUpperCase(), ...resten].join('');
                       return (
