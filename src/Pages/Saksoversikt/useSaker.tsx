@@ -133,6 +133,15 @@ const beregnVirksomhetsnummer = (
     });
 };
 
+/**
+ * TAG-2253 - Inkluder inntektsmelding i sakstyper hvis Inntektsmelding sykepenger er valgt
+ * Fjernes når det ikke lengre finnes saker med "Inntektsmelding" som merkelapp
+ */
+const inkluderInntektsmelding = (sakstyper: string[]) => {
+    const inntektsmeldingSykepengerValgt = sakstyper.includes('Inntektsmelding sykepenger');
+    return [...sakstyper, ...(inntektsmeldingSykepengerValgt ? ['Inntektsmelding'] : [])];
+};
+
 export function useSaker(
     pageSize: number,
     { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand }: Filter
@@ -148,7 +157,7 @@ export function useSaker(
         virksomhetsnumre,
         tekstsoek: tekstsoek === '' ? null : tekstsoek,
         sortering: sortering,
-        sakstyper: sakstyper.length === 0 ? null : sakstyper,
+        sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
         oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,

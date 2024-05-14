@@ -13,6 +13,10 @@
     margin-bottom: 64px;
 }
 
+.saksfilter .inntektsmelding-sakstype {
+    padding-left: 22px;
+}
+
 @media (max-width: 730px) {
     .saksfilter {
         min-height: unset;
