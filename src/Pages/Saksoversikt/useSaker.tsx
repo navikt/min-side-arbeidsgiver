@@ -137,10 +137,10 @@ const beregnVirksomhetsnummer = (
  * TAG-2253 - Inkluder inntektsmelding i sakstyper hvis Inntektsmelding sykepenger er valgt
  * Fjernes når det ikke lengre finnes saker med "Inntektsmelding" som merkelapp
  */
-function inkluderInntektsmelding(sakstyper: string[]) {
+const inkluderInntektsmelding = (sakstyper: string[]) => {
     const inntektsmeldingSykepengerValgt = sakstyper.includes('Inntektsmelding sykepenger');
     return [...sakstyper, ...(inntektsmeldingSykepengerValgt ? ['Inntektsmelding'] : [])];
-}
+};
 
 export function useSaker(
     pageSize: number,
