@@ -8,7 +8,6 @@ import { Heading, Tag } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../api/graphql-types';
 import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
-import { sorted } from '../../utils/util';
 import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 
@@ -70,6 +69,14 @@ const SisteSaker = () => {
         ['BEDR', 'AAFY'].includes(org.organisasjon.OrganizationForm)
     ).length;
 
+    const sakstyper = Array(
+        ...Set<string>(
+            data.saker.sakstyper.map(({ navn }) =>
+                navn === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : navn
+            )
+        )
+    ).sort();
+
     return (
         <InternalLenkepanelMedLogging
             to={{
@@ -89,9 +96,9 @@ const SisteSaker = () => {
                     } (${antallSakerForAlleBedrifter})`}
                 </Heading>
                 <div className="saker-lenke__undertekst">
-                    {sorted(data.saker.sakstyper, (sakstype) => sakstype.navn).map((sakstype) => (
-                        <Tag key={sakstype.navn} size="small" variant="neutral">
-                            {sakstype.navn}
+                    {sakstyper.map((sakstype) => (
+                        <Tag key={sakstype} size="small" variant="neutral">
+                            {sakstype}
                         </Tag>
                     ))}
                 </div>
