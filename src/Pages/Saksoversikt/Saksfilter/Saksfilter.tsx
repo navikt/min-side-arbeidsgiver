@@ -114,9 +114,9 @@ const InntektsmeldingGruppe = (
 ) => {
     const alleInntektsmeldingstypeNavn = inntektsmeldingSakstyper.map(({ navn }) => navn);
 
-    const inntektsmeldingAlleValgtAvBruker = filter.sakstyper.includes('INNTEKTSMELDING_GRUPPE');
+    const inntektsmeldingAlleValgtAvBruker = filter.sakstyper.includes('Inntektsmelding_gruppe');
     const andreInntektsmeldingerValgt = filter.sakstyper.some(
-        (sakstype) => sakstype.includes('Inntektsmelding') && sakstype !== 'INNTEKTSMELDING_GRUPPE'
+        (sakstype) => sakstype.includes('Inntektsmelding') && sakstype !== 'Inntektsmelding_gruppe'
     );
 
     let [valgteInntektsmeldingtyper, andreSakstyper] = splittListe(filter.sakstyper, (navn) =>
@@ -124,27 +124,27 @@ const InntektsmeldingGruppe = (
     );
 
     if (inntektsmeldingAlleValgtAvBruker) {
-        valgteInntektsmeldingtyper = ['INNTEKTSMELDING_GRUPPE'];
+        valgteInntektsmeldingtyper = ['Inntektsmelding_gruppe'];
     } else if (andreInntektsmeldingerValgt) {
-        valgteInntektsmeldingtyper = [...valgteInntektsmeldingtyper, 'INNTEKTSMELDING_GRUPPE'];
+        valgteInntektsmeldingtyper = [...valgteInntektsmeldingtyper, 'Inntektsmelding_gruppe'];
     }
 
     const handleChange = (valgteInntektsmeldingSakstyper: string[]) => {
-        if (!valgteInntektsmeldingSakstyper.includes('INNTEKTSMELDING_GRUPPE')) {
-            //Bruker velger bort INNTEKTSMELDING_GRUPPE
+        if (!valgteInntektsmeldingSakstyper.includes('Inntektsmelding_gruppe')) {
+            //Bruker velger bort Inntektsmelding_gruppe
             setFilter({ ...filter, sakstyper: andreSakstyper });
             return;
         }
         if (
             valgteInntektsmeldingSakstyper.length === 1 &&
-            valgteInntektsmeldingSakstyper.includes('INNTEKTSMELDING_GRUPPE')
+            valgteInntektsmeldingSakstyper.includes('Inntektsmelding_gruppe')
         ) {
             setFilter({
                 ...filter,
                 sakstyper: [
                     ...andreSakstyper,
                     ...alleInntektsmeldingstypeNavn,
-                    'INNTEKTSMELDING_GRUPPE',
+                    'Inntektsmelding_gruppe',
                 ],
             });
             return;
@@ -155,7 +155,7 @@ const InntektsmeldingGruppe = (
             sakstyper: [
                 ...andreSakstyper,
                 ...valgteInntektsmeldingSakstyper.filter(
-                    (navn) => navn !== 'INNTEKTSMELDING_GRUPPE'
+                    (navn) => navn !== 'Inntektsmelding_gruppe'
                 ),
             ],
         });
@@ -169,10 +169,10 @@ const InntektsmeldingGruppe = (
             onChange={(valgte) => handleChange(valgte)}
         >
             <Checkbox
-                key="INNTEKTSMELDING_GRUPPE"
-                value="INNTEKTSMELDING_GRUPPE"
+                key="Inntektsmelding_gruppe"
+                value="Inntektsmelding_gruppe"
                 onClick={(e) =>
-                    amplitudeFilterKlikk('sakstype', 'INNTEKTSMELDING_GRUPPE', e.target)
+                    amplitudeFilterKlikk('sakstype', 'Inntektsmelding_gruppe', e.target)
                 }
             >
                 <BodyShort>
@@ -237,7 +237,7 @@ export const Saksfilter = ({
     const sakstyper = [
         ...sakstyperUtenInntektsmelding,
         {
-            navn: 'INNTEKTSMELDING_GRUPPE',
+            navn: 'Inntektsmelding_gruppe',
             antall: inntektsmeldingSakstyper.reduce((acc, { antall }) => acc + (antall ?? 0), 0),
         },
     ];
@@ -278,7 +278,7 @@ export const Saksfilter = ({
                         }}
                     >
                         {sorted(sakstyper, (sakstype) => sakstype.navn).map(({ navn, antall }) => {
-                            if (navn === 'INNTEKTSMELDING_GRUPPE') {
+                            if (navn === 'Inntektsmelding_gruppe') {
                                 return InntektsmeldingGruppe(
                                     antall,
                                     inntektsmeldingSakstyper,
