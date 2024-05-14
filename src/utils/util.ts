@@ -17,3 +17,14 @@ export const sorted = <T extends any>(array: T[], on: (e: T) => string): T[] =>
     [...array].sort((a, b) => on(a).localeCompare(on(b)));
 
 export const erDriftsforstyrrelse = (httpStatus: number) => [502, 503, 504].includes(httpStatus);
+
+export const splittListe = <T extends any>(liste: T[], filter: (e: T) => boolean): T[][] => {
+    const selected = liste.filter(filter);
+    const rejected = liste.filter((e) => !filter(e));
+    return [selected, rejected];
+};
+
+export const capitalize = (s: string): string => {
+    const [forbokstav, ...resten] = s;
+    return [forbokstav.toUpperCase(), ...resten].join('');
+};
