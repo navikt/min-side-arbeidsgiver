@@ -12,7 +12,7 @@ import {
     Sakstype,
     SakstypeOverordnet,
 } from '../../../api/graphql-types';
-import { sorted } from '../../../utils/util';
+import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
@@ -112,40 +112,77 @@ const InntektsmeldingGruppe = (
     filter: Filter,
     setFilter: (filter: Filter) => void
 ) => {
-    const valgte = filter.sakstyper.filter((sakstype) => sakstype.includes('Inntektsmelding'));
-    const andreSakstyper = filter.sakstyper.filter(
-        (sakstype) => !sakstype.includes('Inntektsmelding')
+    const alleInntektsmeldingstypeNavn = inntektsmeldingSakstyper.map(({ navn }) => navn);
+
+    const inntektsmeldingAlleValgtAvBruker = filter.sakstyper.includes('INNTEKTSMELDING_GRUPPE');
+    const andreInntektsmeldingerValgt = filter.sakstyper.some(
+        (sakstype) => sakstype.includes('Inntektsmelding') && sakstype !== 'INNTEKTSMELDING_GRUPPE'
     );
 
+    let [valgteInntektsmeldingtyper, andreSakstyper] = splittListe(filter.sakstyper, (navn) =>
+        navn.includes('Inntektsmelding')
+    );
+
+    if (inntektsmeldingAlleValgtAvBruker) {
+        valgteInntektsmeldingtyper = ['INNTEKTSMELDING_GRUPPE'];
+    } else if (andreInntektsmeldingerValgt) {
+        valgteInntektsmeldingtyper = [...valgteInntektsmeldingtyper, 'INNTEKTSMELDING_GRUPPE'];
+    }
+
     const handleChange = (valgteInntektsmeldingSakstyper: string[]) => {
-        if (!valgteInntektsmeldingSakstyper.includes('Inntektsmelding alle')) {
+        if (!valgteInntektsmeldingSakstyper.includes('INNTEKTSMELDING_GRUPPE')) {
+            //Bruker velger bort INNTEKTSMELDING_GRUPPE
             setFilter({ ...filter, sakstyper: andreSakstyper });
             return;
         }
-        setFilter({ ...filter, sakstyper: [...andreSakstyper, ...valgteInntektsmeldingSakstyper] });
+        if (
+            valgteInntektsmeldingSakstyper.length === 1 &&
+            valgteInntektsmeldingSakstyper.includes('INNTEKTSMELDING_GRUPPE')
+        ) {
+            setFilter({
+                ...filter,
+                sakstyper: [
+                    ...andreSakstyper,
+                    ...alleInntektsmeldingstypeNavn,
+                    'INNTEKTSMELDING_GRUPPE',
+                ],
+            });
+            return;
+        }
+
+        setFilter({
+            ...filter,
+            sakstyper: [
+                ...andreSakstyper,
+                ...valgteInntektsmeldingSakstyper.filter(
+                    (navn) => navn !== 'INNTEKTSMELDING_GRUPPE'
+                ),
+            ],
+        });
     };
 
     return (
         <CheckboxGroup
             legend={null}
             hideLegend
-            value={valgte}
+            value={valgteInntektsmeldingtyper}
             onChange={(valgte) => handleChange(valgte)}
         >
             <Checkbox
-                key="Inntektsmelding alle"
-                value="Inntektsmelding alle"
-                onClick={(e) => amplitudeFilterKlikk('sakstype', 'Inntektsmelding alle', e.target)}
+                key="INNTEKTSMELDING_GRUPPE"
+                value="INNTEKTSMELDING_GRUPPE"
+                onClick={(e) =>
+                    amplitudeFilterKlikk('sakstype', 'INNTEKTSMELDING_GRUPPE', e.target)
+                }
             >
                 <BodyShort>
                     {antall === undefined ? 'Inntektsmelding' : `Inntektsmelding (${antall})`}
                 </BodyShort>
             </Checkbox>
-            {valgte.length < 1
+            {valgteInntektsmeldingtyper.length < 1
                 ? null
                 : sorted(inntektsmeldingSakstyper, ({ navn }) => navn).map(({ navn, antall }) => {
-                      const [forbokstav, ...resten] = navn.replace('Inntektsmelding ', '');
-                      const visningsNavn = [forbokstav.toUpperCase(), ...resten].join('');
+                      const visningsNavn = capitalize(navn.replace('Inntektsmelding ', ''));
                       return (
                           <Checkbox
                               className={'inntektsmelding-sakstype'}
@@ -200,7 +237,7 @@ export const Saksfilter = ({
     const sakstyper = [
         ...sakstyperUtenInntektsmelding,
         {
-            navn: 'Inntektsmelding alle',
+            navn: 'INNTEKTSMELDING_GRUPPE',
             antall: inntektsmeldingSakstyper.reduce((acc, { antall }) => acc + (antall ?? 0), 0),
         },
     ];
@@ -241,7 +278,7 @@ export const Saksfilter = ({
                         }}
                     >
                         {sorted(sakstyper, (sakstype) => sakstype.navn).map(({ navn, antall }) => {
-                            if (navn === 'Inntektsmelding alle') {
+                            if (navn === 'INNTEKTSMELDING_GRUPPE') {
                                 return InntektsmeldingGruppe(
                                     antall,
                                     inntektsmeldingSakstyper,
