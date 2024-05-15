@@ -68,21 +68,27 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
                 {`Tekstsøk: «${tekstsoek}»`}
             </Chips.Removable>
         ) : null,
-        ...sakstyper.map((sakstype) => (
-            <Chips.Removable
-                variant="neutral"
-                key={sakstype}
-                onClick={() => {
-                    byttFilter({
-                        ...state.filter,
-                        sakstyper: state.filter.sakstyper.filter((it) => it !== sakstype),
-                    });
-                    amplitudeChipClick('sakstype', sakstype);
-                }}
-            >
-                {sakstype}
-            </Chips.Removable>
-        )),
+        ...sakstyper.map((sakstype) =>
+            sakstype === 'Inntektsmelding_gruppe' ? null : (
+                <Chips.Removable
+                    variant="neutral"
+                    key={sakstype}
+                    onClick={() => {
+                        const erInntektsmelding = sakstype.includes('Inntektsmelding');
+                        const nySakstyper = erInntektsmelding
+                            ? sakstyper.filter((it) => it !== 'Inntektsmelding_gruppe')
+                            : sakstyper;
+                        byttFilter({
+                            ...state.filter,
+                            sakstyper: nySakstyper.filter((it) => it !== sakstype),
+                        });
+                        amplitudeChipClick('sakstype', sakstype);
+                    }}
+                >
+                    {sakstype}
+                </Chips.Removable>
+            )
+        ),
         ...oppgaveTilstand.map((oppgavetilstand) => (
             <Chips.Removable
                 variant="neutral"
