@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { arbeidsplassenURL } from '../../../../lenker';
 import PamboksIkon from './arbeidsplassen-ikon.svg';
 import './Arbeidsplassen.css';
-import { Tjenesteboks } from '../Tjenesteboks';
+import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useContext } from 'react';
@@ -29,7 +29,7 @@ const Arbeidsplassen = () => {
                 <div className={'pamboks__bunntekst'}>
                     <span>
                         {' '}
-                        <span className={'pamboks__antall'}>{antallAnnonser}</span>
+                        <StortTall>{antallAnnonser}</StortTall>
                         {antallAnnonser > 1
                             ? 'stillingsannonser (aktive)'
                             : 'stillingsannonse (aktiv)'}

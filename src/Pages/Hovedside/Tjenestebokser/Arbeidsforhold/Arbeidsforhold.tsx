@@ -3,7 +3,7 @@ import { innsynAaregURL } from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforhold-ikon.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
-import { Tjenesteboks } from '../Tjenesteboks';
+import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Arbeidsforhold = () => {
@@ -21,15 +21,13 @@ const Arbeidsforhold = () => {
             tittel="Arbeidsforhold"
             aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
         >
-            <div className="arbeidsforholdboks">
+            <div>
                 <span>
                     {' '}
-                    <span className="antall-arbeidsforhold">
-                        {antallArbeidsforhold > 0 ? antallArbeidsforhold : '-'}
-                    </span>
+                    <StortTall>{antallArbeidsforhold > 0 ? antallArbeidsforhold : '-'}</StortTall>
                     arbeidsforhold (aktive og avsluttede){' '}
                 </span>
-                <div className="bunntekst">
+                <div className="arbeidsforholdboks_bunntekst">
                     {' '}
                     innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
                 </div>
