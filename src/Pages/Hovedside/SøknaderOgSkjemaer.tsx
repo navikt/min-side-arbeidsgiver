@@ -50,7 +50,7 @@ export const SøknaderOgSkjemaer = () => {
 
             <ul>
                 {lenke(
-                    'Fritak fra arbeidsgiverperioden - gravid ansatt',
+                    'Søknad om fritak fra arbeidsgiverperioden - gravid ansatt',
                     gittMiljo({
                         prod: 'https://arbeidsgiver.nav.no/fritak-agp/nb/gravid/soknad',
                         other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/gravid/soknad',
@@ -58,7 +58,7 @@ export const SøknaderOgSkjemaer = () => {
                 )}
 
                 {lenke(
-                    'Fritak fra arbeidsgiverperioden - kronisk sykdom',
+                    'Søknad om fritak fra arbeidsgiverperioden - kronisk sykdom',
                     gittMiljo({
                         prod: 'https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/soknad',
                         other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/soknad',
@@ -68,7 +68,7 @@ export const SøknaderOgSkjemaer = () => {
                 {tilgangInntektsmelding === true ? (
                     <>
                         {lenke(
-                            'Refusjon av sykepenger i arbeidsgiverperioden - gravid ansatt',
+                            'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
                             gittMiljo({
                                 prod: 'https://arbeidsgiver.nav.no/fritak-agp/nb/gravid/krav',
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/gravid/krav',
@@ -76,7 +76,7 @@ export const SøknaderOgSkjemaer = () => {
                         )}
 
                         {lenke(
-                            'Refusjon av sykepenger i arbeidsgiverperioden - kronisk sykdom',
+                            'Refusjonskrav sykepenger i arbeidsgiverperioden - kronisk sykdom',
                             gittMiljo({
                                 prod: 'https://arbeidsgiver.nav.no/fritak-agp/nb/kronisk/krav',
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/krav',
