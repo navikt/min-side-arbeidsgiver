@@ -15,7 +15,7 @@ export const Tjenesteboks: FC<PropsWithChildren<Props>> = (props) => {
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
             komponent: 'Tjenesteboks',
-            tittel: props.tittel,
+            lenketekst: props.tittel,
         });
     }, []);
     return (
