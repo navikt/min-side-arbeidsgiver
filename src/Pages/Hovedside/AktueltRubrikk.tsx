@@ -43,11 +43,11 @@ const Aktuelt = ({ lenke, tittel, visFra, visTil }: AktueltProps) => {
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/no/bedrift/innhold-til-bedrift-forside/nyttig-a-vite/digital-utsending-av-post-til-norske-virksomheter-fra-nav',
-        tittel: 'Digital utsending av post til norske virksomheter fra NAV',
-        visFra: new Date('2024-01-15T00:00:00+02:00'),
-        visTil: new Date('2024-02-15T00:00:00+02:00'),
-        tilgangssjekk: () => true,
+        lenke: 'https://www.nav.no/arbeidsgiver/feriepenger',
+        tittel: 'Refusjon av feriepenger opptjent i fjor kommer i oppgjørsrapport K27 i starten av juni',
+        visFra: new Date('2024-05-23T00:00:00+02:00'),
+        visTil: new Date('2024-06-06T00:00:00+02:00'),
+        tilgangssjekk: (valgtOrganisasjon) => valgtOrganisasjon.altinntilgang.inntektsmelding,
     },
 ];
 
