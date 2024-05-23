@@ -26,7 +26,7 @@ const Hovedside: FunctionComponent = () => {
                 <AdvarselBannerTestversjon />
                 <Alerts />
                 <ManglerKofuviAlert />
-                {/*<ManglerKontonummerAlert /> venter på api hos PO Utbetaling*/}
+                <ManglerKontonummerAlert />
                 <InfoBokser />
                 <AktueltRubrikk />
                 <Artikler />

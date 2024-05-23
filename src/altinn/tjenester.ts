@@ -88,10 +88,9 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
         navn: 'Endre bankkontonummer for refusjoner fra NAV til arbeidsgiver',
         tjenestekode: '2896',
         tjenesteversjon: '87',
-        beOmTilgangBeskrivelse: `
-            TODO: Beskrivelse
-        `,
-        skjemaUrl: 'TODO: beskrivelse',
+        beOmTilgangBeskrivelse: '',
+        skjemaUrl:
+            'https://info.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/bankkontonummer-for-refusjoner-fra-nav-til-arbeidsgiver/',
     },
 };
 
