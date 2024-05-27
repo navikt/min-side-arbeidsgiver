@@ -80,7 +80,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
             org.syfotilgang ? 'syfo-nærmesteleder' : null,
         ]
             .filter((e) => e)
-            .toSorted()
+            .sort()
             .join(' ');
 
         const virksomhetsinfo: any = {
