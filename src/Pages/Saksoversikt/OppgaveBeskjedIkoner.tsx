@@ -60,6 +60,13 @@ export const BeskjedIkon = () => (
     </svg>
 );
 
+export const NesteStegIkon = ({ title }: { title: string }) => (
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <title>{title}</title>
+        <circle cx="13" cy="13" r="9.5" stroke="black" stroke-dasharray="2 2" />
+    </svg>
+);
+
 export const KalenderavtaleIkonBlå = ({ title }: { title: string }) => (
     <svg
         width="24"

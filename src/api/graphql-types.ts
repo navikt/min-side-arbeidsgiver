@@ -50,6 +50,7 @@ export type Kalenderavtale = {
   lokasjon?: Maybe<Lokasjon>;
   merkelapp: Scalars['String'];
   opprettetTidspunkt: Scalars['ISO8601DateTime'];
+  paaminnelseTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   sak?: Maybe<SakMetadata>;
   sluttTidspunkt?: Maybe<Scalars['ISO8601DateTime']>;
   sorteringTidspunkt: Scalars['ISO8601DateTime'];
@@ -208,6 +209,7 @@ export type Sak = {
   id: Scalars['ID'];
   lenke?: Maybe<Scalars['String']>;
   merkelapp: Scalars['String'];
+  nesteSteg?: Maybe<Scalars['String']>;
   oppgaver: Array<OppgaveMetadata>;
   sisteStatus: SakStatus;
   tidslinje: Array<TidslinjeElement>;

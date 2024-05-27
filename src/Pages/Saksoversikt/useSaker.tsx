@@ -45,6 +45,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                     tekst
                     tidspunkt
                 }
+                nesteSteg
                 tidslinje {
                     __typename
                     ... on OppgaveTidslinjeElement {
