@@ -15,6 +15,7 @@
     line-height: 2.5rem;
     font-weight: 500;
     margin-right: 0.5rem;
+    justify-self: flex-end;
 }
 
 .tjenesteboks-container .tjenesteboks .tjenesteboks-innhold {

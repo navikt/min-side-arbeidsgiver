@@ -1,7 +1,6 @@
 import { lenkeTilForebyggefravar } from '../../../../lenker';
 import React, { useContext } from 'react';
 import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
-import './ForebyggeFravær.css';
 import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
