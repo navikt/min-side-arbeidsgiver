@@ -33,6 +33,7 @@ const HENT_SAK_ID: TypedDocumentNode<SakQueryResponse> = gql`
                 sisteStatus {
                     tidspunkt
                 }
+                nesteSteg
                 tidslinje {
                     ... on OppgaveTidslinjeElement {
                         id
@@ -85,6 +86,7 @@ const HENT_SAK_GRUPPERINGSID: TypedDocumentNode<SakQueryResponse> = gql`
                 sisteStatus {
                     tidspunkt
                 }
+                nesteSteg
                 tidslinje {
                     ... on OppgaveTidslinjeElement {
                         id
