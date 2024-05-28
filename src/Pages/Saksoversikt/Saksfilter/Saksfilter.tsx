@@ -219,7 +219,8 @@ export const Saksfilter = ({
     useEffect(() => {
         if (saksfilteRef.current === null) return;
         saksfilteRef.current.scrollIntoView();
-    }, [filter]);
+        console.log(saksfilteRef.current.scrollHeight);
+    }, [saksfilteRef.current?.scrollHeight]);
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
