@@ -9,9 +9,6 @@ import {
     NyOppgaveIkon,
     OppgaveUtfortIkon,
     TidslinjeLinjeIkon,
-    TidslinjeLinjeIkonKort,
-    TidslinjeLinjeIkonLang,
-    TidslinjeLinjeIkonStriplet,
 } from './OppgaveBeskjedIkoner';
 import {
     BeskjedTidslinjeElement,
@@ -131,7 +128,7 @@ const NesteSteg = ({ nesteStegTekst, tidslinjeLengde, apen }: NesteStegProps) =>
                 <NesteStegIkon title="Neste steg" />
             </div>
             <div style={{ gridArea: 'linje', marginLeft: '1px' }}>
-                {apen && tidslinjeLengde > 0 ? <TidslinjeLinjeIkonKort /> : null}
+                {apen && tidslinjeLengde > 0 ? <TidslinjeLinjeIkon stiplet height={24} /> : null}
             </div>
             <BodyShort style={{ gridArea: 'tittel' }}>{nesteStegTekst}</BodyShort>
         </div>
@@ -204,7 +201,7 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div className="tidslinje-linje">
-                {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkonKort />}
+                {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkon height={24} />}
             </div>
         </div>
     );
@@ -236,9 +233,9 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 {erSist || !tidslinjeOpen ? null : tilstand === OppgaveTilstand.Ny &&
                   frist === null &&
                   paaminnelseTidspunkt === null ? (
-                    <TidslinjeLinjeIkonKort />
+                    <TidslinjeLinjeIkon height={24} />
                 ) : (
-                    <TidslinjeLinjeIkon />
+                    <TidslinjeLinjeIkon height={32} />
                 )}
             </div>
         </div>
@@ -293,9 +290,9 @@ const KalenderavtaleElement = ({
             </div>
             <div className="tidslinje-linje">
                 {erSist || !tidslinjeOpen ? null : harPassert ? (
-                    <TidslinjeLinjeIkonLang />
+                    <TidslinjeLinjeIkon height={77} />
                 ) : (
-                    <TidslinjeLinjeIkonStriplet />
+                    <TidslinjeLinjeIkon stiplet height={77} />
                 )}
             </div>
         </div>
