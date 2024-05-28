@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useRef, useState } from 'react';
 import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
@@ -214,6 +214,13 @@ export const Saksfilter = ({
     const [width, setWidth] = useState(window.innerWidth);
     const { organisasjonstre } = useContext(OrganisasjonerOgTilgangerContext);
 
+    const saksfilteRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (saksfilteRef.current === null) return;
+        saksfilteRef.current.scrollIntoView();
+    }, [filter]);
+
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
         window.addEventListener('resize', setSize);
@@ -244,7 +251,7 @@ export const Saksfilter = ({
 
     return (
         <KollapsHvisMobil width={width}>
-            <div className="saksfilter">
+            <div ref={saksfilteRef} className="saksfilter">
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saksfilter
                 </Heading>
