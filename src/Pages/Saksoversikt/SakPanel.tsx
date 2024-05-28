@@ -5,6 +5,7 @@ import {
     BeskjedIkon,
     KalenderavtaleIkonBlå,
     KalenderavtaleIkonGrå,
+    NesteStegIkon,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
     TidslinjeLinjeIkon,
@@ -44,13 +45,13 @@ export const SakPanel = ({
     placeholder,
     tvingEkspander = false,
     lenkeTilSak = true,
-    sak: { id, lenke, tittel, merkelapp, virksomhet, sisteStatus, tidslinje },
+    sak: { id, lenke, tittel, merkelapp, virksomhet, sisteStatus, tidslinje, nesteSteg },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
     const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
-
+    const nesteStegTekst = nesteSteg ?? undefined;
     return (
         <div className="sakscontainer">
             <BodyShort size="small" style={style}>
@@ -78,6 +79,13 @@ export const SakPanel = ({
                 ) : null}
             </div>
             <div>
+                {nesteStegTekst !== undefined && (
+                    <NesteSteg
+                        nesteStegTekst={nesteStegTekst}
+                        apen={tidslinjeOpen}
+                        tidslinjeLengde={tidslinje.length}
+                    />
+                )}
                 {tidslinje.map((tidslinjeelement, i) => (
                     <Tidslinjeelement
                         key={tidslinjeelement.id}
@@ -86,6 +94,7 @@ export const SakPanel = ({
                         apen={tidslinjeOpen}
                         antall={tidslinje.length}
                         tidslinjeOpen={tidslinjeOpen}
+                        nesteSteg={nesteStegTekst}
                     />
                 ))}
             </div>
@@ -109,12 +118,33 @@ export const SakPanel = ({
     );
 };
 
+type NesteStegProps = {
+    nesteStegTekst?: string;
+    tidslinjeLengde: number;
+    apen: boolean;
+};
+
+const NesteSteg = ({ nesteStegTekst, tidslinjeLengde, apen }: NesteStegProps) => {
+    return (
+        <div className="neste_steg">
+            <div style={{ gridArea: 'ikon' }}>
+                <NesteStegIkon title="Neste steg" />
+            </div>
+            <div style={{ gridArea: 'linje', marginLeft: '1px' }}>
+                {apen && tidslinjeLengde > 0 ? <TidslinjeLinjeIkonKort /> : null}
+            </div>
+            <BodyShort style={{ gridArea: 'tittel' }}>{nesteStegTekst}</BodyShort>
+        </div>
+    );
+};
+
 type TidslinjeelementHelperProps = {
     tidslinjeelement: TidslinjeElement;
     indeks: number;
     apen: boolean;
     antall: number;
     tidslinjeOpen: boolean;
+    nesteSteg?: string;
 };
 
 type TidslinjeelementProps = {
@@ -129,8 +159,9 @@ const Tidslinjeelement = ({
     apen,
     antall,
     tidslinjeOpen,
+    nesteSteg,
 }: TidslinjeelementHelperProps) => {
-    if (!apen && indeks > 0) return null;
+    if (!apen && (indeks > 0 || nesteSteg !== undefined)) return null;
     if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
         return (
             <BeskjedElement
