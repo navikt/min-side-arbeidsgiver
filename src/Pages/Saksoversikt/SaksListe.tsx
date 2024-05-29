@@ -1,21 +1,25 @@
 import { SakPanel } from './SakPanel';
 import './SaksListe.css';
 import { Sak } from '../../api/graphql-types';
-import { useEffect } from 'react';
+import { RefObject, useEffect } from 'react';
 
 type Props = {
     saker: Array<Sak>;
     placeholder?: boolean;
-    pos?: number;
+    stuck?: boolean;
+    saksoversiktRef?: RefObject<HTMLDivElement>;
 };
 
-export const SaksListe = ({ saker, placeholder, pos }: Props) => {
+export const SaksListe = ({ saker, placeholder, stuck, saksoversiktRef }: Props) => {
     useEffect(() => {
-        if (pos !== undefined && pos > 0) scroll(0, pos);
-    }, [saker]);
+        if (stuck !== true) return;
+        if (saksoversiktRef === undefined || saksoversiktRef.current === null) return;
+        saksoversiktRef.current.scrollIntoView();
+    }, [saker, saksoversiktRef?.current]);
+
     return (
         <ul className="saks-liste">
-            {saker.map((sak) => (
+            {saker.map((sak, index) => (
                 <li key={sak.id}>
                     <SakPanel sak={sak} placeholder={placeholder} />
                 </li>
