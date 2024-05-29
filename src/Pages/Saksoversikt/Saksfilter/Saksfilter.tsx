@@ -214,14 +214,6 @@ export const Saksfilter = ({
     const [width, setWidth] = useState(window.innerWidth);
     const { organisasjonstre } = useContext(OrganisasjonerOgTilgangerContext);
 
-    const saksfilteRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        if (saksfilteRef.current === null) return;
-        saksfilteRef.current.scrollIntoView();
-        console.log(saksfilteRef.current.scrollHeight);
-    }, [saksfilteRef.current?.scrollHeight]);
-
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
         window.addEventListener('resize', setSize);
@@ -252,7 +244,7 @@ export const Saksfilter = ({
 
     return (
         <KollapsHvisMobil width={width}>
-            <div ref={saksfilteRef} className="saksfilter">
+            <div className="saksfilter">
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saksfilter
                 </Heading>
