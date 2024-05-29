@@ -91,7 +91,6 @@ export const SakPanel = ({
                         apen={tidslinjeOpen}
                         antall={tidslinje.length}
                         tidslinjeOpen={tidslinjeOpen}
-                        nesteSteg={nesteStegTekst}
                     />
                 ))}
             </div>
@@ -128,7 +127,7 @@ const NesteSteg = ({ nesteStegTekst, tidslinjeLengde, apen }: NesteStegProps) =>
                 <NesteStegIkon title="Neste steg" />
             </div>
             <div style={{ gridArea: 'linje', marginLeft: '1px' }}>
-                {apen && tidslinjeLengde > 0 ? <TidslinjeLinjeIkon stiplet height={24} /> : null}
+                {tidslinjeLengde > 0 ? <TidslinjeLinjeIkon stiplet height={24} /> : null}
             </div>
             <BodyShort style={{ gridArea: 'tittel' }}>{nesteStegTekst}</BodyShort>
         </div>
@@ -156,9 +155,8 @@ const Tidslinjeelement = ({
     apen,
     antall,
     tidslinjeOpen,
-    nesteSteg,
 }: TidslinjeelementHelperProps) => {
-    if (!apen && (indeks > 0 || nesteSteg !== undefined)) return null;
+    if (!apen && indeks > 0) return null;
     if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
         return (
             <BeskjedElement
