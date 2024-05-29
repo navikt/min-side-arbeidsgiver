@@ -51,6 +51,17 @@ ul.saks-liste .sakscontainer .sakstittel {
   font-weight: 700;
 }
 
+.sakscontainer .neste_steg {
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+  "ikon tittel"
+  "linje tittel"
+  "linje none";
+  column-gap: 8px;
+}
+
 .sakscontainer .tidslinje-element {
   display: grid;
   grid-template-columns: 24px auto;

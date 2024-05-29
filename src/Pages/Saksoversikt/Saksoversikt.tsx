@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, RefObject, useContext, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
@@ -56,19 +56,21 @@ export const Saksoversikt = () => {
         : [];
 
     const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
-
+    const [stuck, setStuck] = useState(false);
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
     };
 
     const alleSakstyper = useAlleSakstyper();
 
+    const saksoversiktRef = useRef<HTMLDivElement>(null);
     const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
+                setStuck(entry.intersectionRatio < 1);
             },
             { threshold: [1] }
         );
@@ -93,7 +95,7 @@ export const Saksoversikt = () => {
                 valgteVirksomheter={state.filter.virksomheter}
                 setValgteVirksomheter={handleValgteVirksomheter}
             />
-            <div className="saksoversikt">
+            <div className="saksoversikt" ref={saksoversiktRef}>
                 <AdvarselBannerTestversjon />
                 <Alerts />
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
@@ -114,7 +116,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
-                <SaksListeBody state={state} />
+                <SaksListeBody state={state} stuck={stuck} saksoversiktRef={saksoversiktRef} />
                 <HvaVisesHer />
             </div>
         </div>
@@ -238,9 +240,11 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
 
 type SaksListeBodyProps = {
     state: State;
+    stuck: boolean;
+    saksoversiktRef: RefObject<HTMLDivElement>;
 };
 
-const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
+const SaksListeBody: FC<SaksListeBodyProps> = ({ state, stuck, saksoversiktRef }) => {
     if (state.state === 'error') {
         return (
             <Label aria-live="polite" aria-atomic="true">
@@ -263,7 +267,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
         );
     }
 
-    return <SaksListe saker={saker} />;
+    return <SaksListe saker={saker} stuck={stuck} saksoversiktRef={saksoversiktRef} />;
 };
 
 type LasterProps = {

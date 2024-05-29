@@ -16,12 +16,6 @@
     }
 }
 
-.tiltakboks .tekstMedTallContainer .antall {
-    font-size: 2rem;
-    line-height: 2.5rem;
-    font-weight: 500;
-    margin-right: 0.5rem;
-}
 
 .tiltakboks .avsnitt {
     margin-bottom: 1rem;
@@ -31,6 +25,3 @@
     margin-right: 2rem;
 }
 
-.tiltakboks .antall {
-    justify-self: right;
-}

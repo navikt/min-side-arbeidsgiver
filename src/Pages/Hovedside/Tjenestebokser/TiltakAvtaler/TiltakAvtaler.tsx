@@ -4,7 +4,7 @@ import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvi
 import './TiltakAvtaler.css';
 import tiltakikon from './TiltakAvtaler.svg';
 import { Avtalenavn, useAvtaleoversikt } from './useAvtaleoversikt';
-import { Tjenesteboks } from '../Tjenesteboks';
+import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { BodyShort } from '@navikt/ds-react';
 
 const displayname: Record<Avtalenavn, string> = {
@@ -37,9 +37,7 @@ const TiltakAvtaler = () => {
         const antall = avtaler[avtaletype];
         return antall > 0
             ? [
-                  <div key={`${avtaletype}-tall`} className="antall">
-                      {antall}
-                  </div>,
+                  <StortTall key={`${avtaletype}-tall`}>{antall}</StortTall>,
                   <div key={`${avtaletype}-tekst`} className="tekst">
                       {displayname[avtaletype]}
                   </div>,

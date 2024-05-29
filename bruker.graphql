@@ -81,6 +81,7 @@ type Sak {
     """
     frister: [ISO8601Date]!
     oppgaver: [OppgaveMetadata!]!
+    nesteSteg: String
 
     tidslinje: [TidslinjeElement!]!
 }
@@ -198,6 +199,7 @@ type Kalenderavtale {
     digitalt: Boolean
     opprettetTidspunkt: ISO8601DateTime!
     sorteringTidspunkt: ISO8601DateTime!
+    paaminnelseTidspunkt: ISO8601DateTime
     id: ID!
     virksomhet: Virksomhet!
     sak: SakMetadata

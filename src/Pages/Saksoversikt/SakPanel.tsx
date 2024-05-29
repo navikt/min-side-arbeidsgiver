@@ -5,12 +5,10 @@ import {
     BeskjedIkon,
     KalenderavtaleIkonBlå,
     KalenderavtaleIkonGrå,
+    NesteStegIkon,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
     TidslinjeLinjeIkon,
-    TidslinjeLinjeIkonKort,
-    TidslinjeLinjeIkonLang,
-    TidslinjeLinjeIkonStriplet,
 } from './OppgaveBeskjedIkoner';
 import {
     BeskjedTidslinjeElement,
@@ -44,13 +42,13 @@ export const SakPanel = ({
     placeholder,
     tvingEkspander = false,
     lenkeTilSak = true,
-    sak: { id, lenke, tittel, merkelapp, virksomhet, sisteStatus, tidslinje },
+    sak: { id, lenke, tittel, merkelapp, virksomhet, sisteStatus, tidslinje, nesteSteg },
 }: SakPanelProps) => {
     const fake = placeholder ?? false;
     const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
 
     const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
-
+    const nesteStegTekst = nesteSteg ?? undefined;
     return (
         <div className="sakscontainer">
             <BodyShort size="small" style={style}>
@@ -78,6 +76,13 @@ export const SakPanel = ({
                 ) : null}
             </div>
             <div>
+                {nesteStegTekst !== undefined && (
+                    <NesteSteg
+                        nesteStegTekst={nesteStegTekst}
+                        apen={tidslinjeOpen}
+                        tidslinjeLengde={tidslinje.length}
+                    />
+                )}
                 {tidslinje.map((tidslinjeelement, i) => (
                     <Tidslinjeelement
                         key={tidslinjeelement.id}
@@ -109,12 +114,33 @@ export const SakPanel = ({
     );
 };
 
+type NesteStegProps = {
+    nesteStegTekst?: string;
+    tidslinjeLengde: number;
+    apen: boolean;
+};
+
+const NesteSteg = ({ nesteStegTekst, tidslinjeLengde, apen }: NesteStegProps) => {
+    return (
+        <div className="neste_steg">
+            <div style={{ gridArea: 'ikon' }}>
+                <NesteStegIkon title="Neste steg" />
+            </div>
+            <div style={{ gridArea: 'linje', marginLeft: '1px' }}>
+                {tidslinjeLengde > 0 ? <TidslinjeLinjeIkon stiplet height={24} /> : null}
+            </div>
+            <BodyShort style={{ gridArea: 'tittel' }}>{nesteStegTekst}</BodyShort>
+        </div>
+    );
+};
+
 type TidslinjeelementHelperProps = {
     tidslinjeelement: TidslinjeElement;
     indeks: number;
     apen: boolean;
     antall: number;
     tidslinjeOpen: boolean;
+    nesteSteg?: string;
 };
 
 type TidslinjeelementProps = {
@@ -173,7 +199,7 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div className="tidslinje-linje">
-                {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkonKort />}
+                {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkon height={24} />}
             </div>
         </div>
     );
@@ -205,9 +231,9 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 {erSist || !tidslinjeOpen ? null : tilstand === OppgaveTilstand.Ny &&
                   frist === null &&
                   paaminnelseTidspunkt === null ? (
-                    <TidslinjeLinjeIkonKort />
+                    <TidslinjeLinjeIkon height={24} />
                 ) : (
-                    <TidslinjeLinjeIkon />
+                    <TidslinjeLinjeIkon height={32} />
                 )}
             </div>
         </div>
@@ -262,9 +288,9 @@ const KalenderavtaleElement = ({
             </div>
             <div className="tidslinje-linje">
                 {erSist || !tidslinjeOpen ? null : harPassert ? (
-                    <TidslinjeLinjeIkonLang />
+                    <TidslinjeLinjeIkon height={77} />
                 ) : (
-                    <TidslinjeLinjeIkonStriplet />
+                    <TidslinjeLinjeIkon stiplet height={77} />
                 )}
             </div>
         </div>
