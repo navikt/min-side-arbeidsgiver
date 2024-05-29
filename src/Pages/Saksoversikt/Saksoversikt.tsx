@@ -56,6 +56,8 @@ export const Saksoversikt = () => {
         : [];
 
     const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
+    const [erStuck, setErStuck] = useState(false);
+    const [pos, setPos] = useState(0);
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
@@ -69,6 +71,7 @@ export const Saksoversikt = () => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
+                setErStuck(entry.intersectionRatio < 1);
             },
             { threshold: [1] }
         );
@@ -81,6 +84,13 @@ export const Saksoversikt = () => {
             observer.disconnect();
         };
     }, []);
+
+    useEffect(() => {
+        if (erStuck) {
+            setPos(window.scrollY);
+        }
+        console.log(pos);
+    }, [erStuck]);
 
     return (
         <div className="saksoversikt__innhold">
@@ -114,7 +124,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
-                <SaksListeBody state={state} />
+                <SaksListeBody state={state} pos={pos} />
                 <HvaVisesHer />
             </div>
         </div>
@@ -238,9 +248,10 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
 
 type SaksListeBodyProps = {
     state: State;
+    pos: number;
 };
 
-const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
+const SaksListeBody: FC<SaksListeBodyProps> = ({ state, pos }) => {
     if (state.state === 'error') {
         return (
             <Label aria-live="polite" aria-atomic="true">
@@ -263,7 +274,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state }) => {
         );
     }
 
-    return <SaksListe saker={saker} />;
+    return <SaksListe saker={saker} pos={pos} />;
 };
 
 type LasterProps = {
