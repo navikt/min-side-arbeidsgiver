@@ -1,13 +1,21 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erDriftsforstyrrelse } from '../../utils/util';
+import amplitude from '../../utils/amplitude';
 
 export const ManglerKofuviAlert = () => {
     const varslingStatus = manglerKofuviAlert();
+
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'ManglerKofuviAlert',
+            status: varslingStatus.status,
+        });
+    }, [varslingStatus]);
 
     if (varslingStatus.status !== 'MANGLER_KOFUVI') {
         return null;
