@@ -30,7 +30,7 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-const finnAntallAnsattebøtte = (antall: number | undefined) => {
+export const finnBucketForAntall = (antall: number | undefined) => {
     if (antall === undefined) {
         return undefined;
     }
@@ -91,7 +91,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
 
         if (underenhet !== undefined) {
             virksomhetsinfo.sektor = finnSektorNavn(underenhet);
-            virksomhetsinfo.antallAnsatte = finnAntallAnsattebøtte(underenhet.antallAnsatte);
+            virksomhetsinfo.antallAnsatte = finnBucketForAntall(underenhet.antallAnsatte);
         }
 
         amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);

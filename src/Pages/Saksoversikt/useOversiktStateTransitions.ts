@@ -13,6 +13,7 @@ import {
 } from '../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
+import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
 
 export type Filter = {
     side: number;
@@ -94,6 +95,11 @@ export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) =>
                 side: state.filter.side,
                 tekstsoek: state.filter.tekstsoek.trim() !== '',
                 totaltAntallSaker: data.saker.totaltAntallSaker,
+                totaltAntallSakstyper: state.sakstyper?.length ?? 0,
+                totaltAntallVirksomheter: alleVirksomheter.length,
+                totaltAntallSakerBucket: finnBucketForAntall(data.saker.totaltAntallSaker),
+                totaltAntallSakstyperBucket: finnBucketForAntall(state.sakstyper?.length),
+                totaltAntallVirksomheterBucket: finnBucketForAntall(alleVirksomheter.length),
             });
             dispatch({ action: 'lasting-ferdig', resultat: data.saker });
         }
