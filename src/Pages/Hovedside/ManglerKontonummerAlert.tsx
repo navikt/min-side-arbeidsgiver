@@ -1,15 +1,23 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erDriftsforstyrrelse } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
+import amplitude from '../../utils/amplitude';
 
 export const ManglerKontonummerAlert = () => {
     const kontonummerStatus = manglerKontonummerAlert();
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'ManglerKontonummerAlert',
+            status: kontonummerStatus.status,
+        });
+    }, [kontonummerStatus]);
 
     const kanEndreKontonummer =
         valgtOrganisasjon?.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
