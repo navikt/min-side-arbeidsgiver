@@ -6,6 +6,7 @@ import '@navikt/arbeidsgiver-notifikasjon-widget/lib/esm/index.css';
 import Pages from './Pages/Pages';
 import { injectDecoratorClientSide } from '@navikt/nav-dekoratoren-moduler';
 import { initializeFaro } from '@grafana/faro-web-sdk';
+import { startMSW } from './mocks/msw';
 
 window.localStorage.removeItem('ForebyggeFraværInfoBoksLukket');
 window.localStorage.removeItem('InntektsmeldingUndersøkelse');
@@ -40,14 +41,14 @@ injectDecoratorClientSide({
 });
 
 const root = createRoot(document.getElementById('app')!);
-root.render(
-    gittMiljo({
-        prod: <Pages />,
-        other: (
+if (import.meta.env.MODE === 'demo') {
+    startMSW().then(() =>
+        root.render(
             <React.StrictMode>
-                {' '}
-                <Pages />{' '}
+                <Pages />
             </React.StrictMode>
-        ),
-    })
-);
+        )
+    );
+} else {
+    root.render(<Pages />);
+}

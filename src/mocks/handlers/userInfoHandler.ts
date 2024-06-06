@@ -1,4 +1,5 @@
-import casual from 'casual';
+import { http, HttpResponse } from 'msw';
+import { faker } from '@faker-js/faker';
 
 export const OrganisasjonerResponse = [
     {
@@ -137,32 +138,32 @@ export const OrganisasjonerResponse = [
         Status: 'Active',
     },
 ];
-casual.define('orgnr', () => casual.integer(100000000, 999999999).toString());
+const mockOrgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
-casual.define('underenhet', (parentOrganizationNumber) => ({
-    Name: casual.company_name,
+const mockUnderenhet = (parentOrganizationNumber: string) => ({
+    Name: faker.company.name(),
     Type: 'Business',
-    OrganizationNumber: casual.orgnr,
+    OrganizationNumber: mockOrgnr(),
     ParentOrganizationNumber: parentOrganizationNumber,
     OrganizationForm: 'BEDR',
     Status: 'Active',
-}));
+});
 
-casual.define('hovedenhet', (organizationNumber) => ({
-    Name: casual.company_name,
+const mockHovedenhet = (organizationNumber: string) => ({
+    Name: faker.company.name(),
     Type: 'Enterprise',
     ParentOrganizationNumber: null,
     OrganizationNumber: organizationNumber,
     OrganizationForm: 'AS',
     Status: 'Active',
-}));
+});
 
 const generateUnderenheter = () => {
-    const orgnummer = casual.orgnr;
-    const underenheter = Array(casual.integer(1, 11))
+    const orgnummer = mockOrgnr();
+    const underenheter = Array(faker.number.int({ min: 1, max: 11 }))
         .fill(null)
-        .map(() => casual.underenhet(orgnummer));
-    const hovedenhet = casual.hovedenhet(orgnummer);
+        .map(() => mockUnderenhet(orgnummer));
+    const hovedenhet = mockHovedenhet(orgnummer);
     return [hovedenhet, ...underenheter];
 };
 
@@ -268,135 +269,128 @@ const alleTjenester = [
     },
 ];
 
-export const mock = (app) => {
-    app.use('/min-side-arbeidsgiver/api/userInfo/v1', (req, res) => {
-        if (Math.random() < 0.1) {
-            res.sendStatus(502);
-        } else {
-            res.send({
-                altinnError: Math.random() < 0.1,
-                organisasjoner: [
-                    ...OrganisasjonerResponse,
-                    ...andreOrganisasjoner,
-                    formLøsOrganisasjon,
-                ],
-                tilganger: [
-                    {
-                        id: 'mentortilskudd',
-                        tjenestekode: '5216',
-                        tjenesteversjon: '1',
-                        organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
-                    },
-                    {
-                        id: 'inntektsmelding',
-                        tjenestekode: '4936',
-                        tjenesteversjon: '1',
-                        organisasjoner: ['182345674', '118345674', '999999999', '121488424'],
-                    },
-                    ...alleTjenester
-                        .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
-                        .map((tjeneste) => ({
-                            ...tjeneste,
-                            organisasjoner: OrganisasjonerResponse.map(
-                                ({ OrganizationNumber }) => OrganizationNumber
-                            ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
-                        })),
-                ],
-                digisyfoError: Math.random() < 0.1,
-                digisyfoOrganisasjoner: [
-                    {
-                        organisasjon: {
-                            OrganizationNumber: '999999999',
-                            Name: 'Saltrød og Høneby',
-                            Type: 'Business',
-                            ParentOrganizationNumber: '121488424',
-                            OrganizationForm: 'BEDR',
-                            Status: 'Active',
-                        },
-                        antallSykmeldte: 0,
-                    },
-                    {
-                        organisasjon: {
-                            OrganizationNumber: '121488424',
-                            Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
-                            Type: 'Enterprise',
-                            ParentOrganizationNumber: null,
-                            OrganizationForm: 'AS',
-                            Status: 'Active',
-                        },
-                        antallSykmeldte: 0,
-                    },
-                    {
-                        organisasjon: {
-                            Name: 'BALLSTAD OG HAMARØY',
-                            OrganizationForm: 'AAFY',
-                            OrganizationNumber: '182345674',
-                            ParentOrganizationNumber: '118345674',
-                            Status: 'Active',
-                            Type: 'Business',
-                        },
-                        antallSykmeldte: 4,
-                    },
-                    {
-                        organisasjon: {
-                            Name: 'BALLSTAD OG HORTEN',
-                            Type: 'Enterprise',
-                            ParentOrganizationNumber: null,
-                            OrganizationNumber: '118345674',
-                            OrganizationForm: 'FLI',
-                            Status: 'Active',
-                        },
-                        antallSykmeldte: 0,
-                    },
-                    {
-                        organisasjon: {
-                            Name: 'BareSyfo Virksomhet',
-                            OrganizationForm: 'AAFY',
-                            OrganizationNumber: '121212121',
-                            ParentOrganizationNumber: '111111111',
-                            Status: 'Active',
-                            Type: 'Business',
-                        },
-                        antallSykmeldte: 4,
-                    },
-                    {
-                        organisasjon: {
-                            Name: 'BareSyfo Juridisk',
-                            Type: 'Enterprise',
-                            ParentOrganizationNumber: null,
-                            OrganizationNumber: '111111111',
-                            OrganizationForm: 'FLI',
-                            Status: 'Active',
-                        },
-                        antallSykmeldte: 4,
-                    },
-                ],
-                refusjoner: [
-                    {
-                        virksomhetsnummer: '999999999',
-                        statusoversikt: {
-                            KLAR_FOR_INNSENDING: 3,
-                            FOR_TIDLIG: 1,
-                        },
-                        tilgang: true,
-                    },
-                    {
-                        virksomhetsnummer: '121488424',
-                        statusoversikt: {
-                            KLAR_FOR_INNSENDING: 1,
-                            FOR_TIDLIG: 2,
-                        },
-                        tilgang: true,
-                    },
-                    {
-                        virksomhetsnummer: '182345674',
-                        statusoversikt: {
-                            FOR_TIDLIG: 2,
-                        },
-                        tilgang: true,
-                    },
-                ],
-            });
-        }
+export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
+    if (Math.random() < 0.1) {
+        return new HttpResponse(null, { status: 502 });
+    }
+    return HttpResponse.json({
+        altinnError: Math.random() < 0.1,
+        organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner, formLøsOrganisasjon],
+        tilganger: [
+            {
+                id: 'mentortilskudd',
+                tjenestekode: '5216',
+                tjenesteversjon: '1',
+                organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
+            },
+            {
+                id: 'inntektsmelding',
+                tjenestekode: '4936',
+                tjenesteversjon: '1',
+                organisasjoner: ['182345674', '118345674', '999999999', '121488424'],
+            },
+            ...alleTjenester
+                .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
+                .map((tjeneste) => ({
+                    ...tjeneste,
+                    organisasjoner: OrganisasjonerResponse.map(
+                        ({ OrganizationNumber }) => OrganizationNumber
+                    ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
+                })),
+        ],
+        digisyfoError: Math.random() < 0.1,
+        digisyfoOrganisasjoner: [
+            {
+                organisasjon: {
+                    OrganizationNumber: '999999999',
+                    Name: 'Saltrød og Høneby',
+                    Type: 'Business',
+                    ParentOrganizationNumber: '121488424',
+                    OrganizationForm: 'BEDR',
+                    Status: 'Active',
+                },
+                antallSykmeldte: 0,
+            },
+            {
+                organisasjon: {
+                    OrganizationNumber: '121488424',
+                    Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
+                    Type: 'Enterprise',
+                    ParentOrganizationNumber: null,
+                    OrganizationForm: 'AS',
+                    Status: 'Active',
+                },
+                antallSykmeldte: 0,
+            },
+            {
+                organisasjon: {
+                    Name: 'BALLSTAD OG HAMARØY',
+                    OrganizationForm: 'AAFY',
+                    OrganizationNumber: '182345674',
+                    ParentOrganizationNumber: '118345674',
+                    Status: 'Active',
+                    Type: 'Business',
+                },
+                antallSykmeldte: 4,
+            },
+            {
+                organisasjon: {
+                    Name: 'BALLSTAD OG HORTEN',
+                    Type: 'Enterprise',
+                    ParentOrganizationNumber: null,
+                    OrganizationNumber: '118345674',
+                    OrganizationForm: 'FLI',
+                    Status: 'Active',
+                },
+                antallSykmeldte: 0,
+            },
+            {
+                organisasjon: {
+                    Name: 'BareSyfo Virksomhet',
+                    OrganizationForm: 'AAFY',
+                    OrganizationNumber: '121212121',
+                    ParentOrganizationNumber: '111111111',
+                    Status: 'Active',
+                    Type: 'Business',
+                },
+                antallSykmeldte: 4,
+            },
+            {
+                organisasjon: {
+                    Name: 'BareSyfo Juridisk',
+                    Type: 'Enterprise',
+                    ParentOrganizationNumber: null,
+                    OrganizationNumber: '111111111',
+                    OrganizationForm: 'FLI',
+                    Status: 'Active',
+                },
+                antallSykmeldte: 4,
+            },
+        ],
+        refusjoner: [
+            {
+                virksomhetsnummer: '999999999',
+                statusoversikt: {
+                    KLAR_FOR_INNSENDING: 3,
+                    FOR_TIDLIG: 1,
+                },
+                tilgang: true,
+            },
+            {
+                virksomhetsnummer: '121488424',
+                statusoversikt: {
+                    KLAR_FOR_INNSENDING: 1,
+                    FOR_TIDLIG: 2,
+                },
+                tilgang: true,
+            },
+            {
+                virksomhetsnummer: '182345674',
+                statusoversikt: {
+                    FOR_TIDLIG: 2,
+                },
+                tilgang: true,
+            },
+        ],
     });
-};
+});

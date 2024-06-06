@@ -1,3 +1,5 @@
+import { http, HttpResponse } from 'msw';
+
 const response = [
     {
         hovedenhet: null,
@@ -45,9 +47,6 @@ const response = [
     },
 ];
 
-export const mock = (app) => {
-    app.post('/min-side-arbeidsgiver/api/kontaktinfo/v1', (req, res) => {
-        const randomRespons = response[Math.floor(Math.random() * 5)];
-        return res.send(randomRespons);
-    });
-};
+export const kontaktinfoHandler = http.post('/min-side-arbeidsgiver/api/kontaktinfo/v1', () =>
+    HttpResponse.json(response[Math.floor(Math.random() * 5)])
+);

@@ -13,7 +13,6 @@ import { createLogger, format, transports } from 'winston';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
-import { applyNotifikasjonMockMiddleware } from '@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock';
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -128,9 +127,9 @@ const loggerPlugin = (proxyServer, options) => {
 
 log.info(`Frackend startup: ${JSON.stringify({ NAIS_CLUSTER_NAME, MILJO, GIT_COMMIT })}`);
 
-let BUILD_PATH = path.join(process.cwd(), '../build');
-if (MILJO === 'local') {
-    BUILD_PATH = path.join(process.cwd(), '../');
+let BUILD_PATH = path.join(process.cwd(), '../build/production');
+if (MILJO === 'local' || MILJO === 'demo') {
+    BUILD_PATH = path.join(process.cwd(), '../build/demo');
 }
 
 const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
@@ -190,221 +189,130 @@ const main = async () => {
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
     }
 
-    if (MILJO === 'local' || MILJO === 'demo') {
-        (await import('./mock/innloggetMock.js')).mock(app);
-        (await import('./mock/pamMock.js')).mock(app);
-        (await import('./mock/userInfoMock.js')).mock(app);
-        (await import('./mock/varslingStatusMock.js')).mock(app);
-        (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
-        (await import('./mock/enhetsRegisteretMock.js')).mock(app);
-        (await import('./mock/antallArbeidsforholdMock.js')).mock(app);
-        (await import('./mock/tiltakApiMock.js')).mock(app);
-        (await import('./mock/sykefraværMock.js')).mock(app);
-        (await import('./mock/presenterteKandidaterMock.js')).mock(app);
-        (await import('./mock/storageMock.js')).mock(app);
-        (await import('./mock/kontaktinfoApiMock.js')).mock(app);
-        (await import('./mock/kontonummerStatusMock.js')).mock(app);
-
-        const {
-            applyNotifikasjonMockMiddleware,
-        } = require('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
-
-        // TODO: oppdater mock med nytt skjema ig fjern override her
-        const { gql } = require('apollo-server-express');
-        const data = readFileSync('../bruker.graphql');
-        applyNotifikasjonMockMiddleware(
-            { app, path: '/min-side-arbeidsgiver/notifikasjon-bruker-api' },
-            {
-                typeDefs: gql(data.toString()),
-                mocks: {
-                    KalenderavtalerResultat: () => ({
-                        avtaler: [
-                            {
-                                tekst: 'Dialogmøte Sprø Plekter',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: null,
-                                lokasjon: {
-                                    adresse: 'Thorvald Meyers gate 2B',
-                                    postnummer: '0473',
-                                    poststed: 'Oslo',
-                                },
-                                tilstand: 'ARBEIDSGIVER_VIL_AVLYSE',
-                                digitalt: false,
-                            },
-                            {
-                                tekst: 'Dialogmøte Tastbar Kalender',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: null,
-                                tilstand: 'ARBEIDSGIVER_HAR_GODTATT',
-                                digitalt: true,
-                                fysisk: null,
-                            },
-                            {
-                                tekst: 'Dialogmøte Sjalu Streng',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: '2021-02-04T16:15:00',
-                                tilstand: 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
-                                digitalt: false,
-                                fysisk: {
-                                    adresse: 'Thorvald Meyers gate 2B',
-                                    postnummer: '0473',
-                                    poststed: 'Oslo',
-                                },
-                            },
-                            {
-                                tekst: 'Dialogmøte Myk Penn',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: null,
-                                tilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
-                                fysisk: null,
-                                digitalt: false,
-                            },
-                            {
-                                tekst: 'Dialogmøte Lukket Ballong',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: '2021-02-04T16:15:00',
-                                tilstand: 'AVLYST',
-                                fysisk: null,
-                            },
-                        ],
-                    }),
-                },
-            }
-        );
-        app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
-    } else {
-        app.use(
-            '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
-            tokenXMiddleware({
-                log: log,
-                audience: {
-                    dev: 'dev-fss:arbeidsgiver:tiltak-proxy',
-                    prod: 'prod-fss:arbeidsgiver:tiltak-proxy',
-                }[MILJO],
-            }),
-            createProxyMiddleware({
-                ...proxyOptions,
-                selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
-                on: {
-                    proxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
-                        try {
-                            if (proxyRes.statusCode >= 400) {
-                                log.warn(
-                                    `tiltaksgjennomforing-api feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
-                                );
-                                return JSON.stringify([]);
-                            }
-                            if (proxyRes.headers['content-type'] === 'application/json') {
-                                const data = JSON.parse(responseBuffer.toString('utf8')).map(
-                                    (elem) => ({
-                                        tiltakstype: elem.tiltakstype,
-                                    })
-                                );
-                                return JSON.stringify(data);
-                            }
-                        } catch (error) {
-                            log.error(`tiltaksgjennomforing-api feilet ${error}`);
+    app.use(
+        '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
+        tokenXMiddleware({
+            log: log,
+            audience: {
+                dev: 'dev-fss:arbeidsgiver:tiltak-proxy',
+                prod: 'prod-fss:arbeidsgiver:tiltak-proxy',
+            }[MILJO],
+        }),
+        createProxyMiddleware({
+            ...proxyOptions,
+            selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
+            on: {
+                proxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
+                    try {
+                        if (proxyRes.statusCode >= 400) {
+                            log.warn(
+                                `tiltaksgjennomforing-api feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
+                            );
                             return JSON.stringify([]);
                         }
-                    }),
-                },
-                target: {
-                    dev: 'https://tiltak-proxy.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
-                    prod: 'https://tiltak-proxy.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
-                }[MILJO],
-            })
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/presenterte-kandidater-api',
-            tokenXMiddleware({
-                log: log,
-                audience: {
-                    dev: 'dev-gcp:toi:presenterte-kandidater-api',
-                    prod: 'prod-gcp:toi:presenterte-kandidater-api',
-                }[MILJO],
-            }),
-            createProxyMiddleware({
-                ...proxyOptions,
-                target: 'http://presenterte-kandidater-api.toi',
-            })
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
-            tokenXMiddleware({
-                log: log,
-                audience: {
-                    dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
-                    prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
-                }[MILJO],
-            }),
-            createProxyMiddleware({
-                ...proxyOptions,
-                target: {
-                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
-                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
-                }[MILJO],
-            })
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/stillingsregistrering-api',
-            tokenXMiddleware({
-                log: log,
-                audience: {
-                    dev: 'dev-gcp:teampam:pam-stillingsregistrering-api',
-                    prod: 'prod-gcp:teampam:pam-stillingsregistrering-api',
-                }[MILJO],
-            }),
-            createProxyMiddleware({
-                ...proxyOptions,
-                target: {
-                    dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
-                    prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
-                }[MILJO],
-            })
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/api',
-            tokenXMiddleware({
-                log: log,
-                audience: {
-                    dev: 'dev-gcp:fager:min-side-arbeidsgiver-api',
-                    prod: 'prod-gcp:fager:min-side-arbeidsgiver-api',
-                }[MILJO],
-            }),
-            createProxyMiddleware({
-                ...proxyOptions,
-                target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
-            })
-        );
-
-        app.use(
-            '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-            tokenXMiddleware({
-                log: log,
-                audience: {
-                    dev: 'dev-gcp:fager:notifikasjon-bruker-api',
-                    prod: 'prod-gcp:fager:notifikasjon-bruker-api',
-                }[MILJO],
-            }),
-            createProxyMiddleware({
-                ...proxyOptions,
-                pathRewrite: { '^/': '' },
-                target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
-            })
-        );
-
-        app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
-
-        app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
-            const target = new URL(LOGIN_URL);
-            target.searchParams.set('redirect', req.get('referer'));
-            res.redirect(target.href);
-        });
-    }
+                        if (proxyRes.headers['content-type'] === 'application/json') {
+                            const data = JSON.parse(responseBuffer.toString('utf8')).map(
+                                (elem) => ({
+                                    tiltakstype: elem.tiltakstype,
+                                })
+                            );
+                            return JSON.stringify(data);
+                        }
+                    } catch (error) {
+                        log.error(`tiltaksgjennomforing-api feilet ${error}`);
+                        return JSON.stringify([]);
+                    }
+                }),
+            },
+            target: {
+                dev: 'https://tiltak-proxy.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
+                prod: 'https://tiltak-proxy.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
+            }[MILJO],
+        })
+    );
+    app.use(
+        '/min-side-arbeidsgiver/presenterte-kandidater-api',
+        tokenXMiddleware({
+            log: log,
+            audience: {
+                dev: 'dev-gcp:toi:presenterte-kandidater-api',
+                prod: 'prod-gcp:toi:presenterte-kandidater-api',
+            }[MILJO],
+        }),
+        createProxyMiddleware({
+            ...proxyOptions,
+            target: 'http://presenterte-kandidater-api.toi',
+        })
+    );
+    app.use(
+        '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
+        tokenXMiddleware({
+            log: log,
+            audience: {
+                dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+            }[MILJO],
+        }),
+        createProxyMiddleware({
+            ...proxyOptions,
+            target: {
+                dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
+                prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
+            }[MILJO],
+        })
+    );
+    app.use(
+        '/min-side-arbeidsgiver/stillingsregistrering-api',
+        tokenXMiddleware({
+            log: log,
+            audience: {
+                dev: 'dev-gcp:teampam:pam-stillingsregistrering-api',
+                prod: 'prod-gcp:teampam:pam-stillingsregistrering-api',
+            }[MILJO],
+        }),
+        createProxyMiddleware({
+            ...proxyOptions,
+            target: {
+                dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
+                prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
+            }[MILJO],
+        })
+    );
+    app.use(
+        '/min-side-arbeidsgiver/api',
+        tokenXMiddleware({
+            log: log,
+            audience: {
+                dev: 'dev-gcp:fager:min-side-arbeidsgiver-api',
+                prod: 'prod-gcp:fager:min-side-arbeidsgiver-api',
+            }[MILJO],
+        }),
+        createProxyMiddleware({
+            ...proxyOptions,
+            target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
+        })
+    );
+    app.use(
+        '/min-side-arbeidsgiver/notifikasjon-bruker-api',
+        tokenXMiddleware({
+            log: log,
+            audience: {
+                dev: 'dev-gcp:fager:notifikasjon-bruker-api',
+                prod: 'prod-gcp:fager:notifikasjon-bruker-api',
+            }[MILJO],
+        }),
+        createProxyMiddleware({
+            ...proxyOptions,
+            pathRewrite: { '^/': '' },
+            target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
+        })
+    );
+    app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
+    app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
+        const target = new URL(LOGIN_URL);
+        target.searchParams.set('redirect', req.get('referer'));
+        res.redirect(target.href);
+    });
 
     app.use(
         '/min-side-arbeidsgiver/',
