@@ -19,7 +19,17 @@ type Artikkel = {
     tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) => boolean;
 };
 
-const artikler: Record<string, Artikkel> = {};
+const artikler: Record<string, Artikkel> = {
+    kurs_reddet_kommunen_fra_bemanningskrise: {
+        lenketittel: 'Mangler kommunen din folk med rett kompetanse?\n',
+        lenketekst:
+            'La deg inspirere av Larvik, hvor NAV-kurs reddet kommunen fra bemanningskrise.',
+        tittel: 'NAV-kurs reddet kommunen fra bemanningskrise',
+        objectName: 'kurs_reddet_kommunen_fra_bemanningskrise.html',
+        tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) =>
+            valgtOrganisasjon.organisasjonstypeForØversteLedd === 'KOMM',
+    },
+};
 
 export const Artikler = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);

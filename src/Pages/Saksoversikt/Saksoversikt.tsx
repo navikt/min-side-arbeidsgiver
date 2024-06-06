@@ -23,7 +23,7 @@ export const SIDE_SIZE = 30;
 type SakstypeOverordnetArray = Pick<Query, 'sakstyper'>;
 
 const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
-    query {
+    query Sakstyper {
         sakstyper {
             navn
         }

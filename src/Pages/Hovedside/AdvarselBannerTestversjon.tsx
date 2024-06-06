@@ -1,16 +1,36 @@
 import React from 'react';
-import { Alert, BodyLong, Heading } from '@navikt/ds-react';
+import { Alert, BodyLong, Button, Heading, HStack } from '@navikt/ds-react';
+import { demoProfiler, useDemoprofil } from '../../hooks/useDemoprofil';
 
 const AdvarselBannerTestversjon = () => {
-    if (window.location.hostname.endsWith('.dev.nav.no')) {
+    const { valgtDemoprofil, setDemoprofil } = useDemoprofil();
+
+    console.log({ valgtDemoprofil });
+    if (import.meta.env.MODE === 'demo') {
         return (
             <Alert variant="warning" size="medium" className="advarsel-banner-testversjon">
                 <Heading level="2" spacing size="small">
-                    Dette er en testversjon
+                    Velg testprofil
+                    <HStack gap="1">
+                        {demoProfiler.map(({ profil, navn }) => (
+                            <Button
+                                key={navn}
+                                variant={
+                                    profil === valgtDemoprofil
+                                        ? 'primary-neutral'
+                                        : 'secondary-neutral'
+                                }
+                                size="small"
+                                onClick={() => setDemoprofil(profil)}
+                            >
+                                {navn}
+                            </Button>
+                        ))}
+                    </HStack>
                 </Heading>
                 <BodyLong>
-                    Informasjonen du finner her er ikke ekte. Her kan du bli bedre kjent med Min
-                    side – Arbeidsgiver. Testversjonen kan avvike noe fra den virkelige nettsiden.
+                    Dette er en testversjon som kan avvike noe fra den virkelige nettsiden.
+                    Informasjonen du finner her er ikke ekte.
                 </BodyLong>
             </Alert>
         );
