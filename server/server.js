@@ -189,130 +189,139 @@ const main = async () => {
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
     }
 
-    app.use(
-        '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
-        tokenXMiddleware({
-            log: log,
-            audience: {
-                dev: 'dev-fss:arbeidsgiver:tiltak-proxy',
-                prod: 'prod-fss:arbeidsgiver:tiltak-proxy',
-            }[MILJO],
-        }),
-        createProxyMiddleware({
-            ...proxyOptions,
-            selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
-            on: {
-                proxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
-                    try {
-                        if (proxyRes.statusCode >= 400) {
-                            log.warn(
-                                `tiltaksgjennomforing-api feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
-                            );
+    app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
+
+    if (MILJO === 'dev' || MILJO === 'prod') {
+        app.use(
+            '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-fss:arbeidsgiver:tiltak-proxy',
+                    prod: 'prod-fss:arbeidsgiver:tiltak-proxy',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                selfHandleResponse: true, // res.end() will be called internally by responseInterceptor()
+                on: {
+                    proxyRes: responseInterceptor(async (responseBuffer, proxyRes) => {
+                        try {
+                            if (proxyRes.statusCode >= 400) {
+                                log.warn(
+                                    `tiltaksgjennomforing-api feilet ${proxyRes.statusCode}: ${proxyRes.statusMessage}`
+                                );
+                                return JSON.stringify([]);
+                            }
+                            if (proxyRes.headers['content-type'] === 'application/json') {
+                                const data = JSON.parse(responseBuffer.toString('utf8')).map(
+                                    (elem) => ({
+                                        tiltakstype: elem.tiltakstype,
+                                    })
+                                );
+                                return JSON.stringify(data);
+                            }
+                        } catch (error) {
+                            log.error(`tiltaksgjennomforing-api feilet ${error}`);
                             return JSON.stringify([]);
                         }
-                        if (proxyRes.headers['content-type'] === 'application/json') {
-                            const data = JSON.parse(responseBuffer.toString('utf8')).map(
-                                (elem) => ({
-                                    tiltakstype: elem.tiltakstype,
-                                })
-                            );
-                            return JSON.stringify(data);
-                        }
-                    } catch (error) {
-                        log.error(`tiltaksgjennomforing-api feilet ${error}`);
-                        return JSON.stringify([]);
-                    }
-                }),
-            },
-            target: {
-                dev: 'https://tiltak-proxy.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
-                prod: 'https://tiltak-proxy.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
-            }[MILJO],
-        })
-    );
-    app.use(
-        '/min-side-arbeidsgiver/presenterte-kandidater-api',
-        tokenXMiddleware({
-            log: log,
-            audience: {
-                dev: 'dev-gcp:toi:presenterte-kandidater-api',
-                prod: 'prod-gcp:toi:presenterte-kandidater-api',
-            }[MILJO],
-        }),
-        createProxyMiddleware({
-            ...proxyOptions,
-            target: 'http://presenterte-kandidater-api.toi',
-        })
-    );
-    app.use(
-        '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
-        tokenXMiddleware({
-            log: log,
-            audience: {
-                dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
-                prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
-            }[MILJO],
-        }),
-        createProxyMiddleware({
-            ...proxyOptions,
-            target: {
-                dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
-                prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
-            }[MILJO],
-        })
-    );
-    app.use(
-        '/min-side-arbeidsgiver/stillingsregistrering-api',
-        tokenXMiddleware({
-            log: log,
-            audience: {
-                dev: 'dev-gcp:teampam:pam-stillingsregistrering-api',
-                prod: 'prod-gcp:teampam:pam-stillingsregistrering-api',
-            }[MILJO],
-        }),
-        createProxyMiddleware({
-            ...proxyOptions,
-            target: {
-                dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
-                prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
-            }[MILJO],
-        })
-    );
-    app.use(
-        '/min-side-arbeidsgiver/api',
-        tokenXMiddleware({
-            log: log,
-            audience: {
-                dev: 'dev-gcp:fager:min-side-arbeidsgiver-api',
-                prod: 'prod-gcp:fager:min-side-arbeidsgiver-api',
-            }[MILJO],
-        }),
-        createProxyMiddleware({
-            ...proxyOptions,
-            target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
-        })
-    );
-    app.use(
-        '/min-side-arbeidsgiver/notifikasjon-bruker-api',
-        tokenXMiddleware({
-            log: log,
-            audience: {
-                dev: 'dev-gcp:fager:notifikasjon-bruker-api',
-                prod: 'prod-gcp:fager:notifikasjon-bruker-api',
-            }[MILJO],
-        }),
-        createProxyMiddleware({
-            ...proxyOptions,
-            pathRewrite: { '^/': '' },
-            target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
-        })
-    );
-    app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
-    app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
-        const target = new URL(LOGIN_URL);
-        target.searchParams.set('redirect', req.get('referer'));
-        res.redirect(target.href);
-    });
+                    }),
+                },
+                target: {
+                    dev: 'https://tiltak-proxy.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
+                    prod: 'https://tiltak-proxy.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
+                }[MILJO],
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/presenterte-kandidater-api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:toi:presenterte-kandidater-api',
+                    prod: 'prod-gcp:toi:presenterte-kandidater-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                target: 'http://presenterte-kandidater-api.toi',
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                    prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                target: {
+                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
+                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
+                }[MILJO],
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/stillingsregistrering-api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:teampam:pam-stillingsregistrering-api',
+                    prod: 'prod-gcp:teampam:pam-stillingsregistrering-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                target: {
+                    dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
+                    prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
+                }[MILJO],
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:fager:min-side-arbeidsgiver-api',
+                    prod: 'prod-gcp:fager:min-side-arbeidsgiver-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/notifikasjon-bruker-api',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:fager:notifikasjon-bruker-api',
+                    prod: 'prod-gcp:fager:notifikasjon-bruker-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                pathRewrite: { '^/': '' },
+                target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
+            })
+        );
+
+        app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
+            const target = new URL(LOGIN_URL);
+            target.searchParams.set('redirect', req.get('referer'));
+            res.redirect(target.href);
+        });
+    }
 
     app.use(
         '/min-side-arbeidsgiver/',
