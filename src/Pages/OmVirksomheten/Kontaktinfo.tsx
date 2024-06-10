@@ -7,6 +7,8 @@ import './Kontaktinfo.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import NyFaneIkon from './NyFaneIkon';
 import { erDriftsforstyrrelse } from '../../utils/util';
+import Tekstboks from './Tekstboks';
+import { Hovedenhet } from '../../api/enhetsregisteretApi';
 
 const KontaktinfoDetaljer = z.object({
     eposter: z.array(z.string()),
@@ -116,20 +118,28 @@ export const KontaktinfoUnderenhet = () => {
     if (kontaktinfo === null) return null;
     if (kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0) return null;
     return (
-        <div className="kontaktinfo">
+        <Tekstboks className="kontaktinfo">
             <TittelMedHjelpetekst>Varslingsadresser for underenhet</TittelMedHjelpetekst>
             <KontaktinfoListe kontaktinfo={kontaktinfo} />
             <AltinnLenke />
-        </div>
+        </Tekstboks>
     );
 };
 
-export const KontaktinfoHovedenhet = () => {
+export const KontaktinfoOverordnetEnhet = ({
+    overordnetEnhet,
+}: {
+    overordnetEnhet: Hovedenhet;
+}) => {
     const kontaktinfo = useKontaktinfo()?.hovedenhet ?? null;
     if (kontaktinfo === null) return null;
+    const orgType =
+        overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'Organisasjonsledd' : 'Hovedenhet';
     return (
-        <div className="kontaktinfo">
-            <TittelMedHjelpetekst>Varslingsadresser for hovedenhet</TittelMedHjelpetekst>
+        <Tekstboks className="kontaktinfo">
+            <TittelMedHjelpetekst>
+                Varslingsadresser for {orgType.toLowerCase()}
+            </TittelMedHjelpetekst>
             {kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0 ? (
                 <Alert variant="warning">
                     Det mangler varslingsadresse. Varslingsadressen brukes slik det offentlige kan
@@ -140,6 +150,6 @@ export const KontaktinfoHovedenhet = () => {
                 <KontaktinfoListe kontaktinfo={kontaktinfo} />
             )}
             <AltinnLenke />
-        </div>
+        </Tekstboks>
     );
 };
