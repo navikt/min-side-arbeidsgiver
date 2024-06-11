@@ -6,7 +6,7 @@ import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, Heading, Label } from '@navikt/ds-react';
-import { KontaktinfoHovedenhet } from './Kontaktinfo';
+import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 
 interface Props {
@@ -15,10 +15,12 @@ interface Props {
 
 const OverordnetEnhet = ({ overordnetenhet }: Props) => {
     const { forretningsadresse, postadresse } = overordnetenhet;
+    const enhetstype =
+        overordnetenhet.organisasjonsform?.kode === 'ORGL' ? 'Organisasjonsledd' : 'Hovedenhet';
     return (
         <div>
             <Tekstboks className="overordnetenhet-navn">
-                <Label>Hovedenhet</Label>
+                <Label>{enhetstype}</Label>
                 <Heading size="medium" level="2" className="overordnet-enhet-info__navn">
                     <JuridiskEnhetIkon aria-hidden="true" title="juridisk enhet" />
                     {overordnetenhet.navn}
@@ -76,16 +78,17 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     <BodyShort>{overordnetenhet.hjemmeside}</BodyShort>
                 </Tekstboks>
             )}
-
-            <LenkeMedLogging
-                href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
-                loggLenketekst="Flere opplysinger for overordnet enhet hos Enhetsregisteret"
-                target="_blank"
-            >
-                <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
-                <NyFaneIkon />
-            </LenkeMedLogging>
-            <KontaktinfoHovedenhet />
+            <Tekstboks>
+                <LenkeMedLogging
+                    href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
+                    loggLenketekst="Flere opplysinger for overordnet enhet hos Enhetsregisteret"
+                    target="_blank"
+                >
+                    <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
+                    <NyFaneIkon />
+                </LenkeMedLogging>
+            </Tekstboks>
+            <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
         </div>
     );
 };
