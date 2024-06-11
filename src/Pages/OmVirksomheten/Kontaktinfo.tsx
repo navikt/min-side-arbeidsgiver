@@ -134,12 +134,10 @@ export const KontaktinfoOverordnetEnhet = ({
     const kontaktinfo = useKontaktinfo()?.hovedenhet ?? null;
     if (kontaktinfo === null) return null;
     const orgType =
-        overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'Organisasjonsledd' : 'Hovedenhet';
+        overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'organisasjonsledd' : 'hovedenhet';
     return (
         <Tekstboks className="kontaktinfo">
-            <TittelMedHjelpetekst>
-                Varslingsadresser for {orgType.toLowerCase()}
-            </TittelMedHjelpetekst>
+            <TittelMedHjelpetekst>Varslingsadresser for {orgType}</TittelMedHjelpetekst>
             {kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0 ? (
                 <Alert variant="warning">
                     Det mangler varslingsadresse. Varslingsadressen brukes slik det offentlige kan
