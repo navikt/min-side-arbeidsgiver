@@ -44,7 +44,7 @@ export const KontonummerOverordnetEnhet = ({
     overordnetEnhet: Hovedenhet;
 }) => {
     const enhetstype =
-        overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'Organisasjonsledd' : 'Hovedenhet';
+        overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'organisasjonsledd' : 'hovedenhet';
 
     const { kontonummer, orgnummer } = { kontonummer: undefined, orgnummer: undefined }; //TODO Hente kontonummer og tilhørende orgnummer
 
@@ -52,7 +52,7 @@ export const KontonummerOverordnetEnhet = ({
         <Tekstboks>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <Heading size="small" level="3">
-                    Kontonummer for {enhetstype.toLowerCase()}
+                    Kontonummer for {enhetstype}
                 </Heading>
                 <HelpText>
                     Kontonumret benyttes av NAV ved refusjoner av sykepenger, foreldrepenger,
