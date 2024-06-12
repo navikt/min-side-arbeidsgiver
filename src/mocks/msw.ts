@@ -5,15 +5,13 @@ import { scenarios } from './scenarios';
 const demoprofil = new URLSearchParams(window.location.search).get('demoprofil') ?? '';
 const demoScenarios = scenarios[demoprofil] ?? [];
 
-export const demoprofilurl = 'http://lolwut/demoprofil';
-
 export const startMSW = async () => {
     const { setupWorker } = await import('msw/browser');
     const worker = setupWorker(
         ...demoScenarios,
         ...handlers,
 
-        http.get(demoprofilurl, () => HttpResponse.json(demoprofil)),
+        http.get('http://lolwut/demoprofil', () => HttpResponse.json(demoprofil)),
         http.get('/min-side-arbeidsgiver/artikler', passthrough),
         http.post('/collect', () => HttpResponse.json()),
         http.post('https://amplitude.nav.no/collect-auto', () => HttpResponse.json()),

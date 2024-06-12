@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import { demoprofilurl } from '../mocks/msw';
 
 const Demoprofil = {
     NarmesteLeder: 'Nærmeste Leder',
@@ -18,7 +17,7 @@ export const useDemoprofil: () => {
     valgtDemoprofil: Demoprofil;
     setDemoprofil: (demoprofil: Demoprofil) => void;
 } = () => {
-    const demoprofil = useSWR(demoprofilurl, fetcher, { fallbackData: 'DagligLeder' });
+    const demoprofil = useSWR('http://lolwut/demoprofil', fetcher, { fallbackData: 'DagligLeder' });
 
     const setDemoprofil = (demoprofil: Demoprofil) => {
         const url = new URL(window.location.href);
