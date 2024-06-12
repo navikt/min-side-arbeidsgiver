@@ -5,7 +5,6 @@ import { demoProfiler, useDemoprofil } from '../../hooks/useDemoprofil';
 const AdvarselBannerTestversjon = () => {
     const { valgtDemoprofil, setDemoprofil } = useDemoprofil();
 
-    console.log({ valgtDemoprofil });
     if (import.meta.env.MODE === 'demo') {
         return (
             <Alert variant="warning" size="medium" className="advarsel-banner-testversjon">

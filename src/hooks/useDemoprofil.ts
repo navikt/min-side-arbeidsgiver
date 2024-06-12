@@ -1,3 +1,6 @@
+import useSWR from 'swr';
+import { demoprofilurl } from '../mocks/msw';
+
 const Demoprofil = {
     NarmesteLeder: 'Nærmeste Leder',
     Regnskapsforer: 'Regnskapsfører',
@@ -15,7 +18,7 @@ export const useDemoprofil: () => {
     valgtDemoprofil: Demoprofil;
     setDemoprofil: (demoprofil: Demoprofil) => void;
 } = () => {
-    const { demoprofil } = Object.fromEntries(new URLSearchParams(window.location.search));
+    const demoprofil = useSWR(demoprofilurl, fetcher, { fallbackData: 'DagligLeder' });
 
     const setDemoprofil = (demoprofil: Demoprofil) => {
         const url = new URL(window.location.href);
@@ -24,7 +27,12 @@ export const useDemoprofil: () => {
     };
 
     return {
-        valgtDemoprofil: demoprofil ?? 'DagligLeder',
+        valgtDemoprofil: demoprofil.data,
         setDemoprofil,
     };
+};
+
+const fetcher = async (url: string) => {
+    const respons = await fetch(url);
+    return (await respons.json()) as Demoprofil;
 };

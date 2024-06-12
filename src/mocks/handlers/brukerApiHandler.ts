@@ -2,7 +2,6 @@ import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
 import { graphql, HttpResponse } from 'msw';
 import Document from '../../../bruker.graphql';
 
-console.log(Document);
 const schema = buildASTSchema(Document);
 
 export const brukerApiHandlers = [
