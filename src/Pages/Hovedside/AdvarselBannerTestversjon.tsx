@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Alert, BodyLong, Button, Heading, HStack } from '@navikt/ds-react';
 import { demoProfiler, useDemoprofil } from '../../hooks/useDemoprofil';
 
 const AdvarselBannerTestversjon = () => {
     const { valgtDemoprofil, setDemoprofil } = useDemoprofil();
+    const [show, setShow] = useState(true);
 
-    if (import.meta.env.MODE === 'demo') {
+    if (show && import.meta.env.MODE === 'demo') {
         return (
-            <Alert variant="warning" size="medium" className="advarsel-banner-testversjon">
+            <Alert
+                variant="warning"
+                size="medium"
+                className="advarsel-banner-testversjon"
+                closeButton
+                onClose={() => setShow(false)}
+            >
                 <Heading level="2" spacing size="small">
                     Velg testprofil
                     <HStack gap="1">

@@ -269,12 +269,9 @@ const alleTjenester = [
     },
 ];
 
-export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
-    if (Math.random() < 0.1) {
-        return new HttpResponse(null, { status: 502 });
-    }
-    return HttpResponse.json({
-        altinnError: Math.random() < 0.1,
+export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () =>
+    HttpResponse.json({
+        altinnError: false,
         organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner, formLøsOrganisasjon],
         tilganger: [
             {
@@ -298,7 +295,7 @@ export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1'
                     ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
                 })),
         ],
-        digisyfoError: Math.random() < 0.1,
+        digisyfoError: false,
         digisyfoOrganisasjoner: [
             {
                 organisasjon: {
@@ -392,5 +389,5 @@ export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1'
                 tilgang: true,
             },
         ],
-    });
-});
+    })
+);

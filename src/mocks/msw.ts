@@ -2,7 +2,7 @@ import { http, HttpResponse, passthrough } from 'msw';
 import { handlers } from './handlers';
 import { scenarios } from './scenarios';
 
-const demoprofil = new URLSearchParams(window.location.search).get('demoprofil') ?? '';
+const demoprofil = new URLSearchParams(window.location.search).get('demoprofil') ?? 'DagligLeder';
 const demoScenarios = scenarios[demoprofil] ?? [];
 
 export const startMSW = async () => {
