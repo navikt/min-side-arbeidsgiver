@@ -51,7 +51,7 @@ export const sakStatus = ({
     tekst: string;
 }): SakStatus => ({
     type,
-    tekst: tekst ?? type, // TODO: default to key
+    tekst,
     tidspunkt: tidspunkt.toISOString(),
 });
 
