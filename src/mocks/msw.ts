@@ -11,7 +11,7 @@ export const startMSW = async () => {
         ...demoScenarios,
         ...handlers,
 
-        http.get('http://lolwut/demoprofil', () => HttpResponse.json(demoprofil)),
+        http.get('/demoprofil', () => HttpResponse.json(demoprofil)),
         http.get('/min-side-arbeidsgiver/artikler', passthrough),
         http.post('/collect', () => HttpResponse.json()),
         http.post('https://amplitude.nav.no/collect-auto', () => HttpResponse.json()),
