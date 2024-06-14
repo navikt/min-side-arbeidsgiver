@@ -13,7 +13,6 @@ import { createLogger, format, transports } from 'winston';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
-import { applyNotifikasjonMockMiddleware } from '@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock';
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -128,9 +127,9 @@ const loggerPlugin = (proxyServer, options) => {
 
 log.info(`Frackend startup: ${JSON.stringify({ NAIS_CLUSTER_NAME, MILJO, GIT_COMMIT })}`);
 
-let BUILD_PATH = path.join(process.cwd(), '../build');
-if (MILJO === 'local') {
-    BUILD_PATH = path.join(process.cwd(), '../');
+let BUILD_PATH = path.join(process.cwd(), '../build/production');
+if (MILJO === 'local' || MILJO === 'demo') {
+    BUILD_PATH = path.join(process.cwd(), '../build/demo');
 }
 
 const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
@@ -190,89 +189,9 @@ const main = async () => {
         (await import('./mock/enhetsRegisteretMock.js')).mock(app);
     }
 
-    if (MILJO === 'local' || MILJO === 'demo') {
-        (await import('./mock/innloggetMock.js')).mock(app);
-        (await import('./mock/pamMock.js')).mock(app);
-        (await import('./mock/userInfoMock.js')).mock(app);
-        (await import('./mock/varslingStatusMock.js')).mock(app);
-        (await import('./mock/altinnBeOmTilgangMock.js')).mock(app);
-        (await import('./mock/enhetsRegisteretMock.js')).mock(app);
-        (await import('./mock/antallArbeidsforholdMock.js')).mock(app);
-        (await import('./mock/tiltakApiMock.js')).mock(app);
-        (await import('./mock/sykefraværMock.js')).mock(app);
-        (await import('./mock/presenterteKandidaterMock.js')).mock(app);
-        (await import('./mock/storageMock.js')).mock(app);
-        (await import('./mock/kontaktinfoApiMock.js')).mock(app);
-        (await import('./mock/kontonummerStatusMock.js')).mock(app);
+    app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
 
-        const {
-            applyNotifikasjonMockMiddleware,
-        } = require('@navikt/arbeidsgiver-notifikasjoner-brukerapi-mock');
-
-        // TODO: oppdater mock med nytt skjema ig fjern override her
-        const { gql } = require('apollo-server-express');
-        const data = readFileSync('../bruker.graphql');
-        applyNotifikasjonMockMiddleware(
-            { app, path: '/min-side-arbeidsgiver/notifikasjon-bruker-api' },
-            {
-                typeDefs: gql(data.toString()),
-                mocks: {
-                    KalenderavtalerResultat: () => ({
-                        avtaler: [
-                            {
-                                tekst: 'Dialogmøte Sprø Plekter',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: null,
-                                lokasjon: {
-                                    adresse: 'Thorvald Meyers gate 2B',
-                                    postnummer: '0473',
-                                    poststed: 'Oslo',
-                                },
-                                tilstand: 'ARBEIDSGIVER_VIL_AVLYSE',
-                                digitalt: false,
-                            },
-                            {
-                                tekst: 'Dialogmøte Tastbar Kalender',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: null,
-                                tilstand: 'ARBEIDSGIVER_HAR_GODTATT',
-                                digitalt: true,
-                                fysisk: null,
-                            },
-                            {
-                                tekst: 'Dialogmøte Sjalu Streng',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: '2021-02-04T16:15:00',
-                                tilstand: 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
-                                digitalt: false,
-                                fysisk: {
-                                    adresse: 'Thorvald Meyers gate 2B',
-                                    postnummer: '0473',
-                                    poststed: 'Oslo',
-                                },
-                            },
-                            {
-                                tekst: 'Dialogmøte Myk Penn',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: null,
-                                tilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
-                                fysisk: null,
-                                digitalt: false,
-                            },
-                            {
-                                tekst: 'Dialogmøte Lukket Ballong',
-                                startTidspunkt: '2021-02-04T15:15:00',
-                                sluttTidspunkt: '2021-02-04T16:15:00',
-                                tilstand: 'AVLYST',
-                                fysisk: null,
-                            },
-                        ],
-                    }),
-                },
-            }
-        );
-        app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
-    } else {
+    if (MILJO === 'dev' || MILJO === 'prod') {
         app.use(
             '/min-side-arbeidsgiver/tiltaksgjennomforing-api',
             tokenXMiddleware({
@@ -396,8 +315,6 @@ const main = async () => {
                 target: 'http://notifikasjon-bruker-api.fager.svc.cluster.local/api/graphql',
             })
         );
-
-        app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
 
         app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
             const target = new URL(LOGIN_URL);

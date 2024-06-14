@@ -152,16 +152,13 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
     useEffect(() => {
         if (params.size === 0) return;
 
-        setParams(
-            (existing) => {
-                amplitude.logEvent('komponent-lastet', {
-                    komponent: 'saksoversiktSessionStorage',
-                    queryParametere: [...existing.keys()],
-                });
-                return {};
-            },
-            { replace: true }
-        );
+        setParams((existing) => {
+            amplitude.logEvent('komponent-lastet', {
+                komponent: 'saksoversiktSessionStorage',
+                queryParametere: [...existing.keys()],
+            });
+            return {};
+        });
     }, []);
 
     const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
