@@ -1,194 +1,248 @@
 import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
 import { graphql, HttpResponse } from 'msw';
 import Document from '../../../bruker.graphql';
+import { fakerNB_NO as faker } from '@faker-js/faker';
+import {
+    alleMerkelapper,
+    beskjedTidslinjeElement,
+    kalenderavtaleTidslinjeElement,
+    oppgaveTidslinjeElement,
+    oppgaveTilstandInfo,
+    sakStatus,
+    virksomhet,
+} from '../faker/brukerApiHelpers';
+import { KalenderavtaleTilstand, SakStatusType } from '../../api/graphql-types';
 
 const schema = buildASTSchema(Document);
 
+const saker = [
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Fritak i arbeidsgiverperioden',
+        tittel: 'Refusjon fritak i arbeidsgiverperioden - gravid ansatt - Fyndig Hare f.25.04.91',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Mottatt',
+        }),
+        nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'NAV har mottat ditt refusjonskrav',
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Fritak i arbeidsgiverperioden',
+        tittel: 'Refusjon fritak i arbeidsgiverperioden - gravid ansatt - Stadig Sten f.01.11.99',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Ferdig,
+            tekst: 'Utbetalt',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'NAV har utbetalt refusjonen',
+                opprettetTidspunkt: faker.date.recent({ days: 2 }),
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'NAV har mottat ditt refusjonskrav',
+                opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Fritak i arbeidsgiverperioden',
+        tittel: 'Refusjon fritak i arbeidsgiverperioden - kronisk sykdom - Logisk Simulering f.01.05.82',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Mottatt',
+        }),
+        nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'NAV har mottat ditt refusjonskrav',
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Fritak i arbeidsgiverperioden',
+        tittel: 'Refusjon fritak i arbeidsgiverperioden - kronisk sykdom - Sint Brosme f.12.11.62',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Ferdig,
+            tekst: 'Utbetalt',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'NAV har utbetalt refusjonen',
+                opprettetTidspunkt: faker.date.recent({ days: 2 }),
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'NAV har mottat ditt refusjonskrav',
+                opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Lønnstilskudd',
+        tittel: 'Avtale om lønnstilskudd Fyndig Hare',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Utkast',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
+                opprettetTidspunkt: faker.date.recent({ days: 2 }),
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Lønnstilskudd',
+        tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Under gjennomføring',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 7 }),
+                paaminnelseTidspunkt: faker.date.recent({ days: 2 }),
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
+                opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Lønnstilskudd',
+        tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Under gjennomføring',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til samtale med veileder 15 april ',
+                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                lokasjon: {
+                    adresse: 'Sørkedalsveien 31',
+                    postnummer: '0788',
+                    poststed: 'Sandnes',
+                },
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Du har fått svar fra veileder på meldingen din. ',
+                opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Avtalen er godkjent av alle parter og kan tas i bruk. ',
+                opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 7 }),
+                paaminnelseTidspunkt: faker.date.recent({ days: 2 }),
+                utfoertTidspunkt: faker.date.recent({ days: 1 }),
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
+                opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Dialogmøte',
+        tittel: 'Dialogmøte Fyndig hare',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Planlagt',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
+                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                lokasjon: {
+                    adresse: 'Sørkedalsveien 31',
+                    postnummer: '0788',
+                    poststed: 'Sandnes',
+                },
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Dialogmøte',
+        tittel: 'Dialogmøte Ullen Glasskule',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Planlagt',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte 13 april kl. 15.30 - 16.15. ',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                lokasjon: {
+                    adresse: 'Sørkedalsveien 31',
+                    postnummer: '0788',
+                    poststed: 'Sandnes',
+                },
+            }),
+        ],
+    },
+];
+
 export const brukerApiHandlers = [
     graphql.query('hentSaker', async ({ query, variables }) => {
+        const sakerFiltrert = saker.filter(
+            ({ merkelapp }) => (variables.sakstyper ?? alleMerkelapper)?.includes(merkelapp)
+        );
         const { errors, data } = await executeGraphQL({
             schema,
             source: query,
             variableValues: variables,
             rootValue: {
                 saker: {
-                    saker: [
-                        {
-                            id: '8f774b17-2202-4256-87b9-e67b439adad3',
-                            merkelapp: 'quas harum qui doloremque nobis illum molestiae',
-                            tittel: 'Søknad om fritak fra arbeidsgiverperioden – kronisk sykdom Akrobatisk Admiral',
-                            lenke: '#',
-                            virksomhet: {
-                                navn: 'Gamle Fredikstad og Riksdalen regnskap',
-                                virksomhetsnummer:
-                                    'possimus molestiae nihil sapiente aut maiores dolores',
-                                __typename: 'Virksomhet',
-                            },
-                            sisteStatus: {
-                                type: 'FERDIG',
-                                tekst: 'Under behandling',
-                                tidspunkt: '2024-05-14T10:45:57.456Z',
-                                __typename: 'SakStatus',
-                            },
-                            nesteSteg: null,
-                            tidslinje: [],
-                            __typename: 'Sak',
-                        },
-                        {
-                            id: '9b7440dd-8567-45bd-a4b5-1c67a6a3a203',
-                            merkelapp: 'pariatur quod quia perferendis quas quasi animi',
-                            tittel: 'Lønnskompensasjon ved permittering TEST',
-                            lenke: '#',
-                            virksomhet: {
-                                navn: 'Gamle Fredikstad og Riksdalen regnskap',
-                                virksomhetsnummer: 'est aliquam veritatis in eius ad quia',
-                                __typename: 'Virksomhet',
-                            },
-                            sisteStatus: {
-                                type: 'MOTTATT',
-                                tekst: 'Mottatt',
-                                tidspunkt: '2024-05-06T10:11:57.458Z',
-                                __typename: 'SakStatus',
-                            },
-                            nesteSteg: null,
-                            tidslinje: [
-                                {
-                                    __typename: 'BeskjedTidslinjeElement',
-                                    id: '0.af0xwjgicw',
-                                    tekst: 'Søknad om lønnskompensasjon ved innskrenkning i arbeidstiden sendt',
-                                    opprettetTidspunkt: '2024-05-13T16:33:57.456Z',
-                                },
-                            ],
-                            __typename: 'Sak',
-                        },
-                        {
-                            id: '8c251a26-267f-45d8-bab7-1f8a87918dbf',
-                            merkelapp: 'qui repellat voluptatem qui voluptates neque consequatur',
-                            tittel: 'Søknad om fritak fra arbeidsgiverperioden – kronisk sykdom Gylden Karneval\n',
-                            lenke: '#',
-                            virksomhet: {
-                                navn: 'Gamle Fredikstad og Riksdalen regnskap',
-                                virksomhetsnummer:
-                                    'voluptatibus perspiciatis quidem deleniti numquam corporis quae',
-                                __typename: 'Virksomhet',
-                            },
-                            sisteStatus: {
-                                type: 'MOTTATT',
-                                tekst: 'Mottatt',
-                                tidspunkt: '2024-05-20T10:12:57.458Z',
-                                __typename: 'SakStatus',
-                            },
-                            nesteSteg: 'Denne saken vil bli behandlet innen 1. juli.',
-                            tidslinje: [
-                                {
-                                    __typename: 'OppgaveTidslinjeElement',
-                                    id: '0.28lm22bthmi',
-                                    tekst: 'Avtale forlenget av veileder.',
-                                    tilstand: 'UTFOERT',
-                                    frist: '2024-05-01T11:10:57.458Z',
-                                    opprettetTidspunkt: '2024-05-30T11:10:57.458Z',
-                                    paaminnelseTidspunkt: null,
-                                    utfoertTidspunkt: '2023-04-18T00:09:15.693Z',
-                                    utgaattTidspunkt: null,
-                                },
-                                {
-                                    __typename: 'OppgaveTidslinjeElement',
-                                    id: '0.uog3ebe9s6',
-                                    tekst: 'Kontaktinformasjon i avtale endret av veileder.',
-                                    tilstand: 'NY',
-                                    frist: '2024-05-04T11:10:57.458Z',
-                                    opprettetTidspunkt: '2024-05-26T11:10:57.458Z',
-                                    paaminnelseTidspunkt: null,
-                                    utfoertTidspunkt: null,
-                                    utgaattTidspunkt: null,
-                                },
-                            ],
-                            __typename: 'Sak',
-                        },
-                        {
-                            id: '0d15ad98-b10c-48d7-b7b8-adebab2d4cb9',
-                            merkelapp:
-                                'facilis dignissimos officia voluptatum aperiam aperiam nihil',
-                            tittel: 'Varsel om permittering 12 ansatte TEST',
-                            lenke: '#',
-                            virksomhet: {
-                                navn: 'Gamle Fredikstad og Riksdalen regnskap',
-                                virksomhetsnummer: 'dolorum labore ad ea labore officia quis',
-                                __typename: 'Virksomhet',
-                            },
-                            sisteStatus: {
-                                type: 'UNDER_BEHANDLING',
-                                tekst: 'Under behandling',
-                                tidspunkt: '2024-05-19T10:10:57.458Z',
-                                __typename: 'SakStatus',
-                            },
-                            nesteSteg: null,
-                            tidslinje: [],
-                            __typename: 'Sak',
-                        },
-                    ],
-                    sakstyper: [
-                        {
-                            navn: 'Inntektsmelding',
-                            antall: 8,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Permittering',
-                            antall: 3,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Masseoppsigelse',
-                            antall: 7,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Innskrenkning i arbeidstiden',
-                            antall: 5,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Yrkesskade',
-                            antall: 7,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Lønnstilskudd',
-                            antall: 2,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Mentor',
-                            antall: 5,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Sommerjobb',
-                            antall: 2,
-                            __typename: 'Sakstype',
-                        },
-                        {
-                            navn: 'Arbeidstrening',
-                            antall: 1,
-                            __typename: 'Sakstype',
-                        },
-                    ],
+                    saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
+                    sakstyper: alleMerkelapper.map((navn) => ({
+                        navn,
+                        antall: faker.number.int(100),
+                    })),
                     feilAltinn: false,
-                    totaltAntallSaker: 314,
-                    oppgaveTilstandInfo: [
-                        {
-                            tilstand: 'UTGAATT',
-                            antall: 546,
-                            __typename: 'OppgaveTilstandInfo',
-                        },
-                        {
-                            tilstand: 'NY',
-                            antall: 550,
-                            __typename: 'OppgaveTilstandInfo',
-                        },
-                    ],
-                    __typename: 'SakerResultat',
+                    totaltAntallSaker: faker.number.int(1000),
+                    oppgaveTilstandInfo: oppgaveTilstandInfo(),
                 },
             },
         });
@@ -403,44 +457,7 @@ export const brukerApiHandlers = [
             source: query,
             variableValues: variables,
             rootValue: {
-                sakstyper: [
-                    {
-                        navn: 'Inntektsmelding',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Permittering',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Masseoppsigelse',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Innskrenkning i arbeidstiden',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Yrkesskade',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Lønnstilskudd',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Mentor',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Sommerjobb',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                    {
-                        navn: 'Arbeidstrening',
-                        __typename: 'SakstypeOverordnet',
-                    },
-                ],
+                sakstyper: alleMerkelapper.map((navn) => ({ navn })),
             },
         });
 
