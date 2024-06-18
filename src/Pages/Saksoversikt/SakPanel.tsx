@@ -256,6 +256,7 @@ const KalenderavtaleElement = ({
     });
 
     const harPassert = new Date(startTidspunkt) < new Date();
+    const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
 
     return (
         <div className="tidslinje-element">
@@ -288,9 +289,9 @@ const KalenderavtaleElement = ({
             </div>
             <div className="tidslinje-linje">
                 {erSist || !tidslinjeOpen ? null : harPassert ? (
-                    <TidslinjeLinjeIkon height={77} />
+                    <TidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
                 ) : (
-                    <TidslinjeLinjeIkon stiplet height={77} />
+                    <TidslinjeLinjeIkon stiplet height={ingenLokasjon ? 50 : 77} />
                 )}
             </div>
         </div>

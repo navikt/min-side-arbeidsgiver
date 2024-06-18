@@ -11,25 +11,37 @@ import {
     sakStatus,
     virksomhet,
 } from '../faker/brukerApiHelpers';
-import {BeskjedTidslinjeElement, KalenderavtaleTidslinjeElement, KalenderavtaleTilstand,
-    OppgaveTidslinjeElement, SakStatusType } from '../../api/graphql-types';
+import {
+    BeskjedTidslinjeElement,
+    KalenderavtaleTidslinjeElement,
+    KalenderavtaleTilstand,
+    OppgaveTidslinjeElement,
+    SakStatusType,
+} from '../../api/graphql-types';
 
 const schema = buildASTSchema(Document);
 
-const fixOpprettetTidspunkt = (tidslinje: (BeskjedTidslinjeElement | KalenderavtaleTidslinjeElement | OppgaveTidslinjeElement)[]): (BeskjedTidslinjeElement | KalenderavtaleTidslinjeElement | OppgaveTidslinjeElement)[] => {
-    const tidspunkter = tidslinje.flatMap((element) => {
-        if ("opprettetTidspunkt" in element)
-            return [element.opprettetTidspunkt]
-        return []
-    }).sort();
+const fixOpprettetTidspunkt = (
+    tidslinje: (
+        | BeskjedTidslinjeElement
+        | KalenderavtaleTidslinjeElement
+        | OppgaveTidslinjeElement
+    )[]
+): (BeskjedTidslinjeElement | KalenderavtaleTidslinjeElement | OppgaveTidslinjeElement)[] => {
+    const tidspunkter = tidslinje
+        .flatMap((element) => {
+            if ('opprettetTidspunkt' in element) return [element.opprettetTidspunkt];
+            return [];
+        })
+        .sort();
     return tidslinje.map((element, index) => {
-        if ("opprettetTidspunkt" in element) {
-            const neste = tidspunkter.pop()
-            return {...element, opprettetTidspunkt: neste}
+        if ('opprettetTidspunkt' in element) {
+            const neste = tidspunkter.pop();
+            return { ...element, opprettetTidspunkt: neste };
         }
-        return element
-    })
-}
+        return element;
+    });
+};
 
 const saker = [
     {
@@ -218,6 +230,38 @@ const saker = [
     {
         id: faker.string.uuid(),
         merkelapp: 'Dialogmøte',
+        tittel: 'Dialogmøte Fyndig hare',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Planlagt',
+        }),
+        nesteSteg: null,
+        tidslinje: [
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
+                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                lokasjon: undefined,
+                digitalt: false,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
+                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                lokasjon: undefined,
+                digitalt: false,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
+                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                lokasjon: undefined,
+                digitalt: false,
+            }),
+        ],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Dialogmøte',
         tittel: 'Dialogmøte Ullen Glasskule',
         lenke: '#',
         virksomhet: virksomhet(),
@@ -238,7 +282,7 @@ const saker = [
             }),
         ],
     },
-].map(sak => ({...sak, tidslinje: fixOpprettetTidspunkt(sak.tidslinje)}));
+].map((sak) => ({ ...sak, tidslinje: fixOpprettetTidspunkt(sak.tidslinje) }));
 
 export const brukerApiHandlers = [
     graphql.query('hentSaker', async ({ query, variables }) => {
