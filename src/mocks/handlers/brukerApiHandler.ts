@@ -11,9 +11,25 @@ import {
     sakStatus,
     virksomhet,
 } from '../faker/brukerApiHelpers';
-import { KalenderavtaleTilstand, SakStatusType } from '../../api/graphql-types';
+import {BeskjedTidslinjeElement, KalenderavtaleTidslinjeElement, KalenderavtaleTilstand,
+    OppgaveTidslinjeElement, SakStatusType } from '../../api/graphql-types';
 
 const schema = buildASTSchema(Document);
+
+const fixOpprettetTidspunkt = (tidslinje: (BeskjedTidslinjeElement | KalenderavtaleTidslinjeElement | OppgaveTidslinjeElement)[]): (BeskjedTidslinjeElement | KalenderavtaleTidslinjeElement | OppgaveTidslinjeElement)[] => {
+    const tidspunkter = tidslinje.flatMap((element) => {
+        if ("opprettetTidspunkt" in element)
+            return [element.opprettetTidspunkt]
+        return []
+    }).sort();
+    return tidslinje.map((element, index) => {
+        if ("opprettetTidspunkt" in element) {
+            const neste = tidspunkter.pop()
+            return {...element, opprettetTidspunkt: neste}
+        }
+        return element
+    })
+}
 
 const saker = [
     {
@@ -222,7 +238,7 @@ const saker = [
             }),
         ],
     },
-];
+].map(sak => ({...sak, tidslinje: fixOpprettetTidspunkt(sak.tidslinje)}));
 
 export const brukerApiHandlers = [
     graphql.query('hentSaker', async ({ query, variables }) => {
