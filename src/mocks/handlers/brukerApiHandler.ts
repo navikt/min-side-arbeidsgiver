@@ -276,9 +276,9 @@ export const brukerApiHandlers = [
                         {
                             id: '70a7eaf2-6f63-4d47-94ac-e467002ad82c',
                             tekst: 'Dialogmøte Sprø Plekter',
-                            startTidspunkt: '2021-02-04T15:15:00',
-                            sluttTidspunkt: null,
-                            avtaletilstand: 'ARBEIDSGIVER_VIL_AVLYSE',
+                            startTidspunkt: '2024-06-20T15:15:00',
+                            sluttTidspunkt: '2024-06-20T16:15:00',
+                            avtaletilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
                             lokasjon: {
                                 adresse: 'Thorvald Meyers gate 2B',
                                 postnummer: '0473',
@@ -291,8 +291,8 @@ export const brukerApiHandlers = [
                         },
                         {
                             id: '0f6b0dd3-7f25-4950-95a8-9b8ad58372f6',
-                            tekst: 'Dialogmøte Tastbar Kalender',
-                            startTidspunkt: '2021-02-04T15:15:00',
+                            tekst: 'Dialogmøte Tastbar telefon',
+                            startTidspunkt: '2024-06-31T12:15:00',
                             sluttTidspunkt: null,
                             avtaletilstand: 'ARBEIDSGIVER_HAR_GODTATT',
                             lokasjon: null,
@@ -303,8 +303,8 @@ export const brukerApiHandlers = [
                         {
                             id: 'f8f7753c-d222-4e33-8d2c-2d2211094d04',
                             tekst: 'Dialogmøte Sjalu Streng',
-                            startTidspunkt: '2021-02-04T15:15:00',
-                            sluttTidspunkt: '2021-02-04T16:15:00',
+                            startTidspunkt: '2024-07-05T15:15:00',
+                            sluttTidspunkt: '2024-07-05T16:15:00',
                             avtaletilstand: 'ARBEIDSGIVER_VIL_ENDRE_TID_ELLER_STED',
                             lokasjon: {
                                 adresse: 'Thorvald Meyers gate 2B',
@@ -319,9 +319,9 @@ export const brukerApiHandlers = [
                         {
                             id: '0cccbfb2-b69f-4901-880c-0028fc597a81',
                             tekst: 'Dialogmøte Myk Penn',
-                            startTidspunkt: '2021-02-04T15:15:00',
+                            startTidspunkt: '2024-08-04T15:15:00',
                             sluttTidspunkt: null,
-                            avtaletilstand: 'VENTER_SVAR_FRA_ARBEIDSGIVER',
+                            avtaletilstand: 'ARBEIDSGIVER_VIL_AVLYSE',
                             lokasjon: null,
                             digitalt: false,
                             lenke: 'iusto dolore commodi iure fugiat sint illum',
