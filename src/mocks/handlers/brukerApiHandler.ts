@@ -217,43 +217,32 @@ const saker = [
         nesteSteg: null,
         tidslinje: [
             kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
+                tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                lokasjon: undefined,
+                digitalt: false,
+                startTidspunkt: new Date('2024-06-20T15:15:00'),
+                sluttTidspunkt: new Date('2024-06-20T16:15:00'),
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilAvlyse,
+                digitalt: false,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
                     poststed: 'Sandnes',
                 },
             }),
-        ],
-    },
-    {
-        id: faker.string.uuid(),
-        merkelapp: 'Dialogmøte',
-        tittel: 'Dialogmøte Fyndig hare',
-        lenke: '#',
-        virksomhet: virksomhet(),
-        sisteStatus: sakStatus({
-            type: SakStatusType.Mottatt,
-            tekst: 'Planlagt',
-        }),
-        nesteSteg: null,
-        tidslinje: [
             kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
-                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
                 lokasjon: undefined,
-                digitalt: false,
+                digitalt: true,
             }),
             kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
-                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
-                lokasjon: undefined,
-                digitalt: false,
-            }),
-            kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte 12 april kl. 15.30 - 16.15. ',
-                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.Avlyst,
                 lokasjon: undefined,
                 digitalt: false,
             }),
@@ -267,12 +256,12 @@ const saker = [
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Mottatt,
-            tekst: 'Planlagt',
+            tekst: 'Gjennomført',
         }),
         nesteSteg: null,
         tidslinje: [
             kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte 13 april kl. 15.30 - 16.15. ',
+                tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
