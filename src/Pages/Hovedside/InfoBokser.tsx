@@ -20,7 +20,7 @@ const infobokser: Array<TilbakemeldingProps> = [
     {
         id: 'uxsignals',
         visFra: new Date('2024-06-17T00:00:00+02:00'),
-        visTil: new Date('2024-06-29T10:00:00+02:00'),
+        visTil: new Date('2024-06-18T10:00:00+02:00'),
         Component: () => {
             const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
             const harInntektsmeldingPåTvers = Record.values(organisasjoner).some(
