@@ -74,6 +74,17 @@ ul.saks-liste .sakscontainer .sakstittel {
   column-gap: 8px;
 }
 
+.sakscontainer .tidslinje-element-kalenderavtale {
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: repeat(3, auto);
+  grid-template-areas:
+  "ikon tittel"
+  "linje tittel"
+  "linje paaminnelse";
+  column-gap: 8px;
+}
+
 .tidslinje-element-tidspunkt {
   grid-area: tidspunkt;
 }
