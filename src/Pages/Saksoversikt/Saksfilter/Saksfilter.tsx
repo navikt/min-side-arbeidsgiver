@@ -16,9 +16,9 @@ import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
-import { gittMiljo } from '../../../utils/environment';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -321,9 +321,22 @@ const OpprettInntektsmelding = () => {
     const tilgangInntektsmelding = Object.values(organisasjoner).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );
+    const ref = useRef<HTMLDivElement>(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (location.hash === '#opprett-inntektsmelding') {
+            scroll(0, 0);
+            ref.current?.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'end' });
+            navigate(location.pathname, { replace: true });
+        }
+    }, []);
+
     if (tilgangInntektsmelding) {
         return (
             <div
+                ref={ref}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -331,10 +344,7 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <Label
-                    id="OpprettInntektsmeldingManueltId"
-                    children="Opprett inntektsmelding manuelt"
-                />
+                <Label children="Opprett inntektsmelding manuelt" />
                 <LenkeMedLogging
                     loggLenketekst={'Opprett inntektsmelding manuelt'}
                     href={opprettInntektsmeldingURL}

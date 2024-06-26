@@ -107,7 +107,7 @@ export const SøknaderOgSkjemaer = () => {
                 {tilgangInntektsmelding === true ? (
                     <InternalLenkepanelMedLogging
                         loggLenketekst={'Inntektsmelding sykepenger (Opprett manuelt)'}
-                        to={'/saksoversikt'}
+                        to={'/saksoversikt#opprett-inntektsmelding'}
                     >
                         Inntektsmelding sykepenger
                     </InternalLenkepanelMedLogging>
