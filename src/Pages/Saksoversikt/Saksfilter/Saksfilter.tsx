@@ -322,31 +322,27 @@ const OpprettInntektsmelding = () => {
         (org) => org.altinntilgang?.inntektsmelding === true
     );
     if (tilgangInntektsmelding) {
-        return gittMiljo({
-            prod: null,
-            other: (
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '4px',
-                        paddingBottom: '32px',
-                    }}
+        return (
+            <div
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    paddingBottom: '32px',
+                }}
+            >
+                <Label
+                    id="OpprettInntektsmeldingManueltId"
+                    children="Opprett inntektsmelding manuelt"
+                />
+                <LenkeMedLogging
+                    loggLenketekst={'Opprett inntektsmelding manuelt'}
+                    href={opprettInntektsmeldingURL}
                 >
-                    <Label children="Opprett inntektsmelding" />
-                    <Detail>
-                        Bruk når NAV ikke forventer å motta en inntektsmelding, for eksempel når
-                        arbeidsgiver ikke skal betale sykepenger i arbeidsgiverperioden.
-                    </Detail>
-                    <LenkeMedLogging
-                        loggLenketekst={'Opprett inntektsmelding manuelt'}
-                        href={opprettInntektsmeldingURL}
-                    >
-                        Opprett inntektsmelding for sykepenger
-                    </LenkeMedLogging>
-                </div>
-            ),
-        });
+                    Opprett inntektsmelding for sykepenger
+                </LenkeMedLogging>
+            </div>
+        );
     } else {
         return null;
     }

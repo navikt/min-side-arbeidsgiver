@@ -7,11 +7,15 @@ import {
 import './SøknaderOgSkjemaer.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
+import {
+    InternalLenkepanelMedLogging,
+    LenkepanelMedLogging,
+} from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
 import { gittMiljo } from '../../utils/environment';
+import { Link } from 'react-router-dom';
 
 export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
@@ -100,15 +104,14 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true
-                    ? gittMiljo({
-                          prod: null,
-                          other: lenke(
-                              'Inntektsmelding sykepenger (Opprett manuelt)',
-                              opprettInntektsmeldingURL
-                          ),
-                      })
-                    : null}
+                {tilgangInntektsmelding === true ? (
+                    <InternalLenkepanelMedLogging
+                        loggLenketekst={'Inntektsmelding sykepenger (Opprett manuelt)'}
+                        to={'/saksoversikt'}
+                    >
+                        Inntektsmelding sykepenger
+                    </InternalLenkepanelMedLogging>
+                ) : null}
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
