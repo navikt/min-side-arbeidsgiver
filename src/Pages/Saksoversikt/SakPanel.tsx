@@ -55,9 +55,10 @@ export const SakPanel = ({
                 <BodyShort size="small" style={style}>
                     {virksomhet.navn.toUpperCase()}
                 </BodyShort>
-                <Tag variant="neutral">{merkelapp}</Tag>
+                <Tag variant="neutral">
+                    {merkelapp === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : merkelapp}
+                </Tag>
             </div>
-
             {lenkeTilSak ? (
                 <LenkeMedLogging
                     href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
