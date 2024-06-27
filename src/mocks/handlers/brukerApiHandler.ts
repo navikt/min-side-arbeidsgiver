@@ -325,7 +325,7 @@ export const brukerApiHandlers = [
                         {
                             id: '0f6b0dd3-7f25-4950-95a8-9b8ad58372f6',
                             tekst: 'Dialogmøte Tastbar telefon',
-                            startTidspunkt: '2024-06-31T12:15:00',
+                            startTidspunkt: '2024-06-30T12:15:00',
                             sluttTidspunkt: null,
                             avtaletilstand: 'ARBEIDSGIVER_HAR_GODTATT',
                             lokasjon: null,
