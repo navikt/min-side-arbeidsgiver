@@ -7,7 +7,10 @@ import {
 import './SøknaderOgSkjemaer.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
+import {
+    InternalLenkepanelMedLogging,
+    LenkepanelMedLogging,
+} from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
@@ -100,15 +103,16 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true
-                    ? gittMiljo({
-                          prod: null,
-                          other: lenke(
-                              'Inntektsmelding sykepenger (Opprett manuelt)',
-                              opprettInntektsmeldingURL
-                          ),
-                      })
-                    : null}
+                {tilgangInntektsmelding === true ? (
+                    <li>
+                        <InternalLenkepanelMedLogging
+                            loggLenketekst={'Inntektsmelding sykepenger (Opprett manuelt)'}
+                            to={'/saksoversikt#opprett-inntektsmelding'}
+                        >
+                            Inntektsmelding sykepenger
+                        </InternalLenkepanelMedLogging>
+                    </li>
+                ) : null}
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}

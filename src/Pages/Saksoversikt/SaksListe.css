@@ -18,6 +18,12 @@ ul.saks-liste li {
   gap: 8px;
 }
 
+.sakscontainer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 ul.saks-liste .sakscontainer .sakstittel {
   font-size: 1.25rem;
   font-weight: var(--a-font-weight-bold);

@@ -16,9 +16,9 @@ import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
-import { gittMiljo } from '../../../utils/environment';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -321,32 +321,38 @@ const OpprettInntektsmelding = () => {
     const tilgangInntektsmelding = Object.values(organisasjoner).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );
+    const ref = useRef<HTMLDivElement>(null);
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (location.hash === '#opprett-inntektsmelding') {
+            scroll(0, 0);
+            ref.current?.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'end' });
+            navigate(location.pathname, { replace: true });
+        }
+    }, []);
+
     if (tilgangInntektsmelding) {
-        return gittMiljo({
-            prod: null,
-            other: (
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '4px',
-                        paddingBottom: '32px',
-                    }}
+        return (
+            <div
+                ref={ref}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    paddingBottom: '32px',
+                }}
+            >
+                <Label children="Opprett inntektsmelding manuelt" />
+                <LenkeMedLogging
+                    loggLenketekst={'Opprett inntektsmelding manuelt'}
+                    href={opprettInntektsmeldingURL}
                 >
-                    <Label children="Opprett inntektsmelding" />
-                    <Detail>
-                        Bruk når NAV ikke forventer å motta en inntektsmelding, for eksempel når
-                        arbeidsgiver ikke skal betale sykepenger i arbeidsgiverperioden.
-                    </Detail>
-                    <LenkeMedLogging
-                        loggLenketekst={'Opprett inntektsmelding manuelt'}
-                        href={opprettInntektsmeldingURL}
-                    >
-                        Opprett inntektsmelding for sykepenger
-                    </LenkeMedLogging>
-                </div>
-            ),
-        });
+                    Opprett inntektsmelding for sykepenger
+                </LenkeMedLogging>
+            </div>
+        );
     } else {
         return null;
     }

@@ -1,4 +1,4 @@
-import { BodyShort, Button, Detail, Heading } from '@navikt/ds-react';
+import { BodyShort, Button, Detail, Heading, Tag } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import './SaksListe.css';
 import {
@@ -51,10 +51,14 @@ export const SakPanel = ({
     const nesteStegTekst = nesteSteg ?? undefined;
     return (
         <div className="sakscontainer">
-            <BodyShort size="small" style={style}>
-                {virksomhet.navn.toUpperCase()}
-            </BodyShort>
-
+            <div className="sakscontainer-top">
+                <BodyShort size="small" style={style}>
+                    {virksomhet.navn.toUpperCase()}
+                </BodyShort>
+                <Tag variant="neutral">
+                    {merkelapp === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : merkelapp}
+                </Tag>
+            </div>
             {lenkeTilSak ? (
                 <LenkeMedLogging
                     href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
