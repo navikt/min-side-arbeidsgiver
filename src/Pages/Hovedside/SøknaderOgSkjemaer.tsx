@@ -15,7 +15,6 @@ import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjene
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
 import { gittMiljo } from '../../utils/environment';
-import { Link } from 'react-router-dom';
 
 export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
