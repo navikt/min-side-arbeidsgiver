@@ -19,8 +19,8 @@ type TilbakemeldingProps = {
 const infobokser: Array<TilbakemeldingProps> = [
     {
         id: 'uxsignals',
-        visFra: new Date('2022-01-01T00:00:00+02:00'),
-        visTil: new Date('2022-01-01T10:00:00+02:00'),
+        visFra: new Date('2024-06-17T00:00:00+02:00'),
+        visTil: new Date('2024-06-30T10:00:00+02:00'),
         Component: () => {
             const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
             const harInntektsmeldingPåTvers = Record.values(organisasjoner).some(
@@ -132,7 +132,7 @@ const UXSignals = () => {
         <div
             key="tilbakemelding-banner"
             className="tilbakemelding-banner"
-            data-uxsignals-embed="study-yoz8qmkdor"
+            data-uxsignals-embed="panel-ygu8lk6g6q"
             {...gittMiljo({
                 prod: {},
                 other: {

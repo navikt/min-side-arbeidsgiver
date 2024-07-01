@@ -21,7 +21,14 @@ const dagligLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInf
                 Status: 'Active',
             },
         ],
-        tilganger: [],
+        tilganger: [
+            {
+                id: 'inntektsmelding',
+                tjenestekode: '4936',
+                tjenesteversjon: '1',
+                organisasjoner: ['121488424', '999999999'],
+            },
+        ],
         digisyfoError: false,
         digisyfoOrganisasjoner: [],
         refusjoner: [],

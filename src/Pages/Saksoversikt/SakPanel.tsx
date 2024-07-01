@@ -1,4 +1,4 @@
-import { BodyShort, Button, Detail, Heading } from '@navikt/ds-react';
+import { BodyShort, Button, Detail, Heading, Tag } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import './SaksListe.css';
 import {
@@ -51,10 +51,14 @@ export const SakPanel = ({
     const nesteStegTekst = nesteSteg ?? undefined;
     return (
         <div className="sakscontainer">
-            <BodyShort size="small" style={style}>
-                {virksomhet.navn.toUpperCase()}
-            </BodyShort>
-
+            <div className="sakscontainer-top">
+                <BodyShort size="small" style={style}>
+                    {virksomhet.navn.toUpperCase()}
+                </BodyShort>
+                <Tag variant="neutral">
+                    {merkelapp === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : merkelapp}
+                </Tag>
+            </div>
             {lenkeTilSak ? (
                 <LenkeMedLogging
                     href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
@@ -256,12 +260,10 @@ const KalenderavtaleElement = ({
     });
 
     const harPassert = new Date(startTidspunkt) < new Date();
+    const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
 
     return (
-        <div className="tidslinje-element">
-            <Detail className="tidslinje-element-tidspunkt">
-                {dateFormat.format(new Date(startTidspunkt))}
-            </Detail>
+        <div className="tidslinje-element-kalenderavtale">
             <div className="tidslinje-element-ikon">
                 {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
                     <KalenderavtaleIkonGrå
@@ -274,7 +276,8 @@ const KalenderavtaleElement = ({
             <div className="tidslinje-element-tittel">
                 <BodyShort>{tekst}</BodyShort>
                 <BodyShort>
-                    kl. {klokkeslett.format(new Date(startTidspunkt))}
+                    {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
+                    {klokkeslett.format(new Date(startTidspunkt))}
                     {sluttTidspunkt !== undefined
                         ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
                         : ''}
@@ -288,9 +291,9 @@ const KalenderavtaleElement = ({
             </div>
             <div className="tidslinje-linje">
                 {erSist || !tidslinjeOpen ? null : harPassert ? (
-                    <TidslinjeLinjeIkon height={77} />
+                    <TidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
                 ) : (
-                    <TidslinjeLinjeIkon stiplet height={77} />
+                    <TidslinjeLinjeIkon stiplet height={ingenLokasjon ? 50 : 77} />
                 )}
             </div>
         </div>

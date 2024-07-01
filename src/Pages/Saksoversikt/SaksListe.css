@@ -18,6 +18,12 @@ ul.saks-liste li {
   gap: 8px;
 }
 
+.sakscontainer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 ul.saks-liste .sakscontainer .sakstittel {
   font-size: 1.25rem;
   font-weight: var(--a-font-weight-bold);
@@ -68,6 +74,17 @@ ul.saks-liste .sakscontainer .sakstittel {
   grid-template-rows: repeat(3, auto);
   grid-template-areas:
   "tidspunkt tidspunkt"
+  "ikon tittel"
+  "linje tittel"
+  "linje paaminnelse";
+  column-gap: 8px;
+}
+
+.sakscontainer .tidslinje-element-kalenderavtale {
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: repeat(3, auto);
+  grid-template-areas:
   "ikon tittel"
   "linje tittel"
   "linje paaminnelse";

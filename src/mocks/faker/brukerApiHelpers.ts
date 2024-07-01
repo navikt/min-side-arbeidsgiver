@@ -28,6 +28,7 @@ export const alleMerkelapper = [
     'Fritak i arbeidsgiverperioden',
     'Inntektsmelding',
     'Inntektsmelding sykepenger',
+    'Inntektsmelding pleiepenger',
     'Lønnstilskudd',
     'Masseoppsigelse',
     'Mentor',
