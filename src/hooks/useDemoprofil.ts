@@ -17,7 +17,11 @@ export const useDemoprofil: () => {
     valgtDemoprofil: Demoprofil;
     setDemoprofil: (demoprofil: Demoprofil) => void;
 } = () => {
-    const demoprofil = useSWR('/demoprofil', fetcher, { fallbackData: 'DagligLeder' });
+    const demoprofil = useSWR(
+        import.meta.env.MODE === 'demo' ? '/demoprofil' : undefined,
+        fetcher,
+        { fallbackData: 'DagligLeder' }
+    );
 
     const setDemoprofil = (demoprofil: Demoprofil) => {
         const url = new URL(window.location.href);
