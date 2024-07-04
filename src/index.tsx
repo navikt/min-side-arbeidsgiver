@@ -41,7 +41,7 @@ injectDecoratorClientSide({
 });
 
 const maintainance = gittMiljo({
-    prod: false,
+    prod: true,
     dev: false,
     other: false,
 });

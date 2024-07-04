@@ -25,7 +25,7 @@ spec:
     enabled: true
     sidecar:
       enabled: true
-      autoLogin: true
+      autoLogin: false # fjern etter db-oppgradering
   envFrom:
     - secret: min-side-ag-frontend
   env:
