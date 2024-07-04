@@ -40,8 +40,24 @@ injectDecoratorClientSide({
     console.error('#MSA: injectDecoratorClientSide feilet', e);
 });
 
+const maintainance = gittMiljo({
+    prod: false,
+    dev: true,
+    other: false,
+});
+
 const root = createRoot(document.getElementById('app')!);
-if (import.meta.env.MODE === 'demo') {
+if (maintainance) {
+    root.render(<>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <div>
+                <h1>Vi oppdaterer Min side – arbeidsgiver</h1>
+                <p>Vi utfører vedlikehold på Min side – arbeidsgiver. Vi beklager ulempene dette medfører.</p>
+                <p>Vi er tilbake i løpet av kort tid.</p>
+            </div>
+        </div>
+    </>)
+} else if (import.meta.env.MODE === 'demo') {
     startMSW().then(() =>
         root.render(
             <React.StrictMode>

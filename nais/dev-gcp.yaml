@@ -25,7 +25,7 @@ spec:
     enabled: true
     sidecar:
       enabled: true
-      autoLogin: true
+      autoLogin: false # ikke under maintainance
   envFrom:
     - secret: min-side-ag-frontend
   env:
