@@ -11,7 +11,7 @@ jobs:
             id-token: 'write'
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             - uses: nais/login@v0
               id: login
@@ -39,7 +39,7 @@ jobs:
             id-token: 'write'
 
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             - uses: nais/login@v0
               id: login
