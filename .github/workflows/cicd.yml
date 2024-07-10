@@ -52,7 +52,7 @@ jobs:
 
             - name: Deploy til dev-gcp
               uses: nais/deploy/actions/deploy@v1
-              if: github.ref == 'refs/heads/master'
+              if: github.ref == 'refs/heads/main'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   IMAGE: ${{ steps.dockerpush.outputs.image }}
@@ -63,7 +63,7 @@ jobs:
 
             - name: Deploy til prod-gcp
               uses: nais/deploy/actions/deploy@v1
-              if: github.ref == 'refs/heads/master'
+              if: github.ref == 'refs/heads/main'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   IMAGE: ${{ steps.dockerpush.outputs.image }}
@@ -74,7 +74,7 @@ jobs:
 
             - name: Deploy prodlik demo til dev-gcp
               uses: nais/deploy/actions/deploy@v1
-              if: github.ref == 'refs/heads/master'
+              if: github.ref == 'refs/heads/main'
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   IMAGE: ${{ steps.dockerpush.outputs.image }}
@@ -84,7 +84,7 @@ jobs:
                   VAR: commit=${{ github.sha }}
 
             - name: Deploy dev-lik demo til dev-gcp
-              if: github.ref == 'refs/heads/master'
+              if: github.ref == 'refs/heads/main'
               uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
