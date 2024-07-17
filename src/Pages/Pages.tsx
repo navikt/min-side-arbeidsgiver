@@ -111,6 +111,11 @@ const Pages: FunctionComponent = () => (
                                                                     title: 'Saksoversikt',
                                                                     handleInApp: true,
                                                                 },
+                                                                {
+                                                                    url: '/sak',
+                                                                    title: 'Sak',
+                                                                    handleInApp: true,
+                                                                },
                                                             ]}
                                                         />
                                                         <Saksside />
