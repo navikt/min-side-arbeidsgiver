@@ -20,7 +20,7 @@ import {
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { InternLenkeMedLogging, LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { AvtaletilstandLinje, StatusLinje } from '../../GeneriskeElementer/StatusLinje';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { LocationPinIcon, PersonHeadsetIcon } from '@navikt/aksel-icons';
@@ -39,92 +39,116 @@ type SakPanelProps = {
 };
 
 export const SakPanel = ({
-    placeholder,
+    placeholder = false,
     tvingEkspander = false,
     lenkeTilSak = true,
-    sak: { id, lenke, tittel, merkelapp, virksomhet, sisteStatus, tidslinje, nesteSteg },
+    sak,
 }: SakPanelProps) => {
-    const fake = placeholder ?? false;
-    const style: React.CSSProperties = fake ? { visibility: 'hidden' } : {};
-
-    const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
-    const nesteStegTekst = nesteSteg ?? undefined;
+    const style: React.CSSProperties = placeholder ? { visibility: 'hidden' } : {};
     return (
         <div className="sakscontainer">
             <div className="sakscontainer-top">
                 <BodyShort size="small" style={style}>
-                    {virksomhet.navn.toUpperCase()}
+                    {sak.virksomhet.navn.toUpperCase()}
                 </BodyShort>
                 <Tag variant="neutral">
-                    {merkelapp === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : merkelapp}
+                    {sak.merkelapp === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : sak.merkelapp}
                 </Tag>
             </div>
-            {lenkeTilSak ? (
-                <LenkeMedLogging
-                    href={lenke ?? `${__BASE_PATH__}/sak?saksid=${id}`}
-                    loggLenketekst={`lenke til sak med merkelapp ${merkelapp}`}
-                >
-                    <BodyShort className="sakstittel">{tittel}</BodyShort>
-                </LenkeMedLogging>
-            ) : (
-                <Heading size="small" level="2">
-                    {tittel}
-                </Heading>
-            )}
+            <Saksoverskrift lenkeTilSak={lenkeTilSak} sak={sak} />
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
-                    <strong>{sisteStatus.tekst}</strong>
+                    <strong>{sak.sisteStatus.tekst}</strong>
                 </BodyShort>
-                {tidslinje.length === 0 ? (
-                    <Detail>{dateFormat.format(new Date(sisteStatus.tidspunkt))}</Detail>
+                {sak.tidslinje.length === 0 ? (
+                    <Detail>{dateFormat.format(new Date(sak.sisteStatus.tidspunkt))}</Detail>
                 ) : null}
             </div>
-            <div>
-                {nesteStegTekst !== undefined && (
-                    <NesteSteg
-                        nesteStegTekst={nesteStegTekst}
-                        apen={tidslinjeOpen}
-                        tidslinjeLengde={tidslinje.length}
-                    />
-                )}
-                {tidslinje.map((tidslinjeelement, i) => (
-                    <Tidslinjeelement
-                        key={tidslinjeelement.id}
-                        tidslinjeelement={tidslinjeelement}
-                        indeks={i}
-                        apen={tidslinjeOpen}
-                        antall={tidslinje.length}
-                        tidslinjeOpen={tidslinjeOpen}
-                    />
-                ))}
-            </div>
-            {tidslinje.length > 1 && !tvingEkspander ? (
-                <Button
-                    className="tidslinje-vis-mer-knapp"
-                    variant="tertiary"
-                    onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
-                    icon={
-                        tidslinjeOpen ? (
-                            <Collapse aria-hidden="true" />
-                        ) : (
-                            <Expand aria-hidden="true" />
-                        )
-                    }
-                >
-                    {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
-                </Button>
-            ) : null}
+            <Tidslinje sak={sak} tvingEkspander={tvingEkspander} />
         </div>
     );
 };
 
+type SaksoverskriftProps = {
+    lenkeTilSak: boolean;
+    sak: Sak;
+}
+
+const Saksoverskrift = ({lenkeTilSak, sak}: SaksoverskriftProps) => {
+    if (lenkeTilSak) {
+        if (typeof sak.lenke === 'string') {
+            return <LenkeMedLogging
+                href={sak.lenke}
+                loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
+            >
+                <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
+            </LenkeMedLogging>
+        } else {
+            return <InternLenkeMedLogging
+                href={`/sak?saksid=${sak.id}`}
+                loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
+            >
+                <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
+            </InternLenkeMedLogging>
+        }
+    } else {
+        return <Heading size="small" level="2">
+            {sak.tittel}
+        </Heading>
+    }
+}
+
+type TidslinjeProps = {
+    sak: Sak;
+    tvingEkspander: boolean;
+}
+const Tidslinje = ({sak, tvingEkspander}: TidslinjeProps) => {
+    const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
+    const nesteStegTekst = sak.nesteSteg ?? undefined;
+    return <>
+        <div>
+            {nesteStegTekst !== undefined && (
+                <NesteSteg
+                    nesteStegTekst={nesteStegTekst}
+                    tidslinjeLengde={sak.tidslinje.length}
+                />
+            )}
+            {sak.tidslinje.map((tidslinjeelement, i) => (
+                <Tidslinjeelement
+                    key={tidslinjeelement.id}
+                    tidslinjeelement={tidslinjeelement}
+                    indeks={i}
+                    apen={tidslinjeOpen}
+                    antall={sak.tidslinje.length}
+                    tidslinjeOpen={tidslinjeOpen}
+                />
+            ))}
+        </div>
+        {sak.tidslinje.length > 1 && !tvingEkspander ? (
+            <Button
+                className="tidslinje-vis-mer-knapp"
+                variant="tertiary"
+                onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
+                icon={
+                    tidslinjeOpen ? (
+                        <Collapse aria-hidden="true" />
+                    ) : (
+                        <Expand aria-hidden="true" />
+                    )
+                }
+            >
+                {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
+            </Button>
+        ) : null}
+    </>
+}
+
 type NesteStegProps = {
     nesteStegTekst?: string;
     tidslinjeLengde: number;
-    apen: boolean;
 };
 
-const NesteSteg = ({ nesteStegTekst, tidslinjeLengde, apen }: NesteStegProps) => {
+const NesteSteg = ({ nesteStegTekst, tidslinjeLengde }: NesteStegProps) => {
     return (
         <div className="neste_steg">
             <div style={{ gridArea: 'ikon' }}>

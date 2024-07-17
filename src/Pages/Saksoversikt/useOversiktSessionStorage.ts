@@ -9,7 +9,7 @@ import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
 import amplitude from '../../utils/amplitude';
-import { z, ZodError } from 'zod';
+import { z } from 'zod';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
