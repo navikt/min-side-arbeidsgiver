@@ -21,15 +21,13 @@ jobs:
                   team: fager
 
             - name: 'Deploy dev-gcp'
-              uses: nais/deploy/actions/deploy@v1
+              uses: nais/deploy/actions/deploy@v2
               env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: dev-gcp
                   RESOURCE: nais/dev-gcp.yaml
                   PRINT_PAYLOAD: true
-                  VAR: commit=${{ github.sha }}
+                  VAR: commit=${{ github.sha }},image=${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
                   REF: ${{ github.sha }}
-                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
 
     deploy-labs-manual:
         name: deploy labs manual
@@ -49,12 +47,10 @@ jobs:
                   team: fager
 
             - name: 'Deploy labs-gcp'
-              uses: nais/deploy/actions/deploy@v1
+              uses: nais/deploy/actions/deploy@v2
               env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: dev-gcp
                   RESOURCE: nais/demo-devlik.yaml
                   PRINT_PAYLOAD: true
-                  VAR: commit=${{ github.sha }}
+                  VAR: commit=${{ github.sha }},image=${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
                   REF: ${{ github.sha }}
-                  IMAGE: ${{ steps.login.outputs.registry }}/min-side-arbeidsgiver:${{ github.sha }}
