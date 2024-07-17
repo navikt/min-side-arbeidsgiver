@@ -17,11 +17,13 @@ import { InfoBokser } from './InfoBokser';
 import { Kalenderavtaler } from './Kalenderavtaler';
 import { Artikler } from '../Artikkel/Artikkel';
 import { ManglerKontonummerAlert } from './ManglerKontonummerAlert';
+import { Brodsmulesti } from '../Banner';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
     return (
         <div>
+            <Brodsmulesti brodsmuler={[]} />
             <div className="hovedside-container">
                 <AdvarselBannerTestversjon />
                 <Alerts />
