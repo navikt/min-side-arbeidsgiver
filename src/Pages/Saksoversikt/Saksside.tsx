@@ -162,7 +162,7 @@ export const Saksside = () => {
 
     return (
         <div className="saksside">
-            <InternLenkeMedLogging loggLenketekst="#/" href="saksoversikt">
+            <InternLenkeMedLogging loggLenketekst="Tilbake til saksoversikten" href="/saksoversikt">
                 <ChevronLeftIcon width="2rem" height="2rem" aria-hidden={true} />
                 Se alle saker
             </InternLenkeMedLogging>
