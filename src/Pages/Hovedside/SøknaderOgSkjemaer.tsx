@@ -103,22 +103,18 @@ export const SøknaderOgSkjemaer = () => {
                       )
                     : null}
                 {tilgangInntektsmelding === true
-                    ? gittMiljo({
-                          prod: null,
-                          other: (
-                              <li>
-                                  <InternalLenkepanelMedLogging
-                                      loggLenketekst={
-                                          'Inntektsmelding sykepenger (Opprett manuelt)'
-                                      }
-                                      to={'/saksoversikt#opprett-inntektsmelding'}
-                                  >
-                                      Inntektsmelding sykepenger
-                                  </InternalLenkepanelMedLogging>
-                              </li>
-                          ),
-                      })
-                    : null}
+                    ? <li>
+                        <InternalLenkepanelMedLogging
+                            loggLenketekst={
+                                'Inntektsmelding sykepenger (Opprett manuelt)'
+                            }
+                            to={'/saksoversikt#opprett-inntektsmelding'}
+                        >
+                            Inntektsmelding sykepenger
+                        </InternalLenkepanelMedLogging>
+                    </li>
+                    : null
+                }
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}

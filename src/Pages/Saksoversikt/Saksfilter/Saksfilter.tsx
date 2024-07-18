@@ -6,12 +6,7 @@ import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
-import {
-    OppgaveTilstand,
-    OppgaveTilstandInfo,
-    Sakstype,
-    SakstypeOverordnet,
-} from '../../../api/graphql-types';
+import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
 import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
@@ -19,7 +14,6 @@ import amplitude from '../../../utils/amplitude';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { gittMiljo } from '../../../utils/environment';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -335,28 +329,23 @@ const OpprettInntektsmelding = () => {
     }, []);
 
     if (tilgangInntektsmelding) {
-        return gittMiljo({
-            prod: null,
-            other: (
-                <div
-                    ref={ref}
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '4px',
-                        paddingBottom: '32px',
-                    }}
-                >
-                    <Label children="Opprett inntektsmelding manuelt" />
-                    <LenkeMedLogging
-                        loggLenketekst={'Opprett inntektsmelding manuelt'}
-                        href={opprettInntektsmeldingURL}
-                    >
-                        Opprett inntektsmelding for sykepenger
-                    </LenkeMedLogging>
-                </div>
-            ),
-        });
+        return <div
+            ref={ref}
+            style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px',
+                paddingBottom: '32px',
+            }}
+        >
+            <Label children="Opprett inntektsmelding manuelt" />
+            <LenkeMedLogging
+                loggLenketekst={'Opprett inntektsmelding manuelt'}
+                href={opprettInntektsmeldingURL}
+            >
+                Opprett inntektsmelding for sykepenger
+            </LenkeMedLogging>
+        </div>
     } else {
         return null;
     }
