@@ -1,4 +1,5 @@
 import React from 'react';
+import { fa } from '@faker-js/faker';
 
 export const NyOppgaveIkon = () => (
     <svg
@@ -107,12 +108,23 @@ export const KalenderavtaleIkonGrå = ({ title }: { title: string }) => (
     </svg>
 );
 
-export const TidslinjeLinjeIkon = ({
+export const StipletTidslinjeLinjeIkon = ({ height = 32 }: { height?: number }) =>
+    TidslinjeLinjeIkon({ height, stiplet: true });
+
+export const DelvisStipletTidslinjeLinjeIkon = ({ height = 32 }: { height?: number }) =>
+    TidslinjeLinjeIkon({ height, delvis: true });
+
+export const SolidTidslinjeLinjeIkon = ({ height = 32 }: { height?: number }) =>
+    TidslinjeLinjeIkon({ height });
+
+const TidslinjeLinjeIkon = ({
     height = 32,
     stiplet = false,
+    delvis = false,
 }: {
     height?: number;
     stiplet?: boolean;
+    delvis?: boolean;
 }) => (
     <svg
         width="24"
@@ -125,10 +137,18 @@ export const TidslinjeLinjeIkon = ({
     >
         <line
             x1="11.5"
-            y1={height}
+            y1={delvis ? height / 2 : height}
             x2="11.5"
             stroke="#979797"
             strokeDasharray={stiplet ? '2 2' : undefined}
+        />
+        <line
+            x1="11.5"
+            y1={height / 2}
+            x2="11.5"
+            y2={delvis ? height : height / 2}
+            stroke="#979797"
+            strokeDasharray={stiplet || delvis ? '2 2' : undefined}
         />
     </svg>
 );

@@ -8,7 +8,8 @@ import {
     NesteStegIkon,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
-    TidslinjeLinjeIkon,
+    SolidTidslinjeLinjeIkon,
+    StipletTidslinjeLinjeIkon,
 } from './OppgaveBeskjedIkoner';
 import {
     BeskjedTidslinjeElement,
@@ -52,7 +53,9 @@ export const SakPanel = ({
                     {sak.virksomhet.navn.toUpperCase()}
                 </BodyShort>
                 <Tag variant="neutral">
-                    {sak.merkelapp === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : sak.merkelapp}
+                    {sak.merkelapp === 'Inntektsmelding'
+                        ? 'Inntektsmelding sykepenger'
+                        : sak.merkelapp}
                 </Tag>
             </div>
             <Saksoverskrift lenkeTilSak={lenkeTilSak} sak={sak} />
@@ -72,76 +75,101 @@ export const SakPanel = ({
 type SaksoverskriftProps = {
     lenkeTilSak: boolean;
     sak: Sak;
-}
+};
 
-const Saksoverskrift = ({lenkeTilSak, sak}: SaksoverskriftProps) => {
+const Saksoverskrift = ({ lenkeTilSak, sak }: SaksoverskriftProps) => {
     if (lenkeTilSak) {
         if (typeof sak.lenke === 'string') {
-            return <LenkeMedLogging
-                href={sak.lenke}
-                loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
-            >
-                <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
-            </LenkeMedLogging>
+            return (
+                <LenkeMedLogging
+                    href={sak.lenke}
+                    loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
+                >
+                    <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
+                </LenkeMedLogging>
+            );
         } else {
-            return <InternLenkeMedLogging
-                href={`/sak?saksid=${sak.id}`}
-                loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
-            >
-                <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
-            </InternLenkeMedLogging>
+            return (
+                <InternLenkeMedLogging
+                    href={`/sak?saksid=${sak.id}`}
+                    loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
+                >
+                    <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
+                </InternLenkeMedLogging>
+            );
         }
     } else {
-        return <Heading size="small" level="2">
-            {sak.tittel}
-        </Heading>
+        return (
+            <Heading size="small" level="2">
+                {sak.tittel}
+            </Heading>
+        );
     }
-}
+};
 
 type TidslinjeProps = {
     sak: Sak;
     tvingEkspander: boolean;
-}
-const Tidslinje = ({sak, tvingEkspander}: TidslinjeProps) => {
+};
+const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
     const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
     const nesteStegTekst = sak.nesteSteg ?? undefined;
-    return <>
-        <div>
-            {nesteStegTekst !== undefined && (
-                <NesteSteg
-                    nesteStegTekst={nesteStegTekst}
-                    tidslinjeLengde={sak.tidslinje.length}
-                />
-            )}
-            {sak.tidslinje.map((tidslinjeelement, i) => (
-                <Tidslinjeelement
-                    key={tidslinjeelement.id}
-                    tidslinjeelement={tidslinjeelement}
-                    indeks={i}
-                    apen={tidslinjeOpen}
-                    antall={sak.tidslinje.length}
-                    tidslinjeOpen={tidslinjeOpen}
-                />
-            ))}
-        </div>
-        {sak.tidslinje.length > 1 && !tvingEkspander ? (
-            <Button
-                className="tidslinje-vis-mer-knapp"
-                variant="tertiary"
-                onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
-                icon={
-                    tidslinjeOpen ? (
-                        <Collapse aria-hidden="true" />
-                    ) : (
-                        <Expand aria-hidden="true" />
-                    )
-                }
-            >
-                {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
-            </Button>
-        ) : null}
-    </>
-}
+    const todos = sak.tidslinje.filter(
+        (tidslinjeElement) =>
+            (tidslinjeElement.__typename === 'OppgaveTidslinjeElement' &&
+                tidslinjeElement.tilstand === 'NY') ||
+            (tidslinjeElement.__typename === 'KalenderavtaleTidslinjeElement' &&
+                tidslinjeElement.avtaletilstand === 'VENTER_SVAR_FRA_ARBEIDSGIVER')
+    );
+    return (
+        <>
+            <div>
+                {nesteStegTekst !== undefined && (
+                    <NesteSteg
+                        nesteStegTekst={nesteStegTekst}
+                        tidslinjeLengde={sak.tidslinje.length}
+                    />
+                )}
+                {todos.map((tidslinjeelement, i) => (
+                    <Tidslinjeelement
+                        key={tidslinjeelement.id}
+                        tidslinjeelement={tidslinjeelement}
+                        indeks={i}
+                        apen={tidslinjeOpen}
+                        antall={sak.tidslinje.length}
+                        tidslinjeOpen={tidslinjeOpen}
+                    />
+                ))}
+                {sak.tidslinje.map((tidslinjeelement, i) => (
+                    <Tidslinjeelement
+                        key={tidslinjeelement.id}
+                        tidslinjeelement={tidslinjeelement}
+                        indeks={i}
+                        apen={tidslinjeOpen}
+                        antall={sak.tidslinje.length}
+                        tidslinjeOpen={tidslinjeOpen}
+                    />
+                ))}
+            </div>
+            {sak.tidslinje.length > 1 && !tvingEkspander ? (
+                <Button
+                    className="tidslinje-vis-mer-knapp"
+                    variant="tertiary"
+                    onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
+                    icon={
+                        tidslinjeOpen ? (
+                            <Collapse aria-hidden="true" />
+                        ) : (
+                            <Expand aria-hidden="true" />
+                        )
+                    }
+                >
+                    {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
+                </Button>
+            ) : null}
+        </>
+    );
+};
 
 type NesteStegProps = {
     nesteStegTekst?: string;
@@ -155,7 +183,7 @@ const NesteSteg = ({ nesteStegTekst, tidslinjeLengde }: NesteStegProps) => {
                 <NesteStegIkon title="Neste steg" />
             </div>
             <div style={{ gridArea: 'linje', marginLeft: '1px' }}>
-                {tidslinjeLengde > 0 ? <TidslinjeLinjeIkon stiplet height={24} /> : null}
+                {tidslinjeLengde > 0 ? <StipletTidslinjeLinjeIkon height={24} /> : null}
             </div>
             <BodyShort style={{ gridArea: 'tittel' }}>{nesteStegTekst}</BodyShort>
         </div>
@@ -173,8 +201,7 @@ type TidslinjeelementHelperProps = {
 
 type TidslinjeelementProps = {
     tidslinjeelement: TidslinjeElement;
-    erSist: boolean;
-    tidslinjeOpen: boolean;
+    TidslinjeLinjeIkon: React.JSX.Element | null;
 };
 
 const Tidslinjeelement = ({
@@ -185,28 +212,51 @@ const Tidslinjeelement = ({
     tidslinjeOpen,
 }: TidslinjeelementHelperProps) => {
     if (!apen && indeks > 0) return null;
+    const erSiste = indeks === antall - 1;
+
     if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
         return (
             <BeskjedElement
                 tidslinjeelement={tidslinjeelement}
-                erSist={indeks === antall - 1}
-                tidslinjeOpen={tidslinjeOpen}
+                TidslinjeLinjeIkon={
+                    erSiste || !tidslinjeOpen ? null : <SolidTidslinjeLinjeIkon height={24} />
+                }
             />
         );
     } else if (tidslinjeelement.__typename === 'OppgaveTidslinjeElement') {
+        const { tilstand, frist, paaminnelseTidspunkt } =
+            tidslinjeelement as OppgaveTidslinjeElement;
         return (
             <OppgaveElement
                 tidslinjeelement={tidslinjeelement}
-                erSist={indeks === antall - 1}
-                tidslinjeOpen={tidslinjeOpen}
+                TidslinjeLinjeIkon={
+                    erSiste || !tidslinjeOpen ? null : tilstand === OppgaveTilstand.Ny &&
+                      frist === null &&
+                      paaminnelseTidspunkt === null ? (
+                        <SolidTidslinjeLinjeIkon height={24} />
+                    ) : (
+                        <SolidTidslinjeLinjeIkon height={32} />
+                    )
+                }
             />
         );
     } else if (tidslinjeelement.__typename === 'KalenderavtaleTidslinjeElement') {
+        const { startTidspunkt, lokasjon, digitalt } =
+            tidslinjeelement as KalenderavtaleTidslinjeElement;
+
+        const harPassert = new Date(startTidspunkt) < new Date();
+        const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
+
         return (
             <KalenderavtaleElement
                 tidslinjeelement={tidslinjeelement}
-                erSist={indeks === antall - 1}
-                tidslinjeOpen={tidslinjeOpen}
+                TidslinjeLinjeIkon={
+                    erSiste || !tidslinjeOpen ? null : harPassert ? (
+                        <SolidTidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
+                    ) : (
+                        <StipletTidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
+                    )
+                }
             />
         );
     } else {
@@ -214,7 +264,7 @@ const Tidslinjeelement = ({
     }
 };
 
-const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
+const BeskjedElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: TidslinjeelementProps) => {
     if (tidslinjeelement.__typename !== 'BeskjedTidslinjeElement') return null;
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
@@ -226,14 +276,12 @@ const BeskjedElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                 <BeskjedIkon />
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
-            <div className="tidslinje-linje">
-                {erSist || !tidslinjeOpen ? null : <TidslinjeLinjeIkon height={24} />}
-            </div>
+            <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
     );
 };
 
-const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: TidslinjeelementProps) => {
+const OppgaveElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: TidslinjeelementProps) => {
     if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
@@ -255,24 +303,12 @@ const OppgaveElement = ({ tidslinjeelement, erSist, tidslinjeOpen }: Tidslinjeel
                     oppgave={tidslinjeelement as OppgaveTidslinjeElement}
                 />
             </div>
-            <div className="tidslinje-linje">
-                {erSist || !tidslinjeOpen ? null : tilstand === OppgaveTilstand.Ny &&
-                  frist === null &&
-                  paaminnelseTidspunkt === null ? (
-                    <TidslinjeLinjeIkon height={24} />
-                ) : (
-                    <TidslinjeLinjeIkon height={32} />
-                )}
-            </div>
+            <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
     );
 };
 
-const KalenderavtaleElement = ({
-    tidslinjeelement,
-    erSist,
-    tidslinjeOpen,
-}: TidslinjeelementProps) => {
+const KalenderavtaleElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: TidslinjeelementProps) => {
     if (tidslinjeelement.__typename !== 'KalenderavtaleTidslinjeElement') return null;
 
     const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt } =
@@ -313,13 +349,7 @@ const KalenderavtaleElement = ({
                     kalenderTidslinjeelement={tidslinjeelement as KalenderavtaleTidslinjeElement}
                 />
             </div>
-            <div className="tidslinje-linje">
-                {erSist || !tidslinjeOpen ? null : harPassert ? (
-                    <TidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
-                ) : (
-                    <TidslinjeLinjeIkon stiplet height={ingenLokasjon ? 50 : 77} />
-                )}
-            </div>
+            <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
     );
 };

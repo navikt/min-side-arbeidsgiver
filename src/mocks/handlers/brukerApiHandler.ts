@@ -16,6 +16,7 @@ import {
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
     OppgaveTidslinjeElement,
+    OppgaveTilstand,
     SakStatusType,
 } from '../../api/graphql-types';
 
@@ -197,6 +198,7 @@ const saker = [
                 opprettetTidspunkt: faker.date.recent({ days: 7 }),
                 paaminnelseTidspunkt: faker.date.recent({ days: 2 }),
                 utfoertTidspunkt: faker.date.recent({ days: 1 }),
+                tilstand: OppgaveTilstand.Ny,
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
@@ -275,8 +277,8 @@ const saker = [
 
 export const brukerApiHandlers = [
     graphql.query('hentSaker', async ({ query, variables }) => {
-        const sakerFiltrert = saker.filter(
-            ({ merkelapp }) => (variables.sakstyper ?? alleMerkelapper)?.includes(merkelapp)
+        const sakerFiltrert = saker.filter(({ merkelapp }) =>
+            (variables.sakstyper ?? alleMerkelapper)?.includes(merkelapp)
         );
         const { errors, data } = await executeGraphQL({
             schema,
