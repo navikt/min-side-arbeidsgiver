@@ -167,7 +167,7 @@ const saker = [
     {
         id: faker.string.uuid(),
         merkelapp: 'Lønnstilskudd',
-        tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel',
+        tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel 2',
         lenke: '#',
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({

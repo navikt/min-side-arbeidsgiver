@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import './SaksListe.css';
 import {
     BeskjedIkon,
+    DelvisStipletTidslinjeLinjeIkon,
     KalenderavtaleIkonBlå,
     KalenderavtaleIkonGrå,
     NesteStegIkon,
@@ -114,13 +115,21 @@ type TidslinjeProps = {
 const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
     const [tidslinjeOpen, setTidslinjeOpen] = useState(tvingEkspander);
     const nesteStegTekst = sak.nesteSteg ?? undefined;
-    const todos = sak.tidslinje.filter(
-        (tidslinjeElement) =>
-            (tidslinjeElement.__typename === 'OppgaveTidslinjeElement' &&
-                tidslinjeElement.tilstand === 'NY') ||
-            (tidslinjeElement.__typename === 'KalenderavtaleTidslinjeElement' &&
-                tidslinjeElement.avtaletilstand === 'VENTER_SVAR_FRA_ARBEIDSGIVER')
-    );
+    const todos = tidslinjeOpen
+        ? []
+        : sak.tidslinje.filter(
+              (tidslinjeElement) =>
+                  (tidslinjeElement.__typename === 'OppgaveTidslinjeElement' &&
+                      tidslinjeElement.tilstand === 'NY') ||
+                  (tidslinjeElement.__typename === 'KalenderavtaleTidslinjeElement' &&
+                      tidslinjeElement.avtaletilstand === 'VENTER_SVAR_FRA_ARBEIDSGIVER')
+          );
+    const tidslinje = tidslinjeOpen
+        ? sak.tidslinje
+        : todos.length === 0
+          ? sak.tidslinje.slice(0, 1)
+          : [];
+
     return (
         <>
             <div>
@@ -130,26 +139,100 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         tidslinjeLengde={sak.tidslinje.length}
                     />
                 )}
-                {todos.map((tidslinjeelement, i) => (
-                    <Tidslinjeelement
-                        key={tidslinjeelement.id}
-                        tidslinjeelement={tidslinjeelement}
-                        indeks={i}
-                        apen={tidslinjeOpen}
-                        antall={sak.tidslinje.length}
-                        tidslinjeOpen={tidslinjeOpen}
-                    />
-                ))}
-                {sak.tidslinje.map((tidslinjeelement, i) => (
-                    <Tidslinjeelement
-                        key={tidslinjeelement.id}
-                        tidslinjeelement={tidslinjeelement}
-                        indeks={i}
-                        apen={tidslinjeOpen}
-                        antall={sak.tidslinje.length}
-                        tidslinjeOpen={tidslinjeOpen}
-                    />
-                ))}
+                {todos.map((tidslinjeelement, i) => {
+                    if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
+                        return (
+                            <BeskjedElement
+                                key={tidslinjeelement.id}
+                                tidslinjeelement={tidslinjeelement}
+                                TidslinjeLinjeIkon={<DelvisStipletTidslinjeLinjeIkon height={24} />}
+                            />
+                        );
+                    } else if (tidslinjeelement.__typename === 'OppgaveTidslinjeElement') {
+                        const { frist, paaminnelseTidspunkt } = tidslinjeelement;
+                        const ikonHøyde = frist === null && paaminnelseTidspunkt === null ? 24 : 32;
+                        return (
+                            <OppgaveElement
+                                key={tidslinjeelement.id}
+                                tidslinjeelement={tidslinjeelement}
+                                TidslinjeLinjeIkon={
+                                    <DelvisStipletTidslinjeLinjeIkon height={ikonHøyde} />
+                                }
+                            />
+                        );
+                    } else if (tidslinjeelement.__typename === 'KalenderavtaleTidslinjeElement') {
+                        const { lokasjon, digitalt } = tidslinjeelement;
+                        const ingenLokasjon =
+                            (lokasjon ?? undefined) === undefined && digitalt === false;
+                        return (
+                            <KalenderavtaleElement
+                                key={tidslinjeelement.id}
+                                tidslinjeelement={tidslinjeelement}
+                                TidslinjeLinjeIkon={
+                                    <DelvisStipletTidslinjeLinjeIkon
+                                        height={ingenLokasjon ? 50 : 77}
+                                    />
+                                }
+                            />
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
+                <hr />
+                {tidslinje.map((tidslinjeelement, i) => {
+                    const erSiste = i === tidslinje.length - 1;
+
+                    if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
+                        return (
+                            <BeskjedElement
+                                key={tidslinjeelement.id}
+                                tidslinjeelement={tidslinjeelement}
+                                TidslinjeLinjeIkon={
+                                    erSiste ? null : <SolidTidslinjeLinjeIkon height={24} />
+                                }
+                            />
+                        );
+                    } else if (tidslinjeelement.__typename === 'OppgaveTidslinjeElement') {
+                        const { tilstand, frist, paaminnelseTidspunkt } = tidslinjeelement;
+                        return (
+                            <OppgaveElement
+                                key={tidslinjeelement.id}
+                                tidslinjeelement={tidslinjeelement}
+                                TidslinjeLinjeIkon={
+                                    erSiste ? null : tilstand === OppgaveTilstand.Ny &&
+                                      frist === null &&
+                                      paaminnelseTidspunkt === null ? (
+                                        <SolidTidslinjeLinjeIkon height={24} />
+                                    ) : (
+                                        <SolidTidslinjeLinjeIkon height={32} />
+                                    )
+                                }
+                            />
+                        );
+                    } else if (tidslinjeelement.__typename === 'KalenderavtaleTidslinjeElement') {
+                        const { startTidspunkt, lokasjon, digitalt } = tidslinjeelement;
+                        const harPassert = new Date(startTidspunkt) < new Date();
+                        const ingenLokasjon =
+                            (lokasjon ?? undefined) === undefined && digitalt === false;
+                        const ikonHøyde = ingenLokasjon ? 50 : 77;
+                        return (
+                            <KalenderavtaleElement
+                                key={tidslinjeelement.id}
+                                tidslinjeelement={tidslinjeelement}
+                                TidslinjeLinjeIkon={
+                                    erSiste ? null : harPassert ? (
+                                        <SolidTidslinjeLinjeIkon height={ikonHøyde} />
+                                    ) : (
+                                        <StipletTidslinjeLinjeIkon height={ikonHøyde} />
+                                    )
+                                }
+                            />
+                        );
+                    } else {
+                        return null;
+                    }
+                })}
             </div>
             {sak.tidslinje.length > 1 && !tvingEkspander ? (
                 <Button
@@ -190,81 +273,13 @@ const NesteSteg = ({ nesteStegTekst, tidslinjeLengde }: NesteStegProps) => {
     );
 };
 
-type TidslinjeelementHelperProps = {
-    tidslinjeelement: TidslinjeElement;
-    indeks: number;
-    apen: boolean;
-    antall: number;
-    tidslinjeOpen: boolean;
-    nesteSteg?: string;
-};
-
-type TidslinjeelementProps = {
+const BeskjedElement = ({
+    tidslinjeelement,
+    TidslinjeLinjeIkon,
+}: {
     tidslinjeelement: TidslinjeElement;
     TidslinjeLinjeIkon: React.JSX.Element | null;
-};
-
-const Tidslinjeelement = ({
-    tidslinjeelement,
-    indeks,
-    apen,
-    antall,
-    tidslinjeOpen,
-}: TidslinjeelementHelperProps) => {
-    if (!apen && indeks > 0) return null;
-    const erSiste = indeks === antall - 1;
-
-    if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
-        return (
-            <BeskjedElement
-                tidslinjeelement={tidslinjeelement}
-                TidslinjeLinjeIkon={
-                    erSiste || !tidslinjeOpen ? null : <SolidTidslinjeLinjeIkon height={24} />
-                }
-            />
-        );
-    } else if (tidslinjeelement.__typename === 'OppgaveTidslinjeElement') {
-        const { tilstand, frist, paaminnelseTidspunkt } =
-            tidslinjeelement as OppgaveTidslinjeElement;
-        return (
-            <OppgaveElement
-                tidslinjeelement={tidslinjeelement}
-                TidslinjeLinjeIkon={
-                    erSiste || !tidslinjeOpen ? null : tilstand === OppgaveTilstand.Ny &&
-                      frist === null &&
-                      paaminnelseTidspunkt === null ? (
-                        <SolidTidslinjeLinjeIkon height={24} />
-                    ) : (
-                        <SolidTidslinjeLinjeIkon height={32} />
-                    )
-                }
-            />
-        );
-    } else if (tidslinjeelement.__typename === 'KalenderavtaleTidslinjeElement') {
-        const { startTidspunkt, lokasjon, digitalt } =
-            tidslinjeelement as KalenderavtaleTidslinjeElement;
-
-        const harPassert = new Date(startTidspunkt) < new Date();
-        const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
-
-        return (
-            <KalenderavtaleElement
-                tidslinjeelement={tidslinjeelement}
-                TidslinjeLinjeIkon={
-                    erSiste || !tidslinjeOpen ? null : harPassert ? (
-                        <SolidTidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
-                    ) : (
-                        <StipletTidslinjeLinjeIkon height={ingenLokasjon ? 50 : 77} />
-                    )
-                }
-            />
-        );
-    } else {
-        return null;
-    }
-};
-
-const BeskjedElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: TidslinjeelementProps) => {
+}) => {
     if (tidslinjeelement.__typename !== 'BeskjedTidslinjeElement') return null;
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
@@ -281,7 +296,13 @@ const BeskjedElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: Tidslinjeeleme
     );
 };
 
-const OppgaveElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: TidslinjeelementProps) => {
+const OppgaveElement = ({
+    tidslinjeelement,
+    TidslinjeLinjeIkon,
+}: {
+    tidslinjeelement: TidslinjeElement;
+    TidslinjeLinjeIkon: React.JSX.Element | null;
+}) => {
     if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
@@ -308,7 +329,13 @@ const OppgaveElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: Tidslinjeeleme
     );
 };
 
-const KalenderavtaleElement = ({ tidslinjeelement, TidslinjeLinjeIkon }: TidslinjeelementProps) => {
+const KalenderavtaleElement = ({
+    tidslinjeelement,
+    TidslinjeLinjeIkon,
+}: {
+    tidslinjeelement: TidslinjeElement;
+    TidslinjeLinjeIkon: React.JSX.Element | null;
+}) => {
     if (tidslinjeelement.__typename !== 'KalenderavtaleTidslinjeElement') return null;
 
     const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt } =
