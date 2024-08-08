@@ -18,7 +18,6 @@ import {
     KalenderavtaleTilstand,
     Lokasjon,
     OppgaveTidslinjeElement,
-    OppgaveTilstand,
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
@@ -137,18 +136,16 @@ const Tidslinjeelement = ({
             />
         );
     } else if (tidslinjeelement.__typename === 'OppgaveTidslinjeElement') {
-        const { tilstand, frist, paaminnelseTidspunkt } = tidslinjeelement;
-        const ikonHøyde =
-            tilstand === OppgaveTilstand.Ny && frist === null && paaminnelseTidspunkt === null
-                ? 24
-                : 32;
+        const { frist, paaminnelseTidspunkt } = tidslinjeelement;
         return (
             <OppgaveElement
                 key={tidslinjeelement.id}
                 tidslinjeelement={tidslinjeelement}
                 TidslinjeLinjeIkon={
                     brukDelvisStipletLinjeIkon ? (
-                        <DelvisStipletTidslinjeLinjeIkon height={ikonHøyde} />
+                        <DelvisStipletTidslinjeLinjeIkon
+                            height={frist === null && paaminnelseTidspunkt === null ? 24 : 56}
+                        />
                     ) : skjulLinjeIkon ? null : (
                         <SolidTidslinjeLinjeIkon height={100} />
                     )
@@ -159,7 +156,7 @@ const Tidslinjeelement = ({
         const { startTidspunkt, lokasjon, digitalt } = tidslinjeelement;
         const harPassert = new Date(startTidspunkt) < new Date();
         const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
-        const ikonHøyde = ingenLokasjon ? 50 : 77;
+        const ikonHøyde = ingenLokasjon ? 32 : 56;
         return (
             <KalenderavtaleElement
                 key={tidslinjeelement.id}
@@ -272,7 +269,7 @@ const BeskjedElement = ({
     if (tidslinjeelement.__typename !== 'BeskjedTidslinjeElement') return null;
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
-        <div className="tidslinje-element grid2x3">
+        <div className="grid2x3">
             <div className="tidslinje-element-ikon">
                 <BeskjedIkon />
             </div>
@@ -301,7 +298,7 @@ const OppgaveElement = ({
         UTGAATT: <OppgaveUtfortIkon />,
     };
     return (
-        <div className="tidslinje-element grid2x4">
+        <div className="grid2x4">
             <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <Detail className="tidslinje-element-detaljer">
@@ -334,10 +331,8 @@ const KalenderavtaleElement = ({
 
     const harPassert = new Date(startTidspunkt) < new Date();
     const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
-    const grid = ingenLokasjon ? 'grid2x3' : 'grid2x4';
-
     return (
-        <div className={`tidslinje-element-kalenderavtale ${grid}`}>
+        <div className={ingenLokasjon ? 'grid2x3' : 'grid2x4'}>
             <div className="tidslinje-element-ikon">
                 {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
                     <KalenderavtaleIkonGrå
