@@ -70,25 +70,33 @@ ul.saks-liste .sakscontainer .sakstittel {
 
 .sakscontainer .tidslinje-element {
   display: grid;
+  overflow: hidden;
   grid-template-columns: 24px auto;
-  grid-template-rows: repeat(3, auto);
+  grid-template-rows: auto 1rem 1.5rem 1rem;
   grid-template-areas:
-  "tidspunkt tidspunkt"
   "ikon tittel"
-  "linje tittel"
-  "linje paaminnelse";
+  "linje tidspunkt"
+  "linje paaminnelse"
+  "linje none";
   column-gap: 8px;
 }
 
 .sakscontainer .tidslinje-element-kalenderavtale {
   display: grid;
+  overflow: hidden;
   grid-template-columns: 24px auto;
-  grid-template-rows: repeat(3, auto);
+  grid-template-rows: auto max(4rem) 4px;
   grid-template-areas:
   "ikon tittel"
-  "linje tittel"
-  "linje paaminnelse";
+  "linje detaljer"
+  "linje none";
   column-gap: 8px;
+}
+
+.tidslinje {
+  gap: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .tidslinje-element-tidspunkt {
@@ -101,12 +109,13 @@ ul.saks-liste .sakscontainer .sakstittel {
 
 .tidslinje-element-tittel {
   grid-area: tittel;
+  align-content: center;
 }
 
 .tidslinje-element-detaljer {
+  grid-area: detaljer;
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
   gap: 8px;
 }
 

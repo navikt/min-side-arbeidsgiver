@@ -53,7 +53,7 @@ export const SakPanel = ({
                 <BodyShort size="small" style={style}>
                     {sak.virksomhet.navn.toUpperCase()}
                 </BodyShort>
-                <Tag variant="neutral">
+                <Tag size="small" variant="neutral">
                     {sak.merkelapp === 'Inntektsmelding'
                         ? 'Inntektsmelding sykepenger'
                         : sak.merkelapp}
@@ -131,7 +131,7 @@ const Tidslinjeelement = ({
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon height={24} />
                     ) : skjulLinjeIkon ? null : (
-                        <SolidTidslinjeLinjeIkon height={24} />
+                        <SolidTidslinjeLinjeIkon height={100} />
                     )
                 }
             />
@@ -150,7 +150,7 @@ const Tidslinjeelement = ({
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon height={ikonHøyde} />
                     ) : skjulLinjeIkon ? null : (
-                        <SolidTidslinjeLinjeIkon height={ikonHøyde} />
+                        <SolidTidslinjeLinjeIkon height={100} />
                     )
                 }
             />
@@ -168,9 +168,9 @@ const Tidslinjeelement = ({
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon height={ikonHøyde} />
                     ) : skjulLinjeIkon ? null : harPassert ? (
-                        <SolidTidslinjeLinjeIkon height={ikonHøyde} />
+                        <SolidTidslinjeLinjeIkon height={100} />
                     ) : (
-                        <StipletTidslinjeLinjeIkon height={ikonHøyde} />
+                        <StipletTidslinjeLinjeIkon height={100} />
                     )
                 }
             />
@@ -201,7 +201,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
 
     return (
         <>
-            <div>
+            <div className="tidslinje">
                 {nesteStegTekst !== undefined && (
                     <NesteSteg
                         nesteStegTekst={nesteStegTekst}
@@ -273,13 +273,13 @@ const BeskjedElement = ({
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
         <div className="tidslinje-element">
-            <Detail className="tidslinje-element-tidspunkt">
-                {dateFormat.format(new Date(opprettetTidspunkt))}
-            </Detail>
             <div className="tidslinje-element-ikon">
                 <BeskjedIkon />
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
+            <Detail className="tidslinje-element-tidspunkt">
+                {dateFormat.format(new Date(opprettetTidspunkt))}
+            </Detail>
             <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
     );
@@ -302,11 +302,11 @@ const OppgaveElement = ({
     };
     return (
         <div className="tidslinje-element">
+            <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
+            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <Detail className="tidslinje-element-tidspunkt">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
-            <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
-            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <div>
                 <StatusLinje
                     className={'oppgave-element-paaminnelse'}
@@ -350,9 +350,8 @@ const KalenderavtaleElement = ({
                 )}
             </div>
             <div className="tidslinje-element-tittel">
-                <BodyShort>{tekst}</BodyShort>
                 <BodyShort>
-                    {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
+                    {tekst} {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
                     {klokkeslett.format(new Date(startTidspunkt))}
                     {sluttTidspunkt !== undefined
                         ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
