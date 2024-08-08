@@ -4,11 +4,11 @@ import './SaksListe.css';
 import {
     BeskjedIkon,
     DelvisStipletTidslinjeLinjeIkon,
-    KalenderavtaleIkonBlå,
-    KalenderavtaleIkonGrå,
+    KalenderavtaleIkon,
     NesteStegIkon,
     NyOppgaveIkon,
     OppgaveUtfortIkon,
+    OppgaveUtgaattIkon,
     SolidTidslinjeLinjeIkon,
     StipletTidslinjeLinjeIkon,
 } from './OppgaveBeskjedIkoner';
@@ -18,6 +18,7 @@ import {
     KalenderavtaleTilstand,
     Lokasjon,
     OppgaveTidslinjeElement,
+    OppgaveTilstand,
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
@@ -292,21 +293,30 @@ const OppgaveElement = ({
     if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
     const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
         tidslinjeelement as OppgaveTidslinjeElement;
+
     const ikon = {
         NY: <NyOppgaveIkon />,
         UTFOERT: <OppgaveUtfortIkon />,
-        UTGAATT: <OppgaveUtfortIkon />,
+        UTGAATT: <OppgaveUtgaattIkon />,
     };
     return (
-        <div className="grid2x4">
+        <div className={tilstand === OppgaveTilstand.Utfoert ? 'grid2x3' : 'grid2x4'}>
             <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
-            <Detail className="tidslinje-element-detaljer">
-                {dateFormat.format(new Date(opprettetTidspunkt))}
-            </Detail>
-            <div className="tidslinje-element-detaljer2">
-                <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
-            </div>
+            {tilstand === OppgaveTilstand.Utfoert ? (
+                <div className="tidslinje-element-detaljer">
+                    <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
+                </div>
+            ) : (
+                <>
+                    <Detail className="tidslinje-element-detaljer">
+                        {dateFormat.format(new Date(opprettetTidspunkt))}
+                    </Detail>
+                    <div className="tidslinje-element-detaljer2">
+                        <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
+                    </div>
+                </>
+            )}
             <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
     );
@@ -335,11 +345,14 @@ const KalenderavtaleElement = ({
         <div className={ingenLokasjon ? 'grid2x3' : 'grid2x4'}>
             <div className="tidslinje-element-ikon">
                 {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
-                    <KalenderavtaleIkonGrå
+                    <KalenderavtaleIkon
+                        variant="grå"
                         title={harPassert ? 'Avtaletidspunktet har passert.' : 'Møtet er avlyst.'}
                     />
+                ) : avtaletilstand === KalenderavtaleTilstand.VenterSvarFraArbeidsgiver ? (
+                    <KalenderavtaleIkon variant="oransje" title={'Kommende kalenderavtale.'} />
                 ) : (
-                    <KalenderavtaleIkonBlå title={'Kommende kalenderavtale.'} />
+                    <KalenderavtaleIkon variant="blå" title={'Du har avgitt svar.'} />
                 )}
             </div>
             <div className="tidslinje-element-tittel">

@@ -43,18 +43,16 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
         case OppgaveTilstand.Utfoert:
             return (
                 <Tag size="small" className={className} variant="success">
-                    <StatusIkonMedTekst icon={<StopWatch aria-hidden="true" />}>
-                        Utført{' '}
-                        {oppgave.utfoertTidspunkt === null
-                            ? null
-                            : uformellDatotekst(new Date(oppgave.utfoertTidspunkt))}
-                    </StatusIkonMedTekst>
+                    Utført{' '}
+                    {oppgave.utfoertTidspunkt === null
+                        ? null
+                        : uformellDatotekst(new Date(oppgave.utfoertTidspunkt))}
                 </Tag>
             );
 
         case OppgaveTilstand.Utgaatt:
             return (
-                <Tag size="small" className={className} variant="neutral">
+                <Tag size="small" className={className} variant="info">
                     <StatusIkonMedTekst icon={<StopWatch aria-hidden="true" />}>
                         Fristen gikk ut {uformellDatotekst(new Date(oppgave.utgaattTidspunkt))}
                     </StatusIkonMedTekst>

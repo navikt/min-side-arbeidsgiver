@@ -135,6 +135,12 @@ const saker = [
         }),
         nesteSteg: null,
         tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 7 }),
+                tilstand: OppgaveTilstand.Utfoert,
+                frist: faker.date.soon({ days: 7 }),
+            }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: faker.date.recent({ days: 2 }),
@@ -156,11 +162,26 @@ const saker = [
             oppgaveTidslinjeElement({
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
                 opprettetTidspunkt: faker.date.recent({ days: 7 }),
-                paaminnelseTidspunkt: faker.date.recent({ days: 2 }),
+                tilstand: OppgaveTilstand.Ny,
+                frist: faker.date.soon({ days: 7 }),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 29 }),
+                frist: faker.date.recent({ days: 1 }),
+                tilstand: OppgaveTilstand.Utfoert,
+                utfoertTidspunkt: faker.date.recent({ days: 7 }),
+            }),
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 29 }),
+                frist: faker.date.recent({ days: 1 }),
+                tilstand: OppgaveTilstand.Utgaatt,
+                utgaattTidspunkt: faker.date.recent({ days: 7 }),
             }),
         ],
     },
@@ -223,12 +244,12 @@ const saker = [
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
                 lokasjon: undefined,
                 digitalt: false,
-                startTidspunkt: new Date('2024-06-20T15:15:00'),
-                sluttTidspunkt: new Date('2024-06-20T16:15:00'),
+                startTidspunkt: faker.date.soon({ days: 1 }),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilAvlyse,
+                startTidspunkt: faker.date.soon({ days: 1 }),
                 digitalt: false,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
@@ -238,7 +259,27 @@ const saker = [
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted,
+                startTidspunkt: faker.date.soon({ days: 1 }),
+
+                lokasjon: {
+                    adresse: 'Sørkedalsveien 31',
+                    postnummer: '0788',
+                    poststed: 'Sandnes',
+                },
+                digitalt: false,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                startTidspunkt: faker.date.soon({ days: 1 }),
+                lokasjon: undefined,
+                digitalt: true,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                startTidspunkt: faker.date.recent({ days: 1 }),
                 lokasjon: undefined,
                 digitalt: true,
             }),
