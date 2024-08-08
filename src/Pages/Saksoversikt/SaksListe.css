@@ -18,6 +18,10 @@ ul.saks-liste li {
   gap: 8px;
 }
 
+.oransje-kant {
+  border-left: 10px solid rgba(255, 215, 153, 1)
+}
+
 .sakscontainer-top {
   display: flex;
   justify-content: space-between;
@@ -122,8 +126,12 @@ ul.saks-liste .sakscontainer .sakstittel {
 }
 
 .tidslinje-vis-mer-knapp{
-  max-width: 8rem;
+  max-width: 16rem;
   padding: 8px 0 0 0;
+}
+
+.tidslinje-vis-mer-knapp * {
+  font-weight: 200;
 }
 
 

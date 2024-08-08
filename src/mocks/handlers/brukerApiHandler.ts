@@ -139,6 +139,7 @@ const saker = [
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
                 opprettetTidspunkt: faker.date.recent({ days: 7 }),
                 tilstand: OppgaveTilstand.Utfoert,
+                utfoertTidspunkt: faker.date.recent({ days: 4 }),
                 frist: faker.date.soon({ days: 7 }),
             }),
             beskjedTidslinjeElement({

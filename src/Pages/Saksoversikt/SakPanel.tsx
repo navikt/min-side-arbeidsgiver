@@ -47,8 +47,18 @@ export const SakPanel = ({
     sak,
 }: SakPanelProps) => {
     const style: React.CSSProperties = placeholder ? { visibility: 'hidden' } : {};
+
+    const harAktuelleElementer = sak.tidslinje.some((tidslinjeElement) => {
+        if (tidslinjeElement.__typename === 'OppgaveTidslinjeElement') {
+            return tidslinjeElement.tilstand === 'NY';
+        } else if (tidslinjeElement.__typename === 'KalenderavtaleTidslinjeElement') {
+            return tidslinjeElement.avtaletilstand === 'VENTER_SVAR_FRA_ARBEIDSGIVER';
+        }
+        return false;
+    });
+
     return (
-        <div className="sakscontainer">
+        <div className={`sakscontainer ${harAktuelleElementer ? 'oransje-kant' : ''}`}>
             <div className="sakscontainer-top">
                 <BodyShort size="small" style={style}>
                     {sak.virksomhet.navn.toUpperCase()}
@@ -234,7 +244,11 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         )
                     }
                 >
-                    {tidslinjeOpen ? <>Vis mindre</> : <>Vis mer</>}
+                    {tidslinjeOpen ? (
+                        <>Skjul alt som har skjedd i saken</>
+                    ) : (
+                        <>Vis alt som har skjedd i saken</>
+                    )}
                 </Button>
             ) : null}
         </>
