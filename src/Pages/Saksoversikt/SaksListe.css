@@ -68,40 +68,37 @@ ul.saks-liste .sakscontainer .sakstittel {
   column-gap: 8px;
 }
 
-.sakscontainer .tidslinje-element {
-  display: grid;
-  overflow: hidden;
-  grid-template-columns: 24px auto;
-  grid-template-rows: auto 1rem 1.5rem 1rem;
-  grid-template-areas:
-  "ikon tittel"
-  "linje tidspunkt"
-  "linje paaminnelse"
-  "linje none";
-  column-gap: 8px;
-}
-
-.sakscontainer .tidslinje-element-kalenderavtale {
-  display: grid;
-  overflow: hidden;
-  grid-template-columns: 24px auto;
-  grid-template-rows: auto max(4rem) 4px;
-  grid-template-areas:
-  "ikon tittel"
-  "linje detaljer"
-  "linje none";
-  column-gap: 8px;
-}
-
 .tidslinje {
   gap: 0;
   display: flex;
   flex-direction: column;
 }
 
-.tidslinje-element-tidspunkt {
-  grid-area: tidspunkt;
+.grid2x3 {
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: auto 2rem 4px;
+  grid-template-areas:
+  "ikon tittel"
+  "linje detaljer"
+  "linje blank";
+  column-gap: 8px;
+  overflow: hidden;
 }
+
+.grid2x4 {
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: auto 2rem 2rem 4px;
+  grid-template-areas:
+  "ikon tittel"
+  "linje detaljer"
+  "linje detaljer2"
+  "linje blank";
+  column-gap: 8px;
+  overflow: hidden;
+}
+
 .tidslinje-element-ikon {
   grid-area: ikon;
   margin-top: 4px;
@@ -114,13 +111,10 @@ ul.saks-liste .sakscontainer .sakstittel {
 
 .tidslinje-element-detaljer {
   grid-area: detaljer;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 }
 
-.oppgave-element-paaminnelse {
-  grid-area: paaminnelse;
+.tidslinje-element-detaljer2 {
+  grid-area: detaljer2;
 }
 
 .tidslinje-linje {

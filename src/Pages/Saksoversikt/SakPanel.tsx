@@ -272,12 +272,12 @@ const BeskjedElement = ({
     if (tidslinjeelement.__typename !== 'BeskjedTidslinjeElement') return null;
     const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
-        <div className="tidslinje-element">
+        <div className="tidslinje-element grid2x3">
             <div className="tidslinje-element-ikon">
                 <BeskjedIkon />
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
-            <Detail className="tidslinje-element-tidspunkt">
+            <Detail className="tidslinje-element-detaljer">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
             <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
@@ -301,17 +301,14 @@ const OppgaveElement = ({
         UTGAATT: <OppgaveUtfortIkon />,
     };
     return (
-        <div className="tidslinje-element">
+        <div className="tidslinje-element grid2x4">
             <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
-            <Detail className="tidslinje-element-tidspunkt">
+            <Detail className="tidslinje-element-detaljer">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
-            <div>
-                <StatusLinje
-                    className={'oppgave-element-paaminnelse'}
-                    oppgave={tidslinjeelement as OppgaveTidslinjeElement}
-                />
+            <div className="tidslinje-element-detaljer2">
+                <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
             </div>
             <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
@@ -337,9 +334,10 @@ const KalenderavtaleElement = ({
 
     const harPassert = new Date(startTidspunkt) < new Date();
     const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
+    const grid = ingenLokasjon ? 'grid2x3' : 'grid2x4';
 
     return (
-        <div className="tidslinje-element-kalenderavtale">
+        <div className={`tidslinje-element-kalenderavtale ${grid}`}>
             <div className="tidslinje-element-ikon">
                 {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
                     <KalenderavtaleIkonGrå
@@ -358,12 +356,30 @@ const KalenderavtaleElement = ({
                         : ''}
                 </BodyShort>
             </div>
-            <div className="tidslinje-element-detaljer">
-                <Sted sted={lokasjon ?? undefined} digitalt={digitalt ?? false} />
-                <AvtaletilstandLinje
-                    kalenderTidslinjeelement={tidslinjeelement as KalenderavtaleTidslinjeElement}
-                />
-            </div>
+
+            {ingenLokasjon ? (
+                <div className={'tidslinje-element-detaljer'}>
+                    <AvtaletilstandLinje
+                        kalenderTidslinjeelement={
+                            tidslinjeelement as KalenderavtaleTidslinjeElement
+                        }
+                    />
+                </div>
+            ) : (
+                <>
+                    <div className="tidslinje-element-detaljer">
+                        <Sted sted={lokasjon ?? undefined} digitalt={digitalt ?? false} />
+                    </div>
+                    <div className="tidslinje-element-detaljer2">
+                        <AvtaletilstandLinje
+                            kalenderTidslinjeelement={
+                                tidslinjeelement as KalenderavtaleTidslinjeElement
+                            }
+                        />
+                    </div>
+                </>
+            )}
+
             <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
     );
