@@ -125,11 +125,6 @@ ul.saks-liste .sakscontainer .sakstittel {
   grid-area: linje;
 }
 
-.tidslinje-vis-mer-knapp{
-  max-width: 16rem;
-  padding: 8px 0 0 0;
-}
-
 .tidslinje-vis-mer-knapp * {
   font-weight: 200;
 }

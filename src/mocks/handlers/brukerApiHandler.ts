@@ -201,6 +201,7 @@ const saker = [
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til samtale med veileder 15 april ',
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                startTidspunkt: faker.date.soon({ days: 7 }),
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',

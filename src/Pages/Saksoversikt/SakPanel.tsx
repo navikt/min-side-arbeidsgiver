@@ -232,24 +232,22 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                 ))}
             </div>
             {sak.tidslinje.length > 1 && !tvingEkspander ? (
-                <Button
-                    className="tidslinje-vis-mer-knapp"
-                    variant="tertiary"
-                    onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
-                    icon={
-                        tidslinjeOpen ? (
-                            <Collapse aria-hidden="true" />
-                        ) : (
-                            <Expand aria-hidden="true" />
-                        )
-                    }
-                >
-                    {tidslinjeOpen ? (
-                        <>Skjul alt som har skjedd i saken</>
-                    ) : (
-                        <>Vis alt som har skjedd i saken</>
-                    )}
-                </Button>
+                <div>
+                    <Button
+                        className="tidslinje-vis-mer-knapp"
+                        variant="tertiary"
+                        onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
+                        icon={
+                            tidslinjeOpen ? (
+                                <Collapse aria-hidden="true" />
+                            ) : (
+                                <Expand aria-hidden="true" />
+                            )
+                        }
+                    >
+                        {tidslinjeOpen ? <>Vis mindre</> : <>Vis alt som har skjedd i saken</>}
+                    </Button>
+                </div>
             ) : null}
         </>
     );
