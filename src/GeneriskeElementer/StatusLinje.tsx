@@ -15,7 +15,7 @@ export interface StatusLinjeProps {
     className?: string;
 }
 
-export const uformellDatotekst = (dato: Date) => {
+const uformellDatotekst = (dato: Date) => {
     const today = new Date();
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);

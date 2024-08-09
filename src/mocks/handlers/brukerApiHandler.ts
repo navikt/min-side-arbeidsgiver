@@ -189,6 +189,19 @@ const saker = [
     {
         id: faker.string.uuid(),
         merkelapp: 'Lønnstilskudd',
+        tittel: 'Avtale om lønnstilskudd Gert Snabel',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Under gjennomføring',
+        }),
+        nesteSteg: 'Vi sender deg en melding innen 24. desember',
+        tidslinje: [],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Lønnstilskudd',
         tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel 2',
         lenke: '#',
         virksomhet: virksomhet(),

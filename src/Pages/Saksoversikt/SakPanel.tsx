@@ -147,7 +147,7 @@ const Tidslinjeelement = ({
             />
         );
     } else if (tidslinjeelement.__typename === 'OppgaveTidslinjeElement') {
-        const { frist, paaminnelseTidspunkt } = tidslinjeelement;
+        const { frist, paaminnelseTidspunkt, tilstand } = tidslinjeelement;
         return (
             <OppgaveElement
                 key={tidslinjeelement.id}
@@ -155,7 +155,12 @@ const Tidslinjeelement = ({
                 TidslinjeLinjeIkon={
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon
-                            height={frist === null && paaminnelseTidspunkt === null ? 24 : 56}
+                            height={
+                                (frist === null && paaminnelseTidspunkt === null) ||
+                                tilstand === OppgaveTilstand.Utfoert
+                                    ? 24
+                                    : 48
+                            }
                         />
                     ) : skjulLinjeIkon ? null : (
                         <SolidTidslinjeLinjeIkon height={100} />
@@ -167,7 +172,7 @@ const Tidslinjeelement = ({
         const { startTidspunkt, lokasjon, digitalt } = tidslinjeelement;
         const harPassert = new Date(startTidspunkt) < new Date();
         const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
-        const ikonHøyde = ingenLokasjon ? 32 : 56;
+        const ikonHøyde = ingenLokasjon ? 24 : 48;
         return (
             <KalenderavtaleElement
                 key={tidslinjeelement.id}
@@ -216,24 +221,33 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         tidslinjeLengde={sak.tidslinje.length}
                     />
                 )}
-                {todos.map((tidslinjeelement, i) => (
+                {sak.tidslinje.length === 1 ? (
                     <Tidslinjeelement
-                        tidslinjeelement={tidslinjeelement}
-                        skjulLinjeIkon={false}
-                        brukDelvisStipletLinjeIkon={true}
+                        tidslinjeelement={sak.tidslinje[0]}
+                        skjulLinjeIkon={true}
+                        brukDelvisStipletLinjeIkon={false}
                     />
-                ))}
-                {tidslinje.map((tidslinjeelement, i) => {
-                    const erSist = sak.tidslinje.length - 1;
-                    const erAlene = sak.tidslinje.length === 1;
-                    return (
-                        <Tidslinjeelement
-                            tidslinjeelement={tidslinjeelement}
-                            skjulLinjeIkon={i === erSist || erAlene}
-                            brukDelvisStipletLinjeIkon={!tidslinjeOpen && !erAlene}
-                        />
-                    );
-                })}
+                ) : (
+                    <>
+                        {todos.map((tidslinjeelement, i) => (
+                            <Tidslinjeelement
+                                tidslinjeelement={tidslinjeelement}
+                                skjulLinjeIkon={false}
+                                brukDelvisStipletLinjeIkon={true}
+                            />
+                        ))}
+                        {tidslinje.map((tidslinjeelement, i) => {
+                            const erSist = sak.tidslinje.length - 1;
+                            return (
+                                <Tidslinjeelement
+                                    tidslinjeelement={tidslinjeelement}
+                                    skjulLinjeIkon={i === erSist}
+                                    brukDelvisStipletLinjeIkon={!tidslinjeOpen}
+                                />
+                            );
+                        })}
+                    </>
+                )}
             </div>
             {sak.tidslinje.length > 1 && !tvingEkspander ? (
                 <div>
