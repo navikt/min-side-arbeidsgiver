@@ -236,6 +236,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                     <Button
                         className="tidslinje-vis-mer-knapp"
                         variant="tertiary"
+                        size="small"
                         onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
                         icon={
                             tidslinjeOpen ? (
@@ -303,8 +304,7 @@ const OppgaveElement = ({
     TidslinjeLinjeIkon: React.JSX.Element | null;
 }) => {
     if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
-    const { tilstand, tekst, opprettetTidspunkt, frist, paaminnelseTidspunkt } =
-        tidslinjeelement as OppgaveTidslinjeElement;
+    const { tilstand, tekst, opprettetTidspunkt } = tidslinjeelement as OppgaveTidslinjeElement;
 
     const ikon = {
         NY: <NyOppgaveIkon />,
@@ -314,7 +314,12 @@ const OppgaveElement = ({
     return (
         <div className={tilstand === OppgaveTilstand.Utfoert ? 'grid2x3' : 'grid2x4'}>
             <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
-            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
+            <BodyShort
+                weight={tilstand === OppgaveTilstand.Ny ? 'semibold' : 'regular'}
+                className="tidslinje-element-tittel"
+            >
+                {tekst}
+            </BodyShort>
             {tilstand === OppgaveTilstand.Utfoert ? (
                 <div className="tidslinje-element-detaljer">
                     <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
@@ -368,7 +373,13 @@ const KalenderavtaleElement = ({
                 )}
             </div>
             <div className="tidslinje-element-tittel">
-                <BodyShort>
+                <BodyShort
+                    weight={
+                        avtaletilstand === KalenderavtaleTilstand.VenterSvarFraArbeidsgiver
+                            ? 'semibold'
+                            : 'regular'
+                    }
+                >
                     {tekst} {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
                     {klokkeslett.format(new Date(startTidspunkt))}
                     {sluttTidspunkt !== undefined
@@ -414,7 +425,7 @@ const Sted = ({ sted, digitalt }: Sted) => (
     <div className="kalenderavtale_sted">
         {sted !== undefined ? (
             <>
-                <LocationPinIcon aria-hidden={true} fontSize="1.5rem" />
+                <LocationPinIcon aria-hidden={true} fontSize="16px" />
                 <div>
                     <Detail>
                         {sted.adresse}, {sted.postnummer} {sted.poststed}
@@ -423,7 +434,7 @@ const Sted = ({ sted, digitalt }: Sted) => (
             </>
         ) : digitalt ? (
             <>
-                <PersonHeadsetIcon aria-hidden={true} fontSize="1.5rem" />{' '}
+                <PersonHeadsetIcon aria-hidden={true} fontSize="1rem" />{' '}
                 <BodyShort size="small"> Digital avtale </BodyShort>
             </>
         ) : null}
