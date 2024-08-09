@@ -1,7 +1,7 @@
 import React from 'react';
 import { fa } from '@faker-js/faker';
 
-export const NyOppgaveIkon = () => (
+export const NyOppgaveIkon = ({ title }: { title: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -11,6 +11,7 @@ export const NyOppgaveIkon = () => (
         focusable="false"
         role="img"
     >
+        <title>{title}</title>
         <path
             fill="#C77300"
             fillRule="evenodd"
@@ -20,7 +21,7 @@ export const NyOppgaveIkon = () => (
     </svg>
 );
 
-export const OppgaveUtgaattIkon = () => (
+export const OppgaveUtgaattIkon = ({ title }: { title: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -30,6 +31,7 @@ export const OppgaveUtgaattIkon = () => (
         focusable="false"
         role="img"
     >
+        <title>{title}</title>
         <path
             fill="rgba(2, 12, 28, 0.68)"
             fillRule="evenodd"
@@ -39,7 +41,7 @@ export const OppgaveUtgaattIkon = () => (
     </svg>
 );
 
-export const OppgaveUtfortIkon = () => (
+export const OppgaveUtfortIkon = ({ title }: { title: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -49,6 +51,7 @@ export const OppgaveUtfortIkon = () => (
         focusable="false"
         role="img"
     >
+        <title>{title}</title>
         <path
             fill="#33AA5F"
             fillRule="evenodd"
@@ -58,7 +61,7 @@ export const OppgaveUtfortIkon = () => (
     </svg>
 );
 
-export const BeskjedIkon = () => (
+export const BeskjedIkon = ({ title }: { title: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -68,6 +71,7 @@ export const BeskjedIkon = () => (
         focusable="false"
         role="img"
     >
+        <title>{title}</title>
         <path
             fill="rgba(35, 107, 125, 1)"
             fillRule="evenodd"
@@ -83,12 +87,6 @@ export const NesteStegIkon = ({ title }: { title: string }) => (
         <circle cx="13" cy="13" r="9.5" stroke="black" strokeDasharray="2 2" />
     </svg>
 );
-
-const farge = {
-    oransje: 'rgba(199, 115, 0, 1)',
-    blå: 'rgba(35, 107, 125, 1)',
-    grå: 'rgba(2, 12, 28, 0.68)',
-};
 
 export const KalenderavtaleIkon = ({
     title,

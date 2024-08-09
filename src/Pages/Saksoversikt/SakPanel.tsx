@@ -303,7 +303,7 @@ const BeskjedElement = ({
     return (
         <div className="grid2x3">
             <div className="tidslinje-element-ikon">
-                <BeskjedIkon />
+                <BeskjedIkon title="Beskjed" />
             </div>
             <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             <Detail className="tidslinje-element-detaljer">
@@ -325,9 +325,9 @@ const OppgaveElement = ({
     const { tilstand, tekst, opprettetTidspunkt } = tidslinjeelement as OppgaveTidslinjeElement;
 
     const ikon = {
-        NY: <NyOppgaveIkon />,
-        UTFOERT: <OppgaveUtfortIkon />,
-        UTGAATT: <OppgaveUtgaattIkon />,
+        NY: <NyOppgaveIkon title="Uløst oppgave" />,
+        UTFOERT: <OppgaveUtfortIkon title="Utført oppgave" />,
+        UTGAATT: <OppgaveUtgaattIkon title="Utgått oppgave" />,
     };
     return (
         <div className={tilstand === OppgaveTilstand.Utfoert ? 'grid2x3' : 'grid2x4'}>
@@ -382,12 +382,22 @@ const KalenderavtaleElement = ({
                 {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
                     <KalenderavtaleIkon
                         variant="grå"
-                        title={harPassert ? 'Avtaletidspunktet har passert.' : 'Møtet er avlyst.'}
+                        title={
+                            harPassert
+                                ? 'Kalenderavtale som har passert.'
+                                : 'Kalenderavtale som er avlyst.'
+                        }
                     />
                 ) : avtaletilstand === KalenderavtaleTilstand.VenterSvarFraArbeidsgiver ? (
-                    <KalenderavtaleIkon variant="oransje" title={'Kommende kalenderavtale.'} />
+                    <KalenderavtaleIkon
+                        variant="oransje"
+                        title={'Kalenderavtale som du må svare på.'}
+                    />
                 ) : (
-                    <KalenderavtaleIkon variant="blå" title={'Du har avgitt svar.'} />
+                    <KalenderavtaleIkon
+                        variant="blå"
+                        title={'Kalenderavtale som du har svart på.'}
+                    />
                 )}
             </div>
             <div className="tidslinje-element-tittel">
