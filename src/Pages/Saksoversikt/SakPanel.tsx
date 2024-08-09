@@ -223,13 +223,17 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         brukDelvisStipletLinjeIkon={true}
                     />
                 ))}
-                {tidslinje.map((tidslinjeelement, i) => (
-                    <Tidslinjeelement
-                        tidslinjeelement={tidslinjeelement}
-                        skjulLinjeIkon={i === tidslinje.length - 1}
-                        brukDelvisStipletLinjeIkon={false}
-                    />
-                ))}
+                {tidslinje.map((tidslinjeelement, i) => {
+                    const erSist = sak.tidslinje.length - 1;
+                    const erAlene = sak.tidslinje.length === 1;
+                    return (
+                        <Tidslinjeelement
+                            tidslinjeelement={tidslinjeelement}
+                            skjulLinjeIkon={i === erSist || erAlene}
+                            brukDelvisStipletLinjeIkon={!tidslinjeOpen && !erAlene}
+                        />
+                    );
+                })}
             </div>
             {sak.tidslinje.length > 1 && !tvingEkspander ? (
                 <div>
