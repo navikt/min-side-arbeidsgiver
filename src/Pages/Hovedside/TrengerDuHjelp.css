@@ -32,13 +32,9 @@
 }
 .kontaktfelt__content a {
   display: flex;
-  gap: 1rem;
+  gap: 8px;
 }
-@media (min-width: 992px) {
-  .kontaktfelt__content a {
-    flex-direction: column;
-  }
-}
+
 @media (min-width: 992px) {
   .kontaktfelt__content {
     width: 60rem;
