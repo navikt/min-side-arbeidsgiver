@@ -16,6 +16,7 @@ import {
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
     OppgaveTidslinjeElement,
+    OppgaveTilstand,
     SakStatusType,
 } from '../../api/graphql-types';
 
@@ -134,6 +135,13 @@ const saker = [
         }),
         nesteSteg: null,
         tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 7 }),
+                tilstand: OppgaveTilstand.Utfoert,
+                utfoertTidspunkt: faker.date.recent({ days: 4 }),
+                frist: faker.date.soon({ days: 7 }),
+            }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: faker.date.recent({ days: 2 }),
@@ -155,18 +163,46 @@ const saker = [
             oppgaveTidslinjeElement({
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
                 opprettetTidspunkt: faker.date.recent({ days: 7 }),
-                paaminnelseTidspunkt: faker.date.recent({ days: 2 }),
+                tilstand: OppgaveTilstand.Ny,
+                frist: faker.date.soon({ days: 7 }),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: faker.date.past({ years: 1 }),
+            }),
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 29 }),
+                frist: faker.date.recent({ days: 1 }),
+                tilstand: OppgaveTilstand.Utfoert,
+                utfoertTidspunkt: faker.date.recent({ days: 7 }),
+            }),
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 29 }),
+                frist: faker.date.recent({ days: 1 }),
+                tilstand: OppgaveTilstand.Utgaatt,
+                utgaattTidspunkt: faker.date.recent({ days: 7 }),
             }),
         ],
     },
     {
         id: faker.string.uuid(),
         merkelapp: 'Lønnstilskudd',
-        tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel',
+        tittel: 'Avtale om lønnstilskudd Gert Snabel',
+        lenke: '#',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Under gjennomføring',
+        }),
+        nesteSteg: 'Vi sender deg en melding innen 24. desember',
+        tidslinje: [],
+    },
+    {
+        id: faker.string.uuid(),
+        merkelapp: 'Lønnstilskudd',
+        tittel: 'Avtale om lønnstilskudd Grode Frodås Lavterskel 2',
         lenke: '#',
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
@@ -178,6 +214,7 @@ const saker = [
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til samtale med veileder 15 april ',
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
+                startTidspunkt: faker.date.soon({ days: 7 }),
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
@@ -197,6 +234,7 @@ const saker = [
                 opprettetTidspunkt: faker.date.recent({ days: 7 }),
                 paaminnelseTidspunkt: faker.date.recent({ days: 2 }),
                 utfoertTidspunkt: faker.date.recent({ days: 1 }),
+                tilstand: OppgaveTilstand.Ny,
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
@@ -221,12 +259,12 @@ const saker = [
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
                 lokasjon: undefined,
                 digitalt: false,
-                startTidspunkt: new Date('2024-06-20T15:15:00'),
-                sluttTidspunkt: new Date('2024-06-20T16:15:00'),
+                startTidspunkt: faker.date.soon({ days: 1 }),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilAvlyse,
+                startTidspunkt: faker.date.soon({ days: 1 }),
                 digitalt: false,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
@@ -236,7 +274,27 @@ const saker = [
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted,
+                startTidspunkt: faker.date.soon({ days: 1 }),
+
+                lokasjon: {
+                    adresse: 'Sørkedalsveien 31',
+                    postnummer: '0788',
+                    poststed: 'Sandnes',
+                },
+                digitalt: false,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                startTidspunkt: faker.date.soon({ days: 1 }),
+                lokasjon: undefined,
+                digitalt: true,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                startTidspunkt: faker.date.recent({ days: 1 }),
                 lokasjon: undefined,
                 digitalt: true,
             }),
@@ -275,8 +333,8 @@ const saker = [
 
 export const brukerApiHandlers = [
     graphql.query('hentSaker', async ({ query, variables }) => {
-        const sakerFiltrert = saker.filter(
-            ({ merkelapp }) => (variables.sakstyper ?? alleMerkelapper)?.includes(merkelapp)
+        const sakerFiltrert = saker.filter(({ merkelapp }) =>
+            (variables.sakstyper ?? alleMerkelapper)?.includes(merkelapp)
         );
         const { errors, data } = await executeGraphQL({
             schema,

@@ -12,10 +12,14 @@ ul.saks-liste li {
 
 .sakscontainer {
   background: var(--a-bg-default);
-  padding: 16px;
+  padding: 16px 16px 16px 30px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.oransje-kant {
+  border-left: 10px solid rgba(255, 215, 153, 1)
 }
 
 .sakscontainer-top {
@@ -68,59 +72,66 @@ ul.saks-liste .sakscontainer .sakstittel {
   column-gap: 8px;
 }
 
-.sakscontainer .tidslinje-element {
-  display: grid;
-  grid-template-columns: 24px auto;
-  grid-template-rows: repeat(3, auto);
-  grid-template-areas:
-  "tidspunkt tidspunkt"
-  "ikon tittel"
-  "linje tittel"
-  "linje paaminnelse";
-  column-gap: 8px;
+.tidslinje {
+  gap: 0;
+  display: flex;
+  flex-direction: column;
 }
 
-.sakscontainer .tidslinje-element-kalenderavtale {
+.grid2x3 {
   display: grid;
   grid-template-columns: 24px auto;
-  grid-template-rows: repeat(3, auto);
+  grid-template-rows: auto 1.3rem 24px;
   grid-template-areas:
   "ikon tittel"
-  "linje tittel"
-  "linje paaminnelse";
-  column-gap: 8px;
+  "linje detaljer"
+  "linje blank";
+  column-gap: 16px;
+  overflow: hidden;
 }
 
-.tidslinje-element-tidspunkt {
-  grid-area: tidspunkt;
+.grid2x4 {
+  display: grid;
+  grid-template-columns: 24px auto;
+  grid-template-rows: auto 1.4rem 1.3rem 24px;
+  grid-template-areas:
+  "ikon tittel"
+  "linje detaljer"
+  "linje detaljer2"
+  "linje blank";
+  column-gap: 16px;
+
+  overflow: hidden;
 }
+
 .tidslinje-element-ikon {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   grid-area: ikon;
-  margin-top: 4px;
+
+  align-items: flex-end;
 }
 
 .tidslinje-element-tittel {
   grid-area: tittel;
+  align-content: flex-end;
 }
 
 .tidslinje-element-detaljer {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 16px;
-  gap: 8px;
+  grid-area: detaljer;
 }
 
-.oppgave-element-paaminnelse {
-  grid-area: paaminnelse;
+.tidslinje-element-detaljer2 {
+  grid-area: detaljer2;
 }
 
 .tidslinje-linje {
   grid-area: linje;
 }
 
-.tidslinje-vis-mer-knapp{
-  max-width: 8rem;
-  padding: 8px 0 0 0;
+.tidslinje-vis-mer-knapp * {
+  font-weight: 200;
 }
 
 
