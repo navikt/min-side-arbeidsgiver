@@ -1,10 +1,10 @@
 import React from 'react';
 import './TrengerDuHjelp.css';
-import {BodyLong, Heading, Ingress} from "@navikt/ds-react";
-import {LenkeMedLogging} from '../../GeneriskeElementer/LenkeMedLogging';
-import {Dialog, Send, Telephone} from "@navikt/ds-icons";
-import {kontaktskjemaURL, ringOssTLF} from '../../lenker';
-import {openChatbot} from "@navikt/nav-dekoratoren-moduler";
+import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Dialog, Send, Telephone } from '@navikt/ds-icons';
+import { kontaktskjemaURL, ringOssTLF } from '../../lenker';
+import { openChatbot } from '@navikt/nav-dekoratoren-moduler';
 
 const showFrida = (event: React.MouseEvent<HTMLAnchorElement>) => {
     openChatbot();
@@ -22,36 +22,65 @@ export const TrengerDuHjelp = () => {
 
                 <ul>
                     <li>
-                        <LenkeMedLogging href={"#"} loggLenketekst={"Chat med Frida"} onClick={showFrida}>
-                            <Dialog title="Dialogikon" style={{height: "1.5rem", width: "1.5rem"}} aria-hidden="true"/>
-                            <Ingress>Chat med Frida</Ingress>
-                        </LenkeMedLogging>
+                        <BodyShort size="large">
+                            <LenkeMedLogging
+                                loggLenketekst={'Ring oss på 55 55 33 36'}
+                                href={ringOssTLF}
+                            >
+                                <Telephone
+                                    title="Telefonikon"
+                                    style={{ height: '1.5rem', width: '1.5rem' }}
+                                    aria-hidden="true"
+                                />
+                                Ring oss på 55 55 33 36
+                            </LenkeMedLogging>
+                        </BodyShort>
                         <BodyLong spacing>
-                            Du møter først en chatbot, men kan gå videre og chatte med en veileder (hverdager
-                            09.00&ndash;15.00).
+                            Åpent hverdager kl. 9–15. Vi kan ringe deg tilbake hvis ventetiden er
+                            over 5 min.
                         </BodyLong>
                     </li>
                     <li>
-                        <LenkeMedLogging loggLenketekst={"Kontaktskjema"} href={kontaktskjemaURL}>
-                            <Send title="Sendikon" style={{height: "1.5rem", width: "1.5rem"}} aria-hidden="true"/>
-                            <Ingress>Kontaktskjema</Ingress>
-                        </LenkeMedLogging>
+                        <BodyShort size="large">
+                            <LenkeMedLogging
+                                loggLenketekst={'Kontaktskjema'}
+                                href={kontaktskjemaURL}
+                            >
+                                <Send
+                                    title="Sendikon"
+                                    style={{ height: '1.5rem', width: '1.5rem' }}
+                                    aria-hidden="true"
+                                />
+                                Kontaktskjema
+                            </LenkeMedLogging>
+                        </BodyShort>
                         <BodyLong spacing>
-                            Rekruttering, inkludering og forebygging av sykefravær.
+                            Du kan skrive til oss hvis du ønsker hjelp til å rekruttere, inkludere
+                            arbeidstakere og forebygge sykefravær.
                         </BodyLong>
                     </li>
                     <li>
-                        <LenkeMedLogging loggLenketekst={"Ring oss på 55 55 33 36"} href={ringOssTLF}>
-                            <Telephone title="Telefonikon" style={{height: "1.5rem", width: "1.5rem"}} aria-hidden="true"/>
-                            <Ingress>Ring oss på 55 55 33 36</Ingress>
-                        </LenkeMedLogging>
+                        <BodyShort size="large">
+                            <LenkeMedLogging
+                                href={'#'}
+                                loggLenketekst={'Chat med Frida'}
+                                onClick={showFrida}
+                            >
+                                <Dialog
+                                    title="Dialogikon"
+                                    style={{ height: '1.5rem', width: '1.5rem' }}
+                                    aria-hidden="true"
+                                />
+                                Chat med Frida
+                            </LenkeMedLogging>
+                        </BodyShort>
                         <BodyLong spacing>
-                            Åpningstider: hverdager 09.00&ndash;15.00. <br/>
-                            Generell informasjon, status i en sak og veileding i selvbetjente løsninger.
+                            Du møter først chatbot Frida som har døgnåpent. Mellom klokken 9 og
+                            14.30 på hverdager kan du be Frida om å få chatte med en veileder.
                         </BodyLong>
                     </li>
                 </ul>
             </div>
         </div>
     );
-}
+};
