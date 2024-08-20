@@ -1,15 +1,15 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { orgnr } from '../faker/brukerApiHelpers';
+import { alleTilganger, orgnr } from '../faker/brukerApiHelpers';
 
 const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
     const organisasjoner = [...Array(100).keys()].flatMap(() => {
-        let parent = orgnr();
+        let hovedenhet = orgnr();
         return [
             {
                 Name: faker.company.name(),
                 Type: 'Enterprise',
-                OrganizationNumber: parent,
+                OrganizationNumber: hovedenhet,
                 OrganizationForm: 'AS',
                 Status: 'Active',
             },
@@ -17,7 +17,15 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
                 Name: faker.company.name(),
                 Type: 'Business',
                 OrganizationNumber: orgnr(),
-                ParentOrganizationNumber: parent,
+                ParentOrganizationNumber: hovedenhet,
+                OrganizationForm: 'BEDR',
+                Status: 'Active',
+            },
+            {
+                Name: faker.company.name(),
+                Type: 'Business',
+                OrganizationNumber: orgnr(),
+                ParentOrganizationNumber: hovedenhet,
                 OrganizationForm: 'BEDR',
                 Status: 'Active',
             },
@@ -26,14 +34,12 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
     return HttpResponse.json({
         altinnError: false,
         organisasjoner: organisasjoner,
-        tilganger: [
-            {
-                id: 'inntektsmelding',
-                tjenestekode: '4936',
-                tjenesteversjon: '1',
-                organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),
-            },
-        ],
+        tilganger: alleTilganger.map(({ id, tjenestekode, tjenesteversjon }) => ({
+            id,
+            tjenestekode,
+            tjenesteversjon,
+            organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),
+        })),
         digisyfoError: false,
         digisyfoOrganisasjoner: [],
         refusjoner: [],

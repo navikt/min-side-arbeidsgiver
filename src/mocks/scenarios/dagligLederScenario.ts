@@ -1,34 +1,59 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
+import { alleTilganger, orgnr } from '../faker/brukerApiHelpers';
 
 const dagligLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
+    let parent1 = orgnr();
+    let parent2 = orgnr();
+    const organisasjoner = [
+        {
+            Name: faker.company.name(),
+            Type: 'Enterprise',
+            OrganizationNumber: parent1,
+            OrganizationForm: 'AS',
+            Status: 'Active',
+        },
+        {
+            Name: faker.company.name(),
+            Type: 'Business',
+            OrganizationNumber: orgnr(),
+            ParentOrganizationNumber: parent1,
+            OrganizationForm: 'BEDR',
+            Status: 'Active',
+        },
+        {
+            Name: faker.company.name(),
+            Type: 'Enterprise',
+            OrganizationNumber: parent2,
+            OrganizationForm: 'AS',
+            Status: 'Active',
+        },
+        {
+            Name: faker.company.name(),
+            Type: 'Business',
+            OrganizationNumber: orgnr(),
+            ParentOrganizationNumber: parent2,
+            OrganizationForm: 'BEDR',
+            Status: 'Active',
+        },
+        {
+            Name: faker.company.name(),
+            Type: 'Business',
+            OrganizationNumber: orgnr(),
+            ParentOrganizationNumber: parent2,
+            OrganizationForm: 'BEDR',
+            Status: 'Active',
+        },
+    ];
     return HttpResponse.json({
         altinnError: false,
-        organisasjoner: [
-            {
-                Name: faker.company.name(),
-                Type: 'Enterprise',
-                OrganizationNumber: '121488424',
-                OrganizationForm: 'AS',
-                Status: 'Active',
-            },
-            {
-                Name: faker.company.name(),
-                Type: 'Business',
-                OrganizationNumber: '999999999',
-                ParentOrganizationNumber: '121488424',
-                OrganizationForm: 'BEDR',
-                Status: 'Active',
-            },
-        ],
-        tilganger: [
-            {
-                id: 'inntektsmelding',
-                tjenestekode: '4936',
-                tjenesteversjon: '1',
-                organisasjoner: ['121488424', '999999999'],
-            },
-        ],
+        organisasjoner,
+        tilganger: alleTilganger.map(({ id, tjenestekode, tjenesteversjon }) => ({
+            id,
+            tjenestekode,
+            tjenesteversjon,
+            organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),
+        })),
         digisyfoError: false,
         digisyfoOrganisasjoner: [],
         refusjoner: [],

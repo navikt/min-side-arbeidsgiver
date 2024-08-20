@@ -11,6 +11,8 @@ import {
     SakStatusType,
     Virksomhet,
 } from '../../api/graphql-types';
+import { altinnskjema, altinntjeneste } from '../../altinn/tjenester';
+import * as Record from '../../utils/Record';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
@@ -127,3 +129,12 @@ export const oppgaveTilstandInfo = (): Array<OppgaveTilstandInfo> =>
         tilstand,
         antall: faker.number.int(100),
     }));
+
+export const alleTilganger = Record.mapToArray(
+    altinntjeneste,
+    (id, { tjenestekode, tjenesteversjon }) => ({
+        id,
+        tjenestekode,
+        tjenesteversjon,
+    })
+);
