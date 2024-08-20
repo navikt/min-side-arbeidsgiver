@@ -70,7 +70,7 @@ export const lenkeTilForebyggefravar = gittMiljo({
 
 export const lenkeTilPermitteringOgMasseoppsigelsesSkjema = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/permittering/',
-    demo: 'https://arbeidsgiver.ekstern.dev.nav.no/permittering',
+    demo: 'https://arbeidsgiver.ansatt.dev.nav.no/permittering',
     other: 'https://permitteringsskjema.intern.dev.nav.no/permittering/',
 });
 
