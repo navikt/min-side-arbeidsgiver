@@ -36,8 +36,8 @@ jobs:
       - run: npm run lint
       - run: npm run build
 
-      - run: npx @cyclonedx/cyclonedx-npm --ignore-npm-errors  --output-file sbom1.json
-      - run: npx @cyclonedx/cyclonedx-npm --omit dev --ignore-npm-errors  --output-file sbom2.json server/package.json
+      - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --ignore-npm-errors  --output-file sbom1.json
+      - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --omit dev --ignore-npm-errors  --output-file sbom2.json server/package.json
       - run: jq -s '.[0] * .[1]' sbom1.json sbom2.json > sbom.merged.json
 
       - uses: actions/upload-artifact@v4
