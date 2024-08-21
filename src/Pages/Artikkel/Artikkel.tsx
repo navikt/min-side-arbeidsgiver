@@ -19,7 +19,15 @@ type Artikkel = {
     tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) => boolean;
 };
 
-const artikler: Record<string, Artikkel> = {};
+const artikler: Record<string, Artikkel> = {
+    saferoad_ansetter_ved_hjelp_av_nav: {
+        lenketittel: '',
+        lenketekst: '',
+        tittel: '– Vi liker ikke å snakke om «inkludering»',
+        objectName: 'saferoad_ansetter_ved_hjelp_av_nav.html',
+        tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) => false,
+    },
+};
 
 export const Artikler = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
