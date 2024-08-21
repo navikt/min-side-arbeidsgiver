@@ -10,7 +10,7 @@ export const skjemaForArbeidsgiverURL = 'https://www.nav.no/soknader/nb/bedrift'
 
 export const innsynAaregURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
-    demo: 'https://arbeidsforhold.ekstern.dev.nav.no/arbeidsforhold/',
+    demo: 'https://arbeidsforhold.ansatt.dev.nav.no/arbeidsforhold/',
     other: 'https://arbeidsforhold.intern.dev.nav.no/arbeidsforhold/',
 });
 
