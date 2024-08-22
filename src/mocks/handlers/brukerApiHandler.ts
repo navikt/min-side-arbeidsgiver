@@ -20,7 +20,7 @@ import {
     SakStatusType,
 } from '../../api/graphql-types';
 
-const schema = buildASTSchema(Document);
+export const schema = buildASTSchema(Document);
 
 const fixOpprettetTidspunkt = (
     tidslinje: (
@@ -44,7 +44,7 @@ const fixOpprettetTidspunkt = (
     });
 };
 
-const saker = [
+export const saker = [
     {
         id: faker.string.uuid(),
         merkelapp: 'Fritak i arbeidsgiverperioden',
