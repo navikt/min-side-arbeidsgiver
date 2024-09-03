@@ -11,16 +11,16 @@ import amplitude from '../../utils/amplitude';
 export const ManglerKontonummerAlert = () => {
     const kontonummerStatus = manglerKontonummerAlert();
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const kanEndreKontonummer =
+        valgtOrganisasjon?.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
 
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
             komponent: 'ManglerKontonummerAlert',
             status: kontonummerStatus.status,
+            kanEndreKontonummer,
         });
-    }, [kontonummerStatus]);
-
-    const kanEndreKontonummer =
-        valgtOrganisasjon?.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
+    }, [kontonummerStatus, kanEndreKontonummer]);
 
     if (kontonummerStatus.status !== 'MANGLER_KONTONUMMER') {
         return null;
