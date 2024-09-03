@@ -4,8 +4,11 @@ import Document from '../../../bruker.graphql';
 import { fakerNB_NO as faker } from '@faker-js/faker';
 import {
     alleMerkelapper,
+    beskjed,
     beskjedTidslinjeElement,
+    kalenderavtale,
     kalenderavtaleTidslinjeElement,
+    oppgave,
     oppgaveTidslinjeElement,
     oppgaveTilstandInfo,
     sakStatus,
@@ -447,95 +450,36 @@ export const brukerApiHandlers = [
                     feilAltinn: false,
                     feilDigiSyfo: false,
                     notifikasjoner: [
-                        {
-                            __typename: 'Beskjed',
-                            brukerKlikk: {
-                                id: 'c64c2123-2de6-4701-b0d6-5c8c07d4bb7c',
-                                klikketPaa: true,
-                                __typename: 'BrukerKlikk',
-                            },
-                            virksomhet: {
-                                navn: 'Storfonsa og Fredrikstad Regnskap',
-                                virksomhetsnummer: 'id laudantium non amet nostrum quis id',
-                                __typename: 'Virksomhet',
-                            },
-                            lenke: '#ut',
-                            tekst: 'Søknad om lønnskompensasjon ved permittering sendt',
-                            merkelapp: 'Permittering',
-                            opprettetTidspunkt: '2024-05-28T06:20:12.674Z',
-                            sorteringTidspunkt: '2024-05-28T06:20:12.674Z',
-                            id: '0.ugf71e25isj',
-                            sak: null,
-                        },
-                        {
-                            __typename: 'Beskjed',
-                            brukerKlikk: {
-                                id: '303312ea-2e9c-4d72-bb83-165384398786',
-                                klikketPaa: true,
-                                __typename: 'BrukerKlikk',
-                            },
-                            virksomhet: {
-                                navn: 'Ballstad og Hamarøy',
-                                virksomhetsnummer:
-                                    'eos laboriosam nulla eveniet aliquam voluptas id',
-                                __typename: 'Virksomhet',
-                            },
-                            lenke: '#voluptatem',
-                            tekst: 'Inntektsmelding mottatt',
-                            merkelapp: 'Inntektsmelding',
-                            opprettetTidspunkt: '2024-05-02T08:38:12.674Z',
-                            sorteringTidspunkt: '2024-05-28T01:22:12.674Z',
-                            id: '0.ot888bk7l8l',
-                            sak: {
-                                tittel: 'Søknad om fritak fra arbeidsgiverperioden – kronisk sykdom Akrobatisk Admiral',
-                                __typename: 'SakMetadata',
-                            },
-                        },
-                        {
-                            __typename: 'Oppgave',
-                            brukerKlikk: {
-                                id: '493c6c46-c4e4-4f44-98ac-1ad6f449e45c',
-                                klikketPaa: true,
-                                __typename: 'BrukerKlikk',
-                            },
-                            virksomhet: {
-                                navn: 'Arendal og Bønes Revisjon',
-                                virksomhetsnummer: 'ipsam est quam libero aut nihil delectus',
-                                __typename: 'Virksomhet',
-                            },
-                            lenke: '#doloremque',
-                            tekst: 'Søknad om yrkesskadeerstatning sendt',
-                            merkelapp: 'Yrkesskade',
-                            opprettetTidspunkt: '2024-05-24T09:21:12.674Z',
-                            sorteringTidspunkt: '2024-05-24T09:21:12.674Z',
-                            paaminnelseTidspunkt: null,
-                            utgaattTidspunkt: '2024-05-14T09:54:12.674Z',
-                            utfoertTidspunkt: '2024-05-30T10:20:10.000Z',
-                            tilstand: 'UTGAATT',
-                            id: '0.ryzsqbdvs0o',
-                            frist: null,
-                            sak: null,
-                        },
-                        {
-                            __typename: 'Kalenderavtale',
-                            brukerKlikk: {
-                                id: 'd09b7178-9d86-431c-8de9-ede6276a5e1a',
-                                klikketPaa: false,
-                                __typename: 'BrukerKlikk',
-                            },
-                            virksomhet: {
-                                navn: 'Gravdal og Solli Revisjon',
-                                virksomhetsnummer:
-                                    'incidunt ipsum recusandae veniam facilis laboriosam ad',
-                                __typename: 'Virksomhet',
-                            },
-                            lenke: '#quam',
+                        oppgave({
+                            tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk',
+                            klikketPaa: false,
+                            tilstand: OppgaveTilstand.Ny,
+                            sakTittel: 'Avtale om lønnstilskudd for Venstrehendt Gitarist',
+                        }),
+                        oppgave({
+                            tekst: 'Send inntektsmelding',
+                            tilstand: OppgaveTilstand.Utfoert,
+                            utfoertTidspunkt: faker.date.recent({ days: 1 }),
+                            sakTittel:
+                                'Inntektsmelding for sykepenger Tulla Tullesen - f. 01.05.2001',
+                        }),
+                        beskjed({
+                            tekst: 'Du har fått svar fra veileder',
+                            sakTittel: 'Avtale om lønnstilskudd - Akrobatisk admiral',
+                            opprettetTidspunkt: faker.date.recent({ days: 2 }),
+                        }),
+                        oppgave({
+                            tekst: 'Send inntektsmelding',
+                            tilstand: OppgaveTilstand.Utgaatt,
+                            utgaattTidspunkt: faker.date.recent({ days: 3 }),
+                            frist: faker.date.recent({ days: 3 }),
+                            sakTittel:
+                                'Inntektsmelding for sykepenger Fetter Anton - f. 12.03.1999',
+                        }),
+                        kalenderavtale({
+                            klikketPaa: false,
                             tekst: 'Dialogmøte Dolly',
-                            merkelapp: 'Sommerjobb',
-                            opprettetTidspunkt: '2024-05-19T10:20:12.674Z',
-                            sorteringTidspunkt: '2024-05-19T10:20:12.674Z',
-                            startTidspunkt: '2023-08-19T01:16:32.223Z',
-                            sluttTidspunkt: null,
+                            startTidspunkt: faker.date.recent({ days: 4 }),
                             lokasjon: {
                                 adresse: 'Thorvald Meyers gate 2B',
                                 postnummer: '0473',
@@ -543,13 +487,10 @@ export const brukerApiHandlers = [
                                 __typename: 'Lokasjon',
                             },
                             digitalt: true,
-                            avtaletilstand: 'ARBEIDSGIVER_HAR_GODTATT',
-                            id: '0.uz5ul0zdw1',
-                            sak: {
-                                tittel: 'Søknad om fritak fra arbeidsgiverperioden – kronisk sykdom Gylden Karneval\n',
-                                __typename: 'SakMetadata',
-                            },
-                        },
+                            avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                            sakTittel:
+                                'Søknad om fritak fra arbeidsgiverperioden – kronisk sykdom Gylden Karneval',
+                        }),
                     ],
                     __typename: 'NotifikasjonerResultat',
                 },

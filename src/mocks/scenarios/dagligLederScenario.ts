@@ -55,8 +55,15 @@ const dagligLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInf
             organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),
         })),
         digisyfoError: false,
-        digisyfoOrganisasjoner: [],
-        refusjoner: [],
+        digisyfoOrganisasjoner: organisasjoner.map((organisasjon) => ({
+            organisasjon,
+            antallSykmeldte: 4,
+        })),
+        refusjoner: organisasjoner.map(({ OrganizationNumber }) => ({
+            virksomhetsnummer: OrganizationNumber,
+            statusoversikt: { KLAR_FOR_INNSENDING: faker.number.int({ min: 0, max: 10 }) },
+            tilgang: true,
+        })),
     });
 });
 
