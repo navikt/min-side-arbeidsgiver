@@ -1,9 +1,12 @@
 import { fakerNB_NO as faker } from '@faker-js/faker';
 import {
+    Beskjed,
     BeskjedTidslinjeElement,
+    Kalenderavtale,
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
     Lokasjon,
+    Oppgave,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     OppgaveTilstandInfo,
@@ -11,7 +14,7 @@ import {
     SakStatusType,
     Virksomhet,
 } from '../../api/graphql-types';
-import { altinnskjema, altinntjeneste } from '../../altinn/tjenester';
+import { altinntjeneste } from '../../altinn/tjenester';
 import * as Record from '../../utils/Record';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
@@ -138,3 +141,148 @@ export const alleTilganger = Record.mapToArray(
         tjenesteversjon,
     })
 );
+
+export const oppgave = ({
+    tilstand = faker.helpers.enumValue(OppgaveTilstand),
+    tekst,
+    frist,
+    sakTittel,
+    opprettetTidspunkt = faker.date.recent(),
+    paaminnelseTidspunkt,
+    utfoertTidspunkt,
+    utgaattTidspunkt,
+    klikketPaa = true,
+}: {
+    tekst: string;
+    tilstand?: OppgaveTilstand;
+    frist?: Date;
+    sakTittel?: string;
+    opprettetTidspunkt?: Date;
+    paaminnelseTidspunkt?: Date;
+    utfoertTidspunkt?: Date;
+    utgaattTidspunkt?: Date;
+    klikketPaa?: boolean;
+}): Oppgave => ({
+    __typename: 'Oppgave',
+    id: faker.string.uuid(),
+    tekst,
+    tilstand,
+
+    frist: frist?.toISOString(),
+    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
+    paaminnelseTidspunkt: paaminnelseTidspunkt?.toISOString(),
+    utfoertTidspunkt: utfoertTidspunkt?.toISOString(),
+    utgaattTidspunkt: utgaattTidspunkt?.toISOString(),
+    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+
+    brukerKlikk: {
+        __typename: 'BrukerKlikk',
+        id: faker.string.uuid(),
+        klikketPaa,
+    },
+
+    lenke: `#${faker.lorem.word()}`,
+    merkelapp: merkelapp(),
+
+    sak:
+        sakTittel !== undefined
+            ? {
+                  __typename: 'SakMetadata',
+                  tittel: sakTittel,
+              }
+            : undefined,
+    virksomhet: virksomhet(),
+});
+
+export const beskjed = ({
+    tekst,
+    sakTittel,
+    opprettetTidspunkt = faker.date.recent(),
+    klikketPaa = true,
+}: {
+    tekst: string;
+    sakTittel?: string;
+    opprettetTidspunkt?: Date;
+    klikketPaa?: boolean;
+}): Beskjed => ({
+    __typename: 'Beskjed',
+    id: faker.string.uuid(),
+    tekst,
+
+    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
+    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+
+    brukerKlikk: {
+        __typename: 'BrukerKlikk',
+        id: faker.string.uuid(),
+        klikketPaa,
+    },
+
+    lenke: `#${faker.lorem.word()}`,
+    merkelapp: merkelapp(),
+
+    sak:
+        sakTittel !== undefined
+            ? {
+                  __typename: 'SakMetadata',
+                  tittel: sakTittel,
+              }
+            : undefined,
+    virksomhet: virksomhet(),
+});
+
+export const kalenderavtale = ({
+    tekst,
+    sakTittel,
+    klikketPaa = true,
+    avtaletilstand = faker.helpers.enumValue(KalenderavtaleTilstand),
+    startTidspunkt = faker.date.recent(),
+    sluttTidspunkt,
+    digitalt = false,
+    lokasjon,
+    paaminnelseTidspunkt,
+    opprettetTidspunkt = faker.date.recent(),
+}: {
+    tekst: string;
+    sakTittel?: string;
+    klikketPaa?: boolean;
+    avtaletilstand?: KalenderavtaleTilstand;
+    digitalt?: boolean;
+    lokasjon?: Lokasjon;
+    sluttTidspunkt?: Date;
+    startTidspunkt?: Date;
+    paaminnelseTidspunkt?: Date;
+    opprettetTidspunkt?: Date;
+}): Kalenderavtale => ({
+    __typename: 'Kalenderavtale',
+
+    id: faker.string.uuid(),
+    tekst,
+
+    avtaletilstand,
+    digitalt,
+    lokasjon,
+    startTidspunkt: startTidspunkt.toISOString(),
+    sluttTidspunkt: sluttTidspunkt?.toISOString(),
+    paaminnelseTidspunkt: paaminnelseTidspunkt?.toISOString(),
+    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
+    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+
+    brukerKlikk: {
+        __typename: 'BrukerKlikk',
+        id: faker.string.uuid(),
+        klikketPaa,
+    },
+
+    lenke: `#${faker.lorem.word()}`,
+    merkelapp: merkelapp(),
+
+    sak:
+        sakTittel !== undefined
+            ? {
+                  __typename: 'SakMetadata',
+                  tittel: sakTittel,
+              }
+            : undefined,
+    virksomhet: virksomhet(),
+});
