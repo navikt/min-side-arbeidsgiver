@@ -21,8 +21,7 @@ const Arbeidsplassen = () => {
                 'Rekruttere på arbeidsplassen.no, ' +
                 (antallAnnonser > 0
                     ? `Stillingsannonser ( ${antallAnnonser} aktive)`
-                    : 'Lag ny stillingsannonse') +
-                ' og lag et jobbtreff'
+                    : 'Lag ny stillingsannonse')
             }
         >
             {antallAnnonser > 0 ? (
@@ -34,14 +33,9 @@ const Arbeidsplassen = () => {
                             ? 'stillingsannonser (aktive)'
                             : 'stillingsannonse (aktiv)'}
                     </span>
-                    <div className={'pamboks__bunntekst'}>Lag et jobbtreff</div>
                 </div>
             ) : (
-                <>
-                    Lag et jobbtreff
-                    <br />
-                    Lag en stillingsannonse
-                </>
+                <>Lag en stillingsannonse</>
             )}
         </Tjenesteboks>
     );
