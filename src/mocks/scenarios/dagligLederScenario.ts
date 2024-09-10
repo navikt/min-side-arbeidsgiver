@@ -8,41 +8,31 @@ const dagligLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInf
     const organisasjoner = [
         {
             Name: faker.company.name(),
-            Type: 'Enterprise',
             OrganizationNumber: parent1,
             OrganizationForm: 'AS',
-            Status: 'Active',
         },
         {
             Name: faker.company.name(),
-            Type: 'Business',
             OrganizationNumber: orgnr(),
             ParentOrganizationNumber: parent1,
             OrganizationForm: 'BEDR',
-            Status: 'Active',
         },
         {
             Name: faker.company.name(),
-            Type: 'Enterprise',
             OrganizationNumber: parent2,
             OrganizationForm: 'AS',
-            Status: 'Active',
         },
         {
             Name: faker.company.name(),
-            Type: 'Business',
             OrganizationNumber: orgnr(),
             ParentOrganizationNumber: parent2,
             OrganizationForm: 'BEDR',
-            Status: 'Active',
         },
         {
             Name: faker.company.name(),
-            Type: 'Business',
             OrganizationNumber: orgnr(),
             ParentOrganizationNumber: parent2,
             OrganizationForm: 'BEDR',
-            Status: 'Active',
         },
     ];
     return HttpResponse.json({
