@@ -6,7 +6,7 @@
     "main": "server.js",
     "dependencies": {
         "casual": "^1.6.2",
-        "express": "^4.19.2",
+        "express": "^4.20.0",
         "express-http-proxy": "2.0.0",
         "http-proxy-middleware": "3.0.0",
         "http-terminator": "3.2.0",
