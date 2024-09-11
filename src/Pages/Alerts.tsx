@@ -66,8 +66,8 @@ const systemToAlertType: Record<System, AlertType> = {
 const ALERTS: Record<AlertType, ReactNode> = {
     Altinn: (
         <>
-            Vi opplever ustabilitet med Altinn. Hvis du mener at du har roller i Altinn kan du prøve
-            å laste siden på nytt.
+            Vi har problemer med å hente informasjon om hvilke virksomheter du kan representere.
+            Hvis du mener at du har tilganger i Altinn kan du prøve å laste siden på nytt.
         </>
     ),
     DigiSyfo: (
