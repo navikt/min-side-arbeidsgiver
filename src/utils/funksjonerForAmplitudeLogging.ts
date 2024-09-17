@@ -30,15 +30,19 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-export const finnBucketForAntall = (antall: number | undefined) => {
-    if (antall === undefined) {
-        return undefined;
-    }
+export const finnBucketForAntall = (
+    harRegistrertAntallAnsatte: boolean | undefined,
+    antall: number | undefined
+) => {
+    if (harRegistrertAntallAnsatte === undefined) return;
+
+    //Hvis harRegistrertAntallAnsatte er false er det 0 ansatte
+    if (!harRegistrertAntallAnsatte) return '0';
+
+    //Hvis harRegistrertAntallAnsatte er true og antall er undefined er det 1-4 ansatte
+    if (antall === undefined) return '1-4';
+
     switch (true) {
-        case antall === 0:
-            return '0';
-        case antall < 5:
-            return '1-4';
         case antall < 20:
             return '5-19';
         case antall < 50:
@@ -91,7 +95,10 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
 
         if (underenhet !== undefined) {
             virksomhetsinfo.sektor = finnSektorNavn(underenhet);
-            virksomhetsinfo.antallAnsatte = finnBucketForAntall(underenhet.antallAnsatte);
+            virksomhetsinfo.antallAnsatte = finnBucketForAntall(
+                underenhet.harRegistrertAntallAnsatte,
+                underenhet.antallAnsatte
+            );
         }
 
         amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
