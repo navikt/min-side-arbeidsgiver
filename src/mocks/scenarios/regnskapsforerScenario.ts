@@ -15,26 +15,20 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
         return [
             {
                 Name: faker.company.name(),
-                Type: 'Enterprise',
                 OrganizationNumber: hovedenhet,
                 OrganizationForm: 'AS',
-                Status: 'Active',
             },
             {
                 Name: faker.company.name(),
-                Type: 'Business',
                 OrganizationNumber: orgnr(),
                 ParentOrganizationNumber: hovedenhet,
                 OrganizationForm: 'BEDR',
-                Status: 'Active',
             },
             {
                 Name: faker.company.name(),
-                Type: 'Business',
                 OrganizationNumber: orgnr(),
                 ParentOrganizationNumber: hovedenhet,
                 OrganizationForm: 'BEDR',
-                Status: 'Active',
             },
         ];
     });

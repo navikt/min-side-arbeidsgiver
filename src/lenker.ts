@@ -34,6 +34,7 @@ export const arbeidsplassenURL = gittMiljo({
 export const kandidatlisteURL = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/kandidatliste',
     other: 'https://presenterte-kandidater.intern.dev.nav.no/kandidatliste',
+    demo: 'https://presenterte-kandidater.ansatt.dev.nav.no/kandidatliste/samtykke',
 });
 
 export const kontaktskjemaURL = 'https://kontaktskjema.arbeidsgiver.nav.no/';
