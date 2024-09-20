@@ -5,15 +5,13 @@
     "type": "module",
     "main": "server.js",
     "dependencies": {
-        "casual": "^1.6.2",
+        "@navikt/oasis": "3.4.0",
         "express": "^4.20.0",
         "express-http-proxy": "2.0.0",
         "http-proxy-middleware": "3.0.0",
         "http-terminator": "3.2.0",
-        "jose": "5.6.2",
         "jsdom": "^24.1.0",
         "mustache": "^4.2.0",
-        "openid-client": "5.6.5",
         "prom-client": "^14.2.0",
         "prometheus-api-metrics": "^3.2.2",
         "winston": "3.13.0"
