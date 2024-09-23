@@ -29,7 +29,7 @@ export const tokenXMiddleware =
 
             const obo = await requestOboToken(subject_token, audience);
             if (!obo.ok) {
-                log.error('token exchange failed. could not obtain obo token.');
+                log.error(`token exchange failed. could not obtain obo token. ${obo.error}`);
                 res.status(401).send();
                 return;
             }
