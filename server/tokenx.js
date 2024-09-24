@@ -1,4 +1,5 @@
 import { getToken, requestOboToken, validateToken } from '@navikt/oasis';
+import { errors } from 'openid-client';
 
 /**
  * onProxyReq does not support async, so using middleware for tokenx instead
@@ -36,6 +37,11 @@ export const tokenXMiddleware =
             req.headers.authorization = `Bearer ${obo.token}`;
             next();
         } catch (err) {
-            next(err);
+            if (err instanceof errors.OPError) {
+                log.info(`token exchange feilet ${err.message}`, err);
+                res.status(401).send();
+            } else {
+                next(err);
+            }
         }
     };
