@@ -316,6 +316,12 @@ const main = async () => {
             })
         );
 
+        /**
+         * Dersom man ikke har gyldig sesjon redirecter vi til login-proxy aka. wonderwall
+         * brukeren vil bli sendt tilbake til referer (siden hen stod på) etter innlogging
+         *
+         * https://doc.nais.io/auth/explanations/?h=wonder#login-proxy
+         */
         app.get('/min-side-arbeidsgiver/redirect-til-login', (req, res) => {
             const target = new URL(LOGIN_URL);
             target.searchParams.set('redirect', req.get('referer'));
