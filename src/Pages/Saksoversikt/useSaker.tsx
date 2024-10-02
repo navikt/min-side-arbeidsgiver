@@ -35,6 +35,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                 id
                 merkelapp
                 tittel
+                tilleggsinformasjon
                 lenke
                 virksomhet {
                     navn
