@@ -70,6 +70,7 @@ export const SakPanel = ({
                 </Tag>
             </div>
             <Saksoverskrift lenkeTilSak={lenkeTilSak} sak={sak} />
+            {sak.tilleggsinformasjon !== null ? <BodyShort>{sak.tilleggsinformasjon}</BodyShort> : null}
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
                     <strong>{sak.sisteStatus.tekst}</strong>
