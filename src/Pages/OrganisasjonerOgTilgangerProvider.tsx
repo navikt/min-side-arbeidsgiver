@@ -62,7 +62,7 @@ const useBeregnAltinnTilgangssøknad = ():
             userInfo.organisasjoner.map((org) => {
                 return [
                     org.OrganizationNumber,
-                    Record.map(userInfo.tilganger, (id: AltinntjenesteId) =>
+                    Record.map(altinntjeneste, (id: AltinntjenesteId) =>
                         sjekkTilgangssøknader(org.OrganizationNumber, id, altinnTilgangssøknader)
                     ),
                 ];
