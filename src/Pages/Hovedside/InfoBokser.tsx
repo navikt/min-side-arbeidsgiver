@@ -9,26 +9,26 @@ import { Alert, Heading } from '@navikt/ds-react';
 import { useLocalStorage } from '../../hooks/useStorage';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 
-type TilbakemeldingProps = {
+type InfoboksProps = {
     id: string;
     visFra: Date;
     visTil: Date;
     Component: FC;
 };
 
-const infobokser: Array<TilbakemeldingProps> = [
+const infobokser: Array<InfoboksProps> = [
     {
         id: 'uxsignals',
-        visFra: new Date('2024-06-17T00:00:00+02:00'),
-        visTil: new Date('2024-06-30T10:00:00+02:00'),
+        visFra: new Date('2024-10-04T00:00:00+02:00'),
+        visTil: new Date('2024-11-04T10:00:00+02:00'),
         Component: () => {
             const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
-            const harInntektsmeldingPåTvers = Record.values(organisasjoner).some(
-                (org) => org.altinntilgang.inntektsmelding
+            const harForebyggeFravarTilgang = Record.values(organisasjoner).some(
+                (org) => org.altinntilgang.forebyggefravar
             );
 
-            if (harInntektsmeldingPåTvers) {
-                return <UXSignals />;
+            if (harForebyggeFravarTilgang) {
+                return <UXSignals dataUxsignalsEmbed="panel-7t3dixiw4u" />;
             } else {
                 return null;
             }
@@ -114,7 +114,7 @@ export const InfoBokser = () => {
     );
 };
 
-const UXSignals = () => {
+const UXSignals = ({ dataUxsignalsEmbed }: { dataUxsignalsEmbed: string }) => {
     useEffect(() => {
         const script = document.createElement('script');
         script.async = true;
@@ -132,7 +132,7 @@ const UXSignals = () => {
         <div
             key="tilbakemelding-banner"
             className="tilbakemelding-banner"
-            data-uxsignals-embed="panel-ygu8lk6g6q"
+            data-uxsignals-embed={dataUxsignalsEmbed}
             {...gittMiljo({
                 prod: {},
                 other: {
