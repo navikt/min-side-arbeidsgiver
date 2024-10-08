@@ -152,6 +152,7 @@ export const oppgave = ({
     utfoertTidspunkt,
     utgaattTidspunkt,
     klikketPaa = true,
+    tilleggsinformasjon,
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -162,6 +163,7 @@ export const oppgave = ({
     utfoertTidspunkt?: Date;
     utgaattTidspunkt?: Date;
     klikketPaa?: boolean;
+    tilleggsinformasjon?: string;
 }): Oppgave => ({
     __typename: 'Oppgave',
     id: faker.string.uuid(),
@@ -189,6 +191,7 @@ export const oppgave = ({
             ? {
                   __typename: 'SakMetadata',
                   tittel: sakTittel,
+                  tilleggsinformasjon: tilleggsinformasjon,
               }
             : undefined,
     virksomhet: virksomhet(),
@@ -199,11 +202,13 @@ export const beskjed = ({
     sakTittel,
     opprettetTidspunkt = faker.date.recent(),
     klikketPaa = true,
+                            tilleggsinformasjon,
 }: {
     tekst: string;
     sakTittel?: string;
     opprettetTidspunkt?: Date;
     klikketPaa?: boolean;
+    tilleggsinformasjon?: string
 }): Beskjed => ({
     __typename: 'Beskjed',
     id: faker.string.uuid(),
@@ -226,6 +231,7 @@ export const beskjed = ({
             ? {
                   __typename: 'SakMetadata',
                   tittel: sakTittel,
+                  tilleggsinformasjon: tilleggsinformasjon,
               }
             : undefined,
     virksomhet: virksomhet(),
@@ -242,6 +248,7 @@ export const kalenderavtale = ({
     lokasjon,
     paaminnelseTidspunkt,
     opprettetTidspunkt = faker.date.recent(),
+    tilleggsinformasjon,
 }: {
     tekst: string;
     sakTittel?: string;
@@ -253,6 +260,7 @@ export const kalenderavtale = ({
     startTidspunkt?: Date;
     paaminnelseTidspunkt?: Date;
     opprettetTidspunkt?: Date;
+    tilleggsinformasjon?: string;
 }): Kalenderavtale => ({
     __typename: 'Kalenderavtale',
 
@@ -282,6 +290,7 @@ export const kalenderavtale = ({
             ? {
                   __typename: 'SakMetadata',
                   tittel: sakTittel,
+                  tilleggsinformasjon: tilleggsinformasjon,
               }
             : undefined,
     virksomhet: virksomhet(),

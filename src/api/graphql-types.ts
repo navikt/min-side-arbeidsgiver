@@ -222,6 +222,7 @@ export type Sak = {
 
 export type SakMetadata = {
   __typename?: 'SakMetadata';
+  tilleggsinformasjon?: Maybe<Scalars['String']['output']>;
   tittel: Scalars['String']['output'];
 };
 
