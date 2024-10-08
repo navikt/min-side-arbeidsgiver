@@ -51,11 +51,15 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
             );
 
         case OppgaveTilstand.Utgaatt:
-            return (
+            return oppgave.frist !== null ? (
                 <Tag size="small" className={className} variant="info">
                     <StatusIkonMedTekst icon={<StopWatch aria-hidden="true" />}>
                         Fristen gikk ut {uformellDatotekst(new Date(oppgave.utgaattTidspunkt))}
                     </StatusIkonMedTekst>
+                </Tag>
+            ) : (
+                <Tag size="small" className={className} variant="neutral">
+                    Utgått {uformellDatotekst(new Date(oppgave.utgaattTidspunkt))}
                 </Tag>
             );
 

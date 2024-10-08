@@ -187,6 +187,12 @@ export const saker = [
                 tilstand: OppgaveTilstand.Utgaatt,
                 utgaattTidspunkt: faker.date.recent({ days: 7 }),
             }),
+            oppgaveTidslinjeElement({
+                tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
+                opprettetTidspunkt: faker.date.recent({ days: 29 }),
+                tilstand: OppgaveTilstand.Utgaatt,
+                utgaattTidspunkt: faker.date.recent({ days: 7 }),
+            }),
         ],
     },
     {
@@ -454,7 +460,7 @@ export const brukerApiHandlers = [
                             tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk',
                             klikketPaa: false,
                             tilstand: OppgaveTilstand.Ny,
-                            sakTittel: 'Avtale om lønnstilskudd for Venstrehendt Gitarist'
+                            sakTittel: 'Avtale om lønnstilskudd for Venstrehendt Gitarist',
                         }),
                         oppgave({
                             tekst: 'Send inntektsmelding',
@@ -462,7 +468,8 @@ export const brukerApiHandlers = [
                             utfoertTidspunkt: faker.date.recent({ days: 1 }),
                             sakTittel:
                                 'Inntektsmelding for sykepenger Tulla Tullesen - f. 01.05.2001',
-                            tilleggsinformasjon: "Avtalen gjaldt sykdomsperiode 01.09.2024 - 01.09.2024"
+                            tilleggsinformasjon:
+                                'Avtalen gjaldt sykdomsperiode 01.09.2024 - 01.09.2024',
                         }),
                         beskjed({
                             tekst: 'Du har fått svar fra veileder',
