@@ -1,11 +1,6 @@
 import { graphql, http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import {
-    alleMerkelapper,
-    alleTilganger,
-    oppgaveTilstandInfo,
-    orgnr,
-} from '../faker/brukerApiHelpers';
+import { alleTilganger, oppgaveTilstandInfo, orgnr } from '../faker/brukerApiHelpers';
 import { graphql as executeGraphQL } from 'graphql/graphql';
 import { saker, schema } from '../handlers/brukerApiHandler';
 
@@ -39,8 +34,7 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
             .filter(({ tjenestekode }) => {
                 return !['5441', '5078', '5516', '5332'].includes(tjenestekode);
             })
-            .map(({ id, tjenestekode, tjenesteversjon }) => ({
-                id,
+            .map(({ tjenestekode, tjenesteversjon }) => ({
                 tjenestekode,
                 tjenesteversjon,
                 organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),

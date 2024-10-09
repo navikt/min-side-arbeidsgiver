@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { Organisasjon } from '../altinn/organisasjon';
-import { AltinntjenesteId } from '../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
@@ -20,6 +20,22 @@ const RefusjonStatus = z.object({
     tilgang: z.boolean(),
 });
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
+
+const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
+    Object.entries(altinntjeneste).map(([key, value]) => [
+        value.tjenestekode + ':' + value.tjenesteversjon,
+        key,
+    ])
+);
+
+const idLookup = ({
+    tjenestekode,
+    tjenesteversjon,
+}: {
+    tjenestekode: string;
+    tjenesteversjon: string;
+}) => tjenesteTilIdMap[`${tjenestekode}:${tjenesteversjon}`];
+
 const UserInfoRespons = z.object({
     altinnError: z.boolean(),
     digisyfoError: z.boolean(),
@@ -27,14 +43,13 @@ const UserInfoRespons = z.object({
     tilganger: z
         .array(
             z.object({
-                id: z.custom<AltinntjenesteId>(),
                 tjenestekode: z.string(),
                 tjenesteversjon: z.string(),
                 organisasjoner: z.array(z.string()),
             })
         )
         .transform((tilganger) =>
-            Record.fromEntries(tilganger.map((it) => [it.id, Set(it.organisasjoner)]))
+            Record.fromEntries(tilganger.map((it) => [idLookup(it), Set(it.organisasjoner)]))
         ),
     digisyfoOrganisasjoner: z.array(
         z.object({

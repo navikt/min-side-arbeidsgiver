@@ -38,8 +38,7 @@ const dagligLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInf
     return HttpResponse.json({
         altinnError: false,
         organisasjoner,
-        tilganger: alleTilganger.map(({ id, tjenestekode, tjenesteversjon }) => ({
-            id,
+        tilganger: alleTilganger.map(({ tjenestekode, tjenesteversjon }) => ({
             tjenestekode,
             tjenesteversjon,
             organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),

@@ -235,21 +235,20 @@ export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1'
         organisasjoner: [...OrganisasjonerResponse, ...andreOrganisasjoner, formLøsOrganisasjon],
         tilganger: [
             {
-                id: 'mentortilskudd',
                 tjenestekode: '5216',
                 tjenesteversjon: '1',
                 organisasjoner: ['182345674', '118345674', '119985432', '119988432'],
             },
             {
-                id: 'inntektsmelding',
                 tjenestekode: '4936',
                 tjenesteversjon: '1',
                 organisasjoner: ['182345674', '118345674', '999999999', '121488424'],
             },
             ...alleTjenester
                 .filter(({ id }) => id !== 'mentortilskudd' && id !== 'inntektsmelding')
-                .map((tjeneste) => ({
-                    ...tjeneste,
+                .map(({ tjenestekode, tjenesteversjon }) => ({
+                    tjenestekode,
+                    tjenesteversjon,
                     organisasjoner: OrganisasjonerResponse.map(
                         ({ OrganizationNumber }) => OrganizationNumber
                     ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
