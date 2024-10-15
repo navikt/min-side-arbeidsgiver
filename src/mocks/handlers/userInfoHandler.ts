@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
+import { orgnr } from '../faker/brukerApiHelpers';
 
 export const OrganisasjonerResponse = [
     {
@@ -254,6 +255,131 @@ export const userInfoHandler = http.get('/min-side-arbeidsgiver/api/userInfo/v1'
                     ).filter((orgnr) => organisasjonerMedRettigheter.includes(orgnr)),
                 })),
         ],
+        digisyfoError: false,
+        digisyfoOrganisasjoner: [
+            {
+                organisasjon: {
+                    OrganizationNumber: '999999999',
+                    Name: 'Saltrød og Høneby',
+                    ParentOrganizationNumber: '121488424',
+                    OrganizationForm: 'BEDR',
+                },
+                antallSykmeldte: 0,
+            },
+            {
+                organisasjon: {
+                    OrganizationNumber: '121488424',
+                    Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
+                    ParentOrganizationNumber: null,
+                    OrganizationForm: 'AS',
+                },
+                antallSykmeldte: 0,
+            },
+            {
+                organisasjon: {
+                    Name: 'BALLSTAD OG HAMARØY',
+                    OrganizationForm: 'AAFY',
+                    OrganizationNumber: '182345674',
+                    ParentOrganizationNumber: '118345674',
+                },
+                antallSykmeldte: 4,
+            },
+            {
+                organisasjon: {
+                    Name: 'BALLSTAD OG HORTEN',
+                    ParentOrganizationNumber: null,
+                    OrganizationNumber: '118345674',
+                    OrganizationForm: 'FLI',
+                },
+                antallSykmeldte: 0,
+            },
+            {
+                organisasjon: {
+                    Name: 'BareSyfo Virksomhet',
+                    OrganizationForm: 'AAFY',
+                    OrganizationNumber: '121212121',
+                    ParentOrganizationNumber: '111111111',
+                },
+                antallSykmeldte: 4,
+            },
+            {
+                organisasjon: {
+                    Name: 'BareSyfo Juridisk',
+                    ParentOrganizationNumber: null,
+                    OrganizationNumber: '111111111',
+                    OrganizationForm: 'FLI',
+                },
+                antallSykmeldte: 4,
+            },
+        ],
+        refusjoner: [
+            {
+                virksomhetsnummer: '999999999',
+                statusoversikt: {
+                    KLAR_FOR_INNSENDING: 3,
+                    FOR_TIDLIG: 1,
+                },
+                tilgang: true,
+            },
+            {
+                virksomhetsnummer: '121488424',
+                statusoversikt: {
+                    KLAR_FOR_INNSENDING: 1,
+                    FOR_TIDLIG: 2,
+                },
+                tilgang: true,
+            },
+            {
+                virksomhetsnummer: '182345674',
+                statusoversikt: {
+                    FOR_TIDLIG: 2,
+                },
+                tilgang: true,
+            },
+        ],
+    })
+);
+
+export const userInfoV2Handler = http.get('/min-side-arbeidsgiver/api/userInfo/v2', () =>
+    HttpResponse.json({
+        altinnError: false,
+        organisasjoner: [
+            {
+                orgNr: orgnr(),
+                underenheter: [
+                    {
+                        orgNr: '182345674',
+                        underenheter: [],
+                        name: faker.company.name(),
+                        organizationForm: 'BEDR',
+                    },
+                    {
+                        orgNr: '118345674',
+                        underenheter: [],
+                        name: faker.company.name(),
+                        organizationForm: 'BEDR',
+                    },
+                    {
+                        orgNr: '119985432',
+                        underenheter: [],
+                        name: faker.company.name(),
+                        organizationForm: 'BEDR',
+                    },
+                    {
+                        orgNr: '119988432',
+                        underenheter: [],
+                        name: faker.company.name(),
+                        organizationForm: 'BEDR',
+                    },
+                ],
+                name: faker.company.name(),
+                organizationForm: 'AS',
+            },
+        ],
+        tilganger: {
+            '5216:1': ['182345674', '118345674', '119985432', '119988432'],
+            '4936:1': ['182345674', '118345674', '119985432', '119988432'],
+        },
         digisyfoError: false,
         digisyfoOrganisasjoner: [
             {

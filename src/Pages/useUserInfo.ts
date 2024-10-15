@@ -6,6 +6,7 @@ import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
 import { erDriftsforstyrrelse } from '../utils/util';
+import { flatUtOrganisasjonstre } from '@navikt/bedriftsmeny';
 
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
@@ -21,6 +22,7 @@ const RefusjonStatus = z.object({
 });
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 
+// TODO: på sikt vil ressursid være beskrivende og altinntjeneste.id være overflødig/unødvendig
 const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
     Object.entries(altinntjeneste).map(([key, value]) => [
         value.tjenestekode + ':' + value.tjenesteversjon,
@@ -28,29 +30,32 @@ const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
     ])
 );
 
-const idLookup = ({
-    tjenestekode,
-    tjenesteversjon,
-}: {
-    tjenestekode: string;
-    tjenesteversjon: string;
-}) => tjenesteTilIdMap[`${tjenestekode}:${tjenesteversjon}`];
+const idLookup = (id: string) => tjenesteTilIdMap[id] ?? name;
 
+// recursive type using zod https://zodjs.netlify.app/guide/recursive-types#recursive-types
+const BaseAltinnTilgang = z.object({
+    orgNr: z.string(),
+    name: z.string(),
+    organizationForm: z.string(),
+});
+type AltinnTilgang = z.infer<typeof BaseAltinnTilgang> & {
+    underenheter: AltinnTilgang[];
+};
+const AltinnTilgang: z.ZodType<AltinnTilgang> = BaseAltinnTilgang.extend({
+    underenheter: z.lazy(() => AltinnTilgang.array()),
+});
 const UserInfoRespons = z.object({
     altinnError: z.boolean(),
     digisyfoError: z.boolean(),
-    organisasjoner: z.array(Organisasjon),
-    tilganger: z
-        .array(
-            z.object({
-                tjenestekode: z.string(),
-                tjenesteversjon: z.string(),
-                organisasjoner: z.array(z.string()),
-            })
-        )
-        .transform((tilganger) =>
-            Record.fromEntries(tilganger.map((it) => [idLookup(it), Set(it.organisasjoner)]))
-        ),
+    organisasjoner: z
+        .array(AltinnTilgang)
+        .transform((organisasjoner) => flatUtOrganisasjonstre(organisasjoner)),
+    tilganger: z.record(z.string(), z.array(z.string())).transform((tilganger) => {
+        return Record.fromEntries(
+            // TODO: vurder å flytte idLookup til en egen funksjon som kalles der det slås opp
+            Object.entries(tilganger).map(([id, orgnumre]) => [idLookup(id), Set(orgnumre)])
+        );
+    }),
     digisyfoOrganisasjoner: z.array(
         z.object({
             organisasjon: Organisasjon,
@@ -69,7 +74,7 @@ type UseUserInfoResult = {
 
 export const useUserInfo = (): UseUserInfoResult => {
     const [retries, setRetries] = useState(0);
-    const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v1`, fetcher, {
+    const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v2`, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
             if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
