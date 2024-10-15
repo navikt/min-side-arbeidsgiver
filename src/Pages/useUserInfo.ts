@@ -22,7 +22,10 @@ const RefusjonStatus = z.object({
 });
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 
-// TODO: på sikt vil ressursid være beskrivende og altinntjeneste.id være overflødig/unødvendig
+/**
+ * På sikt vil ressursid være beskrivende og altinntjeneste.id være overflødig/unødvendig
+ * Da vil denne mappingen kunne fjernes
+ */
 const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
     Object.entries(altinntjeneste).map(([key, value]) => [
         value.tjenestekode + ':' + value.tjenesteversjon,
@@ -52,7 +55,6 @@ const UserInfoRespons = z.object({
         .transform((organisasjoner) => flatUtOrganisasjonstre(organisasjoner)),
     tilganger: z.record(z.string(), z.array(z.string())).transform((tilganger) => {
         return Record.fromEntries(
-            // TODO: vurder å flytte idLookup til en egen funksjon som kalles der det slås opp
             Object.entries(tilganger).map(([id, orgnumre]) => [idLookup(id), Set(orgnumre)])
         );
     }),
