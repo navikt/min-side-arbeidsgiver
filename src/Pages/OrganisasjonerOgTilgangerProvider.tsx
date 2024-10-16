@@ -62,8 +62,15 @@ const useBeregnAltinnTilgangssøknad = ():
             userInfo.organisasjoner.map((org) => {
                 return [
                     org.OrganizationNumber,
-                    Record.map(altinntjeneste, (id: AltinntjenesteId) =>
-                        sjekkTilgangssøknader(org.OrganizationNumber, id, altinnTilgangssøknader)
+                    Record.map(
+                        altinntjeneste,
+                        (_: AltinntjenesteId, { tjenestekode, tjenesteversjon }) =>
+                            sjekkTilgangssøknader(
+                                org.OrganizationNumber,
+                                tjenestekode,
+                                tjenesteversjon,
+                                altinnTilgangssøknader
+                            )
                     ),
                 ];
             })
@@ -118,7 +125,7 @@ const useBeregnOrganisasjoner = (): Record<orgnr, OrganisasjonInfo> | undefined 
                         organisasjon: org,
                         altinntilgang: Record.map(
                             userInfo.tilganger,
-                            (id: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): boolean =>
+                            (_: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): boolean =>
                                 orgnrMedTilgang.has(org.OrganizationNumber)
                         ),
                         syfotilgang: digisyfoOrganisasjon !== undefined,
@@ -211,10 +218,10 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent<PropsWithChild
 
 const sjekkTilgangssøknader = (
     orgnr: orgnr,
-    id: AltinntjenesteId,
+    tjenestekode: string,
+    tjenesteversjon: string,
     altinnTilgangssøknader: AltinnTilgangssøknad[]
 ): Søknadsstatus => {
-    const { tjenestekode, tjenesteversjon } = altinntjeneste[id];
     const søknader = altinnTilgangssøknader.filter(
         (s) =>
             s.orgnr === orgnr &&
