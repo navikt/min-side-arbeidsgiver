@@ -33,7 +33,7 @@ const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
     ])
 );
 
-const idLookup = (id: string) => tjenesteTilIdMap[id] ?? name;
+const idLookup = (id: string) => tjenesteTilIdMap[id] ?? id;
 
 // recursive type using zod https://zodjs.netlify.app/guide/recursive-types#recursive-types
 const BaseAltinnTilgang = z.object({
