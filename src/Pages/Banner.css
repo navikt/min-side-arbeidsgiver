@@ -3,7 +3,7 @@
     display: grid;
     grid-template-columns: calc(50vw - 30rem) minmax(1rem, 60rem) auto;
     grid-template-areas: "ikon tittel none";
-    border-bottom: 0.25rem solid var(--a-border-focus-on-inverted);
+    border-bottom: 1px solid var(--a-gray-300);
     background-color: var(--a-bg-default);
 }
 
