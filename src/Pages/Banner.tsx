@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useCallback } from 'react';
-import Bedriftsmeny, { MSAIkon } from '@navikt/bedriftsmeny';
+import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
@@ -27,17 +27,13 @@ export const SimpleBanner: FunctionComponent<OwnProps> = ({
     }, []);
     return (
         <Bedriftsmeny
-            sidetittel={sidetittel}
-            undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
+            sidetittel={'Min side – arbeidsgiver'}
         />
     );
 };
 
 export const SaksoversiktBanner = () => (
     <div className="banner__saksoversikt">
-        <div className="banner__saksoversikt__piktogram">
-            <MSAIkon />
-        </div>
         <div className="banner__saksoversikt__tittel">
             <Heading level="1" size="xlarge">
                 Saksoversikt
@@ -83,7 +79,6 @@ export const BannerMedBedriftsmeny: FunctionComponent<OwnProps> = ({ sidetittel 
     return (
         <Bedriftsmeny
             sidetittel={sidetittel}
-            undertittel={'INNLOGGEDE TJENESTER for arbeidsgiver'}
             organisasjoner={orgs}
             orgnrSearchParam={useOrgnrHook}
         >
