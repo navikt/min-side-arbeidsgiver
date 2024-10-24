@@ -4,11 +4,11 @@ import { useOverordnetEnhet, useUnderenhet } from '../../api/enhetsregisteretApi
 import Underenhet from './Underenhet';
 import OverordnetEnhet from './OverordnetEnhet';
 import './OmVirksomheten.css';
-import { Panel } from '@navikt/ds-react';
+import { Box } from '@navikt/ds-react';
 import { Brodsmulesti } from '../Banner';
 
 const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
-    <Panel className="informasjon-om-bedrift">{children}</Panel>
+    <Box className="informasjon-om-bedrift">{children}</Box>
 );
 
 const OmVirksomheten: FunctionComponent = () => {
