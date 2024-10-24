@@ -3,6 +3,7 @@
   padding: 2rem;
   max-width: 60rem;
   width: 100%;
+  background: var(--a-white)
 }
 
 .informasjon-om-bedrift .ny-fane-ikon {
