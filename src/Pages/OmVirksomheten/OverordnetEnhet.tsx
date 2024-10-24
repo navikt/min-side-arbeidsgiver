@@ -82,7 +82,6 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                 <LenkeMedLogging
                     href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
                     loggLenketekst="Flere opplysinger for overordnet enhet hos Enhetsregisteret"
-                    target="_blank"
                 >
                     <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                     <NyFaneIkon />
