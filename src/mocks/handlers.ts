@@ -1,4 +1,4 @@
-import { userInfoHandler, userInfoV2Handler } from './handlers/userInfoHandler';
+import { userInfoV2Handler } from './handlers/userInfoHandler';
 import { pamHandlers } from './handlers/pamHandler';
 import { varslingStatusHandler } from './handlers/varslingStatusHandler';
 import { altinnTilgangHandler } from './handlers/altinnTilgangHandler';
@@ -13,7 +13,6 @@ import { kontonummerStatusHandler } from './handlers/kontonummerStatusHandler';
 import { brukerApiHandlers } from './handlers/brukerApiHandler';
 
 export const handlers = [
-    userInfoHandler,
     userInfoV2Handler,
 
     ...pamHandlers,
