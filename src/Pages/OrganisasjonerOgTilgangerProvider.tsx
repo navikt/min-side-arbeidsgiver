@@ -8,7 +8,7 @@ import { AlertContext } from './Alerts';
 import { byggOrganisasjonstre } from './ByggOrganisasjonstre';
 import { useEffectfulAsyncFunction } from '../hooks/useValueFromEffect';
 import { Map, Set } from 'immutable';
-import { useUserInfo } from './useUserInfo';
+import { useUserInfo } from '../hooks/useUserInfo';
 import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 import { SpinnerMedBanner } from './Banner';
 

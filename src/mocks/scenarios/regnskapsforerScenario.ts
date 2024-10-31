@@ -1,48 +1,53 @@
-import { graphql, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { alleTilganger, oppgaveTilstandInfo, orgnr } from '../faker/brukerApiHelpers';
-import { graphql as executeGraphQL } from 'graphql/graphql';
-import { saker, schema } from '../handlers/brukerApiHandler';
+import { orgnr } from '../brukerApi/helpers';
+import { fromEntries } from '../../utils/Record';
+import { AltinnTilgang } from '../../hooks/useUserInfo';
+import { alleSaker } from '../brukerApi/alleSaker';
+import { Merkelapp } from '../brukerApi/alleMerkelapper';
+import {
+    hentKalenderavtalerResolver,
+    hentNotifikasjonerResolver,
+    hentSakerResolver,
+    sakstyperResolver,
+} from '../brukerApi/resolvers';
+import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
+import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
 
-const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
-    const organisasjoner = [...Array(100).keys()].flatMap(() => {
-        let hovedenhet = orgnr();
-        return [
-            {
-                Name: faker.company.name(),
-                OrganizationNumber: hovedenhet,
-                OrganizationForm: 'AS',
-            },
-            {
-                Name: faker.company.name(),
-                OrganizationNumber: orgnr(),
-                ParentOrganizationNumber: hovedenhet,
-                OrganizationForm: 'BEDR',
-            },
-            {
-                Name: faker.company.name(),
-                OrganizationNumber: orgnr(),
-                ParentOrganizationNumber: hovedenhet,
-                OrganizationForm: 'BEDR',
-            },
-        ];
-    });
+const tilganger = [
+    '4936:1', // inntektsmelding
+
+    '5902:1', // yrkesskade
+    '5384:1', // ekspertbistand
+    '4826:1', // utsendtArbeidstakerEØS
+];
+const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
+    const underenheter: AltinnTilgang[] = [];
+    const organisasjoner = Array.from({ length: 100 }).map(() => ({
+        orgNr: orgnr(),
+        name: faker.company.name(),
+        organizationForm: 'AS',
+        underenheter: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }).map(() => {
+            const underenhet = {
+                orgNr: orgnr(),
+                underenheter: [],
+                name: faker.company.name(),
+                organizationForm: 'BEDR',
+            };
+            underenheter.push(underenhet);
+            return underenhet;
+        }),
+    }));
     return HttpResponse.json({
         altinnError: false,
         organisasjoner: organisasjoner,
-        tilganger: alleTilganger
-            .filter(({ tjenestekode }) => {
-                return !['5441', '5078', '5516', '5332'].includes(tjenestekode);
-            })
-            .map(({ tjenestekode, tjenesteversjon }) => ({
-                tjenestekode,
-                tjenesteversjon,
-                organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),
-            })),
+        tilganger: fromEntries(
+            tilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgNr)])
+        ),
         digisyfoError: false,
         digisyfoOrganisasjoner: [],
-        refusjoner: organisasjoner.map(({ OrganizationNumber }) => ({
-            virksomhetsnummer: OrganizationNumber,
+        refusjoner: underenheter.map(({ orgNr }) => ({
+            virksomhetsnummer: orgNr,
             statusoversikt: { KLAR_FOR_INNSENDING: faker.number.int({ min: 0, max: 10 }) },
             tilgang: true,
         })),
@@ -50,75 +55,31 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
 });
 
 const regnskapsførerSakstyper = [
-    'Fritak i arbeidsgiverperioden',
-    'Inntektsmelding',
-    'Inntektsmelding sykepenger',
-    'Inntektsmelding pleiepenger',
-    'Lønnstilskudd',
-    'Masseoppsigelse',
-    'Permittering',
-    'Sommerjobb',
-    'Yrkesskade',
+    Merkelapp.Fritak_i_arbeidsgiverperioden,
+    Merkelapp.Inntektsmelding,
+    Merkelapp.Inntektsmelding_sykepenger,
+    Merkelapp.Inntektsmelding_pleiepenger,
+    Merkelapp.Lønnstilskudd,
+    Merkelapp.Masseoppsigelse,
+    Merkelapp.Permittering,
+    Merkelapp.Sommerjobb,
+    Merkelapp.Yrkesskade,
 ];
 
-export const regnskapsforerBrukerApiScenario = [
-    graphql.query('HentKalenderavtaler', async ({ query, variables }) => {
-        const { errors, data } = await executeGraphQL({
-            schema,
-            source: query,
-            variableValues: variables,
-            rootValue: {
-                kommendeKalenderavtaler: {
-                    avtaler: [],
-                    __typename: 'KalenderavtalerResultat',
-                },
-            },
-        });
-
-        return HttpResponse.json({ errors, data });
-    }),
-
-    graphql.query('hentSaker', async ({ query, variables }) => {
-        const sakerFiltrert = saker.filter(({ merkelapp }) =>
-            (variables.sakstyper ?? regnskapsførerSakstyper)?.includes(merkelapp)
-        );
-        const { errors, data } = await executeGraphQL({
-            schema,
-            source: query,
-            variableValues: variables,
-            rootValue: {
-                saker: {
-                    saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
-                    sakstyper: regnskapsførerSakstyper.map((navn) => ({
-                        navn,
-                        antall: faker.number.int(100),
-                    })),
-                    feilAltinn: false,
-                    totaltAntallSaker: faker.number.int(1000),
-                    oppgaveTilstandInfo: oppgaveTilstandInfo(),
-                },
-            },
-        });
-
-        return HttpResponse.json({ errors, data });
-    }),
-
-    graphql.query('Sakstyper', async ({ query, variables }) => {
-        const { errors, data } = await executeGraphQL({
-            schema,
-            source: query,
-            variableValues: variables,
-            rootValue: {
-                sakstyper: regnskapsførerSakstyper.map((navn) => ({ navn })),
-            },
-        });
-
-        return HttpResponse.json({ errors, data });
-    }),
-];
-
+const regnskapsførerSaker = alleSaker.filter(({ merkelapp }) =>
+    regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
+);
+const regnskapsførerKalenderavtaler = alleKalenderavtaler.filter(({ merkelapp }) =>
+    regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
+);
+const regnskapsførerNotifikasjoner = alleNotifikasjoner.filter(({ merkelapp }) =>
+    regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
+);
 export const regnskapsforerScenario = [
     regnskapsforerUserInfoScenario,
 
-    ...regnskapsforerBrukerApiScenario,
+    hentSakerResolver(regnskapsførerSaker),
+    sakstyperResolver(regnskapsførerSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
+    hentKalenderavtalerResolver(regnskapsførerKalenderavtaler),
+    hentNotifikasjonerResolver(regnskapsførerNotifikasjoner),
 ];

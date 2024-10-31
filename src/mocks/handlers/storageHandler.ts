@@ -1,5 +1,4 @@
 import { http, HttpResponse } from 'msw';
-import { as } from 'vitest/dist/reporters-trlZlObr';
 
 const storage: {
     [key: string]: { version: number; value: any };

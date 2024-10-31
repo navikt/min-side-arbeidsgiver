@@ -41,7 +41,7 @@ const BaseAltinnTilgang = z.object({
     name: z.string(),
     organizationForm: z.string(),
 });
-type AltinnTilgang = z.infer<typeof BaseAltinnTilgang> & {
+export type AltinnTilgang = z.infer<typeof BaseAltinnTilgang> & {
     underenheter: AltinnTilgang[];
 };
 const AltinnTilgang: z.ZodType<AltinnTilgang> = BaseAltinnTilgang.extend({

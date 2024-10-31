@@ -6,18 +6,30 @@ import {
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
     Lokasjon,
+    Maybe,
     Oppgave,
+    OppgaveMetadata,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     OppgaveTilstandInfo,
+    Sak,
     SakStatus,
     SakStatusType,
+    Scalars,
+    TidslinjeElement,
     Virksomhet,
 } from '../../api/graphql-types';
-import { altinntjeneste } from '../../altinn/tjenester';
-import * as Record from '../../utils/Record';
+import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
+import Document from '../../../bruker.graphql';
+import { GraphQLVariables } from 'msw';
+import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
+
+export const fdato = () => {
+    const date = faker.date.birthdate();
+    return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+};
 
 export const virksomhet = ({
     navn = faker.company.name(),
@@ -27,21 +39,6 @@ export const virksomhet = ({
     navn,
     virksomhetsnummer,
 });
-
-export const alleMerkelapper = [
-    'Arbeidstrening',
-    'Fritak i arbeidsgiverperioden',
-    'Inntektsmelding',
-    'Inntektsmelding sykepenger',
-    'Inntektsmelding pleiepenger',
-    'Lønnstilskudd',
-    'Masseoppsigelse',
-    'Mentor',
-    'Permittering',
-    'Sommerjobb',
-    'Yrkesskade',
-    'Dialogmøte',
-];
 
 export const merkelapp = () => {
     return faker.helpers.arrayElement(alleMerkelapper);
@@ -133,15 +130,6 @@ export const oppgaveTilstandInfo = (): Array<OppgaveTilstandInfo> =>
         antall: faker.number.int(100),
     }));
 
-export const alleTilganger = Record.mapToArray(
-    altinntjeneste,
-    (id, { tjenestekode, tjenesteversjon }) => ({
-        id,
-        tjenestekode,
-        tjenesteversjon,
-    })
-);
-
 export const oppgave = ({
     tilstand = faker.helpers.enumValue(OppgaveTilstand),
     tekst,
@@ -202,13 +190,13 @@ export const beskjed = ({
     sakTittel,
     opprettetTidspunkt = faker.date.recent(),
     klikketPaa = true,
-                            tilleggsinformasjon,
+    tilleggsinformasjon,
 }: {
     tekst: string;
     sakTittel?: string;
     opprettetTidspunkt?: Date;
     klikketPaa?: boolean;
-    tilleggsinformasjon?: string
+    tilleggsinformasjon?: string;
 }): Beskjed => ({
     __typename: 'Beskjed',
     id: faker.string.uuid(),
@@ -248,6 +236,7 @@ export const kalenderavtale = ({
     lokasjon,
     paaminnelseTidspunkt,
     opprettetTidspunkt = faker.date.recent(),
+    merkelapp: _merkelapp = merkelapp(),
     tilleggsinformasjon,
 }: {
     tekst: string;
@@ -261,6 +250,7 @@ export const kalenderavtale = ({
     paaminnelseTidspunkt?: Date;
     opprettetTidspunkt?: Date;
     tilleggsinformasjon?: string;
+    merkelapp?: string;
 }): Kalenderavtale => ({
     __typename: 'Kalenderavtale',
 
@@ -283,7 +273,7 @@ export const kalenderavtale = ({
     },
 
     lenke: `#${faker.lorem.word()}`,
-    merkelapp: merkelapp(),
+    merkelapp: _merkelapp,
 
     sak:
         sakTittel !== undefined
@@ -295,3 +285,68 @@ export const kalenderavtale = ({
             : undefined,
     virksomhet: virksomhet(),
 });
+
+export const sak = ({
+    tittel,
+    merkelapp: _merkelapp = merkelapp(),
+    nesteSteg,
+    sisteStatus,
+    tidslinje,
+    tilleggsinformasjon,
+    virksomhet,
+}: {
+    merkelapp?: Merkelapp;
+    nesteSteg?: string;
+    sisteStatus: SakStatus;
+    tidslinje: TidslinjeElement[];
+    tilleggsinformasjon?: string;
+    tittel: string;
+    virksomhet: Virksomhet;
+}): Sak => ({
+    id: faker.string.uuid(),
+    tittel,
+    lenke: `#${faker.lorem.word()}`,
+    merkelapp: _merkelapp,
+    nesteSteg,
+    sisteStatus,
+    tidslinje,
+    tilleggsinformasjon,
+    virksomhet,
+    frister: [],
+    oppgaver: [],
+});
+
+export const schema = buildASTSchema(Document);
+
+export const executeAndValidate = ({
+    query,
+    variables,
+    rootValue,
+}: {
+    query: string;
+    variables: GraphQLVariables;
+    rootValue: unknown;
+}) =>
+    executeGraphQL({
+        schema,
+        source: query,
+        variableValues: variables,
+        rootValue,
+    });
+
+export const dateInPast = ({ days = 0, years = 0, months = 0 }) => {
+    const date = new Date();
+    date.setDate(date.getDate() - days);
+    date.setFullYear(date.getFullYear() - years);
+    date.setMonth(date.getMonth() - months);
+    return date;
+};
+
+export const dateInFuture = ({ hours = 0, days = 0, years = 0, months = 0 }) => {
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    date.setHours(date.getHours() + hours);
+    date.setFullYear(date.getFullYear() + years);
+    date.setMonth(date.getMonth() + months);
+    return date;
+};

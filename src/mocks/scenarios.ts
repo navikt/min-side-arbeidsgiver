@@ -1,4 +1,4 @@
-import { GraphQLHandler, http, HttpHandler, HttpResponse } from 'msw';
+import { GraphQLHandler, HttpHandler } from 'msw';
 import { Demoprofil } from '../hooks/useDemoprofil';
 import { nærmesteLederScenario } from './scenarios/nærmesteLederScenario';
 import { dagligLederScenario } from './scenarios/dagligLederScenario';

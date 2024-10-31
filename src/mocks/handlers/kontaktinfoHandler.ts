@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
+import { faker } from '@faker-js/faker';
 
-const response = [
+const eksempler = [
     {
         hovedenhet: null,
         underenhet: null,
@@ -48,5 +49,5 @@ const response = [
 ];
 
 export const kontaktinfoHandler = http.post('/min-side-arbeidsgiver/api/kontaktinfo/v1', () =>
-    HttpResponse.json(response[Math.floor(Math.random() * 5)])
+    HttpResponse.json(faker.helpers.arrayElement(eksempler))
 );

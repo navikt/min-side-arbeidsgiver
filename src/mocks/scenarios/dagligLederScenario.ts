@@ -1,59 +1,149 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { alleTilganger, orgnr } from '../faker/brukerApiHelpers';
+import { orgnr } from '../brukerApi/helpers';
+import { fromEntries } from '../../utils/Record';
+import {
+    hentKalenderavtalerResolver,
+    hentNotifikasjonerResolver,
+    hentSakerResolver,
+    sakstyperResolver,
+} from '../brukerApi/resolvers';
+import { alleSaker } from '../brukerApi/alleSaker';
+import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
+import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
+import { Merkelapp } from '../brukerApi/alleMerkelapper';
 
-const dagligLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
-    let parent1 = orgnr();
-    let parent2 = orgnr();
-    const organisasjoner = [
-        {
-            Name: faker.company.name(),
-            OrganizationNumber: parent1,
-            OrganizationForm: 'AS',
-        },
-        {
-            Name: faker.company.name(),
-            OrganizationNumber: orgnr(),
-            ParentOrganizationNumber: parent1,
-            OrganizationForm: 'BEDR',
-        },
-        {
-            Name: faker.company.name(),
-            OrganizationNumber: parent2,
-            OrganizationForm: 'AS',
-        },
-        {
-            Name: faker.company.name(),
-            OrganizationNumber: orgnr(),
-            ParentOrganizationNumber: parent2,
-            OrganizationForm: 'BEDR',
-        },
-        {
-            Name: faker.company.name(),
-            OrganizationNumber: orgnr(),
-            ParentOrganizationNumber: parent2,
-            OrganizationForm: 'BEDR',
-        },
-    ];
-    return HttpResponse.json({
-        altinnError: false,
-        organisasjoner,
-        tilganger: alleTilganger.map(({ tjenestekode, tjenesteversjon }) => ({
-            tjenestekode,
-            tjenesteversjon,
-            organisasjoner: organisasjoner.map((org) => org.OrganizationNumber),
-        })),
-        digisyfoError: false,
-        digisyfoOrganisasjoner: organisasjoner.map((organisasjon) => ({
-            organisasjon,
-            antallSykmeldte: 4,
-        })),
-        refusjoner: organisasjoner.map(({ OrganizationNumber }) => ({
-            virksomhetsnummer: OrganizationNumber,
-            statusoversikt: { KLAR_FOR_INNSENDING: faker.number.int({ min: 0, max: 10 }) },
-            tilgang: true,
-        })),
-    });
-});
+const alleTilganger = [
+    '5216:1', // sykefraværsstatistikk
+    '4936:1', // inntektsmelding
+    '5384:1', // ekspertbistand
+    '4826:1', // utsendtArbeidstakerEØS
+    '5332:1', // arbeidstrening
+    '5441:1', // arbeidsforhold
+    '5516:1', // midlertidigLønnstilskudd
+    '5516:2', // varigLønnstilskudd
+    '5516:3', // sommerjobb
+    '5516:4', // mentortilskudd
+    '5516:5', // inkluderingstilskudd
+    '3403:1', // sykefravarstatistikk
+    '5934:1', // forebyggefravar
+    '5078:1', // rekruttering
+    '5278:1', // tilskuddsbrev
+    '5902:1', // yrkesskade
+];
 
-export const dagligLederScenario = [dagligLederUserInfoScenario];
+export const dagligLederScenario = [
+    http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
+        const underenheter = [
+            {
+                orgNr: orgnr(),
+                underenheter: [],
+                name: faker.company.name(),
+                organizationForm: 'AAFY',
+            },
+            {
+                orgNr: orgnr(),
+                underenheter: [],
+                name: faker.company.name(),
+                organizationForm: 'FLI',
+            },
+            {
+                orgNr: orgnr(),
+                name: faker.company.name(),
+                organizationForm: 'BEDR',
+                underenheter: [],
+            },
+        ];
+        const organisasjon = {
+            orgNr: orgnr(),
+            name: faker.company.name(),
+            organizationForm: 'AS',
+            underenheter,
+        };
+        return HttpResponse.json({
+            altinnError: false,
+            organisasjoner: [organisasjon],
+            tilganger: fromEntries(
+                alleTilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgNr)])
+            ),
+            digisyfoError: false,
+            digisyfoOrganisasjoner: underenheter.map(({ orgNr, organizationForm, name }) => ({
+                organisasjon: {
+                    OrganizationNumber: orgNr,
+                    Name: name,
+                    ParentOrganizationNumber: organisasjon.orgNr,
+                    OrganizationForm: organizationForm,
+                },
+                antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+            })),
+            refusjoner: underenheter.map(({ orgNr }) => ({
+                virksomhetsnummer: orgNr,
+                statusoversikt: {
+                    KLAR_FOR_INNSENDING: faker.number.int({ min: 0, max: 10 }),
+                    FOR_TIDLIG: faker.number.int({ min: 0, max: 10 }),
+                },
+                tilgang: true,
+            })),
+        });
+    }),
+
+    // stillingsregistrering / pam / arbeidsplassen
+    http.post('/min-side-arbeidsgiver/stillingsregistrering-api/api/arbeidsgiver/:id', () =>
+        HttpResponse.json()
+    ),
+    http.get('/min-side-arbeidsgiver/stillingsregistrering-api/api/stillinger/numberByStatus', () =>
+        HttpResponse.json({
+            TIL_GODKJENNING: faker.number.int({ min: 0, max: 20 }),
+            GODKJENT: faker.number.int({ min: 0, max: 20 }),
+            PAABEGYNT: faker.number.int({ min: 0, max: 20 }),
+            TIL_AVSLUTTING: faker.number.int({ min: 0, max: 20 }),
+            AVSLUTTET: faker.number.int({ min: 0, max: 20 }),
+            AVVIST: faker.number.int({ min: 0, max: 20 }),
+            PUBLISERT: faker.number.int({ min: 0, max: 20 }),
+        })
+    ),
+
+    // presenterte-kandidater / Kandidatlister
+    http.get('/min-side-arbeidsgiver/presenterte-kandidater-api/ekstern/antallkandidater', () => {
+        if (Math.random() < 0.1) {
+            return new HttpResponse(null, {
+                status: 502,
+            });
+        }
+
+        return HttpResponse.json({
+            antallKandidater: Math.floor(Math.random() * 10),
+        });
+    }),
+
+    http.get(
+        '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
+        async () =>
+            HttpResponse.json({
+                first: '131488434',
+                second: 42,
+            })
+    ),
+
+    //  tiltaksgjennomforing / TiltakAvtaler
+    http.get('/min-side-arbeidsgiver/tiltaksgjennomforing-api/avtaler/*', () =>
+        HttpResponse.json(
+            Array.from({ length: 66 }).map(() => ({
+                tiltakstype: faker.helpers.arrayElement([
+                    'ARBEIDSTRENING',
+                    'MIDLERTIDIG_LONNSTILSKUDD',
+                    'VARIG_LONNSTILSKUDD',
+                    'SOMMERJOBB',
+                    'INKLUDERINGSTILSKUDD',
+                    'MENTOR',
+                ]),
+            }))
+        )
+    ),
+
+    // brukerApi
+    hentSakerResolver(alleSaker),
+    sakstyperResolver(alleSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
+    hentKalenderavtalerResolver(alleKalenderavtaler),
+    hentNotifikasjonerResolver(alleNotifikasjoner),
+];
