@@ -1,11 +1,10 @@
-import { graphql, http, HttpResponse } from 'msw';
+import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { oppgaveTilstandInfo, orgnr, schema } from '../brukerApi/helpers';
-import { graphql as executeGraphQL } from 'graphql/graphql';
+import { orgnr } from '../brukerApi/helpers';
 import { fromEntries } from '../../utils/Record';
 import { AltinnTilgang } from '../../hooks/useUserInfo';
 import { alleSaker } from '../brukerApi/alleSaker';
-import { alleMerkelapper, Merkelapp } from '../brukerApi/alleMerkelapper';
+import { Merkelapp } from '../brukerApi/alleMerkelapper';
 import {
     hentKalenderavtalerResolver,
     hentNotifikasjonerResolver,
@@ -67,30 +66,20 @@ const regnskapsførerSakstyper = [
     Merkelapp.Yrkesskade,
 ];
 
-export const regnskapsforerBrukerApiScenario = [
-    hentSakerResolver(
-        alleSaker.filter(({ merkelapp }) =>
-            regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
-        )
-    ),
-
-    hentKalenderavtalerResolver(
-        alleKalenderavtaler.filter(({ merkelapp }) =>
-            regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
-        )
-    ),
-
-    hentNotifikasjonerResolver(
-        alleNotifikasjoner.filter(({ merkelapp }) =>
-            regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
-        )
-    ),
-
-    sakstyperResolver(regnskapsførerSakstyper),
-];
-
+const regnskapsførerSaker = alleSaker.filter(({ merkelapp }) =>
+    regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
+);
+const regnskapsførerKalenderavtaler = alleKalenderavtaler.filter(({ merkelapp }) =>
+    regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
+);
+const regnskapsførerNotifikasjoner = alleNotifikasjoner.filter(({ merkelapp }) =>
+    regnskapsførerSakstyper.includes(merkelapp as Merkelapp)
+);
 export const regnskapsforerScenario = [
     regnskapsforerUserInfoScenario,
 
-    ...regnskapsforerBrukerApiScenario,
+    hentSakerResolver(regnskapsførerSaker),
+    sakstyperResolver(regnskapsførerSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
+    hentKalenderavtalerResolver(regnskapsførerKalenderavtaler),
+    hentNotifikasjonerResolver(regnskapsførerNotifikasjoner),
 ];

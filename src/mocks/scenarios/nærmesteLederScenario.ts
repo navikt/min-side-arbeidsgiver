@@ -9,9 +9,20 @@ import {
     sakstyperResolver,
 } from '../brukerApi/resolvers';
 import { alleSaker } from '../brukerApi/alleSaker';
-import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
 import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
-import { alleMerkelapper, Merkelapp } from '../brukerApi/alleMerkelapper';
+import { Merkelapp } from '../brukerApi/alleMerkelapper';
+import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
+
+const nærmesteLederMerkelapper = [Merkelapp.Dialogmøte, Merkelapp.Oppfølging];
+const nærmesteLederSaker = alleSaker.filter(({ merkelapp }) =>
+    nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
+);
+const nærmesteLederNotifikasjoner = alleNotifikasjoner.filter(({ merkelapp }) =>
+    nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
+);
+const nærmesteLederKalenderavtaler = alleKalenderavtaler.filter(({ merkelapp }) =>
+    nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
+);
 
 export const nærmesteLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
@@ -58,17 +69,8 @@ export const nærmesteLederScenario = [
     }),
 
     // brukerApi
-    hentSakerResolver(
-        alleSaker.filter(({ merkelapp }) =>
-            [Merkelapp.Dialogmøte, Merkelapp.Oppfølging].includes(merkelapp as Merkelapp)
-        )
-    ),
-
-    hentNotifikasjonerResolver(
-        alleNotifikasjoner.filter(({ merkelapp }) =>
-            [Merkelapp.Dialogmøte, Merkelapp.Oppfølging].includes(merkelapp as Merkelapp)
-        )
-    ),
-
-    sakstyperResolver([Merkelapp.Dialogmøte, Merkelapp.Oppfølging]),
+    hentSakerResolver(nærmesteLederSaker),
+    sakstyperResolver(nærmesteLederSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
+    hentNotifikasjonerResolver(nærmesteLederNotifikasjoner),
+    hentKalenderavtalerResolver(nærmesteLederKalenderavtaler),
 ];

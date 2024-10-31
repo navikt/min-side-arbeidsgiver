@@ -11,7 +11,7 @@ import {
 import { alleSaker } from '../brukerApi/alleSaker';
 import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
 import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
-import { alleMerkelapper } from '../brukerApi/alleMerkelapper';
+import { Merkelapp } from '../brukerApi/alleMerkelapper';
 
 const alleTilganger = [
     '5216:1', // sykefraværsstatistikk
@@ -143,10 +143,7 @@ export const dagligLederScenario = [
 
     // brukerApi
     hentSakerResolver(alleSaker),
-
+    sakstyperResolver(alleSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
     hentKalenderavtalerResolver(alleKalenderavtaler),
-
     hentNotifikasjonerResolver(alleNotifikasjoner),
-
-    sakstyperResolver(alleMerkelapper),
 ];

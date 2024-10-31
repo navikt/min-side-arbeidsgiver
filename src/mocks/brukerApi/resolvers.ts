@@ -10,16 +10,21 @@ export const hentSakerResolver = (saker: Sak[]) =>
         const sakerFiltrert = saker.filter(
             ({ merkelapp }) => variables.sakstyper?.includes(merkelapp) ?? true
         );
+        // create a map of merkelapp to number of saker
+        const sakstyper = Array.from(
+            saker.reduce((acc, { merkelapp }) => {
+                acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
+                return acc;
+            }, new Map<string, number>())
+        ).map(([navn, antall]) => ({ navn, antall }));
+
         const { errors, data } = await executeAndValidate({
             query,
             variables,
             rootValue: {
                 saker: {
                     saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
-                    sakstyper: saker.map(({ merkelapp }) => ({
-                        navn: merkelapp,
-                        antall: saker.filter((sak) => sak.merkelapp === merkelapp).length,
-                    })),
+                    sakstyper: sakstyper,
                     feilAltinn: false,
                     totaltAntallSaker: saker.length,
                     oppgaveTilstandInfo: oppgaveTilstandInfo(),
@@ -68,7 +73,7 @@ export const sakstyperResolver = (sakstyper: Merkelapp[]) =>
             query,
             variables,
             rootValue: {
-                sakstyper: sakstyper.map((navn) => ({ navn })),
+                sakstyper: [...new Set(sakstyper)].map((navn) => ({ navn })),
             },
         });
 

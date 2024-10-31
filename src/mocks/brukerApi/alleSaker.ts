@@ -276,4 +276,57 @@ export const alleSaker = [
             }),
         ],
     }),
+    sak({
+        merkelapp: Merkelapp.Inntektsmelding_sykepenger,
+        tittel: `Inntektsmelding for ${faker.person.fullName()} f.${fdato()}`,
+        tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ days: 15 }).toLocaleDateString()} - ${dateInPast({ days: 1 }).toLocaleDateString()}`,
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Venter på inntektsmelding',
+        }),
+        tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Innsending av inntektsmelding',
+                tilstand: OppgaveTilstand.Ny,
+                opprettetTidspunkt: dateInPast({ days: 15 }),
+            }),
+        ],
+    }),
+    sak({
+        merkelapp: Merkelapp.Inntektsmelding_sykepenger,
+        tittel: `Inntektsmelding for ${faker.person.fullName()} f.${fdato()}`,
+        tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ months: 1, days: 15 }).toLocaleDateString()} - ${dateInPast({ months: 1, days: 1 }).toLocaleDateString()}`,
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Mottatt - se kvittering eller korriger inntektsmelding',
+        }),
+        tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Innsending av inntektsmelding',
+                tilstand: OppgaveTilstand.Utfoert,
+                opprettetTidspunkt: dateInPast({ months: 1, days: 15 }),
+                utfoertTidspunkt: dateInPast({ months: 1 }),
+            }),
+        ],
+    }),
+    sak({
+        merkelapp: Merkelapp.Inntektsmelding_sykepenger,
+        tittel: `Inntektsmelding for ${faker.person.fullName()} f.${fdato()}`,
+        tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ months: 2, days: 15 }).toLocaleDateString()} - ${dateInPast({ months: 2, days: 1 }).toLocaleDateString()}`,
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Ferdig,
+            tekst: 'Avbrutt av Nav',
+        }),
+        tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Innsending av inntektsmelding',
+                tilstand: OppgaveTilstand.Utgaatt,
+                opprettetTidspunkt: dateInPast({ months: 2, days: 15 }),
+                utgaattTidspunkt: dateInPast({ months: 2 }),
+            }),
+        ],
+    }),
 ];
