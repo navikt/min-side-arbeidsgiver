@@ -1,6 +1,6 @@
 import { setupServer } from 'msw/node';
 import { graphql, http, HttpResponse } from 'msw';
-import { orgnr } from '../mocks/faker/brukerApiHelpers';
+import { orgnr } from '../mocks/brukerApi/helpers';
 import { faker } from '@faker-js/faker';
 
 export const server = setupServer(

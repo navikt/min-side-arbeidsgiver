@@ -1,52 +1,74 @@
 import { http, HttpResponse } from 'msw';
+import { orgnr } from '../brukerApi/helpers';
+import { faker } from '@faker-js/faker';
+import { fromEntries } from '../../utils/Record';
+import {
+    hentKalenderavtalerResolver,
+    hentNotifikasjonerResolver,
+    hentSakerResolver,
+    sakstyperResolver,
+} from '../brukerApi/resolvers';
+import { alleSaker } from '../brukerApi/alleSaker';
+import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
+import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
+import { alleMerkelapper, Merkelapp } from '../brukerApi/alleMerkelapper';
 
-const nærmesteLederUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v1', () => {
-    return HttpResponse.json({
-        altinnError: false,
-        organisasjoner: [
+export const nærmesteLederScenario = [
+    http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
+        const underenheter = [
             {
-                Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
-                Type: 'Enterprise',
-                OrganizationNumber: '121488424',
-                OrganizationForm: 'AS',
-                Status: 'Active',
+                orgNr: orgnr(),
+                name: faker.company.name(),
+                organizationForm: 'BEDR',
+                underenheter: [],
             },
             {
-                Name: 'SALTRØD OG HØNEBY',
-                Type: 'Business',
-                OrganizationNumber: '999999999',
-                ParentOrganizationNumber: '121488424',
-                OrganizationForm: 'BEDR',
-                Status: 'Active',
+                orgNr: orgnr(),
+                name: faker.company.name(),
+                organizationForm: 'BEDR',
+                underenheter: [],
             },
-        ],
-        tilganger: [],
-        digisyfoError: false,
-        digisyfoOrganisasjoner: [
-            {
+        ];
+        const organisasjon = {
+            orgNr: orgnr(),
+            name: faker.company.name(),
+            organizationForm: 'AS',
+            underenheter,
+        };
+        return HttpResponse.json({
+            altinnError: false,
+            organisasjoner: [organisasjon],
+            tilganger: fromEntries(
+                [
+                    // TODO: skal nærmeste leder ha noen altinn tilganger?
+                ].map((tilgang) => [tilgang, underenheter.map((org) => org.orgNr)])
+            ),
+            digisyfoError: false,
+            digisyfoOrganisasjoner: underenheter.map(({ orgNr, organizationForm, name }) => ({
                 organisasjon: {
-                    Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
-                    Type: 'Enterprise',
-                    OrganizationNumber: '121488424',
-                    OrganizationForm: 'AS',
-                    Status: 'Active',
+                    OrganizationNumber: orgNr,
+                    Name: name,
+                    ParentOrganizationNumber: organisasjon.orgNr,
+                    OrganizationForm: organizationForm,
                 },
-                antallSykmeldte: 4,
-            },
-            {
-                organisasjon: {
-                    Name: 'SALTRØD OG HØNEBY',
-                    Type: 'Business',
-                    OrganizationNumber: '999999999',
-                    ParentOrganizationNumber: '121488424',
-                    OrganizationForm: 'BEDR',
-                    Status: 'Active',
-                },
-                antallSykmeldte: 4,
-            },
-        ],
-        refusjoner: [],
-    });
-});
+                antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+            })),
+            refusjoner: [],
+        });
+    }),
 
-export const nærmesteLederScenario = [nærmesteLederUserInfoScenario];
+    // brukerApi
+    hentSakerResolver(
+        alleSaker.filter(({ merkelapp }) =>
+            [Merkelapp.Dialogmøte, Merkelapp.Oppfølging].includes(merkelapp as Merkelapp)
+        )
+    ),
+
+    hentNotifikasjonerResolver(
+        alleNotifikasjoner.filter(({ merkelapp }) =>
+            [Merkelapp.Dialogmøte, Merkelapp.Oppfølging].includes(merkelapp as Merkelapp)
+        )
+    ),
+
+    sakstyperResolver([Merkelapp.Dialogmøte, Merkelapp.Oppfølging]),
+];

@@ -26,6 +26,9 @@ export const useDemoprofil: () => {
     const setDemoprofil = (demoprofil: Demoprofil) => {
         const url = new URL(window.location.href);
         url.searchParams.set('demoprofil', demoprofil);
+        if (!url.pathname.endsWith('/')) {
+            url.pathname += '/';
+        }
         window.location.replace(url.toString());
     };
 
