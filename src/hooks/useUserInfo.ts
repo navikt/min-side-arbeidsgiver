@@ -6,7 +6,7 @@ import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
 import { erDriftsforstyrrelse } from '../utils/util';
-import { flatUtOrganisasjonstre } from '@navikt/bedriftsmeny';
+import { flatUtOrganisasjonstreV2 } from '@navikt/bedriftsmeny';
 
 const DigiSyfoOrganisasjon = z.object({
     organisasjon: Organisasjon,
@@ -37,9 +37,9 @@ const idLookup = (id: string) => tjenesteTilIdMap[id] ?? id;
 
 // recursive type using zod https://zodjs.netlify.app/guide/recursive-types#recursive-types
 const BaseAltinnTilgang = z.object({
-    orgNr: z.string(),
-    name: z.string(),
-    organizationForm: z.string(),
+    orgnr: z.string(),
+    navn: z.string(),
+    organisasjonsform: z.string(),
 });
 export type AltinnTilgang = z.infer<typeof BaseAltinnTilgang> & {
     underenheter: AltinnTilgang[];
@@ -52,7 +52,7 @@ const UserInfoRespons = z.object({
     digisyfoError: z.boolean(),
     organisasjoner: z
         .array(AltinnTilgang)
-        .transform((organisasjoner) => flatUtOrganisasjonstre(organisasjoner)),
+        .transform((organisasjoner) => flatUtOrganisasjonstreV2(organisasjoner)),
     tilganger: z.record(z.string(), z.array(z.string())).transform((tilganger) => {
         return Record.fromEntries(
             Object.entries(tilganger).map(([id, orgnumre]) => [idLookup(id), Set(orgnumre)])

@@ -28,39 +28,35 @@ export const nærmesteLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
         const underenheter = [
             {
-                orgNr: orgnr(),
-                name: faker.company.name(),
-                organizationForm: 'BEDR',
+                orgnr: orgnr(),
+                navn: faker.company.name(),
+                organisasjonsform: 'BEDR',
                 underenheter: [],
             },
             {
-                orgNr: orgnr(),
-                name: faker.company.name(),
-                organizationForm: 'BEDR',
+                orgnr: orgnr(),
+                navn: faker.company.name(),
+                organisasjonsform: 'BEDR',
                 underenheter: [],
             },
         ];
         const organisasjon = {
-            orgNr: orgnr(),
-            name: faker.company.name(),
-            organizationForm: 'AS',
+            orgnr: orgnr(),
+            navn: faker.company.name(),
+            organisasjonsform: 'AS',
             underenheter,
         };
         return HttpResponse.json({
             altinnError: false,
             organisasjoner: [organisasjon],
-            tilganger: fromEntries(
-                [
-                    // TODO: skal nærmeste leder ha noen altinn tilganger?
-                ].map((tilgang) => [tilgang, underenheter.map((org) => org.orgNr)])
-            ),
+            tilganger: {},
             digisyfoError: false,
-            digisyfoOrganisasjoner: underenheter.map(({ orgNr, organizationForm, name }) => ({
+            digisyfoOrganisasjoner: underenheter.map(({ orgnr, organisasjonsform, navn }) => ({
                 organisasjon: {
-                    OrganizationNumber: orgNr,
-                    Name: name,
-                    ParentOrganizationNumber: organisasjon.orgNr,
-                    OrganizationForm: organizationForm,
+                    OrganizationNumber: orgnr,
+                    Name: navn,
+                    ParentOrganizationNumber: organisasjon.orgnr,
+                    OrganizationForm: organisasjonsform,
                 },
                 antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
             })),
