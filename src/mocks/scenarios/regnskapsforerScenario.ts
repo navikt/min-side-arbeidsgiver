@@ -24,15 +24,15 @@ const tilganger = [
 const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
     const underenheter: AltinnTilgang[] = [];
     const organisasjoner = Array.from({ length: 100 }).map(() => ({
-        orgNr: orgnr(),
-        name: faker.company.name(),
-        organizationForm: 'AS',
+        orgnr: orgnr(),
+        navn: faker.company.name(),
+        organisasjonsform: 'AS',
         underenheter: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }).map(() => {
             const underenhet = {
-                orgNr: orgnr(),
+                orgnr: orgnr(),
                 underenheter: [],
-                name: faker.company.name(),
-                organizationForm: 'BEDR',
+                navn: faker.company.name(),
+                organisasjonsform: 'BEDR',
             };
             underenheter.push(underenhet);
             return underenhet;
@@ -42,12 +42,12 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
         altinnError: false,
         organisasjoner: organisasjoner,
         tilganger: fromEntries(
-            tilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgNr)])
+            tilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgnr)])
         ),
         digisyfoError: false,
         digisyfoOrganisasjoner: [],
-        refusjoner: underenheter.map(({ orgNr }) => ({
-            virksomhetsnummer: orgNr,
+        refusjoner: underenheter.map(({ orgnr }) => ({
+            virksomhetsnummer: orgnr,
             statusoversikt: { KLAR_FOR_INNSENDING: faker.number.int({ min: 0, max: 10 }) },
             tilgang: true,
         })),
