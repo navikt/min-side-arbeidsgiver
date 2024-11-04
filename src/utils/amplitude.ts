@@ -1,10 +1,6 @@
 import * as amplitude from '@amplitude/analytics-browser';
 import { Types } from '@amplitude/analytics-browser';
 import { gittMiljo } from './environment';
-import { Identify } from '@amplitude/analytics-types/lib/esm/event';
-import { EventOptions } from '@amplitude/analytics-types/lib/esm/base-event';
-import { AmplitudeReturn } from '@amplitude/analytics-types/lib/esm/amplitude-promise';
-import { Result } from '@amplitude/analytics-types/lib/esm/result';
 
 const getApiKey = () => {
     return window.location.hostname === 'arbeidsgiver.nav.no'
@@ -40,7 +36,10 @@ const mockedAmplitude = (): AmplitudeInstance => ({
             ),
         };
     },
-    identify(identify: Identify, eventOptions?: EventOptions): AmplitudeReturn<Result> {
+    identify(
+        identify: Types.Identify,
+        _?: Types.EventOptions
+    ): Types.AmplitudeReturn<Types.Result> {
         console.group('Mocked amplitude-identify');
         console.table(identify);
         console.groupEnd();
