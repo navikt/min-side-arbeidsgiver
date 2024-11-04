@@ -7,7 +7,6 @@ import './Kontaktinfo.css';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import NyFaneIkon from './NyFaneIkon';
 import { erDriftsforstyrrelse } from '../../utils/util';
-import Tekstboks from './Tekstboks';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 
 const KontaktinfoDetaljer = z.object({
@@ -118,11 +117,11 @@ export const KontaktinfoUnderenhet = () => {
     if (kontaktinfo === null) return null;
     if (kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0) return null;
     return (
-        <Tekstboks className="kontaktinfo">
+        <div className="kontaktinfo">
             <TittelMedHjelpetekst>Varslingsadresser for underenhet</TittelMedHjelpetekst>
             <KontaktinfoListe kontaktinfo={kontaktinfo} />
             <AltinnLenke />
-        </Tekstboks>
+        </div>
     );
 };
 
@@ -136,7 +135,7 @@ export const KontaktinfoOverordnetEnhet = ({
     const orgType =
         overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'organisasjonsledd' : 'hovedenhet';
     return (
-        <Tekstboks className="kontaktinfo">
+        <div className="kontaktinfo">
             <TittelMedHjelpetekst>Varslingsadresser for {orgType}</TittelMedHjelpetekst>
             {kontaktinfo.eposter.length === 0 && kontaktinfo.telefonnumre.length === 0 ? (
                 <Alert variant="warning">
@@ -148,6 +147,6 @@ export const KontaktinfoOverordnetEnhet = ({
                 <KontaktinfoListe kontaktinfo={kontaktinfo} />
             )}
             <AltinnLenke />
-        </Tekstboks>
+        </div>
     );
 };

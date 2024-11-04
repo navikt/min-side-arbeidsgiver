@@ -6,8 +6,9 @@ import { enhetsregisteretUnderenhetLink } from '../../lenker';
 import './Underenhet.css';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
-import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from './Kontaktinfo';
+import { formatOrgNr } from '../../utils/util';
 
 interface Props {
     underenhet: UnderenhetType;
@@ -27,7 +28,7 @@ const Underenhet = ({ underenhet }: Props) => {
 
             <Tekstboks>
                 <Label>Organisasjonsnummer</Label>
-                <BodyShort>{underenhet.organisasjonsnummer}</BodyShort>
+                <BodyShort>{formatOrgNr(underenhet.organisasjonsnummer)}</BodyShort>
             </Tekstboks>
 
             <Tekstboks className="underenhet-adresse">
@@ -65,7 +66,9 @@ const Underenhet = ({ underenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <KontaktinfoUnderenhet />
+            <HStack gap="6">
+                <KontaktinfoUnderenhet />
+            </HStack>
         </>
     );
 };
