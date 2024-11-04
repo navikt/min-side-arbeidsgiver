@@ -6,7 +6,7 @@ import { enhetsregisteretUnderenhetLink } from '../../lenker';
 import './Underenhet.css';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
-import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from './Kontaktinfo';
 
 interface Props {
@@ -65,7 +65,9 @@ const Underenhet = ({ underenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <KontaktinfoUnderenhet />
+            <HStack gap="6">
+                <KontaktinfoUnderenhet />
+            </HStack>
         </>
     );
 };
