@@ -8,6 +8,7 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
+import { formatOrgNr } from '../../utils/util';
 
 interface Props {
     overordnetenhet: Hovedenhet;
@@ -30,7 +31,7 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
                     <Label>Organisasjonsnummer</Label>
-                    <BodyShort> {overordnetenhet.organisasjonsnummer}</BodyShort>
+                    <BodyShort> {formatOrgNr(overordnetenhet.organisasjonsnummer)}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">

@@ -28,3 +28,6 @@ export const capitalize = (s: string): string => {
     const [forbokstav, ...resten] = s;
     return [forbokstav.toUpperCase(), ...resten].join('');
 };
+
+export const formatOrgNr = (orgNr: string): string =>
+    orgNr.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
