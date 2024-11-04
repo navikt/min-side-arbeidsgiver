@@ -12,25 +12,26 @@ const createAmpltiudeInstance = () => {
 
     instance.init(getApiKey(), '', {
         apiEndpoint: 'amplitude.nav.no/collect',
+        platform: window.location.toString(),
         saveEvents: false,
         includeUtm: true,
         batchEvents: false,
-        includeReferrer: true
+        includeReferrer: true,
     });
 
     return instance;
-}
-
+};
 
 export default gittMiljo({
     prod: () => createAmpltiudeInstance(),
     dev: () => createAmpltiudeInstance(),
-    other: () => ({
-        logEvent: (event: string, data?: any) => {
-            console.log(`${event}: ${JSON.stringify(data)}`, {event, data})
-        },
-        setUserProperties:(userProps:object) => {
-            console.log(`set userprops: ${JSON.stringify(userProps)}`)
-        }
-    } as amplitude.AmplitudeClient )
+    other: () =>
+        ({
+            logEvent: (event: string, data?: any) => {
+                console.log(`${event}: ${JSON.stringify(data)}`, { event, data });
+            },
+            setUserProperties: (userProps: object) => {
+                console.log(`set userprops: ${JSON.stringify(userProps)}`);
+            },
+        }) as amplitude.AmplitudeClient,
 })();
