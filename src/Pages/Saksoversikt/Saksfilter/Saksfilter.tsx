@@ -118,6 +118,7 @@ const InntektsmeldingGruppe = (
         navn.includes('Inntektsmelding')
     );
 
+
     if (inntektsmeldingAlleValgtAvBruker) {
         valgteInntektsmeldingtyper = ['Inntektsmelding_gruppe'];
     } else if (andreInntektsmeldingerValgt) {
@@ -155,7 +156,9 @@ const InntektsmeldingGruppe = (
             ],
         });
     };
-
+    if (antall === 0) {
+        return null;
+    }
     return (
         <CheckboxGroup
             legend={null}
