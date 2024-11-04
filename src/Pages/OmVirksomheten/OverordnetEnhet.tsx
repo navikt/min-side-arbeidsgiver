@@ -5,9 +5,10 @@ import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
 import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { BodyShort, Heading, Label } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
+import { formatOrgNr } from '../../utils/util';
 
 interface Props {
     overordnetenhet: Hovedenhet;
@@ -30,7 +31,7 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
                     <Label>Organisasjonsnummer</Label>
-                    <BodyShort> {overordnetenhet.organisasjonsnummer}</BodyShort>
+                    <BodyShort> {formatOrgNr(overordnetenhet.organisasjonsnummer)}</BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">
@@ -87,7 +88,9 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
+            <HStack gap="6">
+                <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
+            </HStack>
         </div>
     );
 };
