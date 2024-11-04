@@ -156,9 +156,11 @@ const InntektsmeldingGruppe = (
             ],
         });
     };
-    if (antall === 0) {
+
+    if (inntektsmeldingSakstyper.length === 0) {
         return null;
     }
+
     return (
         <CheckboxGroup
             legend={null}
