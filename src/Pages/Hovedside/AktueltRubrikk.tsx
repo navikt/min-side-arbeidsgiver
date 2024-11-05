@@ -46,7 +46,7 @@ const aktuelt: Array<AktueltProps> = [
         lenke: 'https://www.nav.no/arbeidsgiver/nye-inntektsmeldinger',
         tittel: 'Ny løsning for inntektsmelding for foreldre- og svangerskapspenger kommer snart',
         visFra: new Date('2024-11-05T00:00:00+02:00'),
-        visTil: new Date('2024-12-01T00:00:00+02:00'),
+        visTil: new Date('2024-12-31T00:00:00+02:00'),
         tilgangssjekk: (_) => true
     }
 ];
