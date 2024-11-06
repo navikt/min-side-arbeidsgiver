@@ -1,6 +1,6 @@
 import React, { FC, RefObject, useContext, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
-import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
+import { Alert, Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
@@ -97,6 +97,15 @@ export const Saksoversikt = () => {
             />
             <div className="saksoversikt" ref={saksoversiktRef}>
                 <AdvarselBannerTestversjon />
+                <Alert variant="info">
+                    <Heading spacing size="small" level="2">
+                        Regnskapsførers tilgang til innsendte permitterings- og
+                        nedbemanningsskjemaer
+                    </Heading>
+                    Regnskapsføreren kan fortsatt sende inn skjemaene, men for å få tilgang til alle
+                    innsendte permitterings- og nedbemanningsskjemaer, må de få delegeret tilgangen
+                    "Innsyn i permitterings- og nedbemanningsmeldinger".
+                </Alert>
                 <Alerts />
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg
