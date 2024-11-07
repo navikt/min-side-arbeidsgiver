@@ -84,7 +84,7 @@ function sakstyperMedAntall(
 
     const [sakstyperMedInntektsmeldingSykepenger, sakstyperUtenInntektsmeldingSykepenger] = splittListe(
         sakstyperForFilter,
-        (filter) => filter.navn.includes('Inntektsmelding')
+        (filter) => filter.navn === 'Inntektsmelding' || filter.navn === 'Inntektsmelding sykepenger'
     );
 
     const antallInntektsmeldingSykepenger = sakstyperForFilter
