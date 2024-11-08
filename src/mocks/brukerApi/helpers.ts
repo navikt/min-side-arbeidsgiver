@@ -26,6 +26,8 @@ import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
+export const fakeName = () => `${faker.person.firstName()} ${faker.vehicle.vehicle()}`;
+
 export const fdato = () => {
     const date = faker.date.birthdate();
     return `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;

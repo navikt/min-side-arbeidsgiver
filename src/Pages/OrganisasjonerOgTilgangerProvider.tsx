@@ -11,6 +11,7 @@ import { Map, Set } from 'immutable';
 import { useUserInfo } from '../hooks/useUserInfo';
 import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 import { SpinnerMedBanner } from './Banner';
+import { Identify } from '@amplitude/analytics-browser';
 
 type orgnr = string;
 
@@ -90,10 +91,11 @@ const useBeregnOrganisasjoner = (): Record<orgnr, OrganisasjonInfo> | undefined 
         setSystemAlert('UserInfoDigiSyfo', userInfo?.digisyfoError ?? false);
 
         if (userInfo !== undefined) {
-            amplitude.setUserProperties({
-                syfotilgang: userInfo.digisyfoOrganisasjoner.length > 0,
-                buildTimestamp,
-            });
+            amplitude.identify(
+                new Identify()
+                    .set('syfotilgang', userInfo.digisyfoOrganisasjoner.length > 0)
+                    .set('buildTimestamp', buildTimestamp)
+            );
         }
     }, [userInfo]);
 

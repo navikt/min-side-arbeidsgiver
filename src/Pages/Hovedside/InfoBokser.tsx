@@ -19,19 +19,14 @@ type InfoboksProps = {
 const infobokser: Array<InfoboksProps> = [
     {
         id: 'uxsignals',
-        visFra: new Date('2024-10-04T00:00:00+02:00'),
-        visTil: new Date('2024-11-04T10:00:00+02:00'),
+        visFra: new Date('2024-11-06T00:00:00+02:00'),
+        visTil: new Date('2024-12-31T10:00:00+02:00'),
         Component: () => {
-            const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
-            const harForebyggeFravarTilgang = Record.values(organisasjoner).some(
-                (org) => org.altinntilgang.forebyggefravar
-            );
-
-            if (harForebyggeFravarTilgang) {
-                return <UXSignals dataUxsignalsEmbed="panel-7t3dixiw4u" />;
-            } else {
+            const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.inntektsmelding) {
                 return null;
             }
+            return <UXSignals dataUxsignalsEmbed="panel-mwwvs1lq0" />;
         },
     },
     {

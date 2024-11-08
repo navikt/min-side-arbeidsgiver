@@ -3,6 +3,7 @@ import { KalenderavtaleTilstand, OppgaveTilstand, SakStatusType } from '../../ap
 import {
     beskjedTidslinjeElement,
     dateInPast,
+    fakeName,
     fdato,
     kalenderavtaleTidslinjeElement,
     oppgaveTidslinjeElement,
@@ -15,7 +16,7 @@ import { Merkelapp } from './alleMerkelapper';
 export const alleSaker = [
     sak({
         merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
-        tittel: `Refusjon fritak i arbeidsgiverperioden - gravid ansatt - ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Refusjon fritak i arbeidsgiverperioden - gravid ansatt - ${fakeName()} f.${fdato()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Mottatt,
@@ -30,7 +31,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
-        tittel: `Refusjon fritak i arbeidsgiverperioden - gravid ansatt - ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Refusjon fritak i arbeidsgiverperioden - gravid ansatt - ${fakeName()} f.${fdato()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Ferdig,
@@ -49,7 +50,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
-        tittel: `Refusjon fritak i arbeidsgiverperioden - kronisk sykdom - ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Refusjon fritak i arbeidsgiverperioden - kronisk sykdom - ${fakeName()} f.${fdato()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Mottatt,
@@ -64,7 +65,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
-        tittel: `Refusjon fritak i arbeidsgiverperioden - kronisk sykdom - ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Refusjon fritak i arbeidsgiverperioden - kronisk sykdom - ${fakeName()} f.${fdato()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Ferdig,
@@ -83,7 +84,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Lønnstilskudd,
-        tittel: `Avtale om lønnstilskudd ${faker.person.fullName()}`,
+        tittel: `Avtale om lønnstilskudd ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.UnderBehandling,
@@ -105,7 +106,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Lønnstilskudd,
-        tittel: `Avtale om lønnstilskudd ${faker.person.fullName()}`,
+        tittel: `Avtale om lønnstilskudd ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.UnderBehandling,
@@ -146,7 +147,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Lønnstilskudd,
-        tittel: `Avtale om lønnstilskudd ${faker.person.fullName()}`,
+        tittel: `Avtale om lønnstilskudd ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.UnderBehandling,
@@ -157,7 +158,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Lønnstilskudd,
-        tittel: `Avtale om lønnstilskudd ${faker.person.fullName()}`,
+        tittel: `Avtale om lønnstilskudd ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.UnderBehandling,
@@ -197,7 +198,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Dialogmøte,
-        tittel: `Dialogmøte ${faker.person.fullName()}`,
+        tittel: `Dialogmøte ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Mottatt,
@@ -258,7 +259,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Dialogmøte,
-        tittel: `Dialogmøte ${faker.person.fullName()}`,
+        tittel: `Dialogmøte ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Mottatt,
@@ -278,7 +279,25 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Inntektsmelding_sykepenger,
-        tittel: `Inntektsmelding for ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Inntektsmelding for ${fakeName()} f.${fdato()}`,
+        tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ days: 15 }).toLocaleDateString()} - ${dateInPast({ days: 1 }).toLocaleDateString()}`,
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.UnderBehandling,
+            tekst: 'Venter på inntektsmelding',
+        }),
+        tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Innsending av inntektsmelding',
+                tilstand: OppgaveTilstand.Ny,
+                opprettetTidspunkt: dateInPast({ days: 15 }),
+                paaminnelseTidspunkt: dateInPast({ days: 1 }),
+            }),
+        ],
+    }),
+    sak({
+        merkelapp: Merkelapp.Inntektsmelding_sykepenger,
+        tittel: `Inntektsmelding for ${fakeName()} f.${fdato()}`,
         tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ days: 15 }).toLocaleDateString()} - ${dateInPast({ days: 1 }).toLocaleDateString()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
@@ -295,7 +314,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Inntektsmelding_sykepenger,
-        tittel: `Inntektsmelding for ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Inntektsmelding for ${fakeName()} f.${fdato()}`,
         tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ months: 1, days: 15 }).toLocaleDateString()} - ${dateInPast({ months: 1, days: 1 }).toLocaleDateString()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
@@ -313,7 +332,7 @@ export const alleSaker = [
     }),
     sak({
         merkelapp: Merkelapp.Inntektsmelding_sykepenger,
-        tittel: `Inntektsmelding for ${faker.person.fullName()} f.${fdato()}`,
+        tittel: `Inntektsmelding for ${fakeName()} f.${fdato()}`,
         tilleggsinformasjon: `Sykemeldingsperiode: ${dateInPast({ months: 2, days: 15 }).toLocaleDateString()} - ${dateInPast({ months: 2, days: 1 }).toLocaleDateString()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
