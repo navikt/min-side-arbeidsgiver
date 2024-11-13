@@ -10,6 +10,8 @@ export const OmSaker = forwardRef<HTMLButtonElement, Props>(({ id }, ref) => (
         Her vises meldinger for:
         <ul style={{ marginTop: '4px' }}>
             <li>Inntektsmelding for sykepenger</li>
+            <li>Inntektsmelding for foreldrepenger og svangerskapspenger fra 13 nov 2024</li>
+            <li>Avtaler om tiltak (lønnstilskudd, arbeidstrening, inkludering - og mentortilskudd og sommerjobb)</li>
             <li>Kandidater til dine stillinger</li>
             <li>Permitteringer, oppsigelser eller innskrenkning i arbeidstid</li>
             <li>Refusjon av sykepenger i arbeidsgiverperioden</li>
