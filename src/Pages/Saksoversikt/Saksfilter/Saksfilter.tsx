@@ -82,15 +82,17 @@ function sakstyperMedAntall(
                       ?.antall ?? 0,
     }));
 
-    const sakstyperUtenInntektsmelding = sakstyperForFilter.filter(
-        ({ navn }) => navn !== 'Inntektsmelding' && navn !== 'Inntektsmelding sykepenger'
+    const [sakstyperMedInntektsmeldingSykepenger, sakstyperUtenInntektsmeldingSykepenger] = splittListe(
+        sakstyperForFilter,
+        (filter) => filter.navn === 'Inntektsmelding' || filter.navn === 'Inntektsmelding sykepenger'
     );
+
     const antallInntektsmeldingSykepenger = sakstyperForFilter
         .filter(({ navn }) => navn === 'Inntektsmelding' || navn === 'Inntektsmelding sykepenger')
         .reduce((acc, { antall }) => acc + (antall ?? 0), 0);
     return [
-        ...sakstyperUtenInntektsmelding,
-        ...(antallInntektsmeldingSykepenger > 0
+        ...sakstyperUtenInntektsmeldingSykepenger,
+        ...(sakstyperMedInntektsmeldingSykepenger.length > 0
             ? [
                   {
                       navn: 'Inntektsmelding sykepenger',
@@ -117,6 +119,7 @@ const InntektsmeldingGruppe = (
     let [valgteInntektsmeldingtyper, andreSakstyper] = splittListe(filter.sakstyper, (navn) =>
         navn.includes('Inntektsmelding')
     );
+
 
     if (inntektsmeldingAlleValgtAvBruker) {
         valgteInntektsmeldingtyper = ['Inntektsmelding_gruppe'];
@@ -155,6 +158,10 @@ const InntektsmeldingGruppe = (
             ],
         });
     };
+
+    if (inntektsmeldingSakstyper.length === 0) {
+        return null;
+    }
 
     return (
         <CheckboxGroup
@@ -223,12 +230,9 @@ export const Saksfilter = ({
     )?.antall;
 
     const sakstyperForFilter = sakstyperMedAntall(alleSakstyper, sakstypeinfo);
-    const inntektsmeldingSakstyper = sakstyperForFilter.filter(({ navn }) =>
-        navn.includes('Inntektsmelding')
-    );
-    const sakstyperUtenInntektsmelding = sakstyperForFilter.filter(
-        ({ navn }) => !navn.includes('Inntektsmelding')
-    );
+
+    const [inntektsmeldingSakstyper, sakstyperUtenInntektsmelding] = splittListe(sakstyperForFilter, (filter) => filter.navn.includes('Inntektsmelding'));
+
     const sakstyper = [
         ...sakstyperUtenInntektsmelding,
         {
