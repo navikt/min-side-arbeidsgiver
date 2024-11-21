@@ -13,7 +13,7 @@
     "@navikt/ds-css": "^6.15.0",
     "@navikt/ds-icons": "3.4.3",
     "@navikt/ds-react": "^6.15.0",
-    "@navikt/nav-dekoratoren-moduler": "2.1.6",
+    "@navikt/nav-dekoratoren-moduler": "3.1.1",
     "fuzzysort": "^1.1.4",
     "immutable": "^4.3.6",
     "msw": "2.3.1",
