@@ -7,7 +7,7 @@ import { alleSaker } from '../brukerApi/alleSaker';
 import { Merkelapp } from '../brukerApi/alleMerkelapper';
 import {
     hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver,
+    hentNotifikasjonerResolver, hentSakByIdResolver,
     hentSakerResolver,
     sakstyperResolver,
 } from '../brukerApi/resolvers';
@@ -82,4 +82,5 @@ export const regnskapsforerScenario = [
     sakstyperResolver(regnskapsførerSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
     hentKalenderavtalerResolver(regnskapsførerKalenderavtaler),
     hentNotifikasjonerResolver(regnskapsførerNotifikasjoner),
+    hentSakByIdResolver(regnskapsførerSaker),
 ];
