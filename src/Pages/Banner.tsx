@@ -5,10 +5,11 @@ import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { OrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { onBreadcrumbClick, setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
+import { useSearchParams } from 'react-router-dom';
 import { Heading, Loader } from '@navikt/ds-react';
 import './Banner.css';
+import { LenkeMedLogging } from '../GeneriskeElementer/LenkeMedLogging';
+import { HouseIcon } from '@navikt/aksel-icons';
 
 interface OwnProps {
     sidetittel?: string;
@@ -17,19 +18,7 @@ interface OwnProps {
 export const SimpleBanner: FunctionComponent<OwnProps> = ({
     sidetittel = 'Min side – arbeidsgiver',
 }) => {
-    useEffect(() => {
-        setBreadcrumbs([
-            {
-                url: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver',
-                title: 'Min side – arbeidsgiver',
-            },
-        ]).then(() => {});
-    }, []);
-    return (
-        <Bedriftsmeny
-            sidetittel={'Min side – arbeidsgiver'}
-        />
-    );
+    return <Bedriftsmeny sidetittel={'Min side – arbeidsgiver'} />;
 };
 
 export const SaksoversiktBanner = () => (
@@ -77,44 +66,24 @@ export const BannerMedBedriftsmeny: FunctionComponent<OwnProps> = ({ sidetittel 
         : [];
 
     return (
-        <Bedriftsmeny
-            sidetittel={sidetittel}
-            organisasjoner={orgs}
-            orgnrSearchParam={useOrgnrHook}
-        >
+        <Bedriftsmeny sidetittel={sidetittel} organisasjoner={orgs} orgnrSearchParam={useOrgnrHook}>
             <NotifikasjonWidget />
         </Bedriftsmeny>
     );
 };
 
-interface Brodsmule {
-    url: string;
-    title: string;
-    handleInApp: boolean;
-}
-
-interface BrodsmuleProps {
-    brodsmuler: Brodsmule[];
-}
-
-export const Brodsmulesti = ({ brodsmuler }: BrodsmuleProps) => {
-    const navigate = useNavigate();
-
-    onBreadcrumbClick((breadcrumb) => {
-        navigate(breadcrumb.url);
-    });
-
-    const defaultBrodsmule: Brodsmule[] = [
-        { url: '/', title: 'Min side – arbeidsgiver', handleInApp: true },
-    ];
-
-    const breadcrumbs = defaultBrodsmule.concat(brodsmuler);
-
-    useEffect(() => {
-        setBreadcrumbs(breadcrumbs);
-    }, [JSON.stringify(brodsmuler)]);
-
-    return <></>;
+export const Brodsmulesti = () => {
+    return (
+        <div className="brodsmulesti">
+            <LenkeMedLogging
+                loggLenketekst={`Brødsmulesti - Min side - arbeidsgiver`}
+                href={"/"}
+            >
+                <HouseIcon title="a11y-title" fontSize="1.5rem" />
+                Min side – arbeidsgiver
+            </LenkeMedLogging>
+        </div>
+    );
 };
 
 export const Spinner = () => (
