@@ -77,7 +77,7 @@ export const Brodsmulesti = () => {
         <div className="brodsmulesti">
             <LenkeMedLogging
                 loggLenketekst={`Brødsmulesti - Min side - arbeidsgiver`}
-                href={"/"}
+                href={__BASE_PATH__}
             >
                 <HouseIcon title="a11y-title" fontSize="1.5rem" />
                 Min side – arbeidsgiver
