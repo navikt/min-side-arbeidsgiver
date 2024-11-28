@@ -96,8 +96,8 @@ const Pages: FunctionComponent = () => (
                                                 path="/sak"
                                                 element={
                                                     <>
+                                                        <Brodsmulesti/>
                                                         <SaksoversiktBanner />
-
                                                         <Saksside />
                                                     </>
                                                 }
