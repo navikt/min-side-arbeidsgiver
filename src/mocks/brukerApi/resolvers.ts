@@ -79,3 +79,16 @@ export const sakstyperResolver = (sakstyper: Merkelapp[]) =>
 
         return HttpResponse.json({ errors, data });
     });
+
+export const hentSakByIdResolver = (saker: Sak[]) =>
+    graphql.query('HENT_SAK_ID', async ({ query, variables }) => {
+        const sak = saker[0];
+        return HttpResponse.json({
+            data: {
+                sakById: {
+                    sak,
+                    feilAltinn: false,
+                },
+            }
+        });
+    } );

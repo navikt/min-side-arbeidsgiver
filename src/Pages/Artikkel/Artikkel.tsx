@@ -127,15 +127,7 @@ export const Artikkel = () => {
 
     return (
         <>
-            <Brodsmulesti
-                brodsmuler={[
-                    {
-                        url: `/artikkel/${id}`,
-                        title: tittel,
-                        handleInApp: true,
-                    },
-                ]}
-            />
+            <Brodsmulesti/>
             <ArtikkelBanner tittel={tittel} />
             <div
                 className={'artikkel-container'}

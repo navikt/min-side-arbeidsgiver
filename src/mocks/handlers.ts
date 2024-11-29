@@ -8,6 +8,7 @@ import {
     hentNotifikasjonerResolver,
     hentSakerResolver,
     sakstyperResolver,
+    hentSakByIdResolver,
 } from './brukerApi/resolvers';
 
 /**
@@ -220,4 +221,5 @@ export const handlers = [
     hentKalenderavtalerResolver([]),
     hentNotifikasjonerResolver([]),
     sakstyperResolver([]),
+    hentSakByIdResolver([])
 ];
