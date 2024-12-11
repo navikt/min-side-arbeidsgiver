@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { useContext, useState } from 'react';
+import { useContext, useId, useState } from 'react';
 import useSWR from 'swr';
 import { Alert, BodyShort, Heading, HelpText, Label } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
@@ -83,34 +83,39 @@ const TittelMedHjelpetekst = ({ children }: { children: React.ReactNode }) => (
 );
 
 type KontaktinfoDetaljer = z.infer<typeof KontaktinfoDetaljer>;
-const KontaktinfoListe = ({ kontaktinfo }: { kontaktinfo: KontaktinfoDetaljer }) => (
-    <>
-        {kontaktinfo.eposter.length > 0 ? (
-            <div>
-                <Label>E-post</Label>
-                <ul>
-                    {kontaktinfo.eposter.map((epost) => (
-                        <li key={epost}>
-                            <BodyShort>{epost}</BodyShort>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        ) : null}
-        {kontaktinfo.telefonnumre.length > 0 ? (
-            <div>
-                <Label>SMS</Label>
-                <ul>
-                    {kontaktinfo.telefonnumre.map((telefonnummer) => (
-                        <li key={telefonnummer}>
-                            <BodyShort>{telefonnummer}</BodyShort>
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        ) : null}
-    </>
-);
+const KontaktinfoListe = ({ kontaktinfo }: { kontaktinfo: KontaktinfoDetaljer }) => {
+    const epostId = useId();
+    const smsId = useId();
+
+    return (
+        <>
+            {kontaktinfo.eposter.length > 0 ? (
+                <div>
+                    <Label htmlFor={epostId}>E-post</Label>
+                    <ul id={epostId}>
+                        {kontaktinfo.eposter.map((epost) => (
+                            <li key={epost}>
+                                <BodyShort>{epost}</BodyShort>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ) : null}
+            {kontaktinfo.telefonnumre.length > 0 ? (
+                <div>
+                    <Label htmlFor={smsId}>SMS</Label>
+                    <ul id={smsId}>
+                        {kontaktinfo.telefonnumre.map((telefonnummer) => (
+                            <li key={telefonnummer}>
+                                <BodyShort>{telefonnummer}</BodyShort>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            ) : null}
+        </>
+    );
+};
 
 export const KontaktinfoUnderenhet = () => {
     const kontaktinfo = useKontaktinfo()?.underenhet ?? null;

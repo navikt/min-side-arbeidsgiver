@@ -16,46 +16,53 @@ interface Props {
 
 const Underenhet = ({ underenhet }: Props) => {
     const adresse = underenhet?.beliggenhetsadresse;
+
     return (
         <>
             <Tekstboks className="underenhet-navn">
-                <Label>Underenhet</Label>
-                <Heading size="medium" level="2" className="underenhet-info__navn">
+                <Label htmlFor={"underenhet_navn_felt"}>Underenhet</Label>
+                <Heading id={"underenhet_navn_felt"} size="medium" level="2" className="underenhet-info__navn">
                     <UnderenhetIkon aria-hidden="true" title="underenhet" />
                     {underenhet.navn}
                 </Heading>
             </Tekstboks>
 
             <Tekstboks>
-                <Label>Organisasjonsnummer</Label>
-                <BodyShort>{formatOrgNr(underenhet.organisasjonsnummer)}</BodyShort>
+                <Label htmlFor={'underenhet_organisasjonsnummer_felt'}>Organisasjonsnummer</Label>
+                <BodyShort id={'underenhet_organisasjonsnummer_felt'}>
+                    {formatOrgNr(underenhet.organisasjonsnummer)}
+                </BodyShort>
             </Tekstboks>
 
             <Tekstboks className="underenhet-adresse">
-                <Label>Beliggenhetsadresse</Label>
-                <BodyShort>{adresse?.adresse?.[0] ?? ''}</BodyShort>
-                <BodyShort>
-                    {adresse?.postnummer ?? ''} {adresse?.poststed ?? ''}
-                </BodyShort>
+                <Label htmlFor={'underenhet_adresse_felt'}>Beliggenhetsadresse</Label>
+                <div id={'underenhet_adresse_felt'}>
+                    <BodyShort>{adresse?.adresse?.[0] ?? ''}</BodyShort>
+                    <BodyShort>
+                        {adresse?.postnummer ?? ''} {adresse?.poststed ?? ''}
+                    </BodyShort>
+                </div>
             </Tekstboks>
 
             <Tekstboks className="underenhet-kode">
-                <Label>Næringskoder</Label>
-                <BodyShort>
-                    {underenhet.naeringskode1
-                        ? `${underenhet.naeringskode1.kode}. ${underenhet.naeringskode1.beskrivelse}`
-                        : ''}
-                </BodyShort>
-                <BodyShort>
-                    {underenhet.naeringskode2
-                        ? `${underenhet.naeringskode2.kode}. ${underenhet.naeringskode2.beskrivelse}`
-                        : ''}
-                </BodyShort>
-                <BodyShort>
-                    {underenhet.naeringskode3
-                        ? `${underenhet.naeringskode3.kode}. ${underenhet.naeringskode3.beskrivelse}`
-                        : ''}
-                </BodyShort>
+                <Label htmlFor={'underenhet_næringskoder_felt'}>Næringskoder</Label>
+                <div id="underenhet_næringskoder_felt">
+                    <BodyShort>
+                        {underenhet.naeringskode1
+                            ? `${underenhet.naeringskode1.kode}. ${underenhet.naeringskode1.beskrivelse}`
+                            : ''}
+                    </BodyShort>
+                    <BodyShort>
+                        {underenhet.naeringskode2
+                            ? `${underenhet.naeringskode2.kode}. ${underenhet.naeringskode2.beskrivelse}`
+                            : ''}
+                    </BodyShort>
+                    <BodyShort>
+                        {underenhet.naeringskode3
+                            ? `${underenhet.naeringskode3.kode}. ${underenhet.naeringskode3.beskrivelse}`
+                            : ''}
+                    </BodyShort>
+                </div>
             </Tekstboks>
             <Tekstboks>
                 <LenkeMedLogging
