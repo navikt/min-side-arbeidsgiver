@@ -23,7 +23,6 @@ const Hovedside: FunctionComponent = () => {
 
     return (
         <div>
-            <Brodsmulesti brodsmuler={[]} />
             <div className="hovedside-container">
                 <AdvarselBannerTestversjon />
                 <Alerts />

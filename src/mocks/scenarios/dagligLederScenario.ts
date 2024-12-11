@@ -7,6 +7,7 @@ import {
     hentNotifikasjonerResolver,
     hentSakerResolver,
     sakstyperResolver,
+    hentSakByIdResolver,
 } from '../brukerApi/resolvers';
 import { alleSaker } from '../brukerApi/alleSaker';
 import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
@@ -146,4 +147,5 @@ export const dagligLederScenario = [
     sakstyperResolver(alleSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
     hentKalenderavtalerResolver(alleKalenderavtaler),
     hentNotifikasjonerResolver(alleNotifikasjoner),
+    hentSakByIdResolver(alleSaker),
 ];

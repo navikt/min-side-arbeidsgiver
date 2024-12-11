@@ -5,7 +5,6 @@ import Underenhet from './Underenhet';
 import OverordnetEnhet from './OverordnetEnhet';
 import './OmVirksomheten.css';
 import { Box } from '@navikt/ds-react';
-import { Brodsmulesti } from '../Banner';
 
 const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
     <Box className="informasjon-om-bedrift">{children}</Box>
@@ -21,11 +20,6 @@ const OmVirksomheten: FunctionComponent = () => {
 
     return (
         <>
-            <Brodsmulesti
-                brodsmuler={[
-                    { url: '/bedriftsinformasjon', title: 'Om virksomheten', handleInApp: true },
-                ]}
-            />
             {overordnetenhet !== undefined && underenhet !== undefined ? (
                 <>
                     <Kontaktpanel>

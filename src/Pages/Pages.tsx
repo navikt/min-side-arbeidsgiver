@@ -63,6 +63,7 @@ const Pages: FunctionComponent = () => (
                                                 path="/bedriftsinformasjon"
                                                 element={
                                                     <>
+                                                        <Brodsmulesti/>
                                                         <BannerMedBedriftsmeny
                                                             sidetittel={'Om virksomheten'}
                                                         />
@@ -85,16 +86,8 @@ const Pages: FunctionComponent = () => (
                                                 path="/saksoversikt"
                                                 element={
                                                     <>
+                                                        <Brodsmulesti/>
                                                         <SaksoversiktBanner />
-                                                        <Brodsmulesti
-                                                            brodsmuler={[
-                                                                {
-                                                                    url: '/saksoversikt',
-                                                                    title: 'Saksoversikt',
-                                                                    handleInApp: true,
-                                                                },
-                                                            ]}
-                                                        />
                                                         <Saksoversikt />
                                                     </>
                                                 }
@@ -103,21 +96,8 @@ const Pages: FunctionComponent = () => (
                                                 path="/sak"
                                                 element={
                                                     <>
+                                                        <Brodsmulesti/>
                                                         <SaksoversiktBanner />
-                                                        <Brodsmulesti
-                                                            brodsmuler={[
-                                                                {
-                                                                    url: '/saksoversikt',
-                                                                    title: 'Saksoversikt',
-                                                                    handleInApp: true,
-                                                                },
-                                                                {
-                                                                    url: '/sak',
-                                                                    title: 'Sak',
-                                                                    handleInApp: true,
-                                                                },
-                                                            ]}
-                                                        />
                                                         <Saksside />
                                                     </>
                                                 }
@@ -128,7 +108,15 @@ const Pages: FunctionComponent = () => (
                                                     <Navigate to="/saksoversikt" replace={true} />
                                                 }
                                             />
-                                            <Route path="/artikkel/:id" element={<Artikkel />} />
+                                            <Route
+                                                path="/artikkel/:id"
+                                                element={
+                                                    <>
+                                                        <Brodsmulesti/>
+                                                        <Artikkel />
+                                                    </>
+                                                }
+                                            />
                                             <Route
                                                 path="*"
                                                 element={

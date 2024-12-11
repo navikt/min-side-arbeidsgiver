@@ -34,3 +34,16 @@
 .banner__saksoversikt__tittel {
     grid-area: tittel;
 }
+
+.brodsmulesti {
+    display: flex;
+    background: var(--a-bg-default);
+    padding: 16px 32px;
+    font-size: 1.125rem;
+    align-items: center;
+}
+.brodsmulesti svg {
+    color: var(--a-text-default);
+    width: 32px;
+    height: 32px;
+}

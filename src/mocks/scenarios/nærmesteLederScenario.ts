@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 import { fromEntries } from '../../utils/Record';
 import {
     hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver,
+    hentNotifikasjonerResolver, hentSakByIdResolver,
     hentSakerResolver,
     sakstyperResolver,
 } from '../brukerApi/resolvers';
@@ -69,4 +69,5 @@ export const nærmesteLederScenario = [
     sakstyperResolver(nærmesteLederSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
     hentNotifikasjonerResolver(nærmesteLederNotifikasjoner),
     hentKalenderavtalerResolver(nærmesteLederKalenderavtaler),
+    hentSakByIdResolver(nærmesteLederSaker),
 ];
