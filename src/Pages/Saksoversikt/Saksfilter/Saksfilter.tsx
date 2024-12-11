@@ -165,8 +165,8 @@ const InntektsmeldingGruppe = (
 
     return (
         <CheckboxGroup
-            legend={null}
-            hideLegend
+            legend={'Inntektsmeldinger'}
+            hideLegend={true}
             value={valgteInntektsmeldingtyper}
             onChange={(valgte) => handleChange(valgte)}
         >
