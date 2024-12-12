@@ -97,15 +97,6 @@ export const Saksoversikt = () => {
             />
             <div className="saksoversikt" ref={saksoversiktRef}>
                 <AdvarselBannerTestversjon />
-                <Alert variant="info">
-                    <Heading spacing size="small" level="2">
-                        Regnskapsførers tilgang til innsendte permitterings- og
-                        nedbemanningsskjemaer
-                    </Heading>
-                    Regnskapsføreren kan fortsatt sende inn skjemaene, men for å få tilgang til alle
-                    innsendte permitterings- og nedbemanningsskjemaer, må de få delegeret tilgangen
-                    "Innsyn i permitterings- og nedbemanningsmeldinger".
-                </Alert>
                 <Alerts />
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Mine filtervalg
