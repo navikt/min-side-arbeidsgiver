@@ -10,6 +10,7 @@ import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
 type AktueltProps = {
     lenke: string;
     tittel: string;
+    beskrivelse?: string;
     visFra: Date;
     visTil: Date;
     tilgangssjekk: (valgtOrganisasjon: OrganisasjonInfo) => boolean;
@@ -21,7 +22,7 @@ const dateFormat = new Intl.DateTimeFormat('no', {
     day: '2-digit',
 });
 
-const Aktuelt = ({ lenke, tittel, visFra, visTil }: AktueltProps) => {
+const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) => {
     const { pathname } = useLocation();
 
     return (
@@ -35,7 +36,7 @@ const Aktuelt = ({ lenke, tittel, visFra, visTil }: AktueltProps) => {
                 }}
             >
                 <LinkPanel.Title>{tittel}</LinkPanel.Title>
-                <LinkPanel.Description>{dateFormat.format(visFra)}</LinkPanel.Description>
+                <LinkPanel.Description>{beskrivelse ?? dateFormat.format(visFra)}</LinkPanel.Description>
             </LinkPanel>
         </DisplayBetween>
     );
@@ -43,11 +44,12 @@ const Aktuelt = ({ lenke, tittel, visFra, visTil }: AktueltProps) => {
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/arbeidsgiver/nye-inntektsmeldinger',
-        tittel: 'Ny løsning for inntektsmelding for foreldre- og svangerskapspenger',
-        visFra: new Date('2024-11-05T00:00:00+02:00'),
-        visTil: new Date('2024-12-31T00:00:00+02:00'),
-        tilgangssjekk: (_) => true
+        lenke: 'https://arbeidsgiver.nav.no/min-side-arbeidsgiver/artikkel/saferoad_ansetter_ved_hjelp_av_nav',
+        tittel: 'Ønsker dere hjelpe fra Nav til å rekruttere?',
+        beskrivelse: "Les om hvordan Nav bidrar til at Saferoad kan ansette over 100 nye folk hvert år.",
+        visFra: new Date('2024-12-13T00:00:00+02:00'),
+        visTil: new Date('2025-01-31T00:00:00+02:00'),
+        tilgangssjekk: (orgInfo) => orgInfo.altinntilgang.rekruttering,
     }
 ];
 
