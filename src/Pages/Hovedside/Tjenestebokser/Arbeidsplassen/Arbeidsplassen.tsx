@@ -20,8 +20,8 @@ const Arbeidsplassen = () => {
             aria-label={
                 'Rekruttere på arbeidsplassen.no, ' +
                 (antallAnnonser > 0
-                    ? `Stillingsannonser ( ${antallAnnonser} aktive)`
-                    : 'Lag ny stillingsannonse')
+                    ? `${antallAnnonser} Stillingsannonser aktive`
+                    : 'Lag en stillingsannonse')
             }
         >
             {antallAnnonser > 0 ? (
