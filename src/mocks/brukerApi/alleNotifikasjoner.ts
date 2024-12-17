@@ -3,6 +3,18 @@ import { beskjed, dateInPast, kalenderavtale, oppgave } from './helpers';
 
 export const alleNotifikasjoner = [
     oppgave({
+        tekst: 'Du er innkalt til dialogmøte - vi trenger svaret ditt',
+        klikketPaa: false,
+        tilstand: OppgaveTilstand.Ny,
+        sakTittel: '',
+    }),
+    oppgave({
+        tekst: 'Dialogmøtet med NAV er avlyst',
+        klikketPaa: false,
+        tilstand: OppgaveTilstand.Ny,
+        sakTittel: '',
+    }),
+    oppgave({
         tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk',
         klikketPaa: false,
         tilstand: OppgaveTilstand.Ny,
