@@ -14,21 +14,7 @@ const ForebyggeFravR = () => {
         return orgnr === '' ? '' : `?bedrift=${orgnr}`;
     };
 
-    return (
-        <Tjenesteboks
-            ikon={ForebyggeFraværIkon}
-            href={lenkeTilForebyggefravar + valgtbedrift()}
-            tittel="Forebygge fravær"
-            aria-label={beskrivelse}
-        >
-            <Beskrivelse />
-        </Tjenesteboks>
-    );
-};
-
-const beskrivelse = 'Verktøy for å forebygge fravær i din virksomhet.';
-
-const Beskrivelse = () => {
+    const sykefravær = useSykefravær();
     const statistikktype = (type: string) => {
         switch (type) {
             case 'NÆRING':
@@ -39,21 +25,30 @@ const Beskrivelse = () => {
         }
     };
 
-    const sykefravær = useSykefravær();
+    const beskrivelse = 'Verktøy for å forebygge fravær i din virksomhet.';
+    const aria_label = sykefravær !== undefined ? `${sykefravær.prosent.toString()} % legemeldt sykefravær i din ${statistikktype(sykefravær.type)}. Lag en plan for å redusere fraværet.` : beskrivelse;
 
-    if (sykefravær !== undefined) {
-        return (
-            <span>
-                <StortTall>{sykefravær.prosent.toString()} %</StortTall>
-                <>
-                    {' '}
-                    legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Lag en plan for å
-                    redusere fraværet.{' '}
-                </>
-            </span>
-        );
-    }
-    return <span>{beskrivelse}</span>;
+    return (
+        <Tjenesteboks
+            ikon={ForebyggeFraværIkon}
+            href={lenkeTilForebyggefravar + valgtbedrift()}
+            tittel="Forebygge fravær"
+            aria-label={"Forebygge Fravær, " + aria_label}
+        >
+            {sykefravær !== undefined ? (
+                <span>
+                    <StortTall>{sykefravær.prosent.toString()} %</StortTall>
+                    <>
+                        {' '}
+                        legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Lag en plan
+                        for å redusere fraværet.{' '}
+                    </>
+                </span>
+            ) : (
+                <span>{beskrivelse}</span>
+            )}
+        </Tjenesteboks>
+    );
 };
 
 export default ForebyggeFravR;

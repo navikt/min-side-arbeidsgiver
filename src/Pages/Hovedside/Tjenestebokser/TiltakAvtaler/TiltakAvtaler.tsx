@@ -45,15 +45,18 @@ const TiltakAvtaler = () => {
             : [];
     });
 
+    const aria_label =
+        'Avtaler om Tiltak.' +
+        displayorder.flatMap((avtaletype) => {
+            const antall = avtaler[avtaletype];
+            return antall > 0 ? ` ${antall} ${displayname[avtaletype]}` : '';
+        });
     return (
         <Tjenesteboks
             ikon={tiltakikon}
             href={tiltakUrl}
             tittel={'Avtaler om tiltak'}
-            aria-label={
-                'Tiltak. Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb. ' +
-                'De ulike tiltakene krever egne tilganger i Altinn'
-            }
+            aria-label={aria_label}
         >
             <div className={'tiltakboks'}>
                 {tallElems.length > 0 ? (

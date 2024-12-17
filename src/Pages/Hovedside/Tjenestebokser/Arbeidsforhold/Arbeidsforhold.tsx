@@ -19,7 +19,7 @@ const Arbeidsforhold = () => {
             ikon={arbeidsforholdikon}
             href={href}
             tittel="Arbeidsforhold"
-            aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
+            aria-label={`Arbeidsforhold, ${antallArbeidsforhold > 0 ? antallArbeidsforhold : 'Ingen'} arbeidsforhold (aktive og avsluttede). Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)`}
         >
             <div>
                 <span>

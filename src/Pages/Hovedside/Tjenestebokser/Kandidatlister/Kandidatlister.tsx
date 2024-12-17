@@ -20,7 +20,7 @@ const Kandidatlister = () => {
             ikon={ikon}
             href={href}
             tittel="Kandidater til dine stillinger"
-            aria-label="Kandidater til dine stillinger. Se CV til personer NAV har sendt deg."
+            aria-label={`Kandidater til dine stillinger (${antallKandidater} kandidater). Se CV til personer NAV har sendt deg.`}
         >
             <div className="kandidatlisteboks">
                 <span>
