@@ -3,7 +3,8 @@ import { fakerNB_NO as faker } from '@faker-js/faker';
 import { dateInFuture, fakeName, kalenderavtale } from './helpers';
 
 export const alleKalenderavtaler = [
-    kalenderavtale({
+    //TODO: Kommenterer ut kalenderavtaler siden ingen bruker det i prod atm
+    /*kalenderavtale({
         tekst: `Dialogmøte ${fakeName()}`,
         startTidspunkt: dateInFuture({ days: 1 }),
         sluttTidspunkt: dateInFuture({ days: 1, hours: 1 }),
@@ -49,5 +50,5 @@ export const alleKalenderavtaler = [
         avtaletilstand: KalenderavtaleTilstand.Avlyst,
         digitalt: true,
         merkelapp: 'Dialogmøte',
-    }),
+    }),*/
 ];
