@@ -2,11 +2,17 @@ import { KalenderavtaleTilstand, OppgaveTilstand } from '../../api/graphql-types
 import { beskjed, dateInPast, kalenderavtale, oppgave } from './helpers';
 
 export const alleNotifikasjoner = [
+    beskjed({
+        tekst: "Oppfølgingsplan til godkjenning",
+        sakTittel: "",
+        klikketPaa: false,
+        lenke: "https://demo.ekstern.dev.nav.no/syk/oppfolgingsplaner/arbeidsgiver/123"
+    }),
     oppgave({
         tekst: 'Du er innkalt til dialogmøte - vi trenger svaret ditt',
         klikketPaa: false,
         tilstand: OppgaveTilstand.Ny,
-        sakTittel: '',
+        lenke: 'https://demo.ekstern.dev.nav.no/syk/dialogmoter/arbeidsgiver/123',
     }),
     oppgave({
         tekst: 'Dialogmøtet med NAV er avlyst',

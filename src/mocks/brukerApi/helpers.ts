@@ -143,6 +143,7 @@ export const oppgave = ({
     utgaattTidspunkt,
     klikketPaa = true,
     tilleggsinformasjon,
+    lenke = `#${faker.lorem.word()}`,
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -154,6 +155,7 @@ export const oppgave = ({
     utgaattTidspunkt?: Date;
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
+    lenke?: string;
 }): Oppgave => ({
     __typename: 'Oppgave',
     id: faker.string.uuid(),
@@ -173,7 +175,7 @@ export const oppgave = ({
         klikketPaa,
     },
 
-    lenke: `#${faker.lorem.word()}`,
+    lenke: lenke,
     merkelapp: merkelapp(),
 
     sak:
@@ -193,12 +195,14 @@ export const beskjed = ({
     opprettetTidspunkt = faker.date.recent(),
     klikketPaa = true,
     tilleggsinformasjon,
+    lenke =  `#${faker.lorem.word()}`,
 }: {
     tekst: string;
     sakTittel?: string;
     opprettetTidspunkt?: Date;
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
+    lenke?: string,
 }): Beskjed => ({
     __typename: 'Beskjed',
     id: faker.string.uuid(),
@@ -213,7 +217,7 @@ export const beskjed = ({
         klikketPaa,
     },
 
-    lenke: `#${faker.lorem.word()}`,
+    lenke: lenke,
     merkelapp: merkelapp(),
 
     sak:
