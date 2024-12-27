@@ -1,4 +1,4 @@
-import React, { forwardRef, ReactNode, useContext, useMemo, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import { CheckboxGroup, Search } from '@navikt/ds-react';
 import './Virksomhetsmeny.css';
 import { UnderenhetCheckboks } from './UnderenhetCheckboks';
@@ -7,7 +7,7 @@ import fuzzysort from 'fuzzysort';
 import { sum } from '../../../../utils/util';
 import amplitude from '../../../../utils/amplitude';
 import { Map, Set } from 'immutable';
-import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 export type VirksomhetsmenyProps = {
     valgteEnheter: Set<string>;
@@ -18,7 +18,7 @@ export const Virksomhetsmeny = ({
     valgteEnheter: valgteEnheterInput,
     setValgteEnheter,
 }: VirksomhetsmenyProps) => {
-    const { organisasjonstre, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjonstre, childrenMap } = useOrganisasjonerOgTilgangerContext();
     const alleOrganisasjoner = useMemo(
         () =>
             organisasjonstre.flatMap(({ hovedenhet, underenheter }) =>

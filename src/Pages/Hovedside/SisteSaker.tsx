@@ -7,7 +7,7 @@ import amplitude from '../../utils/amplitude';
 import { Heading, Tag } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../api/graphql-types';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 
@@ -36,7 +36,7 @@ const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(
         OrganisasjonsDetaljerContext
     );
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const location = useLocation();
 
     const { loading, data } = useSaker(0, {

@@ -1,16 +1,12 @@
 import React, { FC, FunctionComponent, MouseEventHandler, useContext } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {
-    OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
+    useOrganisasjonerOgTilgangerContext,
 } from '../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
-import {
-    AltinntilgangAlleredeSøkt,
-    BeOmTilgangBoks,
-    BeOmSyfotilgang,
-} from './TjenesteInfo';
+import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
 import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
@@ -78,7 +74,7 @@ const opprettSøknad = (
 
 const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-    const { altinnTilgangssøknad } = useContext(OrganisasjonerOgTilgangerContext);
+    const { altinnTilgangssøknad } = useOrganisasjonerOgTilgangerContext();
 
     const tjenesteinfoBokser: JSX.Element[] = [];
     if (valgtOrganisasjon === undefined) {

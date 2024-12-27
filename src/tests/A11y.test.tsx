@@ -5,8 +5,8 @@ import Hovedside from '../Pages/Hovedside/Hovedside';
 import { SWRConfig } from 'swr';
 import { AlertsProvider } from '../Pages/Alerts';
 import {
-    OrganisasjonerOgTilgangerContext,
     OrganisasjonerOgTilgangerProvider,
+    useOrganisasjonerOgTilgangerContext,
 } from '../Pages/OrganisasjonerOgTilgangerProvider';
 import {
     OrganisasjonsDetaljerContext,
@@ -39,7 +39,7 @@ describe('Hovedside', () => {
 });
 
 const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const { valgtOrganisasjon, endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
 
     useEffect(() => {

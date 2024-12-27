@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect } from 'react';
 import * as Record from '../../utils/Record';
 import './InfoBokser.css';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
@@ -34,7 +34,7 @@ const infobokser: Array<InfoboksProps> = [
         visFra: new Date('2023-11-13T10:00:00+02:00'),
         visTil: new Date('2023-11-15T08:00:00+01:00'),
         Component: () => {
-            const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+            const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
             const harSyfotilgangPåTvers = Record.values(organisasjoner).some(
                 (org) => org.syfotilgang
             );

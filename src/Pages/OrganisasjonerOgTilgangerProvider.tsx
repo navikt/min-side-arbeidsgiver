@@ -46,7 +46,15 @@ export type Context = {
     childrenMap: Map<string, Set<string>>;
 };
 
-export const OrganisasjonerOgTilgangerContext = React.createContext<Context>({} as Context);
+const OrganisasjonerOgTilgangerContext = React.createContext<Context | undefined>(undefined);
+
+export const useOrganisasjonerOgTilgangerContext = () => {
+    const organisasjonerOgTilgangerContext = useContext(OrganisasjonerOgTilgangerContext);
+    if (organisasjonerOgTilgangerContext === undefined) {
+        throw new Error('OrganisasjonerOgTilgangerContext må brukes inne i en OrganisasjonerOgTilgangerProvider');
+    }
+    return organisasjonerOgTilgangerContext;
+}
 
 const useBeregnAltinnTilgangssøknad = ():
     | Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>>
