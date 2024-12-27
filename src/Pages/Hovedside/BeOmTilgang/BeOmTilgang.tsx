@@ -1,10 +1,10 @@
-import React, { FC, FunctionComponent, MouseEventHandler, useContext } from 'react';
+import React, { FC, FunctionComponent, MouseEventHandler } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import {
     OrganisasjonInfo,
     useOrganisasjonerOgTilgangerContext,
 } from '../../OrganisasjonerOgTilgangerProvider';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
@@ -73,7 +73,7 @@ const opprettSøknad = (
 };
 
 const BeOmTilgang: FunctionComponent = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const { altinnTilgangssøknad } = useOrganisasjonerOgTilgangerContext();
 
     const tjenesteinfoBokser: JSX.Element[] = [];

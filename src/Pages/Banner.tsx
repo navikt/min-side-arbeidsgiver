@@ -1,7 +1,7 @@
-import React, { FunctionComponent, useCallback, useContext, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import Bedriftsmeny from '@navikt/bedriftsmeny';
 import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import { OrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
 import { useOrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
 import * as Record from '../utils/Record';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
@@ -33,7 +33,7 @@ export const SaksoversiktBanner = () => (
 
 export const BannerMedBedriftsmeny: FunctionComponent<OwnProps> = ({ sidetittel }) => {
     const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
-    const { endreOrganisasjon, valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { endreOrganisasjon, valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     const [params, setParams] = useSearchParams();
     const orgnrFraUrl = params.get('bedrift');

@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import React from 'react';
+import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Bedriftsinfoknapp from './Bedriftsinfoknapp/Bedriftsinfoknapp';
 import './NyttigForDegContainer.css';
 
 const NyttigForDegContainer = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     return (
         <div className="nyttig-for-deg">

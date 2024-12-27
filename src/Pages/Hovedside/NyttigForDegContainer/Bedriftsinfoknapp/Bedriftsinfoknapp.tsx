@@ -1,12 +1,12 @@
-import React, { useContext } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import React from 'react';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import bedriftinfoikon from './infoombedriftikon.svg';
 import './Bedriftsinfoknapp.css';
 import { InternalLenkepanelMedLogging } from '../../../../GeneriskeElementer/LenkepanelMedLogging';
 import { TittelMedIkon } from '../../../../GeneriskeElementer/TittelMedIkon';
 
 const Bedriftsinfoknapp = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     if (valgtOrganisasjon === undefined) {
         return null;

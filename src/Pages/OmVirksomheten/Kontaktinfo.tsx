@@ -1,10 +1,10 @@
 import { z } from 'zod';
-import { useContext, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import useSWR from 'swr';
 import { Alert, BodyShort, Heading, HelpText, Label } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import NyFaneIkon from './NyFaneIkon';
 import { erDriftsforstyrrelse } from '../../utils/util';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
@@ -35,8 +35,8 @@ const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
 };
 
 const useKontaktinfo = () => {
-    const orgnr = useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
-        ?.OrganizationNumber;
+    const orgnr =
+        useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon?.OrganizationNumber;
     const [retries, setRetries] = useState(0);
 
     const { data: kontaktinfo } = useSWR(

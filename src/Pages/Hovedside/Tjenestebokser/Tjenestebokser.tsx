@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext, useEffect } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import React, { FunctionComponent, useEffect } from 'react';
+import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Arbeidsforhold from './Arbeidsforhold/Arbeidsforhold';
 import Sykmeldte from './Sykmeldte/Sykmeldte';
 import Arbeidsplassen from './Arbeidsplassen/Arbeidsplassen';
@@ -22,7 +22,7 @@ const Bokser = {
 type TjenesteBoks = keyof typeof Bokser;
 
 const TjenesteboksContainer: FunctionComponent = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     if (valgtOrganisasjon === undefined) {
         return null;

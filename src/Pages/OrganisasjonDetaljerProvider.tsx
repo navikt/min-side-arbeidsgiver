@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import {
     OrganisasjonInfo,
     useOrganisasjonerOgTilgangerContext,
@@ -19,7 +19,17 @@ export type Context = {
     antallSakerForAlleBedrifter: number | undefined;
 };
 
-export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
+const OrganisasjonsDetaljerContext = React.createContext<Context | undefined>(undefined);
+
+export const useOrganisasjonsDetaljerContext = () => {
+    const context = useContext(OrganisasjonsDetaljerContext);
+    if (context === undefined) {
+        throw new Error(
+            'useOrganisasjonsDetaljerContext må brukes innenfor en OrganisasjonsDetaljerProvider'
+        );
+    }
+    return context;
+}
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
     const { organisasjoner } = useOrganisasjonerOgTilgangerContext();

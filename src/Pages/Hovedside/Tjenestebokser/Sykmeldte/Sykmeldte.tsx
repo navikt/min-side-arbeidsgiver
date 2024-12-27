@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { syfoURL } from '../../../../lenker';
 import syfoikon from './Sykmeldte.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Sykmeldte = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const antallSykmeldte = valgtOrganisasjon?.antallSykmeldte ?? 0;
     const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
     const url = orgnr !== undefined && orgnr !== '' ? `${syfoURL}?bedrift=${orgnr}` : syfoURL;

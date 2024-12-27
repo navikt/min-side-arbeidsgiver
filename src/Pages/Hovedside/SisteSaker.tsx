@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import amplitude from '../../utils/amplitude';
@@ -33,9 +33,7 @@ const Saksikon = () => (
 );
 
 const SisteSaker = () => {
-    const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(
-        OrganisasjonsDetaljerContext
-    );
+    const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useOrganisasjonsDetaljerContext();
     const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const location = useLocation();
 

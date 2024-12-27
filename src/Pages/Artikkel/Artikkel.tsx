@@ -1,9 +1,9 @@
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { Brodsmulesti, Spinner } from '../Banner';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 import './Artikkel.css';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
@@ -30,7 +30,7 @@ const artikler: Record<string, Artikkel> = {
 };
 
 export const Artikler = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     if (!valgtOrganisasjon) {
         return null;
     }
