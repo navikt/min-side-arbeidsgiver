@@ -18,18 +18,6 @@ type InfoboksProps = {
 
 const infobokser: Array<InfoboksProps> = [
     {
-        id: 'uxsignals',
-        visFra: new Date('2024-11-06T00:00:00+02:00'),
-        visTil: new Date('2024-12-31T10:00:00+02:00'),
-        Component: () => {
-            const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.inntektsmelding) {
-                return null;
-            }
-            return <UXSignals dataUxsignalsEmbed="panel-mwwvs1lq0" />;
-        },
-    },
-    {
         id: 'ia-bookings',
         visFra: new Date('2023-11-13T10:00:00+02:00'),
         visTil: new Date('2023-11-15T08:00:00+01:00'),
@@ -109,6 +97,9 @@ export const InfoBokser = () => {
     );
 };
 
+/**
+ * fjernet bruk av denne inntil vi har kontroll på konsekvenser iht ny ekomlovgivning
+ */
 const UXSignals = ({ dataUxsignalsEmbed }: { dataUxsignalsEmbed: string }) => {
     useEffect(() => {
         const script = document.createElement('script');

@@ -50,7 +50,7 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
 }: KollapsHvisMobilProps) => {
     if (width < 730) {
         return (
-            <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon />}>
+            <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon aria-hidden="true" />}>
                 {children}
             </Ekspanderbartpanel>
         );
@@ -126,6 +126,7 @@ const InntektsmeldingGruppe = (
     let [valgteInntektsmeldingtyper, andreSakstyper] = splittListe(filter.sakstyper, (navn) =>
         navn.includes('Inntektsmelding')
     );
+
 
     if (inntektsmeldingAlleValgtAvBruker) {
         valgteInntektsmeldingtyper = ['Inntektsmelding_gruppe'];
@@ -312,12 +313,11 @@ export const Saksfilter = ({
                     </CheckboxGroup>
                 )}
 
-                <CheckboxGroup legend="Virksomheter" className="saksfilter_virksomhetsmeny">
-                    <Virksomhetsmeny
-                        valgteEnheter={valgteVirksomheter}
-                        setValgteEnheter={setValgteVirksomheter}
-                    />
-                </CheckboxGroup>
+                <Virksomhetsmeny
+                    valgteEnheter={valgteVirksomheter}
+                    setValgteEnheter={setValgteVirksomheter}
+                />
+
                 <OpprettInntektsmelding />
             </div>
         </KollapsHvisMobil>
@@ -352,8 +352,12 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <Label children="Opprett inntektsmelding manuelt" />
+                <Label
+                    htmlFor="opprett-inntektsmelding-lenke-id"
+                    children="Opprett inntektsmelding manuelt"
+                />
                 <LenkeMedLogging
+                    id="opprett-inntektsmelding-lenke-id"
                     loggLenketekst={'Opprett inntektsmelding manuelt'}
                     href={opprettInntektsmeldingURL}
                 >

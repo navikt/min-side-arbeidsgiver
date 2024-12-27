@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo, useState } from 'react';
-import { CheckboxGroup, Search } from '@navikt/ds-react';
+import { CheckboxGroup, Label, Search } from '@navikt/ds-react';
 import './Virksomhetsmeny.css';
 import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
@@ -116,8 +116,10 @@ export const Virksomhetsmeny = ({
 
     return (
         <>
+            <Label htmlFor="virksomheter_checkbox_group_id"> Virksomheter </Label>
             <Søkeboks onChange={onSearchChange} />
             <CheckboxGroup
+                id="virksomheter_checkbox_group_id"
                 legend="Velg virksomheter"
                 hideLegend
                 value={valgteEnheter.toArray()}
@@ -153,7 +155,7 @@ export const Virksomhetsmeny = ({
                                             }
 
                                             return [
-                                                <li key={underenhet.OrganizationNumber}>
+                                                <li key={underenhet.OrganizationNumber} className="sak_virksomhetsmeny_underenhet">
                                                     <UnderenhetCheckboks
                                                         valgteOrgnr={valgteEnheter}
                                                         underenhet={underenhet}
