@@ -1,10 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
     lenkeTilPermitteringOgMasseoppsigelsesSkjema,
     skjemaForArbeidsgiverURL,
 } from '../../lenker';
 import './SøknaderOgSkjemaer.css';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import {
     InternalLenkepanelMedLogging,
@@ -14,9 +13,10 @@ import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjene
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
 import { gittMiljo } from '../../utils/environment';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 
 export const SøknaderOgSkjemaer = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const tilgangInntektsmelding = valgtOrganisasjon?.altinntilgang?.inntektsmelding;
     const tilgangYrkesskade = valgtOrganisasjon?.altinntilgang?.yrkesskade;
     if (valgtOrganisasjon === undefined) {
@@ -102,19 +102,16 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true
-                    ? <li>
+                {tilgangInntektsmelding === true ? (
+                    <li>
                         <InternalLenkepanelMedLogging
-                            loggLenketekst={
-                                'Inntektsmelding sykepenger (Opprett manuelt)'
-                            }
+                            loggLenketekst={'Inntektsmelding sykepenger (Opprett manuelt)'}
                             to={'/saksoversikt#opprett-inntektsmelding'}
                         >
                             Inntektsmelding sykepenger
                         </InternalLenkepanelMedLogging>
                     </li>
-                    : null
-                }
+                ) : null}
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useContext, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useState } from 'react';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 const Sykefraværsrespons = z.object({
@@ -13,7 +13,7 @@ const Sykefraværsrespons = z.object({
 export type Sykefraværsrespons = z.infer<typeof Sykefraværsrespons>;
 
 export const useSykefravær = (): Sykefraværsrespons | undefined => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
         valgtOrganisasjon !== undefined

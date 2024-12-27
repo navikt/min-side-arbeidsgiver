@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { useContext, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useState } from 'react';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
 
 export const useAntallKandidater = (): number => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
 
     const { data } = useSWR(

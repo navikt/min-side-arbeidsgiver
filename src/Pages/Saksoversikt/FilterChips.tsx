@@ -7,7 +7,9 @@ import { amplitudeChipClick } from './Saksoversikt';
 import { Organisasjon } from '../../altinn/organisasjon';
 import { count } from '../../utils/util';
 import { Filter, State } from './useOversiktStateTransitions';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import {
+    useOrganisasjonerOgTilgangerContext,
+} from '../OrganisasjonerOgTilgangerProvider';
 import { Collapse, Expand } from '@navikt/ds-icons';
 
 export type FilterChipsProps = {
@@ -16,7 +18,7 @@ export type FilterChipsProps = {
 };
 
 export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
-    const { organisasjonstre, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjonstre, childrenMap } = useOrganisasjonerOgTilgangerContext();
 
     const onTømAlleFilter = () => {
         byttFilter({

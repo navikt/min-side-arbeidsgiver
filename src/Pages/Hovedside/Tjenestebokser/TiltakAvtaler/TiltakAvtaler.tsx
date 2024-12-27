@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { tiltaksgjennomforingURL } from '../../../../lenker';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './TiltakAvtaler.css';
 import tiltakikon from './TiltakAvtaler.svg';
 import { Avtalenavn, useAvtaleoversikt } from './useAvtaleoversikt';
@@ -26,7 +26,7 @@ const displayorder: Avtalenavn[] = [
 ];
 
 const TiltakAvtaler = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
 
     const avtaler = useAvtaleoversikt();

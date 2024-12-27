@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
@@ -14,7 +14,7 @@ import {
 } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
@@ -127,6 +127,7 @@ const InntektsmeldingGruppe = (
         navn.includes('Inntektsmelding')
     );
 
+
     if (inntektsmeldingAlleValgtAvBruker) {
         valgteInntektsmeldingtyper = ['Inntektsmelding_gruppe'];
     } else if (andreInntektsmeldingerValgt) {
@@ -220,7 +221,7 @@ export const Saksfilter = ({
     alleSakstyper,
 }: SaksfilterProps) => {
     const [width, setWidth] = useState(window.innerWidth);
-    const { organisasjonstre } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -324,7 +325,7 @@ export const Saksfilter = ({
 };
 
 const OpprettInntektsmelding = () => {
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const tilgangInntektsmelding = Object.values(organisasjoner).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );

@@ -1,5 +1,5 @@
-import { useContext, useMemo, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useMemo, useState } from 'react';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import { z } from 'zod';
 import { count, erDriftsforstyrrelse } from '../../../../utils/util';
@@ -16,7 +16,7 @@ export type Avtaleoversikt = {
 export type Avtalenavn = keyof Avtaleoversikt;
 
 export const useAvtaleoversikt = (): Avtaleoversikt => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data: avtaler } = useSWR(
         valgtOrganisasjon !== undefined

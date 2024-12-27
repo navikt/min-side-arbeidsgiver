@@ -1,16 +1,16 @@
-import React, { FC, ReactNode, useContext, useEffect } from 'react';
+import React, { FC, ReactNode, useEffect } from 'react';
 import { act, findByTestId, render } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import Hovedside from '../Pages/Hovedside/Hovedside';
 import { SWRConfig } from 'swr';
 import { AlertsProvider } from '../Pages/Alerts';
 import {
-    OrganisasjonerOgTilgangerContext,
     OrganisasjonerOgTilgangerProvider,
+    useOrganisasjonerOgTilgangerContext,
 } from '../Pages/OrganisasjonerOgTilgangerProvider';
 import {
-    OrganisasjonsDetaljerContext,
     OrganisasjonsDetaljerProvider,
+    useOrganisasjonsDetaljerContext,
 } from '../Pages/OrganisasjonDetaljerProvider';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { MemoryRouter } from 'react-router-dom';
@@ -39,8 +39,8 @@ describe('Hovedside', () => {
 });
 
 const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
-    const { valgtOrganisasjon, endreOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
+    const { valgtOrganisasjon, endreOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     useEffect(() => {
         if (valgtOrganisasjon !== undefined) return;
