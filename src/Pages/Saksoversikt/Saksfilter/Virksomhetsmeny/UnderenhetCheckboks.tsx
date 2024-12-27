@@ -11,11 +11,6 @@ type UnderenhetCheckboksProps = {
 
 export const UnderenhetCheckboks = ({ underenhet, valgteOrgnr }: UnderenhetCheckboksProps) => {
     return (
-        <div
-            className="sak_virksomhetsmeny_underenhet"
-            role="menuitemcheckbox"
-            aria-checked={valgteOrgnr.has(underenhet.OrganizationNumber)}
-        >
             <Checkbox
                 value={underenhet.OrganizationNumber}
                 size="small"
@@ -29,6 +24,6 @@ export const UnderenhetCheckboks = ({ underenhet, valgteOrgnr }: UnderenhetCheck
                     {underenhet.Name}{' '}
                 </BodyShort>
             </Checkbox>
-        </div>
+
     );
 };

@@ -1,12 +1,12 @@
-import React, { FC, RefObject, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, RefObject, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
-import { Alert, Heading, Label, Pagination, Select } from '@navikt/ds-react';
+import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from './OmSaker';
 import { Saksfilter } from './Saksfilter/Saksfilter';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
 import { Query, Sak, SakSortering } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
@@ -49,7 +49,7 @@ export const amplitudeChipClick = (kategori: string, filternavn: string) => {
 };
 
 export const Saksoversikt = () => {
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
     const orgs = organisasjoner
         ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)

@@ -1,10 +1,10 @@
 // Store copy of oversikts-filter in sessionStorage
 
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './useOversiktStateTransitions';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../altinn/organisasjon';
@@ -82,7 +82,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
 };
 
 export const useSessionStateForside = (): void => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [_, setSessionState] = useSessionStorage(SESSION_STORAGE_KEY, { route: '/' });
     const bedrift = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
 

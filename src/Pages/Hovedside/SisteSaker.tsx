@@ -1,13 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import amplitude from '../../utils/amplitude';
 import { Heading, Tag } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../api/graphql-types';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 
@@ -33,10 +33,8 @@ const Saksikon = () => (
 );
 
 const SisteSaker = () => {
-    const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useContext(
-        OrganisasjonsDetaljerContext
-    );
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useOrganisasjonsDetaljerContext();
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const location = useLocation();
 
     const { loading, data } = useSaker(0, {

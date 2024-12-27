@@ -1,10 +1,10 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import * as Record from '../../utils/Record';
 import './InfoBokser.css';
-import { OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { useLocalStorage } from '../../hooks/useStorage';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
@@ -18,23 +18,11 @@ type InfoboksProps = {
 
 const infobokser: Array<InfoboksProps> = [
     {
-        id: 'uxsignals',
-        visFra: new Date('2024-11-06T00:00:00+02:00'),
-        visTil: new Date('2024-12-31T10:00:00+02:00'),
-        Component: () => {
-            const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
-            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.inntektsmelding) {
-                return null;
-            }
-            return <UXSignals dataUxsignalsEmbed="panel-mwwvs1lq0" />;
-        },
-    },
-    {
         id: 'ia-bookings',
         visFra: new Date('2023-11-13T10:00:00+02:00'),
         visTil: new Date('2023-11-15T08:00:00+01:00'),
         Component: () => {
-            const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+            const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
             const harSyfotilgangPåTvers = Record.values(organisasjoner).some(
                 (org) => org.syfotilgang
             );
@@ -69,7 +57,7 @@ const infobokser: Array<InfoboksProps> = [
         visFra: new Date('2024-04-11T00:00:00+02:00'),
         visTil: new Date('2024-06-11T00:00:00+02:00'),
         Component: () => {
-            const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+            const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
             const [closed, setClosed] = useLocalStorage('yrkesskade-infobokser-closed', false);
 
             if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.yrkesskade) {
@@ -109,6 +97,9 @@ export const InfoBokser = () => {
     );
 };
 
+/**
+ * fjernet bruk av denne inntil vi har kontroll på konsekvenser iht ny ekomlovgivning
+ */
 const UXSignals = ({ dataUxsignalsEmbed }: { dataUxsignalsEmbed: string }) => {
     useEffect(() => {
         const script = document.createElement('script');

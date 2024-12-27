@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
@@ -6,10 +6,15 @@ import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
-import { OppgaveTilstand, OppgaveTilstandInfo, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
+import {
+    OppgaveTilstand,
+    OppgaveTilstandInfo,
+    Sakstype,
+    SakstypeOverordnet,
+} from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
-import { OrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
@@ -45,7 +50,7 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
 }: KollapsHvisMobilProps) => {
     if (width < 730) {
         return (
-            <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon />}>
+            <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon aria-hidden="true" />}>
                 {children}
             </Ekspanderbartpanel>
         );
@@ -82,10 +87,12 @@ function sakstyperMedAntall(
                       ?.antall ?? 0,
     }));
 
-    const [sakstyperMedInntektsmeldingSykepenger, sakstyperUtenInntektsmeldingSykepenger] = splittListe(
-        sakstyperForFilter,
-        (filter) => filter.navn === 'Inntektsmelding' || filter.navn === 'Inntektsmelding sykepenger'
-    );
+    const [sakstyperMedInntektsmeldingSykepenger, sakstyperUtenInntektsmeldingSykepenger] =
+        splittListe(
+            sakstyperForFilter,
+            (filter) =>
+                filter.navn === 'Inntektsmelding' || filter.navn === 'Inntektsmelding sykepenger'
+        );
 
     const antallInntektsmeldingSykepenger = sakstyperForFilter
         .filter(({ navn }) => navn === 'Inntektsmelding' || navn === 'Inntektsmelding sykepenger')
@@ -214,7 +221,7 @@ export const Saksfilter = ({
     alleSakstyper,
 }: SaksfilterProps) => {
     const [width, setWidth] = useState(window.innerWidth);
-    const { organisasjonstre } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -231,7 +238,10 @@ export const Saksfilter = ({
 
     const sakstyperForFilter = sakstyperMedAntall(alleSakstyper, sakstypeinfo);
 
-    const [inntektsmeldingSakstyper, sakstyperUtenInntektsmelding] = splittListe(sakstyperForFilter, (filter) => filter.navn.includes('Inntektsmelding'));
+    const [inntektsmeldingSakstyper, sakstyperUtenInntektsmelding] = splittListe(
+        sakstyperForFilter,
+        (filter) => filter.navn.includes('Inntektsmelding')
+    );
 
     const sakstyper = [
         ...sakstyperUtenInntektsmelding,
@@ -303,12 +313,11 @@ export const Saksfilter = ({
                     </CheckboxGroup>
                 )}
 
-                <CheckboxGroup legend="Virksomheter" className="saksfilter_virksomhetsmeny">
-                    <Virksomhetsmeny
-                        valgteEnheter={valgteVirksomheter}
-                        setValgteEnheter={setValgteVirksomheter}
-                    />
-                </CheckboxGroup>
+                <Virksomhetsmeny
+                    valgteEnheter={valgteVirksomheter}
+                    setValgteEnheter={setValgteVirksomheter}
+                />
+
                 <OpprettInntektsmelding />
             </div>
         </KollapsHvisMobil>
@@ -316,7 +325,7 @@ export const Saksfilter = ({
 };
 
 const OpprettInntektsmelding = () => {
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const tilgangInntektsmelding = Object.values(organisasjoner).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );
@@ -333,23 +342,29 @@ const OpprettInntektsmelding = () => {
     }, []);
 
     if (tilgangInntektsmelding) {
-        return <div
-            ref={ref}
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '4px',
-                paddingBottom: '32px',
-            }}
-        >
-            <Label children="Opprett inntektsmelding manuelt" />
-            <LenkeMedLogging
-                loggLenketekst={'Opprett inntektsmelding manuelt'}
-                href={opprettInntektsmeldingURL}
+        return (
+            <div
+                ref={ref}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px',
+                    paddingBottom: '32px',
+                }}
             >
-                Opprett inntektsmelding for sykepenger
-            </LenkeMedLogging>
-        </div>
+                <Label
+                    htmlFor="opprett-inntektsmelding-lenke-id"
+                    children="Opprett inntektsmelding manuelt"
+                />
+                <LenkeMedLogging
+                    id="opprett-inntektsmelding-lenke-id"
+                    loggLenketekst={'Opprett inntektsmelding manuelt'}
+                    href={opprettInntektsmeldingURL}
+                >
+                    Opprett inntektsmelding for sykepenger
+                </LenkeMedLogging>
+            </div>
+        );
     } else {
         return null;
     }

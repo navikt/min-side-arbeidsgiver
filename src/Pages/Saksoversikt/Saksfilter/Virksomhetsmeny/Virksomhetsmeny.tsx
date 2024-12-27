@@ -1,5 +1,5 @@
-import React, { forwardRef, ReactNode, useContext, useMemo, useState } from 'react';
-import { CheckboxGroup, Search } from '@navikt/ds-react';
+import React, { ReactNode, useMemo, useState } from 'react';
+import { CheckboxGroup, Label, Search } from '@navikt/ds-react';
 import './Virksomhetsmeny.css';
 import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
@@ -7,7 +7,7 @@ import fuzzysort from 'fuzzysort';
 import { sum } from '../../../../utils/util';
 import amplitude from '../../../../utils/amplitude';
 import { Map, Set } from 'immutable';
-import { OrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
 
 export type VirksomhetsmenyProps = {
     valgteEnheter: Set<string>;
@@ -18,7 +18,7 @@ export const Virksomhetsmeny = ({
     valgteEnheter: valgteEnheterInput,
     setValgteEnheter,
 }: VirksomhetsmenyProps) => {
-    const { organisasjonstre, childrenMap } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjonstre, childrenMap } = useOrganisasjonerOgTilgangerContext();
     const alleOrganisasjoner = useMemo(
         () =>
             organisasjonstre.flatMap(({ hovedenhet, underenheter }) =>
@@ -116,8 +116,10 @@ export const Virksomhetsmeny = ({
 
     return (
         <>
+            <Label htmlFor="virksomheter_checkbox_group_id"> Virksomheter </Label>
             <Søkeboks onChange={onSearchChange} />
             <CheckboxGroup
+                id="virksomheter_checkbox_group_id"
                 legend="Velg virksomheter"
                 hideLegend
                 value={valgteEnheter.toArray()}
@@ -153,7 +155,7 @@ export const Virksomhetsmeny = ({
                                             }
 
                                             return [
-                                                <li key={underenhet.OrganizationNumber}>
+                                                <li key={underenhet.OrganizationNumber} className="sak_virksomhetsmeny_underenhet">
                                                     <UnderenhetCheckboks
                                                         valgteOrgnr={valgteEnheter}
                                                         underenhet={underenhet}

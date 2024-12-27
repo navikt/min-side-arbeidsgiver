@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useContext, useEffect, useState } from 'react';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { useEffect, useState } from 'react';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erDriftsforstyrrelse } from '../../utils/util';
@@ -54,7 +54,7 @@ const fallbackData: VarslingStatus = {
 };
 
 const manglerKofuviAlert = (): VarslingStatus => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
         valgtOrganisasjon !== undefined

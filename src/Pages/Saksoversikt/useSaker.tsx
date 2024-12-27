@@ -6,7 +6,7 @@ import { Filter } from './useOversiktStateTransitions';
 import { Set } from 'immutable';
 import {
     OrganisasjonEnhet,
-    OrganisasjonerOgTilgangerContext,
+    useOrganisasjonerOgTilgangerContext,
 } from '../OrganisasjonerOgTilgangerProvider';
 import { ServerError } from '@apollo/client/link/utils';
 
@@ -148,7 +148,7 @@ export function useSaker(
     pageSize: number,
     { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand }: Filter
 ) {
-    const { organisasjonstre } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
     const virksomhetsnumre = useMemo(
         () => beregnVirksomhetsnummer(organisasjonstre, virksomheter),

@@ -1,17 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { kandidatlisteURL } from '../../../../lenker';
 import { Tjenesteboks } from '../Tjenesteboks';
 import { useAntallKandidater } from './useAntallKandidater';
 import ikon from './kandidatlisteboks-ikon.svg';
 import './Kandidatlister.css';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Kandidatlister = () => {
     const antallKandidater = useAntallKandidater();
 
     const orgnr =
-        useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
-            .OrganizationNumber ?? '';
+        useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
 
     const href = kandidatlisteURL + (orgnr === '' ? '' : `?virksomhet=${orgnr}`);
 
@@ -20,7 +19,7 @@ const Kandidatlister = () => {
             ikon={ikon}
             href={href}
             tittel="Kandidater til dine stillinger"
-            aria-label="Kandidater til dine stillinger. Se CV til personer NAV har sendt deg."
+            aria-label={`Kandidater til dine stillinger (${antallKandidater} kandidater). Se CV til personer NAV har sendt deg.`}
         >
             <div className="kandidatlisteboks">
                 <span>

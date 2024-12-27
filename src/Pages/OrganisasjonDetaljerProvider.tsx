@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react';
 import {
-    OrganisasjonerOgTilgangerContext,
     OrganisasjonInfo,
+    useOrganisasjonerOgTilgangerContext,
 } from './OrganisasjonerOgTilgangerProvider';
 import { useLoggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
 import { Organisasjon } from '../altinn/organisasjon';
@@ -19,10 +19,20 @@ export type Context = {
     antallSakerForAlleBedrifter: number | undefined;
 };
 
-export const OrganisasjonsDetaljerContext = React.createContext<Context>({} as Context);
+const OrganisasjonsDetaljerContext = React.createContext<Context | undefined>(undefined);
+
+export const useOrganisasjonsDetaljerContext = () => {
+    const context = useContext(OrganisasjonsDetaljerContext);
+    if (context === undefined) {
+        throw new Error(
+            'useOrganisasjonsDetaljerContext må brukes innenfor en OrganisasjonsDetaljerProvider'
+        );
+    }
+    return context;
+}
 
 export const OrganisasjonsDetaljerProvider: FunctionComponent<Props> = ({ children }: Props) => {
-    const { organisasjoner } = useContext(OrganisasjonerOgTilgangerContext);
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo | undefined>(
         organisasjoner[sessionStorage.getItem('bedrift') ?? '']
     );

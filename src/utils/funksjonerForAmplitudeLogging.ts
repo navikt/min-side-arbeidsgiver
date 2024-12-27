@@ -40,19 +40,19 @@ export const finnBucketForAntall = (
     if (!harRegistrertAntallAnsatte) return '0';
 
     //Hvis harRegistrertAntallAnsatte er true og antall er undefined er det 1-4 ansatte
-    if (antall === undefined) return '1-4';
+    if (antall === undefined) return '1 - 4';
 
     switch (true) {
         case antall < 20:
-            return '5-19';
+            return '5 - 19';
         case antall < 50:
-            return '20-49';
+            return '20 - 49';
         case antall < 100:
-            return '50-99';
+            return '50 - 99';
         case antall < 500:
-            return '100-499';
+            return '100 - 499';
         case antall > 500:
-            return '500>';
+            return '500 >';
         default:
             return undefined;
     }

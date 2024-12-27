@@ -1,5 +1,5 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { OrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import React, { FunctionComponent } from 'react';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { useOverordnetEnhet, useUnderenhet } from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet';
 import OverordnetEnhet from './OverordnetEnhet';
@@ -11,7 +11,7 @@ const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
 );
 
 const OmVirksomheten: FunctionComponent = () => {
-    const { valgtOrganisasjon } = useContext(OrganisasjonsDetaljerContext);
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const vnr = valgtOrganisasjon?.organisasjon.OrganizationNumber;
     const orgnr = valgtOrganisasjon?.organisasjon.ParentOrganizationNumber;
 

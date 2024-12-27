@@ -1,17 +1,16 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { innsynAaregURL } from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforhold-ikon.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import { OrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 
 const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
     const orgnr =
-        useContext(OrganisasjonsDetaljerContext).valgtOrganisasjon?.organisasjon
-            .OrganizationNumber ?? '';
+        useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
     const href = innsynAaregURL + (orgnr === '' ? '' : `?bedrift=${orgnr}`);
 
     return (
@@ -19,7 +18,7 @@ const Arbeidsforhold = () => {
             ikon={arbeidsforholdikon}
             href={href}
             tittel="Arbeidsforhold"
-            aria-label="Arbeidsforhold. Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)"
+            aria-label={`Arbeidsforhold, ${antallArbeidsforhold > 0 ? antallArbeidsforhold : 'Ingen'} arbeidsforhold (aktive og avsluttede). Se arbeidsforhold rapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)`}
         >
             <div>
                 <span>
