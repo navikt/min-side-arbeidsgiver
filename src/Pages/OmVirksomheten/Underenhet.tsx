@@ -9,6 +9,7 @@ import { Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
 import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from './Kontaktinfo';
 import { formatOrgNr } from '../../utils/util';
+import { KontonummerUnderenhet } from './Kontonummer';
 
 interface Props {
     underenhet: UnderenhetType;
@@ -73,8 +74,9 @@ const Underenhet = ({ underenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <HStack gap="6">
+            <HStack gap="6" align={"start"}>
                 <KontaktinfoUnderenhet />
+                <KontonummerUnderenhet underenhet={underenhet}/>
             </HStack>
         </>
     );

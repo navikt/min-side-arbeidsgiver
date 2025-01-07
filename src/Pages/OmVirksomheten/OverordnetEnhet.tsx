@@ -9,6 +9,7 @@ import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 import { formatOrgNr } from '../../utils/util';
+import { KontonummerOverordnetEnhet } from './Kontonummer';
 
 interface Props {
     overordnetenhet: Hovedenhet;
@@ -88,8 +89,9 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <HStack gap="6">
+            <HStack gap="6" align={"start"}>
                 <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
+                <KontonummerOverordnetEnhet overordnetEnhet={overordnetenhet} />
             </HStack>
         </div>
     );

@@ -10,6 +10,7 @@ import {
     sakstyperResolver,
     hentSakByIdResolver,
 } from './brukerApi/resolvers';
+import { kontonummerHandlers } from './handlers/kontonummerHandler';
 
 /**
  * generelle handlers som har lik oppførsel uavhengig av profil.
@@ -205,13 +206,7 @@ export const handlers = [
         )
     ),
 
-    // kontonummerStatusHandler
-    http.post('/min-side-arbeidsgiver/api/kontonummerStatus/v1', () =>
-        HttpResponse.json({
-            status: faker.helpers.maybe(() => 'OK', { probability: 0.99 }) ?? 'MANGLER_KONTONUMMER',
-        })
-    ),
-
+    ...kontonummerHandlers,
     ...storageHandlers,
 
     kontaktinfoHandler,
