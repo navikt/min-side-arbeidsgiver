@@ -2,12 +2,12 @@ import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
 import { orgnr } from '../brukerApi/helpers';
 import { fromEntries } from '../../utils/Record';
-import { AltinnTilgang } from '../../hooks/useUserInfo';
 import { alleSaker } from '../brukerApi/alleSaker';
 import { Merkelapp } from '../brukerApi/alleMerkelapper';
 import {
     hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver, hentSakByIdResolver,
+    hentNotifikasjonerResolver,
+    hentSakByIdResolver,
     hentSakerResolver,
     sakstyperResolver,
 } from '../brukerApi/resolvers';
@@ -16,31 +16,30 @@ import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
 
 const tilganger = [
     '4936:1', // inntektsmelding
-
     '5902:1', // yrkesskade
     '5384:1', // ekspertbistand
     '4826:1', // utsendtArbeidstakerEØS
 ];
+const underenheter = Array.from({
+    length: faker.number.int({ min: 0, max: 5 }),
+}).map(() => ({
+    orgnr: orgnr(),
+    underenheter: [],
+    navn: faker.company.name(),
+    organisasjonsform: 'BEDR',
+}));
+
+export const regnskapsforerOrganisasjoner = Array.from({ length: 100 }).map(() => ({
+    orgnr: orgnr(),
+    navn: faker.company.name(),
+    organisasjonsform: 'AS',
+    underenheter: underenheter
+}));
+
 const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
-    const underenheter: AltinnTilgang[] = [];
-    const organisasjoner = Array.from({ length: 100 }).map(() => ({
-        orgnr: orgnr(),
-        navn: faker.company.name(),
-        organisasjonsform: 'AS',
-        underenheter: Array.from({ length: faker.number.int({ min: 0, max: 5 }) }).map(() => {
-            const underenhet = {
-                orgnr: orgnr(),
-                underenheter: [],
-                navn: faker.company.name(),
-                organisasjonsform: 'BEDR',
-            };
-            underenheter.push(underenhet);
-            return underenhet;
-        }),
-    }));
     return HttpResponse.json({
         altinnError: false,
-        organisasjoner: organisasjoner,
+        organisasjoner: regnskapsforerOrganisasjoner,
         tilganger: fromEntries(
             tilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgnr)])
         ),

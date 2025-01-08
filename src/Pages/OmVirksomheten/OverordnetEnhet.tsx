@@ -10,15 +10,19 @@ import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 import { formatOrgNr } from '../../utils/util';
 import { KontonummerOverordnetEnhet } from './Kontonummer';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 
 interface Props {
     overordnetenhet: Hovedenhet;
 }
 
 const OverordnetEnhet = ({ overordnetenhet }: Props) => {
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
     const { forretningsadresse, postadresse } = overordnetenhet;
     const enhetstype =
         overordnetenhet.organisasjonsform?.kode === 'ORGL' ? 'Organisasjonsledd' : 'Hovedenhet';
+    console.log("overorndet");
+    console.log(overordnetenhet);
     return (
         <div>
             <Tekstboks className="overordnetenhet-navn">
@@ -91,7 +95,9 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
             </Tekstboks>
             <HStack gap="6" align={"start"}>
                 <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
-                <KontonummerOverordnetEnhet overordnetEnhet={overordnetenhet} />
+                {organisasjoner[overordnetenhet.organisasjonsnummer].altinntilgang.endreBankkontonummerForRefusjoner && (
+                    <KontonummerOverordnetEnhet overordnetEnhet={overordnetenhet} />
+                )}
             </HStack>
         </div>
     );

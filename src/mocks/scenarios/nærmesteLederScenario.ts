@@ -1,10 +1,10 @@
 import { http, HttpResponse } from 'msw';
 import { orgnr } from '../brukerApi/helpers';
 import { faker } from '@faker-js/faker';
-import { fromEntries } from '../../utils/Record';
 import {
     hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver, hentSakByIdResolver,
+    hentNotifikasjonerResolver,
+    hentSakByIdResolver,
     hentSakerResolver,
     sakstyperResolver,
 } from '../brukerApi/resolvers';
@@ -24,38 +24,39 @@ const nærmesteLederKalenderavtaler = alleKalenderavtaler.filter(({ merkelapp })
     nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
 );
 
+const underenheter = [
+    {
+        orgnr: orgnr(),
+        navn: faker.company.name(),
+        organisasjonsform: 'BEDR',
+        underenheter: [],
+    },
+    {
+        orgnr: orgnr(),
+        navn: faker.company.name(),
+        organisasjonsform: 'BEDR',
+        underenheter: [],
+    },
+];
+export const nærmesteLederOrganisasjon = {
+    orgnr: orgnr(),
+    navn: faker.company.name(),
+    organisasjonsform: 'AS',
+    underenheter,
+};
+
 export const nærmesteLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
-        const underenheter = [
-            {
-                orgnr: orgnr(),
-                navn: faker.company.name(),
-                organisasjonsform: 'BEDR',
-                underenheter: [],
-            },
-            {
-                orgnr: orgnr(),
-                navn: faker.company.name(),
-                organisasjonsform: 'BEDR',
-                underenheter: [],
-            },
-        ];
-        const organisasjon = {
-            orgnr: orgnr(),
-            navn: faker.company.name(),
-            organisasjonsform: 'AS',
-            underenheter,
-        };
         return HttpResponse.json({
             altinnError: false,
-            organisasjoner: [organisasjon],
+            organisasjoner: [nærmesteLederOrganisasjon],
             tilganger: {},
             digisyfoError: false,
             digisyfoOrganisasjoner: underenheter.map(({ orgnr, organisasjonsform, navn }) => ({
                 organisasjon: {
                     OrganizationNumber: orgnr,
                     Name: navn,
-                    ParentOrganizationNumber: organisasjon.orgnr,
+                    ParentOrganizationNumber: nærmesteLederOrganisasjon.orgnr,
                     OrganizationForm: organisasjonsform,
                 },
                 antallSykmeldte: faker.number.int({ min: 0, max: 10 }),

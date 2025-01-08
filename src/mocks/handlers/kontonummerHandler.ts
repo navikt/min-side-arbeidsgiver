@@ -39,7 +39,8 @@ export const kontonummerHandlers = [
 
     http.post('/min-side-arbeidsgiver/api/kontonummerStatus/v1', () =>
         HttpResponse.json({
-            status: faker.helpers.maybe(() => 'OK', { probability: 0.99 }) ?? 'MANGLER_KONTONUMMER',
+            status: faker.helpers.maybe(() => 'OK', { probability: 0 }) ?? 'MANGLER_KONTONUMMER',
+            // status: faker.helpers.maybe(() => 'OK', { probability: 0.99 }) ?? 'MANGLER_KONTONUMMER',
         })
     ),
 ];

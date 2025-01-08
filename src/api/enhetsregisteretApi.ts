@@ -56,7 +56,6 @@ const Underenhet = z
         postadresse: true,
         forretningsadresse: true,
         hjemmeside: true,
-        overordnetEnhet: true,
         harRegistrertAntallAnsatte: true,
         antallAnsatte: true,
         beliggenhetsadresse: true,

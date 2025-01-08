@@ -10,6 +10,7 @@ import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from './Kontaktinfo';
 import { formatOrgNr } from '../../utils/util';
 import { KontonummerUnderenhet } from './Kontonummer';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 
 interface Props {
     underenhet: UnderenhetType;
@@ -17,12 +18,19 @@ interface Props {
 
 const Underenhet = ({ underenhet }: Props) => {
     const adresse = underenhet?.beliggenhetsadresse;
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
 
+    console.log(underenhet)
     return (
         <>
             <Tekstboks className="underenhet-navn">
-                <Label htmlFor={"underenhet_navn_felt"}>Underenhet</Label>
-                <Heading id={"underenhet_navn_felt"} size="medium" level="2" className="underenhet-info__navn">
+                <Label htmlFor={'underenhet_navn_felt'}>Underenhet</Label>
+                <Heading
+                    id={'underenhet_navn_felt'}
+                    size="medium"
+                    level="2"
+                    className="underenhet-info__navn"
+                >
                     <UnderenhetIkon aria-hidden="true" title="underenhet" />
                     {underenhet.navn}
                 </Heading>
@@ -74,9 +82,12 @@ const Underenhet = ({ underenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <HStack gap="6" align={"start"}>
+            <HStack gap="6" align={'start'}>
                 <KontaktinfoUnderenhet />
-                <KontonummerUnderenhet underenhet={underenhet}/>
+                {organisasjoner[underenhet.overordnetEnhet].altinntilgang // kontonummer tilgangstyres på overordnet enhet, ikke på underenhet. Dersom bruker har tilgang på overordnet enhet, har hen også tilgang på underenhet (https://nav-it.slack.com/archives/CKZADNFBP/p1736263494923189)
+                    .endreBankkontonummerForRefusjoner && (
+                    <KontonummerUnderenhet underenhet={underenhet} />
+                )}
             </HStack>
         </>
     );
