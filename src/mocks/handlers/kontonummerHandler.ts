@@ -1,14 +1,10 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-
-type RequestBody = {
-    virksomhetsnummer: String;
-};
+import { KontonummerInput } from '../../Pages/OmVirksomheten/Kontonummer';
 
 export const kontonummerHandlers = [
-    http.post<{}, RequestBody>('/min-side-arbeidsgiver/api/kontonummer/v1', async ({ request }) => {
-        const orgnr = (await request.json())?.virksomhetsnummer;
-        console.log(orgnr);
+    http.post<{}, KontonummerInput>('/min-side-arbeidsgiver/api/kontonummer/v1', async ({ request }) => {
+        const orgnr = (await request.json()).orgnrForOppslag;
         return HttpResponse.json(
             faker.helpers.maybe(
                 () => ({
@@ -39,8 +35,7 @@ export const kontonummerHandlers = [
 
     http.post('/min-side-arbeidsgiver/api/kontonummerStatus/v1', () =>
         HttpResponse.json({
-            status: faker.helpers.maybe(() => 'OK', { probability: 0 }) ?? 'MANGLER_KONTONUMMER',
-            // status: faker.helpers.maybe(() => 'OK', { probability: 0.99 }) ?? 'MANGLER_KONTONUMMER',
+            status: faker.helpers.maybe(() => 'OK', { probability: 0.99 }) ?? 'MANGLER_KONTONUMMER',
         })
     ),
 ];

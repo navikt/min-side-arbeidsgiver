@@ -10,7 +10,6 @@ import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoUnderenhet } from './Kontaktinfo';
 import { formatOrgNr } from '../../utils/util';
 import { KontonummerUnderenhet } from './Kontonummer';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 
 interface Props {
     underenhet: UnderenhetType;
@@ -18,9 +17,6 @@ interface Props {
 
 const Underenhet = ({ underenhet }: Props) => {
     const adresse = underenhet?.beliggenhetsadresse;
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
-
-    console.log(underenhet)
     return (
         <>
             <Tekstboks className="underenhet-navn">
@@ -84,10 +80,7 @@ const Underenhet = ({ underenhet }: Props) => {
             </Tekstboks>
             <HStack gap="6" align={'start'}>
                 <KontaktinfoUnderenhet />
-                {organisasjoner[underenhet.overordnetEnhet].altinntilgang // kontonummer tilgangstyres på overordnet enhet, ikke på underenhet. Dersom bruker har tilgang på overordnet enhet, har hen også tilgang på underenhet (https://nav-it.slack.com/archives/CKZADNFBP/p1736263494923189)
-                    .endreBankkontonummerForRefusjoner && (
-                    <KontonummerUnderenhet underenhet={underenhet} />
-                )}
+                <KontonummerUnderenhet underenhet={underenhet} />
             </HStack>
         </>
     );

@@ -5,19 +5,44 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { Hovedenhet, Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
 import useSWR from 'swr';
 import { z } from 'zod';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 
-const KontonummerInfo = z.object({
-    status: z.string(),
-    orgnr: z.string().nullable(),
-    kontonummer: z.string().nullable(),
+const KontonummerRespons = z
+    .object({
+        status: z.string(),
+        orgnr: z.string().nullable(),
+        kontonummer: z.string().nullable(),
+    })
+    .refine(
+        (data) => {
+            if (data.status === 'OK') {
+                return data.orgnr !== null && data.kontonummer !== null;
+            }
+            return data.orgnr === null && data.kontonummer === null;
+        },
+        {
+            message:
+                'orgnr og kontonummer er enten begge non-nullable (for status OK) eller er begge null (for status MANGLER_KONTONUMMER)',
+            path: ['orgnr', 'kontonummer'],
+        }
+    );
+
+const KontonummerInput = z.object({
+    orgnrForTilgangsstyring: z.string(),
+    orgnrForOppslag: z.string(),
 });
 
-type KontonummerInfo = z.infer<typeof KontonummerInfo>;
+export type KontonummerInput = z.infer<typeof KontonummerInput>;
 
-const kontonummerFetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
-    const body = { virksomhetsnummer: orgnr };
+const kontonummerFetcher = async ({
+    url,
+    kontonummerRequest,
+}: {
+    url: string;
+    kontonummerRequest: KontonummerInput;
+}) => {
     const response = await fetch(url, {
-        body: JSON.stringify(body),
+        body: JSON.stringify(kontonummerRequest),
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -26,13 +51,22 @@ const kontonummerFetcher = async ({ url, orgnr }: { url: string; orgnr: string }
     if (response.status != 200) {
         throw response;
     }
-    return KontonummerInfo.parse(await response.json());
+    return KontonummerRespons.parse(await response.json());
 };
-const useKontonummer = (orgnr: String) => {
-    const [retries, setRetries] = useState(0);
 
+const useKontonummer = (input: KontonummerInput) => {
+    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
+
+    if (
+        !organisasjoner[input.orgnrForTilgangsstyring].altinntilgang
+            .endreBankkontonummerForRefusjoner
+    ) {
+        return null;
+    }
+
+    const [retries, setRetries] = useState(0);
     const { data: kontonummerInfo } = useSWR(
-        orgnr === undefined ? null : { url: `${__BASE_PATH__}/api/kontonummer/v1`, orgnr },
+        { url: `${__BASE_PATH__}/api/kontonummer/v1`, kontonummerRequest: input },
         kontonummerFetcher,
         {
             onSuccess: () => setRetries(0),
@@ -56,16 +90,20 @@ const useKontonummer = (orgnr: String) => {
 };
 
 export const KontonummerUnderenhet = ({ underenhet }: { underenhet: UnderenhetType }) => {
-    const kontonummerInfo = useKontonummer(underenhet.organisasjonsnummer);
+    const kontonummerInfo = useKontonummer({
+        orgnrForTilgangsstyring: underenhet.overordnetEnhet, // kontonummer tilgangstyres på overordnet enhet
+        orgnrForOppslag: underenhet.organisasjonsnummer,
+    });
 
-    if (!kontonummerInfo || kontonummerInfo.kontonummer == null) return null;
+    if (!kontonummerInfo || kontonummerInfo.status !== 'OK') return null;
 
     return (
         <div className={'kontonummer'}>
             <KontonummerTittel enhetsType={'underenhet'} />
             <KontonummerVisning
-                kontonummerInfo={kontonummerInfo}
-                organisasjonsnummer={underenhet.organisasjonsnummer}
+                orgnr={kontonummerInfo.orgnr!}
+                kontonummer={kontonummerInfo.kontonummer!}
+                oppslåttOrganisasjonsnummer={underenhet.organisasjonsnummer}
             />
             <EndreKontonummer />
         </div>
@@ -80,14 +118,17 @@ export const KontonummerOverordnetEnhet = ({
     const enhetstype =
         overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'organisasjonsledd' : 'hovedenhet';
 
-    const kontonummerInfo = useKontonummer(overordnetEnhet.organisasjonsnummer);
+    const kontonummerInfo = useKontonummer({
+        orgnrForTilgangsstyring: overordnetEnhet.organisasjonsnummer,
+        orgnrForOppslag: overordnetEnhet.organisasjonsnummer,
+    });
 
     if (!kontonummerInfo) return null;
 
     return (
         <div className={'kontonummer'}>
             <KontonummerTittel enhetsType={enhetstype} />
-            {kontonummerInfo.kontonummer === null ? (
+            {kontonummerInfo.status !== 'OK' ? (
                 <Alert variant="warning">
                     <Heading spacing size="small" level="3">
                         Kontonummer mangler
@@ -96,8 +137,9 @@ export const KontonummerOverordnetEnhet = ({
                 </Alert>
             ) : (
                 <KontonummerVisning
-                    kontonummerInfo={kontonummerInfo}
-                    organisasjonsnummer={overordnetEnhet.organisasjonsnummer}
+                    orgnr={kontonummerInfo.orgnr!}
+                    kontonummer={kontonummerInfo.kontonummer!}
+                    oppslåttOrganisasjonsnummer={overordnetEnhet.organisasjonsnummer}
                 />
             )}
             <EndreKontonummer />
@@ -128,23 +170,25 @@ const KontonummerTittel = ({ enhetsType }: { enhetsType: string }) => (
 );
 
 const KontonummerVisning = ({
-    organisasjonsnummer,
-    kontonummerInfo,
+    oppslåttOrganisasjonsnummer,
+    orgnr,
+    kontonummer,
 }: {
-    organisasjonsnummer: string;
-    kontonummerInfo: KontonummerInfo;
+    oppslåttOrganisasjonsnummer: string;
+    orgnr: string;
+    kontonummer: string;
 }) => (
     <>
-        {kontonummerInfo.orgnr !== organisasjonsnummer && (
+        {orgnr !== oppslåttOrganisasjonsnummer && (
             <BodyShort size={'small'}> Hentet fra overordnet enhet</BodyShort>
         )}
         <BodyShort style={{ fontSize: '18px' }}>
             {' '}
-            {`${kontonummerInfo.kontonummer!.substring(0, 4)}`}
+            {`${kontonummer.substring(0, 4)}`}
             {'.'}
-            {`${kontonummerInfo.kontonummer!.substring(4, 6)}`}
+            {`${kontonummer.substring(4, 6)}`}
             {'.'}
-            {`${kontonummerInfo.kontonummer!.substring(6)}`}
+            {`${kontonummer.substring(6)}`}
         </BodyShort>
     </>
 );
