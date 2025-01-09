@@ -58,7 +58,7 @@ const useKontonummer = (orgnr: String) => {
 export const KontonummerUnderenhet = ({ underenhet }: { underenhet: UnderenhetType }) => {
     const kontonummerInfo = useKontonummer(underenhet.organisasjonsnummer);
 
-    if (!kontonummerInfo || !kontonummerInfo.kontonummer) return null;
+    if (!kontonummerInfo || kontonummerInfo.kontonummer == null) return null;
 
     return (
         <div className={'kontonummer'}>
