@@ -58,7 +58,7 @@ const useKontonummer = (orgnr: String) => {
 export const KontonummerUnderenhet = ({ underenhet }: { underenhet: UnderenhetType }) => {
     const kontonummerInfo = useKontonummer(underenhet.organisasjonsnummer);
 
-    if (kontonummerInfo === undefined || kontonummerInfo.kontonummer == null) return null;
+    if (!kontonummerInfo || !kontonummerInfo.kontonummer) return null;
 
     return (
         <div className={'kontonummer'}>
@@ -82,7 +82,7 @@ export const KontonummerOverordnetEnhet = ({
 
     const kontonummerInfo = useKontonummer(overordnetEnhet.organisasjonsnummer);
 
-    if (kontonummerInfo === undefined) return null;
+    if (!kontonummerInfo) return null;
 
     return (
         <div className={'kontonummer'}>

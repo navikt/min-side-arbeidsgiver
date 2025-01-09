@@ -28,7 +28,7 @@ export const kontonummerHandlers = [
                             .int({ min: 10000000000, max: 99999999999 })
                             .toString(),
                     }),
-                    { probability: 0.9 }
+                    { probability: 0.5 }
                 ) ?? {
                     status: 'MANGLER_KONTONUMMER',
                     orgnr: null,
