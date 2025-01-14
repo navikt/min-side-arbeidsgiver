@@ -177,6 +177,13 @@ export const AvtaletilstandLinje = ({
                 </Tag>
             );
 
+        case KalenderavtaleTilstand.Avholdt:
+            return (
+                <Tag size="small" className="tidslinje_kalenderavtale_status_text" variant="info">
+                    Avholdt
+                </Tag>
+            );
+
         default:
             return null;
     }
