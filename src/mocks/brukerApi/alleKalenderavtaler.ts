@@ -6,7 +6,6 @@ export const alleKalenderavtaler = [
     kalenderavtale({
         tekst: `Dialogmøte ${fakeName()}`,
         startTidspunkt: dateInPast({ days: 1, hours: 1 }),
-        sluttTidspunkt: dateInPast({ days: 1 }),
         avtaletilstand: KalenderavtaleTilstand.Avholdt,
         lokasjon: {
             adresse: faker.location.streetAddress(),

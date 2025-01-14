@@ -426,7 +426,7 @@ const KalenderavtaleElement = ({
                 >
                     {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
                     {klokkeslett.format(new Date(startTidspunkt))}
-                    {sluttTidspunkt !== undefined
+                    {sluttTidspunkt !== undefined && sluttTidspunkt !== null
                         ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
                         : ''}
                 </BodyShort>
