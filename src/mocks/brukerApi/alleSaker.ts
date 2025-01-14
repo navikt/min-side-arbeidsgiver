@@ -251,8 +251,19 @@ export const alleSaker = [
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.Avlyst,
+                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                startTidspunkt: dateInPast({ days: 2 }),
                 lokasjon: undefined,
+                digitalt: true,
+            }),
+            kalenderavtaleTidslinjeElement({
+                tekst: 'Invitasjon til dialogmøte',
+                avtaletilstand: KalenderavtaleTilstand.Avholdt,
+                lokasjon: {
+                    adresse: 'Sørkedalsveien 31',
+                    postnummer: '0788',
+                    poststed: 'Sandnes',
+                },
                 digitalt: false,
             }),
         ],

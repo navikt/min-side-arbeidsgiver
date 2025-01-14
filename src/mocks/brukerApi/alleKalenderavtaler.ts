@@ -1,8 +1,20 @@
 import { KalenderavtaleTilstand } from '../../api/graphql-types';
 import { fakerNB_NO as faker } from '@faker-js/faker';
-import { dateInFuture, fakeName, kalenderavtale } from './helpers';
+import { dateInFuture, dateInPast, fakeName, kalenderavtale } from './helpers';
 
 export const alleKalenderavtaler = [
+    kalenderavtale({
+        tekst: `Dialogmøte ${fakeName()}`,
+        startTidspunkt: dateInPast({ days: 1, hours: 1 }),
+        avtaletilstand: KalenderavtaleTilstand.Avholdt,
+        lokasjon: {
+            adresse: faker.location.streetAddress(),
+            postnummer: faker.location.zipCode('####'),
+            poststed: faker.location.city(),
+        },
+        digitalt: true,
+        merkelapp: 'Dialogmøte',
+    }),
     kalenderavtale({
         tekst: `Dialogmøte ${fakeName()}`,
         startTidspunkt: dateInFuture({ days: 1 }),
