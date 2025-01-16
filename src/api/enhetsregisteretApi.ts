@@ -88,7 +88,11 @@ export const useUnderenhet = (
 };
 
 const fetchUnderenhet = async ({ url, orgnr }: { url: string; orgnr: string }) => {
-    const respons = await fetch(url, { method: 'POST', body: JSON.stringify({ orgnr }) });
+    const respons = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({ orgnr }),
+        headers: { 'Content-Type': 'application/json' },
+    });
     if (!respons.ok) throw respons;
     return Underenhet.parse(await respons.json());
 };
@@ -111,7 +115,11 @@ export const useOverordnetEnhet = (orgnr: string | undefined): Hovedenhet | unde
 };
 
 const fetchHovedenhet = async ({ url, orgnr }: { url: string; orgnr: string }) => {
-    const respons = await fetch(url, { method: 'POST', body: JSON.stringify({ orgnr }) });
+    const respons = await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify({ orgnr }),
+        headers: { 'Content-Type': 'application/json' }
+    });
     if (!respons.ok) throw respons;
     return Hovedenhet.parse(await respons.json());
 };
