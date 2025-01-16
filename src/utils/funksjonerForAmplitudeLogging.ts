@@ -52,7 +52,7 @@ export const finnBucketForAntall = (
 };
 
 const finnSektorNavn = (eregOrg: Hovedenhet) => {
-    if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84'))) {
+    if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84')) !== null) {
         return 'offentlig';
     } else {
         return 'privat';
