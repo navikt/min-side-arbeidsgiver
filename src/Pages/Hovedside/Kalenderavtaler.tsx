@@ -207,6 +207,12 @@ const Statustag = ({ tilstand }: Statustag) => {
                     Møtet er avlyst
                 </Tag>
             );
+        case KalenderavtaleTilstand.Avholdt:
+            return (
+                <Tag size="small" variant="error-moderate">
+                    Møtet er avholdt
+                </Tag>
+            );
         default:
             return null;
     }

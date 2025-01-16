@@ -127,7 +127,6 @@ const InntektsmeldingGruppe = (
         navn.includes('Inntektsmelding')
     );
 
-
     if (inntektsmeldingAlleValgtAvBruker) {
         valgteInntektsmeldingtyper = ['Inntektsmelding_gruppe'];
     } else if (andreInntektsmeldingerValgt) {
@@ -172,6 +171,7 @@ const InntektsmeldingGruppe = (
 
     return (
         <CheckboxGroup
+            key="Inntektsmelding_gruppe"
             legend={'Inntektsmeldinger'}
             hideLegend={true}
             value={valgteInntektsmeldingtyper}

@@ -195,14 +195,14 @@ export const beskjed = ({
     opprettetTidspunkt = faker.date.recent(),
     klikketPaa = true,
     tilleggsinformasjon,
-    lenke =  `#${faker.lorem.word()}`,
+    lenke = `#${faker.lorem.word()}`,
 }: {
     tekst: string;
     sakTittel?: string;
     opprettetTidspunkt?: Date;
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
-    lenke?: string,
+    lenke?: string;
 }): Beskjed => ({
     __typename: 'Beskjed',
     id: faker.string.uuid(),
@@ -340,9 +340,10 @@ export const executeAndValidate = ({
         rootValue,
     });
 
-export const dateInPast = ({ days = 0, years = 0, months = 0 }) => {
+export const dateInPast = ({ hours = 0, days = 0, years = 0, months = 0 }) => {
     const date = new Date();
     date.setDate(date.getDate() - days);
+    date.setHours(date.getHours() - hours);
     date.setFullYear(date.getFullYear() - years);
     date.setMonth(date.getMonth() - months);
     return date;

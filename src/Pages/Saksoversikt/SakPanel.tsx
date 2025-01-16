@@ -70,7 +70,9 @@ export const SakPanel = ({
                 </Tag>
             </div>
             <Saksoverskrift lenkeTilSak={lenkeTilSak} sak={sak} />
-            {sak.tilleggsinformasjon !== null ? <BodyShort>{sak.tilleggsinformasjon}</BodyShort> : null}
+            {sak.tilleggsinformasjon !== null ? (
+                <BodyShort>{sak.tilleggsinformasjon}</BodyShort>
+            ) : null}
             <div style={{ display: 'flex', gap: '16px' }}>
                 <BodyShort size="small" style={style}>
                     <strong>{sak.sisteStatus.tekst}</strong>
@@ -232,6 +234,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                     <>
                         {todos.map((tidslinjeelement, i) => (
                             <Tidslinjeelement
+                                key={tidslinjeelement.id}
                                 tidslinjeelement={tidslinjeelement}
                                 skjulLinjeIkon={false}
                                 brukDelvisStipletLinjeIkon={true}
@@ -241,6 +244,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                             const erSist = sak.tidslinje.length - 1;
                             return (
                                 <Tidslinjeelement
+                                    key={tidslinjeelement.id}
                                     tidslinjeelement={tidslinjeelement}
                                     skjulLinjeIkon={i === erSist}
                                     brukDelvisStipletLinjeIkon={!tidslinjeOpen}
@@ -380,12 +384,13 @@ const KalenderavtaleElement = ({
     return (
         <div className={ingenLokasjon ? 'grid2x3' : 'grid2x4'}>
             <div className="tidslinje-element-ikon">
-                {avtaletilstand === KalenderavtaleTilstand.Avlyst || harPassert ? (
+                {avtaletilstand === KalenderavtaleTilstand.Avlyst ||
+                avtaletilstand === KalenderavtaleTilstand.Avholdt ? (
                     <KalenderavtaleIkon
                         variant="grå"
                         title={
                             harPassert
-                                ? 'Kalenderavtale som har passert.'
+                                ? 'Kalenderavtale som er avholdt.'
                                 : 'Kalenderavtale som er avlyst.'
                         }
                     />
@@ -409,9 +414,19 @@ const KalenderavtaleElement = ({
                             : 'regular'
                     }
                 >
-                    {tekst} {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
+                    {tekst}
+                </BodyShort>
+                <BodyShort
+                    size="large"
+                    weight={
+                        avtaletilstand === KalenderavtaleTilstand.VenterSvarFraArbeidsgiver
+                            ? 'semibold'
+                            : 'regular'
+                    }
+                >
+                    {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
                     {klokkeslett.format(new Date(startTidspunkt))}
-                    {sluttTidspunkt !== undefined
+                    {sluttTidspunkt !== undefined && sluttTidspunkt !== null
                         ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
                         : ''}
                 </BodyShort>
