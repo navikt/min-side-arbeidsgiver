@@ -84,11 +84,11 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
 
             <Tekstboks className="overordnetenhet-kode">
                 <Label htmlFor={'overordnetenhet_næringskoder_felt'}>Næringskoder</Label>
-                <BodyShort id={'overordnetenhet_næringskoder_felt'}>
-                    {overordnetenhet.naeringskode1
-                        ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}`
-                        : ''}
-                </BodyShort>
+                <div id="overordnetenhet_næringskoder_felt">
+                    {overordnetenhet.naeringskoder?.map((naeringskode) => (
+                        <BodyShort key={naeringskode}>{naeringskode ?? ''}</BodyShort>
+                    ))}
+                </div>
             </Tekstboks>
 
             {(overordnetenhet.hjemmeside ?? '') !== '' && (

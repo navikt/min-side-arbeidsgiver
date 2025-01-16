@@ -52,21 +52,9 @@ const Underenhet = ({ underenhet }: Props) => {
             <Tekstboks className="underenhet-kode">
                 <Label htmlFor={'underenhet_næringskoder_felt'}>Næringskoder</Label>
                 <div id="underenhet_næringskoder_felt">
-                    <BodyShort>
-                        {underenhet.naeringskode1
-                            ? `${underenhet.naeringskode1.kode}. ${underenhet.naeringskode1.beskrivelse}`
-                            : ''}
-                    </BodyShort>
-                    <BodyShort>
-                        {underenhet.naeringskode2
-                            ? `${underenhet.naeringskode2.kode}. ${underenhet.naeringskode2.beskrivelse}`
-                            : ''}
-                    </BodyShort>
-                    <BodyShort>
-                        {underenhet.naeringskode3
-                            ? `${underenhet.naeringskode3.kode}. ${underenhet.naeringskode3.beskrivelse}`
-                            : ''}
-                    </BodyShort>
+                    {underenhet.naeringskoder?.map((naeringskode) => (
+                        <BodyShort key={naeringskode}>{naeringskode ?? ''}</BodyShort>
+                    ))}
                 </div>
             </Tekstboks>
             <Tekstboks>

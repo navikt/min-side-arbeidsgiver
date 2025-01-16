@@ -16,11 +16,6 @@ interface EventProps {
     sektor?: string;
 }
 
-interface EregInfo {
-    antallAnsatte?: string;
-    sektor?: string;
-}
-
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;
 
 export const loggSidevisning = (pathname: string) => {
@@ -31,18 +26,16 @@ export const loggSidevisning = (pathname: string) => {
 };
 
 export const finnBucketForAntall = (
-    harRegistrertAntallAnsatte: boolean | undefined,
-    antall: number | undefined
+    antall: number | undefined | null,
 ) => {
-    if (harRegistrertAntallAnsatte === undefined) return;
-
-    //Hvis harRegistrertAntallAnsatte er false er det 0 ansatte
-    if (!harRegistrertAntallAnsatte) return '0';
-
-    //Hvis harRegistrertAntallAnsatte er true og antall er undefined er det 1-4 ansatte
-    if (antall === undefined) return '1 - 4';
+    if (antall === undefined) return;
+    if (antall === null) return '0';
 
     switch (true) {
+        case antall === 0:
+            return '0';
+        case antall < 5:
+            return '1 - 4';
         case antall < 20:
             return '5 - 19';
         case antall < 50:
@@ -59,14 +52,12 @@ export const finnBucketForAntall = (
 };
 
 const finnSektorNavn = (eregOrg: Hovedenhet) => {
-    if (eregOrg.naeringskode1) {
-        if (eregOrg.naeringskode1.kode.startsWith('84')) {
-            return 'offentlig';
-        } else {
-            return 'privat';
-        }
+    if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84'))) {
+        return 'offentlig';
+    } else {
+        return 'privat';
     }
-};
+}
 
 export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined) => {
     const { underenhet, isLoading } = useUnderenhet(org?.organisasjon.OrganizationNumber);
@@ -96,8 +87,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         if (underenhet !== undefined) {
             virksomhetsinfo.sektor = finnSektorNavn(underenhet);
             virksomhetsinfo.antallAnsatte = finnBucketForAntall(
-                underenhet.harRegistrertAntallAnsatte,
-                underenhet.antallAnsatte
+                underenhet.antallAnsatte,
             );
         }
 
@@ -109,7 +99,7 @@ export const loggNavigasjon = (
     destinasjon: string | undefined,
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
-    currentPagePath?: string
+    currentPagePath?: string,
 ) => {
     loggNavigasjonTags(destinasjon, lenketekst, currentPagePath ?? '', {});
 };
@@ -119,7 +109,7 @@ export const loggNavigasjonTags = (
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
     currentPagePath: string,
-    tags: Record<string, string>
+    tags: Record<string, string>,
 ) => {
     if (destinasjon !== undefined && destinasjon !== '') {
         const { origin, pathname } = new URL(destinasjon, baseUrl);

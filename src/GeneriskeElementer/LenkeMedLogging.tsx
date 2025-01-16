@@ -3,7 +3,7 @@ import {BodyShort, Link as DsLink, LinkProps } from '@navikt/ds-react';
 import {loggNavigasjon} from '../utils/funksjonerForAmplitudeLogging';
 import { useLocation, Link as ReactLink } from 'react-router-dom';
 
-interface Props extends LinkProps {
+export interface Props extends LinkProps {
     href: string;
     loggLenketekst: string;
     children: ReactNode;
