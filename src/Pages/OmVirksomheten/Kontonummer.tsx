@@ -28,7 +28,7 @@ const KontonummerRespons = z
     );
 
 const KontonummerInput = z.object({
-    orgnrForTilgangsstyring: z.string(),
+    orgnrForTilgangstyring: z.string(),
     orgnrForOppslag: z.string(),
 });
 
