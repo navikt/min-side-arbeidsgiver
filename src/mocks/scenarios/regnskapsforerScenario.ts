@@ -33,7 +33,7 @@ export const regnskapsforerOrganisasjoner = Array.from({ length: 100 }).map(() =
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
-    underenheter: underenheter
+    underenheter: underenheter,
 }));
 
 const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
@@ -54,15 +54,15 @@ const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/user
 });
 
 const regnskapsførerSakstyper = [
-    Merkelapp.Fritak_i_arbeidsgiverperioden,
+    //Merkelapp.Fritak_i_arbeidsgiverperioden,
     Merkelapp.Inntektsmelding,
     Merkelapp.Inntektsmelding_sykepenger,
-    Merkelapp.Inntektsmelding_pleiepenger,
-    Merkelapp.Lønnstilskudd,
-    Merkelapp.Masseoppsigelse,
-    Merkelapp.Permittering,
-    Merkelapp.Sommerjobb,
-    Merkelapp.Yrkesskade,
+    Merkelapp.Inntektsmelding_pleiepenger_sykt_barn,
+    //Merkelapp.Lønnstilskudd,
+    //Merkelapp.Masseoppsigelse,
+    //Merkelapp.Permittering,
+    //Merkelapp.Sommerjobb,
+    //Merkelapp.Yrkesskade,
 ];
 
 const regnskapsførerSaker = alleSaker.filter(({ merkelapp }) =>

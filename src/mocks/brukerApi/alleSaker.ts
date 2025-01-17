@@ -359,4 +359,22 @@ export const alleSaker = [
             }),
         ],
     }),
+    sak({
+        merkelapp: Merkelapp.Inntektsmelding_pleiepenger_sykt_barn,
+        tittel: `Inntektsmelding for ${fakeName()} (${fdato()})`,
+        tilleggsinformasjon: `For første fraværsdag ${dateInPast({ months: 2, days: 15 }).toLocaleDateString()}`,
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: '',
+        }),
+        tidslinje: [
+            oppgaveTidslinjeElement({
+                tekst: 'Innsending av inntektsmelding for pleiepenger sykt barn',
+                tilstand: OppgaveTilstand.Ny,
+                opprettetTidspunkt: dateInPast({ months: 2, days: 15 }),
+                paaminnelseTidspunkt: dateInPast({ days: 1 }),
+            }),
+        ],
+    }),
 ];

@@ -42,7 +42,10 @@ export const hentKalenderavtalerResolver = (kalenderavtaler: Kalenderavtale[]) =
             variables,
             rootValue: {
                 kommendeKalenderavtaler: {
-                    avtaler: kalenderavtaler,
+                    avtaler: kalenderavtaler.filter(
+                        (avtale) =>
+                            avtale.avtaletilstand != 'AVHOLDT' && avtale.avtaletilstand != 'AVLYST'
+                    ),
                 },
             },
         });
@@ -89,6 +92,6 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
                     sak,
                     feilAltinn: false,
                 },
-            }
+            },
         });
-    } );
+    });
