@@ -3,7 +3,7 @@ import useSWR from 'swr';
 
 const Adresse = z
     .object({
-        adresse: z.array(z.string()),
+        adresse: z.string(),
         kommune: z.string(),
         kommunenummer: z.string(),
         land: z.string(),
@@ -22,48 +22,29 @@ const Underenhet = z
     .object({
         organisasjonsnummer: z.string(),
         navn: z.string(),
-        organisasjonsform: Kode,
-        naeringskoder: z.array(z.string()),
-        postadresse: Adresse,
-        forretningsadresse: Adresse,
-        hjemmeside: z.string(),
         overordnetEnhet: z.string(),
-        antallAnsatte: z.number(),
-        beliggenhetsadresse: Adresse,
+        organisasjonsform: Kode.nullable(),
+        naeringskoder: z.array(z.string()).nullable(),
+        postadresse: Adresse.nullable(),
+        forretningsadresse: Adresse.nullable(),
+        hjemmeside: z.string().nullable(),
+        antallAnsatte: z.number().nullable(),
+        beliggenhetsadresse: Adresse.nullable(),
     })
-    .partial({
-        organisasjonsform: true,
-        naeringskoder: true,
-        postadresse: true,
-        forretningsadresse: true,
-        hjemmeside: true,
-        antallAnsatte: true,
-        beliggenhetsadresse: true,
-    });
 
 const Hovedenhet = z
     .object({
         organisasjonsnummer: z.string(),
         navn: z.string(),
-        organisasjonsform: Kode,
+        organisasjonsform: Kode.nullable(),
         naeringskoder: z.array(z.string()),
-        postadresse: Adresse,
-        forretningsadresse: Adresse,
-        hjemmeside: z.string(),
-        overordnetEnhet: z.string(),
-        antallAnsatte: z.number(),
-        beliggenhetsadresse: Adresse,
+        postadresse: Adresse.nullable(),
+        forretningsadresse: Adresse.nullable(),
+        hjemmeside: z.string().nullable(),
+        overordnetEnhet: z.string().nullable(),
+        antallAnsatte: z.number().nullable(),
+        beliggenhetsadresse: Adresse.nullable(),
     })
-    .partial({
-        organisasjonsform: true,
-        naeringskoder: true,
-        postadresse: true,
-        forretningsadresse: true,
-        hjemmeside: true,
-        overordnetEnhet: true,
-        antallAnsatte: true,
-        beliggenhetsadresse: true,
-    });
 
 export type Hovedenhet = z.infer<typeof Hovedenhet>;
 export type Underenhet = z.infer<typeof Underenhet>;
