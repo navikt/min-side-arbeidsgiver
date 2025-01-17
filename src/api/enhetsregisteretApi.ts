@@ -37,7 +37,7 @@ const Hovedenhet = z
         organisasjonsnummer: z.string(),
         navn: z.string(),
         organisasjonsform: Kode.nullable(),
-        naeringskoder: z.array(z.string()),
+        naeringskoder: z.array(z.string()).nullable(),
         postadresse: Adresse.nullable(),
         forretningsadresse: Adresse.nullable(),
         hjemmeside: z.string().nullable(),
