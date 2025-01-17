@@ -58,7 +58,7 @@ const useKontonummer = (input: KontonummerInput) => {
     const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
 
     if (
-        !organisasjoner[input.orgnrForTilgangsstyring].altinntilgang
+        !organisasjoner[input.orgnrForTilgangstyring].altinntilgang
             .endreBankkontonummerForRefusjoner
     ) {
         return null;
@@ -91,7 +91,7 @@ const useKontonummer = (input: KontonummerInput) => {
 
 export const KontonummerUnderenhet = ({ underenhet }: { underenhet: UnderenhetType }) => {
     const kontonummerInfo = useKontonummer({
-        orgnrForTilgangsstyring: underenhet.overordnetEnhet, // kontonummer tilgangstyres på overordnet enhet
+        orgnrForTilgangstyring: underenhet.overordnetEnhet, // kontonummer tilgangstyres på overordnet enhet
         orgnrForOppslag: underenhet.organisasjonsnummer,
     });
 
@@ -119,7 +119,7 @@ export const KontonummerOverordnetEnhet = ({
         overordnetEnhet.organisasjonsform?.kode === 'ORGL' ? 'organisasjonsledd' : 'hovedenhet';
 
     const kontonummerInfo = useKontonummer({
-        orgnrForTilgangsstyring: overordnetEnhet.organisasjonsnummer,
+        orgnrForTilgangstyring: overordnetEnhet.organisasjonsnummer,
         orgnrForOppslag: overordnetEnhet.organisasjonsnummer,
     });
 
