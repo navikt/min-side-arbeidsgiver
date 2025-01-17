@@ -63,7 +63,7 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     </Label>
                     <BodyShort id={'overordnetenhet_forretningsadresse_felt'}>
                         {' '}
-                        {forretningsadresse ? forretningsadresse.adresse?.[0] : ''}
+                        {forretningsadresse ? forretningsadresse.adresse : ''}
                     </BodyShort>
                     <BodyShort>
                         {forretningsadresse?.postnummer ?? ''} {forretningsadresse?.poststed ?? ''}
@@ -74,7 +74,7 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     <Label htmlFor={'overordnetenhet_postadresse_felt'}>Postadresse</Label>
                     <BodyShort id={'overordnetenhet_postadresse_felt'}>
                         {' '}
-                        {postadresse?.adresse?.[0] ?? ''}{' '}
+                        {postadresse?.adresse ?? ''}{' '}
                     </BodyShort>
                     <BodyShort>
                         {postadresse?.postnummer ?? ''} {postadresse?.poststed ?? ''}

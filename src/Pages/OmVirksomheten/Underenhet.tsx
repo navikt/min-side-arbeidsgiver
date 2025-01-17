@@ -42,7 +42,7 @@ const Underenhet = ({ underenhet }: Props) => {
             <Tekstboks className="underenhet-adresse">
                 <Label htmlFor={'underenhet_adresse_felt'}>Beliggenhetsadresse</Label>
                 <div id={'underenhet_adresse_felt'}>
-                    <BodyShort>{adresse?.adresse?.[0] ?? ''}</BodyShort>
+                    <BodyShort>{adresse?.adresse ?? ''}</BodyShort>
                     <BodyShort>
                         {adresse?.postnummer ?? ''} {adresse?.poststed ?? ''}
                     </BodyShort>
