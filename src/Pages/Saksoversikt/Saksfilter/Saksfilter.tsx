@@ -278,7 +278,7 @@ export const Saksfilter = ({
                         </BodyShort>
                     </Checkbox>
                 </CheckboxGroup>
-                {sakstyper.length > 1 && (
+                {sakstyperForFilter.length > 1 && (
                     <CheckboxGroup
                         legend="Type sak"
                         value={filter.sakstyper}
