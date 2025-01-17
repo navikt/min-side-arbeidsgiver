@@ -9,6 +9,7 @@ import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 import { formatOrgNr } from '../../utils/util';
+import { KontonummerOverordnetEnhet } from './Kontonummer';
 
 interface Props {
     overordnetenhet: Hovedenhet;
@@ -21,8 +22,13 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
     return (
         <div>
             <Tekstboks className="overordnetenhet-navn">
-                <Label htmlFor={"overordnetenhet_navn_felt"}>{enhetstype}</Label>
-                <Heading id={"overordnetenhet_navn_felt"} size="medium" level="2" className="overordnet-enhet-info__navn">
+                <Label htmlFor={'overordnetenhet_navn_felt'}>{enhetstype}</Label>
+                <Heading
+                    id={'overordnetenhet_navn_felt'}
+                    size="medium"
+                    level="2"
+                    className="overordnet-enhet-info__navn"
+                >
                     <JuridiskEnhetIkon aria-hidden="true" title="juridisk enhet" />
                     {overordnetenhet.navn}
                 </Heading>
@@ -30,13 +36,20 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
 
             <div className="overordnet-enhet-info__container">
                 <Tekstboks className="overordnetenhet-orgnr">
-                    <Label htmlFor={"overordnetenhet_organisasjonsnummer_felt"}>Organisasjonsnummer</Label>
-                    <BodyShort id={"overordnetenhet_organisasjonsnummer_felt"}> {formatOrgNr(overordnetenhet.organisasjonsnummer)}</BodyShort>
+                    <Label htmlFor={'overordnetenhet_organisasjonsnummer_felt'}>
+                        Organisasjonsnummer
+                    </Label>
+                    <BodyShort id={'overordnetenhet_organisasjonsnummer_felt'}>
+                        {' '}
+                        {formatOrgNr(overordnetenhet.organisasjonsnummer)}
+                    </BodyShort>
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-orgform">
-                    <Label htmlFor={"overordnetenhet_organisasjonsform_felt"}>Organisasjonsform</Label>
-                    <BodyShort id={"overordnetenhet_organisasjonsform_felt"}>
+                    <Label htmlFor={'overordnetenhet_organisasjonsform_felt'}>
+                        Organisasjonsform
+                    </Label>
+                    <BodyShort id={'overordnetenhet_organisasjonsform_felt'}>
                         {' '}
                         {overordnetenhet.organisasjonsform
                             ? overordnetenhet.organisasjonsform.beskrivelse
@@ -45,10 +58,12 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse1">
-                    <Label htmlFor={"overordnetenhet_forretningsadresse_felt"}>Forretningsadresse</Label>
-                    <BodyShort id={"overordnetenhet_forretningsadresse_felt"}>
+                    <Label htmlFor={'overordnetenhet_forretningsadresse_felt'}>
+                        Forretningsadresse
+                    </Label>
+                    <BodyShort id={'overordnetenhet_forretningsadresse_felt'}>
                         {' '}
-                        {forretningsadresse ? forretningsadresse.adresse?.[0] : ''}
+                        {forretningsadresse ? forretningsadresse.adresse : ''}
                     </BodyShort>
                     <BodyShort>
                         {forretningsadresse?.postnummer ?? ''} {forretningsadresse?.poststed ?? ''}
@@ -56,8 +71,11 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                 </Tekstboks>
 
                 <Tekstboks className="overordnetenhet-adresse2">
-                    <Label htmlFor={"overordnetenhet_postadresse_felt"}>Postadresse</Label>
-                    <BodyShort id={"overordnetenhet_postadresse_felt"}> {postadresse?.adresse?.[0] ?? ''} </BodyShort>
+                    <Label htmlFor={'overordnetenhet_postadresse_felt'}>Postadresse</Label>
+                    <BodyShort id={'overordnetenhet_postadresse_felt'}>
+                        {' '}
+                        {postadresse?.adresse ?? ''}{' '}
+                    </BodyShort>
                     <BodyShort>
                         {postadresse?.postnummer ?? ''} {postadresse?.poststed ?? ''}
                     </BodyShort>
@@ -65,18 +83,20 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
             </div>
 
             <Tekstboks className="overordnetenhet-kode">
-                <Label htmlFor={"overordnetenhet_næringskoder_felt"}>Næringskoder</Label>
-                <BodyShort id={"overordnetenhet_næringskoder_felt"}>
-                    {overordnetenhet.naeringskode1
-                        ? `${overordnetenhet.naeringskode1.kode}. ${overordnetenhet.naeringskode1.beskrivelse}`
-                        : ''}
-                </BodyShort>
+                <Label htmlFor={'overordnetenhet_næringskoder_felt'}>Næringskoder</Label>
+                <div id="overordnetenhet_næringskoder_felt">
+                    {overordnetenhet.naeringskoder?.map((naeringskode) => (
+                        <BodyShort key={naeringskode}>{naeringskode ?? ''}</BodyShort>
+                    ))}
+                </div>
             </Tekstboks>
 
             {(overordnetenhet.hjemmeside ?? '') !== '' && (
                 <Tekstboks className="overordnetenhet-hjemmeside">
-                    <Label htmlFor={"overordnetenhet_hjemmeside_felt"}>Hjemmeside</Label>
-                    <BodyShort id={"overordnetenhet_hjemmeside_felt"}>{overordnetenhet.hjemmeside}</BodyShort>
+                    <Label htmlFor={'overordnetenhet_hjemmeside_felt'}>Hjemmeside</Label>
+                    <BodyShort id={'overordnetenhet_hjemmeside_felt'}>
+                        {overordnetenhet.hjemmeside}
+                    </BodyShort>
                 </Tekstboks>
             )}
             <Tekstboks>
@@ -88,8 +108,9 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     <NyFaneIkon />
                 </LenkeMedLogging>
             </Tekstboks>
-            <HStack gap="6">
+            <HStack gap="6" align={'start'}>
                 <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
+                <KontonummerOverordnetEnhet overordnetEnhet={overordnetenhet} />
             </HStack>
         </div>
     );

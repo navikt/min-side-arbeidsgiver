@@ -31,48 +31,51 @@ const alleTilganger = [
     '5078:1', // rekruttering
     '5278:1', // tilskuddsbrev
     '5902:1', // yrkesskade
+    '5902:1', // yrkesskade
+    '2896:87', // endreBankkontonummerForRefusjoner
 ];
+const underenheter = [
+    {
+        orgnr: orgnr(),
+        underenheter: [],
+        navn: faker.company.name(),
+        organisasjonsform: 'AAFY',
+    },
+    {
+        orgnr: orgnr(),
+        underenheter: [],
+        navn: faker.company.name(),
+        organisasjonsform: 'FLI',
+    },
+    {
+        orgnr: orgnr(),
+        navn: faker.company.name(),
+        organisasjonsform: 'BEDR',
+        underenheter: [],
+    },
+];
+
+export const dagligLederOrganisasjon = {
+    orgnr: orgnr(),
+    navn: faker.company.name(),
+    organisasjonsform: 'AS',
+    underenheter,
+};
 
 export const dagligLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
-        const underenheter = [
-            {
-                orgnr: orgnr(),
-                underenheter: [],
-                navn: faker.company.name(),
-                organisasjonsform: 'AAFY',
-            },
-            {
-                orgnr: orgnr(),
-                underenheter: [],
-                navn: faker.company.name(),
-                organisasjonsform: 'FLI',
-            },
-            {
-                orgnr: orgnr(),
-                navn: faker.company.name(),
-                organisasjonsform: 'BEDR',
-                underenheter: [],
-            },
-        ];
-        const organisasjon = {
-            orgnr: orgnr(),
-            navn: faker.company.name(),
-            organisasjonsform: 'AS',
-            underenheter,
-        };
         return HttpResponse.json({
             altinnError: false,
-            organisasjoner: [organisasjon],
+            organisasjoner: [dagligLederOrganisasjon],
             tilganger: fromEntries(
-                alleTilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgnr)])
+                alleTilganger.map((tilgang) => [tilgang, [dagligLederOrganisasjon.orgnr, ...underenheter.map((org) => org.orgnr)]])
             ),
             digisyfoError: false,
             digisyfoOrganisasjoner: underenheter.map(({ orgnr, organisasjonsform, navn }) => ({
                 organisasjon: {
                     OrganizationNumber: orgnr,
                     Name: navn,
-                    ParentOrganizationNumber: organisasjon.orgnr,
+                    ParentOrganizationNumber: dagligLederOrganisasjon.orgnr,
                     OrganizationForm: organisasjonsform,
                 },
                 antallSykmeldte: faker.number.int({ min: 0, max: 10 }),

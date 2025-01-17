@@ -9,8 +9,7 @@ export const startMSW = async () => {
     const { setupWorker } = await import('msw/browser');
     const worker = setupWorker(
         ...demoScenarios,
-        ...handlers,
-
+        ...handlers(demoprofil),
         http.get('/demoprofil', () => HttpResponse.json(demoprofil)),
         http.get('/min-side-arbeidsgiver/artikler', passthrough),
         http.post('/collect', () => HttpResponse.json()),
