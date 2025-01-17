@@ -3,13 +3,13 @@ import useSWR from 'swr';
 
 const Adresse = z
     .object({
-        adresse: z.string(),
-        kommune: z.string(),
-        kommunenummer: z.string(),
-        land: z.string(),
-        landkode: z.string(),
-        postnummer: z.string(),
-        poststed: z.string(),
+        adresse: z.string().nullable(),
+        kommune: z.string().nullable(),
+        kommunenummer: z.string().nullable(),
+        land: z.string().nullable(),
+        landkode: z.string().nullable(),
+        postnummer: z.string().nullable(),
+        poststed: z.string().nullable(),
     })
     .partial();
 
