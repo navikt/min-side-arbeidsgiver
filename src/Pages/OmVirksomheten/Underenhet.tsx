@@ -49,14 +49,6 @@ const Underenhet = ({ underenhet }: Props) => {
                 </div>
             </Tekstboks>
 
-            <Tekstboks className="underenhet-kode">
-                <Label htmlFor={'underenhet_næringskoder_felt'}>Næringskoder</Label>
-                <div id="underenhet_næringskoder_felt">
-                    {underenhet.naeringskoder?.map((naeringskode) => (
-                        <BodyShort key={naeringskode}>{naeringskode ?? ''}</BodyShort>
-                    ))}
-                </div>
-            </Tekstboks>
             <Tekstboks>
                 <LenkeMedLogging
                     href={enhetsregisteretUnderenhetLink(underenhet.organisasjonsnummer)}
