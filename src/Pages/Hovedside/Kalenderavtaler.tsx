@@ -11,6 +11,7 @@ import {
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { loggNavigasjonTags } from '../../utils/funksjonerForAmplitudeLogging';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
     query HentKalenderavtaler($virksomhetsnumre: [String!]!) {
@@ -125,8 +126,15 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     digitalt,
     lenke,
 }) => {
+    const onClickHandler = () => {
+        loggNavigasjonTags(lenke, 'kalenderavtale', window.location.pathname, {
+            avtaleTidspunkt: startTidspunkt.toISOString(),
+            tilstand: tilstand,
+        });
+    };
+
     return (
-        <a className="kalenderavtale" href={lenke}>
+        <a className="kalenderavtale" href={lenke} onClick={onClickHandler}>
             <BodyShort className="kalenderavtaler_tittel" size="large">
                 {tekst}
             </BodyShort>
