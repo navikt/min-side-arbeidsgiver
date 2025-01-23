@@ -4,7 +4,7 @@ import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
-import { useLocalStorage } from '../../hooks/useStorage';
+import { usePrefixedLocalStorage } from '../../hooks/useStorage';
 
 type InfoboksProps = {
     id: string;
@@ -13,6 +13,8 @@ type InfoboksProps = {
     Component: FC<{ id: string }>;
 };
 
+const localStoragePrefix = "msa-info-boks-"
+
 const infobokser: Array<InfoboksProps> = [
     {
         id: 'for-deg-med-avtaler-om-arbeids-trening',
@@ -20,7 +22,7 @@ const infobokser: Array<InfoboksProps> = [
         visTil: new Date('2025-02-28T00:00:00+02:00'),
         Component: ({ id }) => {
             const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-            const [closed, setClosed] = useLocalStorage(id, false);
+            const [closed, setClosed] = usePrefixedLocalStorage(id, localStoragePrefix, false);
 
             if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.arbeidstrening) {
                 return null;
