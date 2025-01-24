@@ -153,7 +153,7 @@ export const AvtaletilstandLinje = ({
                 <Tag
                     size="small"
                     className="tidslinje_kalenderavtale_status_text"
-                    variant="neutral"
+                    variant="info"
                 >
                     Du ønsker å endre tid eller sted
                 </Tag>
@@ -164,7 +164,7 @@ export const AvtaletilstandLinje = ({
                 <Tag
                     size="small"
                     className="tidslinje_kalenderavtale_status_text"
-                    variant="neutral"
+                    variant="info"
                 >
                     Du ønsker å avlyse
                 </Tag>
@@ -172,14 +172,14 @@ export const AvtaletilstandLinje = ({
 
         case KalenderavtaleTilstand.Avlyst:
             return (
-                <Tag size="small" className="tidslinje_kalenderavtale_status_text" variant="info">
+                <Tag size="small" className="tidslinje_kalenderavtale_status_text" variant="error">
                     Avlyst
                 </Tag>
             );
 
         case KalenderavtaleTilstand.Avholdt:
             return (
-                <Tag size="small" className="tidslinje_kalenderavtale_status_text" variant="info">
+                <Tag size="small" className="tidslinje_kalenderavtale_status_text" variant="success">
                     Avholdt
                 </Tag>
             );
