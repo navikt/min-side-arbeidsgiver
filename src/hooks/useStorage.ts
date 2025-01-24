@@ -12,6 +12,12 @@ export const useLocalStorage = <S>(key: string, initialValue: S | ((v: S) => S))
 export const useSessionStorage = <S>(key: string, initialValue: S | ((v: S) => S)): UseStorage<S> =>
     useStorage(window.sessionStorage, key, initialValue);
 
+export const usePrefixedLocalStorage = <S>(
+    id: string,
+    prefix: string,
+    initialValue: S | ((v: S) => S)
+): UseStorage<S> => useLocalStorage(`${prefix}${id}`, initialValue);
+
 function useStorage<S>(
     storage: Storage,
     key: string,

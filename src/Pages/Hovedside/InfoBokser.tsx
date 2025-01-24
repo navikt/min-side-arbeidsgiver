@@ -1,78 +1,41 @@
 import React, { FC, useEffect } from 'react';
-import * as Record from '../../utils/Record';
 import './InfoBokser.css';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
-import { useLocalStorage } from '../../hooks/useStorage';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { usePrefixedLocalStorage } from '../../hooks/useStorage';
 
 type InfoboksProps = {
     id: string;
     visFra: Date;
     visTil: Date;
-    Component: FC;
+    Component: FC<{ id: string }>;
 };
+
+const localStoragePrefix = "msa-info-boks-"
 
 const infobokser: Array<InfoboksProps> = [
     {
-        id: 'ia-bookings',
-        visFra: new Date('2023-11-13T10:00:00+02:00'),
-        visTil: new Date('2023-11-15T08:00:00+01:00'),
-        Component: () => {
-            const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
-            const harSyfotilgangPåTvers = Record.values(organisasjoner).some(
-                (org) => org.syfotilgang
-            );
-            const [closed, setClosed] = useLocalStorage('ia-bookings-closed', false);
-
-            if (!harSyfotilgangPåTvers) {
-                return null;
-            }
-
-            return closed ? null : (
-                <Alert variant="info" closeButton onClose={() => setClosed(true)}>
-                    <Heading spacing size="small" level="2">
-                        Er du leder med personalansvar?
-                    </Heading>
-                    Vi skal forbedre våre tjenester for inkluderende arbeidsliv, og vil gjerne ha
-                    din hjelp. Vi ønsker å vite mer om din hverdag, slik at tjenestene våre blir
-                    bedre tilpasset deg. Samtalen tar ca. én time, og gjennomføres på Teams. Svarene
-                    er anonyme.
-                    <br />
-                    <LenkeMedLogging
-                        loggLenketekst="Book oss inn for en digital samtale."
-                        href="https://outlook.office365.com/owa/calendar/Inkluderendearbeidsliv@nav.no/bookings/"
-                    >
-                        Book oss inn for en digital samtale.
-                    </LenkeMedLogging>
-                </Alert>
-            );
-        },
-    },
-    {
-        id: 'yrkesskade-infoboks',
-        visFra: new Date('2024-04-11T00:00:00+02:00'),
-        visTil: new Date('2024-06-11T00:00:00+02:00'),
-        Component: () => {
+        id: 'for-deg-med-avtaler-om-arbeids-trening',
+        visFra: new Date('2025-01-21T00:00:00+02:00'),
+        visTil: new Date('2025-02-28T00:00:00+02:00'),
+        Component: ({ id }) => {
             const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-            const [closed, setClosed] = useLocalStorage('yrkesskade-infobokser-closed', false);
+            const [closed, setClosed] = usePrefixedLocalStorage(id, localStoragePrefix, false);
 
-            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.yrkesskade) {
+            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.arbeidstrening) {
                 return null;
             }
 
             return closed ? null : (
                 <Alert variant="info" closeButton onClose={() => setClosed(true)}>
                     <Heading spacing size="small" level="2">
-                        Informasjon om innsendt skademelding
+                        For deg med avtaler om arbeidstrening
                     </Heading>
-                    Informasjon om skademeldinger er nå tilgjengelig i saker for dine virksomheter.
-                    Saksoversikten viser kun innmeldte skademeldinger til NAV etter 11. april 2024,
-                    og kun informasjon om innmeldingen som NAV kan dele med deg. Samme informasjon
-                    har også blitt sendt i Altinn som bekreftelse til virksomheten.
+                    Vi gjør tekniske oppdateringer i systemene våre og det kan forekomme endringer
+                    for de som har avtaler om arbeidstrening. Hvis dere opplever at noe ikke
+                    stemmer, så ta kontakt med veileder eller NKS på telefonen: 55 55 33 36
                 </Alert>
             );
         },
@@ -91,7 +54,7 @@ export const InfoBokser = () => {
     return (
         <>
             {infobokserSomSkalVises.map(({ id, Component }) => (
-                <Component key={id} />
+                <Component key={id} id={id} />
             ))}
         </>
     );
