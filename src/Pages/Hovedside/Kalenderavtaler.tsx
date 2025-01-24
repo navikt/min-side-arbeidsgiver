@@ -131,7 +131,9 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
         amplitude.logEvent('komponent-lastet', {
             komponent: 'Kalenderavtale',
             tilstand: tilstand,
-            avtaleTidspunkt: startTidspunkt.toISOString()
+            avtaleTidspunkt: startTidspunkt.toISOString(),
+            digitaltOppmøte: digitalt,
+            fysiskOppmøte: !!lokasjon
         });
     }, []);
 
@@ -139,6 +141,8 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
         loggNavigasjonTags(lenke, 'kalenderavtale', window.location.pathname, {
             avtaleTidspunkt: startTidspunkt.toISOString(),
             tilstand: tilstand,
+            digitaltOppmøte: digitalt.toString(),
+            fysiskOppmøte: (!!lokasjon).toString()
         });
     };
 
