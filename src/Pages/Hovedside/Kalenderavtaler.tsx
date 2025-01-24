@@ -1,5 +1,5 @@
 import './Kalenderavtaler.css';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { BodyShort, Button, Heading, Tag } from '@navikt/ds-react';
 import {
     ChevronDownIcon,
@@ -11,6 +11,8 @@ import {
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+import { loggNavigasjonTags } from '../../utils/funksjonerForAmplitudeLogging';
+import amplitude from '../../utils/amplitude';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
     query HentKalenderavtaler($virksomhetsnumre: [String!]!) {
@@ -125,8 +127,27 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     digitalt,
     lenke,
 }) => {
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'Kalenderavtale',
+            tilstand: tilstand,
+            avtaleTidspunkt: startTidspunkt.toISOString(),
+            digitaltOppmøte: digitalt,
+            fysiskOppmøte: !!lokasjon
+        });
+    }, []);
+
+    const onClickHandler = () => {
+        loggNavigasjonTags(lenke, 'kalenderavtale', window.location.pathname, {
+            avtaleTidspunkt: startTidspunkt.toISOString(),
+            tilstand: tilstand,
+            digitaltOppmøte: digitalt.toString(),
+            fysiskOppmøte: (!!lokasjon).toString()
+        });
+    };
+
     return (
-        <a className="kalenderavtale" href={lenke}>
+        <a className="kalenderavtale" href={lenke} onClick={onClickHandler}>
             <BodyShort className="kalenderavtaler_tittel" size="large">
                 {tekst}
             </BodyShort>

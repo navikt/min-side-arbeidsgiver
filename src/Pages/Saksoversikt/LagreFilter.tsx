@@ -304,6 +304,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                 <Modal
                     open={openLagre}
                     onBeforeInput={() => lagreNavnInputFocus()}
+                    onClose={() => {}} // Modal lukkes av submit i formen
                     header={{ heading: 'Lagre som nytt filter', closeButton: false }}
                 >
                     <Modal.Body>
