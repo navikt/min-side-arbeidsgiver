@@ -11,7 +11,10 @@ import {
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
-import { finnBucketForDagerTilDato, loggNavigasjonTags } from '../../utils/funksjonerForAmplitudeLogging';
+import {
+    finnBucketForDagerTilDato,
+    loggNavigasjonTags,
+} from '../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../utils/amplitude';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
@@ -200,37 +203,37 @@ const Statustag = ({ tilstand }: Statustag) => {
     switch (tilstand) {
         case KalenderavtaleTilstand.ArbeidsgiverHarGodtatt:
             return (
-                <Tag size="small" variant="success-moderate">
+                <Tag size="small" variant="success">
                     Du har takket ja
                 </Tag>
             );
         case KalenderavtaleTilstand.VenterSvarFraArbeidsgiver:
             return (
-                <Tag size="small" variant="warning-moderate">
+                <Tag size="small" variant="warning">
                     Svar på invitasjonen
                 </Tag>
             );
         case KalenderavtaleTilstand.ArbeidsgiverVilAvlyse:
             return (
-                <Tag size="small" variant="neutral-moderate">
+                <Tag size="small" variant="info">
                     Du ønsker å avlyse
                 </Tag>
             );
         case KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted:
             return (
-                <Tag size="small" variant="neutral-moderate">
+                <Tag size="small" variant="info">
                     Du ønsker å endre tid eller sted
                 </Tag>
             );
         case KalenderavtaleTilstand.Avlyst:
             return (
-                <Tag size="small" variant="error-moderate">
+                <Tag size="small" variant="error">
                     Møtet er avlyst
                 </Tag>
             );
         case KalenderavtaleTilstand.Avholdt:
             return (
-                <Tag size="small" variant="error-moderate">
+                <Tag size="small" variant="success">
                     Møtet er avholdt
                 </Tag>
             );
