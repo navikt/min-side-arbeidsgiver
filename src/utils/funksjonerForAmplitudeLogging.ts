@@ -25,9 +25,7 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-export const finnBucketForAntall = (
-    antall: number | undefined | null,
-) => {
+export const finnBucketForAntall = (antall: number | undefined | null) => {
     if (antall === undefined) return;
     if (antall === null) return '0';
 
@@ -51,13 +49,34 @@ export const finnBucketForAntall = (
     }
 };
 
+export const finnAntallDagerTilDato = (date: Date) => {
+    const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
+    const now = new Date(); // antar at starttidspunkt er i fremtiden
+    now.setHours(0, 0, 0, 0);
+    const differenceInMilliseconds = date.getTime() - now.getTime();
+    return Math.floor(differenceInMilliseconds / oneDayInMilliseconds);
+};
+
+export const finnBucketForDagerTilDato = (date: Date) => {
+    const dager = finnAntallDagerTilDato(date);
+    if (dager < 0) {
+        return 'tidligere';
+    } else if (dager === 0) {
+        return 'samme dag';
+    } else if (dager < 7) {
+        return 'samme uke';
+    } else {
+        return 'mer enn en uke';
+    }
+};
+
 const finnSektorNavn = (eregOrg: Hovedenhet) => {
     if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84')) !== null) {
         return 'offentlig';
     } else {
         return 'privat';
     }
-}
+};
 
 export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined) => {
     const { underenhet, isLoading } = useUnderenhet(org?.organisasjon.OrganizationNumber);
@@ -86,9 +105,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
 
         if (underenhet !== undefined) {
             virksomhetsinfo.sektor = finnSektorNavn(underenhet);
-            virksomhetsinfo.antallAnsatte = finnBucketForAntall(
-                underenhet.antallAnsatte,
-            );
+            virksomhetsinfo.antallAnsatte = finnBucketForAntall(underenhet.antallAnsatte);
         }
 
         amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
@@ -99,7 +116,7 @@ export const loggNavigasjon = (
     destinasjon: string | undefined,
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
-    currentPagePath?: string,
+    currentPagePath?: string
 ) => {
     loggNavigasjonTags(destinasjon, lenketekst, currentPagePath ?? '', {});
 };
@@ -109,7 +126,7 @@ export const loggNavigasjonTags = (
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
     currentPagePath: string,
-    tags: Record<string, string>,
+    tags: Record<string, string>
 ) => {
     if (destinasjon !== undefined && destinasjon !== '') {
         const { origin, pathname } = new URL(destinasjon, baseUrl);
