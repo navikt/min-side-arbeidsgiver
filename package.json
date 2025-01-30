@@ -61,7 +61,7 @@
     "compile": "tsc --project tsconfig.build.json",
     "build:demo": "vite build --mode demo",
     "build:production": "vite build --mode production",
-    "build": "npm run clean compile && npx msw init ./public --save && npm-run-all --parallel build:*",
+    "build": "npm run clean && npm run compile && npx msw init ./public --save && npm-run-all --parallel build:*",
     "start": "vite --mode=demo --base=/min-side-arbeidsgiver/",
     "lint": "eslint --ext ts,tsx .",
     "test": "vitest run"
