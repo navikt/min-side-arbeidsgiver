@@ -25,11 +25,6 @@ describe('Hovedside', () => {
         );
 
         await act(async () => {
-            try {
-                await vi.runAllTimersAsync(); // run all timers so all fetches can finish
-            } catch (error) {
-                // prevent throw due to all timers not finishing
-            }
             vi.useRealTimers();
         });
 
