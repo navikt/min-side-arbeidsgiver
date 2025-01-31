@@ -1,10 +1,6 @@
 import React, { FC, FunctionComponent, MouseEventHandler } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import {
-    OrganisasjonInfo,
-    useOrganisasjonerOgTilgangerContext,
-} from '../../OrganisasjonerOgTilgangerProvider';
-import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
+import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerProvider';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
@@ -13,6 +9,8 @@ import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
 import { Alert, BodyShort, Heading } from '@navikt/ds-react';
+import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
+import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'rekruttering',
@@ -36,7 +34,7 @@ const beOmTilgangUrlFallback = (
 ): string => {
     const tjeneste = altinntjeneste[altinnId];
     return beOmTilgangIAltinnLink(
-        valgtOrganisasjon.organisasjon.OrganizationNumber,
+        valgtOrganisasjon.organisasjon.orgnr,
         tjeneste.tjenestekode,
         tjeneste.tjenesteversjon
     );
@@ -55,7 +53,7 @@ const opprettSøknad = (
         const redirectUrl = new URL(window.location.href);
         redirectUrl.searchParams.set('fragment', 'be-om-tilgang');
         opprettAltinnTilgangssøknad({
-            orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
+            orgnr: valgtOrganisasjon.organisasjon.orgnr,
             altinnId,
             redirectUrl: redirectUrl.toString(),
         })
@@ -76,10 +74,7 @@ const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const { altinnTilgangssøknad } = useOrganisasjonerOgTilgangerContext();
 
-    const tjenesteinfoBokser: JSX.Element[] = [];
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
+    const tjenesteinfoBokser: React.JSX.Element[] = [];
 
     if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang) {
         return (
@@ -97,8 +92,7 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     if (valgtOrganisasjon.reporteetilgang) {
-        const tilgangssøknader =
-            altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.OrganizationNumber];
+        const tilgangssøknader = altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.orgnr];
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
             const tilgangsøknad = tilgangssøknader?.[altinnId];
@@ -165,8 +159,8 @@ const BeOmTilgang: FunctionComponent = () => {
                         om tilgang til de spesifikke tjenestene ved å følge lenkene under.
                     </Alert>
                     <Organisasjonsbeskrivelse
-                        navn={valgtOrganisasjon.organisasjon.Name}
-                        orgnummer={valgtOrganisasjon.organisasjon.OrganizationNumber}
+                        navn={valgtOrganisasjon.organisasjon.navn}
+                        orgnummer={valgtOrganisasjon.organisasjon.orgnr}
                     />
                     <ul className="be-om-tilgang__tjenesteinfo-bokser">
                         {tjenesteinfoBokser.map((tjenesteinfoboks, index) => (
@@ -181,11 +175,9 @@ const BeOmTilgang: FunctionComponent = () => {
     );
 };
 
-interface props {
-    children: JSX.Element;
-}
-
-const TilgangContainer: FC<props> = ({ children }) => (
+const TilgangContainer: FC<{
+    children: React.JSX.Element;
+}> = ({ children }) => (
     <LinkableFragment fragment="be-om-tilgang">
         <div className="be-om-tilgang">
             <div className="be-om-tilgang__tittel">

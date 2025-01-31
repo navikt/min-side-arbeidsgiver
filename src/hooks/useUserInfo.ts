@@ -1,18 +1,11 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { Organisasjon } from '../altinn/organisasjon';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
 import { erDriftsforstyrrelse } from '../utils/util';
-import { flatUtOrganisasjonstreV2 } from '@navikt/bedriftsmeny';
 
-const DigiSyfoOrganisasjon = z.object({
-    organisasjon: Organisasjon,
-    antallSykmeldte: z.number(),
-});
-export type DigiSyfoOrganisasjon = z.infer<typeof DigiSyfoOrganisasjon>;
 const RefusjonStatus = z.object({
     virksomhetsnummer: z.string(),
     statusoversikt: z.object({
@@ -47,23 +40,29 @@ export type AltinnTilgang = z.infer<typeof BaseAltinnTilgang> & {
 const AltinnTilgang: z.ZodType<AltinnTilgang> = BaseAltinnTilgang.extend({
     underenheter: z.lazy(() => AltinnTilgang.array()),
 });
+// recursive type using zod https://zodjs.netlify.app/guide/recursive-types#recursive-types
+const BaseDigisyfoOrganisasjon = z.object({
+    orgnr: z.string(),
+    navn: z.string(),
+    organisasjonsform: z.string(),
+    antallSykmeldte: z.number(),
+});
+export type DigisyfoOrganisasjon = z.infer<typeof BaseDigisyfoOrganisasjon> & {
+    underenheter: DigisyfoOrganisasjon[];
+};
+const DigisyfoOrganisasjon: z.ZodType<DigisyfoOrganisasjon> = BaseDigisyfoOrganisasjon.extend({
+    underenheter: z.lazy(() => DigisyfoOrganisasjon.array()),
+});
 const UserInfoRespons = z.object({
     altinnError: z.boolean(),
     digisyfoError: z.boolean(),
-    organisasjoner: z
-        .array(AltinnTilgang)
-        .transform((organisasjoner) => flatUtOrganisasjonstreV2(organisasjoner)),
+    organisasjoner: z.array(AltinnTilgang),
     tilganger: z.record(z.string(), z.array(z.string())).transform((tilganger) => {
         return Record.fromEntries(
             Object.entries(tilganger).map(([id, orgnumre]) => [idLookup(id), Set(orgnumre)])
         );
     }),
-    digisyfoOrganisasjoner: z.array(
-        z.object({
-            organisasjon: Organisasjon,
-            antallSykmeldte: z.number(),
-        })
-    ),
+    digisyfoOrganisasjoner: z.array(DigisyfoOrganisasjon),
     refusjoner: z.array(RefusjonStatus),
 });
 export type UserInfoRespons = z.infer<typeof UserInfoRespons>;
@@ -76,7 +75,7 @@ type UseUserInfoResult = {
 
 export const useUserInfo = (): UseUserInfoResult => {
     const [retries, setRetries] = useState(0);
-    const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v2`, fetcher, {
+    const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v3`, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
             if (retries === 5 && !erDriftsforstyrrelse(error.status)) {

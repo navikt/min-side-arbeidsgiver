@@ -46,21 +46,22 @@ export const nærmesteLederOrganisasjon = {
 };
 
 export const nærmesteLederScenario = [
-    http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
+    http.get('/min-side-arbeidsgiver/api/userInfo/v3', () => {
         return HttpResponse.json({
             altinnError: false,
             organisasjoner: [nærmesteLederOrganisasjon],
             tilganger: {},
             digisyfoError: false,
-            digisyfoOrganisasjoner: underenheter.map(({ orgnr, organisasjonsform, navn }) => ({
-                organisasjon: {
-                    OrganizationNumber: orgnr,
-                    Name: navn,
-                    ParentOrganizationNumber: nærmesteLederOrganisasjon.orgnr,
-                    OrganizationForm: organisasjonsform,
+            digisyfoOrganisasjoner: [
+                {
+                    ...nærmesteLederOrganisasjon,
+                    antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+                    underenheter: nærmesteLederOrganisasjon.underenheter.map((o) => ({
+                        ...o,
+                        antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+                    })),
                 },
-                antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
-            })),
+            ],
             refusjoner: [],
         });
     }),

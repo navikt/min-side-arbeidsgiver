@@ -2,9 +2,9 @@ import React, { FC, useEffect } from 'react';
 import './InfoBokser.css';
 import { gittMiljo } from '../../utils/environment';
 import { shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { usePrefixedLocalStorage } from '../../hooks/useStorage';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 type InfoboksProps = {
     id: string;
@@ -13,7 +13,7 @@ type InfoboksProps = {
     Component: FC<{ id: string }>;
 };
 
-const localStoragePrefix = "msa-info-boks-"
+const localStoragePrefix = 'msa-info-boks-';
 
 const infobokser: Array<InfoboksProps> = [
     {

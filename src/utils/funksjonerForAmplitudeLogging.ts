@@ -79,7 +79,7 @@ const finnSektorNavn = (eregOrg: Hovedenhet) => {
 };
 
 export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined) => {
-    const { underenhet, isLoading } = useUnderenhet(org?.organisasjon.OrganizationNumber);
+    const { underenhet, isLoading } = useUnderenhet(org?.organisasjon?.orgnr);
 
     useEffect(() => {
         if (org === undefined) return;
@@ -100,7 +100,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         const virksomhetsinfo: any = {
             url: baseUrl,
             tilgangskombinasjon,
-            organisasjonstypeForØversteLedd: org.organisasjonstypeForØversteLedd,
+            organisasjonstypeForØversteLedd: org.øversteLedd?.organisasjonsform,
         };
 
         if (underenhet !== undefined) {
@@ -150,4 +150,11 @@ export const useLoggKlikk = () => {
             pathname,
             ...annet,
         });
+};
+
+export const amplitudeChipClick = (kategori: string, filternavn: string) => {
+    amplitude.logEvent('chip-click', {
+        kategori: kategori,
+        filternavn: filternavn,
+    });
 };

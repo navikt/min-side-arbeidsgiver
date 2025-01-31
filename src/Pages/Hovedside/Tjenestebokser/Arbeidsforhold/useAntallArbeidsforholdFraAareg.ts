@@ -1,20 +1,18 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 export const useAntallArbeidsforholdFraAareg = (): number => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
-        valgtOrganisasjon !== undefined
-            ? {
-                  url: `${__BASE_PATH__}/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold`,
-                  jurenhet: valgtOrganisasjon.organisasjon.ParentOrganizationNumber ?? '',
-                  orgnr: valgtOrganisasjon.organisasjon.OrganizationNumber,
-              }
-            : null,
+        {
+            url: `${__BASE_PATH__}/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold`,
+            jurenhet: valgtOrganisasjon.parent?.orgnr ?? '',
+            orgnr: valgtOrganisasjon.organisasjon.orgnr,
+        },
         fetcher,
         {
             onSuccess: () => setRetries(0),

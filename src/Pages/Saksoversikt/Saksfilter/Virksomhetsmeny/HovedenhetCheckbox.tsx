@@ -1,30 +1,31 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
 import { Set } from 'immutable';
-import { Organisasjon } from '../../../../altinn/organisasjon';
+import { Organisasjon } from '../../../OrganisasjonerOgTilgangerProvider';
 import { amplitudeFilterKlikk } from '../Saksfilter';
 
-type HovedenhetCheckboxProp = {
+export const HovedenhetCheckbox = ({
+    hovedenhet,
+    valgteOrgnr,
+}: {
     hovedenhet: Organisasjon;
     valgteOrgnr: Set<string>;
-};
-
-export const HovedenhetCheckbox = ({ hovedenhet, valgteOrgnr }: HovedenhetCheckboxProp) => {
-    const valgt = valgteOrgnr.has(hovedenhet.OrganizationNumber);
+}) => {
+    const valgt = valgteOrgnr.has(hovedenhet.orgnr);
 
     return (
         <Checkbox
             aria-expanded={valgt}
             size="small"
-            value={hovedenhet.OrganizationNumber}
-            id={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_checkbox`}
-            key={`${hovedenhet.OrganizationNumber}_Virksomhetsmeny_list_key`}
+            value={hovedenhet.orgnr}
+            id={`${hovedenhet.orgnr}_Virksomhetsmeny_checkbox`}
+            key={`${hovedenhet.orgnr}_Virksomhetsmeny_list_key`}
             style={{ display: 'flex', alignItems: 'center' }}
-            description={`Org.nr. ${hovedenhet.OrganizationNumber}`}
+            description={`Org.nr. ${hovedenhet.orgnr}`}
             onClick={(e) => amplitudeFilterKlikk('organisasjon', 'hovedenhet', e.target)}
         >
             <BodyShort size="medium" as="span">
-                {hovedenhet.Name}
+                {hovedenhet.navn}
             </BodyShort>
         </Checkbox>
     );

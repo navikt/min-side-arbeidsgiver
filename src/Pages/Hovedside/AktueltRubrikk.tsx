@@ -1,11 +1,12 @@
 import { Heading, LinkPanel } from '@navikt/ds-react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { loggNavigasjonTags } from '../../utils/funksjonerForAmplitudeLogging';
 import { DisplayBetween, shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
+import amplitude from '../../utils/amplitude';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 type AktueltProps = {
     lenke: string;
@@ -24,6 +25,12 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 
 const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) => {
     const { pathname } = useLocation();
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'aktuelt',
+            lenketekst: tittel,
+        });
+    }, []);
 
     return (
         <DisplayBetween showFrom={visFra} showUntil={visTil}>
@@ -32,7 +39,7 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
                 href={lenke}
                 border
                 onClick={() => {
-                    loggNavigasjonTags(lenke, tittel, pathname, { component: 'aktuelt' });
+                    loggNavigasjonTags(lenke, tittel, pathname, { komponent: 'aktuelt' });
                 }}
             >
                 <LinkPanel.Title>{tittel}</LinkPanel.Title>

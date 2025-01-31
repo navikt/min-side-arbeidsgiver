@@ -20,7 +20,7 @@ export const syfoURL = gittMiljo({
     demo: 'https://dinesykmeldte.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
 });
 
-export const refosoURL = gittMiljo({
+export const tiltakRefusjonURL = gittMiljo({
     prod: 'https://tiltak-refusjon.nav.no/refusjon',
     other: 'https://tiltak-refusjon.intern.dev.nav.no/refusjon',
     demo: ' https://tiltak-refusjon-arbeidsgiver-labs.ekstern.dev.nav.no/refusjon',
@@ -38,11 +38,6 @@ export const kandidatlisteURL = gittMiljo({
 });
 
 export const kontaktskjemaURL = 'https://kontaktskjema.arbeidsgiver.nav.no/';
-
-export const ringOssTLF = gittMiljo({
-    prod: 'tel:55553336',
-    other: 'tel:00000000',
-});
 
 export const infoOmTilgangsstyringURL = 'https://www.nav.no/arbeidsgiver/tilganger';
 

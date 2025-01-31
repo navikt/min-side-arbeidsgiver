@@ -4,12 +4,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './useOversiktStateTransitions';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
-import { Organisasjon } from '../../altinn/organisasjon';
 import amplitude from '../../utils/amplitude';
 import { z } from 'zod';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
@@ -84,7 +84,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
 export const useSessionStateForside = (): void => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [_, setSessionState] = useSessionStorage(SESSION_STORAGE_KEY, { route: '/' });
-    const bedrift = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
+    const bedrift = valgtOrganisasjon.organisasjon.orgnr;
 
     useEffect(() => {
         const sessionState: SessionStateForside = {
@@ -178,9 +178,7 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
                     ? Set<string>()
                     : Set(
                           sessionState.virksomhetsnumre.flatMap((orgnr) => {
-                              const org = alleVirksomheter.find(
-                                  (org) => org.OrganizationNumber === orgnr
-                              );
+                              const org = alleVirksomheter.find((org) => org.orgnr === orgnr);
                               return org !== undefined ? [orgnr] : [];
                           })
                       ),

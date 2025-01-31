@@ -1,3 +1,5 @@
+import { Organisasjon } from '../Pages/OrganisasjonerOgTilgangerProvider';
+
 export const delayed = <T extends any>(delay: number, fn: () => T): Promise<T> =>
     new Promise((res) => setTimeout(res, 1000)).then(fn);
 
@@ -31,3 +33,24 @@ export const capitalize = (s: string): string => {
 
 export const formatOrgNr = (orgNr: string): string =>
     orgNr.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
+
+export const flatUtTre = (organisasjonstre: Organisasjon[]): Organisasjon[] => {
+    const mapR = (parent: Organisasjon): Organisasjon[] => {
+        const [children, otherParents] = splittListe(
+            parent.underenheter,
+            (o) => o.underenheter.length === 0
+        );
+        return [
+            ...(children.length > 0
+                ? [
+                      {
+                          ...parent,
+                          underenheter: children,
+                      },
+                  ]
+                : []),
+            ...otherParents.flatMap(mapR),
+        ];
+    };
+    return organisasjonstre.flatMap((o) => mapR(o)).sort((a, b) => a.navn.localeCompare(b.navn));
+};

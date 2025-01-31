@@ -1,16 +1,14 @@
-import React, { ReactNode, useContext, useMemo, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import { Button, Chips, Heading } from '@navikt/ds-react';
 import { oppgaveTilstandTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
-import { amplitudeChipClick } from './Saksoversikt';
-import { Organisasjon } from '../../altinn/organisasjon';
 import { count } from '../../utils/util';
 import { Filter, State } from './useOversiktStateTransitions';
-import {
-    useOrganisasjonerOgTilgangerContext,
-} from '../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
 import { Collapse, Expand } from '@navikt/ds-icons';
+import { amplitudeChipClick } from '../../utils/funksjonerForAmplitudeLogging';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 export type FilterChipsProps = {
     state: State;
@@ -18,7 +16,7 @@ export type FilterChipsProps = {
 };
 
 export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
-    const { organisasjonstre, childrenMap } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonstre, childrenMap, parentMap } = useOrganisasjonerOgTilgangerContext();
 
     const onTømAlleFilter = () => {
         byttFilter({
@@ -32,19 +30,22 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
         amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
 
-    const organisasjonerTilChips = useMemo(() => {
+    const organisasjonerTilChips: (Organisasjon & { erHovedenhet: boolean })[] = useMemo<
+        (Organisasjon & { erHovedenhet: boolean })[]
+    >(() => {
         const chips: (Organisasjon & { erHovedenhet: boolean })[] = [];
-        for (let { hovedenhet, underenheter } of organisasjonstre) {
-            if (state.filter.virksomheter.has(hovedenhet.OrganizationNumber)) {
+
+        for (let { underenheter, ...hovedenhet } of organisasjonstre) {
+            if (state.filter.virksomheter.has(hovedenhet.orgnr)) {
                 const antallUnderValgt = count(underenheter, (it) =>
-                    state.filter.virksomheter.has(it.OrganizationNumber)
+                    state.filter.virksomheter.has(it.orgnr)
                 );
                 if (antallUnderValgt === 0) {
-                    chips.push({ ...hovedenhet, erHovedenhet: true });
+                    chips.push({ underenheter, ...hovedenhet, erHovedenhet: true });
                 } else {
                     chips.push(
                         ...underenheter
-                            .filter((it) => state.filter.virksomheter.has(it.OrganizationNumber))
+                            .filter((it) => state.filter.virksomheter.has(it.orgnr))
                             .map((it) => ({ ...it, erHovedenhet: false }))
                     );
                 }
@@ -110,15 +111,18 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
         )),
         ...organisasjonerTilChips.map((virksomhet) => (
             <VirksomhetChips
-                key={virksomhet.OrganizationNumber}
-                navn={virksomhet.Name}
+                key={virksomhet.orgnr}
+                navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    let valgte = state.filter.virksomheter.remove(virksomhet.OrganizationNumber);
+                    let valgte = state.filter.virksomheter.remove(virksomhet.orgnr);
 
                     // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
-                    const parent = virksomhet.ParentOrganizationNumber;
-                    const underenheter = childrenMap.get(parent) ?? Set();
+                    const parent = parentMap.get(virksomhet.orgnr);
+                    if (parent === undefined) {
+                        return;
+                    }
+                    const underenheter = childrenMap.get(parent) ?? [];
                     if (underenheter.every((it) => !valgte.has(it))) {
                         valgte = valgte.remove(parent);
                     }
@@ -133,15 +137,18 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
     ].filter((it) => it !== null);
     if (chipElements.length !== 0) {
         chipElements.unshift(
-            <>
-                <Heading level="3" size="medium" className="saksoversikt__skjult-header-uu">
-                    Valgte filter
-                </Heading>
+            <Heading
+                key="valgteFilterHeading"
+                level="3"
+                size="medium"
+                className="saksoversikt__skjult-header-uu"
+            >
+                Valgte filter
+            </Heading>,
 
-                <Chips.Removable key="EmptyAllFilters" onClick={onTømAlleFilter}>
-                    Tøm alle filter
-                </Chips.Removable>
-            </>
+            <Chips.Removable key="EmptyAllFilters" onClick={onTømAlleFilter}>
+                Tøm alle filter
+            </Chips.Removable>
         );
     }
 
@@ -160,11 +167,13 @@ const FilterChipsContainer = ({ chipElements }: FilterChipsContainerProps) => {
         <>
             {chipElements.length > 0 ? (
                 <Chips
+                    key="filterChips"
                     children={visAlle ? chipElements : chipElements.slice(0, maksAntallMinimert)}
                 ></Chips>
             ) : null}
             {visKnapp ? (
                 <Button
+                    key="visAlleFilterKnapp"
                     variant="tertiary"
                     onClick={() => {
                         setVisAlle(!visAlle);

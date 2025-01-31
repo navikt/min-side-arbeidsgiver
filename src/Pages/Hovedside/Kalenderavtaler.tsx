@@ -10,12 +10,12 @@ import {
 } from '@navikt/aksel-icons';
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import {
     finnBucketForDagerTilDato,
     loggNavigasjonTags,
 } from '../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../utils/amplitude';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
     query HentKalenderavtaler($virksomhetsnumre: [String!]!) {
@@ -43,8 +43,7 @@ const VIS_ANTALL = 2;
 export const Kalenderavtaler: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [visAlle, settVisAlle] = React.useState(false);
-    const virksomhetsnumre =
-        valgtOrganisasjon !== undefined ? [valgtOrganisasjon?.organisasjon.OrganizationNumber] : [];
+    const virksomhetsnumre = [valgtOrganisasjon.organisasjon.orgnr];
     const { data, loading, error } = useQuery(HENT_KALENDERAVTALER, {
         variables: { virksomhetsnumre },
     });
@@ -136,7 +135,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
             tilstand: tilstand,
             avtaleDato: finnBucketForDagerTilDato(startTidspunkt),
             digitaltOppmøte: digitalt,
-            fysiskOppmøte: !!lokasjon
+            fysiskOppmøte: !!lokasjon,
         });
     }, []);
 
@@ -145,7 +144,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
             avtaleDato: finnBucketForDagerTilDato(startTidspunkt),
             tilstand: tilstand,
             digitaltOppmøte: digitalt.toString(),
-            fysiskOppmøte: (!!lokasjon).toString()
+            fysiskOppmøte: (!!lokasjon).toString(),
         });
     };
 

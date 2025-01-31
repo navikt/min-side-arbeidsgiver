@@ -3,8 +3,9 @@ import './TrengerDuHjelp.css';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { Dialog, Send, Telephone } from '@navikt/ds-icons';
-import { kontaktskjemaURL, ringOssTLF } from '../../lenker';
+import { kontaktskjemaURL } from '../../lenker';
 import { openChatbot } from '@navikt/nav-dekoratoren-moduler';
+import { gittMiljo } from '../../utils/environment';
 
 const showFrida = (event: React.MouseEvent<HTMLAnchorElement>) => {
     openChatbot();
@@ -24,8 +25,8 @@ export const TrengerDuHjelp = () => {
                     <li>
                         <BodyShort size="large">
                             <LenkeMedLogging
-                                loggLenketekst={'Ring oss på 55 55 33 36'}
-                                href={ringOssTLF}
+                                loggLenketekst="Ring oss på 55 55 33 36"
+                                href="tel:55553336"
                             >
                                 <Telephone
                                     title="Telefonikon"

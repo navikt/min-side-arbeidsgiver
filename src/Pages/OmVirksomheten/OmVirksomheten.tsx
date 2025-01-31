@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { useOverordnetEnhet, useUnderenhet } from '../../api/enhetsregisteretApi';
 import Underenhet from './Underenhet';
 import OverordnetEnhet from './OverordnetEnhet';
 import './OmVirksomheten.css';
 import { Box } from '@navikt/ds-react';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
     <Box className="informasjon-om-bedrift">{children}</Box>
@@ -12,8 +12,8 @@ const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
 
 const OmVirksomheten: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const vnr = valgtOrganisasjon?.organisasjon.OrganizationNumber;
-    const orgnr = valgtOrganisasjon?.organisasjon.ParentOrganizationNumber;
+    const vnr = valgtOrganisasjon.organisasjon.orgnr;
+    const orgnr = valgtOrganisasjon.parent?.orgnr;
 
     const overordnetenhet = useOverordnetEnhet(orgnr);
     const { underenhet } = useUnderenhet(vnr);

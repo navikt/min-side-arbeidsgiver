@@ -4,13 +4,13 @@ import { Tjenesteboks } from '../Tjenesteboks';
 import { useAntallKandidater } from './useAntallKandidater';
 import ikon from './kandidatlisteboks-ikon.svg';
 import './Kandidatlister.css';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Kandidatlister = () => {
     const antallKandidater = useAntallKandidater();
 
-    const orgnr =
-        useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
+    const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
 
     const href = kandidatlisteURL + (orgnr === '' ? '' : `?virksomhet=${orgnr}`);
 

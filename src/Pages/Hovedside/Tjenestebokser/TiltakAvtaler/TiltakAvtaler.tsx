@@ -1,11 +1,11 @@
 import React from 'react';
 import { tiltaksgjennomforingURL } from '../../../../lenker';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import './TiltakAvtaler.css';
 import tiltakikon from './TiltakAvtaler.svg';
 import { Avtalenavn, useAvtaleoversikt } from './useAvtaleoversikt';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { BodyShort } from '@navikt/ds-react';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const displayname: Record<Avtalenavn, string> = {
     ARBEIDSTRENING: 'arbeidstrening',
@@ -26,8 +26,7 @@ const displayorder: Avtalenavn[] = [
 ];
 
 const TiltakAvtaler = () => {
-    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
+    const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
 
     const avtaler = useAvtaleoversikt();
 

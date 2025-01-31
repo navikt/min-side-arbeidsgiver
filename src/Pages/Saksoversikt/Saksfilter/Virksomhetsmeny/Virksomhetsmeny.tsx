@@ -4,10 +4,11 @@ import './Virksomhetsmeny.css';
 import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
 import fuzzysort from 'fuzzysort';
-import { sum } from '../../../../utils/util';
+import { flatUtTre, sum } from '../../../../utils/util';
 import amplitude from '../../../../utils/amplitude';
-import { Map, Set } from 'immutable';
-import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerProvider';
+import { Set } from 'immutable';
+
+import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerContext';
 
 export type VirksomhetsmenyProps = {
     valgteEnheter: Set<string>;
@@ -18,23 +19,9 @@ export const Virksomhetsmeny = ({
     valgteEnheter: valgteEnheterInput,
     setValgteEnheter,
 }: VirksomhetsmenyProps) => {
-    const { organisasjonstre, childrenMap } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonstre, parentMap, childrenMap } = useOrganisasjonerOgTilgangerContext();
     const alleOrganisasjoner = useMemo(
-        () =>
-            organisasjonstre.flatMap(({ hovedenhet, underenheter }) =>
-                // Put elements in same order as their visual order, so it can be used for array navigation
-                [hovedenhet, ...underenheter]
-            ),
-        [organisasjonstre]
-    );
-
-    const parentMap = useMemo(
-        () =>
-            Map(
-                organisasjonstre.flatMap(({ hovedenhet, underenheter }): [string, string][] =>
-                    underenheter.map((it) => [it.OrganizationNumber, hovedenhet.OrganizationNumber])
-                )
-            ),
+        () => flatUtTre(organisasjonstre).flatMap((it) => [it, ...it.underenheter]),
         [organisasjonstre]
     );
 
@@ -95,7 +82,7 @@ export const Virksomhetsmeny = ({
             const fuzzyResultsNavn = fuzzysort.go(søkeord, alleOrganisasjoner, {
                 keys: ['Name', 'OrganizationNumber'],
             });
-            const matches = Set(fuzzyResultsNavn.map(({ obj }) => obj.OrganizationNumber));
+            const matches = Set(fuzzyResultsNavn.map(({ obj }) => obj.orgnr));
             const parents = matches.flatMap((it) => {
                 const parent = parentMap.get(it);
                 if (parent === undefined) {
@@ -126,40 +113,36 @@ export const Virksomhetsmeny = ({
                 onChange={onCheckboxGroupChange}
             >
                 <ul className="sak_virksomhetsmeny_hovedenhetliste">
-                    {organisasjonstre.map(({ hovedenhet, underenheter }) => {
-                        if (søketreff && !søketreff.has(hovedenhet.OrganizationNumber)) {
+                    {organisasjonstre.map((hovedenhet) => {
+                        const underenheter = hovedenhet.underenheter;
+                        if (søketreff && !søketreff.has(hovedenhet.orgnr)) {
                             return null;
                         }
                         return (
-                            <li key={hovedenhet.OrganizationNumber}>
+                            <li key={hovedenhet.orgnr}>
                                 <HovedenhetCheckbox
                                     hovedenhet={hovedenhet}
                                     valgteOrgnr={valgteEnheter}
                                 />
                                 <Conditionally
                                     when={
-                                        valgteEnheter.has(hovedenhet.OrganizationNumber) ||
+                                        valgteEnheter.has(hovedenhet.orgnr) ||
                                         (søketreff !== undefined &&
-                                            underenheter.some((it) =>
-                                                søketreff.has(it.OrganizationNumber)
-                                            ))
+                                            underenheter.some((it) => søketreff.has(it.orgnr)))
                                     }
                                 >
                                     <ul>
                                         {underenheter.flatMap((underenhet) => {
-                                            if (
-                                                søketreff &&
-                                                !søketreff.has(underenhet.OrganizationNumber)
-                                            ) {
+                                            if (søketreff && !søketreff.has(underenhet.orgnr)) {
                                                 return [];
                                             }
 
                                             return [
-                                                <li key={underenhet.OrganizationNumber} className="sak_virksomhetsmeny_underenhet">
-                                                    <UnderenhetCheckboks
-                                                        valgteOrgnr={valgteEnheter}
-                                                        underenhet={underenhet}
-                                                    />
+                                                <li
+                                                    key={underenhet.orgnr}
+                                                    className="sak_virksomhetsmeny_underenhet"
+                                                >
+                                                    <UnderenhetCheckboks underenhet={underenhet} />
                                                 </li>,
                                             ];
                                         })}

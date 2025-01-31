@@ -6,7 +6,6 @@ import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from './OmSaker';
 import { Saksfilter } from './Saksfilter/Saksfilter';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
 import { Query, Sak, SakSortering } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
@@ -17,6 +16,7 @@ import { FilterChips } from './FilterChips';
 import { ServerError } from '@apollo/client/link/utils';
 import { Spinner } from '../Banner';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 export const SIDE_SIZE = 30;
 
@@ -41,18 +41,11 @@ const useAlleSakstyper = () => {
     return data?.sakstyper ?? [];
 };
 
-export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent('chip-click', {
-        kategori: kategori,
-        filternavn: filternavn,
-    });
-};
-
 export const Saksoversikt = () => {
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjoner
-        ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
+    const orgs = organisasjonsInfo
+        ? Record.mapToArray(organisasjonsInfo, (orgnr, { organisasjon }) => organisasjon)
         : [];
 
     const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);

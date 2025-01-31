@@ -1,19 +1,17 @@
 import React from 'react';
-import { refosoURL } from '../../../../lenker';
+import { tiltakRefusjonURL } from '../../../../lenker';
 import tiltakrefusjonikon from './TiltakRefusjoner.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const TiltakRefusjoner = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
 
     const url =
-        valgtOrganisasjon.organisasjon.OrganizationNumber !== ''
-            ? `${refosoURL}?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-            : refosoURL;
+        valgtOrganisasjon.organisasjon.orgnr !== ''
+            ? `${tiltakRefusjonURL}?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`
+            : tiltakRefusjonURL;
 
     const klareForInnsending = valgtOrganisasjon.refusjonstatus['KLAR_FOR_INNSENDING'];
 

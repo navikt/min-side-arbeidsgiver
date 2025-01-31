@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { useId, useState } from 'react';
+import { ReactNode, useId, useState } from 'react';
 import useSWR from 'swr';
 import { Alert, BodyShort, Heading, HelpText, Label } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import NyFaneIkon from './NyFaneIkon';
 import { erDriftsforstyrrelse } from '../../utils/util';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const KontaktinfoDetaljer = z.object({
     eposter: z.array(z.string()),
@@ -35,8 +35,7 @@ const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
 };
 
 const useKontaktinfo = () => {
-    const orgnr =
-        useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon?.OrganizationNumber;
+    const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
     const [retries, setRetries] = useState(0);
 
     const { data: kontaktinfo } = useSWR(
@@ -73,7 +72,7 @@ const AltinnLenke = () => (
     </LenkeMedLogging>
 );
 
-const TittelMedHjelpetekst = ({ children }: { children: React.ReactNode }) => (
+const TittelMedHjelpetekst = ({ children }: { children: ReactNode }) => (
     <div className="kontaktinfo-tittel">
         <Heading size="small">{children}</Heading>
         <HelpText title="Hva brukes det til?">

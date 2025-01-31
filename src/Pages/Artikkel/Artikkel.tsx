@@ -3,13 +3,13 @@ import { Brodsmulesti, Spinner } from '../Banner';
 import React, { useEffect } from 'react';
 import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 import './Artikkel.css';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
 import { loggNavigasjon } from '../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../utils/amplitude';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 type Artikkel = {
     lenketittel: string;
@@ -127,7 +127,7 @@ export const Artikkel = () => {
 
     return (
         <>
-            <Brodsmulesti/>
+            <Brodsmulesti />
             <ArtikkelBanner tittel={tittel} />
             <div
                 className={'artikkel-container'}

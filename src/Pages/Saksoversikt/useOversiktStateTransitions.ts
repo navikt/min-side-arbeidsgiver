@@ -12,8 +12,8 @@ import {
     Sakstype,
 } from '../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
-import { Organisasjon } from '../../altinn/organisasjon';
 import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
 
 export type Filter = {
     side: number;

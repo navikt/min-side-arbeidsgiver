@@ -13,15 +13,13 @@ import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjene
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
 import { gittMiljo } from '../../utils/environment';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
+
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const tilgangInntektsmelding = valgtOrganisasjon?.altinntilgang?.inntektsmelding;
-    const tilgangYrkesskade = valgtOrganisasjon?.altinntilgang?.yrkesskade;
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
+    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
+    const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
     const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
         if (!valgtOrganisasjon.altinntilgang[altinnSkjemaId]) {
@@ -97,8 +95,8 @@ export const SøknaderOgSkjemaer = () => {
                     ? lenke(
                           altinntjeneste.yrkesskade.navn,
                           gittMiljo({
-                              prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
-                              other: `https://skademelding.intern.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.OrganizationNumber}`,
+                              prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
+                              other: `https://skademelding.intern.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
                           })
                       )
                     : null}

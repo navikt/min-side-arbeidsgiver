@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import { z } from 'zod';
 import { count, erDriftsforstyrrelse } from '../../../../utils/util';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 export type Avtaleoversikt = {
     ARBEIDSTRENING: number;
@@ -19,9 +19,7 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data: avtaler } = useSWR(
-        valgtOrganisasjon !== undefined
-            ? `${__BASE_PATH__}/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?bedriftNr=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-            : null,
+        `${__BASE_PATH__}/tiltaksgjennomforing-api/avtaler/min-side-arbeidsgiver?bedriftNr=${valgtOrganisasjon.organisasjon.orgnr}`,
         fetcher,
         {
             onSuccess: () => setRetries(0),
