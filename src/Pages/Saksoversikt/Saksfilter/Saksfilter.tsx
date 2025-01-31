@@ -229,6 +229,12 @@ export const Saksfilter = ({
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'Saksfilter'
+        });
+    }, []);
+
     if (organisasjonstre === undefined) {
         return null;
     }
