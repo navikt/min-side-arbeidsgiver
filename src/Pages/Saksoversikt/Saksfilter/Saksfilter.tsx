@@ -59,12 +59,17 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
     }
 };
 
-export const amplitudeFilterKlikk = (kategori: string, filternavn: string, target: EventTarget) => {
+export const amplitudeFilterKlikk = (kategori: string, filternavn: string, target: EventTarget | null) => {
     if (target instanceof HTMLInputElement) {
         amplitude.logEvent('filtervalg', {
             kategori: kategori,
             filternavn: filternavn,
             checked: target.checked,
+        });
+    } else {
+        amplitude.logEvent('filtervalg', {
+            kategori: kategori,
+            filternavn: filternavn,
         });
     }
 };
@@ -231,7 +236,7 @@ export const Saksfilter = ({
 
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
-            komponent: 'Saksfilter'
+            komponent: 'Saksfilter',
         });
     }, []);
 
