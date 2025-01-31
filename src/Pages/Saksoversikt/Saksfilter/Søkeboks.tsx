@@ -20,7 +20,7 @@ export const Søkeboks = ({ filter, byttFilter }: SøkeboksProps) => {
     const handleOnSubmit = (e: FormEvent) => {
         e.preventDefault();
         byttFilter({ ...filter, tekstsoek });
-        amplitudeFilterKlikk('tekstsøk', 'tekstsøk', e.target);
+        amplitudeFilterKlikk('tekstsøk', 'tekstsøk', null);
     };
 
     return (

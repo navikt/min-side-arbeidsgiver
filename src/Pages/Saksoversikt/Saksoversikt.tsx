@@ -1,11 +1,11 @@
-import React, { FC, RefObject, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, RefObject, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from './OmSaker';
-import { Saksfilter } from './Saksfilter/Saksfilter';
+import { amplitudeFilterKlikk, Saksfilter } from './Saksfilter/Saksfilter';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
 import { Query, Sak, SakSortering } from '../../api/graphql-types';
@@ -154,15 +154,19 @@ const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
         return null;
     }
 
+    const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        const sortering = e.target.value as SakSortering
+        byttFilter({ ...state.filter, sortering: sortering });
+        amplitudeFilterKlikk('sortering', sortering, null);
+    };
+
     return (
         <Select
             autoComplete="off"
             value={state.filter.sortering}
             className="saksoversikt__sortering"
             label={`${state.totaltAntallSaker} saker sortert på`}
-            onChange={(e) => {
-                byttFilter({ ...state.filter, sortering: e.target.value as SakSortering });
-            }}
+            onChange={handleOnChange}
         >
             {sorteringsrekkefølge.map((key) => (
                 <option key={key} value={key}>
