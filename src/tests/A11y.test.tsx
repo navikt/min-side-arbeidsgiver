@@ -10,8 +10,14 @@ import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-wi
 import { MemoryRouter } from 'react-router-dom';
 import { useOrganisasjonsDetaljerContext } from '../Pages/OrganisasjonsDetaljerContext';
 import { useOrganisasjonerOgTilgangerContext } from '../Pages/OrganisasjonerOgTilgangerContext';
+import { afterAll, afterEach, beforeAll } from 'vitest';
+import { server } from './mocks';
 
 describe('Hovedside', () => {
+    beforeAll(() => server.listen());
+    afterEach(() => server.resetHandlers());
+    afterAll(() => server.close());
+
     it('Bruker med alle tilganger får ikke a11y feil', async () => {
         vi.useFakeTimers();
         const { container } = render(

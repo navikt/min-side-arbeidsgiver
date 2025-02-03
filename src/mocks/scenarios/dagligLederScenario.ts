@@ -13,7 +13,6 @@ import { alleSaker } from '../brukerApi/alleSaker';
 import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
 import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
 import { Merkelapp } from '../brukerApi/alleMerkelapper';
-import { nærmesteLederOrganisasjon } from './nærmesteLederScenario';
 
 const alleTilganger = [
     '5216:1', // sykefraværsstatistikk

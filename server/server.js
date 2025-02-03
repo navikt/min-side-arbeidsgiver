@@ -185,10 +185,6 @@ const main = async () => {
         })
     );
 
-    if (MILJO === 'dev') {
-        (await import('./mock/enhetsRegisteretMock.js')).mock(app);
-    }
-
     app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
 
     if (MILJO === 'dev' || MILJO === 'prod') {

@@ -60,58 +60,49 @@ export const server = setupServer(
             digisyfoError: false,
             digisyfoOrganisasjoner: [
                 {
-                    organisasjon: {
-                        OrganizationNumber: '999999999',
-                        Name: 'Saltrød og Høneby',
-                        ParentOrganizationNumber: '121488424',
-                        OrganizationForm: 'BEDR',
-                    },
+                    orgnr: '121488424',
+                    navn: 'BIRTAVARRE OG VÆRLANDET FORELDER',
+                    organisasjonsform: 'AS',
                     antallSykmeldte: 0,
+                    underenheter: [
+                        {
+                            orgnr: '999999999',
+                            navn: 'Saltrød og Høneby',
+                            organisasjonsform: 'BEDR',
+                            antallSykmeldte: 0,
+                            underenheter: [],
+                        },
+                    ],
                 },
                 {
-                    organisasjon: {
-                        OrganizationNumber: '121488424',
-                        Name: 'BIRTAVARRE OG VÆRLANDET FORELDER',
-                        ParentOrganizationNumber: null,
-                        OrganizationForm: 'AS',
-                    },
+                    navn: 'BALLSTAD OG HORTEN',
+                    orgnr: '118345674',
+                    organisasjonsform: 'FLI',
                     antallSykmeldte: 0,
+                    underenheter: [
+                        {
+                            navn: 'BALLSTAD OG HAMARØY',
+                            organisasjonsform: 'AAFY',
+                            orgnr: '182345674',
+                            antallSykmeldte: 4,
+                            underenheter: [],
+                        },
+                    ],
                 },
                 {
-                    organisasjon: {
-                        Name: 'BALLSTAD OG HAMARØY',
-                        OrganizationForm: 'AAFY',
-                        OrganizationNumber: '182345674',
-                        ParentOrganizationNumber: '118345674',
-                    },
+                    navn: 'BareSyfo Juridisk',
+                    orgnr: '111111111',
+                    organisasjonsform: 'FLI',
                     antallSykmeldte: 4,
-                },
-                {
-                    organisasjon: {
-                        Name: 'BALLSTAD OG HORTEN',
-                        ParentOrganizationNumber: null,
-                        OrganizationNumber: '118345674',
-                        OrganizationForm: 'FLI',
-                    },
-                    antallSykmeldte: 0,
-                },
-                {
-                    organisasjon: {
-                        Name: 'BareSyfo Virksomhet',
-                        OrganizationForm: 'AAFY',
-                        OrganizationNumber: '121212121',
-                        ParentOrganizationNumber: '111111111',
-                    },
-                    antallSykmeldte: 4,
-                },
-                {
-                    organisasjon: {
-                        Name: 'BareSyfo Juridisk',
-                        ParentOrganizationNumber: null,
-                        OrganizationNumber: '111111111',
-                        OrganizationForm: 'FLI',
-                    },
-                    antallSykmeldte: 4,
+                    underenheter: [
+                        {
+                            navn: 'BareSyfo Virksomhet',
+                            organisasjonsform: 'AAFY',
+                            orgnr: '121212121',
+                            antallSykmeldte: 4,
+                            underenheter: [],
+                        },
+                    ],
                 },
             ],
             refusjoner: [
@@ -396,7 +387,7 @@ export const server = setupServer(
                     beskrivelse: 'Bedrift',
                     _links: {
                         self: {
-                            href: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/BEDR',
+                            href: '/min-side-arbeidsgiver/api/ereg/organisasjonsformer/BEDR',
                         },
                     },
                 },
@@ -430,10 +421,10 @@ export const server = setupServer(
                 },
                 _links: {
                     self: {
-                        href: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/151488454',
+                        href: '/min-side-arbeidsgiver/api/ereg/underenheter/151488454',
                     },
                     overordnetEnhet: {
-                        href: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/181488484',
+                        href: '/min-side-arbeidsgiver/api/ereg/enheter/181488484',
                     },
                 },
             })
