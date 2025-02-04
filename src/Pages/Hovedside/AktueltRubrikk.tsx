@@ -65,9 +65,6 @@ const aktuelt: Array<AktueltProps> = [
 
 export const AktueltRubrikk = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    if (!valgtOrganisasjon) {
-        return null;
-    }
 
     const aktueltMedTilgang = aktuelt.filter(({ tilgangssjekk }) =>
         tilgangssjekk(valgtOrganisasjon)

@@ -93,7 +93,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
             ...navtjenestetilganger,
             org.syfotilgang ? 'syfo-nærmesteleder' : null,
         ]
-            .filter((e) => e)
+            .filter((e) => e !== null)
             .sort()
             .join(' ');
 

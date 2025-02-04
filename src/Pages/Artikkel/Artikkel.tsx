@@ -31,9 +31,6 @@ const artikler: Record<string, Artikkel> = {
 
 export const Artikler = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    if (!valgtOrganisasjon) {
-        return null;
-    }
 
     return (
         <>

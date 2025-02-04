@@ -24,7 +24,7 @@ const infobokser: Array<InfoboksProps> = [
             const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
             const [closed, setClosed] = usePrefixedLocalStorage(id, localStoragePrefix, false);
 
-            if (!valgtOrganisasjon || !valgtOrganisasjon.altinntilgang.arbeidstrening) {
+            if (!valgtOrganisasjon.altinntilgang.arbeidstrening) {
                 return null;
             }
 
