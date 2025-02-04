@@ -130,16 +130,19 @@ const Tidslinjeelement = ({
     tidslinjeelement,
     skjulLinjeIkon,
     brukDelvisStipletLinjeIkon,
+    visSomLenke
 }: {
     tidslinjeelement: TidslinjeElement;
     skjulLinjeIkon: boolean;
     brukDelvisStipletLinjeIkon: boolean;
+    visSomLenke: boolean;
 }) => {
     if (tidslinjeelement.__typename === 'BeskjedTidslinjeElement') {
         return (
             <BeskjedElement
                 key={tidslinjeelement.id}
                 tidslinjeelement={tidslinjeelement}
+                visSomLenke={visSomLenke}
                 TidslinjeLinjeIkon={
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon height={24} />
@@ -155,6 +158,7 @@ const Tidslinjeelement = ({
             <OppgaveElement
                 key={tidslinjeelement.id}
                 tidslinjeelement={tidslinjeelement}
+                visSomLenke={visSomLenke}
                 TidslinjeLinjeIkon={
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon
@@ -180,6 +184,7 @@ const Tidslinjeelement = ({
             <KalenderavtaleElement
                 key={tidslinjeelement.id}
                 tidslinjeelement={tidslinjeelement}
+                visSomLenke={visSomLenke}
                 TidslinjeLinjeIkon={
                     brukDelvisStipletLinjeIkon ? (
                         <DelvisStipletTidslinjeLinjeIkon height={ikonHøyde} />
@@ -229,6 +234,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         tidslinjeelement={sak.tidslinje[0]}
                         skjulLinjeIkon={true}
                         brukDelvisStipletLinjeIkon={false}
+                        visSomLenke={visSomLenke({ sakLenke: sak.lenke, notifikasjonsLenke: sak.tidslinje[0].lenke })}
                     />
                 ) : (
                     <>
@@ -238,6 +244,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                                 tidslinjeelement={tidslinjeelement}
                                 skjulLinjeIkon={false}
                                 brukDelvisStipletLinjeIkon={true}
+                                visSomLenke={visSomLenke({ sakLenke: sak.lenke, notifikasjonsLenke: tidslinjeelement.lenke })}
                             />
                         ))}
                         {tidslinje.map((tidslinjeelement, i) => {
@@ -248,6 +255,7 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                                     tidslinjeelement={tidslinjeelement}
                                     skjulLinjeIkon={i === erSist}
                                     brukDelvisStipletLinjeIkon={!tidslinjeOpen}
+                                    visSomLenke={visSomLenke({ sakLenke: sak.lenke, notifikasjonsLenke: tidslinjeelement.lenke })}
                                 />
                             );
                         })}
@@ -299,18 +307,22 @@ const NesteSteg = ({ nesteStegTekst, tidslinjeLengde }: NesteStegProps) => {
 const BeskjedElement = ({
     tidslinjeelement,
     TidslinjeLinjeIkon,
+    visSomLenke,
 }: {
     tidslinjeelement: TidslinjeElement;
     TidslinjeLinjeIkon: React.JSX.Element | null;
+    visSomLenke: boolean;
 }) => {
     if (tidslinjeelement.__typename !== 'BeskjedTidslinjeElement') return null;
-    const { tekst, opprettetTidspunkt } = tidslinjeelement as BeskjedTidslinjeElement;
+    const { tekst, opprettetTidspunkt, lenke } = tidslinjeelement as BeskjedTidslinjeElement;
     return (
         <div className="grid2x3">
             <div className="tidslinje-element-ikon">
                 <BeskjedIkon title="Beskjed" />
             </div>
-            <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
+            <NotifikasjonsLenke lenke={lenke} visSomLenke={visSomLenke}>
+                <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
+            </NotifikasjonsLenke>
             <Detail className="tidslinje-element-detaljer">
                 {dateFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
@@ -322,12 +334,14 @@ const BeskjedElement = ({
 const OppgaveElement = ({
     tidslinjeelement,
     TidslinjeLinjeIkon,
+    visSomLenke
 }: {
     tidslinjeelement: TidslinjeElement;
     TidslinjeLinjeIkon: React.JSX.Element | null;
+    visSomLenke: boolean;
 }) => {
     if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
-    const { tilstand, tekst, opprettetTidspunkt } = tidslinjeelement as OppgaveTidslinjeElement;
+    const { tilstand, tekst, opprettetTidspunkt, lenke } = tidslinjeelement as OppgaveTidslinjeElement;
 
     const ikon = {
         NY: <NyOppgaveIkon title="Uløst oppgave" />,
@@ -337,12 +351,14 @@ const OppgaveElement = ({
     return (
         <div className={tilstand === OppgaveTilstand.Utfoert ? 'grid2x3' : 'grid2x4'}>
             <div className="tidslinje-element-ikon">{ikon[tilstand]}</div>
-            <BodyShort
-                weight={tilstand === OppgaveTilstand.Ny ? 'semibold' : 'regular'}
-                className="tidslinje-element-tittel"
-            >
-                {tekst}
-            </BodyShort>
+            <NotifikasjonsLenke lenke={lenke} visSomLenke={visSomLenke}>
+                <BodyShort
+                    weight={tilstand === OppgaveTilstand.Ny ? 'semibold' : 'regular'}
+                    className="tidslinje-element-tittel"
+                >
+                    {tekst}
+                </BodyShort>
+            </NotifikasjonsLenke>
             {tilstand === OppgaveTilstand.Utfoert ? (
                 <div className="tidslinje-element-detaljer">
                     <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
@@ -365,13 +381,15 @@ const OppgaveElement = ({
 const KalenderavtaleElement = ({
     tidslinjeelement,
     TidslinjeLinjeIkon,
+    visSomLenke
 }: {
     tidslinjeelement: TidslinjeElement;
     TidslinjeLinjeIkon: React.JSX.Element | null;
+    visSomLenke: boolean;
 }) => {
     if (tidslinjeelement.__typename !== 'KalenderavtaleTidslinjeElement') return null;
 
-    const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt } =
+    const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt, lenke } =
         tidslinjeelement as KalenderavtaleTidslinjeElement;
 
     const klokkeslett = new Intl.DateTimeFormat('no', {
@@ -406,8 +424,9 @@ const KalenderavtaleElement = ({
                     />
                 )}
             </div>
-            <div className="tidslinje-element-tittel">
+            <NotifikasjonsLenke lenke={lenke} visSomLenke={visSomLenke}>
                 <BodyShort
+                    className="tidslinje-element-tittel"
                     weight={
                         avtaletilstand === KalenderavtaleTilstand.VenterSvarFraArbeidsgiver
                             ? 'semibold'
@@ -430,7 +449,7 @@ const KalenderavtaleElement = ({
                         ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
                         : ''}
                 </BodyShort>
-            </div>
+            </NotifikasjonsLenke>
 
             {ingenLokasjon ? (
                 <div className={'tidslinje-element-detaljer'}>
@@ -484,3 +503,16 @@ const Sted = ({ sted, digitalt }: Sted) => (
         ) : null}
     </div>
 );
+
+const NotifikasjonsLenke = ({
+    lenke,
+    children,
+    visSomLenke,
+}: {
+    lenke: string;
+    children: React.ReactNode;
+    visSomLenke: boolean;
+}) => visSomLenke ? <a href={lenke}>{children}</a> : children;
+
+export const visSomLenke = ({ sakLenke, notifikasjonsLenke }: { sakLenke?: string | null, notifikasjonsLenke: string }) =>
+    sakLenke !== notifikasjonsLenke && notifikasjonsLenke.split("?")[0] !== `${__BASE_PATH__}/sak`
