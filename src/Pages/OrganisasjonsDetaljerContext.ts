@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Organisasjon } from '@navikt/virksomhetsvelger';
-import { OrganisasjonInfo } from './OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from './OrganisasjonerOgTilgangerContext';
 
 export type OrganisasjonsDetaljerContext = {
     endreOrganisasjon: (org: Organisasjon) => void;
