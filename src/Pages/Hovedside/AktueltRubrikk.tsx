@@ -4,7 +4,7 @@ import { loggNavigasjonTags } from '../../utils/funksjonerForAmplitudeLogging';
 import { DisplayBetween, shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';
-import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerContext';
 import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 

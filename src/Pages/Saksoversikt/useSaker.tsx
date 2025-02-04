@@ -4,7 +4,7 @@ import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
 import { Filter } from './useOversiktStateTransitions';
 import { Set } from 'immutable';
-import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';

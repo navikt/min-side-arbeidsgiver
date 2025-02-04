@@ -1,7 +1,7 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
 import { amplitudeFilterKlikk } from '../Saksfilter';
-import { Organisasjon } from '../../../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../../../OrganisasjonerOgTilgangerContext';
 
 export const UnderenhetCheckboks = ({ underenhet }: { underenhet: Organisasjon }) => {
     return (

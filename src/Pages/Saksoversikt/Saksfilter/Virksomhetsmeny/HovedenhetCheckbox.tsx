@@ -1,7 +1,7 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
 import { Set } from 'immutable';
-import { Organisasjon } from '../../../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../../../OrganisasjonerOgTilgangerContext';
 import { amplitudeFilterKlikk } from '../Saksfilter';
 
 export const HovedenhetCheckbox = ({

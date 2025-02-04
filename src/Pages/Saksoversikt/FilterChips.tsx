@@ -5,7 +5,7 @@ import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
 import { count } from '../../utils/util';
 import { Filter, State } from './useOversiktStateTransitions';
-import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { amplitudeChipClick } from '../../utils/funksjonerForAmplitudeLogging';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';

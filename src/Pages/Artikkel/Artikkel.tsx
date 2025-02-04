@@ -5,11 +5,11 @@ import { Alert, BodyShort, Heading, Link } from '@navikt/ds-react';
 import './Artikkel.css';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useRawArtikkelHtml } from './useRawHtmlFromStorage';
-import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerProvider';
 import * as Record from '../../utils/Record';
 import { loggNavigasjon } from '../../utils/funksjonerForAmplitudeLogging';
 import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
+import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerContext';
 
 type Artikkel = {
     lenketittel: string;

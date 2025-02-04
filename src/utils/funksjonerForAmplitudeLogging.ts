@@ -1,5 +1,5 @@
 import amplitude from '../utils/amplitude';
-import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';

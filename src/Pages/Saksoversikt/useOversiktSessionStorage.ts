@@ -8,7 +8,7 @@ import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import amplitude from '../../utils/amplitude';
 import { z } from 'zod';
-import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';

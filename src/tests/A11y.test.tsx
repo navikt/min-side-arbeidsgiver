@@ -4,13 +4,12 @@ import { axe } from 'jest-axe';
 import Hovedside from '../Pages/Hovedside/Hovedside';
 import { SWRConfig } from 'swr';
 import { AlertsProvider } from '../Pages/Alerts';
-import { OrganisasjonerOgTilgangerProvider } from '../Pages/OrganisasjonerOgTilgangerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { OrganisasjonsDetaljerProvider } from '../Pages/OrganisasjonsDetaljerProvider';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { MemoryRouter } from 'react-router-dom';
 import { useOrganisasjonsDetaljerContext } from '../Pages/OrganisasjonsDetaljerContext';
-import { useOrganisasjonerOgTilgangerContext } from '../Pages/OrganisasjonerOgTilgangerContext';
-import { afterAll, afterEach, beforeAll } from 'vitest';
+import { OrganisasjonerOgTilgangerProvider } from '../Pages/OrganisasjonerOgTilgangerProvider';
 import { server } from './mocks';
 
 describe('Hovedside', () => {
@@ -44,9 +43,12 @@ const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const { valgtOrganisasjon, endreOrganisasjon } = useOrganisasjonsDetaljerContext();
 
+    console.error('valgtOrganisasjon', valgtOrganisasjon);
     useEffect(() => {
+        console.error('useEffect.valgtOrganisasjon', valgtOrganisasjon);
         if (valgtOrganisasjon.organisasjon.orgnr === '182345674') return;
         endreOrganisasjon(organisasjonsInfo['182345674'].organisasjon);
+        console.error('useEffect.endreOrganisasjon', organisasjonsInfo['182345674'].organisasjon);
     }, [valgtOrganisasjon, organisasjonsInfo]);
 
     return (

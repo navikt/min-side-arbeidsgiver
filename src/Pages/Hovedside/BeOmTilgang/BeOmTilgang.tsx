@@ -1,6 +1,6 @@
 import React, { FC, FunctionComponent, MouseEventHandler } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerContext';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';

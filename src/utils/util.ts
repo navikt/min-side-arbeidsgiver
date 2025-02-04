@@ -1,4 +1,4 @@
-import { Organisasjon } from '../Pages/OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../Pages/OrganisasjonerOgTilgangerContext';
 
 export const delayed = <T extends any>(delay: number, fn: () => T): Promise<T> =>
     new Promise((res) => setTimeout(res, 1000)).then(fn);

@@ -13,7 +13,7 @@ import {
 } from '../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
 import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
-import { Organisasjon } from '../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 
 export type Filter = {
     side: number;
