@@ -1,7 +1,8 @@
 import { Search } from '@navikt/ds-react';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import { Filter } from '../useOversiktStateTransitions';
 import './Saksfilter.css';
+import { amplitudeFilterKlikk } from './Saksfilter';
 
 export type SøkeboksProps = {
     filter: Filter;
@@ -16,13 +17,16 @@ export const Søkeboks = ({ filter, byttFilter }: SøkeboksProps) => {
         setTekstsoek(filter.tekstsoek);
     }, [filter.tekstsoek]);
 
+    const handleOnSubmit = (e: FormEvent) => {
+        e.preventDefault();
+        byttFilter({ ...filter, tekstsoek });
+        amplitudeFilterKlikk('tekstsøk', 'tekstsøk', null);
+    };
+
     return (
         <form
             ref={formRef}
-            onSubmit={(e) => {
-                e.preventDefault();
-                byttFilter({ ...filter, tekstsoek });
-            }}
+            onSubmit={handleOnSubmit}
             onBlur={(event) => {
                 if (formRef.current === null || formRef.current.contains(event.relatedTarget)) {
                     return;

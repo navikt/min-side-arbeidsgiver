@@ -1,11 +1,12 @@
-import React, { FC, RefObject, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, RefObject, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
 import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from './OmSaker';
-import { Saksfilter } from './Saksfilter/Saksfilter';
+import { amplitudeFilterKlikk, Saksfilter } from './Saksfilter/Saksfilter';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import * as Record from '../../utils/Record';
 import { Query, Sak, SakSortering } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
@@ -16,7 +17,6 @@ import { FilterChips } from './FilterChips';
 import { ServerError } from '@apollo/client/link/utils';
 import { Spinner } from '../Banner';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 export const SIDE_SIZE = 30;
 
@@ -39,6 +39,13 @@ const useAlleSakstyper = () => {
         },
     });
     return data?.sakstyper ?? [];
+};
+
+export const amplitudeChipClick = (kategori: string, filternavn: string) => {
+    amplitude.logEvent('chip-click', {
+        kategori: kategori,
+        filternavn: filternavn,
+    });
 };
 
 export const Saksoversikt = () => {
@@ -147,15 +154,19 @@ const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
         return null;
     }
 
+    const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
+        const sortering = e.target.value as SakSortering
+        byttFilter({ ...state.filter, sortering: sortering });
+        amplitudeFilterKlikk('sortering', sortering, null);
+    };
+
     return (
         <Select
             autoComplete="off"
             value={state.filter.sortering}
             className="saksoversikt__sortering"
             label={`${state.totaltAntallSaker} saker sortert på`}
-            onChange={(e) => {
-                byttFilter({ ...state.filter, sortering: e.target.value as SakSortering });
-            }}
+            onChange={handleOnChange}
         >
             {sorteringsrekkefølge.map((key) => (
                 <option key={key} value={key}>
