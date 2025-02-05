@@ -509,6 +509,7 @@ const NotifikasjonsLenke = ({
     children,
     visSomLenke,
 }: {
+
     lenke: string;
     children: React.ReactNode;
     visSomLenke: boolean;

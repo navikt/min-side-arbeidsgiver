@@ -26,6 +26,7 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 tekst: 'NAV har mottat ditt refusjonskrav',
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -41,10 +42,12 @@ export const alleSaker = [
             beskjedTidslinjeElement({
                 tekst: 'NAV har utbetalt refusjonen',
                 opprettetTidspunkt: dateInPast({ days: 1 }),
+                lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
                 tekst: 'NAV har mottat ditt refusjonskrav',
                 opprettetTidspunkt: dateInPast({ years: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -60,6 +63,7 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 tekst: 'NAV har mottat ditt refusjonskrav',
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -75,10 +79,12 @@ export const alleSaker = [
             beskjedTidslinjeElement({
                 tekst: 'NAV har utbetalt refusjonen',
                 opprettetTidspunkt: dateInPast({ days: 2 }),
+                lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
                 tekst: 'NAV har mottat ditt refusjonskrav',
                 opprettetTidspunkt: dateInPast({ years: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -97,10 +103,12 @@ export const alleSaker = [
                 tilstand: OppgaveTilstand.Utfoert,
                 utfoertTidspunkt: dateInPast({ days: 4 }),
                 frist: faker.date.soon({ days: 7 }),
+                lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: dateInPast({ days: 2 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -118,10 +126,12 @@ export const alleSaker = [
                 opprettetTidspunkt: dateInPast({ days: 7 }),
                 tilstand: OppgaveTilstand.Ny,
                 frist: faker.date.soon({ days: 7 }),
+                lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: dateInPast({ months: 1 }),
+                lenke: faker.internet.url(),
             }),
             oppgaveTidslinjeElement({
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
@@ -129,6 +139,7 @@ export const alleSaker = [
                 frist: dateInPast({ months: 1, days: 7 }),
                 tilstand: OppgaveTilstand.Utfoert,
                 utfoertTidspunkt: dateInPast({ months: 1, days: 7 }),
+                lenke: faker.internet.url(),
             }),
             oppgaveTidslinjeElement({
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
@@ -136,12 +147,14 @@ export const alleSaker = [
                 frist: dateInPast({ months: 2, days: 1 }),
                 tilstand: OppgaveTilstand.Utgaatt,
                 utgaattTidspunkt: dateInPast({ months: 2, days: 7 }),
+                lenke: faker.internet.url(),
             }),
             oppgaveTidslinjeElement({
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
                 opprettetTidspunkt: dateInPast({ years: 1, months: 1 }),
                 tilstand: OppgaveTilstand.Utgaatt,
                 utgaattTidspunkt: dateInPast({ years: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -169,6 +182,7 @@ export const alleSaker = [
                 tekst: 'Invitasjon til samtale med veileder 15 april ',
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
                 startTidspunkt: faker.date.soon({ days: 7 }),
+                lenke: faker.internet.url(),
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
@@ -178,10 +192,12 @@ export const alleSaker = [
             beskjedTidslinjeElement({
                 tekst: 'Du har fått svar fra veileder på meldingen din. ',
                 opprettetTidspunkt: dateInPast({ months: 1 }),
+                lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er godkjent av alle parter og kan tas i bruk. ',
                 opprettetTidspunkt: dateInPast({ months: 5 }),
+                lenke: faker.internet.url(),
             }),
             oppgaveTidslinjeElement({
                 tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk.',
@@ -189,10 +205,12 @@ export const alleSaker = [
                 paaminnelseTidspunkt: dateInPast({ days: 2, months: 6 }),
                 utfoertTidspunkt: dateInPast({ days: 1, months: 6 }),
                 tilstand: OppgaveTilstand.Ny,
+                lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Avtalen er opprettet og nå kan alle deltagere fylle den ut. ',
                 opprettetTidspunkt: dateInPast({ years: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -211,6 +229,7 @@ export const alleSaker = [
                 lokasjon: undefined,
                 digitalt: false,
                 startTidspunkt: faker.date.soon({ days: 1 }),
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
@@ -222,6 +241,7 @@ export const alleSaker = [
                     postnummer: '0788',
                     poststed: 'Sandnes',
                 },
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
@@ -234,6 +254,7 @@ export const alleSaker = [
                     poststed: 'Sandnes',
                 },
                 digitalt: false,
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
@@ -241,6 +262,7 @@ export const alleSaker = [
                 startTidspunkt: faker.date.soon({ days: 1 }),
                 lokasjon: undefined,
                 digitalt: true,
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
@@ -248,6 +270,7 @@ export const alleSaker = [
                 startTidspunkt: dateInPast({ days: 1 }),
                 lokasjon: undefined,
                 digitalt: true,
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
@@ -255,6 +278,7 @@ export const alleSaker = [
                 startTidspunkt: dateInPast({ days: 2 }),
                 lokasjon: undefined,
                 digitalt: true,
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
@@ -265,6 +289,7 @@ export const alleSaker = [
                     poststed: 'Sandnes',
                 },
                 digitalt: false,
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -280,6 +305,7 @@ export const alleSaker = [
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                lenke: faker.internet.url(),
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
@@ -303,6 +329,7 @@ export const alleSaker = [
                 tilstand: OppgaveTilstand.Ny,
                 opprettetTidspunkt: dateInPast({ days: 15 }),
                 paaminnelseTidspunkt: dateInPast({ days: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -320,6 +347,7 @@ export const alleSaker = [
                 tekst: 'Innsending av inntektsmelding',
                 tilstand: OppgaveTilstand.Ny,
                 opprettetTidspunkt: dateInPast({ days: 15 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -338,6 +366,7 @@ export const alleSaker = [
                 tilstand: OppgaveTilstand.Utfoert,
                 opprettetTidspunkt: dateInPast({ months: 1, days: 15 }),
                 utfoertTidspunkt: dateInPast({ months: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -356,6 +385,7 @@ export const alleSaker = [
                 tilstand: OppgaveTilstand.Utgaatt,
                 opprettetTidspunkt: dateInPast({ months: 2, days: 15 }),
                 utgaattTidspunkt: dateInPast({ months: 2 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
@@ -374,6 +404,7 @@ export const alleSaker = [
                 tilstand: OppgaveTilstand.Ny,
                 opprettetTidspunkt: dateInPast({ months: 2, days: 15 }),
                 paaminnelseTidspunkt: dateInPast({ days: 1 }),
+                lenke: faker.internet.url(),
             }),
         ],
     }),
