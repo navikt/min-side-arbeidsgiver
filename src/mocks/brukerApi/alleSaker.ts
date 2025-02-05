@@ -22,12 +22,17 @@ export const alleSaker = [
             type: SakStatusType.Mottatt,
             tekst: 'Mottatt',
         }),
+        lenke: `https://foo.bar`,
         nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
         tidslinje: [
             beskjedTidslinjeElement({
-                tekst: 'NAV har mottat ditt refusjonskrav',
-                lenke: faker.internet.url(),
+                tekst: 'NAV har utbetalt refusjonen',
+                lenke: `https://foo.bar`
             }),
+            beskjedTidslinjeElement({
+                tekst: 'NAV har mottat ditt refusjonskrav',
+                lenke: `${__BASE_PATH__}/sak`
+            })
         ],
     }),
     sak({

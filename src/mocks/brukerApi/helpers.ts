@@ -152,7 +152,7 @@ export const oppgave = ({
     utgaattTidspunkt,
     klikketPaa = true,
     tilleggsinformasjon,
-    lenke = `#${faker.lorem.word()}`,
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -204,7 +204,7 @@ export const beskjed = ({
     opprettetTidspunkt = faker.date.recent(),
     klikketPaa = true,
     tilleggsinformasjon,
-    lenke = `#${faker.lorem.word()}`,
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     sakTittel?: string;
@@ -287,7 +287,7 @@ export const kalenderavtale = ({
         klikketPaa,
     },
 
-    lenke: `#${faker.lorem.word()}`,
+    lenke: faker.internet.url(),
     merkelapp: _merkelapp,
 
     sak:
@@ -309,6 +309,7 @@ export const sak = ({
     tidslinje,
     tilleggsinformasjon,
     virksomhet,
+    lenke = faker.internet.url(),
 }: {
     merkelapp?: Merkelapp;
     nesteSteg?: string;
@@ -317,10 +318,11 @@ export const sak = ({
     tilleggsinformasjon?: string;
     tittel: string;
     virksomhet: Virksomhet;
+    lenke?: string;
 }): Sak => ({
     id: faker.string.uuid(),
     tittel,
-    lenke: `#${faker.lorem.word()}`,
+    lenke,
     merkelapp: _merkelapp,
     nesteSteg,
     sisteStatus,
