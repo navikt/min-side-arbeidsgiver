@@ -523,6 +523,6 @@ export const visSomLenke = ({ sakLenke, notifikasjonsLenke }: { sakLenke?: strin
     } catch {
         notifikasjonsLenkeUrl = new URL(notifikasjonsLenke, location.origin)
     }
-    return sakLenke !== notifikasjonsLenke && notifikasjonsLenkeUrl.origin !== saksSideLenke.origin
-        && notifikasjonsLenkeUrl.pathname !== saksSideLenke.pathname
+    return sakLenke !== notifikasjonsLenke && !(notifikasjonsLenkeUrl.origin === saksSideLenke.origin
+        && notifikasjonsLenkeUrl.pathname === saksSideLenke.pathname)
 }
