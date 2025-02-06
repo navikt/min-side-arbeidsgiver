@@ -63,23 +63,27 @@ export const dagligLederOrganisasjon = {
 };
 
 export const dagligLederScenario = [
-    http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
+    http.get('/min-side-arbeidsgiver/api/userInfo/v3', () => {
         return HttpResponse.json({
             altinnError: false,
             organisasjoner: [dagligLederOrganisasjon],
             tilganger: fromEntries(
-                alleTilganger.map((tilgang) => [tilgang, [dagligLederOrganisasjon.orgnr, ...underenheter.map((org) => org.orgnr)]])
+                alleTilganger.map((tilgang) => [
+                    tilgang,
+                    [dagligLederOrganisasjon.orgnr, ...underenheter.map((org) => org.orgnr)],
+                ])
             ),
             digisyfoError: false,
-            digisyfoOrganisasjoner: underenheter.map(({ orgnr, organisasjonsform, navn }) => ({
-                organisasjon: {
-                    OrganizationNumber: orgnr,
-                    Name: navn,
-                    ParentOrganizationNumber: dagligLederOrganisasjon.orgnr,
-                    OrganizationForm: organisasjonsform,
+            digisyfoOrganisasjoner: [
+                {
+                    ...dagligLederOrganisasjon,
+                    antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+                    underenheter: dagligLederOrganisasjon.underenheter.map((o) => ({
+                        ...o,
+                        antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+                    })),
                 },
-                antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
-            })),
+            ],
             refusjoner: underenheter.map(({ orgnr }) => ({
                 virksomhetsnummer: orgnr,
                 statusoversikt: {

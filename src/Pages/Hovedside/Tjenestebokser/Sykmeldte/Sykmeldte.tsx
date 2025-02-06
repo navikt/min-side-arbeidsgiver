@@ -2,17 +2,16 @@ import React from 'react';
 import { syfoURL } from '../../../../lenker';
 import syfoikon from './Sykmeldte.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Sykmeldte = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const antallSykmeldte = valgtOrganisasjon?.antallSykmeldte ?? 0;
-    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
-    const url = orgnr !== undefined && orgnr !== '' ? `${syfoURL}?bedrift=${orgnr}` : syfoURL;
+    const antallSykmeldte = valgtOrganisasjon.antallSykmeldte ?? 0;
     return (
         <Tjenesteboks
             ikon={syfoikon}
-            href={url}
+            href={`${syfoURL}?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`}
             tittel="Sykmeldte"
             aria-label={`Sykemeldte, ${antallSykmeldte} ${antallSykmeldte === 1 ? 'sykmeldt' : 'sykmeldte'}. Se sykmeldte du har ansvar for å følge opp`}
         >

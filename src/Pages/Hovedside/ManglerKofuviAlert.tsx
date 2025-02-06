@@ -1,11 +1,11 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useEffect, useState } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erDriftsforstyrrelse } from '../../utils/util';
 import amplitude from '../../utils/amplitude';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 export const ManglerKofuviAlert = () => {
     const varslingStatus = manglerKofuviAlert();
@@ -57,12 +57,10 @@ const manglerKofuviAlert = (): VarslingStatus => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
-        valgtOrganisasjon !== undefined
-            ? {
-                  url: `${__BASE_PATH__}/api/varslingStatus/v1`,
-                  virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
-              }
-            : null,
+        {
+            url: `${__BASE_PATH__}/api/varslingStatus/v1`,
+            virksomhetsnummer: valgtOrganisasjon.organisasjon.orgnr,
+        },
         fetcher,
         {
             onSuccess: () => setRetries(0),

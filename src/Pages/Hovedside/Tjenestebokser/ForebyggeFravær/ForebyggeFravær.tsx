@@ -3,13 +3,12 @@ import React from 'react';
 import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
 import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const ForebyggeFravR = () => {
     const valgtbedrift = () => {
-        const orgnr =
-            useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon.OrganizationNumber ??
-            '';
+        const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
 
         return orgnr === '' ? '' : `?bedrift=${orgnr}`;
     };

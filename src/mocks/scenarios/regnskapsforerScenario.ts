@@ -20,32 +20,33 @@ const tilganger = [
     '5384:1', // ekspertbistand
     '4826:1', // utsendtArbeidstakerEØS
 ];
-const underenheter = Array.from({
-    length: faker.number.int({ min: 0, max: 5 }),
-}).map(() => ({
-    orgnr: orgnr(),
-    underenheter: [],
-    navn: faker.company.name(),
-    organisasjonsform: 'BEDR',
-}));
 
 export const regnskapsforerOrganisasjoner = Array.from({ length: 100 }).map(() => ({
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
-    underenheter: underenheter,
+    underenheter: Array.from({
+        length: faker.number.int({ min: 0, max: 5 }),
+    }).map(() => ({
+        orgnr: orgnr(),
+        underenheter: [],
+        navn: faker.company.name(),
+        organisasjonsform: 'BEDR',
+    })),
 }));
 
-const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v2', () => {
+const alleUnderenheter = regnskapsforerOrganisasjoner.flatMap((org) => org.underenheter);
+
+const regnskapsforerUserInfoScenario = http.get('/min-side-arbeidsgiver/api/userInfo/v3', () => {
     return HttpResponse.json({
         altinnError: false,
         organisasjoner: regnskapsforerOrganisasjoner,
         tilganger: fromEntries(
-            tilganger.map((tilgang) => [tilgang, underenheter.map((org) => org.orgnr)])
+            tilganger.map((tilgang) => [tilgang, alleUnderenheter.map((org) => org.orgnr)])
         ),
         digisyfoError: false,
         digisyfoOrganisasjoner: [],
-        refusjoner: underenheter.map(({ orgnr }) => ({
+        refusjoner: alleUnderenheter.map(({ orgnr }) => ({
             virksomhetsnummer: orgnr,
             statusoversikt: { KLAR_FOR_INNSENDING: faker.number.int({ min: 0, max: 10 }) },
             tilgang: true,

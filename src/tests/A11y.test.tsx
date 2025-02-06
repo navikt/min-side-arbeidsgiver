@@ -4,18 +4,19 @@ import { axe } from 'jest-axe';
 import Hovedside from '../Pages/Hovedside/Hovedside';
 import { SWRConfig } from 'swr';
 import { AlertsProvider } from '../Pages/Alerts';
-import {
-    OrganisasjonerOgTilgangerProvider,
-    useOrganisasjonerOgTilgangerContext,
-} from '../Pages/OrganisasjonerOgTilgangerProvider';
-import {
-    OrganisasjonsDetaljerProvider,
-    useOrganisasjonsDetaljerContext,
-} from '../Pages/OrganisasjonDetaljerProvider';
+import { useOrganisasjonerOgTilgangerContext } from '../Pages/OrganisasjonerOgTilgangerContext';
+import { OrganisasjonsDetaljerProvider } from '../Pages/OrganisasjonsDetaljerProvider';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { MemoryRouter } from 'react-router-dom';
+import { useOrganisasjonsDetaljerContext } from '../Pages/OrganisasjonsDetaljerContext';
+import { OrganisasjonerOgTilgangerProvider } from '../Pages/OrganisasjonerOgTilgangerProvider';
+import { server } from './mocks';
 
 describe('Hovedside', () => {
+    beforeAll(() => server.listen());
+    afterEach(() => server.resetHandlers());
+    afterAll(() => server.close());
+
     it('Bruker med alle tilganger får ikke a11y feil', async () => {
         vi.useFakeTimers();
         const { container } = render(
@@ -34,19 +35,20 @@ describe('Hovedside', () => {
 });
 
 const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const { valgtOrganisasjon, endreOrganisasjon } = useOrganisasjonsDetaljerContext();
 
+    console.error('valgtOrganisasjon', valgtOrganisasjon);
     useEffect(() => {
-        if (valgtOrganisasjon !== undefined) return;
-        endreOrganisasjon(organisasjoner['182345674'].organisasjon);
-    }, [valgtOrganisasjon, organisasjoner]);
+        console.error('useEffect.valgtOrganisasjon', valgtOrganisasjon);
+        if (valgtOrganisasjon.organisasjon.orgnr === '182345674') return;
+        endreOrganisasjon(organisasjonsInfo['182345674'].organisasjon);
+        console.error('useEffect.endreOrganisasjon', organisasjonsInfo['182345674'].organisasjon);
+    }, [valgtOrganisasjon, organisasjonsInfo]);
 
-    return valgtOrganisasjon === undefined ? null : (
+    return (
         <>
-            <span data-testid="valgt-organisasjon">
-                {valgtOrganisasjon.organisasjon.OrganizationNumber}
-            </span>
+            <span data-testid="valgt-organisasjon">{valgtOrganisasjon.organisasjon.orgnr}</span>
             {children}
         </>
     );

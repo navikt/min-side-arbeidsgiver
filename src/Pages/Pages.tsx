@@ -11,7 +11,7 @@ import Hovedside from './Hovedside/Hovedside';
 import { LoginBoundary } from './LoginBoundary';
 import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
-import { OrganisasjonsDetaljerProvider } from './OrganisasjonDetaljerProvider';
+import { OrganisasjonsDetaljerProvider } from './OrganisasjonsDetaljerProvider';
 import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './Pages.css';
@@ -63,7 +63,7 @@ const Pages: FunctionComponent = () => (
                                                 path="/bedriftsinformasjon"
                                                 element={
                                                     <>
-                                                        <Brodsmulesti/>
+                                                        <Brodsmulesti />
                                                         <BannerMedBedriftsmeny
                                                             sidetittel={'Om virksomheten'}
                                                         />
@@ -86,7 +86,7 @@ const Pages: FunctionComponent = () => (
                                                 path="/saksoversikt"
                                                 element={
                                                     <>
-                                                        <Brodsmulesti/>
+                                                        <Brodsmulesti />
                                                         <SaksoversiktBanner />
                                                         <Saksoversikt />
                                                     </>
@@ -96,7 +96,7 @@ const Pages: FunctionComponent = () => (
                                                 path="/sak"
                                                 element={
                                                     <>
-                                                        <Brodsmulesti/>
+                                                        <Brodsmulesti />
                                                         <SaksoversiktBanner />
                                                         <Saksside />
                                                     </>
@@ -112,7 +112,7 @@ const Pages: FunctionComponent = () => (
                                                 path="/artikkel/:id"
                                                 element={
                                                     <>
-                                                        <Brodsmulesti/>
+                                                        <Brodsmulesti />
                                                         <Artikkel />
                                                     </>
                                                 }

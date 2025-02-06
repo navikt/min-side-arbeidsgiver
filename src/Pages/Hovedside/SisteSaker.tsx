@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import amplitude from '../../utils/amplitude';
 import { Heading, Tag } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../api/graphql-types';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
 import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 const Saksikon = () => (
     <svg
@@ -34,7 +34,7 @@ const Saksikon = () => (
 
 const SisteSaker = () => {
     const { valgtOrganisasjon, antallSakerForAlleBedrifter } = useOrganisasjonsDetaljerContext();
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const location = useLocation();
 
     const { loading, data } = useSaker(0, {
@@ -57,14 +57,12 @@ const SisteSaker = () => {
         }
     }, [loading, data]);
 
-    if (valgtOrganisasjon === undefined) return null;
-
     if (loading || !data) return null;
 
     if ((antallSakerForAlleBedrifter ?? 0) === 0) return null;
 
-    const antallVirksomheter = Object.values(organisasjoner).filter((org) =>
-        ['BEDR', 'AAFY'].includes(org.organisasjon.OrganizationForm)
+    const antallVirksomheter = Object.values(organisasjonsInfo).filter((org) =>
+        ['BEDR', 'AAFY'].includes(org.organisasjon.organisasjonsform)
     ).length;
 
     const sakstyper = Array(

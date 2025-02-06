@@ -5,8 +5,8 @@ import './Arbeidsplassen.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Arbeidsplassen = () => {
     const antallAnnonser = useAntallannonser();
@@ -47,8 +47,7 @@ const PamStatusAnnonser = z.object({
 });
 
 const useAntallannonser = () => {
-    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const orgnr = valgtOrganisasjon?.organisasjon?.OrganizationNumber;
+    const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
     const [retries, setRetries] = useState(0);
 
     const { data } = useSWR(

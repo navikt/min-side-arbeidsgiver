@@ -1,17 +1,15 @@
 import { z } from 'zod';
 import { useState } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import useSWR from 'swr';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 export const useAntallKandidater = (): number => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
 
     const { data } = useSWR(
-        valgtOrganisasjon !== undefined
-            ? `${__BASE_PATH__}/presenterte-kandidater-api/ekstern/antallkandidater?virksomhetsnummer=${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-            : null,
+        `${__BASE_PATH__}/presenterte-kandidater-api/ekstern/antallkandidater?virksomhetsnummer=${valgtOrganisasjon.organisasjon.orgnr}`,
         fetcher,
         {
             onSuccess: () => setRetries(0),

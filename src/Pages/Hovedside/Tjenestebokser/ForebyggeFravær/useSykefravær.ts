@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
 import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Sykefraværsrespons = z.object({
     type: z.string(),
@@ -16,9 +16,7 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
-        valgtOrganisasjon !== undefined
-            ? `${__BASE_PATH__}/api/sykefravaerstatistikk/${valgtOrganisasjon.organisasjon.OrganizationNumber}`
-            : null,
+        `${__BASE_PATH__}/api/sykefravaerstatistikk/${valgtOrganisasjon.organisasjon.orgnr}`,
         fetcher,
         {
             onSuccess: () => setRetries(0),

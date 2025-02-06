@@ -45,7 +45,7 @@ export const eregHandlers = (demoprofil: Demoprofil) => [
                     beskrivelse: 'Bedrift',
                     _links: {
                         self: {
-                            href: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/BEDR',
+                            href: '/min-side-arbeidsgiver/api/ereg/organisasjonsformer/BEDR',
                         },
                     },
                 },
@@ -86,14 +86,10 @@ export const eregHandlers = (demoprofil: Demoprofil) => [
                 },
                 _links: {
                     self: {
-                        href:
-                            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/underenheter/' +
-                            orgnr,
+                        href: '/min-side-arbeidsgiver/api/ereg/underenheter/' + orgnr,
                     },
                     overordnetEnhet: {
-                        href:
-                            '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/' +
-                            parentOrgnummer,
+                        href: '/min-side-arbeidsgiver/api/ereg/enheter/' + parentOrgnummer,
                     },
                 },
             });
@@ -112,7 +108,7 @@ export const eregHandlers = (demoprofil: Demoprofil) => [
                     beskrivelse: 'Aksjeselskap',
                     _links: {
                         self: {
-                            href: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/organisasjonsformer/AS',
+                            href: '/min-side-arbeidsgiver/api/ereg/organisasjonsformer/AS',
                         },
                     },
                 },
@@ -151,7 +147,8 @@ export const eregHandlers = (demoprofil: Demoprofil) => [
                 institusjonellSektorkode: {
                     kode: '3200',
                     beskrivelse: 'Banker',
-                },                registrertIForetaksregisteret: false,
+                },
+                registrertIForetaksregisteret: false,
                 registrertIStiftelsesregisteret: false,
                 registrertIFrivillighetsregisteret: false,
                 konkurs: false,
@@ -160,7 +157,7 @@ export const eregHandlers = (demoprofil: Demoprofil) => [
                 maalform: 'Bokmål',
                 _links: {
                     self: {
-                        href: '/min-side-arbeidsgiver/mock/data.brreg.no/enhetsregisteret/api/enheter/181488484',
+                        href: '/min-side-arbeidsgiver/api/ereg/enheter/181488484',
                     },
                 },
             })

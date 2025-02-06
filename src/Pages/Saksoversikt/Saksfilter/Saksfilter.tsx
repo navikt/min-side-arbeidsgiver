@@ -14,11 +14,11 @@ import {
 } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
-import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerProvider';
 import amplitude from '../../../utils/amplitude';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -336,8 +336,8 @@ export const Saksfilter = ({
 };
 
 const OpprettInntektsmelding = () => {
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
-    const tilgangInntektsmelding = Object.values(organisasjoner).some(
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
+    const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );
     const ref = useRef<HTMLDivElement>(null);

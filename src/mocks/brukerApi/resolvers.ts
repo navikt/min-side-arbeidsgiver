@@ -1,14 +1,12 @@
-import { Kalenderavtale, Notifikasjon, Sak } from '../../api/graphql-types';
+import { Kalenderavtale, Notifikasjon, QuerySakerArgs, Sak } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
 import { executeAndValidate, oppgaveTilstandInfo } from './helpers';
-import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
-import { fakerNB_NO as faker } from '@faker-js/faker';
-import { alleNotifikasjoner } from './alleNotifikasjoner';
+import { Merkelapp } from './alleMerkelapper';
 
 export const hentSakerResolver = (saker: Sak[]) =>
     graphql.query('hentSaker', async ({ query, variables }) => {
         const sakerFiltrert = saker.filter(
-            ({ merkelapp }) => variables.sakstyper?.includes(merkelapp) ?? true
+            ({ merkelapp }) => (variables as QuerySakerArgs).sakstyper?.includes(merkelapp) ?? true
         );
         // create a map of merkelapp to number of saker
         const sakstyper = Array.from(
@@ -84,7 +82,7 @@ export const sakstyperResolver = (sakstyper: Merkelapp[]) =>
     });
 
 export const hentSakByIdResolver = (saker: Sak[]) =>
-    graphql.query('HENT_SAK_ID', async ({ query, variables }) => {
+    graphql.query('HENT_SAK_ID', async () => {
         const sak = saker[0];
         return HttpResponse.json({
             data: {

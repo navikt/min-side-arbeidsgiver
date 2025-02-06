@@ -1,5 +1,5 @@
 import amplitude from '../utils/amplitude';
-import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerProvider';
+import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -79,7 +79,7 @@ const finnSektorNavn = (eregOrg: Hovedenhet) => {
 };
 
 export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined) => {
-    const { underenhet, isLoading } = useUnderenhet(org?.organisasjon.OrganizationNumber);
+    const { underenhet, isLoading } = useUnderenhet(org?.organisasjon?.orgnr);
 
     useEffect(() => {
         if (org === undefined) return;
@@ -93,14 +93,14 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
             ...navtjenestetilganger,
             org.syfotilgang ? 'syfo-nærmesteleder' : null,
         ]
-            .filter((e) => e)
+            .filter((e) => e !== null)
             .sort()
             .join(' ');
 
         const virksomhetsinfo: any = {
             url: baseUrl,
             tilgangskombinasjon,
-            organisasjonstypeForØversteLedd: org.organisasjonstypeForØversteLedd,
+            organisasjonstypeForØversteLedd: org.øversteLedd?.organisasjonsform,
         };
 
         if (underenhet !== undefined) {
@@ -150,4 +150,11 @@ export const useLoggKlikk = () => {
             pathname,
             ...annet,
         });
+};
+
+export const amplitudeChipClick = (kategori: string, filternavn: string) => {
+    amplitude.logEvent('chip-click', {
+        kategori: kategori,
+        filternavn: filternavn,
+    });
 };
