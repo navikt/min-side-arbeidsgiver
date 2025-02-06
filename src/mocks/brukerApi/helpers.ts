@@ -6,16 +6,13 @@ import {
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
     Lokasjon,
-    Maybe,
     Oppgave,
-    OppgaveMetadata,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     OppgaveTilstandInfo,
     Sak,
     SakStatus,
     SakStatusType,
-    Scalars,
     TidslinjeElement,
     Virksomhet,
 } from '../../api/graphql-types';
@@ -318,7 +315,7 @@ export const sak = ({
     tilleggsinformasjon?: string;
     tittel: string;
     virksomhet: Virksomhet;
-    lenke?: string;
+    lenke?: string | null;
 }): Sak => ({
     id: faker.string.uuid(),
     tittel,

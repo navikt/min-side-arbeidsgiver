@@ -22,7 +22,7 @@ import {
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
-import { InternLenkeMedLogging, LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { AvtaletilstandLinje, StatusLinje } from '../../GeneriskeElementer/StatusLinje';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { LocationPinIcon, PersonHeadsetIcon } from '@navikt/aksel-icons';
@@ -103,14 +103,7 @@ const Saksoverskrift = ({ lenkeTilSak, sak }: SaksoverskriftProps) => {
                 </LenkeMedLogging>
             );
         } else {
-            return (
-                <InternLenkeMedLogging
-                    href={`/sak?saksid=${sak.id}`}
-                    loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
-                >
-                    <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
-                </InternLenkeMedLogging>
-            );
+            return <BodyShort className="sakstittel">{sak.tittel}</BodyShort>;
         }
     } else {
         return (
@@ -130,7 +123,7 @@ const Tidslinjeelement = ({
     tidslinjeelement,
     skjulLinjeIkon,
     brukDelvisStipletLinjeIkon,
-    visSomLenke
+    visSomLenke,
 }: {
     tidslinjeelement: TidslinjeElement;
     skjulLinjeIkon: boolean;
@@ -234,17 +227,23 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         tidslinjeelement={sak.tidslinje[0]}
                         skjulLinjeIkon={true}
                         brukDelvisStipletLinjeIkon={false}
-                        visSomLenke={visSomLenke({ sakLenke: sak.lenke, notifikasjonsLenke: sak.tidslinje[0].lenke })}
+                        visSomLenke={visSomLenke({
+                            sakLenke: sak.lenke,
+                            notifikasjonsLenke: sak.tidslinje[0].lenke,
+                        })}
                     />
                 ) : (
                     <>
-                        {todos.map((tidslinjeelement, i) => (
+                        {todos.map((tidslinjeelement, _) => (
                             <Tidslinjeelement
                                 key={tidslinjeelement.id}
                                 tidslinjeelement={tidslinjeelement}
                                 skjulLinjeIkon={false}
                                 brukDelvisStipletLinjeIkon={true}
-                                visSomLenke={visSomLenke({ sakLenke: sak.lenke, notifikasjonsLenke: tidslinjeelement.lenke })}
+                                visSomLenke={visSomLenke({
+                                    sakLenke: sak.lenke,
+                                    notifikasjonsLenke: tidslinjeelement.lenke,
+                                })}
                             />
                         ))}
                         {tidslinje.map((tidslinjeelement, i) => {
@@ -255,7 +254,10 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                                     tidslinjeelement={tidslinjeelement}
                                     skjulLinjeIkon={i === erSist}
                                     brukDelvisStipletLinjeIkon={!tidslinjeOpen}
-                                    visSomLenke={visSomLenke({ sakLenke: sak.lenke, notifikasjonsLenke: tidslinjeelement.lenke })}
+                                    visSomLenke={visSomLenke({
+                                        sakLenke: sak.lenke,
+                                        notifikasjonsLenke: tidslinjeelement.lenke,
+                                    })}
                                 />
                             );
                         })}
@@ -334,14 +336,15 @@ const BeskjedElement = ({
 const OppgaveElement = ({
     tidslinjeelement,
     TidslinjeLinjeIkon,
-    visSomLenke
+    visSomLenke,
 }: {
     tidslinjeelement: TidslinjeElement;
     TidslinjeLinjeIkon: React.JSX.Element | null;
     visSomLenke: boolean;
 }) => {
     if (tidslinjeelement.__typename !== 'OppgaveTidslinjeElement') return null;
-    const { tilstand, tekst, opprettetTidspunkt, lenke } = tidslinjeelement as OppgaveTidslinjeElement;
+    const { tilstand, tekst, opprettetTidspunkt, lenke } =
+        tidslinjeelement as OppgaveTidslinjeElement;
 
     const ikon = {
         NY: <NyOppgaveIkon title="Uløst oppgave" />,
@@ -381,7 +384,7 @@ const OppgaveElement = ({
 const KalenderavtaleElement = ({
     tidslinjeelement,
     TidslinjeLinjeIkon,
-    visSomLenke
+    visSomLenke,
 }: {
     tidslinjeelement: TidslinjeElement;
     TidslinjeLinjeIkon: React.JSX.Element | null;
@@ -509,20 +512,30 @@ const NotifikasjonsLenke = ({
     children,
     visSomLenke,
 }: {
-
     lenke: string;
     children: React.ReactNode;
     visSomLenke: boolean;
-}) => visSomLenke ? <a href={lenke}>{children}</a> : children;
+}) => (visSomLenke ? <a href={lenke}>{children}</a> : children);
 
-export const visSomLenke = ({ sakLenke, notifikasjonsLenke }: { sakLenke?: string | null, notifikasjonsLenke: string }) => {
-    const saksSideLenke = new URL(`${__BASE_PATH__}/sak`, location.origin)
-    let notifikasjonsLenkeUrl
+export const visSomLenke = ({
+    sakLenke,
+    notifikasjonsLenke,
+}: {
+    sakLenke?: string | null;
+    notifikasjonsLenke: string;
+}) => {
+    const saksSideLenke = new URL(`${__BASE_PATH__}/sak`, location.origin);
+    let notifikasjonsLenkeUrl;
     try {
-        notifikasjonsLenkeUrl = new URL(notifikasjonsLenke)
+        notifikasjonsLenkeUrl = new URL(notifikasjonsLenke);
     } catch {
-        notifikasjonsLenkeUrl = new URL(notifikasjonsLenke, location.origin)
+        notifikasjonsLenkeUrl = new URL(notifikasjonsLenke, location.origin);
     }
-    return sakLenke !== notifikasjonsLenke && !(notifikasjonsLenkeUrl.origin === saksSideLenke.origin
-        && notifikasjonsLenkeUrl.pathname === saksSideLenke.pathname)
-}
+    return (
+        sakLenke !== notifikasjonsLenke &&
+        !(
+            notifikasjonsLenkeUrl.origin === saksSideLenke.origin &&
+            notifikasjonsLenkeUrl.pathname === saksSideLenke.pathname
+        )
+    );
+};

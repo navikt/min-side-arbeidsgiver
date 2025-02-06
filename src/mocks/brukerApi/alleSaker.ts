@@ -22,7 +22,7 @@ export const alleSaker = [
             type: SakStatusType.Mottatt,
             tekst: 'Mottatt',
         }),
-        lenke: `https://foo.bar`,
+        lenke: null,
         nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
         tidslinje: [
             beskjedTidslinjeElement({
