@@ -26,42 +26,51 @@ const createAmpltiudeInstance = (): AmplitudeInstance => {
     return amplitude;
 };
 
-const mockedAmplitude = (): AmplitudeInstance => ({
-    logEvent: (eventInput: Types.BaseEvent | string, eventProperties?: Record<string, any>) => {
-        console.group('Mocked amplitude-event');
-        console.table({ eventInput, ...eventProperties });
-        console.groupEnd();
-        return {
-            promise: new Promise<Types.Result>((resolve) =>
-                resolve({
-                    event: { event_type: 'MockEvent' },
-                    code: 200,
-                    message: 'Success: mocked amplitude-tracking',
-                })
-            ),
-        };
-    },
-    identify(
-        identify: Types.Identify,
-        _?: Types.EventOptions
-    ): Types.AmplitudeReturn<Types.Result> {
-        console.group('Mocked amplitude-identify');
-        console.table(identify);
-        console.groupEnd();
-        return {
-            promise: new Promise<Types.Result>((resolve) =>
-                resolve({
-                    event: { event_type: 'MockIdentify' },
-                    code: 200,
-                    message: 'Success: mocked amplitude-identify',
-                })
-            ),
-        };
-    },
-});
+const mockedAmplitude = ({ muted }: { muted: boolean }): AmplitudeInstance => {
+    const _console = muted
+        ? {
+              group: () => {},
+              groupEnd: () => {},
+              table: () => {},
+          }
+        : console;
+    return {
+        logEvent: (eventInput: Types.BaseEvent | string, eventProperties?: Record<string, any>) => {
+            _console.group('Mocked amplitude-event');
+            _console.table({ eventInput, ...eventProperties });
+            _console.groupEnd();
+            return {
+                promise: new Promise<Types.Result>((resolve) =>
+                    resolve({
+                        event: { event_type: 'MockEvent' },
+                        code: 200,
+                        message: 'Success: mocked amplitude-tracking',
+                    })
+                ),
+            };
+        },
+        identify(
+            identify: Types.Identify,
+            _?: Types.EventOptions
+        ): Types.AmplitudeReturn<Types.Result> {
+            _console.group('Mocked amplitude-identify');
+            _console.table(identify);
+            _console.groupEnd();
+            return {
+                promise: new Promise<Types.Result>((resolve) =>
+                    resolve({
+                        event: { event_type: 'MockIdentify' },
+                        code: 200,
+                        message: 'Success: mocked amplitude-identify',
+                    })
+                ),
+            };
+        },
+    };
+};
 
 export default gittMiljo({
     prod: () => createAmpltiudeInstance(),
     dev: () => createAmpltiudeInstance(),
-    other: () => mockedAmplitude(),
+    other: () => mockedAmplitude({ muted: true }),
 })();

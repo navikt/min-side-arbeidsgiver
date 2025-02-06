@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonDetaljerProvider';
 import Arbeidsforhold from './Arbeidsforhold/Arbeidsforhold';
 import Sykmeldte from './Sykmeldte/Sykmeldte';
 import Arbeidsplassen from './Arbeidsplassen/Arbeidsplassen';
@@ -9,6 +8,7 @@ import ForebyggeFravær from './ForebyggeFravær/ForebyggeFravær';
 import TiltakRefusjoner from './TiltakRefusjoner/TiltakRefusjoner';
 import './Tjenestebokser.css';
 import amplitude from '../../../utils/amplitude';
+import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 
 const Bokser = {
     Arbeidsforhold: Arbeidsforhold,
@@ -23,10 +23,6 @@ type TjenesteBoks = keyof typeof Bokser;
 
 const TjenesteboksContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-
-    if (valgtOrganisasjon === undefined) {
-        return null;
-    }
 
     const tjenester: TjenesteBoks[] = [];
 

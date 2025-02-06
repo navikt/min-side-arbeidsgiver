@@ -4,11 +4,10 @@ import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
 import { Filter } from './useOversiktStateTransitions';
 import { Set } from 'immutable';
-import {
-    OrganisasjonEnhet,
-    useOrganisasjonerOgTilgangerContext,
-} from '../OrganisasjonerOgTilgangerProvider';
+import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
+import { flatUtTre } from '../../utils/util';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 type SakerResultat = Pick<Query, 'saker'>;
 
@@ -111,18 +110,18 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
  * external = { H, U1 }
  */
 const beregnVirksomhetsnummer = (
-    organisasjonstre: OrganisasjonEnhet[],
+    organisasjonstre: Organisasjon[],
     virksomheter: Set<string>
 ): string[] => {
     if (virksomheter.isEmpty()) {
-        return organisasjonstre.flatMap(({ underenheter }) =>
-            underenheter.map((it) => it.OrganizationNumber)
+        return flatUtTre(organisasjonstre).flatMap(({ underenheter }) =>
+            underenheter.map((it) => it.orgnr)
         );
     }
 
-    return organisasjonstre.flatMap(({ hovedenhet, underenheter }) => {
-        if (virksomheter.has(hovedenhet.OrganizationNumber)) {
-            const underenheterOrgnr = underenheter.map((it) => it.OrganizationNumber);
+    return flatUtTre(organisasjonstre).flatMap((organisasjon) => {
+        if (virksomheter.has(organisasjon.orgnr)) {
+            const underenheterOrgnr = organisasjon.underenheter.map((it) => it.orgnr);
             const valgteUnderenheter = underenheterOrgnr.filter((it) => virksomheter.has(it));
             if (valgteUnderenheter.length === 0) {
                 return underenheterOrgnr;

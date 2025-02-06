@@ -1,18 +1,18 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useEffect, useState } from 'react';
-import { useOrganisasjonsDetaljerContext } from '../OrganisasjonDetaljerProvider';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erDriftsforstyrrelse } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
 import amplitude from '../../utils/amplitude';
+import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 export const ManglerKontonummerAlert = () => {
     const kontonummerStatus = manglerKontonummerAlert();
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const kanEndreKontonummer =
-        valgtOrganisasjon?.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
+        valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
 
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
@@ -77,12 +77,10 @@ const manglerKontonummerAlert = (): KontonummerStatus => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const [retries, setRetries] = useState(0);
     const { data } = useSWR(
-        valgtOrganisasjon !== undefined
-            ? {
-                  url: `${__BASE_PATH__}/api/kontonummerStatus/v1`,
-                  virksomhetsnummer: valgtOrganisasjon.organisasjon.OrganizationNumber,
-              }
-            : null,
+        {
+            url: `${__BASE_PATH__}/api/kontonummerStatus/v1`,
+            virksomhetsnummer: valgtOrganisasjon.organisasjon.orgnr,
+        },
         fetcher,
         {
             onSuccess: () => setRetries(0),

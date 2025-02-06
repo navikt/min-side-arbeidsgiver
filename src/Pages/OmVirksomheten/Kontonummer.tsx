@@ -5,7 +5,8 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { Hovedenhet, Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
 import useSWR from 'swr';
 import { z } from 'zod';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerProvider';
+
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 const KontonummerRespons = z
     .object({
@@ -55,10 +56,10 @@ const kontonummerFetcher = async ({
 };
 
 const useKontonummer = (input: KontonummerInput) => {
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
 
     if (
-        !organisasjoner[input.orgnrForTilgangstyring].altinntilgang
+        !organisasjonsInfo[input.orgnrForTilgangstyring].altinntilgang
             .endreBankkontonummerForRefusjoner
     ) {
         return null;

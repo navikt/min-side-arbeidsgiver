@@ -1,24 +1,17 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
-import Bedriftsmeny from '@navikt/bedriftsmeny';
-import '@navikt/bedriftsmeny/lib/bedriftsmeny.css';
-import { useOrganisasjonsDetaljerContext } from './OrganisasjonDetaljerProvider';
-import { useOrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerProvider';
-import * as Record from '../utils/Record';
+import React, { FunctionComponent, useEffect } from 'react';
+import { Banner, findRecursive, Virksomhetsvelger } from '@navikt/virksomhetsvelger';
+import '@navikt/virksomhetsvelger/dist/assets/style.css';
 import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { useSearchParams } from 'react-router-dom';
 import { Heading, Loader } from '@navikt/ds-react';
 import './Banner.css';
 import { LenkeMedLogging } from '../GeneriskeElementer/LenkeMedLogging';
 import { HouseIcon } from '@navikt/aksel-icons';
+import { useOrganisasjonsDetaljerContext } from './OrganisasjonsDetaljerContext';
+import { useOrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerContext';
 
-interface OwnProps {
-    sidetittel?: string;
-}
-
-export const SimpleBanner: FunctionComponent<OwnProps> = ({
-    sidetittel = 'Min side – arbeidsgiver',
-}) => {
-    return <Bedriftsmeny sidetittel={'Min side – arbeidsgiver'} />;
+export const SimpleBanner = () => {
+    return <Banner tittel="Min side – arbeidsgiver" />;
 };
 
 export const SaksoversiktBanner = () => (
@@ -31,44 +24,32 @@ export const SaksoversiktBanner = () => (
     </div>
 );
 
-export const BannerMedBedriftsmeny: FunctionComponent<OwnProps> = ({ sidetittel }) => {
-    const { organisasjoner } = useOrganisasjonerOgTilgangerContext();
-    const { endreOrganisasjon, valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
+export const BannerMedBedriftsmeny: FunctionComponent<{
+    sidetittel: string;
+}> = ({ sidetittel }) => {
+    const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
+    const { endreOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     const [params, setParams] = useSearchParams();
     const orgnrFraUrl = params.get('bedrift');
 
     useEffect(() => {
+        // TODO: vurder å fjerne støtte for orgnr i URL
         if (orgnrFraUrl === null) return;
-        if (organisasjoner[orgnrFraUrl] !== undefined) {
-            endreOrganisasjon(organisasjoner[orgnrFraUrl].organisasjon);
+        const orgFraUrl = findRecursive(organisasjonstre, (it) => it.orgnr === orgnrFraUrl);
+        if (orgFraUrl !== undefined) {
+            endreOrganisasjon(orgFraUrl);
         }
 
         params.delete('bedrift');
         setParams(params, { replace: true });
     }, []);
 
-    const useOrgnrHook: () => [string | null, (orgnr: string) => void] = useCallback(() => {
-        const currentOrgnr = valgtOrganisasjon?.organisasjon.OrganizationNumber ?? null;
-        return [
-            currentOrgnr,
-            (orgnr: string) => {
-                if (organisasjoner[orgnr] !== undefined) {
-                    endreOrganisasjon(organisasjoner[orgnr].organisasjon);
-                }
-            },
-        ];
-    }, [endreOrganisasjon, valgtOrganisasjon]);
-
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjoner
-        ? Record.mapToArray(organisasjoner, (orgnr, { organisasjon }) => organisasjon)
-        : [];
-
     return (
-        <Bedriftsmeny sidetittel={sidetittel} organisasjoner={orgs} orgnrSearchParam={useOrgnrHook}>
+        <Banner tittel={sidetittel}>
+            <Virksomhetsvelger organisasjoner={organisasjonstre} onChange={endreOrganisasjon} />
             <NotifikasjonWidget />
-        </Bedriftsmeny>
+        </Banner>
     );
 };
 

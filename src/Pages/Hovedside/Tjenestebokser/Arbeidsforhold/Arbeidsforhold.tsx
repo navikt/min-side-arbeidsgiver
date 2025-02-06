@@ -4,13 +4,13 @@ import arbeidsforholdikon from './arbeidsforhold-ikon.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonDetaljerProvider';
+
+import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
-    const orgnr =
-        useOrganisasjonsDetaljerContext().valgtOrganisasjon?.organisasjon.OrganizationNumber ?? '';
+    const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
     const href = innsynAaregURL + (orgnr === '' ? '' : `?bedrift=${orgnr}`);
 
     return (
