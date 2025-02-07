@@ -413,4 +413,50 @@ export const alleSaker = [
             }),
         ],
     }),
+    sak({
+        merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
+        tittel: `Lenkeløs sak`,
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Mottatt',
+        }),
+        lenke: null,
+        nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'Notifikasjon har lenke',
+                lenke: `https://foo.bar`
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Notifikasjon har lenke til saksside',
+                lenke: `${__BASE_PATH__}/sak`
+            })
+        ],
+    }),
+    sak({
+        merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
+        tittel: 'Sak med lenke',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Mottatt',
+        }),
+        lenke: 'https://foo.bar',
+        nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
+        tidslinje: [
+            beskjedTidslinjeElement({
+                tekst: 'Notifikasjonen har samme lenke som sak',
+                lenke: `https://foo.bar`
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Notifikasjonen har lenke til saksside',
+                lenke: `${__BASE_PATH__}/sak`
+            }),
+            beskjedTidslinjeElement({
+                tekst: 'Notifikasjonen har en annen lenke enn sak',
+                lenke: 'https://bar.foo'
+            })
+        ],
+    }),
 ];
