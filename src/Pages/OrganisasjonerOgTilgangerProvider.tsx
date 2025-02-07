@@ -120,12 +120,16 @@ const useBeregnOrganisasjonsInfo = ():
             };
         }
 
+        const altinnOrganisasjonerFlatt = flatUtTre(userInfo.organisasjoner).flatMap((it) => [
+            it,
+            ...it.underenheter,
+        ]);
+        const digisyfoOrganisasjonerFlatt = flatUtTre(userInfo.digisyfoOrganisasjoner).flatMap(
+            (it: Organisasjon) => [it, ...it.underenheter]
+        );
         const organisasjonerFlatt: Organisasjon[] = [
-            ...flatUtTre(userInfo.organisasjoner).flatMap((it) => [it, ...it.underenheter]),
-            ...flatUtTre(userInfo.digisyfoOrganisasjoner).flatMap((it: Organisasjon) => [
-                it,
-                ...it.underenheter,
-            ]),
+            ...altinnOrganisasjonerFlatt,
+            ...digisyfoOrganisasjonerFlatt,
         ];
 
         const orgnrTilParent = Immutable.Map(
@@ -163,7 +167,7 @@ const useBeregnOrganisasjonsInfo = ():
                         ),
                         syfotilgang: digisyfoOrganisasjon !== undefined,
                         antallSykmeldte: digisyfoOrganisasjon?.antallSykmeldte ?? 0,
-                        reporteetilgang: organisasjonerFlatt.some(
+                        reporteetilgang: altinnOrganisasjonerFlatt.some(
                             ({ orgnr }) => orgnr === org.orgnr
                         ),
                         refusjonstatus: refusjonstatus?.statusoversikt ?? {},
