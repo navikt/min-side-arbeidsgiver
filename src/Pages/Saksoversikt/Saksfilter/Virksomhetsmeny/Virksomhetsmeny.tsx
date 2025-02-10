@@ -19,10 +19,16 @@ export const Virksomhetsmeny = ({
     valgteEnheter: valgteEnheterInput,
     setValgteEnheter,
 }: VirksomhetsmenyProps) => {
-    const { organisasjonstre, parentMap, childrenMap } = useOrganisasjonerOgTilgangerContext();
-    const alleOrganisasjoner = useMemo(
-        () => flatUtTre(organisasjonstre).flatMap((it) => [it, ...it.underenheter]),
-        [organisasjonstre]
+    const { organisasjonstre, orgnrTilParentMap, orgnrTilChildrenMap } =
+        useOrganisasjonerOgTilgangerContext();
+
+    const organisasjonstreFlat = flatUtTre(organisasjonstre);
+    const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
+    const parentMap = orgnrTilParentMap.filter((parent, _child) =>
+        organisasjonstreFlat.some((it) => it.orgnr === parent)
+    );
+    const childrenMap = orgnrTilChildrenMap.filter((_children, parent) =>
+        organisasjonstreFlat.some((it) => it.orgnr === parent)
     );
 
     const parentsOf = (orgnr: Set<string>): Set<string> =>
@@ -70,6 +76,7 @@ export const Virksomhetsmeny = ({
         // uten at hovedenhet er huket av.
         const lagtTil = nyeValgte.subtract(valgteEnheter);
         const implisittValgteHovedenheter = parentsOf(lagtTil);
+        console.log('implisittValgteHovedenheter', implisittValgteHovedenheter.toArray());
 
         return nyeValgte.subtract(implisittFjernedUnderenehter).union(implisittValgteHovedenheter);
     };
@@ -96,7 +103,9 @@ export const Virksomhetsmeny = ({
     };
 
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
+        console.log(checkedEnheter);
         const nyveValgte = utledNyeValgte(Set<string>(checkedEnheter));
+        console.error('nyveValgte', nyveValgte.toArray());
         setValgteEnheter(nyveValgte);
         amplitudeValgteVirksomheter(nyveValgte);
     };
@@ -113,7 +122,7 @@ export const Virksomhetsmeny = ({
                 onChange={onCheckboxGroupChange}
             >
                 <ul className="sak_virksomhetsmeny_hovedenhetliste">
-                    {organisasjonstre.map((hovedenhet) => {
+                    {organisasjonstreFlat.map((hovedenhet) => {
                         const underenheter = hovedenhet.underenheter;
                         if (søketreff && !søketreff.has(hovedenhet.orgnr)) {
                             return null;

@@ -3,7 +3,7 @@ import { Button, Chips, Heading } from '@navikt/ds-react';
 import { oppgaveTilstandTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
-import { count } from '../../utils/util';
+import { count, flatUtTre } from '../../utils/util';
 import { Filter, State } from './useOversiktStateTransitions';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { Collapse, Expand } from '@navikt/ds-icons';
@@ -16,7 +16,10 @@ export type FilterChipsProps = {
 };
 
 export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
-    const { organisasjonstre, childrenMap, parentMap } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonstre, orgnrTilChildrenMap, orgnrTilParentMap } =
+        useOrganisasjonerOgTilgangerContext();
+    const organisasjonstreFlat = flatUtTre(organisasjonstre);
+    const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
 
     const onTømAlleFilter = () => {
         byttFilter({
@@ -35,7 +38,7 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
     >(() => {
         const chips: (Organisasjon & { erHovedenhet: boolean })[] = [];
 
-        for (let { underenheter, ...hovedenhet } of organisasjonstre) {
+        for (let { underenheter, ...hovedenhet } of alleOrganisasjoner) {
             if (state.filter.virksomheter.has(hovedenhet.orgnr)) {
                 const antallUnderValgt = count(underenheter, (it) =>
                     state.filter.virksomheter.has(it.orgnr)
@@ -118,11 +121,11 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
                     let valgte = state.filter.virksomheter.remove(virksomhet.orgnr);
 
                     // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
-                    const parent = parentMap.get(virksomhet.orgnr);
+                    const parent = orgnrTilParentMap.get(virksomhet.orgnr);
                     if (parent === undefined) {
                         return;
                     }
-                    const underenheter = childrenMap.get(parent) ?? [];
+                    const underenheter = orgnrTilChildrenMap.get(parent) ?? [];
                     if (underenheter.every((it) => !valgte.has(it))) {
                         valgte = valgte.remove(parent);
                     }
