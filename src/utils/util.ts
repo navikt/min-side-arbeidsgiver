@@ -34,6 +34,10 @@ export const capitalize = (s: string): string => {
 export const formatOrgNr = (orgNr: string): string =>
     orgNr.replace(/(\d{3})(\d{3})(\d{3})/, '$1 $2 $3');
 
+/**
+ * Denne funksjonen tar en trestruktur og returnerer en flat liste av alle løvnoder og dems første ledd parent.
+ * mellomledd vil ikke være med i resultatet, med mindre de er direkte parent av en løvnode.
+ */
 export const flatUtTre = (organisasjonstre: Organisasjon[]): Organisasjon[] => {
     const mapR = (parent: Organisasjon): Organisasjon[] => {
         const [children, otherParents] = splittListe(
@@ -54,3 +58,49 @@ export const flatUtTre = (organisasjonstre: Organisasjon[]): Organisasjon[] => {
     };
     return organisasjonstre.flatMap((o) => mapR(o)).sort((a, b) => a.navn.localeCompare(b.navn));
 };
+
+/**
+ * Denne funksjonen tar en trestruktur av organisasjoner og mapper over hver node i treet med den gitte mapping funksjonen.
+ */
+export const mapRecursive = <T extends Organisasjon>(list: T[], mapper: (o: T) => T): T[] => {
+    return list.map((org) => {
+        return {
+            ...mapper({
+                ...org,
+                underenheter: mapRecursive(org.underenheter as T[], mapper),
+            }),
+        };
+    });
+};
+
+/**
+ * Denne funksjonen tar en trestruktur av organisasjoner og mapper alle noder til en flat liste, inklusiv alle mellomledd
+ */
+export const alleOrganisasjonerFlatt = (organisasjonstre: Organisasjon[]): Organisasjon[] => {
+    const mapR = (parent: Organisasjon): Organisasjon[] => [
+        parent,
+        ...parent.underenheter.flatMap(mapR),
+    ];
+    return organisasjonstre.flatMap((o) => mapR(o));
+};
+
+export const mergeOrgTre = (first: Organisasjon[], second: Organisasjon[]): Organisasjon[] => {
+    const map = new Map<string, Organisasjon>();
+
+    [...first, ...second].forEach((org) => {
+        if (map.has(org.orgnr)) {
+            map.set(org.orgnr, mergeOrgs(map.get(org.orgnr)!, org));
+        } else {
+            map.set(org.orgnr, org);
+        }
+    });
+
+    return Array.from(map.values());
+};
+
+const mergeOrgs = (orgA: Organisasjon, orgB: Organisasjon): Organisasjon => ({
+    navn: orgA.navn,
+    orgnr: orgA.orgnr,
+    organisasjonsform: orgA.organisasjonsform,
+    underenheter: mergeOrgTre(orgA.underenheter, orgB.underenheter),
+});
