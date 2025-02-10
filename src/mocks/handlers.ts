@@ -68,7 +68,7 @@ export const handlers = (demoprofil: Demoprofil) => [
     ),
 
     // eregHandlers
-        ...eregHandlers(demoprofil),
+    ...eregHandlers(demoprofil),
 
     // sykefravaerstatistikkHandler
     http.get('/min-side-arbeidsgiver/api/sykefravaerstatistikk/:orgnr', () =>
@@ -97,5 +97,5 @@ export const handlers = (demoprofil: Demoprofil) => [
     hentKalenderavtalerResolver([]),
     hentNotifikasjonerResolver([]),
     sakstyperResolver([]),
-    hentSakByIdResolver([])
+    hentSakByIdResolver([]),
 ];
