@@ -27,5 +27,6 @@ export default defineConfig({
         exclude: [...configDefaults.exclude, './vitest.setup.ts', 'build/**/*'],
         setupFiles: './vitest.setup.ts',
         reporters: 'verbose',
+        disableConsoleIntercept: true,
     },
 });

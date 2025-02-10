@@ -29,6 +29,7 @@
     "vite-env.d.ts",
   ],
   "exclude": [
-    "**/tests/*"
+    "**/tests/*",
+    "**/*.test.ts*",
   ],
 }

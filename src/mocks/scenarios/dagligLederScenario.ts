@@ -13,6 +13,7 @@ import { alleSaker } from '../brukerApi/alleSaker';
 import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
 import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
 import { Merkelapp } from '../brukerApi/alleMerkelapper';
+import { mapRecursive } from '../../utils/util';
 
 const alleTilganger = [
     '5216:1', // sykefraværsstatistikk
@@ -55,11 +56,24 @@ const underenheter = [
     },
 ];
 
+const orgledd = {
+    orgnr: orgnr(),
+    navn: faker.company.name(),
+    organisasjonsform: 'ORGL',
+    underenheter: [
+        {
+            orgnr: orgnr(),
+            navn: faker.company.name(),
+            organisasjonsform: 'ORGL',
+            underenheter: underenheter.slice(0, 1),
+        },
+    ],
+};
 export const dagligLederOrganisasjon = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
-    underenheter,
+    underenheter: [...underenheter.slice(1), orgledd],
 };
 
 export const dagligLederScenario = [
@@ -74,16 +88,10 @@ export const dagligLederScenario = [
                 ])
             ),
             digisyfoError: false,
-            digisyfoOrganisasjoner: [
-                {
-                    ...dagligLederOrganisasjon,
-                    antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
-                    underenheter: dagligLederOrganisasjon.underenheter.map((o) => ({
-                        ...o,
-                        antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
-                    })),
-                },
-            ],
+            digisyfoOrganisasjoner: mapRecursive([dagligLederOrganisasjon], (org) => ({
+                ...org,
+                antallSykmeldte: faker.number.int({ min: 0, max: 10 }),
+            })),
             refusjoner: underenheter.map(({ orgnr }) => ({
                 virksomhetsnummer: orgnr,
                 statusoversikt: {
