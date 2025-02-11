@@ -50,7 +50,7 @@ export const Virksomhetsmeny = ({
             antallHovedenheterTotalt: alleOrganisasjoner.length,
             antallUnderenheterValgt: valgte.count((orgnr) => parentMap.has(orgnr)),
             antallUnderenheterTotalt: sum(
-                organisasjonstre,
+                organisasjonstreFlat,
                 (hovedenhet) => hovedenhet.underenheter.length
             ),
         });
@@ -103,11 +103,9 @@ export const Virksomhetsmeny = ({
     };
 
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
-        console.log(checkedEnheter);
-        const nyveValgte = utledNyeValgte(Set<string>(checkedEnheter));
-        console.error('nyveValgte', nyveValgte.toArray());
-        setValgteEnheter(nyveValgte);
-        amplitudeValgteVirksomheter(nyveValgte);
+        const nyeValgte = utledNyeValgte(Set<string>(checkedEnheter));
+        setValgteEnheter(nyeValgte);
+        amplitudeValgteVirksomheter(nyeValgte);
     };
 
     return (

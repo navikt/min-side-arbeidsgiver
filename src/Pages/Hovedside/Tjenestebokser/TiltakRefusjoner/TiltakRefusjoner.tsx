@@ -20,7 +20,6 @@ const TiltakRefusjoner = () => {
             ? 'Søk og se refusjon for lønnstilskudd og sommerjobb'
             : `${klareForInnsending} refusjoner klare for innsending.` + ' Søk og se refusjon';
 
-    console.log(aria_label);
     return (
         <Tjenesteboks
             ikon={tiltakrefusjonikon}

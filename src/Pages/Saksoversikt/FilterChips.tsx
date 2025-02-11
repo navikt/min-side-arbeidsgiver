@@ -19,7 +19,7 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
     const { organisasjonstre, orgnrTilChildrenMap, orgnrTilParentMap } =
         useOrganisasjonerOgTilgangerContext();
     const organisasjonstreFlat = flatUtTre(organisasjonstre);
-    const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
+    //const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
 
     const onTømAlleFilter = () => {
         byttFilter({
@@ -38,7 +38,7 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
     >(() => {
         const chips: (Organisasjon & { erHovedenhet: boolean })[] = [];
 
-        for (let { underenheter, ...hovedenhet } of alleOrganisasjoner) {
+        for (let { underenheter, ...hovedenhet } of organisasjonstreFlat) {
             if (state.filter.virksomheter.has(hovedenhet.orgnr)) {
                 const antallUnderValgt = count(underenheter, (it) =>
                     state.filter.virksomheter.has(it.orgnr)
