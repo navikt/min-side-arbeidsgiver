@@ -32,6 +32,7 @@ export type Beskjed = {
 export type BeskjedTidslinjeElement = {
   __typename?: 'BeskjedTidslinjeElement';
   id: Scalars['ID']['output'];
+  lenke: Scalars['String']['output'];
   opprettetTidspunkt: Scalars['ISO8601DateTime']['output'];
   tekst: Scalars['String']['output'];
 };
@@ -66,6 +67,7 @@ export type KalenderavtaleTidslinjeElement = {
   avtaletilstand: KalenderavtaleTilstand;
   digitalt?: Maybe<Scalars['Boolean']['output']>;
   id: Scalars['ID']['output'];
+  lenke: Scalars['String']['output'];
   lokasjon?: Maybe<Lokasjon>;
   sluttTidspunkt?: Maybe<Scalars['ISO8601DateTime']['output']>;
   startTidspunkt: Scalars['ISO8601DateTime']['output'];
@@ -145,6 +147,7 @@ export type OppgaveTidslinjeElement = {
   __typename?: 'OppgaveTidslinjeElement';
   frist?: Maybe<Scalars['ISO8601Date']['output']>;
   id: Scalars['ID']['output'];
+  lenke: Scalars['String']['output'];
   opprettetTidspunkt: Scalars['ISO8601DateTime']['output'];
   paaminnelseTidspunkt?: Maybe<Scalars['ISO8601DateTime']['output']>;
   tekst: Scalars['String']['output'];

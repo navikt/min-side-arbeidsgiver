@@ -6,16 +6,13 @@ import {
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
     Lokasjon,
-    Maybe,
     Oppgave,
-    OppgaveMetadata,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     OppgaveTilstandInfo,
     Sak,
     SakStatus,
     SakStatusType,
-    Scalars,
     TidslinjeElement,
     Virksomhet,
 } from '../../api/graphql-types';
@@ -63,14 +60,17 @@ export const sakStatus = ({
 export const beskjedTidslinjeElement = ({
     tekst,
     opprettetTidspunkt = faker.date.recent(),
+    lenke = faker.internet.url()
 }: {
     tekst: string;
     opprettetTidspunkt?: Date;
+    lenke: string;
 }): BeskjedTidslinjeElement => ({
     __typename: 'BeskjedTidslinjeElement',
     id: faker.string.uuid(),
     tekst,
     opprettetTidspunkt: opprettetTidspunkt.toISOString(),
+    lenke
 });
 
 export const oppgaveTidslinjeElement = ({
@@ -81,6 +81,7 @@ export const oppgaveTidslinjeElement = ({
     paaminnelseTidspunkt,
     utfoertTidspunkt,
     utgaattTidspunkt,
+    lenke = faker.internet.url()
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -89,6 +90,7 @@ export const oppgaveTidslinjeElement = ({
     paaminnelseTidspunkt?: Date;
     utfoertTidspunkt?: Date;
     utgaattTidspunkt?: Date;
+    lenke: string;
 }): OppgaveTidslinjeElement => ({
     __typename: 'OppgaveTidslinjeElement',
     id: faker.string.uuid(),
@@ -99,6 +101,7 @@ export const oppgaveTidslinjeElement = ({
     utgaattTidspunkt: utgaattTidspunkt?.toISOString(),
     frist,
     tilstand,
+    lenke
 });
 
 export const kalenderavtaleTidslinjeElement = ({
@@ -108,6 +111,7 @@ export const kalenderavtaleTidslinjeElement = ({
     digitalt = false,
     lokasjon,
     sluttTidspunkt,
+    lenke = faker.internet.url()
 }: {
     tekst: string;
     avtaletilstand?: KalenderavtaleTilstand;
@@ -115,6 +119,7 @@ export const kalenderavtaleTidslinjeElement = ({
     lokasjon?: Lokasjon;
     sluttTidspunkt?: Date;
     startTidspunkt?: Date;
+    lenke: string;
 }): KalenderavtaleTidslinjeElement => ({
     __typename: 'KalenderavtaleTidslinjeElement',
     id: faker.string.uuid(),
@@ -124,6 +129,7 @@ export const kalenderavtaleTidslinjeElement = ({
     lokasjon,
     startTidspunkt: startTidspunkt.toISOString(),
     sluttTidspunkt: sluttTidspunkt?.toISOString(),
+    lenke
 });
 
 export const oppgaveTilstandInfo = (): Array<OppgaveTilstandInfo> =>
@@ -143,7 +149,7 @@ export const oppgave = ({
     utgaattTidspunkt,
     klikketPaa = true,
     tilleggsinformasjon,
-    lenke = `#${faker.lorem.word()}`,
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -195,7 +201,7 @@ export const beskjed = ({
     opprettetTidspunkt = faker.date.recent(),
     klikketPaa = true,
     tilleggsinformasjon,
-    lenke = `#${faker.lorem.word()}`,
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     sakTittel?: string;
@@ -278,7 +284,7 @@ export const kalenderavtale = ({
         klikketPaa,
     },
 
-    lenke: `#${faker.lorem.word()}`,
+    lenke: faker.internet.url(),
     merkelapp: _merkelapp,
 
     sak:
@@ -300,6 +306,7 @@ export const sak = ({
     tidslinje,
     tilleggsinformasjon,
     virksomhet,
+    lenke = faker.internet.url(),
 }: {
     merkelapp?: Merkelapp;
     nesteSteg?: string;
@@ -308,10 +315,11 @@ export const sak = ({
     tilleggsinformasjon?: string;
     tittel: string;
     virksomhet: Virksomhet;
+    lenke?: string | null;
 }): Sak => ({
     id: faker.string.uuid(),
     tittel,
-    lenke: `#${faker.lorem.word()}`,
+    lenke,
     merkelapp: _merkelapp,
     nesteSteg,
     sisteStatus,

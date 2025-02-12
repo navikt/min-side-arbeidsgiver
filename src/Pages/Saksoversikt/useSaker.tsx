@@ -57,11 +57,13 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                         paaminnelseTidspunkt
                         utfoertTidspunkt
                         utgaattTidspunkt
+                        lenke
                     }
                     ... on BeskjedTidslinjeElement {
                         id
                         tekst
                         opprettetTidspunkt
+                        lenke
                     }
                     ... on KalenderavtaleTidslinjeElement {
                         id
@@ -75,6 +77,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                             postnummer
                         }
                         digitalt
+                        lenke
                     }
                 }
             }
