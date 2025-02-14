@@ -13,11 +13,14 @@ import {
 export const OrganisasjonsDetaljerProvider: FunctionComponent<{
     children: React.ReactNode;
 }> = ({ children }: { children: React.ReactNode }) => {
-    const { organisasjonsInfo, organisasjonerFlatt } = useOrganisasjonerOgTilgangerContext();
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo>(() => {
-        const førsteVirksomhet = organisasjonerFlatt.find((it) => it.underenheter.length === 0);
-        const lagretVirksomhetOrgnr = sessionStorage.getItem('bedrift');
-        return organisasjonsInfo[lagretVirksomhetOrgnr ?? førsteVirksomhet?.orgnr ?? ''];
+        const sessionVirksomhet = organisasjonsInfo[sessionStorage.getItem('bedrift') ?? ''];
+        const tilfeldigVirksomhet = Object.values(organisasjonsInfo).find(
+            (o) => o.parent !== undefined && o.organisasjon.underenheter.length === 0
+        );
+
+        return sessionVirksomhet ?? tilfeldigVirksomhet;
     });
 
     const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<

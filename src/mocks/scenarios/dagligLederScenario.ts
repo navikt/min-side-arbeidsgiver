@@ -75,16 +75,28 @@ export const dagligLederOrganisasjon = {
     organisasjonsform: 'AS',
     underenheter: [...underenheter.slice(1), orgledd],
 };
+const hestemannen = {
+    orgnr: '994884344',
+    organisasjonsform: 'FLI',
+    navn: 'HESTMANNEN UNGDOMS- OG IDRETTSLAG',
+    altinn3Tilganger: [],
+    altinn2Tilganger: [],
+    underenheter: [],
+};
 
 export const dagligLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v3', () => {
         return HttpResponse.json({
             altinnError: false,
-            organisasjoner: [dagligLederOrganisasjon],
+            organisasjoner: [hestemannen, dagligLederOrganisasjon],
             tilganger: fromEntries(
                 alleTilganger.map((tilgang) => [
                     tilgang,
-                    [dagligLederOrganisasjon.orgnr, ...underenheter.map((org) => org.orgnr)],
+                    [
+                        '994884344',
+                        dagligLederOrganisasjon.orgnr,
+                        ...underenheter.map((org) => org.orgnr),
+                    ],
                 ])
             ),
             digisyfoError: false,
