@@ -291,7 +291,7 @@ export const Saksfilter = ({
                 </CheckboxGroup>
                 {sakstyperForFilter.length > 1 && (
                     <CheckboxGroup
-                        legend="Type sak"
+                        legend="Tema"
                         value={filter.sakstyper}
                         onChange={(valgteSakstyper) => {
                             setFilter({ ...filter, sakstyper: valgteSakstyper });
