@@ -45,7 +45,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
     }, [data, loading]);
 
     const endreOrganisasjon = (org: Organisasjon) => {
-        sessionStorage.setItem(VALGT_ORG_STORAGE, org.orgnr);
+        localStorage.setItem(VALGT_ORG_STORAGE, org.orgnr);
         setValgtOrganisasjon(organisasjonsInfo[org.orgnr]);
     };
 
