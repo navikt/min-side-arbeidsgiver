@@ -16,12 +16,13 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
 }> = ({ children }: { children: React.ReactNode }) => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo>(() => {
-        const sessionOrg = organisasjonsInfo[localStorage.getItem(VALGT_ORG_STORAGE) ?? ''];
-        const tilfeldigVirksomhet = Object.values(organisasjonsInfo).find(
-            (o) => o.parent !== undefined && o.organisasjon.underenheter.length === 0
+        const lagretOrg = organisasjonsInfo[localStorage.getItem(VALGT_ORG_STORAGE) ?? ''];
+        return (
+            lagretOrg ??
+            Object.values(organisasjonsInfo).find(
+                (o) => o.parent !== undefined && o.organisasjon.underenheter.length === 0
+            )
         );
-
-        return sessionOrg ?? tilfeldigVirksomhet;
     });
 
     const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<
