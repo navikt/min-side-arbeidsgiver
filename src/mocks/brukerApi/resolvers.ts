@@ -1,37 +1,50 @@
-import { Kalenderavtale, Notifikasjon, QuerySakerArgs, Sak } from '../../api/graphql-types';
+import {
+    Kalenderavtale,
+    Notifikasjon,
+    QuerySakerArgs,
+    Sak,
+    SakSortering,
+} from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
 import { executeAndValidate, oppgaveTilstandInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
 
 export const hentSakerResolver = (saker: Sak[]) =>
-    graphql.query('hentSaker', async ({ query, variables }) => {
-        const sakerFiltrert = saker.filter(
-            ({ merkelapp }) => (variables as QuerySakerArgs).sakstyper?.includes(merkelapp) ?? true
-        );
-        // create a map of merkelapp to number of saker
-        const sakstyper = Array.from(
-            saker.reduce((acc, { merkelapp }) => {
-                acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
-                return acc;
-            }, new Map<string, number>())
-        ).map(([navn, antall]) => ({ navn, antall }));
+    graphql.query(
+        'hentSaker',
+        async ({ query, variables }: { query: string; variables: QuerySakerArgs }) => {
+            const sakerFiltrert = saker.filter(
+                ({ merkelapp }) => variables.sakstyper?.includes(merkelapp) ?? true
+            );
+            if (variables.sortering === SakSortering.EldsteFørst) {
+                sakerFiltrert.reverse();
+            }
 
-        const { errors, data } = await executeAndValidate({
-            query,
-            variables,
-            rootValue: {
-                saker: {
-                    saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
-                    sakstyper: sakstyper,
-                    feilAltinn: false,
-                    totaltAntallSaker: saker.length,
-                    oppgaveTilstandInfo: oppgaveTilstandInfo(),
+            // create a map of merkelapp to number of saker
+            const sakstyper = Array.from(
+                saker.reduce((acc, { merkelapp }) => {
+                    acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
+                    return acc;
+                }, new Map<string, number>())
+            ).map(([navn, antall]) => ({ navn, antall }));
+
+            const { errors, data } = await executeAndValidate({
+                query,
+                variables,
+                rootValue: {
+                    saker: {
+                        saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
+                        sakstyper: sakstyper,
+                        feilAltinn: false,
+                        totaltAntallSaker: saker.length,
+                        oppgaveTilstandInfo: oppgaveTilstandInfo(),
+                    },
                 },
-            },
-        });
+            });
 
-        return HttpResponse.json({ errors, data });
-    });
+            return HttpResponse.json({ errors, data });
+        }
+    );
 
 export const hentKalenderavtalerResolver = (kalenderavtaler: Kalenderavtale[]) =>
     graphql.query('HentKalenderavtaler', async ({ query, variables }) => {

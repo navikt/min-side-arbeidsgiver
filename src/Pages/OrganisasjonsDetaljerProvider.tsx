@@ -28,7 +28,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
         side: 1,
         virksomheter: Set(),
         tekstsoek: '',
-        sortering: SakSortering.Opprettet,
+        sortering: SakSortering.NyesteFørst,
         sakstyper: [],
         oppgaveTilstand: [],
     });

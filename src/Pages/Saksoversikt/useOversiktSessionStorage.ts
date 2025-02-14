@@ -107,7 +107,7 @@ const defaultSessionState: SessionStateSaksoversikt = {
     side: 1,
     tekstsoek: '',
     virksomhetsnumre: 'ALLEBEDRIFTER',
-    sortering: SakSortering.Oppdatert,
+    sortering: SakSortering.NyesteFørst,
     sakstyper: [],
     oppgaveTilstand: [],
     valgtFilterId: undefined,

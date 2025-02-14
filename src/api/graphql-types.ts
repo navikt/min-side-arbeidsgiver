@@ -237,9 +237,8 @@ export type SakResultat = {
 };
 
 export enum SakSortering {
-  Frist = 'FRIST',
-  Oppdatert = 'OPPDATERT',
-  Opprettet = 'OPPRETTET'
+  NyesteFørst = 'NYESTE',
+  EldsteFørst = 'ELDSTE',
 }
 
 export type SakStatus = {
