@@ -10,17 +10,18 @@ import {
     useOrganisasjonerOgTilgangerContext,
 } from './OrganisasjonerOgTilgangerContext';
 
+const VALGT_ORG_STORAGE = 'virksomhetsvelger_bedrift';
 export const OrganisasjonsDetaljerProvider: FunctionComponent<{
     children: React.ReactNode;
 }> = ({ children }: { children: React.ReactNode }) => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const [valgtOrganisasjon, setValgtOrganisasjon] = useState<OrganisasjonInfo>(() => {
-        const sessionVirksomhet = organisasjonsInfo[sessionStorage.getItem('bedrift') ?? ''];
+        const sessionOrg = organisasjonsInfo[localStorage.getItem(VALGT_ORG_STORAGE) ?? ''];
         const tilfeldigVirksomhet = Object.values(organisasjonsInfo).find(
             (o) => o.parent !== undefined && o.organisasjon.underenheter.length === 0
         );
 
-        return sessionVirksomhet ?? tilfeldigVirksomhet;
+        return sessionOrg ?? tilfeldigVirksomhet;
     });
 
     const [antallSakerForAlleBedrifter, setAntallSakerForAlleBedrifter] = useState<
@@ -44,6 +45,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
     }, [data, loading]);
 
     const endreOrganisasjon = (org: Organisasjon) => {
+        sessionStorage.setItem(VALGT_ORG_STORAGE, org.orgnr);
         setValgtOrganisasjon(organisasjonsInfo[org.orgnr]);
     };
 
