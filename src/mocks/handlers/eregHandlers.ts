@@ -1,10 +1,10 @@
 import { http, HttpResponse } from 'msw';
-import { orgnr } from '../brukerApi/helpers';
 import { faker } from '@faker-js/faker';
 import { Demoprofil } from '../../hooks/useDemoprofil';
 import { dagligLederOrganisasjon } from '../scenarios/dagligLederScenario';
 import { nærmesteLederOrganisasjon } from '../scenarios/nærmesteLederScenario';
 import { regnskapsforerOrganisasjoner } from '../scenarios/regnskapsforerScenario';
+import { findRecursive } from '@navikt/virksomhetsvelger';
 
 type organisasjon = {
     orgnr: string;
@@ -21,12 +21,12 @@ const organisasjoner: {
     Regnskapsforer: regnskapsforerOrganisasjoner,
 };
 
-const parentOrgnr = (demoprofil: Demoprofil, underenhetOrgnr: string | readonly string[]) => {
-    const org = organisasjoner[demoprofil].find((o) =>
+const parentOrgnr = (demoprofil: Demoprofil, underenhetOrgnr: string) => {
+    const org = findRecursive(organisasjoner[demoprofil], (o) =>
         o.underenheter.some((u) => u.orgnr === underenhetOrgnr)
     );
     if (!org) {
-        throw new Error(`Fant ikke organisasjon med orgnr ${orgnr}`);
+        throw new Error(`Fant ikke organisasjon med orgnr ${underenhetOrgnr}`);
     }
     return org.orgnr;
 };
