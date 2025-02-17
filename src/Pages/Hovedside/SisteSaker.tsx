@@ -41,7 +41,7 @@ const SisteSaker = () => {
         side: 1,
         virksomheter: Set(),
         tekstsoek: '',
-        sortering: SakSortering.Frist,
+        sortering: SakSortering.NyesteFørst,
         sakstyper: [],
         oppgaveTilstand: [],
     });

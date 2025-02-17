@@ -196,15 +196,13 @@ const useCurrentDate = (pollInterval: number) => {
 };
 
 const sorteringsnavn: Record<SakSortering, string> = {
-    OPPDATERT: 'Oppdatert',
-    OPPRETTET: 'Opprettet',
-    FRIST: 'Frist',
+    NYESTE: 'Nyeste først',
+    ELDSTE: 'Eldste først'
 };
 
 const sorteringsrekkefølge: SakSortering[] = [
-    SakSortering.Frist,
-    SakSortering.Oppdatert,
-    SakSortering.Opprettet,
+    SakSortering.NyesteFørst,
+    SakSortering.EldsteFørst,
 ];
 
 type SidevelgerProp = {
