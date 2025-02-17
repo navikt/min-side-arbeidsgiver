@@ -233,7 +233,6 @@ export const useBeregnOrganisasjonstre = (): { organisasjonstre: Organisasjon[] 
             return { organisasjonstre: [] };
         }
 
-        // TODO: naive implementation, perhaps need to deep check for duplicates
         const organisasjonstre: Organisasjon[] = mergeOrgTre(
             userInfo.organisasjoner,
             mapRecursive<Organisasjon>(userInfo.digisyfoOrganisasjoner, (org) => ({

@@ -28,7 +28,7 @@ export const BannerMedBedriftsmeny: FunctionComponent<{
     sidetittel: string;
 }> = ({ sidetittel }) => {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
-    const { endreOrganisasjon } = useOrganisasjonsDetaljerContext();
+    const { endreOrganisasjon, valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     const [params, setParams] = useSearchParams();
     const orgnrFraUrl = params.get('bedrift');
@@ -47,7 +47,11 @@ export const BannerMedBedriftsmeny: FunctionComponent<{
 
     return (
         <Banner tittel={sidetittel}>
-            <Virksomhetsvelger organisasjoner={organisasjonstre} onChange={endreOrganisasjon} />
+            <Virksomhetsvelger
+                organisasjoner={organisasjonstre}
+                onChange={endreOrganisasjon}
+                initValgtOrgnr={valgtOrganisasjon.organisasjon.orgnr}
+            />
             <NotifikasjonWidget />
         </Banner>
     );
