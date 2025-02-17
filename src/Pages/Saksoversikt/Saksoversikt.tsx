@@ -197,10 +197,7 @@ const useCurrentDate = (pollInterval: number) => {
 
 const sorteringsnavn: Record<SakSortering, string> = {
     NYESTE: 'Nyeste først',
-    ELDSTE: 'Eldste først',
-    FRIST: 'Frist',
-    OPPDATERT: 'Oppdatert',
-    OPPRETTET: 'Opprettet',
+    ELDSTE: 'Eldste først'
 };
 
 const sorteringsrekkefølge: SakSortering[] = [
