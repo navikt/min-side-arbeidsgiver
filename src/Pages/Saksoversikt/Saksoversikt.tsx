@@ -256,7 +256,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state, stuck, saksoversiktRef }
     }
 
     if (state.state === 'loading') {
-        return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
+        return <SaksideLaster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
     }
 
     const { totaltAntallSaker, saker } = state;
@@ -277,7 +277,7 @@ type LasterProps = {
     startTid: Date;
 };
 
-const Laster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
+const SaksideLaster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
     const nåtid = useCurrentDate(50);
     const lasteTid = nåtid.getTime() - startTid.getTime();
 
