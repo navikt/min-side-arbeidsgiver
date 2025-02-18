@@ -44,9 +44,9 @@ const maskFormat = format((info) => ({
 }));
 
 const apiRateLimit = rateLimit({
-    windowMs: 60 * 1000, // 1 minutt
-    limit: 200,
-    message: 'You have exceeded the 200 requests in 1m limit!',
+    windowMs: 1000, // 1 sekund
+    limit: 100,
+    message: 'You have exceeded the 100 requests in 1s limit!',
     standardHeaders: true,
     legacyHeaders: false,
 })
