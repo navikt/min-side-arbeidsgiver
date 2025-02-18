@@ -13,6 +13,7 @@ import { createLogger, format, transports } from 'winston';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
+import { rateLimit } from 'express-rate-limit'
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -41,6 +42,14 @@ const maskFormat = format((info) => ({
     ...info,
     message: info.message.replace(/\d{9,}/g, (match) => '*'.repeat(match.length)),
 }));
+
+const apiRateLimit = rateLimit({
+    windowMs: 1000, // 1 sekund
+    limit: 100,
+    message: 'You have exceeded the 100 requests in 1s limit!',
+    standardHeaders: true,
+    legacyHeaders: false,
+})
 
 // proxy calls to log.<level> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get
 const log = new Proxy(
@@ -172,6 +181,9 @@ const main = async () => {
     let appReady = false;
     const app = express();
     app.disable('x-powered-by');
+
+    app.use(apiRateLimit)
+
     app.set('views', BUILD_PATH);
 
     app.use('/*', (req, res, next) => {
