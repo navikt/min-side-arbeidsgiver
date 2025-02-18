@@ -72,8 +72,8 @@ const apiRateLimit = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     handler: (req, res, next, options) => {
-      if (req.rateLimit.remaning === 0) {
-        log('error', `Rate limit reached for IP: ${req.ip}`);
+      if (req.rateLimit.remaining === 0) {
+        log.error(`Rate limit reached for IP: ${req.ip}`);
       }
       res.status(options.statusCode).send(options.message);
   }
