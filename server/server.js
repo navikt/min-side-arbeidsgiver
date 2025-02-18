@@ -43,14 +43,6 @@ const maskFormat = format((info) => ({
     message: info.message.replace(/\d{9,}/g, (match) => '*'.repeat(match.length)),
 }));
 
-const apiRateLimit = rateLimit({
-    windowMs: 1000, // 1 sekund
-    limit: 100,
-    message: 'You have exceeded the 100 requests in 1s limit!',
-    standardHeaders: true,
-    legacyHeaders: false,
-})
-
 // proxy calls to log.<level> https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy/Proxy/get
 const log = new Proxy(
     createLogger({
@@ -71,6 +63,21 @@ const log = new Proxy(
         },
     }
 );
+
+
+const apiRateLimit = rateLimit({
+    windowMs: 1000, // 1 sekund
+    limit: 100, // Limit each IP to 100 requests per `window`
+    message: 'You have exceeded the 100 requests in 1s limit!',
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler: (req, res, next, options) => {
+      if (req.rateLimit.remaning === 0) {
+        log('error', `Rate limit reached for IP: ${req.ip}`);
+      }
+      res.status(options.statusCode).send(options.message);
+  }
+})
 
 const cookieScraperPlugin = (proxyServer, options) => {
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
