@@ -271,10 +271,10 @@ export const Saksfilter = ({
                 <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
 
                 <CheckboxGroup
-                    value={filter.oppgaveTilstand}
+                    value={filter.oppgaveFilter.oppgaveTilstand}
                     legend={'Oppgaver'}
-                    onChange={(valgteOppgavetilstander) =>
-                        setFilter({ ...filter, oppgaveTilstand: valgteOppgavetilstander })
+                    onChange={(valgteOppgavetilstander) => //TODO: fix setFIlter
+                        setFilter({ ...filter, oppgaveFilter: { harPåminnelseUtløst: false, oppgaveTilstand: valgteOppgavetilstander }})
                     }
                 >
                     <Checkbox

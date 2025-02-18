@@ -28,7 +28,10 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
             virksomheter: Set(),
             sortering: state.filter.sortering,
             sakstyper: [],
-            oppgaveTilstand: [],
+            oppgaveFilter: {
+                oppgaveTilstand: [],
+                harPåminnelseUtløst: false,
+            },
         });
         amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
@@ -56,7 +59,7 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
         }
         return chips;
     }, [organisasjonstre, state.filter.virksomheter]);
-    const { tekstsoek, sakstyper, oppgaveTilstand } = state.filter;
+    const { tekstsoek, sakstyper, oppgaveFilter } = state.filter;
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
@@ -95,16 +98,20 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
                 </Chips.Removable>
             )
         ),
-        ...oppgaveTilstand.map((oppgavetilstand) => (
+        ...oppgaveFilter.oppgaveTilstand.map((oppgavetilstand) => (
             <Chips.Removable
                 variant="neutral"
                 key={oppgavetilstand}
                 onClick={() => {
                     byttFilter({
                         ...state.filter,
-                        oppgaveTilstand: state.filter.oppgaveTilstand.filter(
-                            (it) => it != oppgavetilstand
-                        ),
+                        oppgaveFilter: {
+                            ...oppgaveFilter,
+                            oppgaveTilstand: state.filter.oppgaveFilter.oppgaveTilstand.filter(
+                                (it) => it != oppgavetilstand
+                            ),
+
+                        }
                     });
                     amplitudeChipClick('oppgave', oppgavetilstand);
                 }}
@@ -112,6 +119,7 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
                 {oppgaveTilstandTilTekst(oppgavetilstand)}
             </Chips.Removable>
         )),
+        //TODO: legg til påminnelse chip
         ...organisasjonerTilChips.map((virksomhet) => (
             <VirksomhetChips
                 key={virksomhet.orgnr}

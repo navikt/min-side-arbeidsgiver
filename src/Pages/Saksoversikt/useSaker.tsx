@@ -148,7 +148,7 @@ const inkluderInntektsmelding = (sakstyper: string[]) => {
 
 export function useSaker(
     pageSize: number,
-    { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand }: Filter
+    { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveFilter }: Filter
 ) {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
@@ -162,7 +162,7 @@ export function useSaker(
         tekstsoek: tekstsoek === '' ? null : tekstsoek,
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
-        oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
+        oppgaveTilstand: oppgaveFilter.oppgaveTilstand.length === 0 ? null : oppgaveFilter.oppgaveTilstand, //TODO: endre disse til å sende inn filteret?
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,
     };
@@ -194,7 +194,7 @@ export function useSaker(
         side,
         sortering,
         JSON.stringify(sakstyper),
-        JSON.stringify(oppgaveTilstand),
+        JSON.stringify(oppgaveFilter),
         error,
     ]);
 

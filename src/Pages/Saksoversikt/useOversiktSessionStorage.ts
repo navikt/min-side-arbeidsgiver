@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
-import { equalAsSets, Filter } from './useOversiktStateTransitions';
+import { equalAsSets, equalOppgaveFilter, Filter, OppgaveFilter } from './useOversiktStateTransitions';
 import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import amplitude from '../../utils/amplitude';
@@ -20,7 +20,7 @@ type SessionStateSaksoversikt = {
     virksomhetsnumre: string[] | 'ALLEBEDRIFTER';
     sortering: SakSortering;
     sakstyper: string[];
-    oppgaveTilstand: OppgaveTilstand[];
+    oppgaveFilter: OppgaveFilter;
     valgtFilterId?: string;
 };
 type SessionStateForside = {
@@ -39,7 +39,7 @@ const filterToSessionState = (
     sortering: filter.sortering,
     virksomhetsnumre: filter.virksomheter.toArray(),
     sakstyper: filter.sakstyper,
-    oppgaveTilstand: filter.oppgaveTilstand,
+    oppgaveFilter: filter.oppgaveFilter,
     valgtFilterId,
 });
 
@@ -74,7 +74,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.valgtFilterId === b.valgtFilterId &&
             equalVirksomhetsnumre(a, b) &&
             equalAsSets(a.sakstyper, b.sakstyper) &&
-            equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
+            equalOppgaveFilter(a.oppgaveFilter, b.oppgaveFilter)
         );
     } else {
         return false;
@@ -109,7 +109,10 @@ const defaultSessionState: SessionStateSaksoversikt = {
     virksomhetsnumre: 'ALLEBEDRIFTER',
     sortering: SakSortering.NyesteFørst,
     sakstyper: [],
-    oppgaveTilstand: [],
+    oppgaveFilter: {
+        oppgaveTilstand: [],
+        harPåminnelseUtløst: false,
+    },
     valgtFilterId: undefined,
 };
 
@@ -120,7 +123,10 @@ const FilterFromSessionState = z.object({
     virksomhetsnumre: z.union([z.array(z.string()), z.literal('ALLEBEDRIFTER')]),
     sortering: z.nativeEnum(SakSortering),
     sakstyper: z.array(z.string()),
-    oppgaveTilstand: z.array(z.nativeEnum(OppgaveTilstand)),
+    oppgaveFilter: z.object({
+        oppgaveTilstand: z.array(z.nativeEnum(OppgaveTilstand)),
+        harPåminnelseUtløst: z.boolean(),
+    }),
     valgtFilterId: z.string().optional(),
 });
 
@@ -184,7 +190,7 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
                       ),
             sortering: sessionState.sortering,
             sakstyper: sessionState.sakstyper,
-            oppgaveTilstand: sessionState.oppgaveTilstand,
+            oppgaveFilter: sessionState.oppgaveFilter,
         };
     }, [
         sessionState.side,
@@ -194,7 +200,7 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
             : sessionState.virksomhetsnumre.join(','),
         sessionState.sortering,
         sessionState.sakstyper.join(','),
-        sessionState.oppgaveTilstand.join(','),
+        sessionState.oppgaveFilter
     ]);
 
     return [{ filter, valgtFilterId: sessionState.valgtFilterId }, update];

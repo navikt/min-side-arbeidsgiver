@@ -21,7 +21,12 @@ export type Filter = {
     virksomheter: Set<string>;
     sortering: SakSortering;
     sakstyper: string[];
+    oppgaveFilter: OppgaveFilter;
+};
+
+export type OppgaveFilter = {
     oppgaveTilstand: OppgaveTilstand[];
+    harPåminnelseUtløst: boolean;
 };
 
 export type State =
@@ -194,6 +199,13 @@ const finnForrigeSaker = (state: State): Array<Sak> | null => {
     }
 };
 
+export function equalOppgaveFilter(a: OppgaveFilter, b: OppgaveFilter) {
+    return (
+        a.harPåminnelseUtløst === b.harPåminnelseUtløst &&
+        equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
+    );
+}
+
 export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every((aa) => b.includes(aa));
 }
@@ -204,4 +216,4 @@ export const equalFilter = (a: Filter, b: Filter): boolean =>
     Immutable.is(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
-    equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand);
+    equalOppgaveFilter(a.oppgaveFilter, b.oppgaveFilter);
