@@ -17,6 +17,7 @@ import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
 import './LagreFilter.css';
+import { SakSortering } from '../../api/graphql-types';
 
 export type LagretFilter = {
     uuid: string;
@@ -37,6 +38,13 @@ const statusMapping = {
     error: 'failed',
 } as const;
 
+function fiksSortering(filter: any): SakSortering {
+    if (filter in SakSortering) {
+        return filter;
+    }
+    return SakSortering.NyesteFørst;
+}
+
 const useLagredeFilter = (): {
     lagredeFilter: LagretFilter[];
     lagreNyttLagretFilter: (navn: string, filter: Filter) => LagretFilter;
@@ -53,6 +61,7 @@ const useLagredeFilter = (): {
             filter: {
                 ...filter.filter,
                 virksomheter: Set(filter.filter.virksomheter),
+                sortering: fiksSortering(filter.filter.sortering),
             },
         }))
     );
