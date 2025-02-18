@@ -64,20 +64,20 @@ const log = new Proxy(
     }
 );
 
-
 const apiRateLimit = rateLimit({
     windowMs: 1000, // 1 sekund
     limit: 100, // Limit each IP to 100 requests per `window`
     message: 'You have exceeded the 100 requests in 1s limit!',
     standardHeaders: true,
     legacyHeaders: false,
+    keyGenerator: (req) => req.headers?.authorization?.replace('Bearer', '') || req.ip,
     handler: (req, res, next, options) => {
-      if (req.rateLimit.remaining === 0) {
-        log.error(`Rate limit reached for IP: ${req.ip}`);
-      }
-      res.status(options.statusCode).send(options.message);
+        if (req.rateLimit.remaining === 0) {
+            log.error(`Rate limit reached for client ${req.ip}`);
+        }
+        res.status(options.statusCode).send(options.message);
   }
-})
+});
 
 const cookieScraperPlugin = (proxyServer, options) => {
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
