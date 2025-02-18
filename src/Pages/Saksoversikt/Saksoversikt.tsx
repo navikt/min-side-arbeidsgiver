@@ -11,7 +11,6 @@ import * as Record from '../../utils/Record';
 import { Query, Sak, SakSortering } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { Set } from 'immutable';
-import amplitude from '../../utils/amplitude';
 import { LagreFilter } from './LagreFilter';
 import { FilterChips } from './FilterChips';
 import { ServerError } from '@apollo/client/link/utils';
@@ -39,13 +38,6 @@ const useAlleSakstyper = () => {
         },
     });
     return data?.sakstyper ?? [];
-};
-
-export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent('chip-click', {
-        kategori: kategori,
-        filternavn: filternavn,
-    });
 };
 
 export const Saksoversikt = () => {
