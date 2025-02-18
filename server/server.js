@@ -70,7 +70,7 @@ const apiRateLimit = rateLimit({
     message: 'You have exceeded the 100 requests in 1s limit!',
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.headers?.authorization?.replace('Bearer', '') || req.ip,
+    keyGenerator: (req) => req.headers?.authorization?.replace('Bearer ', '') || req.ip,
     handler: (req, res, next, options) => {
         if (req.rateLimit.remaining === 0) {
             log.error(`Rate limit reached for client ${req.ip}`);
