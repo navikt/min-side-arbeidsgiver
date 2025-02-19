@@ -60,26 +60,25 @@ export const useOrganisasjonerOgTilgangerContext = () => {
     return organisasjonerOgTilgangerContext;
 };
 
-export const useBeregnAltinnTilgangssøknad = ():
-    | Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>>
-    | undefined => {
+export const useBeregnAltinnTilgangssøknad = (
+    organisasjonsInfo: Record<string, OrganisasjonInfo> | undefined
+): Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>> | undefined => {
     const altinnTilgangssøknader = useAltinnTilgangssøknader();
-    const { userInfo } = useUserInfo();
 
     return useMemo(() => {
-        if (userInfo === undefined) {
+        if (organisasjonsInfo === undefined) {
             return undefined;
         }
 
         return Record.fromEntries(
-            userInfo.organisasjoner.map((org) => {
+            Object.values(organisasjonsInfo).map((org) => {
                 return [
-                    org.orgnr,
+                    org.organisasjon.orgnr,
                     Record.map(
                         altinntjeneste,
                         (_: AltinntjenesteId, { tjenestekode, tjenesteversjon }) =>
                             sjekkTilgangssøknader(
-                                org.orgnr,
+                                org.organisasjon.orgnr,
                                 tjenestekode,
                                 tjenesteversjon,
                                 altinnTilgangssøknader
@@ -88,7 +87,7 @@ export const useBeregnAltinnTilgangssøknad = ():
                 ];
             })
         );
-    }, [userInfo, altinnTilgangssøknader]);
+    }, [organisasjonsInfo, altinnTilgangssøknader]);
 };
 
 export const sjekkTilgangssøknader = (
