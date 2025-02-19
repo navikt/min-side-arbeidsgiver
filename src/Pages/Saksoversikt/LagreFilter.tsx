@@ -1,4 +1,3 @@
-import { equalFilter, Filter, State } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
 import {
     Alert,
@@ -17,6 +16,7 @@ import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
 import './LagreFilter.css';
+import { equalFilter, Filter, useSaksoversiktContext } from './SaksoversiktProvider';
 
 export type LagretFilter = {
     uuid: string;
@@ -162,13 +162,17 @@ const useLagredeFilter = (): {
     };
 };
 
-type LagreFilterProps = {
-    state: State;
-    byttFilter: (filter: Filter) => void;
-    setValgtFilterId: (id: string | undefined) => void;
-};
+// type LagreFilterProps = {
+//     state: State;
+//     byttFilter: (filter: Filter) => void;
+//     setValgtFilterId: (id: string | undefined) => void;
+// };
+//
+// export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilterProps) => {
 
-export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilterProps) => {
+export const LagreFilter = () => {
+    const {state, transitions: {byttFilter, setValgtFilterId}} = useSaksoversiktContext();
+
     const [openLagre, setOpenLagre] = useState(false);
     const [feilmeldingStatus, setFeilmeldingStatus] = useState<'noInput' | 'duplicate' | 'ok'>(
         'ok'

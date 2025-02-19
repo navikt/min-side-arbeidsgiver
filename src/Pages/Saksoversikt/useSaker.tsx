@@ -2,7 +2,7 @@ import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import { useContext, useEffect, useMemo } from 'react';
 import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
-import { Filter } from './useOversiktStateTransitions';
+import { Filter } from './SaksoversiktProvider';
 import { Set } from 'immutable';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';

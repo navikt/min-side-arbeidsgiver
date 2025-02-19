@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
-import { equalAsSets, equalOppgaveFilter, Filter, OppgaveFilter } from './useOversiktStateTransitions';
+import { equalAsSets, equalOppgaveFilter, Filter, OppgaveFilter } from './SaksoversiktProvider';
 import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import amplitude from '../../utils/amplitude';
@@ -130,13 +130,13 @@ const FilterFromSessionState = z.object({
     valgtFilterId: z.string().optional(),
 });
 
-export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
+export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
     const [sessionStorage, setSessionStorage] = useSessionStorage<SessionState>(
         SESSION_STORAGE_KEY,
         defaultSessionState
     );
 
-    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
+    const [sessionStateSaksoversikt, setSessionStateSaksoversikt] = useState<SessionStateSaksoversikt>(() => {
         if (sessionStorage.route === '/saksoversikt') {
             try {
                 return FilterFromSessionState.parse(sessionStorage);
@@ -150,60 +150,61 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
     });
 
     useEffect(() => {
-        setSessionStorage(sessionState);
-    }, [sessionState]);
+        setSessionStorage(sessionStateSaksoversikt);
+    }, [sessionStateSaksoversikt]);
 
     const [params, setParams] = useSearchParams();
 
     useEffect(() => {
         if (params.size === 0) return;
 
-        setParams((existing) => {
+        setParams((prevParams) => {
             amplitude.logEvent('komponent-lastet', {
                 komponent: 'saksoversiktSessionStorage',
-                queryParametere: [...existing.keys()],
+                queryParametere: [...prevParams.keys()],
             });
             return {};
         });
     }, []);
 
+    //TODO: fjerne denne?
     const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
         const newSessionState = filterToSessionState(newFilter, newValgtFilterId);
-        if (!equalSessionState(sessionState, newSessionState)) {
-            setSessionState(newSessionState);
+        if (!equalSessionState(sessionStateSaksoversikt, newSessionState)) {
+            setSessionStateSaksoversikt(newSessionState);
         }
     };
 
     const filter = useMemo(() => {
         return {
             route: '/saksoversikt',
-            side: sessionState.side,
-            tekstsoek: sessionState.tekstsoek,
+            side: sessionStateSaksoversikt.side,
+            tekstsoek: sessionStateSaksoversikt.tekstsoek,
             virksomheter:
-                sessionState.virksomhetsnumre === 'ALLEBEDRIFTER'
+                sessionStateSaksoversikt.virksomhetsnumre === 'ALLEBEDRIFTER'
                     ? Set<string>()
                     : Set(
-                          sessionState.virksomhetsnumre.flatMap((orgnr) => {
+                          sessionStateSaksoversikt.virksomhetsnumre.flatMap((orgnr) => {
                               const org = alleVirksomheter.find((org) => org.orgnr === orgnr);
                               return org !== undefined ? [orgnr] : [];
                           })
                       ),
-            sortering: sessionState.sortering,
-            sakstyper: sessionState.sakstyper,
-            oppgaveFilter: sessionState.oppgaveFilter,
+            sortering: sessionStateSaksoversikt.sortering,
+            sakstyper: sessionStateSaksoversikt.sakstyper,
+            oppgaveFilter: sessionStateSaksoversikt.oppgaveFilter,
         };
     }, [
-        sessionState.side,
-        sessionState.tekstsoek,
-        sessionState.virksomhetsnumre === 'ALLEBEDRIFTER'
+        sessionStateSaksoversikt.side,
+        sessionStateSaksoversikt.tekstsoek,
+        sessionStateSaksoversikt.virksomhetsnumre === 'ALLEBEDRIFTER'
             ? 'ALLEBEDRIFTER'
-            : sessionState.virksomhetsnumre.join(','),
-        sessionState.sortering,
-        sessionState.sakstyper.join(','),
-        sessionState.oppgaveFilter
+            : sessionStateSaksoversikt.virksomhetsnumre.join(','),
+        sessionStateSaksoversikt.sortering,
+        sessionStateSaksoversikt.sakstyper.join(','),
+        sessionStateSaksoversikt.oppgaveFilter
     ]);
 
-    return [{ filter, valgtFilterId: sessionState.valgtFilterId }, update];
+    return [{ filter, valgtFilterId: sessionStateSaksoversikt.valgtFilterId }, update];
 };
 
 // Clear sessionStorage with oversikts-filter.

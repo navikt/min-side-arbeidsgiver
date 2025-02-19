@@ -1,15 +1,21 @@
 import { Search } from '@navikt/ds-react';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
-import { Filter } from '../useOversiktStateTransitions';
 import './Saksfilter.css';
 import { amplitudeFilterKlikk } from './Saksfilter';
+import { useSaksoversiktContext } from '../SaksoversiktProvider';
 
-export type SøkeboksProps = {
-    filter: Filter;
-    byttFilter: (filter: Filter) => void;
-};
+// export type SøkeboksProps = {
+//     filter: Filter;
+//     byttFilter: (filter: Filter) => void;
+// };
+//
+// export const Søkeboks = ({ filter, byttFilter }: SøkeboksProps) => {
+export const Søkeboks = () => {
+    const {
+        state: { filter },
+        transitions: { byttFilter },
+    } = useSaksoversiktContext();
 
-export const Søkeboks = ({ filter, byttFilter }: SøkeboksProps) => {
     const formRef = useRef<HTMLFormElement>(null);
     const [tekstsoek, setTekstsoek] = useState(filter.tekstsoek);
 

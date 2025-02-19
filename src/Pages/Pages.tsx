@@ -23,6 +23,7 @@ import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { Artikkel } from './Artikkel/Artikkel';
+import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -88,7 +89,9 @@ const Pages: FunctionComponent = () => (
                                                     <>
                                                         <Brodsmulesti />
                                                         <SaksoversiktBanner />
-                                                        <Saksoversikt />
+                                                        <SaksOversiktProvider>
+                                                            <Saksoversikt />
+                                                        </SaksOversiktProvider>
                                                     </>
                                                 }
                                             />

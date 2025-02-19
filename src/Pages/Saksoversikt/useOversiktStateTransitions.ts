@@ -1,6 +1,7 @@
-import { useEffect, useReducer } from 'react';
+/*
+import { createContext, useContext, useEffect, useReducer } from 'react';
 import { SIDE_SIZE } from './Saksoversikt';
-import { useSessionStateOversikt } from './useOversiktSessionStorage';
+import { useSessionStateSaksoversikt } from './useOversiktSessionStorage';
 import { useSaker } from './useSaker';
 import amplitude from '../../utils/amplitude';
 import {
@@ -13,7 +14,7 @@ import {
 } from '../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
 import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
-import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
+import { Organisasjon, OrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 export type Filter = {
     side: number;
@@ -69,7 +70,7 @@ type Action =
     | { action: 'lasting-feilet' };
 
 export const useOversiktStateTransitions = (alleVirksomheter: Organisasjon[]) => {
-    const [sessionState, setSessionState] = useSessionStateOversikt(alleVirksomheter);
+    const [sessionState, setSessionState] = useSessionStateSaksoversikt(alleVirksomheter);
 
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
@@ -217,3 +218,4 @@ export const equalFilter = (a: Filter, b: Filter): boolean =>
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalOppgaveFilter(a.oppgaveFilter, b.oppgaveFilter);
+*/

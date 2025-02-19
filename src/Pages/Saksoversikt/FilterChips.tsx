@@ -4,29 +4,35 @@ import { oppgaveTilstandTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
-import { Filter, State } from './useOversiktStateTransitions';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { Collapse, Expand } from '@navikt/ds-icons';
 import { amplitudeChipClick } from '../../utils/funksjonerForAmplitudeLogging';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
+import { useSaksoversiktContext } from './SaksoversiktProvider';
 
-export type FilterChipsProps = {
-    state: State;
-    byttFilter: (filter: Filter) => void;
-};
+// export type FilterChipsProps = {
+//     state: State;
+//     byttFilter: (filter: Filter) => void;
+// };
+//
+// export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
 
-export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
+export const FilterChips = () => {
     const { organisasjonstre, orgnrTilChildrenMap, orgnrTilParentMap } =
         useOrganisasjonerOgTilgangerContext();
     const organisasjonstreFlat = flatUtTre(organisasjonstre);
-    //const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
+
+    const {
+        state,
+        transitions: { byttFilter },
+    } = useSaksoversiktContext();
 
     const onTømAlleFilter = () => {
         byttFilter({
             side: 1,
             tekstsoek: '',
             virksomheter: Set(),
-            sortering: state.filter.sortering,
+            sortering: state.filter.sortering, //TODO: Trekke dette ut i egen transition?
             sakstyper: [],
             oppgaveFilter: {
                 oppgaveTilstand: [],
@@ -110,8 +116,7 @@ export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
                             oppgaveTilstand: state.filter.oppgaveFilter.oppgaveTilstand.filter(
                                 (it) => it != oppgavetilstand
                             ),
-
-                        }
+                        },
                     });
                     amplitudeChipClick('oppgave', oppgavetilstand);
                 }}

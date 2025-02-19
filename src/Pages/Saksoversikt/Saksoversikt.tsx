@@ -3,7 +3,6 @@ import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
-import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from './OmSaker';
 import { amplitudeFilterKlikk, Saksfilter } from './Saksfilter/Saksfilter';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
@@ -16,6 +15,7 @@ import { FilterChips } from './FilterChips';
 import { ServerError } from '@apollo/client/link/utils';
 import { Spinner } from '../Banner';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
+import { Filter, SaksoversiktState, useSaksoversiktContext } from './SaksoversiktProvider';
 
 export const SIDE_SIZE = 30;
 
@@ -41,13 +41,10 @@ const useAlleSakstyper = () => {
 };
 
 export const Saksoversikt = () => {
-    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjonsInfo
-        ? Record.mapToArray(organisasjonsInfo, (orgnr, { organisasjon }) => organisasjon)
-        : [];
-
-    const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
+    const {
+        state,
+        transitions: { byttFilter },
+    } = useSaksoversiktContext();
     const [stuck, setStuck] = useState(false);
     const handleValgteVirksomheter = (valgte: Set<string>) => {
         byttFilter({ ...state.filter, virksomheter: valgte });
@@ -94,14 +91,12 @@ export const Saksoversikt = () => {
                     Mine filtervalg
                 </Heading>
                 <div ref={navRef} className="saksoversikt_sticky_top">
-                    <LagreFilter
-                        state={state}
-                        byttFilter={byttFilter}
-                        setValgtFilterId={setValgtFilterId}
-                    />
-                    <FilterChips state={state} byttFilter={byttFilter} />
+                    <LagreFilter />
+                    <FilterChips />
                     <div className="saksoversikt__saksliste-header">
+                        {/*Skal kun a sorteringh*/}
                         <VelgSortering state={state} byttFilter={byttFilter} />
+                        {/*Skal kjun ha sidevelger*/}
                         <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
                     </div>
                 </div>
@@ -137,7 +132,7 @@ const HvaVisesHer = () => {
 };
 
 type VelgSorteringProps = {
-    state: State;
+    state: SaksoversiktState;
     byttFilter: (filter: Filter) => void;
 };
 
@@ -147,7 +142,7 @@ const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
     }
 
     const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        const sortering = e.target.value as SakSortering
+        const sortering = e.target.value as SakSortering;
         byttFilter({ ...state.filter, sortering: sortering });
         amplitudeFilterKlikk('sortering', sortering, null);
     };
@@ -189,16 +184,13 @@ const useCurrentDate = (pollInterval: number) => {
 
 const sorteringsnavn: Record<SakSortering, string> = {
     NYESTE: 'Nyeste først',
-    ELDSTE: 'Eldste først'
+    ELDSTE: 'Eldste først',
 };
 
-const sorteringsrekkefølge: SakSortering[] = [
-    SakSortering.NyesteFørst,
-    SakSortering.EldsteFørst,
-];
+const sorteringsrekkefølge: SakSortering[] = [SakSortering.NyesteFørst, SakSortering.EldsteFørst];
 
 type SidevelgerProp = {
-    state: State;
+    state: SaksoversiktState;
     byttFilter: (filter: Filter) => void;
     skjulForMobil: boolean;
 };
@@ -233,7 +225,7 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
 };
 
 type SaksListeBodyProps = {
-    state: State;
+    state: SaksoversiktState;
     stuck: boolean;
     saksoversiktRef: RefObject<HTMLDivElement>;
 };
@@ -248,7 +240,12 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state, stuck, saksoversiktRef }
     }
 
     if (state.state === 'loading') {
-        return <SaksideLaster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
+        return (
+            <SaksideLaster
+                startTid={state.startTid}
+                forrigeSaker={state.forrigeSaker ?? undefined}
+            />
+        );
     }
 
     const { totaltAntallSaker, saker } = state;

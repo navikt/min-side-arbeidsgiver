@@ -2,7 +2,6 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
-import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
@@ -19,6 +18,7 @@ import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
+import { Filter } from '../SaksoversiktProvider';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -268,7 +268,7 @@ export const Saksfilter = ({
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saksfilter
                 </Heading>
-                <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
+                <Søkeboks></Søkeboks>
 
                 <CheckboxGroup
                     value={filter.oppgaveFilter.oppgaveTilstand}
