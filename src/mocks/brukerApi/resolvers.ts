@@ -28,16 +28,18 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 }, new Map<string, number>())
             ).map(([navn, antall]) => ({ navn, antall }));
 
+            const sakerIRespons = sakerFiltrert.length > 0 ? sakerFiltrert : saker;
+
             const { errors, data } = await executeAndValidate({
                 query,
                 variables,
                 rootValue: {
                     saker: {
-                        saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
+                        saker: sakerIRespons,
                         sakstyper: sakstyper,
                         feilAltinn: false,
                         totaltAntallSaker: saker.length,
-                        oppgaveTilstandInfo: oppgaveTilstandInfo(),
+                        oppgaveTilstandInfo: oppgaveTilstandInfo(sakerIRespons),
                     },
                 },
             });

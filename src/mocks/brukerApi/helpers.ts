@@ -60,7 +60,7 @@ export const sakStatus = ({
 export const beskjedTidslinjeElement = ({
     tekst,
     opprettetTidspunkt = faker.date.recent(),
-    lenke = faker.internet.url()
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     opprettetTidspunkt?: Date;
@@ -70,7 +70,7 @@ export const beskjedTidslinjeElement = ({
     id: faker.string.uuid(),
     tekst,
     opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    lenke
+    lenke,
 });
 
 export const oppgaveTidslinjeElement = ({
@@ -81,7 +81,7 @@ export const oppgaveTidslinjeElement = ({
     paaminnelseTidspunkt,
     utfoertTidspunkt,
     utgaattTidspunkt,
-    lenke = faker.internet.url()
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -101,7 +101,7 @@ export const oppgaveTidslinjeElement = ({
     utgaattTidspunkt: utgaattTidspunkt?.toISOString(),
     frist,
     tilstand,
-    lenke
+    lenke,
 });
 
 export const kalenderavtaleTidslinjeElement = ({
@@ -111,7 +111,7 @@ export const kalenderavtaleTidslinjeElement = ({
     digitalt = false,
     lokasjon,
     sluttTidspunkt,
-    lenke = faker.internet.url()
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     avtaletilstand?: KalenderavtaleTilstand;
@@ -129,14 +129,22 @@ export const kalenderavtaleTidslinjeElement = ({
     lokasjon,
     startTidspunkt: startTidspunkt.toISOString(),
     sluttTidspunkt: sluttTidspunkt?.toISOString(),
-    lenke
+    lenke,
 });
 
-export const oppgaveTilstandInfo = (): Array<OppgaveTilstandInfo> =>
-    Object.values(OppgaveTilstand).map((tilstand) => ({
-        tilstand,
-        antall: faker.number.int(100),
+export const oppgaveTilstandInfo = (saker: Sak[]): Array<OppgaveTilstandInfo> => {
+    const group = Object.groupBy(
+        saker
+            .flatMap((sak) => sak.tidslinje)
+            .filter((tidslinjeElement) => tidslinjeElement.__typename === 'OppgaveTidslinjeElement')
+            .map((tids) => tids as OppgaveTidslinjeElement),
+        (entry: OppgaveTidslinjeElement) => entry.tilstand
+    );
+    return Object.entries(group).map(([tilstand, oppgaver]) => ({
+        tilstand: tilstand as OppgaveTilstand,
+        antall: oppgaver.length,
     }));
+};
 
 export const oppgave = ({
     tilstand = faker.helpers.enumValue(OppgaveTilstand),
