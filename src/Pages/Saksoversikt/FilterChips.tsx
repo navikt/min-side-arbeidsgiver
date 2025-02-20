@@ -23,16 +23,16 @@ export const FilterChips = () => {
     const organisasjonstreFlat = flatUtTre(organisasjonstre);
 
     const {
-        state,
-        transitions: { byttFilter },
+        saksoversiktState,
+        transitions: { setFilter },
     } = useSaksoversiktContext();
 
     const onTømAlleFilter = () => {
-        byttFilter({
+        setFilter({
             side: 1,
             tekstsoek: '',
             virksomheter: Set(),
-            sortering: state.filter.sortering, //TODO: Trekke dette ut i egen transition?
+            sortering: saksoversiktState.filter.sortering,
             sakstyper: [],
             oppgaveFilter: {
                 oppgaveTilstand: [],
@@ -48,27 +48,27 @@ export const FilterChips = () => {
         const chips: (Organisasjon & { erHovedenhet: boolean })[] = [];
 
         for (let { underenheter, ...hovedenhet } of organisasjonstreFlat) {
-            if (state.filter.virksomheter.has(hovedenhet.orgnr)) {
+            if (saksoversiktState.filter.virksomheter.has(hovedenhet.orgnr)) {
                 const antallUnderValgt = count(underenheter, (it) =>
-                    state.filter.virksomheter.has(it.orgnr)
+                    saksoversiktState.filter.virksomheter.has(it.orgnr)
                 );
                 if (antallUnderValgt === 0) {
                     chips.push({ underenheter, ...hovedenhet, erHovedenhet: true });
                 } else {
                     chips.push(
                         ...underenheter
-                            .filter((it) => state.filter.virksomheter.has(it.orgnr))
+                            .filter((it) => saksoversiktState.filter.virksomheter.has(it.orgnr))
                             .map((it) => ({ ...it, erHovedenhet: false }))
                     );
                 }
             }
         }
         return chips;
-    }, [organisasjonstre, state.filter.virksomheter]);
-    const { tekstsoek, sakstyper, oppgaveFilter } = state.filter;
+    }, [organisasjonstre, saksoversiktState.filter.virksomheter]);
+    const { tekstsoek, sakstyper, oppgaveFilter } = saksoversiktState.filter;
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
-        byttFilter({ ...state.filter, virksomheter: valgte });
+        setFilter({ ...saksoversiktState.filter, virksomheter: valgte });
     };
 
     const chipElements: ReactNode[] = [
@@ -77,7 +77,7 @@ export const FilterChips = () => {
                 variant="neutral"
                 key="textSearchChip"
                 onClick={() => {
-                    byttFilter({ ...state.filter, tekstsoek: '' });
+                    setFilter({ ...saksoversiktState.filter, tekstsoek: '' });
                 }}
             >
                 {`Tekstsøk: «${tekstsoek}»`}
@@ -93,8 +93,8 @@ export const FilterChips = () => {
                         const nySakstyper = erInntektsmelding
                             ? sakstyper.filter((it) => it !== 'Inntektsmelding_gruppe')
                             : sakstyper;
-                        byttFilter({
-                            ...state.filter,
+                        setFilter({
+                            ...saksoversiktState.filter,
                             sakstyper: nySakstyper.filter((it) => it !== sakstype),
                         });
                         amplitudeChipClick('sakstype', sakstype);
@@ -109,11 +109,11 @@ export const FilterChips = () => {
                 variant="neutral"
                 key={oppgavetilstand}
                 onClick={() => {
-                    byttFilter({
-                        ...state.filter,
+                    setFilter({
+                        ...saksoversiktState.filter,
                         oppgaveFilter: {
                             ...oppgaveFilter,
-                            oppgaveTilstand: state.filter.oppgaveFilter.oppgaveTilstand.filter(
+                            oppgaveTilstand: saksoversiktState.filter.oppgaveFilter.oppgaveTilstand.filter(
                                 (it) => it != oppgavetilstand
                             ),
                         },
@@ -131,7 +131,7 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    let valgte = state.filter.virksomheter.remove(virksomhet.orgnr);
+                    let valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
 
                     // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
                     const parent = orgnrTilParentMap.get(virksomhet.orgnr);

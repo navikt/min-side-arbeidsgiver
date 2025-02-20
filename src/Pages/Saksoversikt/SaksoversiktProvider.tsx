@@ -23,8 +23,10 @@ export type OppgaveFilter = {
 
 
 export type SaksoversiktTransitions = {
-    byttFilter: (filter: Filter) => void;
+    setFilter: (filter: Filter) => void;
     setValgtFilterId: (id: string | undefined) => void;
+    setSide: (side: number) => void;
+    setSortering: (sortering: SakSortering) => void;
 }
 
 export type SaksoversiktState = {
@@ -71,7 +73,7 @@ export type Filter = {
 };
 
 export type SaksoversiktContext = {
-    state: SaksoversiktState,
+    saksoversiktState: SaksoversiktState,
     transitions: SaksoversiktTransitions
 }
 
@@ -145,15 +147,17 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         }
     }, [loading, data]);
 
-    const transitions = {
-        byttFilter: (filter: Filter) => dispatch({ action: 'bytt-filter', filter }),
+    const transitions: SaksoversiktTransitions = {
+        setFilter: (filter: Filter) => dispatch({ action: 'bytt-filter', filter }),
         setValgtFilterId: (id: string | undefined) => dispatch({ action: 'sett-valgt-filterid', id }),
+        setSide: (side: number) => dispatch({ action: 'bytt-filter', filter: { ...state.filter, side } }),
+        setSortering: (sortering: SakSortering) => dispatch({ action: 'bytt-filter', filter: { ...state.filter, sortering } }),
     };
 
     return (
         <SaksoversiktContext.Provider
             value={{
-                state,
+                saksoversiktState: state,
                 transitions,
             }}>
             {props.children}

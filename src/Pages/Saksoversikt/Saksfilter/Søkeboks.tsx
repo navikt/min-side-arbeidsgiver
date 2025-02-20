@@ -12,8 +12,8 @@ import { useSaksoversiktContext } from '../SaksoversiktProvider';
 // export const Søkeboks = ({ filter, byttFilter }: SøkeboksProps) => {
 export const Søkeboks = () => {
     const {
-        state: { filter },
-        transitions: { byttFilter },
+        saksoversiktState: { filter },
+        transitions: { setFilter },
     } = useSaksoversiktContext();
 
     const formRef = useRef<HTMLFormElement>(null);
@@ -25,7 +25,7 @@ export const Søkeboks = () => {
 
     const handleOnSubmit = (e: FormEvent) => {
         e.preventDefault();
-        byttFilter({ ...filter, tekstsoek });
+        setFilter({ ...filter, tekstsoek });
         amplitudeFilterKlikk('tekstsøk', 'tekstsøk', null);
     };
 
@@ -51,7 +51,7 @@ export const Søkeboks = () => {
                 onChange={setTekstsoek}
                 onClear={() => {
                     setTekstsoek('');
-                    byttFilter({ ...filter, tekstsoek: '' });
+                    setFilter({ ...filter, tekstsoek: '' });
                 }}
             />
         </form>

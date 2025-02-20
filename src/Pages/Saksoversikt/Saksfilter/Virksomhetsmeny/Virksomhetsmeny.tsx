@@ -9,18 +9,18 @@ import amplitude from '../../../../utils/amplitude';
 import { Set } from 'immutable';
 
 import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerContext';
+import { useSaksoversiktContext } from '../../SaksoversiktProvider';
 
-export type VirksomhetsmenyProps = {
-    valgteEnheter: Set<string>;
-    setValgteEnheter: (enheter: Set<string>) => void;
-};
-
-export const Virksomhetsmeny = ({
-    valgteEnheter: valgteEnheterInput,
-    setValgteEnheter,
-}: VirksomhetsmenyProps) => {
+export const Virksomhetsmeny = () => {
     const { organisasjonstre, orgnrTilParentMap, orgnrTilChildrenMap } =
         useOrganisasjonerOgTilgangerContext();
+
+    const {
+        saksoversiktState: {
+            filter,
+        },
+        transitions: { setFilter },
+    } = useSaksoversiktContext();
 
     const organisasjonstreFlat = flatUtTre(organisasjonstre);
     const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
@@ -38,8 +38,8 @@ export const Virksomhetsmeny = ({
         });
 
     const valgteEnheter = useMemo(
-        () => valgteEnheterInput.union(parentsOf(valgteEnheterInput)),
-        [valgteEnheterInput, parentMap]
+        () => filter.virksomheter.union(parentsOf(filter.virksomheter)),
+        [filter.virksomheter, parentMap]
     );
 
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
@@ -103,9 +103,9 @@ export const Virksomhetsmeny = ({
     };
 
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
-        const nyeValgte = utledNyeValgte(Set<string>(checkedEnheter));
-        setValgteEnheter(nyeValgte);
-        amplitudeValgteVirksomheter(nyeValgte);
+        const valgteVirksomheter = utledNyeValgte(Set<string>(checkedEnheter));
+        setFilter({ ...filter, virksomheter: valgteVirksomheter });
+        amplitudeValgteVirksomheter(valgteVirksomheter);
     };
 
     return (

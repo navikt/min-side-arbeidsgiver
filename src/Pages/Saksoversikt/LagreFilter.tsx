@@ -171,7 +171,10 @@ const useLagredeFilter = (): {
 // export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilterProps) => {
 
 export const LagreFilter = () => {
-    const {state, transitions: {byttFilter, setValgtFilterId}} = useSaksoversiktContext();
+    const {
+        saksoversiktState: { filter, valgtFilterId },
+        transitions: { setFilter, setValgtFilterId },
+    } = useSaksoversiktContext();
 
     const [openLagre, setOpenLagre] = useState(false);
     const [feilmeldingStatus, setFeilmeldingStatus] = useState<'noInput' | 'duplicate' | 'ok'>(
@@ -207,9 +210,7 @@ export const LagreFilter = () => {
         return null;
     }
 
-    const valgtFilter = lagredeFilter.find(
-        (lagretFilter) => lagretFilter.uuid === state.valgtFilterId
-    );
+    const valgtFilter = lagredeFilter.find((lagretFilter) => lagretFilter.uuid === valgtFilterId);
     return (
         <>
             {lagreStatus === 'failed' ? (
@@ -234,13 +235,13 @@ export const LagreFilter = () => {
                             >
                                 {valgtFilter.navn}
                             </Chips.Removable>
-                            {!equalFilter(valgtFilter.filter, state.filter) ? (
+                            {!equalFilter(valgtFilter.filter, filter) ? (
                                 <ModalMedÅpneknapp
                                     knappTekst={'Lagre endringer'}
                                     overskrift={`Endre «${valgtFilter.navn}»`}
                                     bekreft={'Lagre'}
                                     onSubmit={() => {
-                                        oppdaterLagretFilter(valgtFilter.uuid, state.filter);
+                                        oppdaterLagretFilter(valgtFilter.uuid, filter);
                                         logKlikk('endre-valgt-filter');
                                     }}
                                 >
@@ -281,7 +282,7 @@ export const LagreFilter = () => {
                                             key={lagretFilter.uuid}
                                             onClick={() => {
                                                 setValgtFilterId(lagretFilter.uuid);
-                                                byttFilter({ ...lagretFilter.filter });
+                                                setFilter({ ...lagretFilter.filter });
                                                 reloadLagredeFilter();
                                                 logKlikk('bytt-valgt-filter');
                                             }}
@@ -330,7 +331,7 @@ export const LagreFilter = () => {
                                     } else {
                                         const nyopprettetfilter = lagreNyttLagretFilter(
                                             filternavn,
-                                            state.filter
+                                            filter
                                         );
                                         setValgtFilterId(nyopprettetfilter.uuid);
                                         setOpenLagre(false);
