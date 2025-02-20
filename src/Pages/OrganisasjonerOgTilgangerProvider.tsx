@@ -13,7 +13,7 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent<PropsWithChild
     const { organisasjonstre } = useBeregnOrganisasjonstre();
     const { organisasjonsInfo, organisasjonerFlatt, orgnrTilParentMap, orgnrTilChildrenMap } =
         useBeregnOrganisasjonsInfo();
-    const altinnTilgangssøknad = useBeregnAltinnTilgangssøknad();
+    const altinnTilgangssøknad = useBeregnAltinnTilgangssøknad(organisasjonsInfo);
 
     if (
         organisasjonsInfo === undefined ||
