@@ -168,12 +168,12 @@ export const oppgave = ({
     tekst,
     tilstand,
 
-    frist: frist?.toISOString(),
-    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    paaminnelseTidspunkt: paaminnelseTidspunkt?.toISOString(),
-    utfoertTidspunkt: utfoertTidspunkt?.toISOString(),
-    utgaattTidspunkt: utgaattTidspunkt?.toISOString(),
-    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+    frist: frist,
+    opprettetTidspunkt: opprettetTidspunkt,
+    paaminnelseTidspunkt: paaminnelseTidspunkt,
+    utfoertTidspunkt: utfoertTidspunkt,
+    utgaattTidspunkt: utgaattTidspunkt,
+    sorteringTidspunkt: opprettetTidspunkt,
 
     brukerKlikk: {
         __typename: 'BrukerKlikk',
@@ -214,8 +214,8 @@ export const beskjed = ({
     id: faker.string.uuid(),
     tekst,
 
-    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+    opprettetTidspunkt: opprettetTidspunkt,
+    sorteringTidspunkt: opprettetTidspunkt,
 
     brukerKlikk: {
         __typename: 'BrukerKlikk',
@@ -272,11 +272,11 @@ export const kalenderavtale = ({
     avtaletilstand,
     digitalt,
     lokasjon,
-    startTidspunkt: startTidspunkt.toISOString(),
-    sluttTidspunkt: sluttTidspunkt?.toISOString(),
-    paaminnelseTidspunkt: paaminnelseTidspunkt?.toISOString(),
-    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+    startTidspunkt: startTidspunkt,
+    sluttTidspunkt: sluttTidspunkt,
+    paaminnelseTidspunkt: paaminnelseTidspunkt,
+    opprettetTidspunkt: opprettetTidspunkt,
+    sorteringTidspunkt: opprettetTidspunkt,
 
     brukerKlikk: {
         __typename: 'BrukerKlikk',
