@@ -6,16 +6,25 @@ import {
     SakSortering,
 } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
-import { executeAndValidate, oppgaveTilstandInfo } from './helpers';
+import { executeAndValidate, oppgaveTilstandInfo, sak } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
 
 export const hentSakerResolver = (saker: Sak[]) =>
     graphql.query(
         'hentSaker',
         async ({ query, variables }: { query: string; variables: QuerySakerArgs }) => {
-            const sakerFiltrert = saker.filter(
-                ({ merkelapp }) => variables.sakstyper?.includes(merkelapp) ?? true
+            let sakerFiltrert = saker.filter(({ merkelapp, tidslinje }) =>
+                (variables.sakstyper?.includes(merkelapp) ?? true)
+                &&
+                (variables.oppgaveTilstand?.length! > 0
+                    ? tidslinje.some(
+                          (te) =>
+                              te.__typename === 'OppgaveTidslinjeElement' &&
+                              variables.oppgaveTilstand!.includes(te.tilstand)
+                      )
+                    : true)
             );
+
             if (variables.sortering === SakSortering.EldsteFørst) {
                 sakerFiltrert.reverse();
             }
@@ -28,18 +37,16 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 }, new Map<string, number>())
             ).map(([navn, antall]) => ({ navn, antall }));
 
-            const sakerIRespons = sakerFiltrert.length > 0 ? sakerFiltrert : saker;
-
             const { errors, data } = await executeAndValidate({
                 query,
                 variables,
                 rootValue: {
                     saker: {
-                        saker: sakerIRespons,
+                        saker: sakerFiltrert,
                         sakstyper: sakstyper,
                         feilAltinn: false,
                         totaltAntallSaker: saker.length,
-                        oppgaveTilstandInfo: oppgaveTilstandInfo(sakerIRespons),
+                        oppgaveTilstandInfo: oppgaveTilstandInfo(sakerFiltrert),
                     },
                 },
             });
