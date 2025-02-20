@@ -13,6 +13,8 @@ import { createLogger, format, transports } from 'winston';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
+import { rateLimit } from 'express-rate-limit'
+import crypto from 'crypto'
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -62,6 +64,30 @@ const log = new Proxy(
         },
     }
 );
+
+const hashToken = token => crypto.createHash('sha256').update(token).digest('base64');
+
+const apiRateLimit = rateLimit({
+    windowMs: 1000, // 1 sekund
+    limit: 100, // Limit each IP to 100 requests per `window`
+    message: 'You have exceeded the 100 requests in 1s limit!',
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => {
+        const authHeader = req.headers?.authorization || '';
+        if (!authHeader.startsWith('Bearer ')) {
+            return req.ip;
+        }
+        const token = authHeader.substring(7);
+        return hashToken(token);
+    },
+    handler: (req, res, next, options) => {
+        if (req.rateLimit.remaining === 0) {
+            log.error(`Rate limit reached for client ${req.ip}`);
+        }
+        res.status(options.statusCode).send(options.message);
+  }
+});
 
 const cookieScraperPlugin = (proxyServer, options) => {
     proxyServer.on('proxyReq', (proxyReq, req, res, options) => {
@@ -172,6 +198,9 @@ const main = async () => {
     let appReady = false;
     const app = express();
     app.disable('x-powered-by');
+
+    app.use(apiRateLimit)
+
     app.set('views', BUILD_PATH);
 
     app.use('/*', (req, res, next) => {
