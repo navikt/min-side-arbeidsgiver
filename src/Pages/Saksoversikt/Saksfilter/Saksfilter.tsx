@@ -255,9 +255,6 @@ export const Saksfilter = () => {
     if (organisasjonstre === undefined) {
         return null;
     }
-    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(
-        (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
-    )?.antall;
 
     const sakstyperMedAntall = mapSakstyperMedAntall(alleSakstyper, sakstyper);
 
@@ -282,33 +279,7 @@ export const Saksfilter = () => {
                 </Heading>
                 <Søkeboks></Søkeboks>
 
-                <CheckboxGroup
-                    value={filter.oppgaveFilter.oppgaveTilstand}
-                    legend={'Oppgaver'}
-                    onChange={(
-                        valgteOppgavetilstander
-                    ) =>
-                        setFilter({
-                            ...filter,
-                            oppgaveFilter: {
-                                harPåminnelseUtløst: false,
-                                oppgaveTilstand: valgteOppgavetilstander,
-                            },
-                        })
-                    }
-                >
-                    <Checkbox
-                        value={OppgaveTilstand.Ny}
-                        onClick={(e) =>
-                            amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)
-                        }
-                    >
-                        <BodyShort>
-                            {oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
-                            {oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''}
-                        </BodyShort>
-                    </Checkbox>
-                </CheckboxGroup>
+                <OppgaveFilter />
                 {sakstyperMedAntall.length > 1 && (
                     <CheckboxGroup
                         legend="Tema"
@@ -398,4 +369,41 @@ const OpprettInntektsmelding = () => {
     } else {
         return null;
     }
+};
+
+const OppgaveFilter = () => {
+    const {
+        saksoversiktState: { filter, oppgaveTilstandInfo },
+        transitions: { setFilter },
+    } = useSaksoversiktContext();
+
+    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(
+        (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
+    )?.antall;
+
+    return (
+        <CheckboxGroup
+            value={filter.oppgaveFilter.oppgaveTilstand}
+            legend={'Oppgaver'}
+            onChange={(valgteOppgavetilstander) =>
+                setFilter({
+                    ...filter,
+                    oppgaveFilter: {
+                        harPåminnelseUtløst: false,
+                        oppgaveTilstand: valgteOppgavetilstander,
+                    },
+                })
+            }
+        >
+            <Checkbox
+                value={OppgaveTilstand.Ny}
+                onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
+            >
+                <BodyShort>
+                    {oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
+                    {oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''}
+                </BodyShort>
+            </Checkbox>
+        </CheckboxGroup>
+    );
 };
