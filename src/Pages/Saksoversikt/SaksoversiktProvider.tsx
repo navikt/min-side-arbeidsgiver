@@ -1,4 +1,11 @@
-import React, { createContext, FunctionComponent, PropsWithChildren, useContext, useEffect, useReducer } from 'react';
+import React, {
+    createContext,
+    FunctionComponent,
+    PropsWithChildren,
+    useContext,
+    useEffect,
+    useReducer,
+} from 'react';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSessionStateSaksoversikt } from './useOversiktSessionStorage';
 import { useSaker } from './useSaker';
@@ -21,44 +28,44 @@ export type OppgaveFilter = {
     harPåminnelseUtløst: boolean;
 };
 
-
 export type SaksoversiktTransitions = {
     setFilter: (filter: Filter) => void;
     setValgtFilterId: (id: string | undefined) => void;
     setSide: (side: number) => void;
     setSortering: (sortering: SakSortering) => void;
-}
+};
 
-export type SaksoversiktState = {
-        state: 'loading';
-        filter: Filter;
-        valgtFilterId: string | undefined;
-        sider: number | undefined;
-        totaltAntallSaker: number | undefined;
-        forrigeSaker: Array<Sak> | null;
-        sakstyper: Array<Sakstype> | undefined;
-        oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
-        startTid: Date;
-    }
+export type SaksoversiktState =
     | {
-    state: 'done';
-    filter: Filter;
-    valgtFilterId: string | undefined;
-    sider: number;
-    saker: Array<Sak>;
-    sakstyper: Array<Sakstype>;
-    totaltAntallSaker: number;
-    oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
-}
+          state: 'loading';
+          filter: Filter;
+          valgtFilterId: string | undefined;
+          sider: number | undefined;
+          totaltAntallSaker: number | undefined;
+          forrigeSaker: Array<Sak> | null;
+          sakstyper: Array<Sakstype> | undefined;
+          oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
+          startTid: Date;
+      }
     | {
-    state: 'error';
-    filter: Filter;
-    valgtFilterId: string | undefined;
-    sider: number | undefined;
-    sakstyper: Array<Sakstype> | undefined;
-    totaltAntallSaker: number | undefined;
-    oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
-}
+          state: 'done';
+          filter: Filter;
+          valgtFilterId: string | undefined;
+          sider: number;
+          saker: Array<Sak>;
+          sakstyper: Array<Sakstype>;
+          totaltAntallSaker: number;
+          oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
+      }
+    | {
+          state: 'error';
+          filter: Filter;
+          valgtFilterId: string | undefined;
+          sider: number | undefined;
+          sakstyper: Array<Sakstype> | undefined;
+          totaltAntallSaker: number | undefined;
+          oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
+      };
 
 export type Filter = {
     side: number;
@@ -69,13 +76,13 @@ export type Filter = {
     oppgaveFilter: {
         oppgaveTilstand: OppgaveTilstand[];
         harPåminnelseUtløst: boolean;
-    }
+    };
 };
 
 export type SaksoversiktContext = {
-    saksoversiktState: SaksoversiktState,
-    transitions: SaksoversiktTransitions
-}
+    saksoversiktState: SaksoversiktState;
+    transitions: SaksoversiktTransitions;
+};
 
 type Action =
     | { action: 'bytt-filter'; filter: Filter }
@@ -84,9 +91,7 @@ type Action =
     | { action: 'lasting-ferdig'; resultat: SakerResultat }
     | { action: 'lasting-feilet' };
 
-
-export const SaksoversiktContext =
-    createContext<SaksoversiktContext>(undefined!);
+export const SaksoversiktContext = createContext<SaksoversiktContext>(undefined!);
 
 export const useSaksoversiktContext = () => {
     const context = useContext(SaksoversiktContext);
@@ -104,7 +109,8 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         ? Record.mapToArray(organisasjonsInfo, (_, { organisasjon }) => organisasjon)
         : [];
 
-    const [{ filter, valgtFilterId },
+    const [
+        { filter, valgtFilterId },
         // setSessionState
     ] = useSessionStateSaksoversikt(orgs);
 
@@ -149,9 +155,15 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
 
     const transitions: SaksoversiktTransitions = {
         setFilter: (filter: Filter) => dispatch({ action: 'bytt-filter', filter }),
-        setValgtFilterId: (id: string | undefined) => dispatch({ action: 'sett-valgt-filterid', id }),
-        setSide: (side: number) => dispatch({ action: 'bytt-filter', filter: { ...state.filter, side } }),
-        setSortering: (sortering: SakSortering) => dispatch({ action: 'bytt-filter', filter: { ...state.filter, sortering } }),
+        setValgtFilterId: (id: string | undefined) =>
+            dispatch({ action: 'sett-valgt-filterid', id }),
+        setSide: (side: number) =>
+            dispatch({ action: 'bytt-filter', filter: { ...state.filter, side } }),
+        setSortering: (sortering: SakSortering) =>
+            dispatch({
+                action: 'bytt-filter',
+                filter: { ...state.filter, sortering },
+            }),
     };
 
     return (
@@ -159,12 +171,12 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
             value={{
                 saksoversiktState: state,
                 transitions,
-            }}>
+            }}
+        >
             {props.children}
         </SaksoversiktContext.Provider>
     );
 };
-
 
 const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
     switch (action.action) {
@@ -206,33 +218,16 @@ const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState =
         case 'lasting-ferdig':
             const { totaltAntallSaker, saker } = action.resultat;
             const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
-            if (totaltAntallSaker > 0 && saker.length === 0) {
-                // på et eller annet vis er det saker (totaltAntallSaker > 0), men
-                // vi mottok ingen. Kan det være fordi vi er forbi siste side? Prøv
-                // å gå til siste side.
-                return {
-                    state: 'loading',
-                    filter: { ...current.filter, side: Math.max(1, sider - 1) },
-                    valgtFilterId: current.valgtFilterId,
-                    sider,
-                    totaltAntallSaker,
-                    startTid: new Date(),
-                    forrigeSaker: null,
-                    sakstyper: current.sakstyper,
-                    oppgaveTilstandInfo: current.oppgaveTilstandInfo,
-                };
-            } else {
-                return {
-                    state: 'done',
-                    filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
-                    sider,
-                    saker: action.resultat.saker,
-                    sakstyper: action.resultat.sakstyper,
-                    totaltAntallSaker: action.resultat.totaltAntallSaker,
-                    oppgaveTilstandInfo: action.resultat.oppgaveTilstandInfo,
-                };
-            }
+            return {
+                state: 'done',
+                filter: current.filter,
+                valgtFilterId: current.valgtFilterId,
+                sider,
+                saker: action.resultat.saker,
+                sakstyper: action.resultat.sakstyper,
+                totaltAntallSaker: action.resultat.totaltAntallSaker,
+                oppgaveTilstandInfo: action.resultat.oppgaveTilstandInfo,
+            };
     }
 };
 
