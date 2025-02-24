@@ -189,7 +189,7 @@ const InntektsmeldingGruppe = (
                       const visningsNavn = capitalize(navn.replace('Inntektsmelding ', ''));
                       return (
                           <Checkbox
-                              className={'inntektsmelding-sakstype'}
+                              className={'underfilter'}
                               key={navn}
                               value={navn}
                               onClick={(e) => amplitudeFilterKlikk('sakstype', navn, e.target)}
@@ -381,29 +381,47 @@ const OppgaveFilter = () => {
         (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
     )?.antall;
 
+    function oppdaterFilter(valgtFilter: any[]) {
+        const oppgaveFilter = {
+            harPåminnelseUtløst: valgtFilter.includes('påminnelseUtløst'),
+            oppgaveTilstand: valgtFilter.filter((e) => Object.values(OppgaveTilstand).includes(e)),
+        };
+        setFilter({
+            ...filter,
+            oppgaveFilter: oppgaveFilter,
+        });
+    }
+
+    // Litt småfunky hvordan checkboxene må håndteres, da vi ønsker at det skal oppleves som en felles checkbox group samtidig som en av checkboxene skal styre et filter som ikke passer helt inn
+    const checkboxGroupValue = (
+        filter.oppgaveFilter.harPåminnelseUtløst ? ['påminnelseUtløst'] : []
+    ).concat(filter.oppgaveFilter.oppgaveTilstand);
+
     return (
-        <CheckboxGroup
-            value={filter.oppgaveFilter.oppgaveTilstand}
-            legend={'Oppgaver'}
-            onChange={(valgteOppgavetilstander) =>
-                setFilter({
-                    ...filter,
-                    oppgaveFilter: {
-                        harPåminnelseUtløst: false,
-                        oppgaveTilstand: valgteOppgavetilstander,
-                    },
-                })
-            }
-        >
-            <Checkbox
-                value={OppgaveTilstand.Ny}
-                onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
+        <>
+            <CheckboxGroup
+                value={checkboxGroupValue}
+                legend={'Oppgaver'}
+                onChange={(valgteOppgavetilstander) => oppdaterFilter(valgteOppgavetilstander)}
             >
-                <BodyShort>
-                    {oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
-                    {oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''}
-                </BodyShort>
-            </Checkbox>
-        </CheckboxGroup>
+                <Checkbox
+                    value={OppgaveTilstand.Ny}
+                    onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
+                >
+                    <BodyShort>
+                        {oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
+                        {oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''}
+                    </BodyShort>
+                </Checkbox>
+                {filter.oppgaveFilter.oppgaveTilstand.includes(OppgaveTilstand.Ny) && (
+                    <Checkbox value={'påminnelseUtløst'} className={'underfilter'}>
+                        <BodyShort>
+                            {'Har påmminelse'}
+                            {' (0)'}
+                        </BodyShort>
+                    </Checkbox>
+                )}
+            </CheckboxGroup>
+        </>
     );
 };
