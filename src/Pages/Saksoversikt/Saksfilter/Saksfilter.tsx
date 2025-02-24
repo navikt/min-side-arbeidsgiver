@@ -234,7 +234,7 @@ export const Saksfilter = () => {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
     const {
-        saksoversiktState: { filter, sakstyper, oppgaveTilstandInfo },
+        saksoversiktState: { filter, sakstyper },
         transitions: { setFilter },
     } = useSaksoversiktContext();
 

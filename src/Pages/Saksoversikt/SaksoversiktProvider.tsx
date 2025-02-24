@@ -216,17 +216,17 @@ const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState =
                 oppgaveTilstandInfo: current.oppgaveTilstandInfo,
             };
         case 'lasting-ferdig':
-            const { totaltAntallSaker, saker } = action.resultat;
+            const { totaltAntallSaker, saker, oppgaveTilstandInfo, sakstyper } = action.resultat;
             const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
             return {
                 state: 'done',
                 filter: current.filter,
                 valgtFilterId: current.valgtFilterId,
                 sider,
-                saker: action.resultat.saker,
-                sakstyper: action.resultat.sakstyper,
-                totaltAntallSaker: action.resultat.totaltAntallSaker,
-                oppgaveTilstandInfo: action.resultat.oppgaveTilstandInfo,
+                saker: saker,
+                sakstyper: sakstyper,
+                totaltAntallSaker: totaltAntallSaker,
+                oppgaveTilstandInfo: oppgaveTilstandInfo,
             };
     }
 };

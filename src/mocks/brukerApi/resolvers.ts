@@ -1,29 +1,21 @@
 import {
+    InputMaybe,
     Kalenderavtale,
     Notifikasjon,
+    OppgaveTilstand,
     QuerySakerArgs,
     Sak,
     SakSortering,
 } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
-import { executeAndValidate, oppgaveTilstandInfo, sak } from './helpers';
+import { executeAndValidate, oppgaveTilstandInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
 
 export const hentSakerResolver = (saker: Sak[]) =>
     graphql.query(
         'hentSaker',
         async ({ query, variables }: { query: string; variables: QuerySakerArgs }) => {
-            let sakerFiltrert = saker.filter(({ merkelapp, tidslinje }) =>
-                (variables.sakstyper?.includes(merkelapp) ?? true)
-                &&
-                (variables.oppgaveTilstand?.length! > 0
-                    ? tidslinje.some(
-                          (te) =>
-                              te.__typename === 'OppgaveTidslinjeElement' &&
-                              variables.oppgaveTilstand!.includes(te.tilstand)
-                      )
-                    : true)
-            );
+            let sakerFiltrert = applyFilters(saker, variables);
 
             if (variables.sortering === SakSortering.EldsteFørst) {
                 sakerFiltrert.reverse();
@@ -31,7 +23,7 @@ export const hentSakerResolver = (saker: Sak[]) =>
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
-                saker.reduce((acc, { merkelapp }) => {
+                saker.filter(s => harOppgaveTilstand(s, variables.oppgaveTilstand)).reduce((acc, { merkelapp }) => {
                     acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
                     return acc;
                 }, new Map<string, number>())
@@ -115,3 +107,25 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
             },
         });
     });
+
+function applyFilters(saker: Sak[], filter: QuerySakerArgs) {
+    return saker.filter(
+        (sak) =>
+            erSakstype(sak, filter.sakstyper) &&
+            harOppgaveTilstand(sak, filter.oppgaveTilstand)
+    );
+}
+
+function erSakstype(sak: Sak, sakstyper: InputMaybe<string[]> | undefined){
+    return sakstyper?.includes(sak.merkelapp) ?? true
+}
+
+function harOppgaveTilstand(sak: Sak, oppgaveTilstand?: InputMaybe<OppgaveTilstand[]>) {
+    if (oppgaveTilstand === null || oppgaveTilstand === undefined || oppgaveTilstand.length === 0) {
+        return true;
+    }
+    return sak.tidslinje.some(
+        (te) =>
+            te.__typename === 'OppgaveTidslinjeElement' && oppgaveTilstand!.includes(te.tilstand)
+    );
+}
