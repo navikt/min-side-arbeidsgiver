@@ -128,10 +128,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
 
     const { loading, data } = useSaker(SIDE_SIZE, state.filter);
 
-    // useEffect(() => {
-    //     setSessionState(state.filter, state.valgtFilterId);
-    // }, [state.filter, state.valgtFilterId]);
-
     useEffect(() => {
         if (loading) {
             dispatch({ action: 'lasting-pågår' });

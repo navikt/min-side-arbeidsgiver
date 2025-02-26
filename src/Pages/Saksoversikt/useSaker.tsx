@@ -91,6 +91,10 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
                 tilstand
                 antall
             }
+            oppgaveFilterInfo {
+                filterType
+                antall
+            }
         }
     }
 `;
