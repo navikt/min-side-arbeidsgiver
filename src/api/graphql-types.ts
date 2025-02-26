@@ -168,6 +168,12 @@ export type OppgaveTilstandInfo = {
   tilstand: OppgaveTilstand;
 };
 
+export type OppgaveFilterInfo = {
+  __typename?: 'OppgaveFilterInfo';
+  antall: Scalars['Int']['output'];
+  filterType: String;
+};
+
 export type Query = {
   __typename?: 'Query';
   kommendeKalenderavtaler: KalenderavtalerResultat;
@@ -258,6 +264,7 @@ export type SakerResultat = {
   __typename?: 'SakerResultat';
   feilAltinn: Scalars['Boolean']['output'];
   oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
+  oppgaveFilterInfo: Array<OppgaveFilterInfo>;
   saker: Array<Sak>;
   /** Hvilke sakstyper (med antall) som finnes for valgte virksomheter. */
   sakstyper: Array<Sakstype>;

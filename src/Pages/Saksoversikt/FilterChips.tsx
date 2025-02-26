@@ -1,6 +1,6 @@
 import React, { ReactNode, useMemo, useState } from 'react';
 import { Button, Chips, Heading } from '@navikt/ds-react';
-import { oppgaveTilstandTilTekst } from './Saksfilter/Saksfilter';
+import { filterTypeTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
@@ -34,10 +34,7 @@ export const FilterChips = () => {
             virksomheter: Set(),
             sortering: saksoversiktState.filter.sortering,
             sakstyper: [],
-            oppgaveFilter: {
-                oppgaveTilstand: [],
-                harPåminnelseUtløst: false,
-            },
+            oppgaveFilter: []
         });
         amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
@@ -104,24 +101,21 @@ export const FilterChips = () => {
                 </Chips.Removable>
             )
         ),
-        ...oppgaveFilter.oppgaveTilstand.map((oppgavetilstand) => (
+        ...oppgaveFilter.map((filterType) => (
             <Chips.Removable
                 variant="neutral"
-                key={oppgavetilstand}
+                key={filterType}
                 onClick={() => {
                     setFilter({
                         ...saksoversiktState.filter,
-                        oppgaveFilter: {
-                            ...oppgaveFilter,
-                            oppgaveTilstand: saksoversiktState.filter.oppgaveFilter.oppgaveTilstand.filter(
-                                (it) => it != oppgavetilstand
-                            ),
-                        },
+                        oppgaveFilter: saksoversiktState.filter.oppgaveFilter.filter(
+                            (it) => it != filterType
+                        ),
                     });
-                    amplitudeChipClick('oppgave', oppgavetilstand);
+                    amplitudeChipClick('oppgave', filterType);
                 }}
             >
-                {oppgaveTilstandTilTekst(oppgavetilstand)}
+                {filterTypeTilTekst(filterType)}
             </Chips.Removable>
         )),
         //TODO: legg til påminnelse chip

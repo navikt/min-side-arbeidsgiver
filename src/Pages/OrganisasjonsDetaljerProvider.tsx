@@ -35,10 +35,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
         tekstsoek: '',
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
-        oppgaveFilter: {
-            oppgaveTilstand: [],
-            harPåminnelseUtløst: false,
-        },
+        oppgaveFilter: [],
     });
 
     useEffect(() => {

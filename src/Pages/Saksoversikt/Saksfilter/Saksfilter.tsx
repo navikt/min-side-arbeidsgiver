@@ -16,10 +16,17 @@ import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { ServerError } from '@apollo/client/link/utils';
 
-export const oppgaveTilstandTilTekst = (oppgavetilstand: OppgaveTilstand) => {
-    switch (oppgavetilstand) {
-        case OppgaveTilstand.Ny:
+export const OppgaveFilterType = {
+    ...OppgaveTilstand,
+    PåminnelseUtløst: 'NY_MED_PÅMINNELSE_UTLØST',
+} as const;
+
+export const filterTypeTilTekst = (oppgaveFilter: string) => {
+    switch (oppgaveFilter) {
+        case OppgaveFilterType.Ny:
             return 'Uløste oppgaver';
+        case OppgaveFilterType.PåminnelseUtløst:
+            return 'Med påminnelse';
         default:
             return '';
     }
@@ -373,51 +380,40 @@ const OpprettInntektsmelding = () => {
 
 const OppgaveFilter = () => {
     const {
-        saksoversiktState: { filter, oppgaveTilstandInfo },
+        saksoversiktState: { filter, oppgaveFilterInfo },
         transitions: { setFilter },
     } = useSaksoversiktContext();
 
-    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(
-        (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
-    )?.antall;
+    const hentAntallAvType = (type: string) =>
+        oppgaveFilterInfo?.find((filterInfo) => filterInfo.filterType === type)?.antall ?? 0;
 
-    function oppdaterFilter(valgtFilter: any[]) {
-        const oppgaveFilter = {
-            harPåminnelseUtløst: valgtFilter.includes('påminnelseUtløst'),
-            oppgaveTilstand: valgtFilter.filter((e) => Object.values(OppgaveTilstand).includes(e)),
-        };
-        setFilter({
-            ...filter,
-            oppgaveFilter: oppgaveFilter,
-        });
-    }
-
-    // Litt småfunky hvordan checkboxene må håndteres, da vi ønsker at det skal oppleves som en felles checkbox group samtidig som en av checkboxene skal styre et filter som ikke passer helt inn
-    const checkboxGroupValue = (
-        filter.oppgaveFilter.harPåminnelseUtløst ? ['påminnelseUtløst'] : []
-    ).concat(filter.oppgaveFilter.oppgaveTilstand);
+    const antallUløsteOppgaver = hentAntallAvType(OppgaveFilterType.Ny);
+    const antallUløsteOppgaverMedPåminnelse = hentAntallAvType(OppgaveFilterType.PåminnelseUtløst);
 
     return (
         <>
             <CheckboxGroup
-                value={checkboxGroupValue}
+                value={filter.oppgaveFilter}
                 legend={'Oppgaver'}
-                onChange={(valgteOppgavetilstander) => oppdaterFilter(valgteOppgavetilstander)}
+                onChange={(valgteOppgavetilstander) =>
+                    setFilter({
+                        ...filter,
+                        oppgaveFilter: valgteOppgavetilstander,
+                    })
+                }
             >
                 <Checkbox
-                    value={OppgaveTilstand.Ny}
+                    value={OppgaveFilterType.Ny}
                     onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
                 >
                     <BodyShort>
-                        {oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
-                        {oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''}
+                        {`${filterTypeTilTekst(OppgaveFilterType.Ny)} (${antallUløsteOppgaver})`}
                     </BodyShort>
                 </Checkbox>
-                {filter.oppgaveFilter.oppgaveTilstand.includes(OppgaveTilstand.Ny) && (
-                    <Checkbox value={'påminnelseUtløst'} className={'underfilter'}>
+                {filter.oppgaveFilter.includes(OppgaveFilterType.Ny) && (
+                    <Checkbox value={OppgaveFilterType.PåminnelseUtløst} className={'underfilter'}>
                         <BodyShort>
-                            {'Har påmminelse'}
-                            {' (0)'}
+                            {`${filterTypeTilTekst(OppgaveFilterType.PåminnelseUtløst)} (${antallUløsteOppgaverMedPåminnelse})`}
                         </BodyShort>
                     </Checkbox>
                 )}

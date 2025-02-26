@@ -7,6 +7,7 @@ import {
     KalenderavtaleTilstand,
     Lokasjon,
     Oppgave,
+    OppgaveFilterInfo,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     OppgaveTilstandInfo,
@@ -20,6 +21,7 @@ import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
 import Document from '../../../bruker.graphql';
 import { GraphQLVariables } from 'msw';
 import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
+import { OppgaveFilterType } from '../../Pages/Saksoversikt/Saksfilter/Saksfilter';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
@@ -132,7 +134,7 @@ export const kalenderavtaleTidslinjeElement = ({
     lenke,
 });
 
-export const oppgaveTilstandInfo = (saker: Sak[]): Array<OppgaveTilstandInfo> => {
+export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
     const group = Object.groupBy(
         saker
             .flatMap((sak) => sak.tidslinje)
@@ -140,10 +142,16 @@ export const oppgaveTilstandInfo = (saker: Sak[]): Array<OppgaveTilstandInfo> =>
             .map((tids) => tids as OppgaveTidslinjeElement),
         (entry: OppgaveTidslinjeElement) => entry.tilstand
     );
-    return Object.entries(group).map(([tilstand, oppgaver]) => ({
-        tilstand: tilstand as OppgaveTilstand,
-        antall: oppgaver.length,
-    }));
+
+    return [
+        ...Object.entries(group).map(
+            ([tilstand, oppgaver]) => ({
+                filterType: tilstand,
+                antall: oppgaver.length,
+            }),
+            { filterType: OppgaveFilterType.PåminnelseUtløst, antall: group.NY?.filter((o) => o.paaminnelseTidspunkt !== null).length }
+        ),
+    ];
 };
 
 export const oppgave = ({

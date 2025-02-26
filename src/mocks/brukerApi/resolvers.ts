@@ -8,8 +8,9 @@ import {
     SakSortering,
 } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
-import { executeAndValidate, oppgaveTilstandInfo } from './helpers';
+import { executeAndValidate, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
+
 
 export const hentSakerResolver = (saker: Sak[]) =>
     graphql.query(
@@ -38,7 +39,8 @@ export const hentSakerResolver = (saker: Sak[]) =>
                         sakstyper: sakstyper,
                         feilAltinn: false,
                         totaltAntallSaker: saker.length,
-                        oppgaveTilstandInfo: oppgaveTilstandInfo(sakerFiltrert),
+                        oppgaveTilstandInfo: oppgaveFilterInfo(sakerFiltrert),
+                        oppgaveFilterInfo: oppgaveFilterInfo(sakerFiltrert),
                     },
                 },
             });

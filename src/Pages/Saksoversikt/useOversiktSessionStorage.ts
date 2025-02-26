@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
-import { equalAsSets, equalOppgaveFilter, Filter, OppgaveFilter } from './SaksoversiktProvider';
-import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
+import { equalAsSets, Filter } from './SaksoversiktProvider';
+import { SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import amplitude from '../../utils/amplitude';
 import { z } from 'zod';
@@ -20,7 +20,7 @@ type SessionStateSaksoversikt = {
     virksomhetsnumre: string[] | 'ALLEBEDRIFTER';
     sortering: SakSortering;
     sakstyper: string[];
-    oppgaveFilter: OppgaveFilter;
+    oppgaveFilter: string[];
     valgtFilterId?: string;
 };
 type SessionStateForside = {
@@ -74,7 +74,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.valgtFilterId === b.valgtFilterId &&
             equalVirksomhetsnumre(a, b) &&
             equalAsSets(a.sakstyper, b.sakstyper) &&
-            equalOppgaveFilter(a.oppgaveFilter, b.oppgaveFilter)
+            equalAsSets(a.oppgaveFilter, b.oppgaveFilter)
         );
     } else {
         return false;
@@ -109,10 +109,7 @@ const defaultSessionState: SessionStateSaksoversikt = {
     virksomhetsnumre: 'ALLEBEDRIFTER',
     sortering: SakSortering.NyesteFørst,
     sakstyper: [],
-    oppgaveFilter: {
-        oppgaveTilstand: [],
-        harPåminnelseUtløst: false,
-    },
+    oppgaveFilter: [],
     valgtFilterId: undefined,
 };
 
@@ -123,10 +120,7 @@ const FilterFromSessionState = z.object({
     virksomhetsnumre: z.union([z.array(z.string()), z.literal('ALLEBEDRIFTER')]),
     sortering: z.nativeEnum(SakSortering),
     sakstyper: z.array(z.string()),
-    oppgaveFilter: z.object({
-        oppgaveTilstand: z.array(z.nativeEnum(OppgaveTilstand)),
-        harPåminnelseUtløst: z.boolean(),
-    }),
+    oppgaveFilter: z.array(z.string()),
     valgtFilterId: z.string().optional(),
 });
 

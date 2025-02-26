@@ -13,8 +13,7 @@ import { SIDE_SIZE } from './Saksoversikt';
 import amplitude from '../../utils/amplitude';
 import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
 import {
-    OppgaveTilstand,
-    OppgaveTilstandInfo,
+    OppgaveFilterInfo,
     Sak,
     SakerResultat,
     SakSortering,
@@ -22,11 +21,6 @@ import {
 } from '../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
 import * as Record from '../../utils/Record';
-
-export type OppgaveFilter = {
-    oppgaveTilstand: OppgaveTilstand[];
-    harPåminnelseUtløst: boolean;
-};
 
 export type SaksoversiktTransitions = {
     setFilter: (filter: Filter) => void;
@@ -44,7 +38,7 @@ export type SaksoversiktState =
           totaltAntallSaker: number | undefined;
           forrigeSaker: Array<Sak> | null;
           sakstyper: Array<Sakstype> | undefined;
-          oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
+          oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
           startTid: Date;
       }
     | {
@@ -55,7 +49,7 @@ export type SaksoversiktState =
           saker: Array<Sak>;
           sakstyper: Array<Sakstype>;
           totaltAntallSaker: number;
-          oppgaveTilstandInfo: Array<OppgaveTilstandInfo>;
+          oppgaveFilterInfo: Array<OppgaveFilterInfo>;
       }
     | {
           state: 'error';
@@ -64,7 +58,7 @@ export type SaksoversiktState =
           sider: number | undefined;
           sakstyper: Array<Sakstype> | undefined;
           totaltAntallSaker: number | undefined;
-          oppgaveTilstandInfo: Array<OppgaveTilstandInfo> | undefined;
+          oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
       };
 
 export type Filter = {
@@ -73,10 +67,7 @@ export type Filter = {
     tekstsoek: string;
     sortering: SakSortering;
     sakstyper: string[];
-    oppgaveFilter: {
-        oppgaveTilstand: OppgaveTilstand[];
-        harPåminnelseUtløst: boolean;
-    };
+    oppgaveFilter: string[]
 };
 
 export type SaksoversiktContext = {
@@ -122,7 +113,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         sider: undefined,
         totaltAntallSaker: undefined,
         sakstyper: undefined,
-        oppgaveTilstandInfo: undefined,
+        oppgaveFilterInfo: undefined,
         startTid: new Date(),
     });
 
@@ -196,7 +187,7 @@ const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState =
                 valgtFilterId: current.valgtFilterId,
                 sider: current.sider,
                 sakstyper: current.sakstyper,
-                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
+                oppgaveFilterInfo: current.oppgaveFilterInfo,
                 startTid: new Date(),
                 totaltAntallSaker: current.totaltAntallSaker,
                 forrigeSaker: finnForrigeSaker(current),
@@ -207,12 +198,12 @@ const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState =
                 filter: current.filter,
                 valgtFilterId: current.valgtFilterId,
                 sider: current.sider,
-                totaltAntallSaker: current.totaltAntallSaker,
                 sakstyper: current.sakstyper,
-                oppgaveTilstandInfo: current.oppgaveTilstandInfo,
+                totaltAntallSaker: current.totaltAntallSaker,
+                oppgaveFilterInfo: current.oppgaveFilterInfo,
             };
         case 'lasting-ferdig':
-            const { totaltAntallSaker, saker, oppgaveTilstandInfo, sakstyper } = action.resultat;
+            const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
             const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
             return {
                 state: 'done',
@@ -222,7 +213,7 @@ const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState =
                 saker: saker,
                 sakstyper: sakstyper,
                 totaltAntallSaker: totaltAntallSaker,
-                oppgaveTilstandInfo: oppgaveTilstandInfo,
+                oppgaveFilterInfo: oppgaveFilterInfo,
             };
     }
 };
@@ -238,13 +229,6 @@ const finnForrigeSaker = (state: SaksoversiktState): Array<Sak> | null => {
     }
 };
 
-export function equalOppgaveFilter(a: OppgaveFilter, b: OppgaveFilter) {
-    return (
-        a.harPåminnelseUtløst === b.harPåminnelseUtløst &&
-        equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
-    );
-}
-
 export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every((aa) => b.includes(aa));
 }
@@ -255,4 +239,4 @@ export const equalFilter = (a: Filter, b: Filter): boolean =>
     Immutable.is(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
-    equalOppgaveFilter(a.oppgaveFilter, b.oppgaveFilter);
+    equalAsSets(a.oppgaveFilter, b.oppgaveFilter);

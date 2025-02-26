@@ -8,6 +8,7 @@ import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
+import { OppgaveFilterType } from './Saksfilter/Saksfilter';
 
 type SakerResultat = Pick<Query, 'saker'>;
 
@@ -87,10 +88,6 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             }
             feilAltinn
             totaltAntallSaker
-            oppgaveTilstandInfo {
-                tilstand
-                antall
-            }
             oppgaveFilterInfo {
                 filterType
                 antall
@@ -161,12 +158,15 @@ export function useSaker(
         [organisasjonstre, virksomheter]
     );
 
+    //TODO: Endre dette etter at vi har lag ttil støtte for påminnelse utløst i bakcend
+    const oppgaveTilstand = oppgaveFilter.filter((it) => it !== OppgaveFilterType.PåminnelseUtløst);
+
     const variables = {
         virksomhetsnumre,
         tekstsoek: tekstsoek === '' ? null : tekstsoek,
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
-        oppgaveTilstand: oppgaveFilter.oppgaveTilstand.length === 0 ? null : oppgaveFilter.oppgaveTilstand, //TODO: endre disse til å sende inn filteret?
+        oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,
     };
