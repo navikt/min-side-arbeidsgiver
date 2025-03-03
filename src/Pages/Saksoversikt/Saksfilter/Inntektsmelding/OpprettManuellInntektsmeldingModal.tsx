@@ -44,7 +44,7 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
             return;
         }
 
-        loggNavigasjon(valgtYtelse.lenke, valgtYtelse.label)
+        loggNavigasjon(valgtYtelse.lenke, valgtYtelse.label);
 
         window.location.href = valgtYtelse.lenke;
     };
