@@ -7,6 +7,7 @@ import {
     opprettInntektsmeldingSvangerskapspenger,
     opprettInntektsmeldingURL,
 } from '../../../../lenker';
+import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
 
 interface Props {
     isOpen: boolean;
@@ -42,6 +43,8 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
             setError('Ingen ytelse er valgt.');
             return;
         }
+
+        loggNavigasjon(valgtYtelse.lenke, valgtYtelse.label)
 
         window.location.href = valgtYtelse.lenke;
     };
