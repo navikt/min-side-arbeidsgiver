@@ -4,7 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, Checkbox, CheckboxGroup, Dropdown, Heading, Label, VStack } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -19,6 +19,8 @@ import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
+import { PlusIcon, StarIcon } from '@navikt/aksel-icons';
+import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -363,17 +365,7 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <Label
-                    htmlFor="opprett-inntektsmelding-lenke-id"
-                    children="Opprett inntektsmelding manuelt"
-                />
-                <LenkeMedLogging
-                    id="opprett-inntektsmelding-lenke-id"
-                    loggLenketekst={'Opprett inntektsmelding manuelt'}
-                    href={opprettInntektsmeldingURL}
-                >
-                    Opprett inntektsmelding for sykepenger
-                </LenkeMedLogging>
+                <OpprettManuellInntektsmeldingBoks />
             </div>
         );
     } else {
