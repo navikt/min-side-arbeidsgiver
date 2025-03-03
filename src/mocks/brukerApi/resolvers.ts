@@ -10,6 +10,7 @@ import {
 import { graphql, HttpResponse } from 'msw';
 import { executeAndValidate, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
+import { OppgaveFilterType } from '../../Pages/Saksoversikt/Saksfilter/Saksfilter';
 
 
 export const hentSakerResolver = (saker: Sak[]) =>
@@ -24,7 +25,7 @@ export const hentSakerResolver = (saker: Sak[]) =>
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
-                saker.filter(s => harOppgaveTilstand(s, variables.oppgaveTilstand)).reduce((acc, { merkelapp }) => {
+                saker.filter(s => harFilterType(s, variables.oppgaveFilter)).reduce((acc, { merkelapp }) => {
                     acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
                     return acc;
                 }, new Map<string, number>())
@@ -114,12 +115,27 @@ function applyFilters(saker: Sak[], filter: QuerySakerArgs) {
     return saker.filter(
         (sak) =>
             erSakstype(sak, filter.sakstyper) &&
-            harOppgaveTilstand(sak, filter.oppgaveTilstand)
+            harFilterType(sak, filter.oppgaveFilter)
     );
 }
 
 function erSakstype(sak: Sak, sakstyper: InputMaybe<string[]> | undefined){
     return sakstyper?.includes(sak.merkelapp) ?? true
+}
+
+function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
+    if (oppgaveFilter === null || oppgaveFilter === undefined || oppgaveFilter.length === 0) {
+        return true;
+    }
+
+    if (oppgaveFilter.includes(OppgaveFilterType.PåminnelseUtløst)) {
+        console.log("PåminnelseUtløst er true")
+        return sak.tidslinje.filter(t => t.__typename === 'OppgaveTidslinjeElement' && t.tilstand === OppgaveTilstand.Ny && t.paaminnelseTidspunkt).length > 0;
+    }
+    return sak.tidslinje.some(
+        (te) =>
+            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(te.tilstand)
+    );
 }
 
 function harOppgaveTilstand(sak: Sak, oppgaveTilstand?: InputMaybe<OppgaveTilstand[]>) {

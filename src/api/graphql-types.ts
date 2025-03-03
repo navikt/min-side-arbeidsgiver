@@ -207,6 +207,7 @@ export type QuerySakerArgs = {
   limit?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   oppgaveTilstand?: InputMaybe<Array<OppgaveTilstand>>;
+  oppgaveFilter?: InputMaybe<Array<Scalars['String']['input']>>;
   sakstyper?: InputMaybe<Array<Scalars['String']['input']>>;
   sortering?: SakSortering;
   tekstsoek?: InputMaybe<Scalars['String']['input']>;

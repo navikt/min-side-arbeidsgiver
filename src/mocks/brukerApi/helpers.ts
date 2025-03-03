@@ -144,13 +144,14 @@ export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
     );
 
     return [
-        ...Object.entries(group).map(
-            ([tilstand, oppgaver]) => ({
-                filterType: tilstand,
-                antall: oppgaver.length,
-            }),
-            { filterType: OppgaveFilterType.PåminnelseUtløst, antall: group.NY?.filter((o) => o.paaminnelseTidspunkt !== null).length }
-        ),
+        ...Object.entries(group).map(([tilstand, oppgaver]) => ({
+            filterType: tilstand,
+            antall: oppgaver.length,
+        })),
+        {
+            filterType: OppgaveFilterType.PåminnelseUtløst,
+            antall: group.NY?.filter((o) => o.paaminnelseTidspunkt).length ?? 0,
+        },
     ];
 };
 

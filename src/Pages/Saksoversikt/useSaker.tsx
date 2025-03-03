@@ -19,6 +19,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
         $sortering: SakSortering!
         $sakstyper: [String!]
         $oppgaveTilstand: [OppgaveTilstand!]
+        $oppgaveFilter: [String!]
         $offset: Int
         $limit: Int
     ) {
@@ -28,6 +29,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             sortering: $sortering
             sakstyper: $sakstyper
             oppgaveTilstand: $oppgaveTilstand
+            oppgaveFilter: $oppgaveFilter
             offset: $offset
             limit: $limit
         ) {
@@ -158,8 +160,9 @@ export function useSaker(
         [organisasjonstre, virksomheter]
     );
 
-    //TODO: Endre dette etter at vi har lag ttil støtte for påminnelse utløst i bakcend
+    // //TODO: Endre dette etter at vi har lag ttil støtte for påminnelse utløst i bakcend
     const oppgaveTilstand = oppgaveFilter.filter((it) => it !== OppgaveFilterType.PåminnelseUtløst);
+    console.log("oppgavFilter i usesaker" + oppgaveFilter)
 
     const variables = {
         virksomhetsnumre,
@@ -167,6 +170,7 @@ export function useSaker(
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
         oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
+        oppgaveFilter: oppgaveFilter,
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,
     };

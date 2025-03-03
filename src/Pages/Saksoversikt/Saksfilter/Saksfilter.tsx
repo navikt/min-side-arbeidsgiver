@@ -213,7 +213,6 @@ const InntektsmeldingGruppe = (
     );
 };
 
-//TODO; flytt
 type SakstypeOverordnetArray = Pick<Query, 'sakstyper'>;
 
 const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
@@ -395,10 +394,10 @@ const OppgaveFilter = () => {
             <CheckboxGroup
                 value={filter.oppgaveFilter}
                 legend={'Oppgaver'}
-                onChange={(valgteOppgavetilstander) =>
+                onChange={(valgteOppgaveFilter) =>
                     setFilter({
                         ...filter,
-                        oppgaveFilter: valgteOppgavetilstander,
+                        oppgaveFilter: valgteOppgaveFilter,
                     })
                 }
             >
