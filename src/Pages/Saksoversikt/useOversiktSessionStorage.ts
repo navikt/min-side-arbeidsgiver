@@ -29,19 +29,20 @@ type SessionStateForside = {
 
 type SessionState = SessionStateSaksoversikt | SessionStateForside;
 
-const filterToSessionState = (
-    filter: Filter,
-    valgtFilterId: string | undefined
-): SessionStateSaksoversikt => ({
-    route: '/saksoversikt',
-    side: filter.side,
-    tekstsoek: filter.tekstsoek,
-    sortering: filter.sortering,
-    virksomhetsnumre: filter.virksomheter.toArray(),
-    sakstyper: filter.sakstyper,
-    oppgaveFilter: filter.oppgaveFilter,
-    valgtFilterId,
-});
+//TODO: fjerne denne?
+// const filterToSessionState = (
+//     filter: Filter,
+//     valgtFilterId: string | undefined
+// ): SessionStateSaksoversikt => ({
+//     route: '/saksoversikt',
+//     side: filter.side,
+//     tekstsoek: filter.tekstsoek,
+//     sortering: filter.sortering,
+//     virksomhetsnumre: filter.virksomheter.toArray(),
+//     sakstyper: filter.sakstyper,
+//     oppgaveFilter: filter.oppgaveFilter,
+//     valgtFilterId,
+// });
 
 const equalVirksomhetsnumre = (
     a: SessionStateSaksoversikt,
@@ -99,7 +100,7 @@ export type UseSessionState = [
         filter: Filter;
         valgtFilterId: string | undefined;
     },
-    (filter: Filter, valgtFilterId: string | undefined) => void,
+    // (filter: Filter, valgtFilterId: string | undefined) => void,
 ];
 
 const defaultSessionState: SessionStateSaksoversikt = {
@@ -130,6 +131,7 @@ export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): U
         defaultSessionState
     );
 
+    //TODO: change this somehow?
     const [sessionStateSaksoversikt, setSessionStateSaksoversikt] = useState<SessionStateSaksoversikt>(() => {
         if (sessionStorage.route === '/saksoversikt') {
             try {
@@ -161,13 +163,13 @@ export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): U
         });
     }, []);
 
-    //TODO: fjerne denne?
-    const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
-        const newSessionState = filterToSessionState(newFilter, newValgtFilterId);
-        if (!equalSessionState(sessionStateSaksoversikt, newSessionState)) {
-            setSessionStateSaksoversikt(newSessionState);
-        }
-    };
+    // //TODO: fjerne denne?
+    // const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
+    //     const newSessionState = filterToSessionState(newFilter, newValgtFilterId);
+    //     if (!equalSessionState(sessionStateSaksoversikt, newSessionState)) {
+    //         setSessionStateSaksoversikt(newSessionState);
+    //     }
+    // };
 
     const filter = useMemo(() => {
         return {
@@ -198,7 +200,7 @@ export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): U
         sessionStateSaksoversikt.oppgaveFilter
     ]);
 
-    return [{ filter, valgtFilterId: sessionStateSaksoversikt.valgtFilterId }, update];
+    return [{ filter, valgtFilterId: sessionStateSaksoversikt.valgtFilterId }];
 };
 
 // Clear sessionStorage with oversikts-filter.

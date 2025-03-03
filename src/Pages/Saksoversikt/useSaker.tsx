@@ -8,7 +8,6 @@ import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
-import { OppgaveFilterType } from './Saksfilter/Saksfilter';
 
 type SakerResultat = Pick<Query, 'saker'>;
 
@@ -160,16 +159,11 @@ export function useSaker(
         [organisasjonstre, virksomheter]
     );
 
-    // //TODO: Endre dette etter at vi har lag ttil støtte for påminnelse utløst i bakcend
-    const oppgaveTilstand = oppgaveFilter.filter((it) => it !== OppgaveFilterType.PåminnelseUtløst);
-    console.log("oppgavFilter i usesaker" + oppgaveFilter)
-
     const variables = {
         virksomhetsnumre,
         tekstsoek: tekstsoek === '' ? null : tekstsoek,
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
-        oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
         oppgaveFilter: oppgaveFilter,
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,

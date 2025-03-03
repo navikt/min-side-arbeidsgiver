@@ -118,7 +118,6 @@ export const FilterChips = () => {
                 {filterTypeTilTekst(filterType)}
             </Chips.Removable>
         )),
-        //TODO: legg til påminnelse chip
         ...organisasjonerTilChips.map((virksomhet) => (
             <VirksomhetChips
                 key={virksomhet.orgnr}
