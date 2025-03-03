@@ -4,7 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import {
     OppgaveTilstand,
@@ -18,6 +18,9 @@ import amplitude from '../../../utils/amplitude';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { opprettInntektsmeldingURL } from '../../../lenker';
+import { gittMiljo } from '../../../utils/environment';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -58,7 +61,11 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
     }
 };
 
-export const amplitudeFilterKlikk = (kategori: string, filternavn: string, target: EventTarget | null) => {
+export const amplitudeFilterKlikk = (
+    kategori: string,
+    filternavn: string,
+    target: EventTarget | null
+) => {
     if (target instanceof HTMLInputElement) {
         amplitude.logEvent('filtervalg', {
             kategori: kategori,
@@ -335,6 +342,10 @@ export const Saksfilter = ({
 };
 
 const OpprettInntektsmelding = () => {
+    const isProd = gittMiljo<boolean>({
+        prod: true,
+        other: false,
+    });
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true
@@ -362,7 +373,23 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <OpprettManuellInntektsmeldingBoks />
+                {isProd ? (
+                    <>
+                        <Label
+                            htmlFor="opprett-inntektsmelding-lenke-id"
+                            children="Opprett inntektsmelding manuelt"
+                        />
+                        <LenkeMedLogging
+                            id="opprett-inntektsmelding-lenke-id"
+                            loggLenketekst="Opprett inntektsmelding manuelt"
+                            href={opprettInntektsmeldingURL}
+                        >
+                            Opprett inntektsmelding for sykepenger
+                        </LenkeMedLogging>
+                    </>
+                ) : (
+                    <OpprettManuellInntektsmeldingBoks />
+                )}
             </div>
         );
     } else {
