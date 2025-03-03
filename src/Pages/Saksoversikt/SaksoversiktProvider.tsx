@@ -21,6 +21,7 @@ import {
 } from '../../api/graphql-types';
 import Immutable, { Set } from 'immutable';
 import * as Record from '../../utils/Record';
+import { z } from 'zod';
 
 export type SaksoversiktTransitions = {
     setFilter: (filter: Filter) => void;
@@ -61,14 +62,16 @@ export type SaksoversiktState =
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
       };
 
-export type Filter = {
-    side: number;
-    virksomheter: Set<string>;
-    tekstsoek: string;
-    sortering: SakSortering;
-    sakstyper: string[];
-    oppgaveFilter: string[]
-};
+export const ZodFilter = z.object({
+    side: z.number(),
+    tekstsoek: z.string(),
+    virksomheter: z.set(z.string()),
+    sortering: z.string(),
+    sakstyper: z.array(z.string()),
+    oppgaveFilter: z.array(z.string()),
+});
+
+export type Filter = z.infer<typeof ZodFilter>;
 
 export type SaksoversiktContext = {
     saksoversiktState: SaksoversiktState;

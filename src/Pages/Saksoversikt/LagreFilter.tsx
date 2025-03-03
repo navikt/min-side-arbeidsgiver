@@ -12,7 +12,6 @@ import {
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../hooks/useRemoteStorage';
-import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
 import './LagreFilter.css';
@@ -45,7 +44,15 @@ function fiksSortering(filter: any): SakSortering {
     return SakSortering.NyesteFørst;
 }
 
-const useLagredeFilter = (): {
+function fiksOppgaveFilter(filter: any) : string[] {
+    if (filter.oppgaveFilter !== undefined) {
+        return filter.oppgaveFilter;
+    }
+
+    return filter.oppgaveTilstand ?? [];
+}
+
+export const useLagredeFilter = (): {
     lagredeFilter: LagretFilter[];
     lagreNyttLagretFilter: (navn: string, filter: Filter) => LagretFilter;
     slettLagretFilter: (uuid: string) => void;
@@ -60,8 +67,9 @@ const useLagredeFilter = (): {
             ...filter,
             filter: {
                 ...filter.filter,
-                virksomheter: Set(filter.filter.virksomheter),
+                virksomheter: new Set(filter.filter.virksomheter),
                 sortering: fiksSortering(filter.filter.sortering),
+                oppgaveFilter: fiksOppgaveFilter(filter.filter),
             },
         }))
     );
@@ -173,7 +181,7 @@ const useLagredeFilter = (): {
 
 export const LagreFilter = () => {
     const {
-        saksoversiktState: {valgtFilterId, filter},
+        saksoversiktState: { valgtFilterId, filter },
         transitions: { setFilter, setValgtFilterId },
     } = useSaksoversiktContext();
 

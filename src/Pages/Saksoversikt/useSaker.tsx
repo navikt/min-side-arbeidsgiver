@@ -3,7 +3,6 @@ import { useContext, useEffect, useMemo } from 'react';
 import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
 import { Filter } from './SaksoversiktProvider';
-import { Set } from 'immutable';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
@@ -118,7 +117,7 @@ const beregnVirksomhetsnummer = (
     organisasjonstre: Organisasjon[],
     virksomheter: Set<string>
 ): string[] => {
-    if (virksomheter.isEmpty()) {
+    if (virksomheter.size === 0) {
         return flatUtTre(organisasjonstre).flatMap(({ underenheter }) =>
             underenheter.map((it) => it.orgnr)
         );
