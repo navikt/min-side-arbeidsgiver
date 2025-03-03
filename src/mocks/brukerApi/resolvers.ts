@@ -130,7 +130,7 @@ function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
 
     if (oppgaveFilter.includes(OppgaveFilterType.PåminnelseUtløst)) {
         console.log("PåminnelseUtløst er true")
-        return sak.tidslinje.filter(t => t.__typename === 'OppgaveTidslinjeElement' && t.tilstand === OppgaveTilstand.Ny && t.paaminnelseTidspunkt).length > 0;
+        return sak.tidslinje.filter(t => t.__typename === 'OppgaveTidslinjeElement' && t.tilstand === OppgaveTilstand.Ny && t.paaminnelseTidspunkt !== null && t.paaminnelseTidspunkt !== undefined).length > 0;
     }
     return sak.tidslinje.some(
         (te) =>

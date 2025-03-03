@@ -96,9 +96,7 @@ export const useSaksoversiktContext = () => {
 export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props) => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
 
-    const orgs = organisasjonsInfo
-        ? Record.mapToArray(organisasjonsInfo, (_, { organisasjon }) => organisasjon)
-        : [];
+    const orgs= Record.mapToArray(organisasjonsInfo, (_, { organisasjon }) => organisasjon)
 
     const [
         { filter, valgtFilterId },

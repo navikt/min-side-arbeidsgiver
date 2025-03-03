@@ -150,7 +150,7 @@ export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
         })),
         {
             filterType: OppgaveFilterType.PåminnelseUtløst,
-            antall: group.NY?.filter((o) => o.paaminnelseTidspunkt).length ?? 0,
+            antall: group.NY?.filter(o => o.paaminnelseTidspunkt !== null && o.paaminnelseTidspunkt !== undefined).length ?? 0,
         },
     ];
 };
