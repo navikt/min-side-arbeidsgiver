@@ -15,10 +15,12 @@ import {
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import { Set } from 'immutable';
 import amplitude from '../../../utils/amplitude';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { opprettInntektsmeldingURL } from '../../../lenker';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
+import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
+import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { opprettInntektsmeldingURL } from '../../../lenker';
+import { gittMiljo } from '../../../utils/environment';
 
 type SaksfilterProps = {
     filter: Filter;
@@ -59,7 +61,11 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
     }
 };
 
-export const amplitudeFilterKlikk = (kategori: string, filternavn: string, target: EventTarget | null) => {
+export const amplitudeFilterKlikk = (
+    kategori: string,
+    filternavn: string,
+    target: EventTarget | null
+) => {
     if (target instanceof HTMLInputElement) {
         amplitude.logEvent('filtervalg', {
             kategori: kategori,
@@ -336,6 +342,10 @@ export const Saksfilter = ({
 };
 
 const OpprettInntektsmelding = () => {
+    const isProd = gittMiljo<boolean>({
+        prod: true,
+        other: false,
+    });
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true
@@ -363,17 +373,23 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <Label
-                    htmlFor="opprett-inntektsmelding-lenke-id"
-                    children="Opprett inntektsmelding manuelt"
-                />
-                <LenkeMedLogging
-                    id="opprett-inntektsmelding-lenke-id"
-                    loggLenketekst={'Opprett inntektsmelding manuelt'}
-                    href={opprettInntektsmeldingURL}
-                >
-                    Opprett inntektsmelding for sykepenger
-                </LenkeMedLogging>
+                {isProd ? (
+                    <>
+                        <Label
+                            htmlFor="opprett-inntektsmelding-lenke-id"
+                            children="Opprett inntektsmelding manuelt"
+                        />
+                        <LenkeMedLogging
+                            id="opprett-inntektsmelding-lenke-id"
+                            loggLenketekst="Opprett inntektsmelding manuelt"
+                            href={opprettInntektsmeldingURL}
+                        >
+                            Opprett inntektsmelding for sykepenger
+                        </LenkeMedLogging>
+                    </>
+                ) : (
+                    <OpprettManuellInntektsmeldingBoks />
+                )}
             </div>
         );
     } else {
