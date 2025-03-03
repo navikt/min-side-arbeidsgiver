@@ -1,6 +1,6 @@
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
-import { renderHook } from '@testing-library/react';
+import { act, renderHook } from '@testing-library/react';
 import { useLagredeFilter } from './LagreFilter';
 import { ZodFilter } from './SaksoversiktProvider';
 
@@ -26,12 +26,31 @@ describe('SaksoversiktProvider tests', () => {
                             sakstyper: ['fager'],
                             oppgaveTilstand: ['NY'],
                         },
+
+                    },
+                    {
+                        uuid: '147ec969-16a9-4dec-8360-6509d7cc653c',
+                        navn: 'fager - uløste oppgaver',
+                        filter: {
+                            route: '/saksoversikt',
+                            side: 1,
+                            tekstsoek: '',
+                            virksomheter: 2,
+                            sortering: 'NYESTE',
+                            sakstyper: ['fager'],
+                            oppgaveTilstand: ['NY'],
+                        },
+
                     },
                 ]);
             })
         );
         vi.useFakeTimers();
         const { result } = renderHook(() => useLagredeFilter());
+        await act(async () => {
+            vi.runOnlyPendingTimers();
+            vi.useRealTimers();
+        });
 
         result.current?.lagredeFilter.forEach((filter) => {
             ZodFilter.parse(filter.filter)

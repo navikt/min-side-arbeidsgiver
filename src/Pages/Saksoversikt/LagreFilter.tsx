@@ -12,6 +12,7 @@ import {
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../hooks/useRemoteStorage';
+import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
 import './LagreFilter.css';
@@ -67,7 +68,7 @@ export const useLagredeFilter = (): {
             ...filter,
             filter: {
                 ...filter.filter,
-                virksomheter: new Set(filter.filter.virksomheter),
+                virksomheter: Set(filter.filter.virksomheter),
                 sortering: fiksSortering(filter.filter.sortering),
                 oppgaveFilter: fiksOppgaveFilter(filter.filter),
             },

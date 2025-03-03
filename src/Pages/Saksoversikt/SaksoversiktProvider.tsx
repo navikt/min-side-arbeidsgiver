@@ -65,7 +65,7 @@ export type SaksoversiktState =
 export const ZodFilter = z.object({
     side: z.number(),
     tekstsoek: z.string(),
-    virksomheter: z.set(z.string()),
+    virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
     sortering: z.string(),
     sakstyper: z.array(z.string()),
     oppgaveFilter: z.array(z.string()),
