@@ -5,7 +5,7 @@ import { useLagredeFilter } from './LagreFilter';
 import { ZodFilter } from './SaksoversiktProvider';
 
 
-describe('SaksoversiktProvider tests', () => {
+describe('Parsing av lagrede filter tests', () => {
     beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));
     afterEach(() => server.resetHandlers());
     afterAll(() => server.close());
@@ -26,21 +26,6 @@ describe('SaksoversiktProvider tests', () => {
                             sakstyper: ['fager'],
                             oppgaveTilstand: ['NY'],
                         },
-
-                    },
-                    {
-                        uuid: '147ec969-16a9-4dec-8360-6509d7cc653c',
-                        navn: 'fager - uløste oppgaver',
-                        filter: {
-                            route: '/saksoversikt',
-                            side: 1,
-                            tekstsoek: '',
-                            virksomheter: 2,
-                            sortering: 'NYESTE',
-                            sakstyper: ['fager'],
-                            oppgaveTilstand: ['NY'],
-                        },
-
                     },
                 ]);
             })
