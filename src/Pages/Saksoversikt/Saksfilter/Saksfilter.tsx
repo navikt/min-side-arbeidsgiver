@@ -406,11 +406,21 @@ const OppgaveFilter = () => {
             <CheckboxGroup
                 value={filter.oppgaveFilter}
                 legend={'Oppgaver'}
-                onChange={(valgteOppgaveFilter) =>
-                    setFilter({
-                        ...filter,
-                        oppgaveFilter: valgteOppgaveFilter,
-                    })
+                onChange={(valgteOppgaveFilter) => {
+                        if (valgteOppgaveFilter.includes(OppgaveFilterType.Ny)){
+                            setFilter({
+                                ...filter,
+                                oppgaveFilter: valgteOppgaveFilter,
+                            })
+                        }
+                        // unselect PåminnelseUtløst ved unselect av Ny
+                        else{
+                            setFilter({
+                                ...filter,
+                                oppgaveFilter: [],
+                            })
+                        }
+                    }
                 }
             >
                 <Checkbox
