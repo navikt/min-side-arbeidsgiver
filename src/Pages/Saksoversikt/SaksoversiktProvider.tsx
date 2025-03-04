@@ -66,7 +66,7 @@ export const ZodFilter = z.object({
     side: z.number(),
     tekstsoek: z.string(),
     virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
-    sortering: z.string(),
+    sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
     sakstyper: z.array(z.string()),
     oppgaveFilter: z.array(z.string()),
 });
@@ -99,12 +99,64 @@ export const useSaksoversiktContext = () => {
 export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props) => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
 
-    const orgs= Record.mapToArray(organisasjonsInfo, (_, { organisasjon }) => organisasjon)
+    const orgs = Record.mapToArray(organisasjonsInfo, (_, { organisasjon }) => organisasjon);
 
-    const [
-        { filter, valgtFilterId },
-        // setSessionState
-    ] = useSessionStateSaksoversikt(orgs);
+    const [{ filter, valgtFilterId }, setSessionStateSaksoversikt] =
+        useSessionStateSaksoversikt(orgs);
+
+    const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
+        switch (action.action) {
+            case 'bytt-filter':
+                if (equalFilter(current.filter, action.filter)) {
+                    return current;
+                }
+                setSessionStateSaksoversikt(action.filter, current.valgtFilterId);
+                return {
+                    ...current,
+                    filter: action.filter,
+                };
+            case 'sett-valgt-filterid':
+                return {
+                    ...current,
+                    valgtFilterId: action.id,
+                };
+            case 'lasting-pågår':
+                return {
+                    state: 'loading',
+                    filter: current.filter,
+                    valgtFilterId: current.valgtFilterId,
+                    sider: current.sider,
+                    sakstyper: current.sakstyper,
+                    oppgaveFilterInfo: current.oppgaveFilterInfo,
+                    startTid: new Date(),
+                    totaltAntallSaker: current.totaltAntallSaker,
+                    forrigeSaker: finnForrigeSaker(current),
+                };
+            case 'lasting-feilet':
+                return {
+                    state: 'error',
+                    filter: current.filter,
+                    valgtFilterId: current.valgtFilterId,
+                    sider: current.sider,
+                    sakstyper: current.sakstyper,
+                    totaltAntallSaker: current.totaltAntallSaker,
+                    oppgaveFilterInfo: current.oppgaveFilterInfo,
+                };
+            case 'lasting-ferdig':
+                const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
+                const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
+                return {
+                    state: 'done',
+                    filter: current.filter,
+                    valgtFilterId: current.valgtFilterId,
+                    sider,
+                    saker: saker,
+                    sakstyper: sakstyper,
+                    totaltAntallSaker: totaltAntallSaker,
+                    oppgaveFilterInfo: oppgaveFilterInfo,
+                };
+        }
+    };
 
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
@@ -164,59 +216,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
             {props.children}
         </SaksoversiktContext.Provider>
     );
-};
-
-const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
-    switch (action.action) {
-        case 'bytt-filter':
-            if (equalFilter(current.filter, action.filter)) {
-                return current;
-            }
-            return {
-                ...current,
-                filter: action.filter,
-            };
-        case 'sett-valgt-filterid':
-            return {
-                ...current,
-                valgtFilterId: action.id,
-            };
-        case 'lasting-pågår':
-            return {
-                state: 'loading',
-                filter: current.filter,
-                valgtFilterId: current.valgtFilterId,
-                sider: current.sider,
-                sakstyper: current.sakstyper,
-                oppgaveFilterInfo: current.oppgaveFilterInfo,
-                startTid: new Date(),
-                totaltAntallSaker: current.totaltAntallSaker,
-                forrigeSaker: finnForrigeSaker(current),
-            };
-        case 'lasting-feilet':
-            return {
-                state: 'error',
-                filter: current.filter,
-                valgtFilterId: current.valgtFilterId,
-                sider: current.sider,
-                sakstyper: current.sakstyper,
-                totaltAntallSaker: current.totaltAntallSaker,
-                oppgaveFilterInfo: current.oppgaveFilterInfo,
-            };
-        case 'lasting-ferdig':
-            const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
-            const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
-            return {
-                state: 'done',
-                filter: current.filter,
-                valgtFilterId: current.valgtFilterId,
-                sider,
-                saker: saker,
-                sakstyper: sakstyper,
-                totaltAntallSaker: totaltAntallSaker,
-                oppgaveFilterInfo: oppgaveFilterInfo,
-            };
-    }
 };
 
 const finnForrigeSaker = (state: SaksoversiktState): Array<Sak> | null => {
