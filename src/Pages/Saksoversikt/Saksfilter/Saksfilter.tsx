@@ -8,8 +8,10 @@ import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveTilstand, Query, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import amplitude from '../../../utils/amplitude';
+import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
+import { gittMiljo } from '../../../utils/environment';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
@@ -332,6 +334,10 @@ export const Saksfilter = () => {
 };
 
 const OpprettInntektsmelding = () => {
+    const isProd = gittMiljo<boolean>({
+        prod: true,
+        other: false,
+    });
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true
@@ -359,17 +365,23 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <Label
-                    htmlFor="opprett-inntektsmelding-lenke-id"
-                    children="Opprett inntektsmelding manuelt"
-                />
-                <LenkeMedLogging
-                    id="opprett-inntektsmelding-lenke-id"
-                    loggLenketekst={'Opprett inntektsmelding manuelt'}
-                    href={opprettInntektsmeldingURL}
-                >
-                    Opprett inntektsmelding for sykepenger
-                </LenkeMedLogging>
+                {isProd ? (
+                    <>
+                        <Label
+                            htmlFor="opprett-inntektsmelding-lenke-id"
+                            children="Opprett inntektsmelding manuelt"
+                        />
+                        <LenkeMedLogging
+                            id="opprett-inntektsmelding-lenke-id"
+                            loggLenketekst="Opprett inntektsmelding manuelt"
+                            href={opprettInntektsmeldingURL}
+                        >
+                            Opprett inntektsmelding for sykepenger
+                        </LenkeMedLogging>
+                    </>
+                ) : (
+                    <OpprettManuellInntektsmeldingBoks />
+                )}
             </div>
         );
     } else {
