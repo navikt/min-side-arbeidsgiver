@@ -13,7 +13,7 @@ import { SIDE_SIZE } from './Saksoversikt';
 import amplitude from '../../utils/amplitude';
 import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
 import {
-    OppgaveFilterInfo,
+    OppgaveFilterInfo, OppgaveFilterType,
     Sak,
     SakerResultat,
     SakSortering,
@@ -68,7 +68,7 @@ export const ZodFilter = z.object({
     virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
     sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
     sakstyper: z.array(z.string()),
-    oppgaveFilter: z.array(z.string()),
+    oppgaveFilter: z.array(OppgaveFilterType)
 });
 
 export type Filter = z.infer<typeof ZodFilter>;

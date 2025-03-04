@@ -1,16 +1,15 @@
 import {
     InputMaybe,
     Kalenderavtale,
-    Notifikasjon,
+    Notifikasjon, OppgaveFilterType,
     OppgaveTilstand,
     QuerySakerArgs,
     Sak,
     SakSortering,
 } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
-import { executeAndValidate, oppgaveFilterInfo } from './helpers';
+import { executeAndValidate, mapOppgaveTilstandTilFilterType, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
-import { OppgaveFilterType } from '../../Pages/Saksoversikt/Saksfilter/Saksfilter';
 
 
 export const hentSakerResolver = (saker: Sak[]) =>
@@ -128,22 +127,11 @@ function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
         return true;
     }
 
-    if (oppgaveFilter.includes(OppgaveFilterType.PåminnelseUtløst)) {
-        console.log("PåminnelseUtløst er true")
+    if (oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)) {
         return sak.tidslinje.filter(t => t.__typename === 'OppgaveTidslinjeElement' && t.tilstand === OppgaveTilstand.Ny && t.paaminnelseTidspunkt !== null && t.paaminnelseTidspunkt !== undefined).length > 0;
     }
     return sak.tidslinje.some(
         (te) =>
-            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(te.tilstand)
-    );
-}
-
-function harOppgaveTilstand(sak: Sak, oppgaveTilstand?: InputMaybe<OppgaveTilstand[]>) {
-    if (oppgaveTilstand === null || oppgaveTilstand === undefined || oppgaveTilstand.length === 0) {
-        return true;
-    }
-    return sak.tidslinje.some(
-        (te) =>
-            te.__typename === 'OppgaveTidslinjeElement' && oppgaveTilstand!.includes(te.tilstand)
+            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(mapOppgaveTilstandTilFilterType(te.tilstand))
     );
 }

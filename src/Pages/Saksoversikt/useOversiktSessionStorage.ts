@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './SaksoversiktProvider';
-import { SakSortering } from '../../api/graphql-types';
+import { OppgaveFilterType, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import amplitude from '../../utils/amplitude';
 import { z } from 'zod';
@@ -20,7 +20,7 @@ type SessionStateSaksoversikt = {
     virksomhetsnumre: string[] | 'ALLEBEDRIFTER';
     sortering: SakSortering;
     sakstyper: string[];
-    oppgaveFilter: string[];
+    oppgaveFilter: OppgaveFilterType[];
     valgtFilterId?: string;
 };
 type SessionStateForside = {
@@ -120,7 +120,7 @@ const FilterFromSessionState = z.object({
     virksomhetsnumre: z.union([z.array(z.string()), z.literal('ALLEBEDRIFTER')]),
     sortering: z.nativeEnum(SakSortering),
     sakstyper: z.array(z.string()),
-    oppgaveFilter: z.array(z.string()),
+    oppgaveFilter: z.array(OppgaveFilterType),
     valgtFilterId: z.string().optional(),
 });
 

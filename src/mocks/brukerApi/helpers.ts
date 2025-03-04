@@ -7,10 +7,9 @@ import {
     KalenderavtaleTilstand,
     Lokasjon,
     Oppgave,
-    OppgaveFilterInfo,
+    OppgaveFilterInfo, OppgaveFilterType,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
-    OppgaveTilstandInfo,
     Sak,
     SakStatus,
     SakStatusType,
@@ -21,7 +20,6 @@ import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
 import Document from '../../../bruker.graphql';
 import { GraphQLVariables } from 'msw';
 import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
-import { OppgaveFilterType } from '../../Pages/Saksoversikt/Saksfilter/Saksfilter';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
@@ -145,15 +143,29 @@ export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
 
     return [
         ...Object.entries(group).map(([tilstand, oppgaver]) => ({
-            filterType: tilstand,
+            filterType: mapOppgaveTilstandTilFilterType(tilstand),
             antall: oppgaver.length,
         })),
         {
-            filterType: OppgaveFilterType.PåminnelseUtløst,
+            filterType: OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST,
             antall: group.NY?.filter(o => o.paaminnelseTidspunkt !== null && o.paaminnelseTidspunkt !== undefined).length ?? 0,
         },
     ];
 };
+
+export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType => {
+    console.log(tilstand)
+    switch (tilstand) {
+        case OppgaveTilstand.Ny:
+            return OppgaveFilterType.Values.TILSTAND_NY;
+        case OppgaveTilstand.Utfoert:
+            return OppgaveFilterType.Values.TILSTAND_UTFOERT;
+        case OppgaveTilstand.Utgaatt:
+            return OppgaveFilterType.Values.TILSTAND_UTGAATT;
+        default:
+            throw new Error(`Ukjent tilstand: ${tilstand}`);
+    }
+}
 
 export const oppgave = ({
     tilstand = faker.helpers.enumValue(OppgaveTilstand),

@@ -17,8 +17,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
         $tekstsoek: String
         $sortering: SakSortering!
         $sakstyper: [String!]
-        $oppgaveTilstand: [OppgaveTilstand!]
-        $oppgaveFilter: [String!]
+        $oppgaveFilter: [OppgaveFilterType!]
         $offset: Int
         $limit: Int
     ) {
@@ -27,7 +26,6 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             tekstsoek: $tekstsoek
             sortering: $sortering
             sakstyper: $sakstyper
-            oppgaveTilstand: $oppgaveTilstand
             oppgaveFilter: $oppgaveFilter
             offset: $offset
             limit: $limit

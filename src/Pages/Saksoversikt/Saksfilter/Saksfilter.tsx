@@ -5,7 +5,7 @@ import { Søkeboks } from './Søkeboks';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
-import { OppgaveTilstand, Query, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
+import { OppgaveFilterType, OppgaveTilstand, Query, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import amplitude from '../../../utils/amplitude';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
@@ -18,16 +18,11 @@ import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { ServerError } from '@apollo/client/link/utils';
 
-export const OppgaveFilterType = {
-    ...OppgaveTilstand,
-    PåminnelseUtløst: 'NY_MED_PÅMINNELSE_UTLØST',
-} as const;
-
-export const filterTypeTilTekst = (oppgaveFilter: string) => {
+export const filterTypeTilTekst = (oppgaveFilter: OppgaveFilterType) => {
     switch (oppgaveFilter) {
-        case OppgaveFilterType.Ny:
+        case OppgaveFilterType.Values.TILSTAND_NY:
             return 'Uløste oppgaver';
-        case OppgaveFilterType.PåminnelseUtløst:
+        case OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST:
             return 'Med påminnelse';
         default:
             return '';
@@ -395,11 +390,11 @@ const OppgaveFilter = () => {
         transitions: { setFilter },
     } = useSaksoversiktContext();
 
-    const hentAntallAvType = (type: string) =>
+    const hentAntallAvType = (type: OppgaveFilterType) =>
         oppgaveFilterInfo?.find((filterInfo) => filterInfo.filterType === type)?.antall ?? 0;
 
-    const antallUløsteOppgaver = hentAntallAvType(OppgaveFilterType.Ny);
-    const antallUløsteOppgaverMedPåminnelse = hentAntallAvType(OppgaveFilterType.PåminnelseUtløst);
+    const antallUløsteOppgaver = hentAntallAvType(OppgaveFilterType.Values.TILSTAND_NY);
+    const antallUløsteOppgaverMedPåminnelse = hentAntallAvType(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST);
 
     return (
         <>
@@ -407,7 +402,7 @@ const OppgaveFilter = () => {
                 value={filter.oppgaveFilter}
                 legend={'Oppgaver'}
                 onChange={(valgteOppgaveFilter) => {
-                        if (valgteOppgaveFilter.includes(OppgaveFilterType.Ny)){
+                        if (valgteOppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY)){
                             setFilter({
                                 ...filter,
                                 oppgaveFilter: valgteOppgaveFilter,
@@ -424,17 +419,17 @@ const OppgaveFilter = () => {
                 }
             >
                 <Checkbox
-                    value={OppgaveFilterType.Ny}
+                    value={OppgaveFilterType.Values.TILSTAND_NY}
                     onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
                 >
                     <BodyShort>
-                        {`${filterTypeTilTekst(OppgaveFilterType.Ny)} (${antallUløsteOppgaver})`}
+                        {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY)} (${antallUløsteOppgaver})`}
                     </BodyShort>
                 </Checkbox>
-                {filter.oppgaveFilter.includes(OppgaveFilterType.Ny) && (
-                    <Checkbox value={OppgaveFilterType.PåminnelseUtløst} className={'underfilter'}>
+                {filter.oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY) && (
+                    <Checkbox value={OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST} className={'underfilter'}>
                         <BodyShort>
-                            {`${filterTypeTilTekst(OppgaveFilterType.PåminnelseUtløst)} (${antallUløsteOppgaverMedPåminnelse})`}
+                            {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)} (${antallUløsteOppgaverMedPåminnelse})`}
                         </BodyShort>
                     </Checkbox>
                 )}
