@@ -164,7 +164,7 @@ export function useSaker(
         tekstsoek: tekstsoek === '' ? null : tekstsoek,
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
-        oppgaveFilter: oppgaveFilter.length === null ? null : oppgaveFilter,
+        oppgaveFilter: oppgaveFilter.length === 0 ? null : oppgaveFilter,
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,
     };
