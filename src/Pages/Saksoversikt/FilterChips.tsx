@@ -10,13 +10,6 @@ import { amplitudeChipClick } from '../../utils/funksjonerForAmplitudeLogging';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 
-// export type FilterChipsProps = {
-//     state: State;
-//     byttFilter: (filter: Filter) => void;
-// };
-//
-// export const FilterChips = ({ state, byttFilter }: FilterChipsProps) => {
-
 export const FilterChips = () => {
     const { organisasjonstre, orgnrTilChildrenMap, orgnrTilParentMap } =
         useOrganisasjonerOgTilgangerContext();

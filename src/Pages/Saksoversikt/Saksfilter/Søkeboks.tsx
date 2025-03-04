@@ -4,12 +4,6 @@ import './Saksfilter.css';
 import { amplitudeFilterKlikk } from './Saksfilter';
 import { useSaksoversiktContext } from '../SaksoversiktProvider';
 
-// export type SøkeboksProps = {
-//     filter: Filter;
-//     byttFilter: (filter: Filter) => void;
-// };
-//
-// export const Søkeboks = ({ filter, byttFilter }: SøkeboksProps) => {
 export const Søkeboks = () => {
     const {
         saksoversiktState: { filter },
