@@ -5,7 +5,7 @@ import './Arbeidsplassen.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { z } from 'zod';
 import useSWR from 'swr';
-import { erDriftsforstyrrelse, erUnauthorized } from '../../../../utils/util';
+import { erForbigående } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Arbeidsplassen = () => {
@@ -60,11 +60,7 @@ const useAntallannonser = () => {
         fetcher,
         {
             onError: (error) => {
-                if (
-                    retries === 5 &&
-                    !erDriftsforstyrrelse(error.status) &&
-                    !erUnauthorized(error.status)
-                ) {
+                if (retries === 5 && !erForbigående(error)) {
                     console.error(
                         `#MSA: hent AntallAnnonser fra stillingsregistrering-api feilet med ${
                             error.status !== undefined

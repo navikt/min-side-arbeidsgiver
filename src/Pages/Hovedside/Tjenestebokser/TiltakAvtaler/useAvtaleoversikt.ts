@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import useSWR from 'swr';
 import { z } from 'zod';
-import { count, erDriftsforstyrrelse, erUnauthorized } from '../../../../utils/util';
+import { count, erForbigående } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 export type Avtaleoversikt = {
@@ -24,11 +24,7 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (
-                    retries === 5 &&
-                    !erDriftsforstyrrelse(error.status) &&
-                    !erUnauthorized(error.status)
-                ) {
+                if (retries === 5 && !erForbigående(error)) {
                     console.error(
                         `#MSA: hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
                             error.status !== undefined

@@ -21,6 +21,23 @@ export const sorted = <T extends any>(array: T[], on: (e: T) => string): T[] =>
 export const erDriftsforstyrrelse = (httpStatus: number) => [502, 503, 504].includes(httpStatus);
 export const erUnauthorized = (httpStatus: number) => 401 === httpStatus;
 
+const ignorables = [
+    'Load failed',
+    'Failed to fetch',
+    'NetworkError when attempting to fetch resource.',
+    'cancelled',
+    'avbrutt',
+    'cancelado',
+    'anulowane',
+    'avbruten',
+    'anulat',
+    'The operation was aborted.',
+];
+export const erForbigående = (error: any) =>
+    erDriftsforstyrrelse(error.status) ||
+    erUnauthorized(error.status) ||
+    ignorables.includes(error.message);
+
 export const splittListe = <T extends any>(liste: T[], filter: (e: T) => boolean): T[][] => {
     const selected = liste.filter(filter);
     const rejected = liste.filter((e) => !filter(e));
