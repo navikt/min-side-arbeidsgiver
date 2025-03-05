@@ -4,7 +4,7 @@ import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
-import { erDriftsforstyrrelse } from '../utils/util';
+import { erDriftsforstyrrelse, erUnauthorized } from '../utils/util';
 
 const RefusjonStatus = z.object({
     virksomhetsnummer: z.string(),
@@ -78,7 +78,11 @@ export const useUserInfo = (): UseUserInfoResult => {
     const { data: userInfo, error } = useSWR(`${__BASE_PATH__}/api/userInfo/v3`, fetcher, {
         onSuccess: () => setRetries(0),
         onError: (error) => {
-            if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
+            if (
+                retries === 5 &&
+                !erDriftsforstyrrelse(error.status) &&
+                !erUnauthorized(error.status)
+            ) {
                 console.error(
                     `#MSA: hent userInfo fra min-side-arbeidsgiver feilet med ${
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error

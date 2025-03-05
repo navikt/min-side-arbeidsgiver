@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { erDriftsforstyrrelse, erUnauthorized } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 const Sykefraværsrespons = z.object({
@@ -21,7 +21,11 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
+                if (
+                    retries === 5 &&
+                    !erDriftsforstyrrelse(error.status) &&
+                    !erUnauthorized(error.status)
+                ) {
                     console.error(
                         `#MSA: hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined

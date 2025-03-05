@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
+import { erDriftsforstyrrelse, erUnauthorized } from '../utils/util';
 
 const Adresse = z
     .object({
@@ -18,33 +19,31 @@ const Kode = z.object({
     beskrivelse: z.string(),
 });
 
-const Underenhet = z
-    .object({
-        organisasjonsnummer: z.string(),
-        navn: z.string(),
-        overordnetEnhet: z.string(),
-        organisasjonsform: Kode.nullable(),
-        naeringskoder: z.array(z.string()).nullable(),
-        postadresse: Adresse.nullable(),
-        forretningsadresse: Adresse.nullable(),
-        hjemmeside: z.string().nullable(),
-        antallAnsatte: z.number().nullable(),
-        beliggenhetsadresse: Adresse.nullable(),
-    })
+const Underenhet = z.object({
+    organisasjonsnummer: z.string(),
+    navn: z.string(),
+    overordnetEnhet: z.string(),
+    organisasjonsform: Kode.nullable(),
+    naeringskoder: z.array(z.string()).nullable(),
+    postadresse: Adresse.nullable(),
+    forretningsadresse: Adresse.nullable(),
+    hjemmeside: z.string().nullable(),
+    antallAnsatte: z.number().nullable(),
+    beliggenhetsadresse: Adresse.nullable(),
+});
 
-const Hovedenhet = z
-    .object({
-        organisasjonsnummer: z.string(),
-        navn: z.string(),
-        organisasjonsform: Kode.nullable(),
-        naeringskoder: z.array(z.string()).nullable(),
-        postadresse: Adresse.nullable(),
-        forretningsadresse: Adresse.nullable(),
-        hjemmeside: z.string().nullable(),
-        overordnetEnhet: z.string().nullable(),
-        antallAnsatte: z.number().nullable(),
-        beliggenhetsadresse: Adresse.nullable(),
-    })
+const Hovedenhet = z.object({
+    organisasjonsnummer: z.string(),
+    navn: z.string(),
+    organisasjonsform: Kode.nullable(),
+    naeringskoder: z.array(z.string()).nullable(),
+    postadresse: Adresse.nullable(),
+    forretningsadresse: Adresse.nullable(),
+    hjemmeside: z.string().nullable(),
+    overordnetEnhet: z.string().nullable(),
+    antallAnsatte: z.number().nullable(),
+    beliggenhetsadresse: Adresse.nullable(),
+});
 
 export type Hovedenhet = z.infer<typeof Hovedenhet>;
 export type Underenhet = z.infer<typeof Underenhet>;
@@ -57,11 +56,15 @@ export const useUnderenhet = (
         fetchUnderenhet,
         {
             onError: (error) => {
-                console.error(
-                    `#MSA: hent Underenhet fra brreg feilet med ${
-                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
-                    }`
-                );
+                if (!erDriftsforstyrrelse(error.status) && !erUnauthorized(error.status)) {
+                    console.error(
+                        `#MSA: hent Underenhet fra brreg feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                }
             },
         }
     );
@@ -84,11 +87,15 @@ export const useOverordnetEnhet = (orgnr: string | undefined): Hovedenhet | unde
         fetchHovedenhet,
         {
             onError: (error) => {
-                console.error(
-                    `#MSA: hent OverordnetEnhet fra brreg feilet med ${
-                        error.status !== undefined ? `${error.status} ${error.statusText}` : error
-                    }`
-                );
+                if (!erDriftsforstyrrelse(error.status) && !erUnauthorized(error.status)) {
+                    console.error(
+                        `#MSA: hent OverordnetEnhet fra brreg feilet med ${
+                            error.status !== undefined
+                                ? `${error.status} ${error.statusText}`
+                                : error
+                        }`
+                    );
+                }
             },
         }
     );
@@ -99,7 +106,7 @@ const fetchHovedenhet = async ({ url, orgnr }: { url: string; orgnr: string }) =
     const respons = await fetch(url, {
         method: 'POST',
         body: JSON.stringify({ orgnr }),
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
     });
     if (!respons.ok) throw respons;
     return Hovedenhet.parse(await respons.json());
