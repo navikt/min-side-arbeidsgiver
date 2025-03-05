@@ -517,13 +517,22 @@ const NotifikasjonsLenke = ({
     visSomLenke: boolean;
 }) => (visSomLenke ? <a href={lenke}>{children}</a> : children);
 
-// - Dersom lenke på notifikasjonen er identisk med lenken på saken, viser vi ikke lenken på notifikasjonen
-// - Dersom lenke i tidslinjen er til “sakssiden” så ikke vis lenke (lenkeløs sak)
 export const visSomLenke = ({
     sakLenke,
     notifikasjonsLenke,
 }: {
     sakLenke?: string | null;
-    notifikasjonsLenke: string;
-}) => !notifikasjonsLenke.includes(`${__BASE_PATH__}/sak`) &&
-    sakLenke !== notifikasjonsLenke;
+    notifikasjonsLenke?: string | null;
+}) => {
+    // - Dersom lenke på notifikasjonen er identisk med lenken på saken, viser vi ikke lenken på notifikasjonen
+    // - Dersom lenke i tidslinjen er til “sakssiden” så ikke vis lenke (lenkeløs sak)
+    if (
+        notifikasjonsLenke == null ||
+        notifikasjonsLenke === '' ||
+        notifikasjonsLenke.includes(`${__BASE_PATH__}/sak`)
+    ) {
+        return false;
+    }
+
+    return sakLenke !== notifikasjonsLenke;
+};
