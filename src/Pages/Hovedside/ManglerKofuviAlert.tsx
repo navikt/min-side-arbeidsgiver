@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { useEffect, useState } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { erDriftsforstyrrelse, erUnauthorized } from '../../utils/util';
+import { erStøy } from '../../utils/util';
 import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
@@ -65,11 +65,7 @@ const manglerKofuviAlert = (): VarslingStatus => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (
-                    retries === 5 &&
-                    !erDriftsforstyrrelse(error.status) &&
-                    !erUnauthorized(error.status)
-                ) {
+                if (retries === 5 && !erStøy(error)) {
                     console.error(
                         `#MSA: hent varslingStatus fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined

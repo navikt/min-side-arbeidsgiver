@@ -5,7 +5,7 @@ import { Alert, BodyShort, Heading, HelpText, Label } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import './Kontaktinfo.css';
 import NyFaneIkon from './NyFaneIkon';
-import { erDriftsforstyrrelse, erUnauthorized } from '../../utils/util';
+import { erStøy } from '../../utils/util';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
@@ -44,11 +44,7 @@ const useKontaktinfo = () => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (
-                    retries === 5 &&
-                    !erDriftsforstyrrelse(error.status) &&
-                    !erUnauthorized(error.status)
-                ) {
+                if (retries === 5 && !erStøy(error)) {
                     console.error(
                         `#MSA: hent kontaktinfo fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { erDriftsforstyrrelse, erUnauthorized } from '../utils/util';
+import { erStøy } from '../utils/util';
 
 const Adresse = z
     .object({
@@ -56,7 +56,7 @@ export const useUnderenhet = (
         fetchUnderenhet,
         {
             onError: (error) => {
-                if (!erDriftsforstyrrelse(error.status) && !erUnauthorized(error.status)) {
+                if (!erStøy(error)) {
                     console.error(
                         `#MSA: hent Underenhet fra brreg feilet med ${
                             error.status !== undefined
@@ -87,7 +87,7 @@ export const useOverordnetEnhet = (orgnr: string | undefined): Hovedenhet | unde
         fetchHovedenhet,
         {
             onError: (error) => {
-                if (!erDriftsforstyrrelse(error.status) && !erUnauthorized(error.status)) {
+                if (!erStøy(error)) {
                     console.error(
                         `#MSA: hent OverordnetEnhet fra brreg feilet med ${
                             error.status !== undefined
