@@ -8,8 +8,9 @@ import {
     SakSortering,
 } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
-import { executeAndValidate, mapOppgaveTilstandTilFilterType, oppgaveFilterInfo } from './helpers';
+import { executeAndValidate, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
+import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/LagreFilter';
 
 
 export const hentSakerResolver = (saker: Sak[]) =>
@@ -132,6 +133,6 @@ function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
     }
     return sak.tidslinje.some(
         (te) =>
-            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(mapOppgaveTilstandTilFilterType(te.tilstand))
+            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(mapOppgaveTilstandTilFilterType(te.tilstand)!)
     );
 }
