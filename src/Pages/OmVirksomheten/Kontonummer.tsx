@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import { z } from 'zod';
 
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
-import { erForbigående } from '../../utils/util';
+import { erStøy } from '../../utils/util';
 
 const KontonummerRespons = z
     .object({
@@ -73,7 +73,7 @@ const useKontonummer = (input: KontonummerInput) => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5 && !erForbigående(error)) {
+                if (retries === 5 && !erStøy(error)) {
                     console.error(
                         `#MSA: hent kontonummer fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined

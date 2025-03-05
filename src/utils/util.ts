@@ -33,7 +33,7 @@ const ignorables = [
     'anulat',
     'The operation was aborted.',
 ];
-export const erForbigående = (error: any) =>
+export const erStøy = (error: any) =>
     erDriftsforstyrrelse(error.status) ||
     erUnauthorized(error.status) ||
     ignorables.includes(error.message);

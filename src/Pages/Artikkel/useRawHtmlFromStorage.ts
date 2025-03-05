@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { useState } from 'react';
-import { erForbigående } from '../../utils/util';
+import { erStøy } from '../../utils/util';
 
 type UseRawHtmlFromStorageResult = {
     rawHtml: string | undefined;
@@ -19,7 +19,7 @@ export const useRawArtikkelHtml = ({
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5 && !erForbigående(error)) {
+                if (retries === 5 && !erStøy(error)) {
                     console.error(
                         `#MSA: hent raw artikler html feilet med ${
                             error.status !== undefined
