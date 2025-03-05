@@ -17,7 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
 import './LagreFilter.css';
 import { equalFilter, Filter, useSaksoversiktContext } from './SaksoversiktProvider';
-import { SakSortering } from '../../api/graphql-types';
+import { OppgaveFilterType, OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 
 export type LagretFilter = {
     uuid: string;
@@ -45,12 +45,26 @@ function fiksSortering(filter: any): SakSortering {
     return SakSortering.NyesteFørst;
 }
 
+export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
+    console.log(tilstand)
+    switch (tilstand) {
+        case OppgaveTilstand.Ny:
+            return OppgaveFilterType.Values.TILSTAND_NY;
+        case OppgaveTilstand.Utfoert:
+            return OppgaveFilterType.Values.TILSTAND_UTFOERT;
+        case OppgaveTilstand.Utgaatt:
+            return OppgaveFilterType.Values.TILSTAND_UTGAATT;
+        default:
+            return null
+    }
+}
+
 function fiksOppgaveFilter(filter: any) : string[] {
     if (filter.oppgaveFilter !== undefined) {
         return filter.oppgaveFilter;
     }
 
-    return filter.oppgaveTilstand ?? [];
+    return filter.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
 }
 
 export const useLagredeFilter = (): {
