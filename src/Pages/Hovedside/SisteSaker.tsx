@@ -43,7 +43,7 @@ const SisteSaker = () => {
         tekstsoek: '',
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
-        oppgaveTilstand: [],
+        oppgaveFilter: []
     });
 
     useSessionStateForside();

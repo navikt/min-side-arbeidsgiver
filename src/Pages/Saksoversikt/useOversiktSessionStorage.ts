@@ -3,8 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
-import { equalAsSets, Filter } from './useOversiktStateTransitions';
-import { OppgaveTilstand, SakSortering } from '../../api/graphql-types';
+import { equalAsSets, Filter } from './SaksoversiktProvider';
+import { OppgaveFilterType, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import amplitude from '../../utils/amplitude';
 import { z } from 'zod';
@@ -20,7 +20,7 @@ type SessionStateSaksoversikt = {
     virksomhetsnumre: string[] | 'ALLEBEDRIFTER';
     sortering: SakSortering;
     sakstyper: string[];
-    oppgaveTilstand: OppgaveTilstand[];
+    oppgaveFilter: OppgaveFilterType[];
     valgtFilterId?: string;
 };
 type SessionStateForside = {
@@ -39,7 +39,7 @@ const filterToSessionState = (
     sortering: filter.sortering,
     virksomhetsnumre: filter.virksomheter.toArray(),
     sakstyper: filter.sakstyper,
-    oppgaveTilstand: filter.oppgaveTilstand,
+    oppgaveFilter: filter.oppgaveFilter,
     valgtFilterId,
 });
 
@@ -74,7 +74,7 @@ export const equalSessionState = (a: SessionState, b: SessionState): boolean => 
             a.valgtFilterId === b.valgtFilterId &&
             equalVirksomhetsnumre(a, b) &&
             equalAsSets(a.sakstyper, b.sakstyper) &&
-            equalAsSets(a.oppgaveTilstand, b.oppgaveTilstand)
+            equalAsSets(a.oppgaveFilter, b.oppgaveFilter)
         );
     } else {
         return false;
@@ -109,7 +109,7 @@ const defaultSessionState: SessionStateSaksoversikt = {
     virksomhetsnumre: 'ALLEBEDRIFTER',
     sortering: SakSortering.NyesteFørst,
     sakstyper: [],
-    oppgaveTilstand: [],
+    oppgaveFilter: [],
     valgtFilterId: undefined,
 };
 
@@ -120,17 +120,17 @@ const FilterFromSessionState = z.object({
     virksomhetsnumre: z.union([z.array(z.string()), z.literal('ALLEBEDRIFTER')]),
     sortering: z.nativeEnum(SakSortering),
     sakstyper: z.array(z.string()),
-    oppgaveTilstand: z.array(z.nativeEnum(OppgaveTilstand)),
+    oppgaveFilter: z.array(OppgaveFilterType),
     valgtFilterId: z.string().optional(),
 });
 
-export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
+export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): UseSessionState => {
     const [sessionStorage, setSessionStorage] = useSessionStorage<SessionState>(
         SESSION_STORAGE_KEY,
         defaultSessionState
     );
 
-    const [sessionState, setSessionState] = useState<SessionStateSaksoversikt>(() => {
+    const [sessionStateSaksoversikt, setSessionStateSaksoversikt] = useState<SessionStateSaksoversikt>(() => {
         if (sessionStorage.route === '/saksoversikt') {
             try {
                 return FilterFromSessionState.parse(sessionStorage);
@@ -144,18 +144,18 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
     });
 
     useEffect(() => {
-        setSessionStorage(sessionState);
-    }, [sessionState]);
+        setSessionStorage(sessionStateSaksoversikt);
+    }, [sessionStateSaksoversikt]);
 
     const [params, setParams] = useSearchParams();
 
     useEffect(() => {
         if (params.size === 0) return;
 
-        setParams((existing) => {
+        setParams((prevParams) => {
             amplitude.logEvent('komponent-lastet', {
                 komponent: 'saksoversiktSessionStorage',
-                queryParametere: [...existing.keys()],
+                queryParametere: [...prevParams.keys()],
             });
             return {};
         });
@@ -163,41 +163,41 @@ export const useSessionStateOversikt = (alleVirksomheter: Organisasjon[]): UseSe
 
     const update = (newFilter: Filter, newValgtFilterId: string | undefined) => {
         const newSessionState = filterToSessionState(newFilter, newValgtFilterId);
-        if (!equalSessionState(sessionState, newSessionState)) {
-            setSessionState(newSessionState);
+        if (!equalSessionState(sessionStateSaksoversikt, newSessionState)) {
+            setSessionStateSaksoversikt(newSessionState);
         }
     };
 
     const filter = useMemo(() => {
         return {
             route: '/saksoversikt',
-            side: sessionState.side,
-            tekstsoek: sessionState.tekstsoek,
+            side: sessionStateSaksoversikt.side,
+            tekstsoek: sessionStateSaksoversikt.tekstsoek,
             virksomheter:
-                sessionState.virksomhetsnumre === 'ALLEBEDRIFTER'
+                sessionStateSaksoversikt.virksomhetsnumre === 'ALLEBEDRIFTER'
                     ? Set<string>()
                     : Set(
-                          sessionState.virksomhetsnumre.flatMap((orgnr) => {
+                          sessionStateSaksoversikt.virksomhetsnumre.flatMap((orgnr) => {
                               const org = alleVirksomheter.find((org) => org.orgnr === orgnr);
                               return org !== undefined ? [orgnr] : [];
                           })
                       ),
-            sortering: sessionState.sortering,
-            sakstyper: sessionState.sakstyper,
-            oppgaveTilstand: sessionState.oppgaveTilstand,
+            sortering: sessionStateSaksoversikt.sortering,
+            sakstyper: sessionStateSaksoversikt.sakstyper,
+            oppgaveFilter: sessionStateSaksoversikt.oppgaveFilter,
         };
     }, [
-        sessionState.side,
-        sessionState.tekstsoek,
-        sessionState.virksomhetsnumre === 'ALLEBEDRIFTER'
+        sessionStateSaksoversikt.side,
+        sessionStateSaksoversikt.tekstsoek,
+        sessionStateSaksoversikt.virksomhetsnumre === 'ALLEBEDRIFTER'
             ? 'ALLEBEDRIFTER'
-            : sessionState.virksomhetsnumre.join(','),
-        sessionState.sortering,
-        sessionState.sakstyper.join(','),
-        sessionState.oppgaveTilstand.join(','),
+            : sessionStateSaksoversikt.virksomhetsnumre.join(','),
+        sessionStateSaksoversikt.sortering,
+        sessionStateSaksoversikt.sakstyper.join(','),
+        sessionStateSaksoversikt.oppgaveFilter
     ]);
 
-    return [{ filter, valgtFilterId: sessionState.valgtFilterId }, update];
+    return [{ filter, valgtFilterId: sessionStateSaksoversikt.valgtFilterId }, update];
 };
 
 // Clear sessionStorage with oversikts-filter.

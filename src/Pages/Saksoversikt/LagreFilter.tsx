@@ -1,4 +1,3 @@
-import { equalFilter, Filter, State } from './useOversiktStateTransitions';
 import React, { useEffect, useRef, useState } from 'react';
 import {
     Alert,
@@ -17,7 +16,8 @@ import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
 import './LagreFilter.css';
-import { SakSortering } from '../../api/graphql-types';
+import { equalFilter, Filter, useSaksoversiktContext } from './SaksoversiktProvider';
+import { OppgaveFilterType, OppgaveTilstand, SakSortering } from '../../api/graphql-types';
 
 export type LagretFilter = {
     uuid: string;
@@ -45,7 +45,29 @@ function fiksSortering(filter: any): SakSortering {
     return SakSortering.NyesteFørst;
 }
 
-const useLagredeFilter = (): {
+export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
+    console.log(tilstand)
+    switch (tilstand) {
+        case OppgaveTilstand.Ny:
+            return OppgaveFilterType.Values.TILSTAND_NY;
+        case OppgaveTilstand.Utfoert:
+            return OppgaveFilterType.Values.TILSTAND_UTFOERT;
+        case OppgaveTilstand.Utgaatt:
+            return OppgaveFilterType.Values.TILSTAND_UTGAATT;
+        default:
+            return null
+    }
+}
+
+function fiksOppgaveFilter(filter: any) : string[] {
+    if (filter.oppgaveFilter !== undefined) {
+        return filter.oppgaveFilter;
+    }
+
+    return filter.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
+}
+
+export const useLagredeFilter = (): {
     lagredeFilter: LagretFilter[];
     lagreNyttLagretFilter: (navn: string, filter: Filter) => LagretFilter;
     slettLagretFilter: (uuid: string) => void;
@@ -62,6 +84,7 @@ const useLagredeFilter = (): {
                 ...filter.filter,
                 virksomheter: Set(filter.filter.virksomheter),
                 sortering: fiksSortering(filter.filter.sortering),
+                oppgaveFilter: fiksOppgaveFilter(filter.filter),
             },
         }))
     );
@@ -171,13 +194,12 @@ const useLagredeFilter = (): {
     };
 };
 
-type LagreFilterProps = {
-    state: State;
-    byttFilter: (filter: Filter) => void;
-    setValgtFilterId: (id: string | undefined) => void;
-};
+export const LagreFilter = () => {
+    const {
+        saksoversiktState: { valgtFilterId, filter },
+        transitions: { setFilter, setValgtFilterId },
+    } = useSaksoversiktContext();
 
-export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilterProps) => {
     const [openLagre, setOpenLagre] = useState(false);
     const [feilmeldingStatus, setFeilmeldingStatus] = useState<'noInput' | 'duplicate' | 'ok'>(
         'ok'
@@ -212,9 +234,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
         return null;
     }
 
-    const valgtFilter = lagredeFilter.find(
-        (lagretFilter) => lagretFilter.uuid === state.valgtFilterId
-    );
+    const valgtFilter = lagredeFilter.find((lagretFilter) => lagretFilter.uuid === valgtFilterId);
     return (
         <>
             {lagreStatus === 'failed' ? (
@@ -239,13 +259,13 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                             >
                                 {valgtFilter.navn}
                             </Chips.Removable>
-                            {!equalFilter(valgtFilter.filter, state.filter) ? (
+                            {!equalFilter(valgtFilter.filter, filter) ? (
                                 <ModalMedÅpneknapp
                                     knappTekst={'Lagre endringer'}
                                     overskrift={`Endre «${valgtFilter.navn}»`}
                                     bekreft={'Lagre'}
                                     onSubmit={() => {
-                                        oppdaterLagretFilter(valgtFilter.uuid, state.filter);
+                                        oppdaterLagretFilter(valgtFilter.uuid, filter);
                                         logKlikk('endre-valgt-filter');
                                     }}
                                 >
@@ -286,7 +306,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                                             key={lagretFilter.uuid}
                                             onClick={() => {
                                                 setValgtFilterId(lagretFilter.uuid);
-                                                byttFilter({ ...lagretFilter.filter });
+                                                setFilter({ ...lagretFilter.filter });
                                                 reloadLagredeFilter();
                                                 logKlikk('bytt-valgt-filter');
                                             }}
@@ -335,7 +355,7 @@ export const LagreFilter = ({ state, byttFilter, setValgtFilterId }: LagreFilter
                                     } else {
                                         const nyopprettetfilter = lagreNyttLagretFilter(
                                             filternavn,
-                                            state.filter
+                                            filter
                                         );
                                         setValgtFilterId(nyopprettetfilter.uuid);
                                         setOpenLagre(false);

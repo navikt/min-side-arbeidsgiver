@@ -7,9 +7,9 @@ import {
     KalenderavtaleTilstand,
     Lokasjon,
     Oppgave,
+    OppgaveFilterInfo, OppgaveFilterType,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
-    OppgaveTilstandInfo,
     Sak,
     SakStatus,
     SakStatusType,
@@ -20,6 +20,7 @@ import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
 import Document from '../../../bruker.graphql';
 import { GraphQLVariables } from 'msw';
 import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
+import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/LagreFilter';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
@@ -60,7 +61,7 @@ export const sakStatus = ({
 export const beskjedTidslinjeElement = ({
     tekst,
     opprettetTidspunkt = faker.date.recent(),
-    lenke = faker.internet.url()
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     opprettetTidspunkt?: Date;
@@ -70,7 +71,7 @@ export const beskjedTidslinjeElement = ({
     id: faker.string.uuid(),
     tekst,
     opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    lenke
+    lenke,
 });
 
 export const oppgaveTidslinjeElement = ({
@@ -81,7 +82,7 @@ export const oppgaveTidslinjeElement = ({
     paaminnelseTidspunkt,
     utfoertTidspunkt,
     utgaattTidspunkt,
-    lenke = faker.internet.url()
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -101,7 +102,7 @@ export const oppgaveTidslinjeElement = ({
     utgaattTidspunkt: utgaattTidspunkt?.toISOString(),
     frist,
     tilstand,
-    lenke
+    lenke,
 });
 
 export const kalenderavtaleTidslinjeElement = ({
@@ -111,7 +112,7 @@ export const kalenderavtaleTidslinjeElement = ({
     digitalt = false,
     lokasjon,
     sluttTidspunkt,
-    lenke = faker.internet.url()
+    lenke = faker.internet.url(),
 }: {
     tekst: string;
     avtaletilstand?: KalenderavtaleTilstand;
@@ -129,14 +130,29 @@ export const kalenderavtaleTidslinjeElement = ({
     lokasjon,
     startTidspunkt: startTidspunkt.toISOString(),
     sluttTidspunkt: sluttTidspunkt?.toISOString(),
-    lenke
+    lenke,
 });
 
-export const oppgaveTilstandInfo = (): Array<OppgaveTilstandInfo> =>
-    Object.values(OppgaveTilstand).map((tilstand) => ({
-        tilstand,
-        antall: faker.number.int(100),
-    }));
+export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
+    const group = Object.groupBy(
+        saker
+            .flatMap((sak) => sak.tidslinje)
+            .filter((tidslinjeElement) => tidslinjeElement.__typename === 'OppgaveTidslinjeElement')
+            .map((tids) => tids as OppgaveTidslinjeElement),
+        (entry: OppgaveTidslinjeElement) => entry.tilstand
+    );
+
+    return [
+        ...Object.entries(group).map(([tilstand, oppgaver]) => ({
+            filterType: mapOppgaveTilstandTilFilterType(tilstand)!,
+            antall: oppgaver.length,
+        })),
+        {
+            filterType: OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST,
+            antall: group.NY?.filter(o => o.paaminnelseTidspunkt !== null && o.paaminnelseTidspunkt !== undefined).length ?? 0,
+        },
+    ];
+};
 
 export const oppgave = ({
     tilstand = faker.helpers.enumValue(OppgaveTilstand),
@@ -168,12 +184,12 @@ export const oppgave = ({
     tekst,
     tilstand,
 
-    frist: frist?.toISOString(),
-    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    paaminnelseTidspunkt: paaminnelseTidspunkt?.toISOString(),
-    utfoertTidspunkt: utfoertTidspunkt?.toISOString(),
-    utgaattTidspunkt: utgaattTidspunkt?.toISOString(),
-    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+    frist: frist,
+    opprettetTidspunkt: opprettetTidspunkt,
+    paaminnelseTidspunkt: paaminnelseTidspunkt,
+    utfoertTidspunkt: utfoertTidspunkt,
+    utgaattTidspunkt: utgaattTidspunkt,
+    sorteringTidspunkt: opprettetTidspunkt,
 
     brukerKlikk: {
         __typename: 'BrukerKlikk',
@@ -214,8 +230,8 @@ export const beskjed = ({
     id: faker.string.uuid(),
     tekst,
 
-    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+    opprettetTidspunkt: opprettetTidspunkt,
+    sorteringTidspunkt: opprettetTidspunkt,
 
     brukerKlikk: {
         __typename: 'BrukerKlikk',
@@ -272,11 +288,11 @@ export const kalenderavtale = ({
     avtaletilstand,
     digitalt,
     lokasjon,
-    startTidspunkt: startTidspunkt.toISOString(),
-    sluttTidspunkt: sluttTidspunkt?.toISOString(),
-    paaminnelseTidspunkt: paaminnelseTidspunkt?.toISOString(),
-    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
-    sorteringTidspunkt: opprettetTidspunkt.toISOString(),
+    startTidspunkt: startTidspunkt,
+    sluttTidspunkt: sluttTidspunkt,
+    paaminnelseTidspunkt: paaminnelseTidspunkt,
+    opprettetTidspunkt: opprettetTidspunkt,
+    sorteringTidspunkt: opprettetTidspunkt,
 
     brukerKlikk: {
         __typename: 'BrukerKlikk',

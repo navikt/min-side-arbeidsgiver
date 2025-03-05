@@ -1,67 +1,22 @@
 import React, { ChangeEvent, FC, RefObject, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
-import { SaksListe } from './SaksListe';
 import { Alerts } from '../Alerts';
-import { Filter, State, useOversiktStateTransitions } from './useOversiktStateTransitions';
 import { OmSaker } from './OmSaker';
 import { amplitudeFilterKlikk, Saksfilter } from './Saksfilter/Saksfilter';
-import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import * as Record from '../../utils/Record';
-import { Query, Sak, SakSortering } from '../../api/graphql-types';
-import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
-import { Set } from 'immutable';
-import amplitude from '../../utils/amplitude';
+import { Sak, SakSortering } from '../../api/graphql-types';
 import { LagreFilter } from './LagreFilter';
 import { FilterChips } from './FilterChips';
-import { ServerError } from '@apollo/client/link/utils';
 import { Spinner } from '../Banner';
 import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
+import { useSaksoversiktContext } from './SaksoversiktProvider';
+import { SakPanel } from './SakPanel';
 
 export const SIDE_SIZE = 30;
 
-type SakstypeOverordnetArray = Pick<Query, 'sakstyper'>;
-
-const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
-    query Sakstyper {
-        sakstyper {
-            navn
-        }
-    }
-`;
-
-const useAlleSakstyper = () => {
-    const { data } = useQuery(HENT_SAKSTYPER, {
-        onError: (error) => {
-            if ((error.networkError as ServerError)?.statusCode !== 401) {
-                console.error('#MSA: hentSakstyper feilet', error);
-            }
-        },
-    });
-    return data?.sakstyper ?? [];
-};
-
-export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent('chip-click', {
-        kategori: kategori,
-        filternavn: filternavn,
-    });
-};
-
 export const Saksoversikt = () => {
-    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
-    // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-    const orgs = organisasjonsInfo
-        ? Record.mapToArray(organisasjonsInfo, (orgnr, { organisasjon }) => organisasjon)
-        : [];
-
-    const { state, byttFilter, setValgtFilterId } = useOversiktStateTransitions(orgs);
     const [stuck, setStuck] = useState(false);
-    const handleValgteVirksomheter = (valgte: Set<string>) => {
-        byttFilter({ ...state.filter, virksomheter: valgte });
-    };
-
-    const alleSakstyper = useAlleSakstyper();
 
     const saksoversiktRef = useRef<HTMLDivElement>(null);
     const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
@@ -86,15 +41,7 @@ export const Saksoversikt = () => {
 
     return (
         <div className="saksoversikt__innhold">
-            <Saksfilter
-                filter={state.filter}
-                sakstypeinfo={state.sakstyper}
-                alleSakstyper={alleSakstyper}
-                setFilter={byttFilter}
-                oppgaveTilstandInfo={state.oppgaveTilstandInfo}
-                valgteVirksomheter={state.filter.virksomheter}
-                setValgteVirksomheter={handleValgteVirksomheter}
-            />
+            <Saksfilter />
             <div className="saksoversikt" ref={saksoversiktRef}>
                 <AdvarselBannerTestversjon />
                 <Alerts />
@@ -102,21 +49,20 @@ export const Saksoversikt = () => {
                     Mine filtervalg
                 </Heading>
                 <div ref={navRef} className="saksoversikt_sticky_top">
-                    <LagreFilter
-                        state={state}
-                        byttFilter={byttFilter}
-                        setValgtFilterId={setValgtFilterId}
-                    />
-                    <FilterChips state={state} byttFilter={byttFilter} />
+                    <LagreFilter />
+                    <FilterChips />
                     <div className="saksoversikt__saksliste-header">
-                        <VelgSortering state={state} byttFilter={byttFilter} />
-                        <Sidevelger state={state} byttFilter={byttFilter} skjulForMobil={true} />
+                        <VelgSortering />
+                        <Sidevelger skjulForMobil={true} />
                     </div>
                 </div>
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
-                <SaksListeBody state={state} stuck={stuck} saksoversiktRef={saksoversiktRef} />
+                <SaksListeBody
+                    stuck={stuck}
+                    saksoversiktRef={saksoversiktRef}
+                />
                 <HvaVisesHer />
             </div>
         </div>
@@ -144,28 +90,27 @@ const HvaVisesHer = () => {
     );
 };
 
-type VelgSorteringProps = {
-    state: State;
-    byttFilter: (filter: Filter) => void;
-};
+const VelgSortering: FC = () => {
+    const {
+        saksoversiktState: { sider, filter, totaltAntallSaker },
+        transitions: { setSortering },
+    } = useSaksoversiktContext();
 
-const VelgSortering: FC<VelgSorteringProps> = ({ state, byttFilter }) => {
-    if (state.sider === undefined || state.sider === 0) {
+    if (sider === undefined || sider === 0) {
         return null;
     }
-
     const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        const sortering = e.target.value as SakSortering
-        byttFilter({ ...state.filter, sortering: sortering });
+        const sortering = e.target.value as SakSortering;
+        setSortering(sortering);
         amplitudeFilterKlikk('sortering', sortering, null);
     };
 
     return (
         <Select
             autoComplete="off"
-            value={state.filter.sortering}
+            value={filter.sortering}
             className="saksoversikt__sortering"
-            label={`${state.totaltAntallSaker} saker sortert på`}
+            label={`${totaltAntallSaker} saker sortert på`}
             onChange={handleOnChange}
         >
             {sorteringsrekkefølge.map((key) => (
@@ -197,22 +142,22 @@ const useCurrentDate = (pollInterval: number) => {
 
 const sorteringsnavn: Record<SakSortering, string> = {
     NYESTE: 'Nyeste først',
-    ELDSTE: 'Eldste først'
+    ELDSTE: 'Eldste først',
 };
 
-const sorteringsrekkefølge: SakSortering[] = [
-    SakSortering.NyesteFørst,
-    SakSortering.EldsteFørst,
-];
+const sorteringsrekkefølge: SakSortering[] = [SakSortering.NyesteFørst, SakSortering.EldsteFørst];
 
 type SidevelgerProp = {
-    state: State;
-    byttFilter: (filter: Filter) => void;
     skjulForMobil: boolean;
 };
 
-const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = false }) => {
+const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     const [width, setWidth] = useState(window.innerWidth);
+
+    const {
+        saksoversiktState: { sider, filter },
+        transitions: { setSide },
+    } = useSaksoversiktContext();
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -220,34 +165,33 @@ const Sidevelger: FC<SidevelgerProp> = ({ state, byttFilter, skjulForMobil = fal
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
-    if (state.sider === undefined || state.sider < 2) {
+    if (sider === undefined || sider < 2) {
         return null;
     }
 
     return (
         <Pagination
-            count={state.sider}
-            page={state.filter.side}
+            count={sider}
+            page={filter.side}
             className={`saksoversikt__paginering ${
                 skjulForMobil ? 'saksoversikt__skjul-for-mobil' : ''
             }`}
             siblingCount={width < 920 ? 0 : 1}
             boundaryCount={width < 800 ? 0 : 1}
-            onPageChange={(side) => {
-                byttFilter({ ...state.filter, side });
-            }}
+            onPageChange={setSide}
         />
     );
 };
 
 type SaksListeBodyProps = {
-    state: State;
     stuck: boolean;
     saksoversiktRef: RefObject<HTMLDivElement>;
 };
 
-const SaksListeBody: FC<SaksListeBodyProps> = ({ state, stuck, saksoversiktRef }) => {
-    if (state.state === 'error') {
+const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
+    const { saksoversiktState } = useSaksoversiktContext();
+
+    if (saksoversiktState.state === 'error') {
         return (
             <Label aria-live="polite" aria-atomic="true">
                 Feil ved lasting av saker.
@@ -255,11 +199,16 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ state, stuck, saksoversiktRef }
         );
     }
 
-    if (state.state === 'loading') {
-        return <Laster startTid={state.startTid} forrigeSaker={state.forrigeSaker ?? undefined} />;
+    if (saksoversiktState.state === 'loading') {
+        return (
+            <SakslisteLaster
+                startTid={saksoversiktState.startTid}
+                forrigeSaker={saksoversiktState.forrigeSaker ?? undefined}
+            />
+        );
     }
 
-    const { totaltAntallSaker, saker } = state;
+    const { totaltAntallSaker, saker } = saksoversiktState;
 
     if (totaltAntallSaker === 0) {
         return (
@@ -277,7 +226,7 @@ type LasterProps = {
     startTid: Date;
 };
 
-const Laster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
+const SakslisteLaster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
     const nåtid = useCurrentDate(50);
     const lasteTid = nåtid.getTime() - startTid.getTime();
 
@@ -289,3 +238,29 @@ const Laster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
         return <Spinner />;
     }
 };
+
+type Props = {
+    saker: Array<Sak>;
+    placeholder?: boolean;
+    stuck?: boolean;
+    saksoversiktRef?: RefObject<HTMLDivElement>;
+};
+
+const SaksListe = ({ saker, placeholder, stuck, saksoversiktRef }: Props) => {
+    useEffect(() => {
+        if (stuck !== true) return;
+        if (saksoversiktRef === undefined || saksoversiktRef.current === null) return;
+        saksoversiktRef.current.scrollIntoView();
+    }, [saker, saksoversiktRef?.current]);
+
+    return (
+        <ul className="saks-liste">
+            {saker.map((sak, _) => (
+                <li key={sak.id}>
+                    <SakPanel sak={sak} placeholder={placeholder} />
+                </li>
+            ))}
+        </ul>
+    );
+};
+

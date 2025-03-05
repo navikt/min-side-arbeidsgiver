@@ -2,40 +2,28 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
-import { Filter } from '../useOversiktStateTransitions';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
-import {
-    OppgaveTilstand,
-    OppgaveTilstandInfo,
-    Sakstype,
-    SakstypeOverordnet,
-} from '../../../api/graphql-types';
+import { OppgaveFilterType, OppgaveTilstand, Query, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
-import { Set } from 'immutable';
 import amplitude from '../../../utils/amplitude';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
 import { gittMiljo } from '../../../utils/environment';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
+import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
+import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
+import { ServerError } from '@apollo/client/link/utils';
 
-type SaksfilterProps = {
-    filter: Filter;
-    setFilter: (filter: Filter) => void;
-    valgteVirksomheter: Set<string>;
-    setValgteVirksomheter: (valgteVirksomheter: Set<string>) => void;
-    sakstypeinfo: Sakstype[] | undefined;
-    alleSakstyper: SakstypeOverordnet[];
-    oppgaveTilstandInfo: OppgaveTilstandInfo[] | undefined;
-};
-
-export const oppgaveTilstandTilTekst = (oppgavetilstand: OppgaveTilstand) => {
-    switch (oppgavetilstand) {
-        case OppgaveTilstand.Ny:
+export const filterTypeTilTekst = (oppgaveFilter: OppgaveFilterType) => {
+    switch (oppgaveFilter) {
+        case OppgaveFilterType.Values.TILSTAND_NY:
             return 'Uløste oppgaver';
+        case OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST:
+            return 'Med påminnelse';
         default:
             return '';
     }
@@ -85,7 +73,7 @@ export const amplitudeFilterKlikk = (
  * Når "Inntektsmelding" er faset ut og saker med merkelappen ikke finnes lengre vil den hete
  * "Inntektsmelding sykepenger" og denne funksjonen kan slettes
  */
-function sakstyperMedAntall(
+function mapSakstyperMedAntall(
     alleSakstyper: SakstypeOverordnet[],
     sakstypeinfo: Sakstype[] | undefined
 ) {
@@ -205,7 +193,7 @@ const InntektsmeldingGruppe = (
                       const visningsNavn = capitalize(navn.replace('Inntektsmelding ', ''));
                       return (
                           <Checkbox
-                              className={'inntektsmelding-sakstype'}
+                              className={'underfilter'}
                               key={navn}
                               value={navn}
                               onClick={(e) => amplitudeFilterKlikk('sakstype', navn, e.target)}
@@ -222,17 +210,38 @@ const InntektsmeldingGruppe = (
     );
 };
 
-export const Saksfilter = ({
-    valgteVirksomheter,
-    setValgteVirksomheter,
-    filter,
-    setFilter,
-    sakstypeinfo,
-    oppgaveTilstandInfo,
-    alleSakstyper,
-}: SaksfilterProps) => {
+type SakstypeOverordnetArray = Pick<Query, 'sakstyper'>;
+
+const HENT_SAKSTYPER: TypedDocumentNode<SakstypeOverordnetArray> = gql`
+    query Sakstyper {
+        sakstyper {
+            navn
+        }
+    }
+`;
+
+// gjøre til vanlig funksjon? benyttrer ikke state
+const useAlleSakstyper = () => {
+    const { data } = useQuery(HENT_SAKSTYPER, {
+        onError: (error) => {
+            if ((error.networkError as ServerError)?.statusCode !== 401) {
+                console.error('#MSA: hentSakstyper feilet', error);
+            }
+        },
+    });
+    return data?.sakstyper ?? [];
+};
+
+export const Saksfilter = () => {
     const [width, setWidth] = useState(window.innerWidth);
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
+
+    const {
+        saksoversiktState: { filter, sakstyper },
+        transitions: { setFilter },
+    } = useSaksoversiktContext();
+
+    const alleSakstyper = useAlleSakstyper();
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -249,18 +258,15 @@ export const Saksfilter = ({
     if (organisasjonstre === undefined) {
         return null;
     }
-    const antallUløsteOppgaver = oppgaveTilstandInfo?.find(
-        (oppgaveTilstand) => oppgaveTilstand.tilstand === OppgaveTilstand.Ny
-    )?.antall;
 
-    const sakstyperForFilter = sakstyperMedAntall(alleSakstyper, sakstypeinfo);
+    const sakstyperMedAntall = mapSakstyperMedAntall(alleSakstyper, sakstyper);
 
     const [inntektsmeldingSakstyper, sakstyperUtenInntektsmelding] = splittListe(
-        sakstyperForFilter,
+        sakstyperMedAntall,
         (filter) => filter.navn.includes('Inntektsmelding')
     );
 
-    const sakstyper = [
+    const sakstyperForVisning = [
         ...sakstyperUtenInntektsmelding,
         {
             navn: 'Inntektsmelding_gruppe',
@@ -274,28 +280,10 @@ export const Saksfilter = ({
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saksfilter
                 </Heading>
-                <Søkeboks filter={filter} byttFilter={setFilter}></Søkeboks>
+                <Søkeboks></Søkeboks>
 
-                <CheckboxGroup
-                    value={filter.oppgaveTilstand}
-                    legend={'Oppgaver'}
-                    onChange={(valgteOppgavetilstander) =>
-                        setFilter({ ...filter, oppgaveTilstand: valgteOppgavetilstander })
-                    }
-                >
-                    <Checkbox
-                        value={OppgaveTilstand.Ny}
-                        onClick={(e) =>
-                            amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)
-                        }
-                    >
-                        <BodyShort>
-                            {oppgaveTilstandTilTekst(OppgaveTilstand.Ny)}
-                            {oppgaveTilstandInfo ? ` (${antallUløsteOppgaver ?? '0'})` : ''}
-                        </BodyShort>
-                    </Checkbox>
-                </CheckboxGroup>
-                {sakstyperForFilter.length > 1 && (
+                <OppgaveFilter />
+                {sakstyperMedAntall.length > 1 && (
                     <CheckboxGroup
                         legend="Tema"
                         value={filter.sakstyper}
@@ -303,38 +291,37 @@ export const Saksfilter = ({
                             setFilter({ ...filter, sakstyper: valgteSakstyper });
                         }}
                     >
-                        {sorted(sakstyper, (sakstype) => sakstype.navn).map(({ navn, antall }) => {
-                            if (navn === 'Inntektsmelding_gruppe') {
-                                return InntektsmeldingGruppe(
-                                    antall,
-                                    inntektsmeldingSakstyper,
-                                    filter,
-                                    setFilter
-                                );
-                            } else {
-                                return (
-                                    <Checkbox
-                                        key={navn}
-                                        value={navn}
-                                        onClick={(e) =>
-                                            amplitudeFilterKlikk('sakstype', navn, e.target)
-                                        }
-                                    >
-                                        <BodyShort>
-                                            {antall === undefined ? navn : `${navn} (${antall})`}
-                                        </BodyShort>
-                                    </Checkbox>
-                                );
+                        {sorted(sakstyperForVisning, (sakstype) => sakstype.navn).map(
+                            ({ navn, antall }) => {
+                                if (navn === 'Inntektsmelding_gruppe') {
+                                    return InntektsmeldingGruppe(
+                                        antall,
+                                        inntektsmeldingSakstyper,
+                                        filter,
+                                        setFilter
+                                    );
+                                } else {
+                                    return (
+                                        <Checkbox
+                                            key={navn}
+                                            value={navn}
+                                            onClick={(e) =>
+                                                amplitudeFilterKlikk('sakstype', navn, e.target)
+                                            }
+                                        >
+                                            <BodyShort>
+                                                {antall === undefined
+                                                    ? navn
+                                                    : `${navn} (${antall})`}
+                                            </BodyShort>
+                                        </Checkbox>
+                                    );
+                                }
                             }
-                        })}
+                        )}
                     </CheckboxGroup>
                 )}
-
-                <Virksomhetsmeny
-                    valgteEnheter={valgteVirksomheter}
-                    setValgteEnheter={setValgteVirksomheter}
-                />
-
+                <Virksomhetsmeny />
                 <OpprettInntektsmelding />
             </div>
         </KollapsHvisMobil>
@@ -395,4 +382,58 @@ const OpprettInntektsmelding = () => {
     } else {
         return null;
     }
+};
+
+const OppgaveFilter = () => {
+    const {
+        saksoversiktState: { filter, oppgaveFilterInfo },
+        transitions: { setFilter },
+    } = useSaksoversiktContext();
+
+    const hentAntallAvType = (type: OppgaveFilterType) =>
+        oppgaveFilterInfo?.find((filterInfo) => filterInfo.filterType === type)?.antall ?? 0;
+
+    const antallUløsteOppgaver = hentAntallAvType(OppgaveFilterType.Values.TILSTAND_NY);
+    const antallUløsteOppgaverMedPåminnelse = hentAntallAvType(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST);
+
+    return (
+        <>
+            <CheckboxGroup
+                value={filter.oppgaveFilter}
+                legend={'Oppgaver'}
+                onChange={(valgteOppgaveFilter) => {
+                        if (valgteOppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY)){
+                            setFilter({
+                                ...filter,
+                                oppgaveFilter: valgteOppgaveFilter,
+                            })
+                        }
+                        // unselect PåminnelseUtløst ved unselect av Ny
+                        else{
+                            setFilter({
+                                ...filter,
+                                oppgaveFilter: [],
+                            })
+                        }
+                    }
+                }
+            >
+                <Checkbox
+                    value={OppgaveFilterType.Values.TILSTAND_NY}
+                    onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
+                >
+                    <BodyShort>
+                        {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY)} (${antallUløsteOppgaver})`}
+                    </BodyShort>
+                </Checkbox>
+                {filter.oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY) && (
+                    <Checkbox value={OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST} className={'underfilter'}>
+                        <BodyShort>
+                            {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)} (${antallUløsteOppgaverMedPåminnelse})`}
+                        </BodyShort>
+                    </Checkbox>
+                )}
+            </CheckboxGroup>
+        </>
+    );
 };

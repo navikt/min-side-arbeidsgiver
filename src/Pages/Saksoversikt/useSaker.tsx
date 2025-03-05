@@ -2,11 +2,11 @@ import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import { useContext, useEffect, useMemo } from 'react';
 import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
-import { Filter } from './useOversiktStateTransitions';
-import { Set } from 'immutable';
+import { Filter } from './SaksoversiktProvider';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
+import { Set } from 'immutable';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 type SakerResultat = Pick<Query, 'saker'>;
@@ -17,7 +17,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
         $tekstsoek: String
         $sortering: SakSortering!
         $sakstyper: [String!]
-        $oppgaveTilstand: [OppgaveTilstand!]
+        $oppgaveFilter: [OppgaveFilterType!]
         $offset: Int
         $limit: Int
     ) {
@@ -26,7 +26,7 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             tekstsoek: $tekstsoek
             sortering: $sortering
             sakstyper: $sakstyper
-            oppgaveTilstand: $oppgaveTilstand
+            oppgaveFilter: $oppgaveFilter
             offset: $offset
             limit: $limit
         ) {
@@ -87,8 +87,8 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
             }
             feilAltinn
             totaltAntallSaker
-            oppgaveTilstandInfo {
-                tilstand
+            oppgaveFilterInfo {
+                filterType
                 antall
             }
         }
@@ -116,7 +116,7 @@ const beregnVirksomhetsnummer = (
     organisasjonstre: Organisasjon[],
     virksomheter: Set<string>
 ): string[] => {
-    if (virksomheter.isEmpty()) {
+    if (virksomheter.size === 0) {
         return flatUtTre(organisasjonstre).flatMap(({ underenheter }) =>
             underenheter.map((it) => it.orgnr)
         );
@@ -148,7 +148,7 @@ const inkluderInntektsmelding = (sakstyper: string[]) => {
 
 export function useSaker(
     pageSize: number,
-    { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveTilstand }: Filter
+    { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveFilter }: Filter
 ) {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
@@ -162,7 +162,7 @@ export function useSaker(
         tekstsoek: tekstsoek === '' ? null : tekstsoek,
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
-        oppgaveTilstand: oppgaveTilstand.length === 0 ? null : oppgaveTilstand,
+        oppgaveFilter: oppgaveFilter.length === 0 ? null : oppgaveFilter,
         offset: ((side ?? 0) - 1) * pageSize /* if undefined, we should not send */,
         limit: pageSize,
     };
@@ -194,7 +194,7 @@ export function useSaker(
         side,
         sortering,
         JSON.stringify(sakstyper),
-        JSON.stringify(oppgaveTilstand),
+        JSON.stringify(oppgaveFilter),
         error,
     ]);
 

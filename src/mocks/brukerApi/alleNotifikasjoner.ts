@@ -1,62 +1,66 @@
-import { KalenderavtaleTilstand, OppgaveTilstand } from '../../api/graphql-types';
-import { beskjed, dateInPast, kalenderavtale, oppgave } from './helpers';
+import {
+    BeskjedTidslinjeElement,
+    KalenderavtaleTidslinjeElement,
+    Notifikasjon,
+    OppgaveTidslinjeElement,
+    Sak,
+    TidslinjeElement,
+} from '../../api/graphql-types';
+import { beskjed, kalenderavtale, oppgave } from './helpers';
+import { alleSaker } from './alleSaker';
 
-export const alleNotifikasjoner = [
-    beskjed({
-        tekst: "Oppfølgingsplan til godkjenning",
-        sakTittel: "",
+export const alleNotifikasjoner = alleSaker.flatMap((sak) =>
+    sak.tidslinje.map((te) => tilNotifikasjon(te, sak))
+);
+
+export function tilOppgave(tidslinjeElement: OppgaveTidslinjeElement, sak: Sak) {
+    return oppgave({
+        tekst: tidslinjeElement.tekst,
+        tilstand: tidslinjeElement.tilstand,
+        sakTittel: sak.tittel,
+        lenke: tidslinjeElement.lenke,
+        utfoertTidspunkt: tidslinjeElement.utfoertTidspunkt,
+        utgaattTidspunkt: tidslinjeElement.utfoertTidspunkt,
+        tilleggsinformasjon: sak.tilleggsinformasjon!,
+        opprettetTidspunkt: tidslinjeElement.opprettetTidspunkt,
+        frist: tidslinjeElement.frist,
+        paaminnelseTidspunkt: tidslinjeElement.paaminnelseTidspunkt,
         klikketPaa: false,
-        lenke: "https://demo.ekstern.dev.nav.no/syk/oppfolgingsplaner/arbeidsgiver/123"
-    }),
-    oppgave({
-        tekst: 'Du er innkalt til dialogmøte - vi trenger svaret ditt',
+    });
+}
+
+export function tilBeskjed(tidslinjeElement: BeskjedTidslinjeElement, sak: Sak) {
+    return beskjed({
+        tekst: tidslinjeElement.tekst,
+        sakTittel: sak.tittel,
         klikketPaa: false,
-        tilstand: OppgaveTilstand.Ny,
-        lenke: 'https://demo.ekstern.dev.nav.no/syk/dialogmoter/arbeidsgiver/123',
-    }),
-    oppgave({
-        tekst: 'Dialogmøtet med NAV er avlyst',
+        lenke: tidslinjeElement.lenke,
+        opprettetTidspunkt: tidslinjeElement.opprettetTidspunkt,
+        tilleggsinformasjon: sak.tilleggsinformasjon!,
+    });
+}
+
+export function tilKalenderAvtale(tidslinjeElement: KalenderavtaleTidslinjeElement, sak: Sak) {
+    return kalenderavtale({
+        tekst: tidslinjeElement.tekst,
+        startTidspunkt: new Date(tidslinjeElement.startTidspunkt),
+        lokasjon: tidslinjeElement.lokasjon!,
+        digitalt: tidslinjeElement.digitalt!,
+        avtaletilstand: tidslinjeElement.avtaletilstand,
+        sakTittel: sak.tittel,
         klikketPaa: false,
-        tilstand: OppgaveTilstand.Ny,
-        sakTittel: '',
-    }),
-    oppgave({
-        tekst: 'Les og godkjenn avtalen for at den skal kunne tas i bruk',
-        klikketPaa: false,
-        tilstand: OppgaveTilstand.Ny,
-        sakTittel: 'Avtale om lønnstilskudd for Venstrehendt Gitarist',
-    }),
-    oppgave({
-        tekst: 'Send inntektsmelding',
-        tilstand: OppgaveTilstand.Utfoert,
-        utfoertTidspunkt: dateInPast({ days: 1 }),
-        sakTittel: 'Inntektsmelding for sykepenger Tulla Tullesen - f. 01.05.2001',
-        tilleggsinformasjon: 'Avtalen gjaldt sykdomsperiode 01.09.2024 - 01.09.2024',
-    }),
-    beskjed({
-        tekst: 'Du har fått svar fra veileder',
-        sakTittel: 'Avtale om lønnstilskudd - Akrobatisk admiral',
-        opprettetTidspunkt: dateInPast({ days: 2 }),
-    }),
-    oppgave({
-        tekst: 'Send inntektsmelding',
-        tilstand: OppgaveTilstand.Utgaatt,
-        utgaattTidspunkt: dateInPast({ days: 3 }),
-        frist: dateInPast({ days: 2 }),
-        sakTittel: 'Inntektsmelding for sykepenger Fetter Anton - f. 12.03.1999',
-    }),
-    kalenderavtale({
-        klikketPaa: false,
-        tekst: 'Dialogmøte Dolly',
-        startTidspunkt: dateInPast({ days: 4 }),
-        lokasjon: {
-            adresse: 'Thorvald Meyers gate 2B',
-            postnummer: '0473',
-            poststed: 'Oslo',
-            __typename: 'Lokasjon',
-        },
-        digitalt: true,
-        avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
-        sakTittel: 'Søknad om fritak fra arbeidsgiverperioden – kronisk sykdom Gylden Karneval',
-    }),
-];
+    });
+}
+
+export function tilNotifikasjon(tidslinjeElement: TidslinjeElement, sak: Sak): Notifikasjon {
+    switch(tidslinjeElement.__typename) {
+        case 'OppgaveTidslinjeElement':
+            return tilOppgave(tidslinjeElement, sak);
+        case 'BeskjedTidslinjeElement':
+            return tilBeskjed(tidslinjeElement, sak);
+        case 'KalenderavtaleTidslinjeElement':
+            return tilKalenderAvtale(tidslinjeElement, sak);
+        default:
+            throw new Error(`Ukjent tidslinje-element: ${tidslinjeElement}`);
+    }
+}

@@ -1,28 +1,31 @@
 import {
+    InputMaybe,
     Kalenderavtale,
-    Notifikasjon,
+    Notifikasjon, OppgaveFilterType,
+    OppgaveTilstand,
     QuerySakerArgs,
     Sak,
     SakSortering,
 } from '../../api/graphql-types';
 import { graphql, HttpResponse } from 'msw';
-import { executeAndValidate, oppgaveTilstandInfo } from './helpers';
+import { executeAndValidate, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
+import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/LagreFilter';
+
 
 export const hentSakerResolver = (saker: Sak[]) =>
     graphql.query(
         'hentSaker',
         async ({ query, variables }: { query: string; variables: QuerySakerArgs }) => {
-            const sakerFiltrert = saker.filter(
-                ({ merkelapp }) => variables.sakstyper?.includes(merkelapp) ?? true
-            );
+            let sakerFiltrert = applyFilters(saker, variables);
+
             if (variables.sortering === SakSortering.EldsteFørst) {
                 sakerFiltrert.reverse();
             }
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
-                saker.reduce((acc, { merkelapp }) => {
+                saker.filter(s => harFilterType(s, variables.oppgaveFilter)).reduce((acc, { merkelapp }) => {
                     acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
                     return acc;
                 }, new Map<string, number>())
@@ -33,11 +36,12 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 variables,
                 rootValue: {
                     saker: {
-                        saker: sakerFiltrert.length > 0 ? sakerFiltrert : saker,
+                        saker: sakerFiltrert,
                         sakstyper: sakstyper,
                         feilAltinn: false,
                         totaltAntallSaker: saker.length,
-                        oppgaveTilstandInfo: oppgaveTilstandInfo(),
+                        oppgaveTilstandInfo: oppgaveFilterInfo(sakerFiltrert),
+                        oppgaveFilterInfo: oppgaveFilterInfo(sakerFiltrert),
                     },
                 },
             });
@@ -106,3 +110,29 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
             },
         });
     });
+
+function applyFilters(saker: Sak[], filter: QuerySakerArgs) {
+    return saker.filter(
+        (sak) =>
+            erSakstype(sak, filter.sakstyper) &&
+            harFilterType(sak, filter.oppgaveFilter)
+    );
+}
+
+function erSakstype(sak: Sak, sakstyper: InputMaybe<string[]> | undefined){
+    return sakstyper?.includes(sak.merkelapp) ?? true
+}
+
+function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
+    if (oppgaveFilter === null || oppgaveFilter === undefined || oppgaveFilter.length === 0) {
+        return true;
+    }
+
+    if (oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)) {
+        return sak.tidslinje.filter(t => t.__typename === 'OppgaveTidslinjeElement' && t.tilstand === OppgaveTilstand.Ny && t.paaminnelseTidspunkt !== null && t.paaminnelseTidspunkt !== undefined).length > 0;
+    }
+    return sak.tidslinje.some(
+        (te) =>
+            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(mapOppgaveTilstandTilFilterType(te.tilstand)!)
+    );
+}
