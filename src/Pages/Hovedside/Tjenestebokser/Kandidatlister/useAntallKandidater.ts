@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { useState } from 'react';
 import useSWR from 'swr';
-import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { erDriftsforstyrrelse, erUnauthorized } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 export const useAntallKandidater = (): number => {
@@ -14,7 +14,11 @@ export const useAntallKandidater = (): number => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
+                if (
+                    retries === 5 &&
+                    !erDriftsforstyrrelse(error.status) &&
+                    !erUnauthorized(error.status)
+                ) {
                     console.error(
                         `#MSA: hent antall kandidater fra presenterte-kandidater-api feilet med ${
                             error.status !== undefined

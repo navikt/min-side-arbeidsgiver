@@ -1,5 +1,6 @@
 import useSWR from 'swr';
 import { useState } from 'react';
+import { erDriftsforstyrrelse, erUnauthorized } from '../../utils/util';
 
 type UseRawHtmlFromStorageResult = {
     rawHtml: string | undefined;
@@ -18,7 +19,11 @@ export const useRawArtikkelHtml = ({
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5) {
+                if (
+                    retries === 5 &&
+                    !erDriftsforstyrrelse(error.status) &&
+                    !erUnauthorized(error.status)
+                ) {
                     console.error(
                         `#MSA: hent raw artikler html feilet med ${
                             error.status !== undefined

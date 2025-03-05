@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import { useEffect, useState } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { erDriftsforstyrrelse } from '../../utils/util';
+import { erDriftsforstyrrelse, erUnauthorized } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
 import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
@@ -85,7 +85,11 @@ const manglerKontonummerAlert = (): KontonummerStatus => {
         {
             onSuccess: () => setRetries(0),
             onError: (error) => {
-                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
+                if (
+                    retries === 5 &&
+                    !erDriftsforstyrrelse(error.status) &&
+                    !erUnauthorized(error.status)
+                ) {
                     console.error(
                         `#MSA: hent kontonummerStatus fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined

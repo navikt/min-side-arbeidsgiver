@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useState } from 'react';
-import { erDriftsforstyrrelse } from '../../../../utils/util';
+import { erDriftsforstyrrelse, erUnauthorized } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
 export const useAntallArbeidsforholdFraAareg = (): number => {
@@ -18,7 +18,11 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
             onSuccess: () => setRetries(0),
             onError: (error) => {
                 setRetries((x) => x + 1);
-                if (retries === 5 && !erDriftsforstyrrelse(error.status)) {
+                if (
+                    retries === 5 &&
+                    !erDriftsforstyrrelse(error.status) &&
+                    !erUnauthorized(error.status)
+                ) {
                     console.error(
                         `#MSA: hent antall arbeidsforhold fra aareg feilet med ${
                             error.status !== undefined
