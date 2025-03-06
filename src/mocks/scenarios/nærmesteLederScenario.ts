@@ -49,7 +49,7 @@ export const nærmesteLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v3', () => {
         return HttpResponse.json({
             altinnError: false,
-            organisasjoner: [nærmesteLederOrganisasjon],
+            organisasjoner: [], // Ingen organisasjoner fra Altinn
             tilganger: {},
             digisyfoError: false,
             digisyfoOrganisasjoner: [

@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest';
-import { flatUtTre, alleOrganisasjonerFlatt, mapRecursive } from './util';
+import { flatUtTre, organisasjonStrukturFlatt, mapRecursive } from './util';
 
 test('henter løvnoder og parent som flat liste', () => {
     const flat = flatUtTre(hierarki);
@@ -45,7 +45,7 @@ test('mapRecursive kan modifisere rekursivt', () => {
 });
 
 test('alleOrganisasjonerFlatt gir alle noder i treet som en flat liste', () => {
-    const flat = alleOrganisasjonerFlatt(hierarki);
+    const flat = organisasjonStrukturFlatt(hierarki);
     expect(flat.length).toEqual(9);
     expect(flat.map((o) => o.orgnr)).toEqual([
         '1',

@@ -7,7 +7,7 @@ import { useUserInfo } from '../hooks/useUserInfo';
 import { AlertContext } from './Alerts';
 import amplitude from '../utils/amplitude';
 import { Identify } from '@amplitude/analytics-browser';
-import { alleOrganisasjonerFlatt, mapRecursive, mergeOrgTre } from '../utils/util';
+import { organisasjonStrukturFlatt, mapRecursive, mergeOrgTre } from '../utils/util';
 import { findRecursive } from '@navikt/virksomhetsvelger';
 
 export type orgnr = string;
@@ -157,18 +157,18 @@ export const useBeregnOrganisasjonsInfo = ():
             };
         }
 
-        const altinnOrganisasjonerFlatt = alleOrganisasjonerFlatt(userInfo.organisasjoner);
-        const digisyfoOrganisasjonerFlatt = alleOrganisasjonerFlatt(
+        const altinnOrganisasjonerFlatt = organisasjonStrukturFlatt(userInfo.organisasjoner);
+        const digisyfoOrganisasjonerFlatt = organisasjonStrukturFlatt(
             userInfo.digisyfoOrganisasjoner
         );
-        const organisasjonerFlatt: Organisasjon[] = [
+        const alleOrganisasjonerFlatt: Organisasjon[] = [
             ...altinnOrganisasjonerFlatt,
             ...digisyfoOrganisasjonerFlatt,
         ];
 
         const orgnrTilParent = Immutable.Map(
-            organisasjonerFlatt.flatMap((org) => {
-                const parent = organisasjonerFlatt.find((it) =>
+            alleOrganisasjonerFlatt.flatMap((org) => {
+                const parent = alleOrganisasjonerFlatt.find((it) =>
                     it.underenheter.some((it) => it.orgnr === org.orgnr)
                 );
                 if (parent === undefined) {
@@ -178,8 +178,14 @@ export const useBeregnOrganisasjonsInfo = ():
             })
         );
 
+        console.log("digisyfoOrganisassjonerflatt")
+        console.log(digisyfoOrganisasjonerFlatt)
+        console.log("altinnOrganisassjonerflatt")
+        console.log(altinnOrganisasjonerFlatt)
+        console.log("alleOrganisasjonerFlatt")
+        console.log(alleOrganisasjonerFlatt)
         const organisasjonsInfo = Record.fromEntries(
-            organisasjonerFlatt.map((org) => {
+            alleOrganisasjonerFlatt.map((org) => {
                 const refusjonstatus = userInfo.refusjoner.find(
                     ({ virksomhetsnummer }) => virksomhetsnummer === org.orgnr
                 );
@@ -219,7 +225,7 @@ export const useBeregnOrganisasjonsInfo = ():
                     acc.update(parent.orgnr, [], (value) => value.concat(child)),
                 Immutable.Map<string, string[]>()
             ),
-            organisasjonerFlatt,
+            organisasjonerFlatt: alleOrganisasjonerFlatt,
         };
     }, [userInfo]);
 };

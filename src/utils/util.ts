@@ -94,7 +94,7 @@ export const mapRecursive = <T extends Organisasjon>(list: T[], mapper: (o: T) =
 /**
  * Denne funksjonen tar en trestruktur av organisasjoner og mapper alle noder til en flat liste, inklusiv alle mellomledd
  */
-export const alleOrganisasjonerFlatt = (organisasjonstre: Organisasjon[]): Organisasjon[] => {
+export const organisasjonStrukturFlatt = (organisasjonstre: Organisasjon[]): Organisasjon[] => {
     const mapR = (parent: Organisasjon): Organisasjon[] => [
         parent,
         ...parent.underenheter.flatMap(mapR),
