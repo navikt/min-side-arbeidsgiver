@@ -68,7 +68,7 @@ export const hentKalenderavtalerResolver = (kalenderavtaler: Kalenderavtale[]) =
         return HttpResponse.json({ errors, data });
     });
 
-export const hentNotifikasjonerResolver = (notifikasjoner: Notifikasjon[]) =>
+export const hentNotifikasjonerResolver  = (notifikasjoner: Notifikasjon[]) =>
     graphql.query('hentNotifikasjoner', async ({ query, variables }) => {
         const { errors, data } = await executeAndValidate({
             query,

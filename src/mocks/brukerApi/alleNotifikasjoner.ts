@@ -26,6 +26,7 @@ export function tilOppgave(tidslinjeElement: OppgaveTidslinjeElement, sak: Sak) 
         frist: tidslinjeElement.frist,
         paaminnelseTidspunkt: tidslinjeElement.paaminnelseTidspunkt,
         klikketPaa: false,
+        merkelapp: sak.merkelapp
     });
 }
 
@@ -37,6 +38,7 @@ export function tilBeskjed(tidslinjeElement: BeskjedTidslinjeElement, sak: Sak) 
         lenke: tidslinjeElement.lenke,
         opprettetTidspunkt: tidslinjeElement.opprettetTidspunkt,
         tilleggsinformasjon: sak.tilleggsinformasjon!,
+        merkelapp: sak.merkelapp
     });
 }
 
@@ -49,6 +51,7 @@ export function tilKalenderAvtale(tidslinjeElement: KalenderavtaleTidslinjeEleme
         avtaletilstand: tidslinjeElement.avtaletilstand,
         sakTittel: sak.tittel,
         klikketPaa: false,
+        merkelapp: sak.merkelapp
     });
 }
 

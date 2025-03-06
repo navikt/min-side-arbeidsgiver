@@ -166,6 +166,7 @@ export const oppgave = ({
     klikketPaa = true,
     tilleggsinformasjon,
     lenke = faker.internet.url(),
+    merkelapp
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -178,6 +179,7 @@ export const oppgave = ({
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
     lenke?: string;
+    merkelapp: string
 }): Oppgave => ({
     __typename: 'Oppgave',
     id: faker.string.uuid(),
@@ -198,7 +200,7 @@ export const oppgave = ({
     },
 
     lenke: lenke,
-    merkelapp: merkelapp(),
+    merkelapp: merkelapp,
 
     sak:
         sakTittel !== undefined
@@ -218,6 +220,7 @@ export const beskjed = ({
     klikketPaa = true,
     tilleggsinformasjon,
     lenke = faker.internet.url(),
+    merkelapp,
 }: {
     tekst: string;
     sakTittel?: string;
@@ -225,6 +228,7 @@ export const beskjed = ({
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
     lenke?: string;
+    merkelapp: string
 }): Beskjed => ({
     __typename: 'Beskjed',
     id: faker.string.uuid(),
@@ -240,7 +244,7 @@ export const beskjed = ({
     },
 
     lenke: lenke,
-    merkelapp: merkelapp(),
+    merkelapp: merkelapp,
 
     sak:
         sakTittel !== undefined
@@ -264,7 +268,7 @@ export const kalenderavtale = ({
     lokasjon,
     paaminnelseTidspunkt,
     opprettetTidspunkt = faker.date.recent(),
-    merkelapp: _merkelapp = merkelapp(),
+    merkelapp,
     tilleggsinformasjon,
 }: {
     tekst: string;
@@ -278,7 +282,7 @@ export const kalenderavtale = ({
     paaminnelseTidspunkt?: Date;
     opprettetTidspunkt?: Date;
     tilleggsinformasjon?: string;
-    merkelapp?: string;
+    merkelapp: string;
 }): Kalenderavtale => ({
     __typename: 'Kalenderavtale',
 
@@ -301,7 +305,7 @@ export const kalenderavtale = ({
     },
 
     lenke: faker.internet.url(),
-    merkelapp: _merkelapp,
+    merkelapp: merkelapp,
 
     sak:
         sakTittel !== undefined
