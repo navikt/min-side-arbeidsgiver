@@ -228,31 +228,26 @@ export const alleSaker = [
             tekst: 'Planlagt',
         }),
         tidslinje: [
-            kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
-                lokasjon: undefined,
-                digitalt: false,
-                startTidspunkt: faker.date.soon({ days: 1 }),
-                lenke: faker.internet.url(),
+            beskjedTidslinjeElement({
+              tekst: 'Du har mottatt et referat fra dialogmøte',
+              lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilAvlyse,
+                avtaletilstand: KalenderavtaleTilstand.Avlyst,
                 startTidspunkt: faker.date.soon({ days: 1 }),
-                digitalt: false,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
                     poststed: 'Sandnes',
                 },
+                digitalt: false,
                 lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted,
                 startTidspunkt: faker.date.soon({ days: 1 }),
-
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
@@ -263,61 +258,44 @@ export const alleSaker = [
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
+                avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
                 startTidspunkt: faker.date.soon({ days: 1 }),
-                lokasjon: undefined,
-                digitalt: true,
-                lenke: faker.internet.url(),
-            }),
-            kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
-                startTidspunkt: dateInPast({ days: 1 }),
-                lokasjon: undefined,
-                digitalt: true,
-                lenke: faker.internet.url(),
-            }),
-            kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
-                startTidspunkt: dateInPast({ days: 2 }),
-                lokasjon: undefined,
-                digitalt: true,
-                lenke: faker.internet.url(),
-            }),
-            kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.Avholdt,
+                digitalt: false,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
                     poststed: 'Sandnes',
                 },
-                digitalt: false,
                 lenke: faker.internet.url(),
             }),
         ],
     }),
     sak({
-        merkelapp: Merkelapp.Dialogmøte,
-        tittel: `Dialogmøte ${fakeName()}`,
+        merkelapp: Merkelapp.Oppfølging,
+        tittel: `Oppfølging av ${fakeName()}`,
         virksomhet: virksomhet(),
         sisteStatus: sakStatus({
             type: SakStatusType.Mottatt,
-            tekst: 'Gjennomført',
+            tekst: 'Planlagt',
         }),
         tidslinje: [
-            kalenderavtaleTidslinjeElement({
-                tekst: 'Invitasjon til dialogmøte',
-                avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverHarGodtatt,
-                lenke: faker.internet.url(),
-                lokasjon: {
-                    adresse: 'Sørkedalsveien 31',
-                    postnummer: '0788',
-                    poststed: 'Sandnes',
-                },
+            beskjedTidslinjeElement({
+              tekst: 'Vi har mottatt ditt ønske om dialogmøte med Nav. Vi vurderer at det på nåværende tidspunkt ikke er aktuelt at Nav kaller inn til et dialogmøte. Du kan når som helst melde inn et nytt behov i sykefraværsperioden.',
+              lenke: faker.internet.url(),
             }),
-        ],
+            beskjedTidslinjeElement({
+              tekst: 'Oppfølgingsplan til godkjenning',
+              lenke: faker.internet.url(),
+            }),
+            beskjedTidslinjeElement({
+              tekst: 'Vi trenger en oppfølgingsplan fra deg',
+              lenke: faker.internet.url(),
+            }),
+            oppgaveTidslinjeElement({
+              tekst: 'Vi trenger din vurdering av behovet for dialogmøte.',
+              lenke: faker.internet.url(),
+            }),
+    ]
     }),
     sak({
         merkelapp: Merkelapp.Inntektsmelding_sykepenger,
