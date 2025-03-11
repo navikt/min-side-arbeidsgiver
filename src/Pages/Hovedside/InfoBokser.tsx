@@ -14,28 +14,24 @@ type InfoboksProps = {
 };
 
 const localStoragePrefix = 'msa-info-boks-';
+const useCloseInfoboks = (id: string) => {
+    const [closed, setClosed] = usePrefixedLocalStorage(id, localStoragePrefix, false);
+    return { closed, setClosed };
+};
 
 const infobokser: Array<InfoboksProps> = [
     {
-        id: 'for-deg-med-avtaler-om-arbeids-trening',
-        visFra: new Date('2025-01-21T00:00:00+02:00'),
-        visTil: new Date('2025-02-28T00:00:00+02:00'),
+        id: 'vedlikehold-12-03-2025',
+        visFra: new Date('2025-03-11T00:00:00+02:00'),
+        visTil: new Date('2025-03-13T00:00:00+02:00'),
         Component: ({ id }) => {
-            const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-            const [closed, setClosed] = usePrefixedLocalStorage(id, localStoragePrefix, false);
-
-            if (!valgtOrganisasjon.altinntilgang.arbeidstrening) {
-                return null;
-            }
-
-            return closed ? null : (
-                <Alert variant="info" closeButton onClose={() => setClosed(true)}>
+            return (
+                <Alert variant="info">
                     <Heading spacing size="small" level="2">
-                        For deg med avtaler om arbeidstrening
+                        Planlagt vedlikehold onsdag 12. mars
                     </Heading>
-                    Vi gjør tekniske oppdateringer i systemene våre og det kan forekomme endringer
-                    for de som har avtaler om arbeidstrening. Hvis dere opplever at noe ikke
-                    stemmer, så ta kontakt med veileder eller NKS på telefonen: 55 55 33 36
+                    Vi utfører systemvedlikehold denne dagen, noe som kan føre til kortvarig
+                    ustabilitet. Takk for tålmodigheten!
                 </Alert>
             );
         },
