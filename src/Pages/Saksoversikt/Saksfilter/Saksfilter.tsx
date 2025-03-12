@@ -11,7 +11,7 @@ import amplitude from '../../../utils/amplitude';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { opprettInntektsmeldingURL } from '../../../lenker';
-import { gittMiljo } from '../../../utils/environment';
+import { gittMiljo, isProd } from '../../../utils/environment';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
@@ -329,10 +329,6 @@ export const Saksfilter = () => {
 };
 
 const OpprettInntektsmelding = () => {
-    const isProd = gittMiljo<boolean>({
-        prod: true,
-        other: false,
-    });
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true

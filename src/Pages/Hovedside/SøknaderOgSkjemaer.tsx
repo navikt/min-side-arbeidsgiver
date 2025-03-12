@@ -12,7 +12,7 @@ import {
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
-import { gittMiljo } from '../../utils/environment';
+import { gittMiljo, isProd } from '../../utils/environment';
 
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
@@ -82,6 +82,12 @@ export const SøknaderOgSkjemaer = () => {
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/krav',
                             })
                         )}
+
+                        {!isProd &&
+                            lenke(
+                                'Refusjonskrav omsorgspenger',
+                                `https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/refusjon-omsorgspenger/${valgtOrganisasjon.organisasjon.orgnr}`
+                            )}
                     </>
                 ) : null}
 
