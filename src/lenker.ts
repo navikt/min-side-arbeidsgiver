@@ -88,5 +88,5 @@ export const opprettInntektsmeldingForeldrepenger = gittMiljo({
 
 export const opprettInntektsmeldingSvangerskapspenger = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
-    other: 'https://arbeidsgiver.intern.dev.nav.no//fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER'
+    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER'
 })
