@@ -23,7 +23,7 @@ const infobokser: Array<InfoboksProps> = [
     {
         id: 'vedlikehold-12-03-2025',
         visFra: new Date('2025-03-11T00:00:00+02:00'),
-        visTil: new Date('2025-03-13T00:00:00+02:00'),
+        visTil: new Date('2025-03-14T00:00:00+02:00'),
         Component: ({ id }) => {
             return (
                 <Alert variant="info">
