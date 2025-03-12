@@ -82,11 +82,11 @@ export const opprettInntektsmeldingURL = gittMiljo({
 });
 
 export const opprettInntektsmeldingForeldrepenger = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/opprett?ytelseType=FORELDREPENGER',
-    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/opprett?ytelseType=FORELDREPENGER'
+    prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER',
+    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER'
 })
 
 export const opprettInntektsmeldingSvangerskapspenger = gittMiljo({
-    prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/opprett?ytelseType=SVANGERSKAPSPENGER',
-    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/opprett?ytelseType=SVANGERSKAPSPENGER'
+    prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
+    other: 'https://arbeidsgiver.intern.dev.nav.no//fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER'
 })
