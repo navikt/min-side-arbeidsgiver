@@ -31,6 +31,11 @@ export const gittMiljo = <T>(e: Miljo<T>): T => {
     }
 };
 
+export const isProd = gittMiljo<boolean>({
+    prod: true,
+    other: false,
+});
+
 export const caseMiljo = <T>(e: Miljo<(miljo: string) => T>): T => gittMiljo(e)(environment.MILJO);
 
 export default environment;
