@@ -28,7 +28,7 @@ const infobokser: Array<InfoboksProps> = [
             return (
                 <Alert variant="info">
                     <Heading spacing size="small" level="2">
-                        Planlagt vedlikehold onsdag 12. mars
+                        Planlagt vedlikehold torsdag 13. mars
                     </Heading>
                     Vi utfører systemvedlikehold denne dagen, noe som kan føre til kortvarig
                     ustabilitet. Takk for tålmodigheten!
