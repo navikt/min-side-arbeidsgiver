@@ -86,7 +86,7 @@ export const SøknaderOgSkjemaer = () => {
                         {!isProd &&
                             lenke(
                                 'Refusjonskrav omsorgspenger',
-                                `https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/refusjon-omsorgspenger/${valgtOrganisasjon.organisasjon.orgnr}`
+                                `https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/refusjon-omsorgspenger/${valgtOrganisasjon.organisasjon.orgnr}/1-intro`
                             )}
                     </>
                 ) : null}
