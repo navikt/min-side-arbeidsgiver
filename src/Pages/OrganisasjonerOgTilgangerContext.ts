@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import * as Record from '../utils/Record';
 import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
-import Immutable, { Set } from 'immutable';
+import { Set, Map } from 'immutable';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { useUserInfo } from '../hooks/useUserInfo';
 import { AlertContext } from './Alerts';
@@ -42,8 +42,8 @@ export type OrganisasjonerOgTilgangerContext = {
     organisasjonstre: Organisasjon[];
     organisasjonsInfo: Record<orgnr, OrganisasjonInfo>;
     organisasjonerFlatt: Organisasjon[];
-    orgnrTilParentMap: Immutable.Map<string, string>;
-    orgnrTilChildrenMap: Immutable.Map<string, string[]>;
+    orgnrTilParentMap: Map<string, string>;
+    orgnrTilChildrenMap: Map<string, string[]>;
     altinnTilgangssøknad: Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>>;
 };
 
@@ -127,8 +127,8 @@ export const useBeregnOrganisasjonsInfo = ():
       }
     | {
           organisasjonsInfo: Record<string, OrganisasjonInfo>;
-          orgnrTilParentMap: Immutable.Map<string, string>;
-          orgnrTilChildrenMap: Immutable.Map<string, string[]>;
+          orgnrTilParentMap: Map<string, string>;
+          orgnrTilChildrenMap: Map<string, string[]>;
           organisasjonerFlatt: Organisasjon[];
       } => {
     const { userInfo } = useUserInfo();
@@ -166,7 +166,7 @@ export const useBeregnOrganisasjonsInfo = ():
             ...digisyfoOrganisasjonerFlatt,
         ];
 
-        const orgnrTilParent = Immutable.Map(
+        const orgnrTilParent = Map(
             alleOrganisasjonerFlatt.flatMap((org) => {
                 const parent = alleOrganisasjonerFlatt.find((it) =>
                     it.underenheter.some((it) => it.orgnr === org.orgnr)
@@ -223,7 +223,7 @@ export const useBeregnOrganisasjonsInfo = ():
             orgnrTilChildrenMap: orgnrTilParent.reduce(
                 (acc, parent, child) =>
                     acc.update(parent.orgnr, [], (value) => value.concat(child)),
-                Immutable.Map<string, string[]>()
+                Map<string, string[]>()
             ),
             organisasjonerFlatt: alleOrganisasjonerFlatt,
         };
@@ -254,7 +254,7 @@ export const useBeregnOrganisasjonstre = (): { organisasjonstre: Organisasjon[] 
 
 export const hentØversteLedd = (
     org: Organisasjon | undefined,
-    underenhetTilParent: Immutable.Map<string, Organisasjon>
+    underenhetTilParent: Map<string, Organisasjon>
 ): Organisasjon | undefined => {
     if (org === undefined) return undefined;
 
