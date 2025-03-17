@@ -9,9 +9,6 @@ import { OppgaveFilterType, OppgaveTilstand, Query, Sakstype, SakstypeOverordnet
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import amplitude from '../../../utils/amplitude';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { opprettInntektsmeldingURL } from '../../../lenker';
-import { gittMiljo, isProd } from '../../../utils/environment';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
@@ -356,23 +353,7 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                {isProd ? (
-                    <>
-                        <Label
-                            htmlFor="opprett-inntektsmelding-lenke-id"
-                            children="Opprett inntektsmelding manuelt"
-                        />
-                        <LenkeMedLogging
-                            id="opprett-inntektsmelding-lenke-id"
-                            loggLenketekst="Opprett inntektsmelding manuelt"
-                            href={opprettInntektsmeldingURL}
-                        >
-                            Opprett inntektsmelding for sykepenger
-                        </LenkeMedLogging>
-                    </>
-                ) : (
-                    <OpprettManuellInntektsmeldingBoks />
-                )}
+                <OpprettManuellInntektsmeldingBoks />
             </div>
         );
     } else {
