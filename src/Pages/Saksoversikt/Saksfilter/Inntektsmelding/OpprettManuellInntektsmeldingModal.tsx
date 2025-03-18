@@ -1,6 +1,6 @@
 import { Alert, BodyLong, Button, Heading, Modal, Select, VStack } from '@navikt/ds-react';
 import { InternLenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
     opprettInntektsmeldingForeldrepenger,
@@ -8,6 +8,7 @@ import {
     opprettInntektsmeldingURL,
 } from '../../../../lenker';
 import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
+import amplitude from '../../../../utils/amplitude';
 
 interface Props {
     isOpen: boolean;
@@ -37,6 +38,12 @@ type InntektsmeldingYtelse = (typeof inntektsmeldingYtelser)[number];
 export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestClose }: Props) {
     const [valgtYtelse, setValgtYtelse] = useState<InntektsmeldingYtelse | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        amplitude.logEvent('komponent-lastet', {
+            komponent: 'OpprettManuellInntektsmeldingModal'
+        });
+    }, []);
 
     const handleOpprettManuellInntektsmelding = () => {
         if (!valgtYtelse) {
