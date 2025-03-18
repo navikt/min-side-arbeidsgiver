@@ -19,7 +19,7 @@ import {
     SakSortering,
     Sakstype,
 } from '../../api/graphql-types';
-import Immutable, { Set } from 'immutable';
+import { Set, is } from 'immutable';
 import * as Record from '../../utils/Record';
 import { z } from 'zod';
 
@@ -236,7 +236,7 @@ export function equalAsSets(a: string[], b: string[]) {
 export const equalFilter = (a: Filter, b: Filter): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
-    Immutable.is(a.virksomheter, b.virksomheter) &&
+    is(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalAsSets(a.oppgaveFilter, b.oppgaveFilter);
