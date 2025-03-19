@@ -13,8 +13,8 @@ import { createLogger, format, transports } from 'winston';
 import { tokenXMiddleware } from './tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
-import { rateLimit } from 'express-rate-limit'
-import crypto from 'crypto'
+import { rateLimit } from 'express-rate-limit';
+import crypto from 'crypto';
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -65,7 +65,7 @@ const log = new Proxy(
     }
 );
 
-const hashToken = token => crypto.createHash('sha256').update(token).digest('base64');
+const hashToken = (token) => crypto.createHash('sha256').update(token).digest('base64');
 
 const apiRateLimit = rateLimit({
     windowMs: 1000, // 1 sekund
@@ -86,7 +86,7 @@ const apiRateLimit = rateLimit({
             log.error(`Rate limit reached for client ${req.ip}`);
         }
         res.status(options.statusCode).send(options.message);
-  }
+    },
 });
 
 const cookieScraperPlugin = (proxyServer, options) => {
@@ -183,23 +183,12 @@ const proxyOptions = {
     ],
 };
 
-const artiklerProxyMiddleware = createProxyMiddleware({
-    ...proxyOptions,
-    pathRewrite: { '^/': '' },
-    on: {
-        proxyReq: (proxyReq, req, res) => {
-            proxyReq.removeHeader('Authorization');
-        },
-    },
-    target: 'https://storage.googleapis.com/fager-prod-msa-artikler-public',
-});
-
 const main = async () => {
     let appReady = false;
     const app = express();
     app.disable('x-powered-by');
 
-    app.use(apiRateLimit)
+    app.use(apiRateLimit);
 
     app.set('views', BUILD_PATH);
 
@@ -213,8 +202,6 @@ const main = async () => {
             metricsPath: '/min-side-arbeidsgiver/internal/metrics',
         })
     );
-
-    app.use('/min-side-arbeidsgiver/artikler', artiklerProxyMiddleware);
 
     if (MILJO === 'dev' || MILJO === 'prod') {
         app.use(
