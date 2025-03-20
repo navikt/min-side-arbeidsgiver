@@ -22,7 +22,6 @@ import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
-import { Artikkel } from './Artikkel/Artikkel';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
@@ -109,15 +108,6 @@ const Pages: FunctionComponent = () => (
                                                 path="/sak-restore-session"
                                                 element={
                                                     <Navigate to="/saksoversikt" replace={true} />
-                                                }
-                                            />
-                                            <Route
-                                                path="/artikkel/:id"
-                                                element={
-                                                    <>
-                                                        <Brodsmulesti />
-                                                        <Artikkel />
-                                                    </>
                                                 }
                                             />
                                             <Route
