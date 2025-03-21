@@ -1,7 +1,8 @@
 import React from 'react';
 import { syfoURL } from '../../../../lenker';
-import syfoikon from './Sykmeldte.svg';
+import syfoikon from './sykmeldte-ikon-kontrast.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
+import './Sykemeldte.css'
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
@@ -15,13 +16,17 @@ const Sykmeldte = () => {
             tittel="Sykmeldte"
             aria-label={`Sykemeldte, ${antallSykmeldte} ${antallSykmeldte === 1 ? 'sykmeldt' : 'sykmeldte'}. Se sykmeldte du har ansvar for å følge opp`}
         >
-            {antallSykmeldte == 0 ? null : (
-                <>
-                    <StortTall>{antallSykmeldte}</StortTall>{' '}
-                    {antallSykmeldte === 1 ? 'sykmeldt' : 'sykmeldte'}
-                </>
-            )}
-            <p className="bunntekst">Se sykmeldte du har ansvar for å følge opp</p>
+            <div>
+                {antallSykmeldte == 0 ? null : (
+                    <>
+                        <StortTall>{antallSykmeldte}</StortTall>{' '}
+                        {antallSykmeldte === 1 ? 'sykmeldt' : 'sykmeldte'}
+                    </>
+                )}
+                <div className="sykemeldteboks_bunntekst">
+                    Se sykmeldte du har ansvar for å følge opp
+                </div>
+            </div>
         </Tjenesteboks>
     );
 };

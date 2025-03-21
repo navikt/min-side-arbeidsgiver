@@ -2,7 +2,7 @@ import React from 'react';
 import { kandidatlisteURL } from '../../../../lenker';
 import { Tjenesteboks } from '../Tjenesteboks';
 import { useAntallKandidater } from './useAntallKandidater';
-import ikon from './kandidatlisteboks-ikon.svg';
+import ikon from './kandidatlisteboks-ikon-kontrast.svg';
 import './Kandidatlister.css';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
