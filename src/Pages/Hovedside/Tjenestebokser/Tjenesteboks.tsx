@@ -1,8 +1,10 @@
 import React, { FC, PropsWithChildren, useEffect } from 'react';
-import { LenkepanelMedLogging } from '../../../GeneriskeElementer/LenkepanelMedLogging';
 import './Tjenesteboks.css';
 import { Heading } from '@navikt/ds-react';
 import amplitude from '../../../utils/amplitude';
+import { ChevronRightIcon } from '@navikt/aksel-icons';
+import { loggNavigasjon } from '../../../utils/funksjonerForAmplitudeLogging';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     ikon: string;
@@ -18,26 +20,30 @@ export const Tjenesteboks: FC<PropsWithChildren<Props>> = (props) => {
             lenketekst: props.tittel,
         });
     }, []);
+    const onClickHandler = () => {
+        const { pathname } = useLocation();
+        loggNavigasjon(props.href, props.tittel, pathname);
+    };
     return (
-        <div className="tjenesteboks">
-            <div className="tjenesteboks-innhold">
-                <div className="tjeneste-boks-banner">
-                    <img className="tjeneste-boks-banner__ikon" src={props.ikon} alt="" />
-                    <Heading size="small" level="2" className="tjeneste-boks-banner__tittel">
-                        {props.tittel}
-                    </Heading>
-                </div>
-                <LenkepanelMedLogging
-                    loggLenketekst={props.tittel}
-                    href={props.href}
-                    aria-label={props['aria-label']}
-                    border={false}
-                    className={'tjenesteboks__lenkepanel'}
-                >
-                    {props.children}
-                </LenkepanelMedLogging>
+        <a className="tjenesteboks" href={props.href} onClick={onClickHandler}>
+            <div className="tjenesteboks-header">
+                <Heading size="small" level="2">
+                    {props.tittel}
+                </Heading>
+                <ChevronRightIcon
+                    className="tjenesteboks-chevron"
+                    width="2rem"
+                    height="2rem"
+                    aria-hidden={true}
+                />
             </div>
-        </div>
+            <div className="tjenesteboks-body">
+                <div className="ikon-boks">
+                    <img src={props.ikon} alt="" />
+                </div>
+                {props.children}
+            </div>
+        </a>
     );
 };
 

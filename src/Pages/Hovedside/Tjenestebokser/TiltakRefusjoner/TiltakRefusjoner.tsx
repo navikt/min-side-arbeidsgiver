@@ -1,6 +1,6 @@
 import React from 'react';
 import { tiltakRefusjonURL } from '../../../../lenker';
-import tiltakrefusjonikon from './TiltakRefusjoner.svg';
+import tiltakrefusjonikon from './tiltak-refusjoner-kontrast.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
