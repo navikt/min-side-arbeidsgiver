@@ -27,8 +27,7 @@ const Arbeidsforhold = () => {
                     arbeidsforhold (aktive og avsluttede){' '}
                 </span>
                 <div className="arbeidsforholdboks_bunntekst">
-                    {' '}
-                    innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+                    Innrapportert til Aa-registret
                 </div>
             </div>
         </Tjenesteboks>

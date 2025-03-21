@@ -13,22 +13,24 @@ interface Props {
     'aria-label': string;
 }
 
-export const Tjenesteboks: FC<PropsWithChildren<Props>> = (props) => {
+export const Tjenesteboks: FC<PropsWithChildren<Props>> = ({ ikon, href, tittel, children }) => {
+    const { pathname } = useLocation();
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
             komponent: 'Tjenesteboks',
-            lenketekst: props.tittel,
+            lenketekst: tittel,
         });
     }, []);
-    const onClickHandler = () => {
-        const { pathname } = useLocation();
-        loggNavigasjon(props.href, props.tittel, pathname);
+    const onClickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        loggNavigasjon(href, tittel, pathname);
+        window.location.href = href;
     };
     return (
-        <a className="tjenesteboks" href={props.href} onClick={onClickHandler}>
+        <a className="tjenesteboks" href={href} onClick={onClickHandler}>
             <div className="tjenesteboks-header">
                 <Heading size="small" level="2">
-                    {props.tittel}
+                    {tittel}
                 </Heading>
                 <ChevronRightIcon
                     className="tjenesteboks-chevron"
@@ -39,14 +41,14 @@ export const Tjenesteboks: FC<PropsWithChildren<Props>> = (props) => {
             </div>
             <div className="tjenesteboks-body">
                 <div className="ikon-boks">
-                    <img src={props.ikon} alt="" />
+                    <img src={ikon} alt="" />
                 </div>
-                {props.children}
+                {children}
             </div>
         </a>
     );
 };
 
-export const StortTall: FC<PropsWithChildren> = (props) => {
-    return <span className={'tjenesteboks__storttall'}>{props.children}</span>;
-};
+export const StortTall: FC<PropsWithChildren> = ({ children }) => (
+    <span className={'tjenesteboks__storttall'}>{children}</span>
+);
