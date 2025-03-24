@@ -1,8 +1,9 @@
 import { lenkeTilForebyggefravar } from '../../../../lenker';
 import React from 'react';
-import ForebyggeFraværIkon from './ForebyggeFraværIkon.svg';
+import ForebyggeFraværIkon from './forebygge-fravær-ikon-kontrast.svg';
 import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
+import './ForebyggeFravær.css'
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
@@ -37,18 +38,17 @@ const ForebyggeFravR = () => {
             tittel="Forebygge fravær"
             aria-label={'Forebygge Fravær, ' + aria_label}
         >
-            {sykefravær !== undefined ? (
-                <span>
-                    <StortTall>{sykefravær.prosent.toString()} %</StortTall>
+            <div>
+                {sykefravær !== undefined ? (
                     <>
-                        {' '}
-                        legemeldt sykefravær i din {statistikktype(sykefravær.type)}. Lag en plan
-                        for å redusere fraværet.{' '}
+                        <StortTall>{sykefravær.prosent.toString()} %</StortTall>
+                        legemeldt sykefravær i din {statistikktype(sykefravær.type)}.
+                        <div className='forebyggefravær_bunntekst'>Lag en plan for å redusere fraværet.</div>
                     </>
-                </span>
-            ) : (
-                <span>{beskrivelse}</span>
-            )}
+                ) : (
+                    <span>{beskrivelse}</span>
+                )}
+            </div>
         </Tjenesteboks>
     );
 };

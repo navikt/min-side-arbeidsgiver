@@ -1,8 +1,10 @@
 import React, { FC, PropsWithChildren, useEffect } from 'react';
-import { LenkepanelMedLogging } from '../../../GeneriskeElementer/LenkepanelMedLogging';
 import './Tjenesteboks.css';
 import { Heading } from '@navikt/ds-react';
 import amplitude from '../../../utils/amplitude';
+import { ChevronRightIcon } from '@navikt/aksel-icons';
+import { loggNavigasjon } from '../../../utils/funksjonerForAmplitudeLogging';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
     ikon: string;
@@ -11,36 +13,42 @@ interface Props {
     'aria-label': string;
 }
 
-export const Tjenesteboks: FC<PropsWithChildren<Props>> = (props) => {
+export const Tjenesteboks: FC<PropsWithChildren<Props>> = ({ ikon, href, tittel, children }) => {
+    const { pathname } = useLocation();
     useEffect(() => {
         amplitude.logEvent('komponent-lastet', {
             komponent: 'Tjenesteboks',
-            lenketekst: props.tittel,
+            lenketekst: tittel,
         });
     }, []);
+    const onClickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        loggNavigasjon(href, tittel, pathname);
+        window.location.href = href;
+    };
     return (
-        <div className="tjenesteboks">
-            <div className="tjenesteboks-innhold">
-                <div className="tjeneste-boks-banner">
-                    <img className="tjeneste-boks-banner__ikon" src={props.ikon} alt="" />
-                    <Heading size="small" level="2" className="tjeneste-boks-banner__tittel">
-                        {props.tittel}
-                    </Heading>
-                </div>
-                <LenkepanelMedLogging
-                    loggLenketekst={props.tittel}
-                    href={props.href}
-                    aria-label={props['aria-label']}
-                    border={false}
-                    className={'tjenesteboks__lenkepanel'}
-                >
-                    {props.children}
-                </LenkepanelMedLogging>
+        <a className="tjenesteboks" href={href} onClick={onClickHandler}>
+            <div className="tjenesteboks-header">
+                <Heading size="small" level="2">
+                    {tittel}
+                </Heading>
+                <ChevronRightIcon
+                    className="tjenesteboks-chevron"
+                    width="2rem"
+                    height="2rem"
+                    aria-hidden={true}
+                />
             </div>
-        </div>
+            <div className="tjenesteboks-body">
+                <div className="ikon-boks">
+                    <img src={ikon} alt="" />
+                </div>
+                {children}
+            </div>
+        </a>
     );
 };
 
-export const StortTall: FC<PropsWithChildren> = (props) => {
-    return <span className={'tjenesteboks__storttall'}>{props.children}</span>;
-};
+export const StortTall: FC<PropsWithChildren> = ({ children }) => (
+    <span className={'tjenesteboks__storttall'}>{children}</span>
+);

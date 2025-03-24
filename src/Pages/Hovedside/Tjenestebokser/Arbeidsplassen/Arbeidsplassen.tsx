@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { arbeidsplassenURL } from '../../../../lenker';
-import PamboksIkon from './arbeidsplassen-ikon.svg';
+import PamboksIkon from './arbeidsplassen-ikon-kontrast.svg';
 import './Arbeidsplassen.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { z } from 'zod';

@@ -1,7 +1,8 @@
 import React from 'react';
 import { tiltakRefusjonURL } from '../../../../lenker';
-import tiltakrefusjonikon from './TiltakRefusjoner.svg';
+import tiltakrefusjonikon from './tiltak-refusjoner-kontrast.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
+import './TiltakRefusjoner.css';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
@@ -27,13 +28,15 @@ const TiltakRefusjoner = () => {
             tittel="Refusjon for lønnstilskudd og sommerjobb"
             aria-label={'Refusjon for lønnstilskudd og sommerjobb, ' + aria_label}
         >
-            {klareForInnsending === undefined ? null : (
-                <>
-                    <StortTall>{klareForInnsending}</StortTall> refusjoner klare for innsending.{' '}
-                    <br />
-                </>
-            )}
-            Søk og se refusjon
+            <div>
+                {klareForInnsending === undefined ? null : (
+                    <>
+                        <StortTall>{klareForInnsending}</StortTall> refusjoner klare for
+                        innsending.{' '}
+                    </>
+                )}
+                <div className="tiltak-refusjoner_bunntekst">Søk og se refusjon</div>
+            </div>
         </Tjenesteboks>
     );
 };

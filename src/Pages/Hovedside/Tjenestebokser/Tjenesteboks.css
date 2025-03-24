@@ -1,23 +1,64 @@
-.tjeneste-boks-banner {
+.tjenesteboks {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
     display: flex;
-    background-color: var(--a-blue-100);
-    align-self: stretch;
-    align-items: center;
-    height: 4rem;
-    padding-left: 1rem;
-    flex-shrink: 0;
-    position: relative;
-}
-.tjeneste-boks-banner__ikon {
-    height: 1.5rem;
-    align-self: center;
-    margin-right: 1rem;
-}
-.tjeneste-boks-banner__tittel {
-    align-self: center;
-}
-@media (min-width: 992px) {
-    .tjeneste-boks-banner {
-        padding-left: 1.5rem;
+    flex-direction: column;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0ms;
+    color: var(--a-text-default);
+
+    &:hover {
+        box-shadow: var(--a-shadow-small);
+        outline: 1px solid var(--a-border-action);
+
+        .tjenesteboks-chevron {
+            transform: translateX(8px);
+        }
     }
+
+    &:active,
+    &:focus-visible,
+    &:focus {
+        box-shadow: var(--a-shadow-focus);
+        outline: none;
+    }
+}
+
+.tjenesteboks-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(7, 26, 54, 0.21);
+}
+
+.tjenesteboks-body {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    height: 100%;
+    flex: 1;
+}
+
+.ikon-boks {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    flex-shrink: 0;
+}
+
+.ikon-boks svg {
+    width: 24px;
+    height: 24px;
+}
+
+.tjenesteboks-chevron {
+    transition: transform 200ms;
 }

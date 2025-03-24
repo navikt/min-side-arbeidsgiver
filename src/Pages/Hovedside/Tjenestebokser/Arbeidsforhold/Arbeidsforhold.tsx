@@ -1,6 +1,6 @@
 import React from 'react';
 import { innsynAaregURL } from '../../../../lenker';
-import arbeidsforholdikon from './arbeidsforhold-ikon.svg';
+import arbeidsforholdikon from './arbeidsforhold-ikon-kontrast.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
@@ -27,8 +27,7 @@ const Arbeidsforhold = () => {
                     arbeidsforhold (aktive og avsluttede){' '}
                 </span>
                 <div className="arbeidsforholdboks_bunntekst">
-                    {' '}
-                    innrapportert til Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret)
+                    Innrapportert til Aa-registret
                 </div>
             </div>
         </Tjenesteboks>

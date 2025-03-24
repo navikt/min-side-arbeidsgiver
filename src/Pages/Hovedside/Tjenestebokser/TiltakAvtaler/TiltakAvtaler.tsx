@@ -1,7 +1,7 @@
 import React from 'react';
 import { tiltaksgjennomforingURL } from '../../../../lenker';
 import './TiltakAvtaler.css';
-import tiltakikon from './TiltakAvtaler.svg';
+import tiltakikon from './tiltak-avtaler-ikon-kontrast.svg';
 import { Avtalenavn, useAvtaleoversikt } from './useAvtaleoversikt';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { BodyShort } from '@navikt/ds-react';
