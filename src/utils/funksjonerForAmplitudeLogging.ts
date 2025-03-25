@@ -16,10 +16,15 @@ interface EventProps {
     sektor?: string;
 }
 
+const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
+    amplitude.logEvent(eventName, eventData);
+    window.umami?.track(eventName, eventData);
+};
+
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;
 
 export const loggSidevisning = (pathname: string) => {
-    amplitude.logEvent('sidevisning', {
+    logAnalyticsEvent('sidevisning', {
         url: `${baseUrl}${pathname}`,
         innlogget: true,
     });
@@ -108,7 +113,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
             virksomhetsinfo.antallAnsatte = finnBucketForAntall(underenhet.antallAnsatte);
         }
 
-        amplitude.logEvent('virksomhet-valgt', virksomhetsinfo);
+        logAnalyticsEvent('virksomhet-valgt', virksomhetsinfo);
     }, [org, underenhet, isLoading]);
 };
 
@@ -139,21 +144,22 @@ export const loggNavigasjonTags = (
         url: `${baseUrl}${currentPagePath}`,
         ...tags,
     };
-    amplitude.logEvent('navigere', navigasjonsInfo);
+    logAnalyticsEvent('navigere', navigasjonsInfo);
 };
 
 export const useLoggKlikk = () => {
     const { pathname } = useLocation();
-    return (knapp: string, annet: Record<string, any> = {}) =>
-        amplitude.logEvent('klikk', {
+    return (knapp: string, annet: Record<string, any> = {}) => {
+        logAnalyticsEvent('klikk', {
             knapp,
             pathname,
             ...annet,
         });
+    };
 };
 
 export const amplitudeChipClick = (kategori: string, filternavn: string) => {
-    amplitude.logEvent('chip-click', {
+    logAnalyticsEvent('chip-click', {
         kategori: kategori,
         filternavn: filternavn,
     });
