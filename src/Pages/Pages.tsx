@@ -48,15 +48,6 @@ const Pages: FunctionComponent = () => (
                 revalidateOnFocus: false,
             }}
         >
-            {(miljø === 'dev' || miljø === 'labs') && (
-                <script
-                    defer
-                    src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-                    data-host-url="https://umami.nav.no"
-                    data-website-id={import.meta.env.VITE_UMAMI_TRACKING_ID}
-                    data-auto-track="false"
-                />
-            )}
             <LoginBoundary>
                 <NotifikasjonWidgetProvider
                     miljo={miljø}
