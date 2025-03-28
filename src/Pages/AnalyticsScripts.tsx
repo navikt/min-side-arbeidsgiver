@@ -34,7 +34,7 @@ export const AnalyticsScripts = () => {
             src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
             data-host-url="https://umami.nav.no"
             data-website-id={trackingId}
-            data-auto-track={userConsent.analytics}
+            data-auto-track={false}
         />
     );
 };
