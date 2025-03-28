@@ -26,7 +26,7 @@ export const AnalyticsScripts = () => {
         getConsent().then(setUserConsent);
     }, []);
 
-    if (!userConsent?.analytics || !trackingId) return null;
+    if (!userConsent || !userConsent.analytics) return null;
 
     return (
         <script
