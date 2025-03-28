@@ -1,5 +1,5 @@
 import {MouseEventHandler} from 'react';
-import {loggNavigasjon} from '../utils/funksjonerForAmplitudeLogging';
+import {loggNavigasjon} from '../utils/analytics';
 import {Link, LinkProps, useLocation} from 'react-router-dom';
 import {LinkPanel, LinkPanelProps} from "@navikt/ds-react";
 

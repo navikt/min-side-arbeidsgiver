@@ -11,7 +11,7 @@ import { useSessionStateSaksoversikt } from './useOversiktSessionStorage';
 import { useSaker } from './useSaker';
 import { SIDE_SIZE } from './Saksoversikt';
 import amplitude from '../../utils/amplitude';
-import { finnBucketForAntall } from '../../utils/funksjonerForAmplitudeLogging';
+import { finnBucketForAntall } from '../../utils/analytics';
 import {
     OppgaveFilterInfo, OppgaveFilterType,
     Sak,

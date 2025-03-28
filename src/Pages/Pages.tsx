@@ -13,7 +13,7 @@ import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonsDetaljerProvider';
 import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
-import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
+import { loggSidevisning } from '../utils/analytics';
 import './Pages.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { Brodsmulesti, BannerMedBedriftsmeny, SaksoversiktBanner } from './Banner';
@@ -23,6 +23,7 @@ import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
+import { AnalyticsScripts } from './AnalyticsScripts';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -43,6 +44,7 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
 
 const Pages: FunctionComponent = () => (
     <div className="typo-normal bakgrunnsside">
+        <AnalyticsScripts />
         <SWRConfig
             value={{
                 revalidateOnFocus: false,

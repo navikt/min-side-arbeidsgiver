@@ -18,7 +18,7 @@ interface EventProps {
 
 const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
     amplitude.logEvent(eventName, eventData);
-    window.umami?.track(eventName, eventData);
+    window.umami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
 };
 
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;

@@ -3,7 +3,7 @@ import './Tjenesteboks.css';
 import { Heading } from '@navikt/ds-react';
 import amplitude from '../../../utils/amplitude';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
-import { loggNavigasjon } from '../../../utils/funksjonerForAmplitudeLogging';
+import { loggNavigasjon } from '../../../utils/analytics';
 import { useLocation } from 'react-router-dom';
 
 interface Props {

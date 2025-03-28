@@ -6,7 +6,7 @@ import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { Collapse, Expand } from '@navikt/ds-icons';
-import { amplitudeChipClick } from '../../utils/funksjonerForAmplitudeLogging';
+import { amplitudeChipClick } from '../../utils/analytics';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 
