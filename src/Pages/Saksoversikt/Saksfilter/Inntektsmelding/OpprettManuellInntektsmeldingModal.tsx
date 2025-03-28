@@ -7,7 +7,7 @@ import {
     opprettInntektsmeldingSvangerskapspenger,
     opprettInntektsmeldingURL,
 } from '../../../../lenker';
-import { loggNavigasjon } from '../../../../utils/funksjonerForAmplitudeLogging';
+import { loggNavigasjon } from '../../../../utils/analytics';
 import amplitude from '../../../../utils/amplitude';
 
 interface Props {

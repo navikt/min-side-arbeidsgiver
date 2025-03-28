@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useLoggBedriftValgtOgTilganger } from '../utils/funksjonerForAmplitudeLogging';
+import { useLoggBedriftValgtOgTilganger } from '../utils/analytics';
 import { useSaker } from './Saksoversikt/useSaker';
 import { SakSortering } from '../api/graphql-types';
 import { Set } from 'immutable';

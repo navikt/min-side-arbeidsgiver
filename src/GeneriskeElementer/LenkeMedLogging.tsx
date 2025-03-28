@@ -1,6 +1,6 @@
 import { FunctionComponent, MouseEventHandler, ReactNode } from 'react';
 import {BodyShort, Link as DsLink, LinkProps } from '@navikt/ds-react';
-import {loggNavigasjon} from '../utils/funksjonerForAmplitudeLogging';
+import {loggNavigasjon} from '../utils/analytics';
 import { useLocation, Link as ReactLink } from 'react-router-dom';
 
 export interface Props extends LinkProps {

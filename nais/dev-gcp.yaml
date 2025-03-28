@@ -37,6 +37,8 @@ spec:
       value: {{{commit}}}
     - name: MILJO
       value: dev
+    - name: VITE_UMAMI_TRACKING_ID
+      value: 16cf7325-ffda-4759-9657-4215b91eb3fd
   accessPolicy:
     outbound:
       external:
@@ -46,6 +48,7 @@ spec:
         - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
         - host: arbeidsplassen.intern.dev.nav.no
         - host: storage.googleapis.com
+        - host: umami.nav.no
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api

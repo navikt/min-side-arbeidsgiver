@@ -1,6 +1,6 @@
 import { Heading, LinkPanel } from '@navikt/ds-react';
 import React, { useEffect } from 'react';
-import { loggNavigasjonTags } from '../../utils/funksjonerForAmplitudeLogging';
+import { loggNavigasjonTags } from '../../utils/analytics';
 import { DisplayBetween, shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';

@@ -26,6 +26,7 @@ const {
     LOGIN_URL = '',
     NAIS_CLUSTER_NAME = 'local',
     MILJO = 'local',
+    VITE_UMAMI_TRACKING_ID,
 } = process.env;
 
 const log_events_counter = new Prometheus.Counter({
@@ -166,6 +167,7 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
                 GIT_COMMIT: '${GIT_COMMIT}',
             }
         `,
+    VITE_UMAMI_TRACKING_ID: VITE_UMAMI_TRACKING_ID,
 });
 
 const proxyOptions = {

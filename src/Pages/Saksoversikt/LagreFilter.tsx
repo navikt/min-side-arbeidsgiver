@@ -14,7 +14,7 @@ import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../hooks/useRemoteStorage';
 import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
-import { useLoggKlikk } from '../../utils/funksjonerForAmplitudeLogging';
+import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
 import { equalFilter, Filter, useSaksoversiktContext } from './SaksoversiktProvider';
 import { OppgaveFilterType, OppgaveTilstand, SakSortering } from '../../api/graphql-types';
