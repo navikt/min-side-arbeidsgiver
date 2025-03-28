@@ -165,7 +165,7 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
                 MILJO: '${MILJO}',
                 NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
                 GIT_COMMIT: '${GIT_COMMIT}',
-            },
+            }
         `,
     VITE_UMAMI_TRACKING_ID: VITE_UMAMI_TRACKING_ID,
 });
