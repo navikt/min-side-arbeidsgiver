@@ -4,6 +4,7 @@ import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { NAVtjenesteId } from '../altinn/tjenester';
+import { getConsent } from './consent';
 
 interface EventProps {
     url: string;
@@ -18,7 +19,12 @@ interface EventProps {
 
 const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
     amplitude.logEvent(eventName, eventData);
-    window.umami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
+
+    getConsent().then((value) => {
+        if (value && value.analytics && window.umami) {
+            window.umami.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
+        }
+    })
 };
 
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;

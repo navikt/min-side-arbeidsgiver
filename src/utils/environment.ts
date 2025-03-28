@@ -2,7 +2,6 @@ interface Environment {
     MILJO: string;
     NAIS_APP_IMAGE: string;
     GIT_COMMIT: string;
-    VITE_UMAMI_TRACKING_ID: string;
 }
 
 const environment: Environment = {

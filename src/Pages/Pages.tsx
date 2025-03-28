@@ -23,7 +23,6 @@ import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
-import { AnalyticsScripts } from './AnalyticsScripts';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -44,7 +43,6 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
 
 const Pages: FunctionComponent = () => (
     <div className="typo-normal bakgrunnsside">
-        <AnalyticsScripts />
         <SWRConfig
             value={{
                 revalidateOnFocus: false,
