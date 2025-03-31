@@ -23,7 +23,7 @@ import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
-import { MsaErrorBoundary } from './Saksoversikt/MsaErrorBoundary';
+import { MsaErrorBoundary } from './MsaErrorBoundary';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',

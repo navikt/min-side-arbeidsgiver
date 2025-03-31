@@ -3,7 +3,7 @@
 import { Alert } from '@navikt/ds-react';
 import React, { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { SimpleBanner } from '../Banner';
+import { SimpleBanner } from './Banner';
 
 export const MsaErrorBoundary = ({ children }: { children: ReactNode }) => {
     function onError(error: Error, info: React.ErrorInfo) {
