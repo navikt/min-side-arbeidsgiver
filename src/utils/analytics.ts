@@ -18,13 +18,11 @@ interface EventProps {
 }
 
 const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
-    amplitude.logEvent(eventName, eventData);
-
     getConsent().then((value) => {
-        if (value && value.analytics && window.umami) {
-            window.umami.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
-        }
-    })
+        if (!value || !value.analytics) return;
+        window.umami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
+        amplitude.logEvent(eventName, eventData);
+    });
 };
 
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;
