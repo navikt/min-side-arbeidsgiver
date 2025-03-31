@@ -1,5 +1,5 @@
 interface Window {
-    umami?: {
+    minsideUmami?: {
         track: (eventName: string, eventData?: Record<string, any>) => void;
     };
 }

@@ -18,9 +18,9 @@ interface EventProps {
 }
 
 const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
-    getConsent().then((value) => {
-        if (!value || !value.analytics) return;
-        window.umami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
+    getConsent().then((consent) => {
+        if (!consent || !consent.analytics) return;
+        window.minsideUmami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
         amplitude.logEvent(eventName, eventData);
     });
 };
