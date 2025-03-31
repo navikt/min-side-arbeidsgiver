@@ -16,13 +16,14 @@ import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
 import { loggSidevisning } from '../utils/funksjonerForAmplitudeLogging';
 import './Pages.css';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { Brodsmulesti, BannerMedBedriftsmeny, SaksoversiktBanner } from './Banner';
+import { BannerMedBedriftsmeny, Brodsmulesti, SaksoversiktBanner } from './Banner';
 import { Saksoversikt } from './Saksoversikt/Saksoversikt';
 import { Alert, Link } from '@navikt/ds-react';
 import { gittMiljo } from '../utils/environment';
 import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
+import { MsaErrorBoundary } from './MsaErrorBoundary';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -42,98 +43,104 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
 };
 
 const Pages: FunctionComponent = () => (
-    <div className="typo-normal bakgrunnsside">
-        <SWRConfig
-            value={{
-                revalidateOnFocus: false,
-            }}
-        >
-            <LoginBoundary>
-                <NotifikasjonWidgetProvider
-                    miljo={miljø}
-                    apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
-                >
-                    <BrowserRouter basename={__BASE_PATH__}>
-                        <AmplitudeSidevisningEventLogger>
-                            <AlertsProvider>
-                                <OrganisasjonerOgTilgangerProvider>
-                                    <OrganisasjonsDetaljerProvider>
-                                        <Routes>
-                                            <Route
-                                                path="/bedriftsinformasjon"
-                                                element={
-                                                    <>
-                                                        <Brodsmulesti />
-                                                        <BannerMedBedriftsmeny
-                                                            sidetittel={'Om virksomheten'}
+    <MsaErrorBoundary>
+        <div className="typo-normal bakgrunnsside">
+            <SWRConfig
+                value={{
+                    revalidateOnFocus: false,
+                }}
+            >
+                <LoginBoundary>
+                    <NotifikasjonWidgetProvider
+                        miljo={miljø}
+                        apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
+                    >
+                        <BrowserRouter basename={__BASE_PATH__}>
+                            <AmplitudeSidevisningEventLogger>
+                                <AlertsProvider>
+                                    <OrganisasjonerOgTilgangerProvider>
+                                        <OrganisasjonsDetaljerProvider>
+                                            <Routes>
+                                                <Route
+                                                    path="/bedriftsinformasjon"
+                                                    element={
+                                                        <>
+                                                            <Brodsmulesti />
+                                                            <BannerMedBedriftsmeny
+                                                                sidetittel={'Om virksomheten'}
+                                                            />
+                                                            <OmVirksomheten />
+                                                        </>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/"
+                                                    element={
+                                                        <>
+                                                            <BannerMedBedriftsmeny
+                                                                sidetittel={
+                                                                    'Min side – arbeidsgiver'
+                                                                }
+                                                            />
+                                                            <Hovedside />
+                                                        </>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/saksoversikt"
+                                                    element={
+                                                        <>
+                                                            <Brodsmulesti />
+                                                            <SaksoversiktBanner />
+                                                            <SaksOversiktProvider>
+                                                                <Saksoversikt />
+                                                            </SaksOversiktProvider>
+                                                        </>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/sak"
+                                                    element={
+                                                        <>
+                                                            <Brodsmulesti />
+                                                            <SaksoversiktBanner />
+                                                            <Saksside />
+                                                        </>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="/sak-restore-session"
+                                                    element={
+                                                        <Navigate
+                                                            to="/saksoversikt"
+                                                            replace={true}
                                                         />
-                                                        <OmVirksomheten />
-                                                    </>
-                                                }
-                                            />
-                                            <Route
-                                                path="/"
-                                                element={
-                                                    <>
-                                                        <BannerMedBedriftsmeny
-                                                            sidetittel={'Min side – arbeidsgiver'}
-                                                        />
-                                                        <Hovedside />
-                                                    </>
-                                                }
-                                            />
-                                            <Route
-                                                path="/saksoversikt"
-                                                element={
-                                                    <>
-                                                        <Brodsmulesti />
-                                                        <SaksoversiktBanner />
-                                                        <SaksOversiktProvider>
-                                                            <Saksoversikt />
-                                                        </SaksOversiktProvider>
-                                                    </>
-                                                }
-                                            />
-                                            <Route
-                                                path="/sak"
-                                                element={
-                                                    <>
-                                                        <Brodsmulesti />
-                                                        <SaksoversiktBanner />
-                                                        <Saksside />
-                                                    </>
-                                                }
-                                            />
-                                            <Route
-                                                path="/sak-restore-session"
-                                                element={
-                                                    <Navigate to="/saksoversikt" replace={true} />
-                                                }
-                                            />
-                                            <Route
-                                                path="*"
-                                                element={
-                                                    <Alert
-                                                        className={'app-finner-ikke-siden'}
-                                                        variant={'error'}
-                                                    >
-                                                        Finner ikke siden.{' '}
-                                                        <Link as={RouterLink} to={'/'}>
-                                                            Gå til Min side arbeidsgiver
-                                                        </Link>
-                                                    </Alert>
-                                                }
-                                            />
-                                        </Routes>
-                                    </OrganisasjonsDetaljerProvider>
-                                </OrganisasjonerOgTilgangerProvider>
-                            </AlertsProvider>
-                        </AmplitudeSidevisningEventLogger>
-                    </BrowserRouter>
-                </NotifikasjonWidgetProvider>
-            </LoginBoundary>
-        </SWRConfig>
-    </div>
+                                                    }
+                                                />
+                                                <Route
+                                                    path="*"
+                                                    element={
+                                                        <Alert
+                                                            className={'app-error-alert'}
+                                                            variant={'error'}
+                                                        >
+                                                            Finner ikke siden.{' '}
+                                                            <Link as={RouterLink} to={'/'}>
+                                                                Gå til Min side arbeidsgiver
+                                                            </Link>
+                                                        </Alert>
+                                                    }
+                                                />
+                                            </Routes>
+                                        </OrganisasjonsDetaljerProvider>
+                                    </OrganisasjonerOgTilgangerProvider>
+                                </AlertsProvider>
+                            </AmplitudeSidevisningEventLogger>
+                        </BrowserRouter>
+                    </NotifikasjonWidgetProvider>
+                </LoginBoundary>
+            </SWRConfig>
+        </div>
+    </MsaErrorBoundary>
 );
-
 export default Pages;
