@@ -19,6 +19,7 @@
     "msw": "2.7.3",
     "react": "18.3.1",
     "react-dom": "^18.3.1",
+    "react-error-boundary": "^5.0.0",
     "react-router-dom": "^6.24.0",
     "swr": "^2.3.3",
     "uuid": "^11.1.0",
@@ -50,7 +51,7 @@
     "terser": "5.39.0",
     "ts-jest": "^29.2.6",
     "typescript": "5.8.2",
-    "vite": "^6.2.2",
+    "vite": "^6.2.3",
     "vite-plugin-graphql-loader": "^4.0.4",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "3.0.9"
