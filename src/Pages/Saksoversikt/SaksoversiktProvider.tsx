@@ -10,8 +10,7 @@ import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgange
 import { useSessionStateSaksoversikt } from './useOversiktSessionStorage';
 import { useSaker } from './useSaker';
 import { SIDE_SIZE } from './Saksoversikt';
-import amplitude from '../../utils/amplitude';
-import { finnBucketForAntall } from '../../utils/analytics';
+import { finnBucketForAntall, logAnalyticsEvent } from '../../utils/analytics';
 import {
     OppgaveFilterInfo, OppgaveFilterType,
     Sak,
@@ -178,7 +177,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         } else if (data?.saker?.__typename !== 'SakerResultat') {
             dispatch({ action: 'lasting-feilet' });
         } else {
-            amplitude.logEvent('komponent-lastet', {
+            logAnalyticsEvent('komponent-lastet', {
                 komponent: 'saksoversikt',
                 side: state.filter.side,
                 tekstsoek: state.filter.tekstsoek.trim() !== '',

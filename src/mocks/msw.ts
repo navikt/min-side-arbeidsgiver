@@ -14,6 +14,8 @@ export const startMSW = async () => {
         http.get('/min-side-arbeidsgiver/artikler', passthrough),
         http.post('/collect', () => HttpResponse.json()),
         http.post('https://amplitude.nav.no/collect-auto', () => HttpResponse.json()),
+        http.post('https://amplitude.nav.no/collect', () => HttpResponse.json()),
+        http.post('https://umami.nav.no/api/send', () => HttpResponse.json()),
         http.get('*.svg', passthrough),
         http.get('*.js', passthrough),
         http.get('https://dekoratoren.ekstern.dev.nav.no/*', passthrough),

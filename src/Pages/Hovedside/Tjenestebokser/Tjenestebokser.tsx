@@ -7,8 +7,8 @@ import TiltakAvtaler from './TiltakAvtaler/TiltakAvtaler';
 import ForebyggeFravær from './ForebyggeFravær/ForebyggeFravær';
 import TiltakRefusjoner from './TiltakRefusjoner/TiltakRefusjoner';
 import './Tjenestebokser.css';
-import amplitude from '../../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
+import { logAnalyticsEvent } from '../../../utils/analytics';
 
 const Bokser = {
     Arbeidsforhold: Arbeidsforhold,
@@ -69,7 +69,7 @@ const TjenesteboksContainer: FunctionComponent = () => {
 
 const Tjenestebokser: FunctionComponent<{ tjenester: TjenesteBoks[] }> = ({ tjenester }) => {
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'tjenestebokser',
             tjenester: [...tjenester].sort().join(' '),
         });

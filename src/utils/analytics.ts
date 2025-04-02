@@ -17,7 +17,7 @@ interface EventProps {
     sektor?: string;
 }
 
-const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
+export const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
     getConsent().then((consent) => {
         if (!consent || !consent.analytics) return;
         window.minsideUmami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
