@@ -5,8 +5,8 @@ import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erStøy } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
-import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
+import { logAnalyticsEvent } from '../../utils/analytics';
 
 export const ManglerKontonummerAlert = () => {
     const kontonummerStatus = manglerKontonummerAlert();
@@ -15,7 +15,7 @@ export const ManglerKontonummerAlert = () => {
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
 
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'ManglerKontonummerAlert',
             status: kontonummerStatus.status,
             kanEndreKontonummer,

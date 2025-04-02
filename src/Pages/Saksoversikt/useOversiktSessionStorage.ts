@@ -6,10 +6,10 @@ import { useSessionStorage } from '../../hooks/useStorage';
 import { equalAsSets, Filter } from './SaksoversiktProvider';
 import { OppgaveFilterType, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
-import amplitude from '../../utils/amplitude';
 import { z } from 'zod';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
+import { logAnalyticsEvent } from '../../utils/analytics';
 
 const SESSION_STORAGE_KEY = 'saksoversiktfilter';
 
@@ -153,7 +153,7 @@ export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): U
         if (params.size === 0) return;
 
         setParams((prevParams) => {
-            amplitude.logEvent('komponent-lastet', {
+            logAnalyticsEvent('komponent-lastet', {
                 komponent: 'saksoversiktSessionStorage',
                 queryParametere: [...prevParams.keys()],
             });

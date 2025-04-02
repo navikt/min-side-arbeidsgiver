@@ -1,11 +1,10 @@
 import { Heading, LinkPanel } from '@navikt/ds-react';
 import React, { useEffect } from 'react';
-import { loggNavigasjonTags } from '../../utils/analytics';
+import { logAnalyticsEvent, loggNavigasjonTags } from '../../utils/analytics';
 import { DisplayBetween, shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
 import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerContext';
-import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 type AktueltProps = {
@@ -26,7 +25,7 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) => {
     const { pathname } = useLocation();
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'aktuelt',
             lenketekst: tittel,
         });

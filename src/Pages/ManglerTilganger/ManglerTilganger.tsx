@@ -5,11 +5,11 @@ import { Heading, LinkPanel } from '@navikt/ds-react';
 import { LenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { SimpleBanner } from '../Banner';
 import { Alerts } from '../Alerts';
-import amplitude from '../../utils/amplitude';
+import { logAnalyticsEvent } from '../../utils/analytics';
 
 export const ManglerTilganger: FunctionComponent = () => {
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'ManglerTilganger',
         });
     }, []);

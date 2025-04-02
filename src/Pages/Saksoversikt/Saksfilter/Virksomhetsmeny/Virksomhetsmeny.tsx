@@ -5,11 +5,11 @@ import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
 import fuzzysort from 'fuzzysort';
 import { flatUtTre, sum } from '../../../../utils/util';
-import amplitude from '../../../../utils/amplitude';
 import { Set } from 'immutable';
 
 import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from '../../SaksoversiktProvider';
+import { logAnalyticsEvent } from '../../../../utils/analytics';
 
 export const Virksomhetsmeny = () => {
     const { organisasjonstre, orgnrTilParentMap, orgnrTilChildrenMap } =
@@ -45,7 +45,7 @@ export const Virksomhetsmeny = () => {
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
 
     const amplitudeValgteVirksomheter = (valgte: Set<string>) => {
-        amplitude.logEvent('velg-virksomheter', {
+        logAnalyticsEvent('velg-virksomheter', {
             antallHovedenheterValgt: valgte.count((orgnr) => childrenMap.has(orgnr)),
             antallHovedenheterTotalt: alleOrganisasjoner.length,
             antallUnderenheterValgt: valgte.count((orgnr) => parentMap.has(orgnr)),

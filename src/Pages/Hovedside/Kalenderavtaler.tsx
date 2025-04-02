@@ -11,10 +11,9 @@ import {
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import {
-    finnBucketForDagerTilDato,
+    finnBucketForDagerTilDato, logAnalyticsEvent,
     loggNavigasjonTags,
 } from '../../utils/analytics';
-import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
@@ -130,7 +129,7 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     lenke,
 }) => {
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'Kalenderavtale',
             tilstand: tilstand,
             avtaleDato: finnBucketForDagerTilDato(startTidspunkt),

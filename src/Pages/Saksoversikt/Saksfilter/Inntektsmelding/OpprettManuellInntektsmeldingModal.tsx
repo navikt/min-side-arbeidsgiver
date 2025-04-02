@@ -7,8 +7,7 @@ import {
     opprettInntektsmeldingSvangerskapspenger,
     opprettInntektsmeldingURL,
 } from '../../../../lenker';
-import { loggNavigasjon } from '../../../../utils/analytics';
-import amplitude from '../../../../utils/amplitude';
+import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
 
 interface Props {
     isOpen: boolean;
@@ -40,7 +39,7 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'OpprettManuellInntektsmeldingModal'
         });
     }, []);

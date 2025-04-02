@@ -3,17 +3,17 @@ import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { BodyShort, Checkbox, CheckboxGroup, Heading, Label } from '@navikt/ds-react';
+import { BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
 import { Filter as FilterIkon } from '@navikt/ds-icons';
 import { OppgaveFilterType, OppgaveTilstand, Query, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
-import amplitude from '../../../utils/amplitude';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import { Filter, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { ServerError } from '@apollo/client/link/utils';
+import { logAnalyticsEvent } from '../../../utils/analytics';
 
 export const filterTypeTilTekst = (oppgaveFilter: OppgaveFilterType) => {
     switch (oppgaveFilter) {
@@ -52,13 +52,13 @@ export const amplitudeFilterKlikk = (
     target: EventTarget | null
 ) => {
     if (target instanceof HTMLInputElement) {
-        amplitude.logEvent('filtervalg', {
+        logAnalyticsEvent('filtervalg', {
             kategori: kategori,
             filternavn: filternavn,
             checked: target.checked,
         });
     } else {
-        amplitude.logEvent('filtervalg', {
+        logAnalyticsEvent('filtervalg', {
             kategori: kategori,
             filternavn: filternavn,
         });
@@ -247,7 +247,7 @@ export const Saksfilter = () => {
     }, [setWidth]);
 
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'Saksfilter',
         });
     }, []);

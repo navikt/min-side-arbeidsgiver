@@ -4,14 +4,14 @@ import { useEffect, useState } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { erStøy } from '../../utils/util';
-import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
+import { logAnalyticsEvent } from '../../utils/analytics';
 
 export const ManglerKofuviAlert = () => {
     const varslingStatus = manglerKofuviAlert();
 
     useEffect(() => {
-        amplitude.logEvent('komponent-lastet', {
+        logAnalyticsEvent('komponent-lastet', {
             komponent: 'ManglerKofuviAlert',
             status: varslingStatus.status,
         });

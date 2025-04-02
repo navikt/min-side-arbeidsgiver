@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
-import amplitude from '../../utils/amplitude';
 import { Heading, Tag } from '@navikt/ds-react';
 import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../api/graphql-types';
@@ -10,6 +9,7 @@ import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
+import { logAnalyticsEvent } from '../../utils/analytics';
 
 const Saksikon = () => (
     <svg
@@ -50,7 +50,7 @@ const SisteSaker = () => {
 
     useEffect(() => {
         if (!loading && data) {
-            amplitude.logEvent('komponent-lastet', {
+            logAnalyticsEvent('komponent-lastet', {
                 komponent: 'siste-saker',
                 totaltAntallSaker: data.saker.totaltAntallSaker,
             });
