@@ -13,7 +13,7 @@ import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import {
     finnBucketForDagerTilDato,
     loggNavigasjonTags,
-} from '../../utils/funksjonerForAmplitudeLogging';
+} from '../../utils/analytics';
 import amplitude from '../../utils/amplitude';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
