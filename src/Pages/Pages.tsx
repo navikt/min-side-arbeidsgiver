@@ -47,8 +47,8 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
 const Pages: FunctionComponent = () => (
     <MsaErrorBoundary>
         <ConsentProvider>
+            <AnalyticsScripts />
             <div className="typo-normal bakgrunnsside">
-                <AnalyticsScripts />
                 <SWRConfig
                     value={{
                         revalidateOnFocus: false,
