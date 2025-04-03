@@ -10,7 +10,7 @@ import {
 import { graphql, HttpResponse } from 'msw';
 import { executeAndValidate, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
-import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/LagreFilter';
+import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/SaksoversiktProvider';
 
 
 export const hentSakerResolver = (saker: Sak[]) =>

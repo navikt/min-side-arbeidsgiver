@@ -20,7 +20,7 @@ import { buildASTSchema, graphql as executeGraphQL } from 'graphql';
 import Document from '../../../bruker.graphql';
 import { GraphQLVariables } from 'msw';
 import { alleMerkelapper, Merkelapp } from './alleMerkelapper';
-import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/LagreFilter';
+import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/SaksoversiktProvider';
 
 export const orgnr = () => faker.number.int({ min: 100000000, max: 999999999 }).toString();
 
