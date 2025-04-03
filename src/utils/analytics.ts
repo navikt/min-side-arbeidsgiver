@@ -4,7 +4,6 @@ import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { NAVtjenesteId } from '../altinn/tjenester';
-import { getConsent } from './consent';
 
 interface EventProps {
     url: string;
