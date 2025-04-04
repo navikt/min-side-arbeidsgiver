@@ -2,8 +2,6 @@ import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 import { act, renderHook } from '@testing-library/react';
 import { useLagredeFilter } from './LagreFilter';
-import { ZodFilter } from './SaksoversiktProvider';
-
 
 describe('Parsing av lagrede filter tests', () => {
     beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));
@@ -27,19 +25,38 @@ describe('Parsing av lagrede filter tests', () => {
                             oppgaveTilstand: ['NY'],
                         },
                     },
+                    {
+                        uuid: '147ec969-16a9-4dec-8360-6509d7cc653c',
+                        navn: 'fager - uløste oppgaver',
+                        filter: {
+                            route: '/saksoversikt',
+                            side: 1,
+                            tekstsoek: '',
+                            virksomheter: [],
+                            sakstyper: ['fager'],
+                            oppgaveFilter: ['TILSTAND_NY_MED_PAAMINNELSE_UTLOEST'],
+                        },
+                    },
+                    {
+                        uuid: '147ec969-16a9-4dec-8360-6509d7cc653c',
+                        navn: 'fager - uløste oppgaver',
+                        filter: {
+                            route: '/saksoversikt',
+                            side: 1,
+                            tekstsoek: '',
+                            sakstyper: ['fager'],
+                            oppgaveFilter: ['TILSTAND_UTFOERT'],
+                        },
+                    },
                 ]);
             })
         );
         vi.useFakeTimers();
-        const { result } = renderHook(() => useLagredeFilter());
+        renderHook(() => useLagredeFilter());
         await act(async () => {
             vi.runOnlyPendingTimers();
             vi.useRealTimers();
         });
-
-        result.current?.lagredeFilter.forEach((filter) => {
-            ZodFilter.parse(filter.filter)
-        })
     });
 });
 

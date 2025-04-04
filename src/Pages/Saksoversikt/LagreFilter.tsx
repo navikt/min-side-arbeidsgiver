@@ -12,17 +12,20 @@ import {
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useRemoteStorage } from '../../hooks/useRemoteStorage';
-import { Set } from 'immutable';
 import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
-import { equalFilter, Filter, useSaksoversiktContext } from './SaksoversiktProvider';
-import { OppgaveFilterType, OppgaveTilstand, SakSortering } from '../../api/graphql-types';
+import {
+    equalFilter,
+    SaksoversiktFilter,
+    useSaksoversiktContext,
+    ZodSaksoversiktFilter,
+} from './SaksoversiktProvider';
 
 export type LagretFilter = {
     uuid: string;
     navn: string;
-    filter: Filter;
+    filter: SaksoversiktFilter;
 };
 
 const statusMapping = {
@@ -38,40 +41,11 @@ const statusMapping = {
     error: 'failed',
 } as const;
 
-function fiksSortering(filter: any): SakSortering {
-    if (filter in SakSortering) {
-        return filter;
-    }
-    return SakSortering.NyesteFørst;
-}
-
-export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
-    console.log(tilstand)
-    switch (tilstand) {
-        case OppgaveTilstand.Ny:
-            return OppgaveFilterType.Values.TILSTAND_NY;
-        case OppgaveTilstand.Utfoert:
-            return OppgaveFilterType.Values.TILSTAND_UTFOERT;
-        case OppgaveTilstand.Utgaatt:
-            return OppgaveFilterType.Values.TILSTAND_UTGAATT;
-        default:
-            return null
-    }
-}
-
-function fiksOppgaveFilter(filter: any) : string[] {
-    if (filter.oppgaveFilter !== undefined) {
-        return filter.oppgaveFilter;
-    }
-
-    return filter.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
-}
-
 export const useLagredeFilter = (): {
     lagredeFilter: LagretFilter[];
-    lagreNyttLagretFilter: (navn: string, filter: Filter) => LagretFilter;
+    lagreNyttLagretFilter: (navn: string, filter: SaksoversiktFilter) => LagretFilter;
     slettLagretFilter: (uuid: string) => void;
-    oppdaterLagretFilter: (uuid: string, filter: Filter) => void;
+    oppdaterLagretFilter: (uuid: string, filter: SaksoversiktFilter) => void;
     reloadLagredeFilter: () => void;
     status: 'initializing' | 'loading' | 'completed' | 'failed';
 } => {
@@ -80,12 +54,7 @@ export const useLagredeFilter = (): {
     >('lagrede-filter', [], (value) =>
         value.map((filter: any) => ({
             ...filter,
-            filter: {
-                ...filter.filter,
-                virksomheter: Set(filter.filter.virksomheter),
-                sortering: fiksSortering(filter.filter.sortering),
-                oppgaveFilter: fiksOppgaveFilter(filter.filter),
-            },
+            filter: ZodSaksoversiktFilter.parse(filter.filter),
         }))
     );
     const [action, setAction] = useState<
@@ -163,7 +132,7 @@ export const useLagredeFilter = (): {
         setAction(undefined);
     }, [storedValue]);
 
-    const lagreNyttLagretFilter = (navn: string, filter: Filter) => {
+    const lagreNyttLagretFilter = (navn: string, filter: SaksoversiktFilter) => {
         const uuid = uuidv4();
         const nyttLagretFilter = { uuid, navn, filter };
         setAction({ type: 'lagre', lagretFilter: nyttLagretFilter });
@@ -177,7 +146,7 @@ export const useLagredeFilter = (): {
         }
     };
 
-    const oppdaterLagretFilter = (uuid: string, filter: Filter) => {
+    const oppdaterLagretFilter = (uuid: string, filter: SaksoversiktFilter) => {
         const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
         if (lagretFilter) {
             setAction({ type: 'oppdater', lagretFilter: { ...lagretFilter, filter } });
