@@ -2,7 +2,7 @@ import { gql, TypedDocumentNode, useLazyQuery } from '@apollo/client';
 import { useContext, useEffect, useMemo } from 'react';
 import { Query } from '../../api/graphql-types';
 import { AlertContext } from '../Alerts';
-import { Filter } from './SaksoversiktProvider';
+import { SaksoversiktFilter } from './SaksoversiktProvider';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
@@ -148,7 +148,7 @@ const inkluderInntektsmelding = (sakstyper: string[]) => {
 
 export function useSaker(
     pageSize: number,
-    { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveFilter }: Filter
+    { side, tekstsoek, virksomheter, sortering, sakstyper, oppgaveFilter }: SaksoversiktFilter
 ) {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
 
