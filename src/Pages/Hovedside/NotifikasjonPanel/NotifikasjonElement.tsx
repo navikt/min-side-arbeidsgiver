@@ -17,7 +17,7 @@ interface NotifikasjonElementProps {
     undertittel?: string;
     visningstidspunkt?: Date;
     statuslinje?: ReactElement;
-    // handleKlikk: () => void;
+    handleKlikk: () => void;
 }
 
 const NotifikasjonElement = ({
@@ -31,7 +31,7 @@ const NotifikasjonElement = ({
     undertittel,
     visningstidspunkt,
     statuslinje,
-    // handleKlikk,
+    handleKlikk,
 }: NotifikasjonElementProps) => {
     const ref = useRef<HTMLAnchorElement>(null);
 
@@ -49,7 +49,7 @@ const NotifikasjonElement = ({
             ref={ref}
             href={notifikasjon.lenke}
             aria-label={tittel}
-            // onClick={handleClick}
+            onClick={handleKlikk}
         >
             <div className={clsx('notifikasjon-element', { fokusert: isFocused })} role="listitem">
                 <div
