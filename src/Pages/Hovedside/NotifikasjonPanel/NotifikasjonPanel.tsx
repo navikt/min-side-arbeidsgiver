@@ -174,7 +174,7 @@ const NotifikasjonPanel = () => {
             >
                 <div className="notifikasjon-left">
                     <div className="notifikasjon-icon">
-                        <BellFillIcon fontSize="2rem" color="#005B82" />
+                        <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
                             <span className="notifikasjon-badge">
                                 {antallUlesteNotifikasjoner < 10
@@ -217,9 +217,9 @@ const NotifikasjonPanel = () => {
 
                 <div className="notifikasjon-dropdown">
                     {erUtvidet ? (
-                        <ChevronUpIcon color="white" fontSize="2rem" />
+                        <ChevronUpIcon color="white" fontSize="2rem" aria-hidden />
                     ) : (
-                        <ChevronDownIcon color="white" fontSize="2rem" />
+                        <ChevronDownIcon color="white" fontSize="2rem" aria-hidden />
                     )}
                 </div>
             </div>
