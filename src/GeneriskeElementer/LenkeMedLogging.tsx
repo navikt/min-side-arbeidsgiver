@@ -1,4 +1,4 @@
-import { FunctionComponent, MouseEventHandler, ReactNode } from 'react';
+import { forwardRef, FunctionComponent, MouseEventHandler, ReactNode } from 'react';
 import {BodyShort, Link as DsLink, LinkProps } from '@navikt/ds-react';
 import {loggNavigasjon} from '../utils/analytics';
 import { useLocation, Link as ReactLink } from 'react-router-dom';
@@ -20,12 +20,27 @@ export const LenkeMedLogging: FunctionComponent<Props> = props => {
     return <BodyShort as={"span"}> <DsLink onClick={onClickLog} {...rest}/> </BodyShort>
 };
 
-export const InternLenkeMedLogging: FunctionComponent<Props> = ({onClick, loggLenketekst, href, children}) => {
-    const {pathname} = useLocation()
+export const InternLenkeMedLogging = forwardRef<HTMLAnchorElement, Props>(
+    ({ onClick, loggLenketekst, href, children, ...rest }, ref) => {
+        const { pathname } = useLocation();
 
-    const onClickLog: MouseEventHandler<HTMLAnchorElement> = event => {
-        loggNavigasjon(href, loggLenketekst, pathname);
-        onClick?.(event);
-    };
-    return <BodyShort as={"span"}> <DsLink as={ReactLink} onClick={onClickLog} to={href}>{children}</DsLink></BodyShort>
-};
+        const onClickLog: MouseEventHandler<HTMLAnchorElement> = event => {
+            loggNavigasjon(href, loggLenketekst, pathname);
+            onClick?.(event);
+        };
+
+        return (
+            <BodyShort as="span">
+                <DsLink
+                    as={ReactLink}
+                    to={href}
+                    onClick={onClickLog}
+                    ref={ref}
+                    {...rest}
+                >
+                    {children}
+                </DsLink>
+            </BodyShort>
+        );
+    }
+);

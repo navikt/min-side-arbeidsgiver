@@ -16,6 +16,7 @@ import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { InfoBokser } from './InfoBokser';
 import { Kalenderavtaler } from './Kalenderavtaler';
 import { ManglerKontonummerAlert } from './ManglerKontonummerAlert';
+import NotifikasjonPanel from './NotifikasjonPanel/NotifikasjonPanel';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
@@ -29,6 +30,7 @@ const Hovedside: FunctionComponent = () => {
                 <InfoBokser />
                 <AktueltRubrikk />
                 <SisteSaker />
+                <NotifikasjonPanel />
                 <Kalenderavtaler />
                 <Tjenestebokser />
                 <SøknaderOgSkjemaer />

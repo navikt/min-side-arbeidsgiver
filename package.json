@@ -14,6 +14,7 @@
     "@navikt/ds-react": "^7.17.3",
     "@navikt/nav-dekoratoren-moduler": "3.2.2",
     "@navikt/virksomhetsvelger": "0.1.0",
+    "clsx": "2.1.1",
     "fuzzysort": "^3.1.0",
     "immutable": "^5.0.3",
     "msw": "2.7.3",
