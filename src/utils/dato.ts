@@ -59,5 +59,5 @@ export const kalenderavtaleTidspunkt = (avtale: Kalenderavtale) => {
         hour12: false,
     });
 
-    return sluttStr !== null ? `${startStr} – ${sluttStr}` : startStr;
+    return sluttStr !== undefined ? `${startStr} – ${sluttStr}` : startStr;
 };
