@@ -29,7 +29,7 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKontonummerAlert />
                 <InfoBokser />
                 <AktueltRubrikk />
-                <SisteSaker />
+                {/*<SisteSaker />*/}
                 <NotifikasjonPanel />
                 <Kalenderavtaler />
                 <Tjenestebokser />
