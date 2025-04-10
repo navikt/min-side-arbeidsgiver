@@ -1,7 +1,7 @@
 import { Notifikasjon } from '../../../api/graphql-types';
 import React, { KeyboardEvent, ReactElement, useEffect, useRef } from 'react';
 import clsx from 'clsx';
-import { BodyLong, BodyShort, Detail } from '@navikt/ds-react';
+import { BodyShort, Detail } from '@navikt/ds-react';
 import { sendtDatotekst } from '../../../utils/dato';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
 import './NotifikasjonElement.css';

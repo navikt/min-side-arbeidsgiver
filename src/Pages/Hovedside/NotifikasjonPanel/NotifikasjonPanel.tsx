@@ -7,7 +7,6 @@ import {
     NotifikasjonKlikketPaaResultat,
     Query,
 } from '../../../api/graphql-types';
-import { Set } from 'immutable';
 import {
     BellFillIcon,
     ChevronDownIcon,
@@ -96,6 +95,9 @@ const NotifikasjonPanel = () => {
         const maksLengde = data?.notifikasjoner?.notifikasjoner?.length ?? 0;
         logAnalyticsEvent('piltast-navigasjon', {});
         switch (e.key) {
+            case 'Enter':
+                e.stopPropagation();
+                return;
             case 'ArrowDown':
                 e.preventDefault();
                 setFocusedNotifikasjonIndex((prev) => (prev < maksLengde - 1 ? prev + 1 : prev));
@@ -134,8 +136,8 @@ const NotifikasjonPanel = () => {
 
     if (loading || !data || data.notifikasjoner.notifikasjoner.length === 0) return null;
 
-    const sakstyper = Array(
-        ...Set<string>(
+    const notifikasjonMerkelapper = Array.from(
+        new Set(
             data.notifikasjoner.notifikasjoner.map(({ merkelapp }) =>
                 merkelapp.includes('Inntektsmelding') ? 'Inntektsmelding' : merkelapp
             )
@@ -194,7 +196,7 @@ const NotifikasjonPanel = () => {
                 </div>
 
                 <div className="notifikasjon-tags">
-                    {sakstyper.slice(0, maksTags).map((sakstype) => (
+                    {notifikasjonMerkelapper.slice(0, maksTags).map((sakstype) => (
                         <Tag
                             key={sakstype}
                             size="small"
@@ -204,13 +206,13 @@ const NotifikasjonPanel = () => {
                             {sakstype}
                         </Tag>
                     ))}
-                    {sakstyper.length > maksTags && (
+                    {notifikasjonMerkelapper.length > maksTags && (
                         <Tag
                             size="small"
                             variant={harUleste ? 'alt3-filled' : 'neutral'}
                             className={clsx({ 'notifikasjon-tag': harUleste })}
                         >
-                            + {sakstyper.length - maksTags}
+                            + {notifikasjonMerkelapper.length - maksTags}
                         </Tag>
                     )}
                 </div>
