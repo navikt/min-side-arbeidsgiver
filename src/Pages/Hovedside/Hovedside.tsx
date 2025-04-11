@@ -17,6 +17,7 @@ import { InfoBokser } from './InfoBokser';
 import { Kalenderavtaler } from './Kalenderavtaler';
 import { ManglerKontonummerAlert } from './ManglerKontonummerAlert';
 import NotifikasjonPanel from './NotifikasjonPanel/NotifikasjonPanel';
+import EndreKontonummerInfo from './EndreKontonummerInfo';
 const Hovedside: FunctionComponent = () => {
     useOversiktsfilterClearing();
 
@@ -27,6 +28,7 @@ const Hovedside: FunctionComponent = () => {
                 <Alerts />
                 <ManglerKofuviAlert />
                 <ManglerKontonummerAlert />
+                <EndreKontonummerInfo />
                 <InfoBokser />
                 <AktueltRubrikk />
                 {/*<SisteSaker />*/}
