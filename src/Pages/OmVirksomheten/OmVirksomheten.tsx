@@ -5,7 +5,7 @@ import OverordnetEnhet from './OverordnetEnhet';
 import './OmVirksomheten.css';
 import { Box } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
-import EndreKontonummerInfo from '../Hovedside/EndreKontonummerInfo';
+import { InfoBokser } from '../Hovedside/InfoBokser';
 
 const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
     <Box className="informasjon-om-bedrift">{children}</Box>
@@ -24,7 +24,7 @@ const OmVirksomheten: FunctionComponent = () => {
             {overordnetenhet !== undefined && underenhet !== undefined ? (
                 <>
                     <Box className="alert-container">
-                        <EndreKontonummerInfo />
+                        <InfoBokser onlyShowIds={['endre-kontonummer-11-04-2025']} />
                     </Box>
                     <Kontaktpanel>
                         <Underenhet underenhet={underenhet} />
