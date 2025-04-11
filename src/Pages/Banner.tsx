@@ -52,7 +52,7 @@ export const BannerMedBedriftsmeny: FunctionComponent<{
                 onChange={endreOrganisasjon}
                 initValgtOrgnr={valgtOrganisasjon.organisasjon.orgnr}
             />
-            <NotifikasjonWidget />
+            {/*<NotifikasjonWidget />*/}
         </Banner>
     );
 };

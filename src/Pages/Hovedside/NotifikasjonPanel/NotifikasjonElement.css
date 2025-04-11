@@ -1,0 +1,67 @@
+.notifikasjon-element {
+    display: flex;
+    border-bottom: 1px solid var(--a-gray-200);
+    position: relative;
+}
+
+.notifikasjon-element:hover,
+.notifikasjon-element:focus {
+    background-color: var(--a-gray-50);
+    outline: none;
+}
+
+.notifikasjon-element.fokusert {
+    background-color: var(--a-blue-100);
+}
+
+.notifikasjon-element.fokusert::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 2px solid var(--a-blue-600);
+    pointer-events: none;
+}
+
+.notifikasjon-element-left-border {
+    width: 8px;
+    flex-shrink: 0;
+}
+
+.gul-border {
+    background-color: var(--a-orange-200);
+}
+
+.blå-border {
+    background-color: var(--a-lightblue-600);
+}
+
+.notifikasjon-element-innhold {
+    padding: 16px 24px;
+    flex-grow: 1;
+}
+
+.notifikasjon-element-melding {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.notifikasjon-element-ikon {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.notifikasjon-element-ikon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.notifikasjon-element-pil {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
