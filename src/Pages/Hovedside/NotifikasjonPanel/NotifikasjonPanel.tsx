@@ -20,11 +20,13 @@ import { gql, TypedDocumentNode, useQuery, useMutation } from '@apollo/client';
 import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
 import { useOnClickOutside } from '../../../hooks/useClickOutside';
+import { useBreakpoint } from '../../../hooks/useBreakpoint';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error } = useHentNotifikasjoner();
     const useNotifikasjonKlikketPaa = () => useMutation(NOTIFIKASJONER_KLIKKET_PAA);
     const [notifikasjonKlikketPaa] = useNotifikasjonKlikketPaa();
+    const erMobil = useBreakpoint();
 
     useEffect(() => {
         if (data?.notifikasjoner?.notifikasjoner && data.notifikasjoner.notifikasjoner.length > 0) {
@@ -59,7 +61,7 @@ const NotifikasjonPanel = () => {
         }
     }, [erUtvidet]);
 
-    const maksTags = 8;
+    const maksTags = erMobil ? 3 : 8;
 
     const toggleUtvidet = () => {
         const nyVerdi = !erUtvidet;
