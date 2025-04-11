@@ -20,7 +20,7 @@ const EndreKontonummerInfo = () => {
             <Heading spacing size="small" level="3">
                 Endringer i tilgang til å endre kontonummer hos NAV
             </Heading>
-            <BodyLong spacing>
+            <BodyLong>
                 Fra 1. mai 2025 strammes reglene inn for hvem som kan endre kontonummer for
                 refusjoner fra NAV.<br />For å gjøre slike endringer, må du ha tilgang til
                 enkelttjenesten: "Endre bankkontonummer for refusjoner fra NAV til arbeidsgiver". Se
