@@ -19,6 +19,7 @@ import { InternLenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLoggi
 import { gql, TypedDocumentNode, useQuery, useMutation } from '@apollo/client';
 import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
+import { useOnClickOutside } from '../../../hooks/useClickOutside';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error } = useHentNotifikasjoner();
@@ -75,6 +76,13 @@ const NotifikasjonPanel = () => {
     const notifikasjonContainerRef = useRef<HTMLDivElement>(null);
     const søkLinkRef = useRef<HTMLAnchorElement>(null);
     // const skjulPanelRef = useRef<HTMLButtonElement>(null);
+
+    useOnClickOutside(notifikasjonContainerRef, () => {
+        if (erUtvidet) {
+            setErUtvidet(false);
+            setFocusedNotifikasjonIndex(-1);
+        }
+    });
 
     const handleNotifikasjonContainerKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter' || e.key === ' ') {
