@@ -1,7 +1,6 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, ReactNode, useEffect } from 'react';
 import { Banner, findRecursive, Virksomhetsvelger } from '@navikt/virksomhetsvelger';
 import '@navikt/virksomhetsvelger/dist/assets/style.css';
-import { NotifikasjonWidget } from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { useSearchParams } from 'react-router-dom';
 import { Heading, Loader } from '@navikt/ds-react';
 import './Banner.css';
@@ -26,7 +25,8 @@ export const SaksoversiktBanner = () => (
 
 export const BannerMedBedriftsmeny: FunctionComponent<{
     sidetittel: string;
-}> = ({ sidetittel }) => {
+    widget?: ReactNode
+}> = ({ sidetittel, widget }) => {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
     const { endreOrganisasjon, valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
@@ -52,7 +52,7 @@ export const BannerMedBedriftsmeny: FunctionComponent<{
                 onChange={endreOrganisasjon}
                 initValgtOrgnr={valgtOrganisasjon.organisasjon.orgnr}
             />
-            {/*<NotifikasjonWidget />*/}
+            {widget}
         </Banner>
     );
 };
