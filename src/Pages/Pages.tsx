@@ -61,7 +61,7 @@ export const createApolloClient = (uri: string) =>
                             // do not retry 401
                             return false;
                         }
-                        return !!error;
+                        return error;
                     },
                 },
             }),
