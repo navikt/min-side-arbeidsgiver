@@ -5,8 +5,6 @@ import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, HelpText, Tag } from '@navikt/ds-react';
-import { Link as DsLink } from '@navikt/ds-react/esm/link';
-import { Link as ReactLink } from 'react-router-dom';
 
 interface TjenesteInfo {
     tittel: string;

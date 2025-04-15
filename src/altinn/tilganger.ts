@@ -1,4 +1,4 @@
-import { Altinn2Tilgang, altinntjeneste, AltinntjenesteId } from './tjenester';
+import { Altinn2Tilgang } from './tjenester';
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useMemo, useState } from 'react';
