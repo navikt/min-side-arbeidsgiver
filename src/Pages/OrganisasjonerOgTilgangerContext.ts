@@ -1,6 +1,11 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import * as Record from '../utils/Record';
-import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
+import {
+    Altinn2Tilgang,
+    altinntjeneste,
+    AltinntjenesteId,
+    isAltinn2Tilgang,
+} from '../altinn/tjenester';
 import { Set, Map } from 'immutable';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { useUserInfo } from '../hooks/useUserInfo';
@@ -16,7 +21,8 @@ export type Søknadsstatus =
     | { tilgang: 'søknad opprettet'; url: string }
     | { tilgang: 'søkt' }
     | { tilgang: 'godkjent' }
-    | { tilgang: 'ikke søkt' };
+    | { tilgang: 'ikke søkt' }
+    | { tilgang: 'ikke søkbar' };
 
 export interface Organisasjon {
     orgnr: string;
@@ -74,15 +80,15 @@ export const useBeregnAltinnTilgangssøknad = (
             Object.values(organisasjonsInfo).map((org) => {
                 return [
                     org.organisasjon.orgnr,
-                    Record.map(
-                        altinntjeneste,
-                        (_: AltinntjenesteId, { tjenestekode, tjenesteversjon }) =>
-                            sjekkTilgangssøknader(
-                                org.organisasjon.orgnr,
-                                tjenestekode,
-                                tjenesteversjon,
-                                altinnTilgangssøknader
-                            )
+                    Record.map(altinntjeneste, (_: AltinntjenesteId, altinnTjeneste) =>
+                        isAltinn2Tilgang(altinnTjeneste)
+                            ? sjekkTilgangssøknader(
+                                  org.organisasjon.orgnr,
+                                  (altinnTjeneste as Altinn2Tilgang).tjenestekode,
+                                  (altinnTjeneste as Altinn2Tilgang).tjenesteversjon,
+                                  altinnTilgangssøknader
+                              )
+                            : { tilgang: 'ikke søkbar' }
                     ),
                 ];
             })
@@ -178,12 +184,12 @@ export const useBeregnOrganisasjonsInfo = ():
             })
         );
 
-        console.log("digisyfoOrganisassjonerflatt")
-        console.log(digisyfoOrganisasjonerFlatt)
-        console.log("altinnOrganisassjonerflatt")
-        console.log(altinnOrganisasjonerFlatt)
-        console.log("alleOrganisasjonerFlatt")
-        console.log(alleOrganisasjonerFlatt)
+        console.log('digisyfoOrganisassjonerflatt');
+        console.log(digisyfoOrganisasjonerFlatt);
+        console.log('altinnOrganisassjonerflatt');
+        console.log(altinnOrganisasjonerFlatt);
+        console.log('alleOrganisasjonerFlatt');
+        console.log(alleOrganisasjonerFlatt);
         const organisasjonsInfo = Record.fromEntries(
             alleOrganisasjonerFlatt.map((org) => {
                 const refusjonstatus = userInfo.refusjoner.find(

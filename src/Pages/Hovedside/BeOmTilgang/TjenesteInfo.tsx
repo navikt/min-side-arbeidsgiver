@@ -4,7 +4,9 @@ import './TjenesteInfo.css';
 import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import {BodyShort, HelpText, Tag} from "@navikt/ds-react";
+import { BodyShort, HelpText, Tag } from '@navikt/ds-react';
+import { Link as DsLink } from '@navikt/ds-react/esm/link';
+import { Link as ReactLink } from 'react-router-dom';
 
 interface TjenesteInfo {
     tittel: string;
@@ -16,24 +18,24 @@ interface EnAltinnId {
 }
 
 interface BeOmTilgangAction {
-    eksternSide?: boolean; /* default value: false */
+    eksternSide?: boolean /* default value: false */;
     href?: string;
     onClick?: MouseEventHandler<unknown>;
 }
 
 const hentInfo = (props: TjenesteInfo | EnAltinnId): [string, string] => {
     if ('altinnId' in props) {
-        const tjeneste = altinntjeneste[props.altinnId]
-        return [tjeneste.beOmTilgangTittel ?? tjeneste.navn, tjeneste.beOmTilgangBeskrivelse]
+        const tjeneste = altinntjeneste[props.altinnId];
+        return [tjeneste.beOmTilgangTittel ?? tjeneste.navn, tjeneste.beOmTilgangBeskrivelse];
     } else {
-        return [props.tittel, props.beskrivelse]
+        return [props.tittel, props.beskrivelse];
     }
-}
+};
 
 export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgangAction) => {
-    const [tittel, beskrivelse] = hentInfo(props)
+    const [tittel, beskrivelse] = hentInfo(props);
 
-    const onClickAction: MouseEventHandler<unknown> = event => {
+    const onClickAction: MouseEventHandler<unknown> = (event) => {
         if (props.href === undefined) {
             event.preventDefault();
         }
@@ -44,15 +46,22 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
 
     return (
         <>
-            <LenkeMedLogging
-                loggLenketekst={`be om tilgang-${tittel}`}
-                href={props.href ?? ''}
-                onClick={onClickAction}
-                className="be-om-tilgang-lenke"
-            >
-                <span>{tittel} – be om tilgang</span>
-                {props.eksternSide ?? false ? <NyFaneIkon /> : null}
-            </LenkeMedLogging>
+            {props.href !== undefined || props.onClick !== undefined ? (
+                <LenkeMedLogging
+                    loggLenketekst={`be om tilgang-${tittel}`}
+                    href={props.href ?? ''}
+                    onClick={onClickAction}
+                    className="be-om-tilgang-lenke"
+                >
+                    <span>{tittel} – be om tilgang</span>
+                    {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
+                </LenkeMedLogging>
+            ) : (
+                <BodyShort as={'span'}>
+                    <span>{tittel}</span>
+                    {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
+                </BodyShort>
+            )}
             <BodyShort>{beskrivelse}</BodyShort>
         </>
     );
@@ -83,19 +92,21 @@ export interface AltinntilgangAlleredeSøktProps {
     type: 'suksess' | 'info';
 }
 
-export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAlleredeSøktProps>
-    = ({ altinnId , status, statusBeskrivelse}) => {
-    return <>
-        <div className="header">
-            <span>{altinntjeneste[altinnId].navn}</span>
-            <Tag className="tilgang-sokt-etikett" variant="info" size="medium">
-                <span>{status}</span>
-                <HelpText title="Hva skjer videre?">
-                    {statusBeskrivelse}
-                </HelpText>
-            </Tag>
-        </div>
-        <BodyShort>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</BodyShort>
-    </>
-}
-
+export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAlleredeSøktProps> = ({
+    altinnId,
+    status,
+    statusBeskrivelse,
+}) => {
+    return (
+        <>
+            <div className="header">
+                <span>{altinntjeneste[altinnId].navn}</span>
+                <Tag className="tilgang-sokt-etikett" variant="info" size="medium">
+                    <span>{status}</span>
+                    <HelpText title="Hva skjer videre?">{statusBeskrivelse}</HelpText>
+                </Tag>
+            </div>
+            <BodyShort>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</BodyShort>
+        </>
+    );
+};
