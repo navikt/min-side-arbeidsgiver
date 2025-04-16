@@ -1,4 +1,4 @@
-import { Altinn2Tilgang } from './tjenester';
+import { altinntjeneste, AltinntjenesteId } from './tjenester';
 import { z } from 'zod';
 import useSWR from 'swr';
 import { useMemo, useState } from 'react';
@@ -55,7 +55,7 @@ const fetcher = async (url: string) => {
 export interface AltinnTilgangssøknadskjema {
     orgnr: string;
     redirectUrl: string;
-    altinn2Tilgang: Altinn2Tilgang;
+    altinnId: AltinntjenesteId;
 }
 
 export interface AltinnTilgangssøknadskjemaDTO {
@@ -71,8 +71,8 @@ export const opprettAltinnTilgangssøknad = async (
     const dto: AltinnTilgangssøknadskjemaDTO = {
         orgnr: skjema.orgnr,
         redirectUrl: skjema.redirectUrl,
-        serviceCode: skjema.altinn2Tilgang.tjenestekode,
-        serviceEdition: parseInt(skjema.altinn2Tilgang.tjenesteversjon),
+        serviceCode: altinntjeneste[skjema.altinnId].tjenestekode,
+        serviceEdition: parseInt(altinntjeneste[skjema.altinnId].tjenesteversjon),
     };
 
     const response = await fetch(altinnTilgangssøknadUrl, {

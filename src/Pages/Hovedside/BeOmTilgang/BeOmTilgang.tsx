@@ -4,12 +4,7 @@ import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerContext';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
-import {
-    Altinn2Tilgang,
-    altinntjeneste,
-    AltinntjenesteId,
-    isAltinn2Tilgang, isAltinn3Tilgang,
-} from '../../../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
@@ -34,18 +29,19 @@ const altinnIdIRekkefølge: AltinntjenesteId[] = [
 ];
 
 const beOmTilgangUrlFallback = (
-    altinn2Tilgang: Altinn2Tilgang,
+    altinnId: AltinntjenesteId,
     valgtOrganisasjon: OrganisasjonInfo
 ): string => {
+    const tjeneste = altinntjeneste[altinnId];
     return beOmTilgangIAltinnLink(
         valgtOrganisasjon.organisasjon.orgnr,
-        altinn2Tilgang.tjenestekode,
-        altinn2Tilgang.tjenesteversjon
+        tjeneste.tjenestekode,
+        tjeneste.tjenesteversjon
     );
 };
 
 const opprettSøknad = (
-    altinn2Tilgang: Altinn2Tilgang,
+    altinnId: AltinntjenesteId,
     valgtOrganisasjon: OrganisasjonInfo
 ): MouseEventHandler<unknown> => {
     let harTrykket = false; /* ikke opprett to søknader hvis bruker klikker raskt på knappen. */
@@ -58,21 +54,18 @@ const opprettSøknad = (
         redirectUrl.searchParams.set('fragment', 'be-om-tilgang');
         opprettAltinnTilgangssøknad({
             orgnr: valgtOrganisasjon.organisasjon.orgnr,
-            altinn2Tilgang: altinn2Tilgang,
+            altinnId,
             redirectUrl: redirectUrl.toString(),
         })
             .then((søknad) => {
                 if (søknad === null) {
-                    window.location.href = beOmTilgangUrlFallback(
-                        altinn2Tilgang,
-                        valgtOrganisasjon
-                    );
+                    window.location.href = beOmTilgangUrlFallback(altinnId, valgtOrganisasjon);
                 } else {
                     window.location.href = søknad.submitUrl;
                 }
             })
             .catch(() => {
-                window.location.href = beOmTilgangUrlFallback(altinn2Tilgang, valgtOrganisasjon);
+                window.location.href = beOmTilgangUrlFallback(altinnId, valgtOrganisasjon);
             });
     };
 };
@@ -102,62 +95,49 @@ const BeOmTilgang: FunctionComponent = () => {
         const tilgangssøknader = altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.orgnr];
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
+            const tilgangsøknad = tilgangssøknader?.[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            }
-            const altinnTjeneste = altinntjeneste[altinnId];
-
-            if (isAltinn2Tilgang(altinnTjeneste)) {
-                const tilgangsøknad = tilgangssøknader?.[altinnId];
-                if (tilgangsøknad === undefined || tilgangsøknad.tilgang === 'ikke søkt') {
-                    tjenesteinfoBokser.push(
-                        <BeOmTilgangBoks
-                            altinnId={altinnId}
-                            onClick={opprettSøknad(altinnTjeneste as Altinn2Tilgang, valgtOrganisasjon)}
-                            eksternSide={true}
-                        />
-                    );
-                } else if (tilgangsøknad.tilgang === 'søknad opprettet') {
-                    tjenesteinfoBokser.push(
-                        <BeOmTilgangBoks
-                            altinnId={altinnId}
-                            href={tilgangsøknad.url}
-                            eksternSide={true}
-                        />
-                    );
-                } else if (tilgangsøknad.tilgang === 'søkt') {
-                    tjenesteinfoBokser.push(
-                        <AltinntilgangAlleredeSøkt
-                            altinnId={altinnId}
-                            type="info"
-                            status="Tilgang etterspurt"
-                            statusBeskrivelse={`
+            } else if (tilgangsøknad === undefined || tilgangsøknad.tilgang === 'ikke søkt') {
+                tjenesteinfoBokser.push(
+                    <BeOmTilgangBoks
+                        altinnId={altinnId}
+                        onClick={opprettSøknad(altinnId, valgtOrganisasjon)}
+                        eksternSide={true}
+                    />
+                );
+            } else if (tilgangsøknad.tilgang === 'søknad opprettet') {
+                tjenesteinfoBokser.push(
+                    <BeOmTilgangBoks
+                        altinnId={altinnId}
+                        href={tilgangsøknad.url}
+                        eksternSide={true}
+                    />
+                );
+            } else if (tilgangsøknad.tilgang === 'søkt') {
+                tjenesteinfoBokser.push(
+                    <AltinntilgangAlleredeSøkt
+                        altinnId={altinnId}
+                        type="info"
+                        status="Tilgang etterspurt"
+                        statusBeskrivelse={`
                             Du vil motta et varsel fra Altinn når
                             forespørselen er behandlet og tilganger er på plass.
                     `}
-                        />
-                    );
-                } else if (tilgangsøknad.tilgang === 'godkjent') {
-                    tjenesteinfoBokser.push(
-                        <AltinntilgangAlleredeSøkt
-                            altinnId={altinnId}
-                            type="suksess"
-                            status="Forespørsel godkjent"
-                            statusBeskrivelse={`
+                    />
+                );
+            } else if (tilgangsøknad.tilgang === 'godkjent') {
+                tjenesteinfoBokser.push(
+                    <AltinntilgangAlleredeSøkt
+                        altinnId={altinnId}
+                        type="suksess"
+                        status="Forespørsel godkjent"
+                        statusBeskrivelse={`
                         Forespørselen er behandlet og er godkjent. Det kan
                         ta litt tid før tjenesten blir tilgjengelig for deg.
                     `}
-                        />
-                    );
-                }
-            }
-            else if (isAltinn3Tilgang(altinnTjeneste)){
-                tjenesteinfoBokser.push(
-                    <BeOmTilgangBoks
-                        tittel={altinnTjeneste.navn}
-                        beskrivelse={altinnTjeneste.beOmTilgangBeskrivelse}
                     />
-                )
+                );
             }
         }
     }

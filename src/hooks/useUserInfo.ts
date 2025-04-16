@@ -1,12 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import {
-    Altinn2Tilgang,
-    Altinn3Tilgang,
-    altinntjeneste,
-    AltinntjenesteId,
-    isAltinn2Tilgang,
-} from '../altinn/tjenester';
+import { altinntjeneste, AltinntjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { Set } from 'immutable';
 import { useState } from 'react';
@@ -27,7 +21,7 @@ export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
  */
 const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
     Object.entries(altinntjeneste).map(([key, value]) => [
-        isAltinn2Tilgang(value) ? (value as Altinn2Tilgang).tjenestekode + ':' + (value as Altinn2Tilgang).tjenesteversjon : (value as Altinn3Tilgang).ressurs,
+        value.tjenestekode + ':' + value.tjenesteversjon,
         key,
     ])
 );

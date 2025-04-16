@@ -23,38 +23,20 @@ export const NAVtjenesteId = [
 ];
 export type NAVtjenesteId = (typeof NAVtjenesteId)[number];
 
-export type AltinnFellesInfo = {
+export interface AltinnFellesInfo {
     navn: string;
+    tjenestekode: string;
+    tjenesteversjon: string;
     beOmTilgangTittel?: string;
     beOmTilgangBeskrivelse: string /* Fravær av beskrivelse betyr man ikke kan søke om tilgang */;
 }
-export type Altinn2Tilgang = {
-    tjenestekode: string;
-    tjenesteversjon: string;
-}
 
-export type Altinn3Tilgang = {
-    ressurs: string
-}
-
-export function isAltinn2Tilgang(
-    altinn: Altinn
-): boolean {
-    return 'tjenestekode' in altinn && 'tjenesteversjon' in altinn;
-}
-
-export function isAltinn3Tilgang(
-    altinn: Altinn
-): boolean {
-    return 'ressurs' in altinn;
-}
-
-export type Altinnskjema = AltinnFellesInfo & (Altinn2Tilgang | Altinn3Tilgang) & {
+export interface Altinnskjema extends AltinnFellesInfo {
     sort: 'skjema';
     skjemaUrl: string;
 }
 
-export type NAVTjeneste = AltinnFellesInfo & (Altinn2Tilgang | Altinn3Tilgang) & {
+export interface NAVTjeneste extends AltinnFellesInfo {
     sort: 'tjeneste';
 }
 
@@ -192,18 +174,22 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         Du kan søke om tilskudd for å dekke merkostnader du som
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
     },
+
     sykefravarstatistikk: {
         sort: 'tjeneste',
         navn: 'Sykefraværsstatistikk',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Virksomhetens legemeldte sykefraværsstatistikk» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
-        ressurs: "nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk"
+        beOmTilgangBeskrivelse: `Oversikt over sykefravær i din virksomhet og bransje.`,
+        tjenestekode: '3403',
+        tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
     },
+
     forebyggefravar: {
         sort: 'tjeneste',
         navn: 'Forebygge fravær',
         beOmTilgangBeskrivelse:
-            'Du må ha enkeltrettigheten «Verktøy for å forebygge og redusere sykefravær i virksomheten» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.',
-        ressurs: "nav_forebygge-og-redusere-sykefravar_samarbeid"
+            'Få tilgang til å redigere eller se endringer andre har gjort i planen for å forebygge fravær.',
+        tjenestekode: '5934',
+        tjenesteversjon: '1',
     },
 
     rekruttering: {
