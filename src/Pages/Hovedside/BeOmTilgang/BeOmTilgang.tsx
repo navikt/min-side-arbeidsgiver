@@ -8,7 +8,8 @@ import {
     Altinn2Tilgang,
     altinntjeneste,
     AltinntjenesteId,
-    isAltinn2Tilgang, isAltinn3Tilgang,
+    isAltinn2Tilgang,
+    isAltinn3Tilgang,
 } from '../../../altinn/tjenester';
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
@@ -102,18 +103,19 @@ const BeOmTilgang: FunctionComponent = () => {
         const tilgangssøknader = altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.orgnr];
         for (let altinnId of altinnIdIRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
+            const altinnTjeneste = altinntjeneste[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            }
-            const altinnTjeneste = altinntjeneste[altinnId];
-
-            if (isAltinn2Tilgang(altinnTjeneste)) {
+            } else if (isAltinn2Tilgang(altinnTjeneste)) {
                 const tilgangsøknad = tilgangssøknader?.[altinnId];
                 if (tilgangsøknad === undefined || tilgangsøknad.tilgang === 'ikke søkt') {
                     tjenesteinfoBokser.push(
                         <BeOmTilgangBoks
                             altinnId={altinnId}
-                            onClick={opprettSøknad(altinnTjeneste as Altinn2Tilgang, valgtOrganisasjon)}
+                            onClick={opprettSøknad(
+                                altinnTjeneste as Altinn2Tilgang,
+                                valgtOrganisasjon
+                            )}
                             eksternSide={true}
                         />
                     );
@@ -150,14 +152,13 @@ const BeOmTilgang: FunctionComponent = () => {
                         />
                     );
                 }
-            }
-            else if (isAltinn3Tilgang(altinnTjeneste)){
+            } else if (isAltinn3Tilgang(altinnTjeneste)) {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
                         tittel={altinnTjeneste.navn}
                         beskrivelse={altinnTjeneste.beOmTilgangBeskrivelse}
                     />
-                )
+                );
             }
         }
     }
