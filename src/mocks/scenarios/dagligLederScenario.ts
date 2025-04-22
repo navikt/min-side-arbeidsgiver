@@ -27,8 +27,8 @@ const alleTilganger = [
     '5516:3', // sommerjobb
     '5516:4', // mentortilskudd
     '5516:5', // inkluderingstilskudd
-    '3403:1', // sykefravarstatistikk
-    '5934:1', // forebyggefravar
+    'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk', // sykefravarstatistikk
+    'nav_forebygge-og-redusere-sykefravar_samarbeid', // forebyggefravar
     '5078:1', // rekruttering
     '5278:1', // tilskuddsbrev
     '5902:1', // yrkesskade
