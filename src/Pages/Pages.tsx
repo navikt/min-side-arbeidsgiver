@@ -15,7 +15,11 @@ import { OrganisasjonsDetaljerProvider } from './OrganisasjonsDetaljerProvider';
 import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
 import { loggSidevisning } from '../utils/analytics';
 import './Pages.css';
-import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client';
+import {
+    NotifikasjonWidget,
+    NotifikasjonWidgetProvider,
+} from '@navikt/arbeidsgiver-notifikasjon-widget';
 import { BannerMedBedriftsmeny, Brodsmulesti, SaksoversiktBanner } from './Banner';
 import { Saksoversikt } from './Saksoversikt/Saksoversikt';
 import { Alert, Link } from '@navikt/ds-react';
@@ -26,6 +30,7 @@ import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
 import { MsaErrorBoundary } from './MsaErrorBoundary';
 import { AnalyticsScripts } from './AnalyticsScripts';
 import { ConsentProvider } from './ConsentContext';
+import { RetryLink } from '@apollo/client/link/retry';
 
 const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     prod: 'prod',
@@ -44,6 +49,26 @@ const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (p
     return <>{props.children}</>;
 };
 
+export const createApolloClient = (uri: string) =>
+    new ApolloClient({
+        cache: new InMemoryCache(),
+        link: from([
+            new RetryLink({
+                attempts: {
+                    max: 25,
+                    retryIf: (error, _operation) => {
+                        if (error.statusCode === 401) {
+                            // do not retry 401
+                            return false;
+                        }
+                        return error;
+                    },
+                },
+            }),
+            new HttpLink({ uri }),
+        ]),
+    });
+
 const Pages: FunctionComponent = () => (
     <MsaErrorBoundary>
         <ConsentProvider>
@@ -55,13 +80,14 @@ const Pages: FunctionComponent = () => (
                     }}
                 >
                     <LoginBoundary>
-                        <NotifikasjonWidgetProvider
-                            miljo={miljø}
-                            apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
-                        >
-                            <BrowserRouter basename={__BASE_PATH__}>
-                                <AmplitudeSidevisningEventLogger>
-                                    <AlertsProvider>
+                        <BrowserRouter basename={__BASE_PATH__}>
+                            <AmplitudeSidevisningEventLogger>
+                                <AlertsProvider>
+                                    <ApolloProvider
+                                        client={createApolloClient(
+                                            `${__BASE_PATH__}/notifikasjon-bruker-api`
+                                        )}
+                                    >
                                         <OrganisasjonerOgTilgangerProvider>
                                             <OrganisasjonsDetaljerProvider>
                                                 <Routes>
@@ -90,6 +116,27 @@ const Pages: FunctionComponent = () => (
                                                             </>
                                                         }
                                                     />
+                                                    {miljø !== 'prod' && (
+                                                        <Route
+                                                            path="/notifikasjon-widget"
+                                                            element={
+                                                                <NotifikasjonWidgetProvider
+                                                                    miljo={miljø}
+                                                                    apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
+                                                                >
+                                                                    <BannerMedBedriftsmeny
+                                                                        sidetittel={
+                                                                            'Min side – arbeidsgiver'
+                                                                        }
+                                                                        widget={
+                                                                            <NotifikasjonWidget />
+                                                                        }
+                                                                    />
+                                                                    <Hovedside />
+                                                                </NotifikasjonWidgetProvider>
+                                                            }
+                                                        />
+                                                    )}
                                                     <Route
                                                         path="/saksoversikt"
                                                         element={
@@ -138,10 +185,10 @@ const Pages: FunctionComponent = () => (
                                                 </Routes>
                                             </OrganisasjonsDetaljerProvider>
                                         </OrganisasjonerOgTilgangerProvider>
-                                    </AlertsProvider>
-                                </AmplitudeSidevisningEventLogger>
-                            </BrowserRouter>
-                        </NotifikasjonWidgetProvider>
+                                    </ApolloProvider>
+                                </AlertsProvider>
+                            </AmplitudeSidevisningEventLogger>
+                        </BrowserRouter>
                     </LoginBoundary>
                 </SWRConfig>
             </div>
