@@ -298,6 +298,8 @@ const useHentNotifikasjoner = () => {
     const HENT_NOTIFIKASJONER: TypedDocumentNode<Pick<Query, 'notifikasjoner'>> = gql`
         query hentNotifikasjoner {
             notifikasjoner {
+                feilAltinn
+                feilDigiSyfo
                 notifikasjoner {
                     __typename
                     ... on Beskjed {
