@@ -5,6 +5,20 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.notifikasjon-container:focus-visible {
+    outline: 3px solid var(--a-border-focus);
+    outline-offset: 2px;
+}
+
+.notifikasjon-container:focus {
+    outline: 3px solid var(--a-border-focus);
+    outline-offset: 2px;
+}
+
+.notifikasjon-container:focus:not(:focus-visible) {
+    outline: none;
+}
+
 .notifikasjon-container:hover .notifikasjon-tekst h2 {
     text-decoration: underline;
 }
