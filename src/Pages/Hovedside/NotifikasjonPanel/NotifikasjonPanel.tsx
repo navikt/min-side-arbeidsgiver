@@ -11,8 +11,7 @@ import {
     BellFillIcon,
     ChevronDownIcon,
     ChevronUpIcon,
-    ExpandIcon,
-    XMarkIcon,
+    ExpandIcon
 } from '@navikt/aksel-icons';
 import clsx from 'clsx';
 import { InternLenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
@@ -27,6 +26,12 @@ const NotifikasjonPanel = () => {
     const useNotifikasjonKlikketPaa = () => useMutation(NOTIFIKASJONER_KLIKKET_PAA);
     const [notifikasjonKlikketPaa] = useNotifikasjonKlikketPaa();
     const erMobil = useBreakpoint();
+
+    useEffect(() => {
+        if (error) {
+            console.error('Error fetching notifications:', error);
+        }
+    }, [error]);
 
     useEffect(() => {
         if (data?.notifikasjoner?.notifikasjoner && data.notifikasjoner.notifikasjoner.length > 0) {
@@ -77,7 +82,6 @@ const NotifikasjonPanel = () => {
 
     const notifikasjonContainerRef = useRef<HTMLDivElement>(null);
     const søkLinkRef = useRef<HTMLAnchorElement>(null);
-    // const skjulPanelRef = useRef<HTMLButtonElement>(null);
 
     useOnClickOutside(notifikasjonContainerRef, () => {
         if (erUtvidet) {
@@ -249,16 +253,6 @@ const NotifikasjonPanel = () => {
                         >
                             Søk og filtrer på alle saker <ExpandIcon aria-hidden />
                         </InternLenkeMedLogging>
-                        {/*
-                         <Button
-                            ref={skjulPanelRef}
-                            variant="tertiary"
-                            size="small"
-                            aria-label="Skjul notifikasjonspanel"
-                            onClick={toggleUtvidet}
-                            icon={<XMarkIcon aria-hidden />}
-                        />
-                        */}
                     </div>
 
                     <div
@@ -304,8 +298,6 @@ const useHentNotifikasjoner = () => {
     const HENT_NOTIFIKASJONER: TypedDocumentNode<Pick<Query, 'notifikasjoner'>> = gql`
         query hentNotifikasjoner {
             notifikasjoner {
-                feilAltinn
-                feilDigiSyfo
                 notifikasjoner {
                     __typename
                     ... on Beskjed {
