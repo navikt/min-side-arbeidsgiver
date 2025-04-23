@@ -176,7 +176,7 @@ const NotifikasjonPanel = () => {
             aria-expanded={erUtvidet}
             aria-controls="notifikasjon-utvidet-innhold"
             aria-live="polite"
-            aria-label={erUtvidet ? 'Skjul notifikasjonspanel' : 'Utvid notifikasjonspanel'}
+            aria-label={erUtvidet ? 'Varsler' : 'Skjuler varsler'}
         >
             <div
                 className={clsx('notifikasjon-panel', {
@@ -188,7 +188,7 @@ const NotifikasjonPanel = () => {
                     <div className="notifikasjon-icon">
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
-                            <span className="notifikasjon-badge">
+                            <span className="notifikasjon-badge" aria-hidden="true">
                                 {antallUlesteNotifikasjoner < 10
                                     ? antallUlesteNotifikasjoner
                                     : '9+'}
@@ -212,6 +212,7 @@ const NotifikasjonPanel = () => {
                             size="small"
                             variant={harUleste ? 'alt3-filled' : 'neutral'}
                             className={clsx({ 'notifikasjon-tag': harUleste })}
+                            aria-hidden
                         >
                             {sakstype}
                         </Tag>
@@ -221,6 +222,7 @@ const NotifikasjonPanel = () => {
                             size="small"
                             variant={harUleste ? 'alt3-filled' : 'neutral'}
                             className={clsx({ 'notifikasjon-tag': harUleste })}
+                            aria-hidden
                         >
                             + {notifikasjonMerkelapper.length - maksTags}
                         </Tag>
