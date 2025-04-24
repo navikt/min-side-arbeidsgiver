@@ -57,25 +57,18 @@ const NotifikasjonPanel = () => {
         sistLest: string | undefined,
         notifikasjoner: Notifikasjon[]
     ): Notifikasjon[] => {
-        if (!sistLest) return notifikasjoner;
+        if (sistLest === undefined) return notifikasjoner;
 
-        const sistLestTid = new Date(sistLest).getTime();
+        const sistLestTid = Date.parse(sistLest);
 
-        return notifikasjoner.filter((notifikasjon) => {
-            if (
-                notifikasjon.__typename === 'Oppgave' &&
-                notifikasjon.tilstand !== OppgaveTilstand.Ny
-            ) {
-                return false;
-            }
-            return new Date(notifikasjon.sorteringTidspunkt).getTime() > sistLestTid;
-        });
+        return notifikasjoner.filter((notifikasjon) =>
+            notifikasjon.__typename !== 'Oppgave' || notifikasjon.tilstand === OppgaveTilstand.Ny
+                ? Date.parse(notifikasjon.sorteringTidspunkt) > sistLestTid
+                : false
+        );
     };
 
-    const [sistLest, _setSistLest] = useLocalStorage<string | undefined>(
-        'sist_lest',
-        undefined,
-    );
+    const [sistLest, _setSistLest] = useLocalStorage<string | undefined>('sist_lest', undefined);
 
     const setSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
@@ -110,7 +103,7 @@ const NotifikasjonPanel = () => {
     const toggleUtvidet = () => {
         const nyVerdi = !erUtvidet;
         setErUtvidet(nyVerdi);
-        setSistLest()
+        setSistLest();
 
         if (!nyVerdi) {
             setFocusedNotifikasjonIndex(-1);
@@ -202,7 +195,7 @@ const NotifikasjonPanel = () => {
 
     const antallNotifikasjoner = notifikasjoner.length;
 
-    const harUleste = antallUleste && antallUleste > 0;
+    const harUleste = antallUleste !== undefined && antallUleste > 0;
 
     // const harUleste = false;
 
@@ -232,19 +225,13 @@ const NotifikasjonPanel = () => {
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
                             <span className="notifikasjon-badge" aria-hidden="true">
-                                {antallUleste && antallUleste < 10
-                                    ? antallUleste
-                                    : '9+'}
+                                {antallUleste && antallUleste < 10 ? antallUleste : '9+'}
                             </span>
                         )}
                     </div>
                     <div className="notifikasjon-tekst">
                         <h2>Varsler på dine virksomheter</h2>
-                        <p>
-                            {!harUleste
-                                ? 'Ingen nye varsler'
-                                : `${antallUleste} uleste varsler`}
-                        </p>
+                        <p>{!harUleste ? 'Ingen nye varsler' : `${antallUleste} uleste varsler`}</p>
                     </div>
                 </div>
 
@@ -299,32 +286,30 @@ const NotifikasjonPanel = () => {
                         role="list"
                         aria-label="Varsler"
                     >
-                        {notifikasjoner.map(
-                            (notifikasjon: Notifikasjon, index) => {
-                                return (
-                                    <NotifikasjonListeElement
-                                        notifikasjon={notifikasjon}
-                                        handleKlikk={() => {
-                                            notifikasjonKlikketPaa({
-                                                variables: { id: notifikasjon.id },
-                                            });
-                                            logAnalyticsEvent('notifikasjon-klikk', {
-                                                komponent: 'varselpanel',
-                                                index,
-                                                merkelapp: notifikasjon.merkelapp,
-                                                'klikket-paa-tidligere':
-                                                    notifikasjon.brukerKlikk.klikketPaa,
-                                                destinasjon: notifikasjon.lenke,
-                                            });
-                                        }}
-                                        onKeyDown={handleNotifkasjonKeyDown}
-                                        isFocused={focusedNotifikasjonIndex === index}
-                                        onFocus={() => setFocusedNotifikasjonIndex(index)}
-                                        key={notifikasjon.id}
-                                    />
-                                );
-                            }
-                        )}
+                        {notifikasjoner.map((notifikasjon: Notifikasjon, index) => {
+                            return (
+                                <NotifikasjonListeElement
+                                    notifikasjon={notifikasjon}
+                                    handleKlikk={() => {
+                                        notifikasjonKlikketPaa({
+                                            variables: { id: notifikasjon.id },
+                                        });
+                                        logAnalyticsEvent('notifikasjon-klikk', {
+                                            komponent: 'varselpanel',
+                                            index,
+                                            merkelapp: notifikasjon.merkelapp,
+                                            'klikket-paa-tidligere':
+                                                notifikasjon.brukerKlikk.klikketPaa,
+                                            destinasjon: notifikasjon.lenke,
+                                        });
+                                    }}
+                                    onKeyDown={handleNotifkasjonKeyDown}
+                                    isFocused={focusedNotifikasjonIndex === index}
+                                    onFocus={() => setFocusedNotifikasjonIndex(index)}
+                                    key={notifikasjon.id}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             )}
