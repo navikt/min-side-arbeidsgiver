@@ -16,9 +16,14 @@ spec:
   prometheus:
     enabled: true
     path: /min-side-arbeidsgiver/internal/metrics
-  vault:
-    enabled: false
-  webproxy: false
+  observability:
+    autoInstrumentation:
+      enabled: true
+      runtime: nodejs
+    logging:
+      destinations:
+        - id: loki
+        - id: elastic
   tokenx:
     enabled: true
   idporten:
