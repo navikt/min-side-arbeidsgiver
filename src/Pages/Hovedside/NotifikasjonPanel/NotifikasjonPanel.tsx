@@ -7,12 +7,7 @@ import {
     NotifikasjonKlikketPaaResultat,
     Query,
 } from '../../../api/graphql-types';
-import {
-    BellFillIcon,
-    ChevronDownIcon,
-    ChevronUpIcon,
-    ExpandIcon
-} from '@navikt/aksel-icons';
+import { BellFillIcon, ChevronDownIcon, ChevronUpIcon, ExpandIcon } from '@navikt/aksel-icons';
 import clsx from 'clsx';
 import { InternLenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
 import { gql, TypedDocumentNode, useQuery, useMutation } from '@apollo/client';
@@ -41,6 +36,7 @@ const NotifikasjonPanel = () => {
             ).length;
 
             logAnalyticsEvent('last-komponent', {
+                komponent: 'varselpanel',
                 tittel: 'notifikasjons-panel',
                 'antall-notifikasjoner': antall,
                 'antall-ulestenotifikasjoner': uleste,
@@ -54,6 +50,7 @@ const NotifikasjonPanel = () => {
     useEffect(() => {
         if (erUtvidet) {
             logAnalyticsEvent('panel-ekspander', {
+                komponent: 'varselpanel',
                 tittel: 'arbeidsgiver notifikasjon panel',
                 'antall-notifikasjoner': antallNotifikasjoner,
                 'antall-ulestenotifikasjoner': antallUlesteNotifikasjoner,
@@ -61,6 +58,7 @@ const NotifikasjonPanel = () => {
             });
         } else {
             logAnalyticsEvent('panel-kollaps', {
+                komponent: 'varselpanel',
                 tittel: 'arbeidsgiver notifikasjon panel',
             });
         }
@@ -107,7 +105,9 @@ const NotifikasjonPanel = () => {
 
     const handleNotifkasjonKeyDown = (e: KeyboardEvent<HTMLAnchorElement>) => {
         const maksLengde = data?.notifikasjoner?.notifikasjoner?.length ?? 0;
-        logAnalyticsEvent('piltast-navigasjon', {});
+        logAnalyticsEvent('piltast-navigasjon', {
+            komponent: 'varselpanel',
+        });
         switch (e.key) {
             case 'Enter':
                 e.stopPropagation();
@@ -258,7 +258,7 @@ const NotifikasjonPanel = () => {
                     <div
                         className="notifikasjon-element-container"
                         role="list"
-                        aria-label="Notifikasjonsliste"
+                        aria-label="Varsler"
                     >
                         {data.notifikasjoner.notifikasjoner.map(
                             (notifikasjon: Notifikasjon, index) => {
@@ -270,6 +270,7 @@ const NotifikasjonPanel = () => {
                                                 variables: { id: notifikasjon.id },
                                             });
                                             logAnalyticsEvent('notifikasjon-klikk', {
+                                                komponent: 'varselpanel',
                                                 index,
                                                 merkelapp: notifikasjon.merkelapp,
                                                 'klikket-paa-tidligere':
