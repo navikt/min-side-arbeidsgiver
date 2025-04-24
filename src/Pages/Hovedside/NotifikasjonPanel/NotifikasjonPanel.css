@@ -1,0 +1,188 @@
+.notifikasjon-container {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.notifikasjon-container:focus-visible {
+    outline: 3px solid var(--a-border-focus);
+    outline-offset: 2px;
+}
+
+.notifikasjon-container:focus {
+    outline: 3px solid var(--a-border-focus);
+    outline-offset: 2px;
+}
+
+.notifikasjon-container:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.notifikasjon-container:hover .notifikasjon-tekst h2 {
+    text-decoration: underline;
+}
+
+.notifikasjon-container.utvidet {
+    border-bottom: unset;
+}
+
+.notifikasjon-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--a-blue-900);
+    color: var(--a-white);
+    padding: 16px 24px;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.notifikasjon-panel--ingen-varsler {
+    background-color: var(--a-white);
+    color: var(--a-deepblue-900);
+    border: 1px solid var(--a-gray-200);
+}
+
+.notifikasjon-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.notifikasjon-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--a-white);
+    border-radius: 8px;
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+}
+
+.notifikasjon-badge {
+    position: absolute;
+    top: 1px;
+    right: 2px;
+    background-color: var(--a-red-500);
+    color: var(--a-white);
+    border: 1px solid var(--a-white);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.notifikasjon-tekst {
+    flex-shrink: 0;
+}
+
+.notifikasjon-tekst h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.notifikasjon-tekst p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    opacity: 0.9;
+}
+
+.notifikasjon-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 16px;
+    width: 100%;
+}
+
+.notifikasjon-tag {
+    background-color: var(--a-blue-900);
+    border: 1px solid var(--a-surface-alt-3);
+}
+
+/* Utvidet innhold stiler */
+.notifikasjon-utvidet-innhold {
+    background-color: var(--a-bg-default);
+    color: #333;
+    padding: 0;
+    border-top: 1px solid var(--a-gray-200);
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.notifikasjon-element-container {
+    overflow-y: auto;
+    max-height: calc(400px - 53px); /* Trekk fra søk høyde */
+}
+
+.notifikasjon-element-container a {
+    text-decoration: unset;
+    color: unset;
+}
+
+/* Scrollbar stilsetting */
+.notifikasjon-element-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.notifikasjon-element-container::-webkit-scrollbar-track {
+    background: var(--a-gray-50);
+}
+
+.notifikasjon-element-container::-webkit-scrollbar-thumb {
+    background: var(--a-gray-300);
+    border-radius: 4px;
+}
+
+.notifikasjon-element-container::-webkit-scrollbar-thumb:hover {
+    background: var(--a-gray-500);
+}
+
+.notifikasjon-panel-bar {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--a-gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 1200px) {
+    .notifikasjon-panel {
+        flex-wrap: wrap;
+    }
+
+    .notifikasjon-tags {
+        order: 3;
+        width: 100%;
+        margin: 16px 0 0 0;
+    }
+
+    .notifikasjon-dropdown {
+        order: 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .notifikasjon-panel {
+        padding: 12px;
+    }
+
+    .notifikasjon-tekst h2 {
+        font-size: 16px;
+    }
+
+    .notifikasjon-tekst p {
+        font-size: 12px;
+    }
+}
