@@ -1,10 +1,11 @@
-import React, { useRef, useState, KeyboardEvent, useEffect } from 'react';
+import React, { useRef, useState, KeyboardEvent, useEffect, useCallback } from 'react';
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
     MutationNotifikasjonKlikketPaaArgs,
     Notifikasjon,
     NotifikasjonKlikketPaaResultat,
+    OppgaveTilstand,
     Query,
 } from '../../../api/graphql-types';
 import { BellFillIcon, ChevronDownIcon, ChevronUpIcon, ExpandIcon } from '@navikt/aksel-icons';
@@ -15,23 +16,30 @@ import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
 import { useOnClickOutside } from '../../../hooks/useClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
+import { ServerError } from '@apollo/client/link/utils';
+import { useLocalStorage } from '../../../hooks/useStorage';
 
 const NotifikasjonPanel = () => {
-    const { loading, data, error } = useHentNotifikasjoner();
+    const { loading, data, error, stopPolling } = useHentNotifikasjoner();
     const useNotifikasjonKlikketPaa = () => useMutation(NOTIFIKASJONER_KLIKKET_PAA);
     const [notifikasjonKlikketPaa] = useNotifikasjonKlikketPaa();
     const erMobil = useBreakpoint();
+    const notifikasjoner = data?.notifikasjoner?.notifikasjoner;
 
     useEffect(() => {
         if (error) {
             console.error('Error fetching notifications:', error);
+            if ((error.networkError as ServerError)?.statusCode === 401) {
+                console.log('stopper poll pga 401 unauthorized');
+                stopPolling();
+            }
         }
     }, [error]);
 
     useEffect(() => {
-        if (data?.notifikasjoner?.notifikasjoner && data.notifikasjoner.notifikasjoner.length > 0) {
-            const antall = data.notifikasjoner.notifikasjoner.length;
-            const uleste = data.notifikasjoner.notifikasjoner.filter(
+        if (notifikasjoner && notifikasjoner.length > 0) {
+            const antall = notifikasjoner.length;
+            const uleste = notifikasjoner.filter(
                 ({ brukerKlikk }) => !brukerKlikk.klikketPaa
             ).length;
 
@@ -45,6 +53,39 @@ const NotifikasjonPanel = () => {
         }
     }, [data]);
 
+    const uleste = (
+        sistLest: string | undefined,
+        notifikasjoner: Notifikasjon[]
+    ): Notifikasjon[] => {
+        if (!sistLest) return notifikasjoner;
+
+        const sistLestTid = new Date(sistLest).getTime();
+
+        return notifikasjoner.filter((notifikasjon) => {
+            if (
+                notifikasjon.__typename === 'Oppgave' &&
+                notifikasjon.tilstand !== OppgaveTilstand.Ny
+            ) {
+                return false;
+            }
+            return new Date(notifikasjon.sorteringTidspunkt).getTime() > sistLestTid;
+        });
+    };
+
+    const [sistLest, _setSistLest] = useLocalStorage<string | undefined>(
+        'sist_lest',
+        undefined,
+    );
+
+    const setSistLest = useCallback(() => {
+        if (notifikasjoner && notifikasjoner.length > 0) {
+            // naiv impl forutsetter sortering
+            _setSistLest(notifikasjoner[0].sorteringTidspunkt);
+        }
+    }, [notifikasjoner]);
+
+    const antallUleste = notifikasjoner && uleste(sistLest, notifikasjoner).length;
+
     const [erUtvidet, setErUtvidet] = useState(false);
 
     useEffect(() => {
@@ -53,8 +94,8 @@ const NotifikasjonPanel = () => {
                 komponent: 'varselpanel',
                 tittel: 'arbeidsgiver notifikasjon panel',
                 'antall-notifikasjoner': antallNotifikasjoner,
-                'antall-ulestenotifikasjoner': antallUlesteNotifikasjoner,
-                'antall-lestenotifikasjoner': antallNotifikasjoner - antallUlesteNotifikasjoner,
+                'antall-ulestenotifikasjoner': antallUleste ?? 0,
+                'antall-lestenotifikasjoner': antallNotifikasjoner - (antallUleste ?? 0),
             });
         } else {
             logAnalyticsEvent('panel-kollaps', {
@@ -69,6 +110,7 @@ const NotifikasjonPanel = () => {
     const toggleUtvidet = () => {
         const nyVerdi = !erUtvidet;
         setErUtvidet(nyVerdi);
+        setSistLest()
 
         if (!nyVerdi) {
             setFocusedNotifikasjonIndex(-1);
@@ -148,22 +190,19 @@ const NotifikasjonPanel = () => {
         }
     };
 
-    if (loading || !data || data.notifikasjoner.notifikasjoner.length === 0) return null;
+    if (loading || !notifikasjoner || notifikasjoner.length === 0) return null;
 
     const notifikasjonMerkelapper = Array.from(
         new Set(
-            data.notifikasjoner.notifikasjoner.map(({ merkelapp }) =>
+            notifikasjoner.map(({ merkelapp }) =>
                 merkelapp.includes('Inntektsmelding') ? 'Inntektsmelding' : merkelapp
             )
         )
     ).sort();
 
-    const antallNotifikasjoner = data.notifikasjoner.notifikasjoner.length;
-    const antallUlesteNotifikasjoner = data.notifikasjoner.notifikasjoner.filter(
-        ({ brukerKlikk }) => !brukerKlikk.klikketPaa
-    ).length;
+    const antallNotifikasjoner = notifikasjoner.length;
 
-    const harUleste = antallUlesteNotifikasjoner > 0;
+    const harUleste = antallUleste && antallUleste > 0;
 
     // const harUleste = false;
 
@@ -193,8 +232,8 @@ const NotifikasjonPanel = () => {
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
                             <span className="notifikasjon-badge" aria-hidden="true">
-                                {antallUlesteNotifikasjoner < 10
-                                    ? antallUlesteNotifikasjoner
+                                {antallUleste && antallUleste < 10
+                                    ? antallUleste
                                     : '9+'}
                             </span>
                         )}
@@ -204,7 +243,7 @@ const NotifikasjonPanel = () => {
                         <p>
                             {!harUleste
                                 ? 'Ingen nye varsler'
-                                : `${antallUlesteNotifikasjoner} uleste varsler`}
+                                : `${antallUleste} uleste varsler`}
                         </p>
                     </div>
                 </div>
@@ -260,7 +299,7 @@ const NotifikasjonPanel = () => {
                         role="list"
                         aria-label="Varsler"
                     >
-                        {data.notifikasjoner.notifikasjoner.map(
+                        {notifikasjoner.map(
                             (notifikasjon: Notifikasjon, index) => {
                                 return (
                                     <NotifikasjonListeElement
@@ -383,6 +422,7 @@ const useHentNotifikasjoner = () => {
     `;
     return useQuery(HENT_NOTIFIKASJONER, {
         variables: {},
+        pollInterval: 60_000,
     });
 };
 
