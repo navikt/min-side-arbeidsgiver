@@ -52,7 +52,7 @@ const NotifikasjonPanel = () => {
     };
 
     const [sistLest, _setSistLest] = useLocalStorage<string | undefined>(
-        'varsel_panel_sist_lest',
+        'sist_lest',
         undefined,
     );
 
