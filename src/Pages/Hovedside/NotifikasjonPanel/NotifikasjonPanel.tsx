@@ -1,10 +1,11 @@
-import React, { useRef, useState, KeyboardEvent, useEffect } from 'react';
+import React, { useRef, useState, KeyboardEvent, useEffect, useCallback } from 'react';
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
     MutationNotifikasjonKlikketPaaArgs,
     Notifikasjon,
     NotifikasjonKlikketPaaResultat,
+    OppgaveTilstand,
     Query,
 } from '../../../api/graphql-types';
 import { BellFillIcon, ChevronDownIcon, ChevronUpIcon, ExpandIcon } from '@navikt/aksel-icons';
@@ -15,35 +16,70 @@ import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
 import { useOnClickOutside } from '../../../hooks/useClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
+import { ServerError } from '@apollo/client/link/utils';
+import { useLocalStorage } from '../../../hooks/useStorage';
 
 const NotifikasjonPanel = () => {
-    const { loading, data, error } = useHentNotifikasjoner();
+    const { loading, data, error, stopPolling } = useHentNotifikasjoner();
     const useNotifikasjonKlikketPaa = () => useMutation(NOTIFIKASJONER_KLIKKET_PAA);
     const [notifikasjonKlikketPaa] = useNotifikasjonKlikketPaa();
     const erMobil = useBreakpoint();
+    const notifikasjoner = data?.notifikasjoner?.notifikasjoner;
 
     useEffect(() => {
         if (error) {
             console.error('Error fetching notifications:', error);
+            if ((error.networkError as ServerError)?.statusCode === 401) {
+                console.log('stopper poll pga 401 unauthorized');
+                stopPolling();
+            }
         }
     }, [error]);
 
+    const uleste = (
+        sistLest: string | undefined,
+        notifikasjoner: Notifikasjon[]
+    ): Notifikasjon[] => {
+        if (sistLest === undefined) return notifikasjoner;
+
+        const sistLestTid = Date.parse(sistLest);
+
+        return notifikasjoner.filter((notifikasjon) =>
+            notifikasjon.__typename !== 'Oppgave' || notifikasjon.tilstand === OppgaveTilstand.Ny
+                ? Date.parse(notifikasjon.sorteringTidspunkt) > sistLestTid
+                : false
+        );
+    };
+
+    const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
+        'sist_lest',
+        undefined
+    );
+    const [synligSistLest, setSynligSistLest] = useState(lagretSistLest);
+
+    const setSistLest = useCallback(() => {
+        if (notifikasjoner && notifikasjoner.length > 0) {
+            // naiv impl forutsetter sortering
+
+            setLagretSistLest(notifikasjoner[0].sorteringTidspunkt);
+        }
+    }, [notifikasjoner]);
+
     useEffect(() => {
-        if (data?.notifikasjoner?.notifikasjoner && data.notifikasjoner.notifikasjoner.length > 0) {
-            const antall = data.notifikasjoner.notifikasjoner.length;
-            const uleste = data.notifikasjoner.notifikasjoner.filter(
-                ({ brukerKlikk }) => !brukerKlikk.klikketPaa
-            ).length;
+        if (notifikasjoner && notifikasjoner.length > 0) {
+            const antall = notifikasjoner.length;
 
             logAnalyticsEvent('last-komponent', {
                 komponent: 'varselpanel',
                 tittel: 'notifikasjons-panel',
                 'antall-notifikasjoner': antall,
-                'antall-ulestenotifikasjoner': uleste,
-                'antall-lestenotifikasjoner': antall - uleste,
+                'antall-ulestenotifikasjoner': antallUleste,
+                'antall-lestenotifikasjoner': antall - (antallUleste ?? 0),
             });
         }
-    }, [data]);
+    }, [notifikasjoner]);
+
+    const antallUleste = notifikasjoner && uleste(synligSistLest, notifikasjoner).length;
 
     const [erUtvidet, setErUtvidet] = useState(false);
 
@@ -53,10 +89,13 @@ const NotifikasjonPanel = () => {
                 komponent: 'varselpanel',
                 tittel: 'arbeidsgiver notifikasjon panel',
                 'antall-notifikasjoner': antallNotifikasjoner,
-                'antall-ulestenotifikasjoner': antallUlesteNotifikasjoner,
-                'antall-lestenotifikasjoner': antallNotifikasjoner - antallUlesteNotifikasjoner,
+                'antall-ulestenotifikasjoner': antallUleste ?? 0,
+                'antall-lestenotifikasjoner': antallNotifikasjoner - (antallUleste ?? 0),
             });
         } else {
+            if (notifikasjoner && notifikasjoner.length > 0) {
+                setSynligSistLest(notifikasjoner[0].sorteringTidspunkt);
+            }
             logAnalyticsEvent('panel-kollaps', {
                 komponent: 'varselpanel',
                 tittel: 'arbeidsgiver notifikasjon panel',
@@ -69,6 +108,7 @@ const NotifikasjonPanel = () => {
     const toggleUtvidet = () => {
         const nyVerdi = !erUtvidet;
         setErUtvidet(nyVerdi);
+        setSistLest();
 
         if (!nyVerdi) {
             setFocusedNotifikasjonIndex(-1);
@@ -148,22 +188,19 @@ const NotifikasjonPanel = () => {
         }
     };
 
-    if (loading || !data || data.notifikasjoner.notifikasjoner.length === 0) return null;
+    if (loading || !notifikasjoner || notifikasjoner.length === 0) return null;
 
     const notifikasjonMerkelapper = Array.from(
         new Set(
-            data.notifikasjoner.notifikasjoner.map(({ merkelapp }) =>
+            notifikasjoner.map(({ merkelapp }) =>
                 merkelapp.includes('Inntektsmelding') ? 'Inntektsmelding' : merkelapp
             )
         )
     ).sort();
 
-    const antallNotifikasjoner = data.notifikasjoner.notifikasjoner.length;
-    const antallUlesteNotifikasjoner = data.notifikasjoner.notifikasjoner.filter(
-        ({ brukerKlikk }) => !brukerKlikk.klikketPaa
-    ).length;
+    const antallNotifikasjoner = notifikasjoner.length;
 
-    const harUleste = antallUlesteNotifikasjoner > 0;
+    const harUleste = antallUleste !== undefined && antallUleste > 0;
 
     // const harUleste = false;
 
@@ -193,19 +230,13 @@ const NotifikasjonPanel = () => {
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
                             <span className="notifikasjon-badge" aria-hidden="true">
-                                {antallUlesteNotifikasjoner < 10
-                                    ? antallUlesteNotifikasjoner
-                                    : '9+'}
+                                {antallUleste && antallUleste < 10 ? antallUleste : '9+'}
                             </span>
                         )}
                     </div>
                     <div className="notifikasjon-tekst">
                         <h2>Varsler på dine virksomheter</h2>
-                        <p>
-                            {!harUleste
-                                ? 'Ingen nye varsler'
-                                : `${antallUlesteNotifikasjoner} uleste varsler`}
-                        </p>
+                        <p>{harUleste && `${antallUleste} uleste varsler`}</p>
                     </div>
                 </div>
 
@@ -260,32 +291,30 @@ const NotifikasjonPanel = () => {
                         role="list"
                         aria-label="Varsler"
                     >
-                        {data.notifikasjoner.notifikasjoner.map(
-                            (notifikasjon: Notifikasjon, index) => {
-                                return (
-                                    <NotifikasjonListeElement
-                                        notifikasjon={notifikasjon}
-                                        handleKlikk={() => {
-                                            notifikasjonKlikketPaa({
-                                                variables: { id: notifikasjon.id },
-                                            });
-                                            logAnalyticsEvent('notifikasjon-klikk', {
-                                                komponent: 'varselpanel',
-                                                index,
-                                                merkelapp: notifikasjon.merkelapp,
-                                                'klikket-paa-tidligere':
-                                                    notifikasjon.brukerKlikk.klikketPaa,
-                                                destinasjon: notifikasjon.lenke,
-                                            });
-                                        }}
-                                        onKeyDown={handleNotifkasjonKeyDown}
-                                        isFocused={focusedNotifikasjonIndex === index}
-                                        onFocus={() => setFocusedNotifikasjonIndex(index)}
-                                        key={notifikasjon.id}
-                                    />
-                                );
-                            }
-                        )}
+                        {notifikasjoner.map((notifikasjon: Notifikasjon, index) => {
+                            return (
+                                <NotifikasjonListeElement
+                                    notifikasjon={notifikasjon}
+                                    handleKlikk={() => {
+                                        notifikasjonKlikketPaa({
+                                            variables: { id: notifikasjon.id },
+                                        });
+                                        logAnalyticsEvent('notifikasjon-klikk', {
+                                            komponent: 'varselpanel',
+                                            index,
+                                            merkelapp: notifikasjon.merkelapp,
+                                            'klikket-paa-tidligere':
+                                                notifikasjon.brukerKlikk.klikketPaa,
+                                            destinasjon: notifikasjon.lenke,
+                                        });
+                                    }}
+                                    onKeyDown={handleNotifkasjonKeyDown}
+                                    isFocused={focusedNotifikasjonIndex === index}
+                                    onFocus={() => setFocusedNotifikasjonIndex(index)}
+                                    key={notifikasjon.id}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
             )}
@@ -383,6 +412,7 @@ const useHentNotifikasjoner = () => {
     `;
     return useQuery(HENT_NOTIFIKASJONER, {
         variables: {},
+        pollInterval: 60_000,
     });
 };
 
