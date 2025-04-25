@@ -13,11 +13,11 @@ import { InternLenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLoggi
 import { gql, TypedDocumentNode, useQuery, useMutation } from '@apollo/client';
 import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
-import { useOnClickOutside } from '../../../hooks/useClickOutside';
+import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
 import { ServerError } from '@apollo/client/link/utils';
 import { useLocalStorage } from '../../../hooks/useStorage';
-import { uleste } from './uleste';
+import { filtrerUlesteNotifikasjoner } from './filtrerUlesteNotifikasjoner';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error, stopPolling } = useHentNotifikasjoner();
@@ -64,7 +64,7 @@ const NotifikasjonPanel = () => {
         }
     }, [notifikasjoner]);
 
-    const antallUleste = notifikasjoner && uleste(synligSistLest, notifikasjoner).length;
+    const antallUleste = notifikasjoner && filtrerUlesteNotifikasjoner(synligSistLest, notifikasjoner).length;
 
     const [erUtvidet, setErUtvidet] = useState(false);
 
@@ -251,9 +251,9 @@ const NotifikasjonPanel = () => {
 
                 <div className="notifikasjon-dropdown">
                     {erUtvidet ? (
-                        <ChevronUpIcon color="white" fontSize="2rem" aria-hidden />
+                        <ChevronUpIcon color={harUleste ? 'white': 'black'} fontSize="2rem" aria-hidden />
                     ) : (
-                        <ChevronDownIcon color="white" fontSize="2rem" aria-hidden />
+                        <ChevronDownIcon color={harUleste ? 'white': 'black'} fontSize="2rem" aria-hidden />
                     )}
                 </div>
             </div>

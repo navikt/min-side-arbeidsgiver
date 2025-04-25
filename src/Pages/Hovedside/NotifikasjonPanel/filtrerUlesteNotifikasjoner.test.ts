@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { Notifikasjon, OppgaveTilstand } from '../../../api/graphql-types';
-import { uleste } from './uleste';
+import { filtrerUlesteNotifikasjoner } from './filtrerUlesteNotifikasjoner';
 import { beskjed, dateInFuture, dateInPast, oppgave } from '../../../mocks/brukerApi/helpers';
 import { fakerNB_NO as faker } from '@faker-js/faker';
 
-describe('uleste', () => {
+describe('filtrerUlesteNotifikasjoner', () => {
     const nå = new Date();
     const tidligere = dateInPast({ hours: 2 });
     const senere = dateInFuture({ hours: 2 });
@@ -20,7 +20,7 @@ describe('uleste', () => {
             ...dummyNotifikasjon(),
         });
         const input: Notifikasjon[] = [notifikasjon];
-        expect(uleste(undefined, input)).toEqual(input);
+        expect(filtrerUlesteNotifikasjoner(undefined, input)).toEqual(input);
     });
 
     it('filtrerer ut notifikasjoner eldre enn sistLest', () => {
@@ -33,7 +33,7 @@ describe('uleste', () => {
             ...dummyNotifikasjon(),
         });
         const input: Notifikasjon[] = [gammelNotifikasjon, nyNotifikasjon];
-        expect(uleste(nå.toISOString(), input)).toEqual([nyNotifikasjon]);
+        expect(filtrerUlesteNotifikasjoner(nå.toISOString(), input)).toEqual([nyNotifikasjon]);
     });
 
     it('filtrerer ut Oppgave-notifikasjoner som ikke er i tilstand "Ny"', () => {
@@ -49,7 +49,7 @@ describe('uleste', () => {
         });
 
         const input: Notifikasjon[] = [utførtNotifikasjon, nyOppgave];
-        expect(uleste(tidligere.toISOString(), input)).toEqual([nyOppgave]);
+        expect(filtrerUlesteNotifikasjoner(tidligere.toISOString(), input)).toEqual([nyOppgave]);
     });
 
     it('filtrerer korrekt basert på både tidspunkt og tilstand', () => {
@@ -70,6 +70,6 @@ describe('uleste', () => {
         });
 
         const input: Notifikasjon[] = [nyUtført, gammelNy, nyNy];
-        expect(uleste(nå.toISOString(), input)).toEqual([nyNy]);
+        expect(filtrerUlesteNotifikasjoner(nå.toISOString(), input)).toEqual([nyNy]);
     });
 });
