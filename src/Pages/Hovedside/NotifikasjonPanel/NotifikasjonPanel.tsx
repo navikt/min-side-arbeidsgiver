@@ -51,11 +51,11 @@ const NotifikasjonPanel = () => {
         );
     };
 
-    const [lagretListLest, setLagretSistLest] = useLocalStorage<string | undefined>(
+    const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
         'sist_lest',
         undefined
     );
-    const [synligSistLest, setSynligSistLest] = useState(lagretListLest);
+    const [synligSistLest, setSynligSistLest] = useState(lagretSistLest);
 
     const setSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
