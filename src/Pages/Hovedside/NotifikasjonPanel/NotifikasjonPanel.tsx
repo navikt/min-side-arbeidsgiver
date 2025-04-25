@@ -5,7 +5,6 @@ import {
     MutationNotifikasjonKlikketPaaArgs,
     Notifikasjon,
     NotifikasjonKlikketPaaResultat,
-    OppgaveTilstand,
     Query,
 } from '../../../api/graphql-types';
 import { BellFillIcon, ChevronDownIcon, ChevronUpIcon, ExpandIcon } from '@navikt/aksel-icons';
@@ -18,6 +17,7 @@ import { useOnClickOutside } from '../../../hooks/useClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
 import { ServerError } from '@apollo/client/link/utils';
 import { useLocalStorage } from '../../../hooks/useStorage';
+import { uleste } from './uleste';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error, stopPolling } = useHentNotifikasjoner();
@@ -35,21 +35,6 @@ const NotifikasjonPanel = () => {
             }
         }
     }, [error]);
-
-    const uleste = (
-        sistLest: string | undefined,
-        notifikasjoner: Notifikasjon[]
-    ): Notifikasjon[] => {
-        if (sistLest === undefined) return notifikasjoner;
-
-        const sistLestTid = Date.parse(sistLest);
-
-        return notifikasjoner.filter((notifikasjon) =>
-            notifikasjon.__typename !== 'Oppgave' || notifikasjon.tilstand === OppgaveTilstand.Ny
-                ? Date.parse(notifikasjon.sorteringTidspunkt) > sistLestTid
-                : false
-        );
-    };
 
     const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
         'sist_lest',
