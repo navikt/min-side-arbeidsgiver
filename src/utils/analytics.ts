@@ -30,6 +30,7 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
+//TODO; fjern denne når amplitude fjernes. bucketing løses i metabase
 export const finnBucketForAntall = (antall: number | undefined | null) => {
     if (antall === undefined) return;
     if (antall === null) return '0';
@@ -90,27 +91,22 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         if (org === undefined) return;
         if (isLoading) return;
 
-        const navtjenestetilganger = Object.entries(org.altinntilgang)
+        const tilganger = Object.entries(org.altinntilgang)
             .filter(([key, value]) => value === true && NAVtjenesteId.includes(key))
             .map(([key]) => key);
 
-        const tilgangskombinasjon = [
-            ...navtjenestetilganger,
-            org.syfotilgang ? 'syfo-nærmesteleder' : null,
-        ]
-            .filter((e) => e !== null)
-            .sort()
-            .join(' ');
+        if (org.syfotilgang) {
+            tilganger.push('syfo-nærmesteleder');
+        }
 
         const virksomhetsinfo: any = {
-            url: baseUrl,
-            tilgangskombinasjon,
+            tilganger,
             organisasjonstypeForØversteLedd: org.øversteLedd?.organisasjonsform,
         };
 
         if (underenhet !== undefined) {
             virksomhetsinfo.sektor = finnSektorNavn(underenhet);
-            virksomhetsinfo.antallAnsatte = finnBucketForAntall(underenhet.antallAnsatte);
+            virksomhetsinfo.antallAnsatte = underenhet.antallAnsatte;
         }
 
         logAnalyticsEvent('virksomhet-valgt', virksomhetsinfo);
