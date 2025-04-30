@@ -82,12 +82,13 @@ export const SøknaderOgSkjemaer = () => {
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/krav',
                             })
                         )}
-
-                        {!isProd &&
-                            lenke(
-                                'Refusjonskrav omsorgspenger',
-                                `https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/refusjon-omsorgspenger/${valgtOrganisasjon.organisasjon.orgnr}/1-intro`
-                            )}
+                        {lenke(
+                            'Refusjonskrav omsorgspenger',
+                            gittMiljo({
+                                prod: `https://arbeidsgiver.nav.no/k9-im-dialog/refusjon-omsorgspenger/${valgtOrganisasjon.organisasjon.orgnr}/1-intro`,
+                                other: `https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/refusjon-omsorgspenger/${valgtOrganisasjon.organisasjon.orgnr}/1-intro`,
+                            })
+                        )}
                     </>
                 ) : null}
 
