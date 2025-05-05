@@ -13,7 +13,7 @@
     "@navikt/ds-icons": "3.4.3",
     "@navikt/ds-react": "^7.17.3",
     "@navikt/nav-dekoratoren-moduler": "3.2.2",
-    "@navikt/virksomhetsvelger": "0.1.0",
+    "@navikt/virksomhetsvelger": "1.0.1",
     "clsx": "2.1.1",
     "fuzzysort": "^3.1.0",
     "immutable": "^5.0.3",
