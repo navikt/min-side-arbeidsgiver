@@ -167,7 +167,7 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
                 GIT_COMMIT: '${GIT_COMMIT}',
                 VITE_UMAMI_TRACKING_ID: '${VITE_UMAMI_TRACKING_ID}'
             }
-        `
+        `,
 });
 
 const proxyOptions = {
@@ -194,7 +194,7 @@ const main = async () => {
 
     app.set('views', BUILD_PATH);
 
-    app.use('/*', (req, res, next) => {
+    app.use('/{*splat}', (req, res, next) => {
         res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
         next();
     });
@@ -361,7 +361,7 @@ const main = async () => {
         res.redirect(301, 'https://www.nav.no/arbeidsgiver/tilganger');
     });
 
-    app.get('/min-side-arbeidsgiver/*', (req, res) => {
+    app.get('/min-side-arbeidsgiver/{*splat}', (req, res) => {
         res.setHeader('Cache-Control', 'no-store');
         res.setHeader('Etag', GIT_COMMIT);
         res.send(indexHtml);
