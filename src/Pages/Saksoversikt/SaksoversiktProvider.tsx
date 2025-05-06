@@ -13,7 +13,8 @@ import { SIDE_SIZE } from './Saksoversikt';
 import { finnBucketForAntall, logAnalyticsEvent } from '../../utils/analytics';
 import {
     OppgaveFilterInfo,
-    OppgaveFilterType, OppgaveTilstand,
+    OppgaveFilterType,
+    OppgaveTilstand,
     Sak,
     SakerResultat,
     SakSortering,
@@ -66,23 +67,26 @@ export const ZodSaksoversiktFilter = z.preprocess(
     // Preprocess for å håndtere gamle modeller av lagrede filter, som ikke lenger samsvarer med typen
     (val: any) => {
         if (val.oppgaveFilter === undefined) {
-            val.oppgaveFilter = val.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
+            val.oppgaveFilter =
+                val.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
         }
         val.virksomheter = Set(val.virksomheter);
-        return val
+        return val;
     },
     z.object({
         side: z.number(),
         tekstsoek: z.string(),
         virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
-        sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]).catch(SakSortering.NyesteFørst).default(SakSortering.NyesteFørst),
+        sortering: z
+            .enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst])
+            .catch(SakSortering.NyesteFørst)
+            .default(SakSortering.NyesteFørst),
         sakstyper: z.array(z.string()),
         oppgaveFilter: z.array(OppgaveFilterType),
     })
 );
 
 export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
-    console.log(tilstand)
     switch (tilstand) {
         case OppgaveTilstand.Ny:
             return OppgaveFilterType.Values.TILSTAND_NY;
@@ -91,9 +95,9 @@ export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilter
         case OppgaveTilstand.Utgaatt:
             return OppgaveFilterType.Values.TILSTAND_UTGAATT;
         default:
-            return null
+            return null;
     }
-}
+};
 
 export type SaksoversiktFilter = z.infer<typeof ZodSaksoversiktFilter>;
 
