@@ -5,7 +5,6 @@ import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { Dialog, Send, Telephone } from '@navikt/ds-icons';
 import { kontaktskjemaURL } from '../../lenker';
 import { openChatbot } from '@navikt/nav-dekoratoren-moduler';
-import { gittMiljo } from '../../utils/environment';
 
 const showFrida = (event: React.MouseEvent<HTMLAnchorElement>) => {
     openChatbot();
