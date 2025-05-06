@@ -49,6 +49,7 @@
     "lint-staged": "^15.5.0",
     "npm-run-all": "*",
     "prettier": "^3.5.3",
+    "supertest": "^7.1.0",
     "terser": "5.39.0",
     "ts-jest": "^29.2.6",
     "typescript": "5.8.2",

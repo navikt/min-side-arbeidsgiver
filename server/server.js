@@ -15,6 +15,7 @@ import { readFileSync } from 'fs';
 import require from './esm-require.js';
 import { rateLimit } from 'express-rate-limit';
 import crypto from 'crypto';
+import { remoteStorageCorsMiddleware } from './middlewares/cors.js';
 
 const apiMetricsMiddleware = require('prometheus-api-metrics');
 const { createProxyMiddleware } = httpProxyMiddleware;
@@ -167,7 +168,7 @@ const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html
                 GIT_COMMIT: '${GIT_COMMIT}',
                 VITE_UMAMI_TRACKING_ID: '${VITE_UMAMI_TRACKING_ID}'
             }
-        `
+        `,
 });
 
 const proxyOptions = {
@@ -296,6 +297,22 @@ const main = async () => {
                     dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
                     prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
                 }[MILJO],
+            })
+        );
+
+        app.use(
+            '/min-side-arbeidsgiver/api/storage',
+            remoteStorageCorsMiddleware,
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:fager:min-side-arbeidsgiver-api',
+                    prod: 'prod-gcp:fager:min-side-arbeidsgiver-api',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
             })
         );
 
