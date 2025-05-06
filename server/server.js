@@ -1,6 +1,5 @@
 import path from 'path';
 import express from 'express';
-import Mustache from 'mustache';
 import httpProxyMiddleware, {
     debugProxyErrorsPlugin,
     errorResponsePlugin,
@@ -11,7 +10,6 @@ import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
 import { tokenXMiddleware } from './tokenx.js';
-import { readFileSync } from 'fs';
 import require from './esm-require.js';
 import { rateLimit } from 'express-rate-limit';
 import crypto from 'crypto';
@@ -159,17 +157,6 @@ if (MILJO === 'local' || MILJO === 'demo') {
     BUILD_PATH = path.join(process.cwd(), '../build/demo');
 }
 
-const indexHtml = Mustache.render(readFileSync(path.join(BUILD_PATH, 'index.html')).toString(), {
-    SETTINGS: `
-            window.environment = {
-                MILJO: '${MILJO}',
-                NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
-                GIT_COMMIT: '${GIT_COMMIT}',
-                VITE_UMAMI_TRACKING_ID: '${VITE_UMAMI_TRACKING_ID}'
-            }
-        `,
-});
-
 const proxyOptions = {
     logger: log,
     secure: true,
@@ -191,8 +178,6 @@ const main = async () => {
     app.disable('x-powered-by');
 
     app.use(apiRateLimit);
-
-    app.set('views', BUILD_PATH);
 
     app.use('/{*splat}', (req, res, next) => {
         res.setHeader('NAIS_APP_IMAGE', NAIS_APP_IMAGE);
@@ -352,6 +337,17 @@ const main = async () => {
         })
     );
 
+    app.get('/min-side-arbeidsgiver/static/js/settings.js', (req, res) => {
+        res.contentType('text/javascript');
+        res.send(`
+            window.environment = {
+                MILJO: '${MILJO}',
+                NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
+                GIT_COMMIT: '${GIT_COMMIT}',
+                VITE_UMAMI_TRACKING_ID: '${VITE_UMAMI_TRACKING_ID}'
+            };
+        `);
+    });
     app.get('/min-side-arbeidsgiver/internal/isAlive', (req, res) => res.sendStatus(200));
     app.get('/min-side-arbeidsgiver/internal/isReady', (req, res) =>
         res.sendStatus(appReady ? 200 : 500)
@@ -364,7 +360,7 @@ const main = async () => {
     app.get('/min-side-arbeidsgiver/{*splat}', (req, res) => {
         res.setHeader('Cache-Control', 'no-store');
         res.setHeader('Etag', GIT_COMMIT);
-        res.send(indexHtml);
+        res.sendFile(path.join(BUILD_PATH, 'index.html'));
     });
 
     const server = app.listen(PORT, () => {

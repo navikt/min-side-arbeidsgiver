@@ -11,7 +11,6 @@
         "express-rate-limit": "7.5.0",
         "http-proxy-middleware": "3.0.5",
         "http-terminator": "3.2.0",
-        "mustache": "^4.2.0",
         "prom-client": "^14.2.0",
         "prometheus-api-metrics": "^3.2.2",
         "winston": "3.13.0"
