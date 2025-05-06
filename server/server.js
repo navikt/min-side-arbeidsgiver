@@ -10,7 +10,7 @@ import httpProxyMiddleware, {
 import { createHttpTerminator } from 'http-terminator';
 import Prometheus from 'prom-client';
 import { createLogger, format, transports } from 'winston';
-import { tokenXMiddleware } from './tokenx.js';
+import { tokenXMiddleware } from './middlewares/tokenx.js';
 import { readFileSync } from 'fs';
 import require from './esm-require.js';
 import { rateLimit } from 'express-rate-limit';
