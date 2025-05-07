@@ -16,8 +16,6 @@ const exposeCorsHeaders = [
     'Pragma',
 ];
 
-const originRegex = /^https:\/\/([a-z0-9-]+\.)+nav\.no$/;
-
 function setPreflightCorsHeaders(origin, res) {
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', true);
@@ -31,40 +29,35 @@ function isValidCorsRequest(allowedOrigins, origin, method) {
     return allowedOrigins.includes(origin) && allowedMethods.includes(method);
 }
 
-function handleCorsPreflightRequest(req, res, _) {
-    const origin = req.headers.origin;
-    if (originRegex.test(origin)) {
-        setPreflightCorsHeaders(origin, res);
-    }
+function handleCorsPreflightRequest(origin, res) {
+    setPreflightCorsHeaders(origin, res);
     res.status(200).send('OK');
 }
 
-function handleCorsMainRequest(req, res, next) {
-    const origin = req.headers.origin;
-    if (originRegex.test(origin) && allowedMethods.includes(req.method)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-        res.setHeader('Access-Control-Allow-Credentials', true);
-    }
+function handleCorsMainRequest(origin, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', true);
     return next();
 }
 
 export const remoteStorageCorsMiddleware =
     ({ allowedCorsOrigins, log }) =>
     (req, res, next) => {
-        if (!req.headers.origin) {
+        const origin = req.headers["origin"]
+        if (!origin) {
             res.status(401).send('Missing origin header');
             log.warn(`CORS: Missing origin header in request`);
             return;
         }
 
-        if (!isValidCorsRequest(allowedCorsOrigins, req.headers.origin, req.method)) {
+        if (!isValidCorsRequest(allowedCorsOrigins, origin, req.method)) {
             log?.warn(
-                `CORS: Invalid CORS request. Origin: ${req.headers.origin} Method: ${req.method}`
+                `CORS: Invalid CORS request. Origin: ${origin} Method: ${req.method}`
             );
             res.status(403).send('Forbidden by CORS policy');
         } else {
             return req.method === 'OPTIONS'
-                ? handleCorsPreflightRequest(req, res, next)
-                : handleCorsMainRequest(req, res, next);
+                ? handleCorsPreflightRequest(origin, res)
+                : handleCorsMainRequest(origin, res, next);
         }
     };
