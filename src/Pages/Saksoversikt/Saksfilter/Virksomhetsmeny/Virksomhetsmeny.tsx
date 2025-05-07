@@ -16,9 +16,7 @@ export const Virksomhetsmeny = () => {
         useOrganisasjonerOgTilgangerContext();
 
     const {
-        saksoversiktState: {
-            filter,
-        },
+        saksoversiktState: { filter },
         transitions: { setFilter },
     } = useSaksoversiktContext();
 
@@ -76,7 +74,6 @@ export const Virksomhetsmeny = () => {
         // uten at hovedenhet er huket av.
         const lagtTil = nyeValgte.subtract(valgteEnheter);
         const implisittValgteHovedenheter = parentsOf(lagtTil);
-        console.log('implisittValgteHovedenheter', implisittValgteHovedenheter.toArray());
 
         return nyeValgte.subtract(implisittFjernedUnderenehter).union(implisittValgteHovedenheter);
     };

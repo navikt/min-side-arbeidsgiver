@@ -184,12 +184,6 @@ export const useBeregnOrganisasjonsInfo = ():
             })
         );
 
-        console.log('digisyfoOrganisassjonerflatt');
-        console.log(digisyfoOrganisasjonerFlatt);
-        console.log('altinnOrganisassjonerflatt');
-        console.log(altinnOrganisasjonerFlatt);
-        console.log('alleOrganisasjonerFlatt');
-        console.log(alleOrganisasjonerFlatt);
         const organisasjonsInfo = Record.fromEntries(
             alleOrganisasjonerFlatt.map((org) => {
                 const refusjonstatus = userInfo.refusjoner.find(
