@@ -18,8 +18,8 @@ afterAll(() => {
     server.close();
 });
 
-describe('med origin subdomene.nav.no', () => {
-    const origin = 'https://subdomene.nav.no';
+describe('med origin https://sub-domene.nav.no', () => {
+    const origin = 'https://sub-domene.nav.no';
     it('CORS headers blir satt ved PREFLIGHT', () => {
         return request(app)
             .options(`/min-side-arbeidsgiver/api/storage`)
@@ -72,7 +72,7 @@ describe('med origin subdomene.nav.no', () => {
     })
 });
 
-describe('med origin annet.domene.no', () => {
+describe('med origin https://annet.domene.no', () => {
     const origin = 'https://annet.domene.no';
 
     it('CORS headers blir ikke satt ved PREFLIGHT', async () => {
@@ -125,6 +125,17 @@ describe('med origin annet.domene.no', () => {
     })
 });
 
+describe('med origin http://sub-domene.nav.no', () => {
+    const origin = " http://sub-domene.nav.no"
+    it('CORS headers blir ikke satt uten https', async () => {
+        const res = await request(app)
+            .get(`/min-side-arbeidsgiver/api/storage`)
+            .set('Origin', origin)
+            .expect(200)
+        expect(res.headers['access-control-allow-origin']).toBeUndefined();
+        expect(res.headers['access-control-allow-credentials']).toBeUndefined();
+    })
+});
 
 describe('med tom origin header', () => {
     it('CORS headers blir ikke satt ved tom origin', async () => {

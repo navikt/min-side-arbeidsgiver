@@ -15,7 +15,7 @@ const exposeCorsHeaders = [
     'Pragma',
 ];
 const allowedMethods = ['GET', 'PUT', 'DELETE'];
-const originRegex = /nav\.no$/;
+const originRegex = /^https:\/\/([a-z0-9-]+\.)+nav\.no$/;
 
 function setPreflightCorsHeaders(origin, res) {
     res.setHeader('Access-Control-Allow-Origin', origin);
