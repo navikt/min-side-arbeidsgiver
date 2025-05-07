@@ -28,6 +28,23 @@ const {
     VITE_UMAMI_TRACKING_ID,
 } = process.env;
 
+const allowedCorsOrigins = {
+    dev: [
+        'https://arbeidsgiver.intern.dev.nav.no',
+        'https://arbeidsgiver.ekstern.dev.nav.no',
+        'https://arbeidsforhold.intern.dev.nav.no',
+        'https://tiltaksgjennomforing-labs.ekstern.dev.nav.no',
+        'https://tiltaksgjennomforing.intern.dev.nav.no',
+        'https://tiltaksgjennomforing.ekstern.dev.nav.no',
+        'https://forebygge-fravar.intern.dev.nav.no',
+        'https://presenterte-kandidater.intern.dev.nav.no',
+        'https://presenterte-kandidater.ansatt.dev.nav.no',
+        'https://sykefravarsstatistikk.intern.dev.nav.no',
+        'https://notifikasjon-test-produsent-v2.intern.dev.nav.no',
+    ],
+    prod: ['https://arbeidsgiver.nav.no', 'https://tiltaksgjennomforing.intern.nav.no'],
+}[MILJO];
+
 const log_events_counter = new Prometheus.Counter({
     name: 'logback_events_total',
     help: 'Antall log events fordelt på level',
@@ -287,7 +304,10 @@ const main = async () => {
 
         app.use(
             '/min-side-arbeidsgiver/api/storage',
-            remoteStorageCorsMiddleware,
+            remoteStorageCorsMiddleware({
+                allowedCorsOrigins,
+                log,
+            }),
             tokenXMiddleware({
                 log: log,
                 audience: {
@@ -300,7 +320,6 @@ const main = async () => {
                 target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
             })
         );
-
         app.use(
             '/min-side-arbeidsgiver/api',
             tokenXMiddleware({
