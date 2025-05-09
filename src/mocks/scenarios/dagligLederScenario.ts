@@ -2,17 +2,7 @@ import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
 import { orgnr } from '../brukerApi/helpers';
 import { fromEntries } from '../../utils/Record';
-import {
-    hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver,
-    hentSakerResolver,
-    sakstyperResolver,
-    hentSakByIdResolver,
-} from '../brukerApi/resolvers';
-import { alleSaker } from '../brukerApi/alleSaker';
-import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
-import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
-import { Merkelapp } from '../brukerApi/alleMerkelapper';
+import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { mapRecursive } from '../../utils/util';
 
 const alleTilganger = [
@@ -170,9 +160,5 @@ export const dagligLederScenario = [
     ),
 
     // brukerApi
-    hentSakerResolver(alleSaker),
-    sakstyperResolver(alleSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
-    hentKalenderavtalerResolver(alleKalenderavtaler),
-    hentNotifikasjonerResolver(alleNotifikasjoner),
-    hentSakByIdResolver(alleSaker),
+    ...brukerApiHandlers([dagligLederOrganisasjon], (_) => true),
 ];

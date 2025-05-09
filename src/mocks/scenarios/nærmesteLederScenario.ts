@@ -1,28 +1,10 @@
 import { http, HttpResponse } from 'msw';
 import { orgnr } from '../brukerApi/helpers';
 import { faker } from '@faker-js/faker';
-import {
-    hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver,
-    hentSakByIdResolver,
-    hentSakerResolver,
-    sakstyperResolver,
-} from '../brukerApi/resolvers';
-import { alleSaker } from '../brukerApi/alleSaker';
-import { alleNotifikasjoner } from '../brukerApi/alleNotifikasjoner';
+import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { Merkelapp } from '../brukerApi/alleMerkelapper';
-import { alleKalenderavtaler } from '../brukerApi/alleKalenderavtaler';
 
 const nærmesteLederMerkelapper = [Merkelapp.Dialogmøte, Merkelapp.Oppfølging];
-const nærmesteLederSaker = alleSaker.filter(({ merkelapp }) =>
-    nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
-);
-const nærmesteLederNotifikasjoner = alleNotifikasjoner.filter(({ merkelapp }) =>
-    nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
-);
-const nærmesteLederKalenderavtaler = alleKalenderavtaler.filter(({ merkelapp }) =>
-    nærmesteLederMerkelapper.includes(merkelapp as Merkelapp)
-);
 
 const underenheter = [
     {
@@ -67,9 +49,7 @@ export const nærmesteLederScenario = [
     }),
 
     // brukerApi
-    hentSakerResolver(nærmesteLederSaker),
-    sakstyperResolver(nærmesteLederSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
-    hentNotifikasjonerResolver(nærmesteLederNotifikasjoner),
-    hentKalenderavtalerResolver(nærmesteLederKalenderavtaler),
-    hentSakByIdResolver(nærmesteLederSaker),
+    ...brukerApiHandlers([nærmesteLederOrganisasjon], (merkelapp) =>
+        nærmesteLederMerkelapper.includes(merkelapp)
+    ),
 ];

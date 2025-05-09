@@ -1,7 +1,8 @@
 import {
     InputMaybe,
     Kalenderavtale,
-    Notifikasjon, OppgaveFilterType,
+    Notifikasjon,
+    OppgaveFilterType,
     OppgaveTilstand,
     QuerySakerArgs,
     Sak,
@@ -11,7 +12,48 @@ import { graphql, HttpResponse } from 'msw';
 import { executeAndValidate, oppgaveFilterInfo } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
 import { mapOppgaveTilstandTilFilterType } from '../../Pages/Saksoversikt/SaksoversiktProvider';
+import { Organisasjon } from '../../Pages/OrganisasjonerOgTilgangerContext';
+import { organisasjonStrukturFlatt } from '../../utils/util';
+import { alleSaker } from './alleSaker';
+import { tilNotifikasjon } from './alleNotifikasjoner';
 
+export const brukerApiHandlers = (
+    organisasjonstre: Organisasjon[],
+    filter: (merkelapp: Merkelapp) => boolean
+) => {
+    const virksomheter = organisasjonStrukturFlatt(organisasjonstre).filter(
+        (o) => o.underenheter.length === 0
+    );
+
+    const saker = alleSaker
+        .filter(({ merkelapp }) => filter(merkelapp as Merkelapp))
+        .map((sak) => {
+            const organisasjon = virksomheter[Math.floor(Math.random() * virksomheter.length)];
+            return {
+                ...sak,
+                virksomhet: {
+                    navn: organisasjon.navn,
+                    virksomhetsnummer: organisasjon.orgnr,
+                },
+            };
+        });
+
+    const notifikasjoner = saker.flatMap((sak) =>
+        sak.tidslinje.map((te) => tilNotifikasjon(te, sak))
+    );
+
+    const kalenderavtaler = notifikasjoner.filter(
+        (n) => n.__typename === 'Kalenderavtale'
+    ) as Kalenderavtale[];
+
+    return [
+        hentSakerResolver(saker),
+        sakstyperResolver(saker.map(({ merkelapp }) => merkelapp as Merkelapp)),
+        hentKalenderavtalerResolver(kalenderavtaler),
+        hentNotifikasjonerResolver(notifikasjoner),
+        hentSakByIdResolver(saker),
+    ];
+};
 
 export const hentSakerResolver = (saker: Sak[]) =>
     graphql.query(
@@ -25,10 +67,12 @@ export const hentSakerResolver = (saker: Sak[]) =>
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
-                saker.filter(s => harFilterType(s, variables.oppgaveFilter)).reduce((acc, { merkelapp }) => {
-                    acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
-                    return acc;
-                }, new Map<string, number>())
+                saker
+                    .filter((s) => harFilterType(s, variables.oppgaveFilter))
+                    .reduce((acc, { merkelapp }) => {
+                        acc.set(merkelapp, (acc.get(merkelapp) ?? 0) + 1);
+                        return acc;
+                    }, new Map<string, number>())
             ).map(([navn, antall]) => ({ navn, antall }));
 
             const { errors, data } = await executeAndValidate({
@@ -68,7 +112,7 @@ export const hentKalenderavtalerResolver = (kalenderavtaler: Kalenderavtale[]) =
         return HttpResponse.json({ errors, data });
     });
 
-export const hentNotifikasjonerResolver  = (notifikasjoner: Notifikasjon[]) =>
+export const hentNotifikasjonerResolver = (notifikasjoner: Notifikasjon[]) =>
     graphql.query('hentNotifikasjoner', async ({ query, variables }) => {
         const { errors, data } = await executeAndValidate({
             query,
@@ -112,15 +156,34 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
     });
 
 function applyFilters(saker: Sak[], filter: QuerySakerArgs) {
-    return saker.filter(
-        (sak) =>
-            erSakstype(sak, filter.sakstyper) &&
-            harFilterType(sak, filter.oppgaveFilter)
-    );
+    return saker
+        .filter((sak) => harVirksomhetsnumre(sak, filter.virksomhetsnumre))
+        .filter((sak) => harTekstsok(sak, filter.tekstsoek))
+        .filter((sak) => erSakstype(sak, filter.sakstyper))
+        .filter((sak) => harFilterType(sak, filter.oppgaveFilter));
 }
 
-function erSakstype(sak: Sak, sakstyper: InputMaybe<string[]> | undefined){
-    return sakstyper?.includes(sak.merkelapp) ?? true
+function harVirksomhetsnumre(sak: Sak, virksomhetsnumre: string[] | undefined | null) {
+    if (virksomhetsnumre === null || virksomhetsnumre === undefined) {
+        return true;
+    }
+
+    return virksomhetsnumre.includes(sak.virksomhet.virksomhetsnummer);
+}
+
+function harTekstsok(sak: Sak, tekstsoek: string | null | undefined) {
+    if (tekstsoek === null || tekstsoek === undefined || tekstsoek.length === 0) {
+        return true;
+    }
+
+    return [sak.tittel, sak.merkelapp, sak.sisteStatus.tekst]
+        .join(' ')
+        .toLowerCase()
+        .includes(tekstsoek.toLowerCase());
+}
+
+function erSakstype(sak: Sak, sakstyper: InputMaybe<string[]> | undefined) {
+    return sakstyper?.includes(sak.merkelapp) ?? true;
 }
 
 function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
@@ -129,10 +192,19 @@ function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
     }
 
     if (oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)) {
-        return sak.tidslinje.filter(t => t.__typename === 'OppgaveTidslinjeElement' && t.tilstand === OppgaveTilstand.Ny && t.paaminnelseTidspunkt !== null && t.paaminnelseTidspunkt !== undefined).length > 0;
+        return (
+            sak.tidslinje.filter(
+                (t) =>
+                    t.__typename === 'OppgaveTidslinjeElement' &&
+                    t.tilstand === OppgaveTilstand.Ny &&
+                    t.paaminnelseTidspunkt !== null &&
+                    t.paaminnelseTidspunkt !== undefined
+            ).length > 0
+        );
     }
     return sak.tidslinje.some(
         (te) =>
-            te.__typename === 'OppgaveTidslinjeElement' && oppgaveFilter!.includes(mapOppgaveTilstandTilFilterType(te.tilstand)!)
+            te.__typename === 'OppgaveTidslinjeElement' &&
+            oppgaveFilter!.includes(mapOppgaveTilstandTilFilterType(te.tilstand)!)
     );
 }
