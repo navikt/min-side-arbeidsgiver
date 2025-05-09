@@ -7,12 +7,14 @@ import {
     KalenderavtaleTilstand,
     Lokasjon,
     Oppgave,
-    OppgaveFilterInfo, OppgaveFilterType,
+    OppgaveFilterInfo,
+    OppgaveFilterType,
     OppgaveTidslinjeElement,
     OppgaveTilstand,
     Sak,
     SakStatus,
     SakStatusType,
+    Scalars,
     TidslinjeElement,
     Virksomhet,
 } from '../../api/graphql-types';
@@ -60,11 +62,11 @@ export const sakStatus = ({
 
 export const beskjedTidslinjeElement = ({
     tekst,
-    opprettetTidspunkt = faker.date.recent(),
+    opprettetTidspunkt,
     lenke = faker.internet.url(),
 }: {
     tekst: string;
-    opprettetTidspunkt?: Date;
+    opprettetTidspunkt: Date;
     lenke: string;
 }): BeskjedTidslinjeElement => ({
     __typename: 'BeskjedTidslinjeElement',
@@ -78,7 +80,7 @@ export const oppgaveTidslinjeElement = ({
     tilstand = faker.helpers.enumValue(OppgaveTilstand),
     tekst,
     frist,
-    opprettetTidspunkt = faker.date.recent(),
+    opprettetTidspunkt,
     paaminnelseTidspunkt,
     utfoertTidspunkt,
     utgaattTidspunkt,
@@ -87,7 +89,7 @@ export const oppgaveTidslinjeElement = ({
     tekst: string;
     tilstand?: OppgaveTilstand;
     frist?: Date;
-    opprettetTidspunkt?: Date;
+    opprettetTidspunkt: Date;
     paaminnelseTidspunkt?: Date;
     utfoertTidspunkt?: Date;
     utgaattTidspunkt?: Date;
@@ -105,13 +107,17 @@ export const oppgaveTidslinjeElement = ({
     lenke,
 });
 
+export type KalenderavtaleTidslinjeElementMedOpprettetTidspunkt = KalenderavtaleTidslinjeElement & {
+    opprettetTidspunkt: string;
+};
 export const kalenderavtaleTidslinjeElement = ({
     tekst,
     avtaletilstand = faker.helpers.enumValue(KalenderavtaleTilstand),
-    startTidspunkt = faker.date.recent(),
+    startTidspunkt,
     digitalt = false,
     lokasjon,
     sluttTidspunkt,
+    opprettetTidspunkt,
     lenke = faker.internet.url(),
 }: {
     tekst: string;
@@ -119,9 +125,10 @@ export const kalenderavtaleTidslinjeElement = ({
     digitalt?: boolean;
     lokasjon?: Lokasjon;
     sluttTidspunkt?: Date;
-    startTidspunkt?: Date;
+    startTidspunkt: Date;
+    opprettetTidspunkt: Date;
     lenke: string;
-}): KalenderavtaleTidslinjeElement => ({
+}): KalenderavtaleTidslinjeElementMedOpprettetTidspunkt => ({
     __typename: 'KalenderavtaleTidslinjeElement',
     id: faker.string.uuid(),
     tekst,
@@ -130,6 +137,7 @@ export const kalenderavtaleTidslinjeElement = ({
     lokasjon,
     startTidspunkt: startTidspunkt.toISOString(),
     sluttTidspunkt: sluttTidspunkt?.toISOString(),
+    opprettetTidspunkt: opprettetTidspunkt.toISOString(),
     lenke,
 });
 
@@ -149,7 +157,10 @@ export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
         })),
         {
             filterType: OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST,
-            antall: group.NY?.filter(o => o.paaminnelseTidspunkt !== null && o.paaminnelseTidspunkt !== undefined).length ?? 0,
+            antall:
+                group.NY?.filter(
+                    (o) => o.paaminnelseTidspunkt !== null && o.paaminnelseTidspunkt !== undefined
+                ).length ?? 0,
         },
     ];
 };
@@ -166,7 +177,7 @@ export const oppgave = ({
     klikketPaa = true,
     tilleggsinformasjon,
     lenke = faker.internet.url(),
-    merkelapp
+    merkelapp,
 }: {
     tekst: string;
     tilstand?: OppgaveTilstand;
@@ -179,7 +190,7 @@ export const oppgave = ({
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
     lenke?: string;
-    merkelapp: string
+    merkelapp: string;
 }): Oppgave => ({
     __typename: 'Oppgave',
     id: faker.string.uuid(),
@@ -228,7 +239,7 @@ export const beskjed = ({
     klikketPaa?: boolean;
     tilleggsinformasjon?: string;
     lenke?: string;
-    merkelapp: string
+    merkelapp: string;
 }): Beskjed => ({
     __typename: 'Beskjed',
     id: faker.string.uuid(),
@@ -267,7 +278,7 @@ export const kalenderavtale = ({
     digitalt = false,
     lokasjon,
     paaminnelseTidspunkt,
-    opprettetTidspunkt = faker.date.recent(),
+    opprettetTidspunkt,
     merkelapp,
     tilleggsinformasjon,
 }: {
@@ -280,7 +291,7 @@ export const kalenderavtale = ({
     sluttTidspunkt?: Date;
     startTidspunkt?: Date;
     paaminnelseTidspunkt?: Date;
-    opprettetTidspunkt?: Date;
+    opprettetTidspunkt: Scalars['ISO8601DateTime']['output'];
     tilleggsinformasjon?: string;
     merkelapp: string;
 }): Kalenderavtale => ({

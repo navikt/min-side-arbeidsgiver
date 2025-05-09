@@ -13,6 +13,7 @@ import {
 } from './helpers';
 import { Merkelapp } from './alleMerkelapper';
 
+let currentDaysPast = 1;
 export const alleSaker = [
     sak({
         merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
@@ -26,13 +27,15 @@ export const alleSaker = [
         nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
         tidslinje: [
             beskjedTidslinjeElement({
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 tekst: 'NAV har utbetalt refusjonen',
-                lenke: `https://foo.bar`
+                lenke: `https://foo.bar`,
             }),
             beskjedTidslinjeElement({
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 tekst: 'NAV har mottat ditt refusjonskrav',
-                lenke: `${__BASE_PATH__}/sak`
-            })
+                lenke: `${__BASE_PATH__}/sak`,
+            }),
         ],
     }),
     sak({
@@ -46,7 +49,7 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 tekst: 'NAV har utbetalt refusjonen',
-                opprettetTidspunkt: dateInPast({ days: 1 }),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
@@ -67,6 +70,7 @@ export const alleSaker = [
         nesteSteg: 'Saksbehandlingstiden er lang. Du kan forvente refusjon utbetalt i januar 2025.',
         tidslinje: [
             beskjedTidslinjeElement({
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 tekst: 'NAV har mottat ditt refusjonskrav',
                 lenke: faker.internet.url(),
             }),
@@ -83,7 +87,7 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 tekst: 'NAV har utbetalt refusjonen',
-                opprettetTidspunkt: dateInPast({ days: 2 }),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 lenke: faker.internet.url(),
             }),
             beskjedTidslinjeElement({
@@ -187,6 +191,7 @@ export const alleSaker = [
                 tekst: 'Invitasjon til samtale med veileder 15 april ',
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
                 startTidspunkt: faker.date.soon({ days: 7 }),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 lenke: faker.internet.url(),
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
@@ -229,13 +234,15 @@ export const alleSaker = [
         }),
         tidslinje: [
             beskjedTidslinjeElement({
-              tekst: 'Du har mottatt et referat fra dialogmøte',
-              lenke: faker.internet.url(),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
+                tekst: 'Du har mottatt et referat fra dialogmøte',
+                lenke: faker.internet.url(),
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.Avlyst,
                 startTidspunkt: faker.date.soon({ days: 1 }),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
                     postnummer: '0788',
@@ -246,6 +253,7 @@ export const alleSaker = [
             }),
             kalenderavtaleTidslinjeElement({
                 tekst: 'Invitasjon til dialogmøte',
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 avtaletilstand: KalenderavtaleTilstand.ArbeidsgiverVilEndreTidEllerSted,
                 startTidspunkt: faker.date.soon({ days: 1 }),
                 lokasjon: {
@@ -260,6 +268,7 @@ export const alleSaker = [
                 tekst: 'Invitasjon til dialogmøte',
                 avtaletilstand: KalenderavtaleTilstand.VenterSvarFraArbeidsgiver,
                 startTidspunkt: faker.date.soon({ days: 1 }),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
                 digitalt: false,
                 lokasjon: {
                     adresse: 'Sørkedalsveien 31',
@@ -280,22 +289,26 @@ export const alleSaker = [
         }),
         tidslinje: [
             beskjedTidslinjeElement({
-              tekst: 'Vi har mottatt ditt ønske om dialogmøte med Nav. Vi vurderer at det på nåværende tidspunkt ikke er aktuelt at Nav kaller inn til et dialogmøte. Du kan når som helst melde inn et nytt behov i sykefraværsperioden.',
-              lenke: faker.internet.url(),
+                tekst: 'Vi har mottatt ditt ønske om dialogmøte med Nav. Vi vurderer at det på nåværende tidspunkt ikke er aktuelt at Nav kaller inn til et dialogmøte. Du kan når som helst melde inn et nytt behov i sykefraværsperioden.',
+                lenke: faker.internet.url(),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
             beskjedTidslinjeElement({
-              tekst: 'Oppfølgingsplan til godkjenning',
-              lenke: faker.internet.url(),
+                tekst: 'Oppfølgingsplan til godkjenning',
+                lenke: faker.internet.url(),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
             beskjedTidslinjeElement({
-              tekst: 'Vi trenger en oppfølgingsplan fra deg',
-              lenke: faker.internet.url(),
+                tekst: 'Vi trenger en oppfølgingsplan fra deg',
+                lenke: faker.internet.url(),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
             oppgaveTidslinjeElement({
-              tekst: 'Vi trenger din vurdering av behovet for dialogmøte.',
-              lenke: faker.internet.url(),
+                tekst: 'Vi trenger din vurdering av behovet for dialogmøte.',
+                lenke: faker.internet.url(),
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
-    ]
+        ],
     }),
     sak({
         merkelapp: Merkelapp.Inntektsmelding_sykepenger,
@@ -404,12 +417,14 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 tekst: 'Notifikasjon har lenke',
-                lenke: `https://foo.bar`
+                lenke: `https://foo.bar`,
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Notifikasjon har lenke til saksside',
-                lenke: `${__BASE_PATH__}/sak`
-            })
+                lenke: `${__BASE_PATH__}/sak`,
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
+            }),
         ],
     }),
     sak({
@@ -425,16 +440,19 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 tekst: 'Notifikasjonen har samme lenke som sak',
-                lenke: `https://foo.bar`
+                lenke: `https://foo.bar`,
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Notifikasjonen har lenke til saksside',
-                lenke: `${__BASE_PATH__}/sak`
+                lenke: `${__BASE_PATH__}/sak`,
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
             }),
             beskjedTidslinjeElement({
                 tekst: 'Notifikasjonen har en annen lenke enn sak',
-                lenke: 'https://bar.foo'
-            })
+                lenke: 'https://bar.foo',
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
+            }),
         ],
     }),
 ];

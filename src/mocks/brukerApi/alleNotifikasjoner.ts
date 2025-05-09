@@ -6,7 +6,12 @@ import {
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
-import { beskjed, kalenderavtale, oppgave } from './helpers';
+import {
+    beskjed,
+    kalenderavtale,
+    KalenderavtaleTidslinjeElementMedOpprettetTidspunkt,
+    oppgave,
+} from './helpers';
 import { alleSaker } from './alleSaker';
 
 export const alleNotifikasjoner = alleSaker.flatMap((sak) =>
@@ -26,7 +31,7 @@ export function tilOppgave(tidslinjeElement: OppgaveTidslinjeElement, sak: Sak) 
         frist: tidslinjeElement.frist,
         paaminnelseTidspunkt: tidslinjeElement.paaminnelseTidspunkt,
         klikketPaa: false,
-        merkelapp: sak.merkelapp
+        merkelapp: sak.merkelapp,
     });
 }
 
@@ -38,31 +43,38 @@ export function tilBeskjed(tidslinjeElement: BeskjedTidslinjeElement, sak: Sak) 
         lenke: tidslinjeElement.lenke,
         opprettetTidspunkt: tidslinjeElement.opprettetTidspunkt,
         tilleggsinformasjon: sak.tilleggsinformasjon!,
-        merkelapp: sak.merkelapp
+        merkelapp: sak.merkelapp,
     });
 }
 
-export function tilKalenderAvtale(tidslinjeElement: KalenderavtaleTidslinjeElement, sak: Sak) {
+export function tilKalenderAvtale(
+    tidslinjeElement: KalenderavtaleTidslinjeElementMedOpprettetTidspunkt,
+    sak: Sak
+) {
     return kalenderavtale({
         tekst: tidslinjeElement.tekst,
         startTidspunkt: new Date(tidslinjeElement.startTidspunkt),
+        opprettetTidspunkt: tidslinjeElement.opprettetTidspunkt,
         lokasjon: tidslinjeElement.lokasjon!,
         digitalt: tidslinjeElement.digitalt!,
         avtaletilstand: tidslinjeElement.avtaletilstand,
         sakTittel: sak.tittel,
         klikketPaa: false,
-        merkelapp: sak.merkelapp
+        merkelapp: sak.merkelapp,
     });
 }
 
 export function tilNotifikasjon(tidslinjeElement: TidslinjeElement, sak: Sak): Notifikasjon {
-    switch(tidslinjeElement.__typename) {
+    switch (tidslinjeElement.__typename) {
         case 'OppgaveTidslinjeElement':
             return tilOppgave(tidslinjeElement, sak);
         case 'BeskjedTidslinjeElement':
             return tilBeskjed(tidslinjeElement, sak);
         case 'KalenderavtaleTidslinjeElement':
-            return tilKalenderAvtale(tidslinjeElement, sak);
+            return tilKalenderAvtale(
+                tidslinjeElement as KalenderavtaleTidslinjeElementMedOpprettetTidspunkt,
+                sak
+            );
         default:
             throw new Error(`Ukjent tidslinje-element: ${tidslinjeElement}`);
     }
