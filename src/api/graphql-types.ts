@@ -49,6 +49,11 @@ export type BrukerKlikk = {
     klikketPaa: Scalars['Boolean']['output'];
 };
 
+export type NotifikasjonerSistLest = {
+    __typename?: 'NotifikasjonerSistLest';
+    tidspunkt?: Maybe<Scalars['ISO8601DateTime']['output']>;
+}
+
 export type Kalenderavtale = {
     __typename?: 'Kalenderavtale';
     avtaletilstand: KalenderavtaleTilstand;
@@ -112,9 +117,15 @@ export type MutationNotifikasjonKlikketPaaArgs = {
     id: Scalars['ID']['input'];
 };
 
+export type MutationNotifikasjonerSistLest = {
+    tidspunkt: Scalars['ISO8601DateTime']['input'];
+};
+
 export type Notifikasjon = Beskjed | Kalenderavtale | Oppgave;
 
 export type NotifikasjonKlikketPaaResultat = BrukerKlikk | UgyldigId;
+
+export type NotifikasjonerSistLestResultat = NotifikasjonerSistLest;
 
 export type NotifikasjonerResultat = {
     __typename?: 'NotifikasjonerResultat';

@@ -52,6 +52,7 @@ export const brukerApiHandlers = (
         hentKalenderavtalerResolver(kalenderavtaler),
         hentNotifikasjonerResolver(notifikasjoner),
         hentSakByIdResolver(saker),
+        hentNotifikasjonerSistLest(),
     ];
 };
 
@@ -153,6 +154,32 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
                 },
             },
         });
+    });
+
+export const hentNotifikasjonerSistLest = () =>
+    graphql.query('notifikasjonerSistLest', async ({ query, variables }) => {
+        const { errors, data } = await executeAndValidate({
+            query,
+            variables,
+            rootValue: {
+                tidspunkt: new Date().setDate(new Date().getDate() - 2),
+            },
+        });
+
+        return HttpResponse.json({ errors, data });
+    });
+
+export const setNotifikasjonerSistLest = () =>
+    graphql.mutation('notifikasjonerSistLest', async ({ query, variables }) => {
+        const { errors, data } = await executeAndValidate({
+            query,
+            variables,
+            rootValue: {
+                tidspunkt: new Date().setDate(new Date().getDate() - 2),
+            },
+        });
+
+        return HttpResponse.json({ errors, data });
     });
 
 function applyFilters(saker: Sak[], filter: QuerySakerArgs) {

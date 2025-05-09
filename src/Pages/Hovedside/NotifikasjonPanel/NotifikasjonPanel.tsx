@@ -2,8 +2,10 @@ import React, { useRef, useState, KeyboardEvent, useEffect, useCallback } from '
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
+    MutationNotifikasjonerSistLest,
     MutationNotifikasjonKlikketPaaArgs,
     Notifikasjon,
+    NotifikasjonerSistLestResultat,
     NotifikasjonKlikketPaaResultat,
     Query,
 } from '../../../api/graphql-types';
@@ -36,17 +38,20 @@ const NotifikasjonPanel = () => {
         }
     }, [error]);
 
-    const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
-        'sist_lest',
-        undefined
-    );
-    const [synligSistLest, setSynligSistLest] = useState(lagretSistLest);
+    // const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
+    //     'sist_lest',
+    //     undefined
+    // );
+
+    const {sistLest, updateSistLest} = useNotifikasjonerSistLest()
+
+    const [synligSistLest, setSynligSistLest] = useState(sistLest);
 
     const setSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
             // naiv impl forutsetter sortering
 
-            setLagretSistLest(notifikasjoner[0].sorteringTidspunkt);
+            updateSistLest(notifikasjoner[0].sorteringTidspunkt);
         }
     }, [notifikasjoner]);
 
@@ -64,7 +69,8 @@ const NotifikasjonPanel = () => {
         }
     }, [notifikasjoner]);
 
-    const antallUleste = notifikasjoner && filtrerUlesteNotifikasjoner(synligSistLest, notifikasjoner).length;
+    const antallUleste =
+        notifikasjoner && filtrerUlesteNotifikasjoner(synligSistLest, notifikasjoner).length;
 
     const [erUtvidet, setErUtvidet] = useState(false);
 
@@ -251,9 +257,17 @@ const NotifikasjonPanel = () => {
 
                 <div className="notifikasjon-dropdown">
                     {erUtvidet ? (
-                        <ChevronUpIcon color={harUleste ? 'white': 'black'} fontSize="2rem" aria-hidden />
+                        <ChevronUpIcon
+                            color={harUleste ? 'white' : 'black'}
+                            fontSize="2rem"
+                            aria-hidden
+                        />
                     ) : (
-                        <ChevronDownIcon color={harUleste ? 'white': 'black'} fontSize="2rem" aria-hidden />
+                        <ChevronDownIcon
+                            color={harUleste ? 'white' : 'black'}
+                            fontSize="2rem"
+                            aria-hidden
+                        />
                     )}
                 </div>
             </div>
@@ -417,3 +431,54 @@ const NOTIFIKASJONER_KLIKKET_PAA: TypedDocumentNode<
         }
     }
 `;
+
+const MUTATION_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<
+    NotifikasjonerSistLestResultat,
+    MutationNotifikasjonerSistLest
+> = gql`
+    mutation notifikasjonerSistLest($tidspunkt: ISO8601DateTime!) {
+        notifikasjonerSistLest(tidspunkt: $tidspunkt) {
+            ... on NotifikasjonerSistLest {
+                tidspunkt
+            }
+        }
+    }
+`;
+
+const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<NotifikasjonerSistLestResultat> = gql`
+    query notifikasjonerSistLest {
+        notifikasjonerSistLest {
+            ... on NotifikasjonerSistLest {
+                tidspunkt
+            }
+        }
+    }
+`;
+
+const useNotifikasjonerSistLest = () => {
+    const { loading, error, data } = useQuery(QUERY_NOTIFIKASJONER_SIST_LEST);
+    const [sistLest, setSistLest] = useState<string | undefined>(undefined);
+    const [setNotifikasjonerSistLest] = useMutation(MUTATION_NOTIFIKASJONER_SIST_LEST);
+
+    useEffect(() => {
+        if (loading) {
+            return;
+        }
+        if (error) {
+            console.error('Error fetching sist lest:', error);
+            return;
+        }
+        if (data && data.tidspunkt) {
+            setSistLest(data.tidspunkt);
+        }
+    }, [loading]);
+
+    const updateSistLest = (tidspunkt: string) => {
+        setNotifikasjonerSistLest({
+            variables: { tidspunkt: tidspunkt },
+        });
+        setSistLest(tidspunkt);
+    };
+
+    return {sistLest, updateSistLest};
+};
