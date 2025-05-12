@@ -73,7 +73,8 @@ const TiltakAvtaler = () => {
 const TekstUtenTall = () => (
     <>
         <BodyShort className="avsnitt">
-            Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd og sommerjobb.
+            Arbeidstrening, lønnstilskudd, mentortilskudd, inkluderingstilskudd, varig tilrettelagt
+            arbeid og sommerjobb.
         </BodyShort>
         <BodyShort>De ulike tiltakene krever egne tilganger i Altinn</BodyShort>
     </>
