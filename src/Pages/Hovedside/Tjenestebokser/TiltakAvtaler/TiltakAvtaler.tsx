@@ -14,6 +14,7 @@ const displayname: Record<Avtalenavn, string> = {
     SOMMERJOBB: 'sommerjobb',
     INKLUDERINGSTILSKUDD: 'inkluderingstilskudd',
     MENTOR: 'mentortilskudd',
+    VTAO: 'varig tilrettelagt arbeid',
 };
 
 const displayorder: Avtalenavn[] = [
@@ -23,6 +24,7 @@ const displayorder: Avtalenavn[] = [
     'SOMMERJOBB',
     'INKLUDERINGSTILSKUDD',
     'MENTOR',
+    'VTAO',
 ];
 
 const TiltakAvtaler = () => {

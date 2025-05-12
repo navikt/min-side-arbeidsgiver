@@ -12,6 +12,7 @@ export const NAVtjenesteId = [
     'arbeidsforhold',
     'midlertidigLønnstilskudd',
     'varigLønnstilskudd',
+    'varigTilrettelagtArbeid',
     'sommerjobb',
     'mentortilskudd',
     'inkluderingstilskudd',
@@ -27,36 +28,34 @@ export type AltinnFellesInfo = {
     navn: string;
     beOmTilgangTittel?: string;
     beOmTilgangBeskrivelse: string /* Fravær av beskrivelse betyr man ikke kan søke om tilgang */;
-}
+};
 export type Altinn2Tilgang = {
     tjenestekode: string;
     tjenesteversjon: string;
-}
+};
 
 export type Altinn3Tilgang = {
-    ressurs: string
-}
+    ressurs: string;
+};
 
-export function isAltinn2Tilgang(
-    altinn: Altinn
-): boolean {
+export function isAltinn2Tilgang(altinn: Altinn): boolean {
     return 'tjenestekode' in altinn && 'tjenesteversjon' in altinn;
 }
 
-export function isAltinn3Tilgang(
-    altinn: Altinn
-): boolean {
+export function isAltinn3Tilgang(altinn: Altinn): boolean {
     return 'ressurs' in altinn;
 }
 
-export type Altinnskjema = AltinnFellesInfo & (Altinn2Tilgang | Altinn3Tilgang) & {
-    sort: 'skjema';
-    skjemaUrl: string;
-}
+export type Altinnskjema = AltinnFellesInfo &
+    (Altinn2Tilgang | Altinn3Tilgang) & {
+        sort: 'skjema';
+        skjemaUrl: string;
+    };
 
-export type NAVTjeneste = AltinnFellesInfo & (Altinn2Tilgang | Altinn3Tilgang) & {
-    sort: 'tjeneste';
-}
+export type NAVTjeneste = AltinnFellesInfo &
+    (Altinn2Tilgang | Altinn3Tilgang) & {
+        sort: 'tjeneste';
+    };
 
 export type AltinntjenesteId = AltinnskjemaId | NAVtjenesteId;
 export type Altinn = Altinnskjema | NAVTjeneste;
@@ -124,7 +123,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5332',
         tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
     },
-
     arbeidsforhold: {
         sort: 'tjeneste',
         navn: 'Arbeidsforhold',
@@ -136,7 +134,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5441',
         tjenesteversjon: '1',
     },
-
     midlertidigLønnstilskudd: {
         sort: 'tjeneste',
         navn: 'Midlertidig lønnstilskudd',
@@ -147,7 +144,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5516',
         tjenesteversjon: '1',
     },
-
     varigLønnstilskudd: {
         sort: 'tjeneste',
         navn: 'Varig lønnstilskudd',
@@ -158,7 +154,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5516',
         tjenesteversjon: '2',
     },
-
     sommerjobb: {
         sort: 'tjeneste',
         navn: 'Sommerjobb',
@@ -168,7 +163,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5516',
         tjenesteversjon: '3',
     },
-
     mentortilskudd: {
         sort: 'tjeneste',
         navn: 'Mentortilskudd',
@@ -181,7 +175,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
             for personer som gjennomfører arbeidsmarkedstiltak.
             `,
     },
-
     inkluderingstilskudd: {
         sort: 'tjeneste',
         navn: 'Inkluderingstilskudd',
@@ -192,20 +185,29 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         Du kan søke om tilskudd for å dekke merkostnader du som
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
     },
+    varigTilrettelagtArbeid: {
+        sort: 'tjeneste',
+        navn: 'Varig tilrettelagt arbeid',
+        tjenestekode: '5516',
+        tjenesteversjon: '6',
+        beOmTilgangBeskrivelse: `
+        Få tilgang til avtaler om varig tilrettelagt arbeid i ordinær virksomhet.
+        Du kan søke om tilskudd for å dekke merkostnader du som
+        arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
+    },
     sykefravarstatistikk: {
         sort: 'tjeneste',
         navn: 'Sykefraværsstatistikk',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Virksomhetens legemeldte sykefraværsstatistikk» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
-        ressurs: "nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk"
+        ressurs: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
     },
     forebyggefravar: {
         sort: 'tjeneste',
         navn: 'Forebygge fravær',
         beOmTilgangBeskrivelse:
             'Du må ha enkeltrettigheten «Verktøy for å forebygge og redusere sykefravær i virksomheten» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.',
-        ressurs: "nav_forebygge-og-redusere-sykefravar_samarbeid"
+        ressurs: 'nav_forebygge-og-redusere-sykefravar_samarbeid',
     },
-
     rekruttering: {
         sort: 'tjeneste',
         navn: 'Rekruttering',
@@ -216,7 +218,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
-
     tilskuddsbrev: {
         sort: 'tjeneste',
         navn: 'Tilskuddsbrev om NAV-tiltak',

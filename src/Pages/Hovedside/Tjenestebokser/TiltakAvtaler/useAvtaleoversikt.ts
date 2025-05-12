@@ -11,6 +11,7 @@ export type Avtaleoversikt = {
     SOMMERJOBB: number;
     INKLUDERINGSTILSKUDD: number;
     MENTOR: number;
+    VTAO: number;
 };
 
 export type Avtalenavn = keyof Avtaleoversikt;
@@ -49,6 +50,7 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
             SOMMERJOBB: antallAvtaler(avtaler, 'SOMMERJOBB'),
             INKLUDERINGSTILSKUDD: antallAvtaler(avtaler, 'INKLUDERINGSTILSKUDD'),
             MENTOR: antallAvtaler(avtaler, 'MENTOR'),
+            VTAO: antallAvtaler(avtaler, 'VTAO'),
         }),
         [avtaler]
     );
