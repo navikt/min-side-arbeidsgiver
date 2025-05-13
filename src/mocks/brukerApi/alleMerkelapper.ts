@@ -8,6 +8,7 @@ export enum Merkelapp {
     Inntektsmelding_pleiepenger_sykt_barn = 'Inntektsmelding pleiepenger sykt barn',
     Inntektsmelding_foreldrepenger = 'Inntektsmelding foreldrepenger',
     Lønnstilskudd = 'Lønnstilskudd',
+    VTAO = 'Varig tilrettelagt arbeid',
     Masseoppsigelse = 'Masseoppsigelse',
     Mentor = 'Mentor',
     Permittering = 'Permittering',

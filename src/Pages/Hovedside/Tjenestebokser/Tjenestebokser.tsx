@@ -46,6 +46,7 @@ const TjenesteboksContainer: FunctionComponent = () => {
     if (
         valgtOrganisasjon.altinntilgang.midlertidigLønnstilskudd ||
         valgtOrganisasjon.altinntilgang.varigLønnstilskudd ||
+        valgtOrganisasjon.altinntilgang.varigTilrettelagtArbeid ||
         valgtOrganisasjon.altinntilgang.arbeidstrening ||
         valgtOrganisasjon.altinntilgang.mentortilskudd ||
         valgtOrganisasjon.altinntilgang.inkluderingstilskudd

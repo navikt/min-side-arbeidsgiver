@@ -17,6 +17,7 @@ const alleTilganger = [
     '5516:3', // sommerjobb
     '5516:4', // mentortilskudd
     '5516:5', // inkluderingstilskudd
+    '5516:6', // vtao
     'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk', // sykefravarstatistikk
     'nav_forebygge-og-redusere-sykefravar_samarbeid', // forebyggefravar
     '5078:1', // rekruttering
@@ -154,6 +155,7 @@ export const dagligLederScenario = [
                     'SOMMERJOBB',
                     'INKLUDERINGSTILSKUDD',
                     'MENTOR',
+                    'VTAO',
                 ]),
             }))
         )
