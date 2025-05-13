@@ -19,6 +19,7 @@ import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
 import { ServerError } from '@apollo/client/link/utils';
 import { filtrerUlesteNotifikasjoner } from './filtrerUlesteNotifikasjoner';
+import { useLocalStorage } from '../../../hooks/useStorage';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error, stopPolling } = useHentNotifikasjoner();
@@ -37,10 +38,10 @@ const NotifikasjonPanel = () => {
         }
     }, [error]);
 
-    // const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
-    //     'sist_lest',
-    //     undefined
-    // );
+    const [localStorageSistLest, _] = useLocalStorage<string | undefined>(
+        'sist_lest',
+        undefined
+    );
 
     const {sistLest, updateSistLest} = useNotifikasjonerSistLest()
 
@@ -53,6 +54,14 @@ const NotifikasjonPanel = () => {
             updateSistLest(notifikasjoner[0].sorteringTidspunkt);
         }
     }, [notifikasjoner]);
+
+
+    // Dersom sistLest er null, populerer den fra localstorage.
+    useEffect(() => {
+        if (!sistLest && localStorageSistLest) {
+            updateSistLest(localStorageSistLest);
+        }
+    }, [])
 
     useEffect(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
