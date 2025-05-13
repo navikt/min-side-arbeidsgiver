@@ -2,7 +2,7 @@ import React, { useRef, useState, KeyboardEvent, useEffect, useCallback } from '
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
-    MutationNotifikasjonerSistLest,
+    MutationNotifikasjonerSistLestArgs,
     MutationNotifikasjonKlikketPaaArgs,
     Notifikasjon,
     NotifikasjonerSistLestResultat,
@@ -18,7 +18,6 @@ import { logAnalyticsEvent } from '../../../utils/analytics';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
 import { ServerError } from '@apollo/client/link/utils';
-import { useLocalStorage } from '../../../hooks/useStorage';
 import { filtrerUlesteNotifikasjoner } from './filtrerUlesteNotifikasjoner';
 
 const NotifikasjonPanel = () => {
@@ -434,7 +433,7 @@ const NOTIFIKASJONER_KLIKKET_PAA: TypedDocumentNode<
 
 const MUTATION_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<
     NotifikasjonerSistLestResultat,
-    MutationNotifikasjonerSistLest
+    MutationNotifikasjonerSistLestArgs
 > = gql`
     mutation notifikasjonerSistLest($tidspunkt: ISO8601DateTime!) {
         notifikasjonerSistLest(tidspunkt: $tidspunkt) {
