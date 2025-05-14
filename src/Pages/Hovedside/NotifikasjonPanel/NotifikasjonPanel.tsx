@@ -37,7 +37,7 @@ const NotifikasjonPanel = () => {
         }
     }, [error]);
 
-    const [localStorageSistLest, _] = useLocalStorage<string | undefined>(
+    const [localStorageSistLest, _, deleteLocalStorageSistLest] = useLocalStorage<string | undefined>(
         'sist_lest',
         undefined
     );
@@ -57,6 +57,8 @@ const NotifikasjonPanel = () => {
     useEffect(() => {
         if (!sistLest && localStorageSistLest) {
             updateSistLest(localStorageSistLest);
+            setSynligSistLest(localStorageSistLest);
+            deleteLocalStorageSistLest()
         }
     }, [])
 

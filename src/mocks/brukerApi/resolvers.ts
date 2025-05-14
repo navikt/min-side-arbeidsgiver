@@ -157,7 +157,7 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
         });
     });
 
-export const hentNotifikasjonerSistLest = (tidspunkt: Date) =>
+export const hentNotifikasjonerSistLest = (tidspunkt: Date | null) =>
     graphql.query('notifikasjonerSistLest', async ({ query, variables }) => {
         const { errors, data } = await executeAndValidate({
             query,
@@ -165,7 +165,7 @@ export const hentNotifikasjonerSistLest = (tidspunkt: Date) =>
             rootValue: {
                 notifikasjonerSistLest: {
                     __typename: "NotifikasjonerSistLest",
-                    tidspunkt: tidspunkt.toISOString()
+                    tidspunkt: tidspunkt?.toISOString()
                 },
             },
         });

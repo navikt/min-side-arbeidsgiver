@@ -9,7 +9,7 @@ import { createApolloClient } from '../../Pages';
 import { Notifikasjon, OppgaveTilstand } from '../../../api/graphql-types';
 import {
     hentNotifikasjonerResolver,
-    hentNotifikasjonerSistLest,
+    hentNotifikasjonerSistLest, setNotifikasjonerSistLest,
 } from '../../../mocks/brukerApi/resolvers';
 import { fakerNB_NO as faker } from '@faker-js/faker';
 
@@ -18,13 +18,12 @@ describe('Uleste Notifikasjoner', () => {
     afterEach(() => server.resetHandlers());
     afterAll(() => server.close());
 
-    it('test 1', async () => {
+    it('to notifikasjoner, en skal være lest', async () => {
         server.use(
             hentNotifikasjonerSistLest(opprettetTIdspunkt1),
             hentNotifikasjonerResolver(notifikasjoner)
         );
 
-        // vi.useFakeTimers();
         render(
             <ApolloProvider
                 client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
@@ -35,7 +34,27 @@ describe('Uleste Notifikasjoner', () => {
 
         const antallUlesteElement = await screen.findByTestId('antallUleste');
         expect(antallUlesteElement.textContent).toBe('1');
-    }, 2000000);
+    });
+
+    it('leser fra localStorage dersom remote returnerer null', async () => {
+        server.use(
+            hentNotifikasjonerSistLest(null),
+            hentNotifikasjonerResolver(notifikasjoner),
+            setNotifikasjonerSistLest()
+        );
+
+        localStorage.setItem('sist_lest', JSON.stringify(opprettetTIdspunkt1));
+        render(
+            <ApolloProvider
+                client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
+            >
+                <NotifikasjonPanel />
+            </ApolloProvider>
+        );
+
+        const antallUlesteElement = await screen.findByTestId('antallUleste');
+        expect(antallUlesteElement.textContent).toBe('1');
+    });
 });
 
 const server = setupServer(
