@@ -1,4 +1,4 @@
-import React, { useRef, useState, KeyboardEvent, useEffect, useCallback } from 'react';
+import React, { useRef, useState, KeyboardEvent, useEffect, useCallback, useMemo } from 'react';
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
@@ -23,8 +23,7 @@ import { useLocalStorage } from '../../../hooks/useStorage';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error, stopPolling } = useHentNotifikasjoner();
-    const useNotifikasjonKlikketPaa = () => useMutation(NOTIFIKASJONER_KLIKKET_PAA);
-    const [notifikasjonKlikketPaa] = useNotifikasjonKlikketPaa();
+    const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
     const erMobil = useBreakpoint();
     const notifikasjoner = data?.notifikasjoner?.notifikasjoner;
 
@@ -43,9 +42,7 @@ const NotifikasjonPanel = () => {
         undefined
     );
 
-    const {sistLest, updateSistLest} = useNotifikasjonerSistLest()
-
-    const [synligSistLest, setSynligSistLest] = useState(sistLest);
+    const {sistLest, updateSistLest, synligSistLest, setSynligSistLest} = useNotifikasjonerSistLest()
 
     const setSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
@@ -62,6 +59,8 @@ const NotifikasjonPanel = () => {
             updateSistLest(localStorageSistLest);
         }
     }, [])
+
+
 
     useEffect(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
@@ -201,8 +200,6 @@ const NotifikasjonPanel = () => {
 
     const harUleste = antallUleste !== undefined && antallUleste > 0;
 
-    // const harUleste = false;
-
     return (
         <div
             className={clsx('notifikasjon-container', {
@@ -228,7 +225,7 @@ const NotifikasjonPanel = () => {
                     <div className="notifikasjon-icon">
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
-                            <span className="notifikasjon-badge" aria-hidden="true">
+                            <span className="notifikasjon-badge" aria-hidden="true" data-testid={"antallUleste"}>
                                 {antallUleste && antallUleste < 10 ? antallUleste : '9+'}
                             </span>
                         )}
@@ -453,7 +450,7 @@ const MUTATION_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<
     }
 `;
 
-const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<NotifikasjonerSistLestResultat> = gql`
+const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<Pick<Query, 'notifikasjonerSistLest'>> = gql`
     query notifikasjonerSistLest {
         notifikasjonerSistLest {
             ... on NotifikasjonerSistLest {
@@ -463,9 +460,10 @@ const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<NotifikasjonerSistLestRe
     }
 `;
 
-const useNotifikasjonerSistLest = () => {
+export const useNotifikasjonerSistLest = () => {
     const { loading, error, data } = useQuery(QUERY_NOTIFIKASJONER_SIST_LEST);
     const [sistLest, setSistLest] = useState<string | undefined>(undefined);
+    const [synligSistLest, setSynligSistLest] = useState<string | undefined>(undefined)
     const [setNotifikasjonerSistLest] = useMutation(MUTATION_NOTIFIKASJONER_SIST_LEST);
 
     useEffect(() => {
@@ -476,8 +474,9 @@ const useNotifikasjonerSistLest = () => {
             console.error('Error fetching sist lest:', error);
             return;
         }
-        if (data && data.tidspunkt) {
-            setSistLest(data.tidspunkt);
+        if (data && data.notifikasjonerSistLest.tidspunkt) {
+            setSistLest(data.notifikasjonerSistLest.tidspunkt);
+            setSynligSistLest(data.notifikasjonerSistLest.tidspunkt);
         }
     }, [loading]);
 
@@ -488,5 +487,5 @@ const useNotifikasjonerSistLest = () => {
         setSistLest(tidspunkt);
     };
 
-    return {sistLest, updateSistLest};
+    return {sistLest, updateSistLest, synligSistLest, setSynligSistLest};
 };

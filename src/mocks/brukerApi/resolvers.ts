@@ -52,7 +52,7 @@ export const brukerApiHandlers = (
         hentKalenderavtalerResolver(kalenderavtaler),
         hentNotifikasjonerResolver(notifikasjoner),
         hentSakByIdResolver(saker),
-        hentNotifikasjonerSistLest(),
+        hentNotifikasjonerSistLest(new Date(new Date().setDate(new Date().getDate() - 2))),
         setNotifikasjonerSistLest()
     ];
 };
@@ -157,16 +157,15 @@ export const hentSakByIdResolver = (saker: Sak[]) =>
         });
     });
 
-export const hentNotifikasjonerSistLest = () =>
+export const hentNotifikasjonerSistLest = (tidspunkt: Date) =>
     graphql.query('notifikasjonerSistLest', async ({ query, variables }) => {
-        const tidspunkt = new Date(new Date().setDate(new Date().getDate() - 2)).toISOString();
         const { errors, data } = await executeAndValidate({
             query,
             variables,
             rootValue: {
                 notifikasjonerSistLest: {
                     __typename: "NotifikasjonerSistLest",
-                    tidspunkt: tidspunkt
+                    tidspunkt: tidspunkt.toISOString()
                 },
             },
         });
