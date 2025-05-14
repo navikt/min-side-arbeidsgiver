@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { subDays, addDays } from 'date-fns';
 import { setupServer } from 'msw/node';
 import { virksomhet } from '../../../mocks/brukerApi/helpers';
 import NotifikasjonPanel from './NotifikasjonPanel';
@@ -20,7 +21,7 @@ describe('Uleste Notifikasjoner', () => {
 
     it('to notifikasjoner, en skal være lest', async () => {
         server.use(
-            hentNotifikasjonerSistLest(opprettetTIdspunkt1),
+            hentNotifikasjonerSistLest(toDagerIFortiden),
             hentNotifikasjonerResolver(notifikasjoner)
         );
 
@@ -43,7 +44,7 @@ describe('Uleste Notifikasjoner', () => {
             setNotifikasjonerSistLest()
         );
 
-        localStorage.setItem('sist_lest', JSON.stringify(opprettetTIdspunkt1));
+        localStorage.setItem('sist_lest', JSON.stringify(toDagerIFortiden));
         render(
             <ApolloProvider
                 client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
@@ -60,8 +61,8 @@ describe('Uleste Notifikasjoner', () => {
 const server = setupServer(
     http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
 );
-const opprettetTIdspunkt1 = new Date();
-const opprettetTIdspunkt2 = new Date(new Date().setDate(opprettetTIdspunkt1.getDate() + 2));
+const nå = new Date();
+const toDagerIFortiden = addDays(nå, 2)
 
 const notifikasjoner: Notifikasjon[] = [
     {
@@ -70,11 +71,11 @@ const notifikasjoner: Notifikasjon[] = [
         tekst: 'tekst',
         tilstand: OppgaveTilstand.Utgaatt,
         frist: null,
-        opprettetTidspunkt: opprettetTIdspunkt1.toISOString(),
-        paaminnelseTidspunkt: opprettetTIdspunkt1.toISOString(),
-        utfoertTidspunkt: opprettetTIdspunkt1.toISOString(),
-        utgaattTidspunkt: opprettetTIdspunkt1.toISOString(),
-        sorteringTidspunkt: opprettetTIdspunkt1.toISOString(),
+        opprettetTidspunkt: nå.toISOString(),
+        paaminnelseTidspunkt: nå.toISOString(),
+        utfoertTidspunkt: nå.toISOString(),
+        utgaattTidspunkt: nå.toISOString(),
+        sorteringTidspunkt: nå.toISOString(),
         brukerKlikk: {
             __typename: 'BrukerKlikk',
             id: faker.string.uuid(),
@@ -95,8 +96,8 @@ const notifikasjoner: Notifikasjon[] = [
         __typename: 'Beskjed',
         id: faker.string.uuid(),
         tekst: 'tekst',
-        opprettetTidspunkt: opprettetTIdspunkt2.toISOString(),
-        sorteringTidspunkt: opprettetTIdspunkt2.toISOString(),
+        opprettetTidspunkt: toDagerIFortiden.toISOString(),
+        sorteringTidspunkt: toDagerIFortiden.toISOString(),
         brukerKlikk: {
             __typename: 'BrukerKlikk',
             id: faker.string.uuid(),
