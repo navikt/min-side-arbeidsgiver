@@ -24,7 +24,7 @@ describe('Uleste Notifikasjoner', () => {
         server.use(
             hentNotifikasjonerSistLest(toDagerIFortiden),
             hentNotifikasjonerResolver(notifikasjoner),
-            setNotifikasjonerSistLest(),
+            setNotifikasjonerSistLest()
         );
 
         render(
@@ -32,20 +32,18 @@ describe('Uleste Notifikasjoner', () => {
                 client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
             >
                 <NotifikasjonPanel />
-            </ApolloProvider>,
+            </ApolloProvider>
         );
 
         const antallUlesteElement = await screen.findByTestId('antallUleste');
         expect(antallUlesteElement.textContent).toBe('1');
-        await
-
     });
 
     it('leser fra localStorage dersom remote returnerer null', async () => {
         server.use(
             hentNotifikasjonerSistLest(null),
             hentNotifikasjonerResolver(notifikasjoner),
-            setNotifikasjonerSistLest(),
+            setNotifikasjonerSistLest()
         );
 
         localStorage.setItem('sist_lest', JSON.stringify(toDagerIFortiden));
@@ -54,7 +52,7 @@ describe('Uleste Notifikasjoner', () => {
                 client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
             >
                 <NotifikasjonPanel />
-            </ApolloProvider>,
+            </ApolloProvider>
         );
 
         const antallUlesteElement = await screen.findByTestId('antallUleste');
@@ -63,7 +61,7 @@ describe('Uleste Notifikasjoner', () => {
 });
 
 const server = setupServer(
-    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([])),
+    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
 );
 const nå = new Date();
 const toDagerIFortiden = subDays(nå, 2);
