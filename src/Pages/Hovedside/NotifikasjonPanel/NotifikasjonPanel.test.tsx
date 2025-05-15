@@ -10,7 +10,8 @@ import { createApolloClient } from '../../Pages';
 import { Notifikasjon, OppgaveTilstand } from '../../../api/graphql-types';
 import {
     hentNotifikasjonerResolver,
-    hentNotifikasjonerSistLest, setNotifikasjonerSistLest,
+    hentNotifikasjonerSistLest,
+    setNotifikasjonerSistLest,
 } from '../../../mocks/brukerApi/resolvers';
 import { fakerNB_NO as faker } from '@faker-js/faker';
 
@@ -19,10 +20,11 @@ describe('Uleste Notifikasjoner', () => {
     afterEach(() => server.resetHandlers());
     afterAll(() => server.close());
 
-    it('to notifikasjoner, en skal være lest', async () => {
+    it('To notifikasjoner, en er ny. bruker klikker på panel og sistLest blir oppdatert remote', async () => {
         server.use(
             hentNotifikasjonerSistLest(toDagerIFortiden),
-            hentNotifikasjonerResolver(notifikasjoner)
+            hentNotifikasjonerResolver(notifikasjoner),
+            setNotifikasjonerSistLest(),
         );
 
         render(
@@ -30,18 +32,20 @@ describe('Uleste Notifikasjoner', () => {
                 client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
             >
                 <NotifikasjonPanel />
-            </ApolloProvider>
+            </ApolloProvider>,
         );
 
         const antallUlesteElement = await screen.findByTestId('antallUleste');
         expect(antallUlesteElement.textContent).toBe('1');
+        await
+
     });
 
     it('leser fra localStorage dersom remote returnerer null', async () => {
         server.use(
             hentNotifikasjonerSistLest(null),
             hentNotifikasjonerResolver(notifikasjoner),
-            setNotifikasjonerSistLest()
+            setNotifikasjonerSistLest(),
         );
 
         localStorage.setItem('sist_lest', JSON.stringify(toDagerIFortiden));
@@ -50,7 +54,7 @@ describe('Uleste Notifikasjoner', () => {
                 client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
             >
                 <NotifikasjonPanel />
-            </ApolloProvider>
+            </ApolloProvider>,
         );
 
         const antallUlesteElement = await screen.findByTestId('antallUleste');
@@ -59,10 +63,10 @@ describe('Uleste Notifikasjoner', () => {
 });
 
 const server = setupServer(
-    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
+    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([])),
 );
 const nå = new Date();
-const toDagerIFortiden = subDays(nå, 2)
+const toDagerIFortiden = subDays(nå, 2);
 
 const notifikasjoner: Notifikasjon[] = [
     {

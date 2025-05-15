@@ -1,4 +1,4 @@
-import React, { useRef, useState, KeyboardEvent, useEffect, useCallback, useMemo } from 'react';
+import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
@@ -12,7 +12,7 @@ import {
 import { BellFillIcon, ChevronDownIcon, ChevronUpIcon, ExpandIcon } from '@navikt/aksel-icons';
 import clsx from 'clsx';
 import { InternLenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { gql, TypedDocumentNode, useQuery, useMutation } from '@apollo/client';
+import { gql, TypedDocumentNode, useMutation, useQuery } from '@apollo/client';
 import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
@@ -37,13 +37,14 @@ const NotifikasjonPanel = () => {
         }
     }, [error]);
 
-    const { synligSistLest, setSynligSistLest, oppdaterSistLest } = useNotifikasjonerSistLest();
+    const { sistLest, setSistLest, mutationNotifikasjonerSistLest } = useNotifikasjonerSistLest();
 
-    const setSistLest = useCallback(() => {
+    const setRemoteSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
             // naiv impl forutsetter sortering
-
-            oppdaterSistLest(notifikasjoner[0].sorteringTidspunkt);
+            mutationNotifikasjonerSistLest({
+                variables: { tidspunkt: notifikasjoner[0].sorteringTidspunkt },
+            });
         }
     }, [notifikasjoner]);
 
@@ -62,7 +63,7 @@ const NotifikasjonPanel = () => {
     }, [notifikasjoner]);
 
     const antallUleste =
-        notifikasjoner && filtrerUlesteNotifikasjoner(synligSistLest, notifikasjoner).length;
+        notifikasjoner && filtrerUlesteNotifikasjoner(sistLest, notifikasjoner).length;
 
     const [erUtvidet, setErUtvidet] = useState(false);
 
@@ -77,7 +78,7 @@ const NotifikasjonPanel = () => {
             });
         } else {
             if (notifikasjoner && notifikasjoner.length > 0) {
-                setSynligSistLest(notifikasjoner[0].sorteringTidspunkt);
+                setSistLest(notifikasjoner[0].sorteringTidspunkt);
             }
             logAnalyticsEvent('panel-kollaps', {
                 komponent: 'varselpanel',
@@ -91,7 +92,7 @@ const NotifikasjonPanel = () => {
     const toggleUtvidet = () => {
         const nyVerdi = !erUtvidet;
         setErUtvidet(nyVerdi);
-        setSistLest();
+        setRemoteSistLest();
 
         if (!nyVerdi) {
             setFocusedNotifikasjonIndex(-1);
@@ -453,11 +454,10 @@ const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<Pick<Query, 'notifikasjo
 export const useNotifikasjonerSistLest = () => {
     const { loading, error, data } = useQuery(QUERY_NOTIFIKASJONER_SIST_LEST);
     const [sistLest, setSistLest] = useState<string | undefined>(undefined);
-    const [synligSistLest, setSynligSistLest] = useState<string | undefined>(undefined);
     const [localStorageSistLest, _, deleteLocalStorageSistLest] = useLocalStorage<
         string | undefined
     >('sist_lest', undefined);
-    const [setNotifikasjonerSistLest] = useMutation(MUTATION_NOTIFIKASJONER_SIST_LEST);
+    const [mutationNotifikasjonerSistLest] = useMutation(MUTATION_NOTIFIKASJONER_SIST_LEST);
 
     useEffect(() => {
         if (loading) {
@@ -469,29 +469,16 @@ export const useNotifikasjonerSistLest = () => {
         }
         if (data && data.notifikasjonerSistLest.tidspunkt) {
             setSistLest(data.notifikasjonerSistLest.tidspunkt);
-            setSynligSistLest(data.notifikasjonerSistLest.tidspunkt);
-        } else if (localStorageSistLest) {
-            oppdaterSistLest(localStorageSistLest);
-            setSynligSistLest(localStorageSistLest);
+        }
+        // Dersom sistLest er null, populerer den fra localstorage.
+        else if (localStorageSistLest) {
+            mutationNotifikasjonerSistLest({
+                variables: { tidspunkt: localStorageSistLest },
+            });
+            setSistLest(localStorageSistLest);
             deleteLocalStorageSistLest();
         }
     }, [loading]);
 
-    // Dersom sistLest er null, populerer den fra localstorage.
-    useEffect(() => {
-        if (!sistLest && localStorageSistLest) {
-            oppdaterSistLest(localStorageSistLest);
-            setSynligSistLest(localStorageSistLest);
-            deleteLocalStorageSistLest();
-        }
-    }, []);
-
-    const oppdaterSistLest = (tidspunkt: string) => {
-        setNotifikasjonerSistLest({
-            variables: { tidspunkt: tidspunkt },
-        });
-        setSistLest(tidspunkt);
-    };
-
-    return { synligSistLest, setSynligSistLest, oppdaterSistLest };
+    return { sistLest, setSistLest, mutationNotifikasjonerSistLest };
 };
