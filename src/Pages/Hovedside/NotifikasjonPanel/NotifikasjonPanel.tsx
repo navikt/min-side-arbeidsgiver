@@ -467,11 +467,11 @@ export const useNotifikasjonerSistLest = () => {
             console.error('Error fetching sist lest:', error);
             return;
         }
-        if (data && data.notifikasjonerSistLest.tidspunkt) {
+        if (data && data.notifikasjonerSistLest.tidspunkt !== null) {
             setSistLest(data.notifikasjonerSistLest.tidspunkt);
         }
         // Dersom sistLest er null, populerer den fra localstorage.
-        else if (localStorageSistLest) {
+        else if (localStorageSistLest !== undefined) {
             mutationNotifikasjonerSistLest({
                 variables: { tidspunkt: localStorageSistLest },
             });
