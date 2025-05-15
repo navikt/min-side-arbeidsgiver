@@ -1,7 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { subDays, addDays } from 'date-fns';
+import { subDays } from 'date-fns';
 import { setupServer } from 'msw/node';
 import { virksomhet } from '../../../mocks/brukerApi/helpers';
 import NotifikasjonPanel from './NotifikasjonPanel';
@@ -62,14 +62,14 @@ const server = setupServer(
     http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
 );
 const nå = new Date();
-const toDagerIFortiden = addDays(nå, 2)
+const toDagerIFortiden = subDays(nå, 2)
 
 const notifikasjoner: Notifikasjon[] = [
     {
         __typename: 'Oppgave',
         id: faker.string.uuid(),
         tekst: 'tekst',
-        tilstand: OppgaveTilstand.Utgaatt,
+        tilstand: OppgaveTilstand.Ny,
         frist: null,
         opprettetTidspunkt: nå.toISOString(),
         paaminnelseTidspunkt: nå.toISOString(),

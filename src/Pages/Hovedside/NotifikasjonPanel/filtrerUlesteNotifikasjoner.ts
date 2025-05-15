@@ -8,15 +8,13 @@ export const filtrerUlesteNotifikasjoner = (
 
     const sistLestTid = Date.parse(sistLest);
 
-    return notifikasjoner.filter((notifikasjon) => {
+    const filtered = notifikasjoner.filter((notifikasjon) => {
         // Hvis notifikasjonen er en oppgave som ikke lenger er i "Ny" tilstand,
         // skal den ikke telles som ulest
-        if (
-            notifikasjon.__typename === 'Oppgave' &&
-            notifikasjon.tilstand !== OppgaveTilstand.Ny
-        ) {
+        if (notifikasjon.__typename === 'Oppgave' && notifikasjon.tilstand !== OppgaveTilstand.Ny) {
             return false;
         }
         return Date.parse(notifikasjon.sorteringTidspunkt) > sistLestTid;
     });
+    return filtered;
 };

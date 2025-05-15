@@ -37,32 +37,15 @@ const NotifikasjonPanel = () => {
         }
     }, [error]);
 
-    const [localStorageSistLest, _, deleteLocalStorageSistLest] = useLocalStorage<string | undefined>(
-        'sist_lest',
-        undefined
-    );
-
-    const {sistLest, updateSistLest, synligSistLest, setSynligSistLest} = useNotifikasjonerSistLest()
+    const { synligSistLest, setSynligSistLest, oppdaterSistLest } = useNotifikasjonerSistLest();
 
     const setSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
             // naiv impl forutsetter sortering
 
-            updateSistLest(notifikasjoner[0].sorteringTidspunkt);
+            oppdaterSistLest(notifikasjoner[0].sorteringTidspunkt);
         }
     }, [notifikasjoner]);
-
-
-    // Dersom sistLest er null, populerer den fra localstorage.
-    useEffect(() => {
-        if (!sistLest && localStorageSistLest) {
-            updateSistLest(localStorageSistLest);
-            setSynligSistLest(localStorageSistLest);
-            deleteLocalStorageSistLest()
-        }
-    }, [])
-
-
 
     useEffect(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
@@ -227,7 +210,11 @@ const NotifikasjonPanel = () => {
                     <div className="notifikasjon-icon">
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
-                            <span className="notifikasjon-badge" aria-hidden="true" data-testid={"antallUleste"}>
+                            <span
+                                className="notifikasjon-badge"
+                                aria-hidden="true"
+                                data-testid={'antallUleste'}
+                            >
                                 {antallUleste && antallUleste < 10 ? antallUleste : '9+'}
                             </span>
                         )}
@@ -452,20 +439,24 @@ const MUTATION_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<
     }
 `;
 
-const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<Pick<Query, 'notifikasjonerSistLest'>> = gql`
-    query notifikasjonerSistLest {
-        notifikasjonerSistLest {
-            ... on NotifikasjonerSistLest {
-                tidspunkt
+const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<Pick<Query, 'notifikasjonerSistLest'>> =
+    gql`
+        query notifikasjonerSistLest {
+            notifikasjonerSistLest {
+                ... on NotifikasjonerSistLest {
+                    tidspunkt
+                }
             }
         }
-    }
-`;
+    `;
 
 export const useNotifikasjonerSistLest = () => {
     const { loading, error, data } = useQuery(QUERY_NOTIFIKASJONER_SIST_LEST);
     const [sistLest, setSistLest] = useState<string | undefined>(undefined);
-    const [synligSistLest, setSynligSistLest] = useState<string | undefined>(undefined)
+    const [synligSistLest, setSynligSistLest] = useState<string | undefined>(undefined);
+    const [localStorageSistLest, _, deleteLocalStorageSistLest] = useLocalStorage<
+        string | undefined
+    >('sist_lest', undefined);
     const [setNotifikasjonerSistLest] = useMutation(MUTATION_NOTIFIKASJONER_SIST_LEST);
 
     useEffect(() => {
@@ -479,15 +470,28 @@ export const useNotifikasjonerSistLest = () => {
         if (data && data.notifikasjonerSistLest.tidspunkt) {
             setSistLest(data.notifikasjonerSistLest.tidspunkt);
             setSynligSistLest(data.notifikasjonerSistLest.tidspunkt);
+        } else if (localStorageSistLest) {
+            oppdaterSistLest(localStorageSistLest);
+            setSynligSistLest(localStorageSistLest);
+            deleteLocalStorageSistLest();
         }
     }, [loading]);
 
-    const updateSistLest = (tidspunkt: string) => {
+    // Dersom sistLest er null, populerer den fra localstorage.
+    useEffect(() => {
+        if (!sistLest && localStorageSistLest) {
+            oppdaterSistLest(localStorageSistLest);
+            setSynligSistLest(localStorageSistLest);
+            deleteLocalStorageSistLest();
+        }
+    }, []);
+
+    const oppdaterSistLest = (tidspunkt: string) => {
         setNotifikasjonerSistLest({
             variables: { tidspunkt: tidspunkt },
         });
         setSistLest(tidspunkt);
     };
 
-    return {sistLest, updateSistLest, synligSistLest, setSynligSistLest};
+    return { synligSistLest, setSynligSistLest, oppdaterSistLest };
 };
