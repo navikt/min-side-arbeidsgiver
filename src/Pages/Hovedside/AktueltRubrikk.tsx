@@ -52,12 +52,10 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/arbeidsgiver/sommerjobb',
-        tittel: 'Trenger du hjelp i sommer?',
-        beskrivelse:
-            'Gir du sommerjobb til ungdom gjennom Nav, får ungdom verdifull erfaring samtidig som Nav dekker deler av lønnen.',
-        visFra: new Date('2025-01-28T00:00:00+02:00'),
-        visTil: new Date('2025-03-01T00:00:00+02:00'),
+        lenke: 'https://www.nav.no/arbeidsgiver/varig-tilrettelagt-arbeid',
+        tittel: 'Avtale om varig tilrettelagt arbeid er nå digitalisert',
+        visFra: new Date('2025-05-16T00:00:00+02:00'),
+        visTil: new Date('2025-06-16T00:00:00+02:00'),
         tilgangssjekk: (_) => true,
     },
 ];
