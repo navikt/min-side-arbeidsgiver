@@ -16,10 +16,10 @@ import { orgnr } from '../mocks/brukerApi/helpers';
 import { faker } from '@faker-js/faker';
 import {
     hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver,
+    hentNotifikasjonerResolver, hentNotifikasjonerSistLest,
     hentSakByIdResolver,
     hentSakerResolver,
-    sakstyperResolver,
+    sakstyperResolver, setNotifikasjonerSistLest,
 } from '../mocks/brukerApi/resolvers';
 import { alleSaker } from '../mocks/brukerApi/alleSaker';
 import { Merkelapp } from '../mocks/brukerApi/alleMerkelapper';
@@ -572,5 +572,7 @@ const server = setupServer(
     sakstyperResolver(alleSaker.map(({ merkelapp }) => merkelapp as Merkelapp)),
     hentKalenderavtalerResolver(alleKalenderavtaler),
     hentNotifikasjonerResolver(alleNotifikasjoner),
-    hentSakByIdResolver(alleSaker)
+    hentSakByIdResolver(alleSaker),
+    hentNotifikasjonerSistLest(new Date()),
+    setNotifikasjonerSistLest()
 );

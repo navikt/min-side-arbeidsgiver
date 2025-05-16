@@ -1,28 +1,29 @@
-import React, { useRef, useState, KeyboardEvent, useEffect, useCallback } from 'react';
+import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
 import './NotifikasjonPanel.css';
 import { Tag } from '@navikt/ds-react';
 import {
+    MutationNotifikasjonerSistLestArgs,
     MutationNotifikasjonKlikketPaaArgs,
     Notifikasjon,
+    NotifikasjonerSistLestResultat,
     NotifikasjonKlikketPaaResultat,
     Query,
 } from '../../../api/graphql-types';
 import { BellFillIcon, ChevronDownIcon, ChevronUpIcon, ExpandIcon } from '@navikt/aksel-icons';
 import clsx from 'clsx';
 import { InternLenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
-import { gql, TypedDocumentNode, useQuery, useMutation } from '@apollo/client';
+import { gql, TypedDocumentNode, useMutation, useQuery } from '@apollo/client';
 import NotifikasjonListeElement from './NotifikasjonListeElement';
 import { logAnalyticsEvent } from '../../../utils/analytics';
 import { useOnClickOutside } from '../../../hooks/useOnClickOutside';
 import { useBreakpoint } from '../../../hooks/useBreakpoint';
 import { ServerError } from '@apollo/client/link/utils';
-import { useLocalStorage } from '../../../hooks/useStorage';
 import { filtrerUlesteNotifikasjoner } from './filtrerUlesteNotifikasjoner';
+import { useLocalStorage } from '../../../hooks/useStorage';
 
 const NotifikasjonPanel = () => {
     const { loading, data, error, stopPolling } = useHentNotifikasjoner();
-    const useNotifikasjonKlikketPaa = () => useMutation(NOTIFIKASJONER_KLIKKET_PAA);
-    const [notifikasjonKlikketPaa] = useNotifikasjonKlikketPaa();
+    const [notifikasjonKlikketPaa] = useMutation(NOTIFIKASJONER_KLIKKET_PAA);
     const erMobil = useBreakpoint();
     const notifikasjoner = data?.notifikasjoner?.notifikasjoner;
 
@@ -36,17 +37,14 @@ const NotifikasjonPanel = () => {
         }
     }, [error]);
 
-    const [lagretSistLest, setLagretSistLest] = useLocalStorage<string | undefined>(
-        'sist_lest',
-        undefined
-    );
-    const [synligSistLest, setSynligSistLest] = useState(lagretSistLest);
+    const { sistLest, setSistLest, mutationNotifikasjonerSistLest } = useNotifikasjonerSistLest();
 
-    const setSistLest = useCallback(() => {
+    const setRemoteSistLest = useCallback(() => {
         if (notifikasjoner && notifikasjoner.length > 0) {
             // naiv impl forutsetter sortering
-
-            setLagretSistLest(notifikasjoner[0].sorteringTidspunkt);
+            mutationNotifikasjonerSistLest({
+                variables: { tidspunkt: notifikasjoner[0].sorteringTidspunkt },
+            });
         }
     }, [notifikasjoner]);
 
@@ -64,7 +62,8 @@ const NotifikasjonPanel = () => {
         }
     }, [notifikasjoner]);
 
-    const antallUleste = notifikasjoner && filtrerUlesteNotifikasjoner(synligSistLest, notifikasjoner).length;
+    const antallUleste =
+        notifikasjoner && filtrerUlesteNotifikasjoner(sistLest, notifikasjoner).length;
 
     const [erUtvidet, setErUtvidet] = useState(false);
 
@@ -79,7 +78,7 @@ const NotifikasjonPanel = () => {
             });
         } else {
             if (notifikasjoner && notifikasjoner.length > 0) {
-                setSynligSistLest(notifikasjoner[0].sorteringTidspunkt);
+                setSistLest(notifikasjoner[0].sorteringTidspunkt);
             }
             logAnalyticsEvent('panel-kollaps', {
                 komponent: 'varselpanel',
@@ -93,7 +92,7 @@ const NotifikasjonPanel = () => {
     const toggleUtvidet = () => {
         const nyVerdi = !erUtvidet;
         setErUtvidet(nyVerdi);
-        setSistLest();
+        setRemoteSistLest();
 
         if (!nyVerdi) {
             setFocusedNotifikasjonIndex(-1);
@@ -187,8 +186,6 @@ const NotifikasjonPanel = () => {
 
     const harUleste = antallUleste !== undefined && antallUleste > 0;
 
-    // const harUleste = false;
-
     return (
         <div
             className={clsx('notifikasjon-container', {
@@ -214,7 +211,11 @@ const NotifikasjonPanel = () => {
                     <div className="notifikasjon-icon">
                         <BellFillIcon fontSize="2rem" color="#005B82" aria-hidden />
                         {harUleste && (
-                            <span className="notifikasjon-badge" aria-hidden="true">
+                            <span
+                                className="notifikasjon-badge"
+                                aria-hidden="true"
+                                data-testid={'antallUleste'}
+                            >
                                 {antallUleste && antallUleste < 10 ? antallUleste : '9+'}
                             </span>
                         )}
@@ -251,9 +252,17 @@ const NotifikasjonPanel = () => {
 
                 <div className="notifikasjon-dropdown">
                     {erUtvidet ? (
-                        <ChevronUpIcon color={harUleste ? 'white': 'black'} fontSize="2rem" aria-hidden />
+                        <ChevronUpIcon
+                            color={harUleste ? 'white' : 'black'}
+                            fontSize="2rem"
+                            aria-hidden
+                        />
                     ) : (
-                        <ChevronDownIcon color={harUleste ? 'white': 'black'} fontSize="2rem" aria-hidden />
+                        <ChevronDownIcon
+                            color={harUleste ? 'white' : 'black'}
+                            fontSize="2rem"
+                            aria-hidden
+                        />
                     )}
                 </div>
             </div>
@@ -417,3 +426,59 @@ const NOTIFIKASJONER_KLIKKET_PAA: TypedDocumentNode<
         }
     }
 `;
+
+const MUTATION_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<
+    NotifikasjonerSistLestResultat,
+    MutationNotifikasjonerSistLestArgs
+> = gql`
+    mutation notifikasjonerSistLest($tidspunkt: ISO8601DateTime!) {
+        notifikasjonerSistLest(tidspunkt: $tidspunkt) {
+            ... on NotifikasjonerSistLest {
+                tidspunkt
+            }
+        }
+    }
+`;
+
+const QUERY_NOTIFIKASJONER_SIST_LEST: TypedDocumentNode<Pick<Query, 'notifikasjonerSistLest'>> =
+    gql`
+        query notifikasjonerSistLest {
+            notifikasjonerSistLest {
+                ... on NotifikasjonerSistLest {
+                    tidspunkt
+                }
+            }
+        }
+    `;
+
+export const useNotifikasjonerSistLest = () => {
+    const { loading, error, data } = useQuery(QUERY_NOTIFIKASJONER_SIST_LEST);
+    const [sistLest, setSistLest] = useState<string | undefined>(undefined);
+    const [localStorageSistLest, _, deleteLocalStorageSistLest] = useLocalStorage<
+        string | undefined
+    >('sist_lest', undefined);
+    const [mutationNotifikasjonerSistLest] = useMutation(MUTATION_NOTIFIKASJONER_SIST_LEST);
+
+    useEffect(() => {
+        if (loading) {
+            return;
+        }
+        if (error) {
+            console.error('Error fetching sist lest:', error);
+            return;
+        }
+        if (data && data.notifikasjonerSistLest.tidspunkt !== null) {
+            setSistLest(data.notifikasjonerSistLest.tidspunkt);
+        }
+        // Dersom sistLest er null, populerer den fra localstorage.
+        else if (localStorageSistLest !== undefined) {
+            mutationNotifikasjonerSistLest({
+                variables: { tidspunkt: localStorageSistLest },
+            });
+            setSistLest(localStorageSistLest);
+            deleteLocalStorageSistLest();
+        }
+    }, [loading]);
+
+    return { sistLest, setSistLest, mutationNotifikasjonerSistLest };
+};
