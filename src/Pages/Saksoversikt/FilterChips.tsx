@@ -5,7 +5,7 @@ import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
 import { amplitudeChipClick } from '../../utils/analytics';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
@@ -180,7 +180,7 @@ const FilterChipsContainer = ({ chipElements }: FilterChipsContainerProps) => {
                     onClick={() => {
                         setVisAlle(!visAlle);
                     }}
-                    icon={visAlle ? <Collapse /> : <Expand />}
+                    icon={visAlle ? <ChevronUpIcon /> : <ChevronDownIcon />}
                     style={{ maxWidth: '12rem' }}
                 >
                     {visAlle ? 'Vis færre filter' : 'Vis alle filter'}

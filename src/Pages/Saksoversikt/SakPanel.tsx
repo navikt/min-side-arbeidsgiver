@@ -24,7 +24,7 @@ import {
 } from '../../api/graphql-types';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { AvtaletilstandLinje, StatusLinje } from '../../GeneriskeElementer/StatusLinje';
-import { Collapse, Expand } from '@navikt/ds-icons';
+import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { LocationPinIcon, PersonHeadsetIcon } from '@navikt/aksel-icons';
 
 export const dateFormat = new Intl.DateTimeFormat('no', {
@@ -273,9 +273,9 @@ const Tidslinje = ({ sak, tvingEkspander }: TidslinjeProps) => {
                         onClick={() => setTidslinjeOpen(!tidslinjeOpen)}
                         icon={
                             tidslinjeOpen ? (
-                                <Collapse aria-hidden="true" />
+                                <ChevronUpIcon aria-hidden="true" />
                             ) : (
-                                <Expand aria-hidden="true" />
+                                <ChevronDownIcon aria-hidden="true" />
                             )
                         }
                     >
