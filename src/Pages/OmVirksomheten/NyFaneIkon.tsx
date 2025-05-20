@@ -1,7 +1,7 @@
 import React from 'react';
-import { ExternalLink } from "@navikt/ds-icons";
+import { ExternalLinkIcon } from "@navikt/aksel-icons";
 
-const NyFaneIkon = () => <ExternalLink title="Ekstern lenke. Åpnes i ny fane" aria-hidden="true" />
+const NyFaneIkon = () => <ExternalLinkIcon title="Ekstern lenke. Åpnes i ny fane" aria-hidden="true" />
 
 export default NyFaneIkon;
 

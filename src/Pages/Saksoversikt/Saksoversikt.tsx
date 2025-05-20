@@ -185,7 +185,7 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
 
 type SaksListeBodyProps = {
     stuck: boolean;
-    saksoversiktRef: RefObject<HTMLDivElement>;
+    saksoversiktRef: RefObject<HTMLDivElement | null>;
 };
 
 const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
@@ -243,7 +243,7 @@ type Props = {
     saker: Array<Sak>;
     placeholder?: boolean;
     stuck?: boolean;
-    saksoversiktRef?: RefObject<HTMLDivElement>;
+    saksoversiktRef?: RefObject<HTMLDivElement | null>;
 };
 
 const SaksListe = ({ saker, placeholder, stuck, saksoversiktRef }: Props) => {

@@ -1,5 +1,5 @@
 import { Heading, Panel } from '@navikt/ds-react';
-import { Collapse as CollapseIcon, Expand as ExpandIcon } from '@navikt/ds-icons';
+import { ChevronUpIcon, ChevronDownIcon, ChevronUpDownIcon } from '@navikt/aksel-icons';
 import React, { FC, useState, MouseEventHandler, PropsWithChildren } from 'react';
 
 import './Ekspanderbartpanel.css';
@@ -46,9 +46,9 @@ const Header: FC<PropsWithChildren<HeaderProps>> = ({ ikon, tittel, onClick, ape
             </Heading>
             <div className="ekspanderbartpanel__button-chevron">
                 {apen ? (
-                    <CollapseIcon title="Kollapsikon" aria-hidden="true" />
+                    <ChevronUpIcon title="Kollapsikon" aria-hidden="true" />
                 ) : (
-                    <ExpandIcon title="Ekspanderikon" aria-hidden="true" />
+                    <ChevronUpDownIcon title="Ekspanderikon" aria-hidden="true" />
                 )}
             </div>
         </button>

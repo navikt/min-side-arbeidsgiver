@@ -2,7 +2,7 @@ import React from 'react';
 import './TrengerDuHjelp.css';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import { Dialog, Send, Telephone } from '@navikt/ds-icons';
+import { Chat2Icon, PaperplaneIcon, PhoneIcon } from '@navikt/aksel-icons';
 import { kontaktskjemaURL } from '../../lenker';
 import { openChatbot } from '@navikt/nav-dekoratoren-moduler';
 
@@ -27,7 +27,7 @@ export const TrengerDuHjelp = () => {
                                 loggLenketekst="Ring oss på 55 55 33 36"
                                 href="tel:55553336"
                             >
-                                <Telephone
+                                <PhoneIcon
                                     title="Telefonikon"
                                     style={{ height: '1.5rem', width: '1.5rem' }}
                                     aria-hidden="true"
@@ -46,7 +46,7 @@ export const TrengerDuHjelp = () => {
                                 loggLenketekst={'Kontaktskjema'}
                                 href={kontaktskjemaURL}
                             >
-                                <Send
+                                <PaperplaneIcon
                                     title="Sendikon"
                                     style={{ height: '1.5rem', width: '1.5rem' }}
                                     aria-hidden="true"
@@ -66,7 +66,7 @@ export const TrengerDuHjelp = () => {
                                 loggLenketekst={'Chat med Frida'}
                                 onClick={showFrida}
                             >
-                                <Dialog
+                                <Chat2Icon
                                     title="Dialogikon"
                                     style={{ height: '1.5rem', width: '1.5rem' }}
                                     aria-hidden="true"

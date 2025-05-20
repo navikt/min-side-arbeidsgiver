@@ -1,5 +1,5 @@
 import React from 'react';
-import { Office1 as UnderenhetIkon } from "@navikt/ds-icons";
+import { Buildings2Icon as UnderenhetIkon } from "@navikt/aksel-icons";
 import './Organisasjonsbeskrivelse.css';
 import {BodyShort, Label} from "@navikt/ds-react";
 

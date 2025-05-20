@@ -4,7 +4,7 @@ import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import { BodyShort, Checkbox, CheckboxGroup, Heading } from '@navikt/ds-react';
-import { Filter as FilterIkon } from '@navikt/ds-icons';
+import { FilterIcon } from '@navikt/aksel-icons';
 import { OppgaveFilterType, OppgaveTilstand, Query, Sakstype, SakstypeOverordnet } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
@@ -37,7 +37,7 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
 }: KollapsHvisMobilProps) => {
     if (width < 730) {
         return (
-            <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIkon aria-hidden="true" />}>
+            <Ekspanderbartpanel tittel="Filtrering" ikon={<FilterIcon aria-hidden="true" />}>
                 {children}
             </Ekspanderbartpanel>
         );

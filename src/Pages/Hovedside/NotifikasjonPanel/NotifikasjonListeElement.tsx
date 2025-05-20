@@ -15,7 +15,7 @@ import {
 } from '../../Saksoversikt/OppgaveBeskjedIkoner';
 import { Tag } from '@navikt/ds-react';
 import { formatterDato, kalenderavtaleTidspunkt, uformellDatotekst } from '../../../utils/dato';
-import { StopWatch } from '@navikt/ds-icons';
+import { ClockIcon } from '@navikt/aksel-icons';
 
 interface NotifikasjonListeElementProps {
     notifikasjon: Notifikasjon;
@@ -266,7 +266,7 @@ const StatusIkonMedTekst: FC<{
 }> = ({ variant, children }) => (
     <Tag size="small" variant={variant}>
         <span>
-            <StopWatch aria-hidden /> {children}
+            <ClockIcon aria-hidden /> {children}
         </span>
     </Tag>
 );

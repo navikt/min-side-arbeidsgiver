@@ -2,7 +2,7 @@ import React from 'react';
 import Tekstboks from './Tekstboks';
 import NyFaneIkon from './NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
-import { Office2 as JuridiskEnhetIkon } from '@navikt/ds-icons';
+import { Buildings3Icon } from '@navikt/aksel-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
@@ -29,7 +29,7 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                     level="2"
                     className="overordnet-enhet-info__navn"
                 >
-                    <JuridiskEnhetIkon aria-hidden="true" title="juridisk enhet" />
+                    <Buildings3Icon aria-hidden="true" title="juridisk enhet" />
                     {overordnetenhet.navn}
                 </Heading>
             </Tekstboks>
