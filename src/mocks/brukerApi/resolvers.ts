@@ -68,7 +68,7 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 sakerFiltrert.reverse();
             }
 
-            sakerFiltrert.slice(variables.offset ?? 0, variables.limit ?? SIDE_SIZE)
+            const sakerPaginert = sakerFiltrert.slice(variables.offset ?? 0, variables.limit ?? SIDE_SIZE)
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
@@ -85,7 +85,7 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 variables,
                 rootValue: {
                     saker: {
-                        saker: sakerFiltrert,
+                        saker: sakerPaginert,
                         sakstyper: sakstyper,
                         feilAltinn: false,
                         totaltAntallSaker: sakerFiltrert.length,
