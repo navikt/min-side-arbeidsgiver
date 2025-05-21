@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, RefObject, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { Alerts } from '../Alerts';
@@ -16,16 +16,20 @@ import { SakPanel } from './SakPanel';
 // export const SIDE_SIZE = 30; //TODO: unncomment denne
 export const SIDE_SIZE = 5;
 
-export const Saksoversikt = () => {
-    const [stuck, setStuck] = useState(false);
+export const beregnAntallSider = (totaltAntallSaker: number | undefined) => {
+    if (totaltAntallSaker === undefined) {
+        return 0;
+    }
+    return Math.ceil(totaltAntallSaker / SIDE_SIZE);
+};
 
+export const Saksoversikt = () => {
     const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
-                setStuck(entry.intersectionRatio < 1);
             },
             { threshold: [1] }
         );
@@ -59,7 +63,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
-                <SaksListeBody/>
+                <SaksListeBody />
                 <HvaVisesHer />
             </div>
         </div>
@@ -89,11 +93,11 @@ const HvaVisesHer = () => {
 
 const VelgSortering: FC = () => {
     const {
-        saksoversiktState: { filter, totaltAntallSaker, antallSider },
+        saksoversiktState: { filter, totaltAntallSaker },
         transitions: { setSortering },
     } = useSaksoversiktContext();
 
-    const sider = antallSider(totaltAntallSaker)
+    const sider = beregnAntallSider(totaltAntallSaker);
 
     if (sider === undefined || sider === 0) {
         return null;
@@ -152,8 +156,6 @@ type SidevelgerProp = {
 
 const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     const [width, setWidth] = useState(window.innerWidth);
-    const [antallSider, setAntallSider] = useState<number | undefined>(undefined);
-
 
     const {
         saksoversiktState: { totaltAntallSaker, filter },
@@ -161,22 +163,20 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     } = useSaksoversiktContext();
 
     useEffect(() => {
-        setAntallSider(Math.ceil(totaltAntallSaker / SIDE_SIZE));
-    }, [totaltAntallSaker]);
-
-    useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
         window.addEventListener('resize', setSize);
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
-    if (antallSider === undefined || antallSider < 2) {
+    const antallSider = beregnAntallSider(totaltAntallSaker);
+
+    if (antallSider < 2) {
         return null;
     }
 
     return (
         <Pagination
-            count={antallSider}
+            count={beregnAntallSider(totaltAntallSaker)}
             page={filter.side}
             className={`saksoversikt__paginering ${
                 skjulForMobil ? 'saksoversikt__skjul-for-mobil' : ''
@@ -187,7 +187,6 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
         />
     );
 };
-
 
 const SaksListeBody: FC = () => {
     const { saksoversiktState } = useSaksoversiktContext();
@@ -256,4 +255,3 @@ const SaksListe = ({ saker, placeholder }: Props) => {
         </ul>
     );
 };
-

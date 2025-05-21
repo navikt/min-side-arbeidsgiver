@@ -85,7 +85,7 @@ export const hentSakerResolver = (saker: Sak[]) =>
                         saker: sakerFiltrert,
                         sakstyper: sakstyper,
                         feilAltinn: false,
-                        totaltAntallSaker: saker.length,
+                        totaltAntallSaker: sakerFiltrert.length,
                         oppgaveTilstandInfo: oppgaveFilterInfo(sakerFiltrert),
                         oppgaveFilterInfo: oppgaveFilterInfo(sakerFiltrert),
                     },

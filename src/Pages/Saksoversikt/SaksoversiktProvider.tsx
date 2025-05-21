@@ -41,7 +41,6 @@ export type SaksoversiktState =
           sakstyper: Array<Sakstype> | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
           startTid: Date;
-          antallSider: (antallSaker: number | undefined) => number
       }
     | {
           state: 'done';
@@ -51,7 +50,6 @@ export type SaksoversiktState =
           sakstyper: Array<Sakstype>;
           totaltAntallSaker: number;
           oppgaveFilterInfo: Array<OppgaveFilterInfo>;
-          antallSider: (antallSaker: number | undefined) => number
       }
     | {
           state: 'error';
@@ -60,7 +58,6 @@ export type SaksoversiktState =
           sakstyper: Array<Sakstype> | undefined;
           totaltAntallSaker: number | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
-          antallSider: (antallSaker: number | undefined) => number
       };
 
 export const ZodSaksoversiktFilter = z.preprocess(
@@ -132,12 +129,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     const [{ filter, valgtFilterId }, setSessionStateSaksoversikt] =
         useSessionStateSaksoversikt(orgs);
 
-    const antallSider = (totaltAntallSaker: number | undefined) => {
-        if (totaltAntallSaker === undefined) {
-            return 0;
-        }
-        return Math.ceil(totaltAntallSaker / SIDE_SIZE);
-    }
+
 
     const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
         switch (action.action) {
@@ -165,7 +157,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     startTid: new Date(),
                     totaltAntallSaker: current.totaltAntallSaker,
                     forrigeSaker: finnForrigeSaker(current),
-                    antallSider
                 };
             case 'lasting-feilet':
                 return {
@@ -175,11 +166,12 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     sakstyper: current.sakstyper,
                     totaltAntallSaker: current.totaltAntallSaker,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
-                    antallSider
                 };
             case 'lasting-ferdig':
                 const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
-                const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
+                console.log("lastet ferdig");
+                console.log(saker)
+                console.log(totaltAntallSaker)
                 return {
                     state: 'done',
                     filter: current.filter,
@@ -188,7 +180,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     sakstyper: sakstyper,
                     totaltAntallSaker: totaltAntallSaker,
                     oppgaveFilterInfo: oppgaveFilterInfo,
-                    antallSider
                 };
         }
     };
@@ -202,7 +193,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         sakstyper: undefined,
         oppgaveFilterInfo: undefined,
         startTid: new Date(),
-        antallSider,
     });
 
     const { loading, data } = useSaker(SIDE_SIZE, state.filter);
