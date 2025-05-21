@@ -13,7 +13,7 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 import { SakPanel } from './SakPanel';
 
-// export const SIDE_SIZE = 30; //TODO: unncomment denne
+// export const SIDE_SIZE = 30;
 export const SIDE_SIZE = 5;
 
 export const beregnAntallSider = (totaltAntallSaker: number | undefined) => {
@@ -64,6 +64,7 @@ export const Saksoversikt = () => {
                     Saker
                 </Heading>
                 <SaksListeBody />
+                <Sidevelger skjulForMobil={true} />
                 <HvaVisesHer />
             </div>
         </div>
