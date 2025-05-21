@@ -13,12 +13,12 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 import { SakPanel } from './SakPanel';
 
-export const SIDE_SIZE = 30;
+// export const SIDE_SIZE = 30; //TODO: unncomment denne
+export const SIDE_SIZE = 5;
 
 export const Saksoversikt = () => {
     const [stuck, setStuck] = useState(false);
 
-    const saksoversiktRef = useRef<HTMLDivElement>(null);
     const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
 
     useEffect(() => {
@@ -42,7 +42,7 @@ export const Saksoversikt = () => {
     return (
         <div className="saksoversikt__innhold">
             <Saksfilter />
-            <div className="saksoversikt" ref={saksoversiktRef}>
+            <div className="saksoversikt">
                 <AdvarselBannerTestversjon />
                 <Alerts />
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
@@ -61,7 +61,6 @@ export const Saksoversikt = () => {
                 </Heading>
                 <SaksListeBody
                     stuck={stuck}
-                    saksoversiktRef={saksoversiktRef}
                 />
                 <HvaVisesHer />
             </div>
@@ -185,10 +184,9 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
 
 type SaksListeBodyProps = {
     stuck: boolean;
-    saksoversiktRef: RefObject<HTMLDivElement>;
 };
 
-const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
+const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck }) => {
     const { saksoversiktState } = useSaksoversiktContext();
 
     if (saksoversiktState.state === 'error') {
@@ -208,7 +206,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
         );
     }
 
-    const { totaltAntallSaker, saker } = saksoversiktState;
+    const { totaltAntallSaker, saker, filter } = saksoversiktState;
 
     if (totaltAntallSaker === 0) {
         return (
@@ -217,8 +215,8 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
             </Label>
         );
     }
-
-    return <SaksListe saker={saker} stuck={stuck} saksoversiktRef={saksoversiktRef} />;
+    const paginerteSaker = saker.slice((filter.side - 1) * SIDE_SIZE, filter.side * SIDE_SIZE);
+    return <SaksListe saker={paginerteSaker} />;
 };
 
 type LasterProps = {
@@ -242,17 +240,9 @@ const SakslisteLaster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
 type Props = {
     saker: Array<Sak>;
     placeholder?: boolean;
-    stuck?: boolean;
-    saksoversiktRef?: RefObject<HTMLDivElement>;
 };
 
-const SaksListe = ({ saker, placeholder, stuck, saksoversiktRef }: Props) => {
-    useEffect(() => {
-        if (stuck !== true) return;
-        if (saksoversiktRef === undefined || saksoversiktRef.current === null) return;
-        saksoversiktRef.current.scrollIntoView();
-    }, [saker, saksoversiktRef?.current]);
-
+const SaksListe = ({ saker, placeholder }: Props) => {
     return (
         <ul className="saks-liste">
             {saker.map((sak, _) => (
