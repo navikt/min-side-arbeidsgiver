@@ -13,8 +13,7 @@ import AdvarselBannerTestversjon from '../Hovedside/AdvarselBannerTestversjon';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 import { SakPanel } from './SakPanel';
 
-// export const SIDE_SIZE = 30;
-export const SIDE_SIZE = 5;
+export const SIDE_SIZE = 30;
 
 export const beregnAntallSider = (totaltAntallSaker: number | undefined) => {
     if (totaltAntallSaker === undefined) {
