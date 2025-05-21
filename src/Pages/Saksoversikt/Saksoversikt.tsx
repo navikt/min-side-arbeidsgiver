@@ -208,7 +208,7 @@ const SaksListeBody: FC = () => {
         );
     }
 
-    const { totaltAntallSaker, saker, filter } = saksoversiktState;
+    const { totaltAntallSaker, saker } = saksoversiktState;
 
     if (totaltAntallSaker === 0) {
         return (
@@ -217,8 +217,8 @@ const SaksListeBody: FC = () => {
             </Label>
         );
     }
-    const paginerteSaker = saker.slice((filter.side - 1) * SIDE_SIZE, filter.side * SIDE_SIZE);
-    return <SaksListe saker={paginerteSaker} />;
+
+    return <SaksListe saker={saker} />;
 };
 
 type LasterProps = {

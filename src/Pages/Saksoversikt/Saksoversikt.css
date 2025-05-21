@@ -21,15 +21,13 @@
   padding-top: 16px;
   padding-bottom: 8px;
   position: sticky;
-  top: calc(var(--decorator-sticky-offset, 0px) + 0rem);
+  top: calc(var(--decorator-sticky-offset, 0px) + -1rem);
   background: var(--a-bg-subtle);
-
-  box-shadow: 0 50px 0 -60px black;
-  transition: box-shadow 0.5s ease-in-out;
+  /*border-bottom: 1px solid var(--a-gray-800);*/
 }
 
 .saksoversikt_sticky_top[data-stuck] {
-  box-shadow: 0 50px 50px -60px black;
+  box-shadow: 0 1px black;
 }
 
 @media (max-width: 730px){

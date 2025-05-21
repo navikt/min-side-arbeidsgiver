@@ -16,6 +16,7 @@ import { Organisasjon } from '../../Pages/OrganisasjonerOgTilgangerContext';
 import { organisasjonStrukturFlatt } from '../../utils/util';
 import { alleSaker } from './alleSaker';
 import { tilNotifikasjon } from './alleNotifikasjoner';
+import { SIDE_SIZE } from '../../Pages/Saksoversikt/Saksoversikt';
 
 export const brukerApiHandlers = (
     organisasjonstre: Organisasjon[],
@@ -66,6 +67,8 @@ export const hentSakerResolver = (saker: Sak[]) =>
             if (variables.sortering === SakSortering.EldsteFørst) {
                 sakerFiltrert.reverse();
             }
+
+            sakerFiltrert.slice(variables.offset ?? 0, variables.limit ?? SIDE_SIZE)
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
