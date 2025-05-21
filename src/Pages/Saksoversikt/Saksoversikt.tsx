@@ -59,9 +59,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
-                <SaksListeBody
-                    stuck={stuck}
-                />
+                <SaksListeBody/>
                 <HvaVisesHer />
             </div>
         </div>
@@ -91,9 +89,11 @@ const HvaVisesHer = () => {
 
 const VelgSortering: FC = () => {
     const {
-        saksoversiktState: { sider, filter, totaltAntallSaker },
+        saksoversiktState: { filter, totaltAntallSaker, antallSider },
         transitions: { setSortering },
     } = useSaksoversiktContext();
+
+    const sider = antallSider(totaltAntallSaker)
 
     if (sider === undefined || sider === 0) {
         return null;
@@ -152,11 +152,17 @@ type SidevelgerProp = {
 
 const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     const [width, setWidth] = useState(window.innerWidth);
+    const [antallSider, setAntallSider] = useState<number | undefined>(undefined);
+
 
     const {
-        saksoversiktState: { sider, filter },
+        saksoversiktState: { totaltAntallSaker, filter },
         transitions: { setSide },
     } = useSaksoversiktContext();
+
+    useEffect(() => {
+        setAntallSider(Math.ceil(totaltAntallSaker / SIDE_SIZE));
+    }, [totaltAntallSaker]);
 
     useEffect(() => {
         const setSize = () => setWidth(window.innerWidth);
@@ -164,13 +170,13 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
-    if (sider === undefined || sider < 2) {
+    if (antallSider === undefined || antallSider < 2) {
         return null;
     }
 
     return (
         <Pagination
-            count={sider}
+            count={antallSider}
             page={filter.side}
             className={`saksoversikt__paginering ${
                 skjulForMobil ? 'saksoversikt__skjul-for-mobil' : ''
@@ -182,11 +188,8 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     );
 };
 
-type SaksListeBodyProps = {
-    stuck: boolean;
-};
 
-const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck }) => {
+const SaksListeBody: FC = () => {
     const { saksoversiktState } = useSaksoversiktContext();
 
     if (saksoversiktState.state === 'error') {

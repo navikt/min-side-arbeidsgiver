@@ -36,31 +36,31 @@ export type SaksoversiktState =
           state: 'loading';
           filter: SaksoversiktFilter;
           valgtFilterId: string | undefined;
-          sider: number | undefined;
           totaltAntallSaker: number | undefined;
           forrigeSaker: Array<Sak> | null;
           sakstyper: Array<Sakstype> | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
           startTid: Date;
+          antallSider: (antallSaker: number | undefined) => number
       }
     | {
           state: 'done';
           filter: SaksoversiktFilter;
           valgtFilterId: string | undefined;
-          sider: number;
           saker: Array<Sak>;
           sakstyper: Array<Sakstype>;
           totaltAntallSaker: number;
           oppgaveFilterInfo: Array<OppgaveFilterInfo>;
+          antallSider: (antallSaker: number | undefined) => number
       }
     | {
           state: 'error';
           filter: SaksoversiktFilter;
           valgtFilterId: string | undefined;
-          sider: number | undefined;
           sakstyper: Array<Sakstype> | undefined;
           totaltAntallSaker: number | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
+          antallSider: (antallSaker: number | undefined) => number
       };
 
 export const ZodSaksoversiktFilter = z.preprocess(
@@ -132,6 +132,13 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     const [{ filter, valgtFilterId }, setSessionStateSaksoversikt] =
         useSessionStateSaksoversikt(orgs);
 
+    const antallSider = (totaltAntallSaker: number | undefined) => {
+        if (totaltAntallSaker === undefined) {
+            return 0;
+        }
+        return Math.ceil(totaltAntallSaker / SIDE_SIZE);
+    }
+
     const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
         switch (action.action) {
             case 'bytt-filter':
@@ -153,22 +160,22 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     state: 'loading',
                     filter: current.filter,
                     valgtFilterId: current.valgtFilterId,
-                    sider: current.sider,
                     sakstyper: current.sakstyper,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
                     startTid: new Date(),
                     totaltAntallSaker: current.totaltAntallSaker,
                     forrigeSaker: finnForrigeSaker(current),
+                    antallSider
                 };
             case 'lasting-feilet':
                 return {
                     state: 'error',
                     filter: current.filter,
                     valgtFilterId: current.valgtFilterId,
-                    sider: current.sider,
                     sakstyper: current.sakstyper,
                     totaltAntallSaker: current.totaltAntallSaker,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
+                    antallSider
                 };
             case 'lasting-ferdig':
                 const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
@@ -177,11 +184,11 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     state: 'done',
                     filter: current.filter,
                     valgtFilterId: current.valgtFilterId,
-                    sider,
                     saker: saker,
                     sakstyper: sakstyper,
                     totaltAntallSaker: totaltAntallSaker,
                     oppgaveFilterInfo: oppgaveFilterInfo,
+                    antallSider
                 };
         }
     };
@@ -191,11 +198,11 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         filter: filter,
         valgtFilterId: valgtFilterId,
         forrigeSaker: null,
-        sider: undefined,
         totaltAntallSaker: undefined,
         sakstyper: undefined,
         oppgaveFilterInfo: undefined,
         startTid: new Date(),
+        antallSider,
     });
 
     const { loading, data } = useSaker(SIDE_SIZE, state.filter);
@@ -222,7 +229,8 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     }, [loading, data]);
 
     const transitions: SaksoversiktTransitions = {
-        setFilter: (filter: SaksoversiktFilter) => dispatch({ action: 'bytt-filter', filter }),
+        setFilter: (filter: SaksoversiktFilter) =>
+            dispatch({ action: 'bytt-filter', filter: { ...filter, side: 1 } }),
         setValgtFilterId: (id: string | undefined) =>
             dispatch({ action: 'sett-valgt-filterid', id }),
         setSide: (side: number) =>
@@ -230,7 +238,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         setSortering: (sortering: SakSortering) =>
             dispatch({
                 action: 'bytt-filter',
-                filter: { ...state.filter, sortering },
+                filter: { ...state.filter, sortering, side: 1 },
             }),
     };
 
