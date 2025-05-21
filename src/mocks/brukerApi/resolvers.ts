@@ -68,7 +68,10 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 sakerFiltrert.reverse();
             }
 
-            const sakerPaginert = sakerFiltrert.slice(variables.offset ?? 0, variables.limit ?? SIDE_SIZE)
+            const offset = variables.offset ?? 0
+            const limit = variables.limit ?? SIDE_SIZE
+
+            const sakerPaginert = sakerFiltrert.slice(offset, offset + limit)
 
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
