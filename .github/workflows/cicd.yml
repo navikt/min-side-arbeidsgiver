@@ -83,7 +83,7 @@ jobs:
       - uses: nais/attest-sign@v1
         with:
           image_ref: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
-          sbom: sbom.merged.json
+          sbom: ${{ github.sha }}.bom.json
 
   deploy-dev-gcp:
     needs: [ build ]
