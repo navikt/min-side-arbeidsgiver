@@ -221,7 +221,7 @@ const NotifikasjonPanel = () => {
                         )}
                     </div>
                     <div className="notifikasjon-tekst">
-                        <h2>Varsler på dine virksomheter</h2>
+                        <h2>Saker på dine virksomheter</h2>
                         <p>{harUleste && `${antallUleste} uleste varsler`}</p>
                     </div>
                 </div>
