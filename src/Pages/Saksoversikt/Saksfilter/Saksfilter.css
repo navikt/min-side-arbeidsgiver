@@ -9,7 +9,8 @@
     grid-column-start: 2;
     overflow-y: scroll;
     position: sticky;
-    top: 0;
+    /*top: 0;*/
+    top: calc(var(--decorator-sticky-offset, 0px) + 0rem);
     margin-bottom: 64px;
 }
 

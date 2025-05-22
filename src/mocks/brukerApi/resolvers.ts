@@ -16,6 +16,7 @@ import { Organisasjon } from '../../Pages/OrganisasjonerOgTilgangerContext';
 import { organisasjonStrukturFlatt } from '../../utils/util';
 import { alleSaker } from './alleSaker';
 import { tilNotifikasjon } from './alleNotifikasjoner';
+import { SIDE_SIZE } from '../../Pages/Saksoversikt/Saksoversikt';
 
 export const brukerApiHandlers = (
     organisasjonstre: Organisasjon[],
@@ -67,6 +68,11 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 sakerFiltrert.reverse();
             }
 
+            const offset = variables.offset ?? 0
+            const limit = variables.limit ?? SIDE_SIZE
+
+            const sakerPaginert = sakerFiltrert.slice(offset, offset + limit)
+
             // create a map of merkelapp to number of saker
             const sakstyper = Array.from(
                 saker
@@ -82,10 +88,10 @@ export const hentSakerResolver = (saker: Sak[]) =>
                 variables,
                 rootValue: {
                     saker: {
-                        saker: sakerFiltrert,
+                        saker: sakerPaginert,
                         sakstyper: sakstyper,
                         feilAltinn: false,
-                        totaltAntallSaker: saker.length,
+                        totaltAntallSaker: sakerFiltrert.length,
                         oppgaveTilstandInfo: oppgaveFilterInfo(sakerFiltrert),
                         oppgaveFilterInfo: oppgaveFilterInfo(sakerFiltrert),
                     },
