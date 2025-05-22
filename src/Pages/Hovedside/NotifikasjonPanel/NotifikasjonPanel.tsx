@@ -269,16 +269,15 @@ const NotifikasjonPanel = () => {
 
             {erUtvidet && (
                 <div className="notifikasjon-utvidet-innhold" role="region">
-                    <div className="notifikasjon-panel-bar">
-                        <InternLenkeMedLogging
-                            loggLenketekst="Saksoversikten lenke i NotifikasjonPanel"
-                            href="/saksoversikt"
-                            ref={søkLinkRef}
-                            onKeyDown={handleSøkKeyDown}
-                        >
+                    <InternLenkeMedLogging
+                        loggLenketekst="Saksoversikten lenke i NotifikasjonPanel"
+                        href="/saksoversikt"
+                        ref={søkLinkRef}
+                        onKeyDown={handleSøkKeyDown}
+                        className="notifikasjon-panel-bar"
+                    >
                             Søk og filtrer på alle saker <ExpandIcon aria-hidden />
-                        </InternLenkeMedLogging>
-                    </div>
+                    </InternLenkeMedLogging>
 
                     <div
                         className="notifikasjon-element-container"
