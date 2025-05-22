@@ -185,6 +185,15 @@
         padding: 12px;
     }
 
+    .notifikasjon-utvidet-innhold {
+        max-height: 400px;
+    }
+
+    .notifikasjon-element-container {
+        overflow-y: auto;
+        max-height: calc(400px - 53px); /* Trekk fra søk høyde */
+    }
+
     .notifikasjon-tekst h2 {
         font-size: 16px;
     }
