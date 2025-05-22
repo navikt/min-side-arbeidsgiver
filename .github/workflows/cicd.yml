@@ -40,17 +40,12 @@ jobs:
       - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --omit dev --ignore-npm-errors  --output-file sbom2.json server/package.json
       - run: jq -s '.[0] * .[1]' sbom1.json sbom2.json > sbom.merged.json
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ github.sha }}.bom.json
-          path: sbom.merged.json
-
       - uses: nais/docker-build-push@v0
         id: gar-push
         with:
           team: fager
-          salsa: false
           tag: ${{ github.sha }}
+          byosbom: sbom.merged.json
 
       - id: upload
         uses: nais/deploy/actions/cdn-upload/v2@master
@@ -61,29 +56,6 @@ jobs:
 
     outputs:
       image: ${{ steps.gar-push.outputs.image }}
-      digest: ${{ steps.gar-push.outputs.digest }}
-
-  salsa:
-    name: attest and sign image
-    needs: [ build ]
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-    steps:
-      - uses: nais/login@v0
-        id: login
-        with:
-          team: fager
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: ${{ github.sha }}.bom.json
-          path: ./
-
-      - uses: nais/attest-sign@v1
-        with:
-          image_ref: ${{ needs.build.outputs.image }}@${{ needs.build.outputs.digest }}
-          sbom: ${{ github.sha }}.bom.json
 
   deploy-dev-gcp:
     needs: [ build ]
