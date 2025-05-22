@@ -120,14 +120,14 @@
     color: #333;
     padding: 0;
     border-top: 1px solid var(--a-gray-200);
-    max-height: 800px;
+    max-height: 50vh;
     display: flex;
     flex-direction: column;
 }
 
 .notifikasjon-element-container {
     overflow-y: auto;
-    max-height: calc(800px - 53px); /* Trekk fra søk høyde */
+    max-height: calc(50vh - 53px); /* Trekk fra søk høyde */
 }
 
 .notifikasjon-element-container a {
