@@ -8,7 +8,7 @@
     "@faker-js/faker": "9.8.0",
     "@grafana/faro-web-sdk": "1.18.1",
     "@navikt/aksel-icons": "^7.22.0",
-    "@navikt/arbeidsgiver-notifikasjon-widget": "8.0.0-rc.5",
+    "@navikt/arbeidsgiver-notifikasjon-widget": "8.0.0-rc.7",
     "@navikt/ds-css": "^7.22.0",
     "@navikt/ds-react": "^7.22.0",
     "@navikt/nav-dekoratoren-moduler": "3.2.3",
