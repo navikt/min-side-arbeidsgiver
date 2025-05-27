@@ -1,6 +1,6 @@
 import { BodyShort, Button, Detail, Heading, Tag } from '@navikt/ds-react';
 import React, { useState } from 'react';
-import './SaksListe.css';
+import './SakPanel.css';
 import {
     BeskjedIkon,
     DelvisStipletTidslinjeLinjeIkon,

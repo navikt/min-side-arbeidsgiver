@@ -120,14 +120,14 @@
     color: #333;
     padding: 0;
     border-top: 1px solid var(--a-gray-200);
-    max-height: 400px;
+    max-height: 50vh;
     display: flex;
     flex-direction: column;
 }
 
 .notifikasjon-element-container {
     overflow-y: auto;
-    max-height: calc(400px - 53px); /* Trekk fra søk høyde */
+    max-height: calc(50vh - 53px); /* Trekk fra søk høyde */
 }
 
 .notifikasjon-element-container a {
@@ -159,6 +159,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    &:hover {
+        background: var(--a-gray-50);
+    }
 }
 
 @media (max-width: 1200px) {
@@ -180,6 +183,15 @@
 @media (max-width: 768px) {
     .notifikasjon-panel {
         padding: 12px;
+    }
+
+    .notifikasjon-utvidet-innhold {
+        max-height: 400px;
+    }
+
+    .notifikasjon-element-container {
+        overflow-y: auto;
+        max-height: calc(400px - 53px); /* Trekk fra søk høyde */
     }
 
     .notifikasjon-tekst h2 {

@@ -1,13 +1,12 @@
-import React, { FunctionComponent, ReactNode, useEffect } from 'react';
+import React, { FC, FunctionComponent, ReactNode, useEffect } from 'react';
 import { Banner, findRecursive, Virksomhetsvelger } from '@navikt/virksomhetsvelger';
 import '@navikt/virksomhetsvelger/dist/assets/style.css';
 import { useSearchParams } from 'react-router-dom';
 import { Heading, Loader } from '@navikt/ds-react';
 import './Banner.css';
-import { LenkeMedLogging } from '../GeneriskeElementer/LenkeMedLogging';
-import { HouseIcon } from '@navikt/aksel-icons';
 import { useOrganisasjonsDetaljerContext } from './OrganisasjonsDetaljerContext';
 import { useOrganisasjonerOgTilgangerContext } from './OrganisasjonerOgTilgangerContext';
+import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 
 export const SimpleBanner = () => {
     return <Banner tittel="Min side – arbeidsgiver" />;
@@ -25,7 +24,7 @@ export const SaksoversiktBanner = () => (
 
 export const BannerMedBedriftsmeny: FunctionComponent<{
     sidetittel: string;
-    widget?: ReactNode
+    widget?: ReactNode;
 }> = ({ sidetittel, widget }) => {
     const { organisasjonstre } = useOrganisasjonerOgTilgangerContext();
     const { endreOrganisasjon, valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
@@ -57,18 +56,22 @@ export const BannerMedBedriftsmeny: FunctionComponent<{
     );
 };
 
-export const Brodsmulesti = () => {
-    return (
-        <div className="brodsmulesti">
-            <LenkeMedLogging
-                loggLenketekst={`Brødsmulesti - Min side - arbeidsgiver`}
-                href={__BASE_PATH__}
-            >
-                <HouseIcon title="a11y-title" fontSize="1.5rem" />
-                Min side – arbeidsgiver
-            </LenkeMedLogging>
-        </div>
-    );
+export type Brødsmule = {
+    url: string;
+    title: string;
+    handleInApp?: boolean;
+};
+
+export const Brodsmulesti: FC<{ brødsmuler?: Brødsmule[] }> = ({ brødsmuler }) => {
+    const rotBrødsmule = {
+        url: '/min-side-arbeidsgiver',
+        title: 'Min side - arbeidsgiver',
+    };
+    brødsmuler = brødsmuler ? [rotBrødsmule, ...brødsmuler] : [rotBrødsmule];
+    useEffect(() => {
+        setBreadcrumbs(brødsmuler);
+    }, [brødsmuler]);
+    return <></>;
 };
 
 export const Spinner = () => (

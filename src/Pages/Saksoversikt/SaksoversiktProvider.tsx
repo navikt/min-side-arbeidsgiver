@@ -36,7 +36,6 @@ export type SaksoversiktState =
           state: 'loading';
           filter: SaksoversiktFilter;
           valgtFilterId: string | undefined;
-          sider: number | undefined;
           totaltAntallSaker: number | undefined;
           forrigeSaker: Array<Sak> | null;
           sakstyper: Array<Sakstype> | undefined;
@@ -47,7 +46,6 @@ export type SaksoversiktState =
           state: 'done';
           filter: SaksoversiktFilter;
           valgtFilterId: string | undefined;
-          sider: number;
           saker: Array<Sak>;
           sakstyper: Array<Sakstype>;
           totaltAntallSaker: number;
@@ -57,7 +55,6 @@ export type SaksoversiktState =
           state: 'error';
           filter: SaksoversiktFilter;
           valgtFilterId: string | undefined;
-          sider: number | undefined;
           sakstyper: Array<Sakstype> | undefined;
           totaltAntallSaker: number | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
@@ -132,6 +129,8 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     const [{ filter, valgtFilterId }, setSessionStateSaksoversikt] =
         useSessionStateSaksoversikt(orgs);
 
+
+
     const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
         switch (action.action) {
             case 'bytt-filter':
@@ -153,7 +152,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     state: 'loading',
                     filter: current.filter,
                     valgtFilterId: current.valgtFilterId,
-                    sider: current.sider,
                     sakstyper: current.sakstyper,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
                     startTid: new Date(),
@@ -165,19 +163,19 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                     state: 'error',
                     filter: current.filter,
                     valgtFilterId: current.valgtFilterId,
-                    sider: current.sider,
                     sakstyper: current.sakstyper,
                     totaltAntallSaker: current.totaltAntallSaker,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
                 };
             case 'lasting-ferdig':
                 const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
-                const sider = Math.ceil(totaltAntallSaker / SIDE_SIZE);
+                console.log("lastet ferdig");
+                console.log(saker)
+                console.log(totaltAntallSaker)
                 return {
                     state: 'done',
                     filter: current.filter,
                     valgtFilterId: current.valgtFilterId,
-                    sider,
                     saker: saker,
                     sakstyper: sakstyper,
                     totaltAntallSaker: totaltAntallSaker,
@@ -191,7 +189,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         filter: filter,
         valgtFilterId: valgtFilterId,
         forrigeSaker: null,
-        sider: undefined,
         totaltAntallSaker: undefined,
         sakstyper: undefined,
         oppgaveFilterInfo: undefined,
@@ -222,7 +219,8 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     }, [loading, data]);
 
     const transitions: SaksoversiktTransitions = {
-        setFilter: (filter: SaksoversiktFilter) => dispatch({ action: 'bytt-filter', filter }),
+        setFilter: (filter: SaksoversiktFilter) =>
+            dispatch({ action: 'bytt-filter', filter: { ...filter, side: 1 } }),
         setValgtFilterId: (id: string | undefined) =>
             dispatch({ action: 'sett-valgt-filterid', id }),
         setSide: (side: number) =>
@@ -230,7 +228,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         setSortering: (sortering: SakSortering) =>
             dispatch({
                 action: 'bytt-filter',
-                filter: { ...state.filter, sortering },
+                filter: { ...state.filter, sortering, side: 1 },
             }),
     };
 

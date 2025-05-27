@@ -95,7 +95,14 @@ const Pages: FunctionComponent = () => (
                                                         path="/bedriftsinformasjon"
                                                         element={
                                                             <>
-                                                                <Brodsmulesti />
+                                                                <Brodsmulesti
+                                                                    brødsmuler={[
+                                                                        {
+                                                                            title: 'Om virksomheten',
+                                                                            url: '/bedriftsinformasjon',
+                                                                        },
+                                                                    ]}
+                                                                />
                                                                 <BannerMedBedriftsmeny
                                                                     sidetittel={'Om virksomheten'}
                                                                 />
@@ -141,7 +148,14 @@ const Pages: FunctionComponent = () => (
                                                         path="/saksoversikt"
                                                         element={
                                                             <>
-                                                                <Brodsmulesti />
+                                                                <Brodsmulesti
+                                                                    brødsmuler={[
+                                                                        {
+                                                                            title: 'Saksoversikt',
+                                                                            url: '/saksoversikt',
+                                                                        },
+                                                                    ]}
+                                                                />
                                                                 <SaksoversiktBanner />
                                                                 <SaksOversiktProvider>
                                                                     <Saksoversikt />
@@ -153,7 +167,18 @@ const Pages: FunctionComponent = () => (
                                                         path="/sak"
                                                         element={
                                                             <>
-                                                                <Brodsmulesti />
+                                                                <Brodsmulesti
+                                                                    brødsmuler={[
+                                                                        {
+                                                                            title: 'Saksoversikt',
+                                                                            url: '/saksoversikt',
+                                                                        },
+                                                                        {
+                                                                            title: 'Sak',
+                                                                            url: '/sak',
+                                                                        },
+                                                                    ]}
+                                                                />
                                                                 <SaksoversiktBanner />
                                                                 <Saksside />
                                                             </>

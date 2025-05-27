@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, RefObject, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from 'react';
 import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { Alerts } from '../Alerts';
@@ -15,17 +15,20 @@ import { SakPanel } from './SakPanel';
 
 export const SIDE_SIZE = 30;
 
-export const Saksoversikt = () => {
-    const [stuck, setStuck] = useState(false);
+export const beregnAntallSider = (totaltAntallSaker: number | undefined) => {
+    if (totaltAntallSaker === undefined) {
+        return 0;
+    }
+    return Math.ceil(totaltAntallSaker / SIDE_SIZE);
+};
 
-    const saksoversiktRef = useRef<HTMLDivElement>(null);
+export const Saksoversikt = () => {
     const navRef = useRef<HTMLDivElement>(null); //Brukes til å legge skygge under paginering og filtre
 
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 navRef.current?.toggleAttribute('data-stuck', entry.intersectionRatio < 1);
-                setStuck(entry.intersectionRatio < 1);
             },
             { threshold: [1] }
         );
@@ -42,7 +45,7 @@ export const Saksoversikt = () => {
     return (
         <div className="saksoversikt__innhold">
             <Saksfilter />
-            <div className="saksoversikt" ref={saksoversiktRef}>
+            <div className="saksoversikt">
                 <AdvarselBannerTestversjon />
                 <Alerts />
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
@@ -59,10 +62,7 @@ export const Saksoversikt = () => {
                 <Heading level="2" size="medium" className="saksoversikt__skjult-header-uu">
                     Saker
                 </Heading>
-                <SaksListeBody
-                    stuck={stuck}
-                    saksoversiktRef={saksoversiktRef}
-                />
+                <SaksListeBody />
                 <HvaVisesHer />
             </div>
         </div>
@@ -92,9 +92,11 @@ const HvaVisesHer = () => {
 
 const VelgSortering: FC = () => {
     const {
-        saksoversiktState: { sider, filter, totaltAntallSaker },
+        saksoversiktState: { filter, totaltAntallSaker },
         transitions: { setSortering },
     } = useSaksoversiktContext();
+
+    const sider = beregnAntallSider(totaltAntallSaker);
 
     if (sider === undefined || sider === 0) {
         return null;
@@ -155,7 +157,7 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     const [width, setWidth] = useState(window.innerWidth);
 
     const {
-        saksoversiktState: { sider, filter },
+        saksoversiktState: { totaltAntallSaker, filter },
         transitions: { setSide },
     } = useSaksoversiktContext();
 
@@ -165,13 +167,15 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
-    if (sider === undefined || sider < 2) {
+    const antallSider = beregnAntallSider(totaltAntallSaker);
+
+    if (antallSider < 2) {
         return null;
     }
 
     return (
         <Pagination
-            count={sider}
+            count={beregnAntallSider(totaltAntallSaker)}
             page={filter.side}
             className={`saksoversikt__paginering ${
                 skjulForMobil ? 'saksoversikt__skjul-for-mobil' : ''
@@ -183,12 +187,7 @@ const Sidevelger: FC<SidevelgerProp> = ({ skjulForMobil = false }) => {
     );
 };
 
-type SaksListeBodyProps = {
-    stuck: boolean;
-    saksoversiktRef: RefObject<HTMLDivElement | null>;
-};
-
-const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
+const SaksListeBody: FC = () => {
     const { saksoversiktState } = useSaksoversiktContext();
 
     if (saksoversiktState.state === 'error') {
@@ -218,7 +217,7 @@ const SaksListeBody: FC<SaksListeBodyProps> = ({ stuck, saksoversiktRef }) => {
         );
     }
 
-    return <SaksListe saker={saker} stuck={stuck} saksoversiktRef={saksoversiktRef} />;
+    return <SaksListe saker={saker} />;
 };
 
 type LasterProps = {
@@ -242,17 +241,9 @@ const SakslisteLaster: FC<LasterProps> = ({ forrigeSaker, startTid }) => {
 type Props = {
     saker: Array<Sak>;
     placeholder?: boolean;
-    stuck?: boolean;
-    saksoversiktRef?: RefObject<HTMLDivElement | null>;
 };
 
-const SaksListe = ({ saker, placeholder, stuck, saksoversiktRef }: Props) => {
-    useEffect(() => {
-        if (stuck !== true) return;
-        if (saksoversiktRef === undefined || saksoversiktRef.current === null) return;
-        saksoversiktRef.current.scrollIntoView();
-    }, [saker, saksoversiktRef?.current]);
-
+const SaksListe = ({ saker, placeholder }: Props) => {
     return (
         <ul className="saks-liste">
             {saker.map((sak, _) => (
@@ -263,4 +254,3 @@ const SaksListe = ({ saker, placeholder, stuck, saksoversiktRef }: Props) => {
         </ul>
     );
 };
-
