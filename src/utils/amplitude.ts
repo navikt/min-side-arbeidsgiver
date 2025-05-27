@@ -50,7 +50,7 @@ const mockedAmplitude = ({ muted }: { muted: boolean }): AmplitudeInstance => {
             };
         },
         identify(
-            identify: Types.Identify,
+            identify: Types.IIdentify,
             _?: Types.EventOptions
         ): Types.AmplitudeReturn<Types.Result> {
             _console.group('Mocked amplitude-identify');

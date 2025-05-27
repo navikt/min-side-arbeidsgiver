@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import { Tag } from '@navikt/ds-react';
 import './StatusLinje.css';
-import { StopWatch } from '@navikt/ds-icons';
+import { ClockIcon } from '@navikt/aksel-icons';
 import {
     KalenderavtaleTidslinjeElement,
     KalenderavtaleTilstand,
@@ -53,7 +53,7 @@ export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
         case OppgaveTilstand.Utgaatt:
             return oppgave.frist !== null ? (
                 <Tag size="small" className={className} variant="info">
-                    <StatusIkonMedTekst icon={<StopWatch aria-hidden="true" />}>
+                    <StatusIkonMedTekst icon={<ClockIcon aria-hidden="true" />}>
                         Fristen gikk ut {uformellDatotekst(new Date(oppgave.utgaattTidspunkt))}
                     </StatusIkonMedTekst>
                 </Tag>
@@ -97,7 +97,7 @@ type StatusMedFristPaminnelseProps = {
 const StatusMedFristPaminnelse = ({ children, className }: StatusMedFristPaminnelseProps) => {
     return (
         <Tag size="small" className={className} variant="warning">
-            <StatusIkonMedTekst icon={<StopWatch aria-hidden={true} />}>
+            <StatusIkonMedTekst icon={<ClockIcon aria-hidden={true} />}>
                 {children}
             </StatusIkonMedTekst>
         </Tag>

@@ -8,25 +8,30 @@ import legacy from '@vitejs/plugin-legacy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    define: {
-        __BUILD_TIMESTAMP__: new Date(),
-        __BASE_PATH__: JSON.stringify('http://localhost/min-side-arbeidsgiver'),
+  define: {
+    __BUILD_TIMESTAMP__: new Date(),
+    __BASE_PATH__: JSON.stringify('http://localhost/min-side-arbeidsgiver'),
+  },
+  plugins: [
+    tsconfigPaths(),
+    graphqlLoader(),
+    react(),
+    legacy({
+      modernPolyfills: ['es.string.replace', 'esnext.string.replace-all'],
+      polyfills: ['es.string.replace', 'esnext.string.replace-all'],
+    }),
+  ],
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    exclude: [...configDefaults.exclude, './vitest.setup.ts', 'build/**/*'],
+    setupFiles: './vitest.setup.ts',
+    reporters: 'verbose',
+    disableConsoleIntercept: true,
+    server: {
+      deps: {
+        inline: ['@navikt/arbeidsgiver-notifikasjon-widget'],
+      },
     },
-    plugins: [
-        tsconfigPaths(),
-        graphqlLoader(),
-        react(),
-        legacy({
-            modernPolyfills: ['es.string.replace', 'esnext.string.replace-all'],
-            polyfills: ['es.string.replace', 'esnext.string.replace-all'],
-        }),
-    ],
-    test: {
-        globals: true,
-        environment: 'happy-dom',
-        exclude: [...configDefaults.exclude, './vitest.setup.ts', 'build/**/*'],
-        setupFiles: './vitest.setup.ts',
-        reporters: 'verbose',
-        disableConsoleIntercept: true,
-    },
+  },
 });
