@@ -107,9 +107,6 @@ export const dagligLederScenario = [
     }),
 
     // stillingsregistrering / pam / arbeidsplassen
-    http.post('/min-side-arbeidsgiver/stillingsregistrering-api/api/arbeidsgiver/:id', () =>
-        HttpResponse.json()
-    ),
     http.get('/min-side-arbeidsgiver/stillingsregistrering-api/api/stillinger/numberByStatus', () =>
         HttpResponse.json({
             TIL_GODKJENNING: faker.number.int({ min: 0, max: 20 }),

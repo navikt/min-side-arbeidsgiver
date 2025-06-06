@@ -16,10 +16,12 @@ import { orgnr } from '../mocks/brukerApi/helpers';
 import { faker } from '@faker-js/faker';
 import {
     hentKalenderavtalerResolver,
-    hentNotifikasjonerResolver, hentNotifikasjonerSistLest,
+    hentNotifikasjonerResolver,
+    hentNotifikasjonerSistLest,
     hentSakByIdResolver,
     hentSakerResolver,
-    sakstyperResolver, setNotifikasjonerSistLest,
+    sakstyperResolver,
+    setNotifikasjonerSistLest,
 } from '../mocks/brukerApi/resolvers';
 import { alleSaker } from '../mocks/brukerApi/alleSaker';
 import { Merkelapp } from '../mocks/brukerApi/alleMerkelapper';
@@ -255,9 +257,6 @@ const server = setupServer(
     ),
     http.get(`${__BASE_PATH__}/stillingsregistrering-api/api/stillinger/numberByStatus`, () =>
         HttpResponse.json({ PUBLISERT: 20 })
-    ),
-    http.post(`${__BASE_PATH__}/stillingsregistrering-api/api/arbeidsgiver/:orgnr`, () =>
-        HttpResponse.json({})
     ),
     http.get(/.*tiltaksgjennomforing-api\/avtaler.*/, () =>
         HttpResponse.json([

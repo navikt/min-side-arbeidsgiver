@@ -81,10 +81,6 @@ const useAntallannonser = () => {
 };
 
 const fetcher = async ({ url, orgnr }: { url: string; orgnr: string }) => {
-    await fetch(`${__BASE_PATH__}/stillingsregistrering-api/api/arbeidsgiver/${orgnr}`, {
-        method: 'POST',
-    });
-
     const respons = await fetch(url, {
         method: 'GET',
         headers: {
