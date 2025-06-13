@@ -27,7 +27,7 @@ export const alleSaker = [
         tidslinje: [
             beskjedTidslinjeElement({
                 opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
-                tekst: `Nav har mottatt din melding om permittering. Vi kontakter deg snart.`,
+                tekst: `Nav har mottatt deres melding om permittering. Vi tar kontakt snart.`,
                 lenke: '#foo',
             }),
         ],
