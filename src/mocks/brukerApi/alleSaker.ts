@@ -16,6 +16,23 @@ import { Merkelapp } from './alleMerkelapper';
 let currentDaysPast = 1;
 export const alleSaker = [
     sak({
+        merkelapp: Merkelapp.Permittering,
+        tittel: 'Melding om permittering',
+        virksomhet: virksomhet(),
+        sisteStatus: sakStatus({
+            type: SakStatusType.Mottatt,
+            tekst: 'Mottatt',
+        }),
+        lenke: '#foo',
+        tidslinje: [
+            beskjedTidslinjeElement({
+                opprettetTidspunkt: dateInPast({ days: currentDaysPast++ }),
+                tekst: `Nav har mottatt deres melding om permittering. Vi tar kontakt snart.`,
+                lenke: '#foo',
+            }),
+        ],
+    }),
+    sak({
         merkelapp: Merkelapp.Fritak_i_arbeidsgiverperioden,
         tittel: `Refusjon fritak i arbeidsgiverperioden - gravid ansatt - ${fakeName()} f.${fdato()}`,
         virksomhet: virksomhet(),
