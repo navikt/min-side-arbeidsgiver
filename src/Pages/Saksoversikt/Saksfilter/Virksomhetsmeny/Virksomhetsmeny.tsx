@@ -10,6 +10,7 @@ import { Set } from 'immutable';
 import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from '../../SaksoversiktProvider';
 import { logAnalyticsEvent } from '../../../../utils/analytics';
+import { Organisasjon } from '@navikt/virksomhetsvelger';
 
 export const Virksomhetsmeny = () => {
     const { organisasjonstre, orgnrTilParentMap, orgnrTilChildrenMap } =
@@ -82,9 +83,9 @@ export const Virksomhetsmeny = () => {
         if (søkeord.trim().length === 0) {
             setSøketreff(undefined);
         } else {
-            // noinspection JSVoidFunctionReturnValueUsed,TypeScriptValidateTypes
+            const keys: (keyof Organisasjon)[] = ['navn', 'orgnr'];
             const fuzzyResultsNavn = fuzzysort.go(søkeord, alleOrganisasjoner, {
-                keys: ['Name', 'OrganizationNumber'],
+                keys,
             });
             const matches = Set(fuzzyResultsNavn.map(({ obj }) => obj.orgnr));
             const parents = matches.flatMap((it) => {
