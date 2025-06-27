@@ -40,16 +40,11 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run build
 
-      - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --ignore-npm-errors  --output-file sbom1.json
-      - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --omit dev --ignore-npm-errors  --output-file sbom2.json server/package.json
-      - run: jq -s '.[0] * .[1]' sbom1.json sbom2.json > sbom.merged.json
-
       - uses: nais/docker-build-push@v0
         id: gar-push
         with:
           team: fager
           tag: ${{ github.sha }}
-          byosbom: sbom.merged.json
 
       - id: upload
         uses: nais/deploy/actions/cdn-upload/v2@master
