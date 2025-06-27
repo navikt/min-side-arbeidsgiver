@@ -1,9 +1,8 @@
 import { http, HttpResponse } from 'msw';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { subDays } from 'date-fns';
 import { setupServer } from 'msw/node';
-import { virksomhet } from '../../../mocks/brukerApi/helpers';
+import { dateInPast, virksomhet } from '../../../mocks/brukerApi/helpers';
 import NotifikasjonPanel from './NotifikasjonPanel';
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '../../Pages';
@@ -64,7 +63,7 @@ const server = setupServer(
     http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
 );
 const nå = new Date();
-const toDagerIFortiden = subDays(nå, 2);
+const toDagerIFortiden = dateInPast({ days: 2 });
 
 const notifikasjoner: Notifikasjon[] = [
     {

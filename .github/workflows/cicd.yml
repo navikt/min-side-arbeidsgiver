@@ -18,34 +18,33 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           registry-url: https://npm.pkg.github.com/
-          cache: 'npm'
+          cache: 'pnpm'
 
-      - run: npm ci --omit=dev --omit=optional
+      - run: pnpm install --frozen-lockfile --prod
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
         working-directory: ./server
 
-      - run: npm ci
+      - run: pnpm install --frozen-lockfile
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: npm run test
-      - run: npm run lint
-      - run: npm run build
-
-      - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --ignore-npm-errors  --output-file sbom1.json
-      - run: npx @cyclonedx/cyclonedx-npm --package-lock-only --omit dev --ignore-npm-errors  --output-file sbom2.json server/package.json
-      - run: jq -s '.[0] * .[1]' sbom1.json sbom2.json > sbom.merged.json
+      - run: pnpm run test
+      - run: pnpm run lint
+      - run: pnpm run build
 
       - uses: nais/docker-build-push@v0
         id: gar-push
         with:
           team: fager
           tag: ${{ github.sha }}
-          byosbom: sbom.merged.json
 
       - id: upload
         uses: nais/deploy/actions/cdn-upload/v2@master

@@ -27,6 +27,7 @@
     "zod": "^3.25.7"
   },
   "devDependencies": {
+    "@apollo/client": "3.13.8",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.27.0",
     "@graphql-codegen/cli": "^5.0.6",
@@ -45,6 +46,7 @@
     "@vitejs/plugin-legacy": "^6.1.1",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
+    "graphql": "16.11.0",
     "happy-dom": "17.4.7",
     "husky": "^9.1.7",
     "jest-axe": "^10.0.0",
