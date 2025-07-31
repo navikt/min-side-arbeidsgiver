@@ -25,7 +25,7 @@ import * as Record from '../../utils/Record';
 import { z } from 'zod';
 
 export type SaksoversiktTransitions = {
-    setFilter: (filter: SaksoversiktFilter) => void;
+    setFilter: (filter: SaksoversiktFilterState) => void;
     setValgtFilterId: (id: string | undefined) => void;
     setSide: (side: number) => void;
     setSortering: (sortering: SakSortering) => void;
@@ -34,8 +34,8 @@ export type SaksoversiktTransitions = {
 export type SaksoversiktState =
     | {
           state: 'loading';
-          filter: SaksoversiktFilter;
-          valgtFilterId: string | undefined;
+          filter: SaksoversiktFilterState;
+          valgtLagretFilterId: string | undefined;
           totaltAntallSaker: number | undefined;
           forrigeSaker: Array<Sak> | null;
           sakstyper: Array<Sakstype> | undefined;
@@ -44,8 +44,8 @@ export type SaksoversiktState =
       }
     | {
           state: 'done';
-          filter: SaksoversiktFilter;
-          valgtFilterId: string | undefined;
+          filter: SaksoversiktFilterState;
+          valgtLagretFilterId: string | undefined;
           saker: Array<Sak>;
           sakstyper: Array<Sakstype>;
           totaltAntallSaker: number;
@@ -53,22 +53,25 @@ export type SaksoversiktState =
       }
     | {
           state: 'error';
-          filter: SaksoversiktFilter;
-          valgtFilterId: string | undefined;
+          filter: SaksoversiktFilterState;
+          valgtLagretFilterId: string | undefined;
           sakstyper: Array<Sakstype> | undefined;
           totaltAntallSaker: number | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
       };
 
-export const ZodSaksoversiktFilter = z.object({
-    filterId: z.string(),
-    navn: z.string(),
+export const ZodSaksoversiktFilterState = z.object({
     side: z.number(),
     tekstsoek: z.string(),
     virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
     sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
     sakstyper: z.array(z.string()),
     oppgaveFilter: z.array(OppgaveFilterType),
+});
+
+export const ZodSaksoversiktLagretFilter = ZodSaksoversiktFilterState.extend({
+    filterId: z.string(),
+    navn: z.string(),
 });
 
 export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
@@ -84,7 +87,8 @@ export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilter
     }
 };
 
-export type SaksoversiktFilter = z.infer<typeof ZodSaksoversiktFilter>;
+export type SaksoversiktFilterState = z.infer<typeof ZodSaksoversiktFilterState>;
+export type SaksoversiktLagretFilter = z.infer<typeof ZodSaksoversiktLagretFilter>;
 
 export type SaksoversiktContext = {
     saksoversiktState: SaksoversiktState;
@@ -92,7 +96,7 @@ export type SaksoversiktContext = {
 };
 
 type Action =
-    | { action: 'bytt-filter'; filter: SaksoversiktFilter }
+    | { action: 'bytt-filter'; filter: SaksoversiktFilterState }
     | { action: 'sett-valgt-filterid'; id: string | undefined }
     | { action: 'lasting-pågår' }
     | { action: 'lasting-ferdig'; resultat: SakerResultat }
@@ -123,7 +127,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 if (equalFilter(current.filter, action.filter)) {
                     return current;
                 }
-                setSessionStateSaksoversikt(action.filter, current.valgtFilterId);
+                setSessionStateSaksoversikt(action.filter, current.valgtLagretFilterId);
                 return {
                     ...current,
                     filter: action.filter,
@@ -131,13 +135,13 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
             case 'sett-valgt-filterid':
                 return {
                     ...current,
-                    valgtFilterId: action.id,
+                    valgtLagretFilterId: action.id,
                 };
             case 'lasting-pågår':
                 return {
                     state: 'loading',
                     filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
                     sakstyper: current.sakstyper,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
                     startTid: new Date(),
@@ -148,7 +152,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 return {
                     state: 'error',
                     filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
                     sakstyper: current.sakstyper,
                     totaltAntallSaker: current.totaltAntallSaker,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
@@ -161,7 +165,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 return {
                     state: 'done',
                     filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
                     saker: saker,
                     sakstyper: sakstyper,
                     totaltAntallSaker: totaltAntallSaker,
@@ -173,7 +177,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
         filter: filter,
-        valgtFilterId: valgtFilterId,
+        valgtLagretFilterId: valgtFilterId,
         forrigeSaker: null,
         totaltAntallSaker: undefined,
         sakstyper: undefined,
@@ -205,7 +209,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     }, [loading, data]);
 
     const transitions: SaksoversiktTransitions = {
-        setFilter: (filter: SaksoversiktFilter) =>
+        setFilter: (filter: SaksoversiktFilterState) =>
             dispatch({ action: 'bytt-filter', filter: { ...filter, side: 1 } }),
         setValgtFilterId: (id: string | undefined) =>
             dispatch({ action: 'sett-valgt-filterid', id }),
@@ -245,7 +249,7 @@ export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every((aa) => b.includes(aa));
 }
 
-export const equalFilter = (a: SaksoversiktFilter, b: SaksoversiktFilter): boolean =>
+export const equalFilter = (a: SaksoversiktFilterState, b: SaksoversiktFilterState): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
     is(a.virksomheter, b.virksomheter) &&

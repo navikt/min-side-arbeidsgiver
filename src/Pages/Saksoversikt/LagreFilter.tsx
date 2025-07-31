@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
     Alert,
     Button,
@@ -11,45 +12,23 @@ import {
 } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
-import { useRemoteStorage } from '../../hooks/useRemoteStorage';
-import { v4 as uuidv4 } from 'uuid';
 import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
 import {
-    equalFilter,
-    SaksoversiktFilter,
+    equalFilter, SaksoversiktFilterState,
+    SaksoversiktLagretFilter,
     useSaksoversiktContext,
-    ZodSaksoversiktFilter,
 } from './SaksoversiktProvider';
 
-export type LagretFilter = {
-    uuid: string;
-    navn: string;
-    filter: SaksoversiktFilter;
-};
-
-const statusMapping = {
-    initializing: 'initializing',
-
-    loading: 'loading',
-    conflict: 'loading',
-
-    loaded: 'completed',
-    updated: 'completed',
-    deleted: 'completed',
-
-    error: 'failed',
-} as const;
-
 export const useLagredeFilter = (): {
-    lagredeFilter: SaksoversiktFilter[];
-    lagreLagretFilter: (filter: SaksoversiktFilter) => Promise<SaksoversiktFilter | null>;
+    lagredeFilter: SaksoversiktLagretFilter[];
+    lagreLagretFilter: (filterId: string, navn: string, filter: SaksoversiktFilterState) => Promise<SaksoversiktLagretFilter | null>;
     slettLagretFilter: (filterId: string) => void;
     loadLagredeFilter: () => void;
     status: 'initializing' | 'loading' | 'completed' | 'failed';
 } => {
     const endpoint = `${__BASE_PATH__}/api/lagredeFilter`;
-    const [lagredeFilter, setLagredeFilter] = useState<SaksoversiktFilter[]>([]);
+    const [lagredeFilter, setLagredeFilter] = useState<SaksoversiktLagretFilter[]>([]);
     const [status, setStatus] = useState<'initializing' | 'loading' | 'completed' | 'failed'>(
         'initializing'
     );
@@ -71,7 +50,7 @@ export const useLagredeFilter = (): {
             });
     };
 
-    async function hentLagredeFilter(): Promise<SaksoversiktFilter[]> {
+    async function hentLagredeFilter(): Promise<SaksoversiktLagretFilter[]> {
         const response = await fetch(endpoint, {
             method: 'GET',
         });
@@ -82,14 +61,16 @@ export const useLagredeFilter = (): {
     }
 
     async function lagreLagretFilter(
-        filter: SaksoversiktFilter
-    ): Promise<SaksoversiktFilter | null> {
+        filterId: string,
+        navn: string,
+        filter: SaksoversiktFilterState
+    ): Promise<SaksoversiktLagretFilter | null> {
         const response = await fetch(endpoint, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(filter),
+            body: JSON.stringify({filterId: filterId, navn: navn, ...filter}),
         });
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
@@ -97,7 +78,7 @@ export const useLagredeFilter = (): {
         return response.json();
     }
 
-    async function slettLagretFilter(filterId: string): Promise<SaksoversiktFilter | null> {
+    async function slettLagretFilter(filterId: string): Promise<SaksoversiktLagretFilter | null> {
         const response = await fetch(`${endpoint}/${filterId}`, {
             method: 'DELETE',
         });
@@ -117,7 +98,7 @@ export const useLagredeFilter = (): {
 };
 export const LagreFilter = () => {
     const {
-        saksoversiktState: { valgtFilterId, filter },
+        saksoversiktState: { valgtLagretFilterId, filter },
         transitions: { setFilter, setValgtFilterId },
     } = useSaksoversiktContext();
 
@@ -154,8 +135,8 @@ export const LagreFilter = () => {
         return null;
     }
 
-    const valgtFilter = lagredeFilter.find(
-        (lagretFilter) => lagretFilter.filterId === valgtFilterId
+    const valgtLagretFilter = lagredeFilter.find(
+        (lagretFilter) => lagretFilter.filterId === valgtLagretFilterId
     );
     return (
         <>
@@ -169,7 +150,7 @@ export const LagreFilter = () => {
                     Velg eller lagre filtervalg
                 </Heading>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    {valgtFilter ? (
+                    {valgtLagretFilter ? (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                             <Chips.Removable
                                 className="lagre-filter-chip"
@@ -179,34 +160,34 @@ export const LagreFilter = () => {
                                     logKlikk('fjerne-valgt-filter');
                                 }}
                             >
-                                {valgtFilter.navn}
+                                {valgtLagretFilter.navn}
                             </Chips.Removable>
-                            {!equalFilter(valgtFilter, filter) ? (
+                            {!equalFilter(valgtLagretFilter, filter) ? (
                                 <ModalMedÅpneknapp
                                     knappTekst={'Lagre endringer'}
-                                    overskrift={`Endre «${valgtFilter.navn}»`}
+                                    overskrift={`Endre «${valgtLagretFilter.navn}»`}
                                     bekreft={'Lagre'}
                                     onSubmit={() => {
-                                        lagreLagretFilter(filter);
+                                        lagreLagretFilter(valgtLagretFilter.filterId, valgtLagretFilter.navn, filter);
                                         logKlikk('endre-valgt-filter');
                                     }}
                                 >
-                                    Er du sikker på at du vil lagre endringene i «{valgtFilter.navn}
+                                    Er du sikker på at du vil lagre endringene i «{valgtLagretFilter.navn}
                                     »?
                                 </ModalMedÅpneknapp>
                             ) : null}
                             <ModalMedÅpneknapp
                                 knappTekst={'Slett'}
-                                overskrift={`Slett «${valgtFilter.navn}»`}
+                                overskrift={`Slett «${valgtLagretFilter.navn}»`}
                                 bekreft={'Slett'}
                                 bekreftVariant="danger"
                                 onSubmit={() => {
-                                    slettLagretFilter(valgtFilter.filterId);
+                                    slettLagretFilter(valgtLagretFilter.filterId);
                                     setValgtFilterId(undefined);
                                     logKlikk('slett-valgt-filter');
                                 }}
                             >
-                                Er du sikker på at du vil slette «{valgtFilter.navn}»?
+                                Er du sikker på at du vil slette «{valgtLagretFilter.navn}»?
                             </ModalMedÅpneknapp>
                         </div>
                     ) : null}
@@ -275,8 +256,9 @@ export const LagreFilter = () => {
                                         setFeilmeldingStatus('duplicate');
                                         handleFocus();
                                     } else {
-                                        const nyopprettetfilter = lagreLagretFilter(filter);
-                                        setValgtFilterId(filter.filterId);
+                                        const filterId = uuidv4();
+                                        const nyopprettetfilter = lagreLagretFilter(filterId, filternavn, filter);
+                                        setValgtFilterId(filterId);
                                         setOpenLagre(false);
                                         if (filternavn !== '') {
                                             lagreNavnInputRef.current!.value = '';

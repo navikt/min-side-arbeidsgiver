@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSessionStorage } from '../../hooks/useStorage';
-import { equalAsSets, SaksoversiktFilter } from './SaksoversiktProvider';
+import { equalAsSets, SaksoversiktFilterState } from './SaksoversiktProvider';
 import { OppgaveFilterType, SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { z } from 'zod';
@@ -30,7 +30,7 @@ type SessionStateForside = {
 type SessionState = SessionStateSaksoversikt | SessionStateForside;
 
 const filterToSessionState = (
-    filter: SaksoversiktFilter,
+    filter: SaksoversiktFilterState,
     valgtFilterId: string | undefined
 ): SessionStateSaksoversikt => ({
     route: '/saksoversikt',
@@ -96,10 +96,10 @@ export const useSessionStateForside = (): void => {
 
 export type UseSessionState = [
     {
-        filter: SaksoversiktFilter;
+        filter: SaksoversiktFilterState;
         valgtFilterId: string | undefined;
     },
-    (filter: SaksoversiktFilter, valgtFilterId: string | undefined) => void,
+    (filter: SaksoversiktFilterState, valgtFilterId: string | undefined) => void,
 ];
 
 const defaultSessionState: SessionStateSaksoversikt = {
@@ -161,7 +161,7 @@ export const useSessionStateSaksoversikt = (alleVirksomheter: Organisasjon[]): U
         });
     }, []);
 
-    const update = (newFilter: SaksoversiktFilter, newValgtFilterId: string | undefined) => {
+    const update = (newFilter: SaksoversiktFilterState, newValgtFilterId: string | undefined) => {
         const newSessionState = filterToSessionState(newFilter, newValgtFilterId);
         if (!equalSessionState(sessionStateSaksoversikt, newSessionState)) {
             setSessionStateSaksoversikt(newSessionState);

@@ -1,9 +1,9 @@
 import { http, HttpResponse } from 'msw';
-import { SaksoversiktFilter } from '../../Pages/Saksoversikt/SaksoversiktProvider';
+import { SaksoversiktLagretFilter } from '../../Pages/Saksoversikt/SaksoversiktProvider';
 import { SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 
-let lagredeFilter: SaksoversiktFilter[] = [
+let lagredeFilter: SaksoversiktLagretFilter[] = [
     {
         filterId: '147ec969-16a9-4dec-8360-6509d7cc653c',
         navn: 'filter-1',
@@ -24,7 +24,7 @@ export const lagredeFilterHandlers = [
             },
         });
     }),
-    http.put<any, SaksoversiktFilter>(
+    http.put<any, SaksoversiktLagretFilter>(
         '/min-side-arbeidsgiver/api/lagredeFilter',
         async ({ request }) => {
             const newFilter = await request.json();
