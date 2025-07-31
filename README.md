@@ -40,6 +40,7 @@ Interne henvendelser kan sendes via Slack i kanalen #arbeidsgiver-min-side-arbei
 | miljø         | url                                                                            |
 |---------------|--------------------------------------------------------------------------------|
 | dev           | https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver (med naisdevice)  |
+| dev (ekstern) | https://arbeidsgiver.ekstern.dev.nav.no/min-side-arbeidsgiver (ekstern)        |
 | prod          | https://arbeidsgiver.nav.no/min-side-arbeidsgiver/                             |
 | dev-lik-demo  | https://arbeidsgiver-dev-like.ansatt.dev.nav.no/min-side-arbeidsgiver          |
 | prod-lik-demo | https://arbeidsgiver.ansatt.dev.nav.no/min-side-arbeidsgiver                   |

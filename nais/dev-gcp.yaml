@@ -9,6 +9,7 @@ spec:
   image: {{{image}}}
   ingresses:
     - https://arbeidsgiver.intern.dev.nav.no/min-side-arbeidsgiver
+    - https://arbeidsgiver.ekstern.dev.nav.no/min-side-arbeidsgiver
   liveness:
     path: /min-side-arbeidsgiver/internal/isAlive
   readiness:
