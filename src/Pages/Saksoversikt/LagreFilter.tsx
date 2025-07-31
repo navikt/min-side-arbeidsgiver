@@ -43,126 +43,74 @@ const statusMapping = {
 
 export const useLagredeFilter = (): {
     lagredeFilter: LagretFilter[];
-    lagreNyttLagretFilter: (navn: string, filter: SaksoversiktFilter) => LagretFilter;
-    slettLagretFilter: (uuid: string) => void;
-    oppdaterLagretFilter: (uuid: string, filter: SaksoversiktFilter) => void;
-    reloadLagredeFilter: () => void;
+    lagreLagretFilter: (filter: LagretFilter) => Promise<LagretFilter | null>;
+    slettLagretFilter: (filterId: string) => void;
+    loadLagredeFilter: () => void;
     status: 'initializing' | 'loading' | 'completed' | 'failed';
 } => {
-    const { storedValue, setValue, reload, status, storageItemConflict } = useRemoteStorage<
-        LagretFilter[]
-    >('lagrede-filter', [], (value) =>
-        value.map((filter: any) => ({
-            ...filter,
-            filter: ZodSaksoversiktFilter.parse(filter.filter),
-        }))
-    );
-    const [action, setAction] = useState<
-        | {
-              type: 'lagre' | 'slett' | 'oppdater';
-              lagretFilter: LagretFilter;
-          }
-        | undefined
-    >();
-
-    const lagredeFilter = storedValue ?? [];
-
-    // handle conflict
-    useEffect(() => {
-        if (storageItemConflict && action !== undefined) {
-            if (action.type === 'slett') {
-                setValue(
-                    storageItemConflict.currentStorageItem.data.filter(
-                        (filter: any) => filter.uuid !== action.lagretFilter.uuid
-                    ),
-                    storageItemConflict.currentStorageItem.version
-                );
-            } else if (action.type === 'lagre') {
-                setValue(
-                    [...storageItemConflict.currentStorageItem.data, action.lagretFilter],
-                    storageItemConflict.currentStorageItem.version
-                );
-            } else if (action.type === 'oppdater') {
-                const existingFilter = storageItemConflict.currentStorageItem.data.find(
-                    (filter) => filter.uuid === action.lagretFilter.uuid
-                );
-                if (existingFilter !== undefined) {
-                    setValue(
-                        storageItemConflict.currentStorageItem.data.map((filter) =>
-                            filter.uuid === action.lagretFilter.uuid ? action.lagretFilter : filter
-                        ),
-                        storageItemConflict.currentStorageItem.version
-                    );
-                } else {
-                    setValue(
-                        [...storageItemConflict.currentStorageItem.data, action.lagretFilter],
-                        storageItemConflict.currentStorageItem.version
-                    );
-                }
-            }
-        }
-    }, [storageItemConflict, action]);
-
-    // update store value / API call
-    useEffect(() => {
-        if (action) {
-            if (action.type === 'lagre') {
-                setValue([...lagredeFilter, action.lagretFilter!]);
-            }
-            if (action.type === 'slett') {
-                setValue(
-                    lagredeFilter.filter(
-                        (lagretFilter: any) => lagretFilter.uuid !== action.lagretFilter.uuid
-                    )
-                );
-            }
-            if (action.type === 'oppdater') {
-                setValue(
-                    lagredeFilter.map((lagretFilter: any) =>
-                        lagretFilter.uuid === action.lagretFilter.uuid
-                            ? action.lagretFilter
-                            : lagretFilter
-                    )
-                );
-            }
-        }
-    }, [action]);
+    const endpoint = `${__BASE_PATH__}/api/storage/lagredeFilter`;
+    const [lagredeFilter, setLagredeFilter] = useState<LagretFilter[]>([])
+    const [status, setStatus] = useState<'initializing' | 'loading' | 'completed' | 'failed'>('initializing');
 
     useEffect(() => {
-        setAction(undefined);
-    }, [storedValue]);
+        loadLagredeFilter()
+    }, []);
 
-    const lagreNyttLagretFilter = (navn: string, filter: SaksoversiktFilter) => {
-        const uuid = uuidv4();
-        const nyttLagretFilter = { uuid, navn, filter };
-        setAction({ type: 'lagre', lagretFilter: nyttLagretFilter });
-        return nyttLagretFilter;
+    const loadLagredeFilter = () => {
+        setStatus('loading');
+        hentLagredeFilter()
+            .then((data) => {
+                setLagredeFilter(data);
+                setStatus("completed")
+            })
+            .catch((error) => {
+                console.error('Error fetching lagrede filter:', error);
+                setStatus('failed');
+            });
     };
 
-    const slettLagretFilter = (uuid: string) => {
-        const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
-        if (lagretFilter) {
-            setAction({ type: 'slett', lagretFilter });
+    async function hentLagredeFilter() : Promise<LagretFilter[]>{
+        const response = await fetch(endpoint, {
+            method: 'GET',
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to fetch lagrede filter: ${response.statusText}`);
         }
-    };
+        return response.json()
+    }
 
-    const oppdaterLagretFilter = (uuid: string, filter: SaksoversiktFilter) => {
-        const lagretFilter = lagredeFilter.find((f) => f.uuid === uuid);
-        if (lagretFilter) {
-            setAction({ type: 'oppdater', lagretFilter: { ...lagretFilter, filter } });
+    async function lagreLagretFilter(filter: LagretFilter): Promise<LagretFilter | null> {
+        const response = await fetch(endpoint, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(filter),
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to create new filter: ${response.statusText}`);
         }
-    };
+        return response.json()
+    }
+
+    async function slettLagretFilter(filterId: string): Promise<LagretFilter | null> {
+        const response = await fetch(`${endpoint}/${filterId}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to delete filter: ${response.statusText}`);
+        }
+        return response.json();
+    }
 
     return {
-        status: statusMapping[status],
-        lagredeFilter: lagredeFilter.sort((a, b) => a.navn.localeCompare(b.navn)),
-        lagreNyttLagretFilter,
+        lagredeFilter,
+        loadLagredeFilter,
+        lagreLagretFilter,
         slettLagretFilter,
-        oppdaterLagretFilter,
-        reloadLagredeFilter: reload,
-    };
-};
-
+        status
+    }
+}
 export const LagreFilter = () => {
     const {
         saksoversiktState: { valgtFilterId, filter },
@@ -189,10 +137,9 @@ export const LagreFilter = () => {
     const {
         status: lagreStatus,
         lagredeFilter,
-        reloadLagredeFilter,
-        lagreNyttLagretFilter,
+        loadLagredeFilter,
+        lagreLagretFilter,
         slettLagretFilter,
-        oppdaterLagretFilter,
     } = useLagredeFilter();
 
     useEffect(() => {
@@ -234,7 +181,7 @@ export const LagreFilter = () => {
                                     overskrift={`Endre «${valgtFilter.navn}»`}
                                     bekreft={'Lagre'}
                                     onSubmit={() => {
-                                        oppdaterLagretFilter(valgtFilter.uuid, filter);
+                                        lagreLagretFilter(filter);
                                         logKlikk('endre-valgt-filter');
                                     }}
                                 >
@@ -276,7 +223,7 @@ export const LagreFilter = () => {
                                             onClick={() => {
                                                 setValgtFilterId(lagretFilter.uuid);
                                                 setFilter({ ...lagretFilter.filter });
-                                                reloadLagredeFilter();
+                                                loadLagredeFilter();
                                                 logKlikk('bytt-valgt-filter');
                                             }}
                                         >
@@ -322,8 +269,7 @@ export const LagreFilter = () => {
                                         setFeilmeldingStatus('duplicate');
                                         handleFocus();
                                     } else {
-                                        const nyopprettetfilter = lagreNyttLagretFilter(
-                                            filternavn,
+                                        const nyopprettetfilter = lagreLagretFilter(
                                             filter
                                         );
                                         setValgtFilterId(nyopprettetfilter.uuid);
