@@ -60,28 +60,16 @@ export type SaksoversiktState =
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
       };
 
-export const ZodSaksoversiktFilter = z.preprocess(
-    // Preprocess for å håndtere gamle modeller av lagrede filter, som ikke lenger samsvarer med typen
-    (val: any) => {
-        if (val.oppgaveFilter === undefined) {
-            val.oppgaveFilter =
-                val.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
-        }
-        val.virksomheter = Set(val.virksomheter);
-        return val;
-    },
-    z.object({
-        side: z.number(),
-        tekstsoek: z.string(),
-        virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
-        sortering: z
-            .enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst])
-            .catch(SakSortering.NyesteFørst)
-            .default(SakSortering.NyesteFørst),
-        sakstyper: z.array(z.string()),
-        oppgaveFilter: z.array(OppgaveFilterType),
-    })
-);
+export const ZodSaksoversiktFilter = z.object({
+    filterId: z.string(),
+    navn: z.string(),
+    side: z.number(),
+    tekstsoek: z.string(),
+    virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
+    sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
+    sakstyper: z.array(z.string()),
+    oppgaveFilter: z.array(OppgaveFilterType),
+});
 
 export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
     switch (tilstand) {
@@ -129,8 +117,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
     const [{ filter, valgtFilterId }, setSessionStateSaksoversikt] =
         useSessionStateSaksoversikt(orgs);
 
-
-
     const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
         switch (action.action) {
             case 'bytt-filter':
@@ -169,9 +155,9 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 };
             case 'lasting-ferdig':
                 const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
-                console.log("lastet ferdig");
-                console.log(saker)
-                console.log(totaltAntallSaker)
+                console.log('lastet ferdig');
+                console.log(saker);
+                console.log(totaltAntallSaker);
                 return {
                     state: 'done',
                     filter: current.filter,

@@ -11,6 +11,7 @@ import {
 import { kontonummerHandlers } from './handlers/kontonummerHandler';
 import { eregHandlers } from './handlers/eregHandlers';
 import { Demoprofil } from '../hooks/useDemoprofil';
+import { lagredeFilterHandlers } from './handlers/lagredeFilterHandlers';
 
 /**
  * generelle handlers som har lik oppførsel uavhengig av profil.
@@ -88,7 +89,7 @@ export const handlers = (demoprofil: Demoprofil) => [
     ),
 
     ...kontonummerHandlers,
-    ...storageHandlers,
+    ...lagredeFilterHandlers,
 
     kontaktinfoHandler,
 

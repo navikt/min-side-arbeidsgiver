@@ -42,18 +42,20 @@ const statusMapping = {
 } as const;
 
 export const useLagredeFilter = (): {
-    lagredeFilter: LagretFilter[];
-    lagreLagretFilter: (filter: LagretFilter) => Promise<LagretFilter | null>;
+    lagredeFilter: SaksoversiktFilter[];
+    lagreLagretFilter: (filter: SaksoversiktFilter) => Promise<SaksoversiktFilter | null>;
     slettLagretFilter: (filterId: string) => void;
     loadLagredeFilter: () => void;
     status: 'initializing' | 'loading' | 'completed' | 'failed';
 } => {
-    const endpoint = `${__BASE_PATH__}/api/storage/lagredeFilter`;
-    const [lagredeFilter, setLagredeFilter] = useState<LagretFilter[]>([])
-    const [status, setStatus] = useState<'initializing' | 'loading' | 'completed' | 'failed'>('initializing');
+    const endpoint = `${__BASE_PATH__}/api/lagredeFilter`;
+    const [lagredeFilter, setLagredeFilter] = useState<SaksoversiktFilter[]>([]);
+    const [status, setStatus] = useState<'initializing' | 'loading' | 'completed' | 'failed'>(
+        'initializing'
+    );
 
     useEffect(() => {
-        loadLagredeFilter()
+        loadLagredeFilter();
     }, []);
 
     const loadLagredeFilter = () => {
@@ -61,7 +63,7 @@ export const useLagredeFilter = (): {
         hentLagredeFilter()
             .then((data) => {
                 setLagredeFilter(data);
-                setStatus("completed")
+                setStatus('completed');
             })
             .catch((error) => {
                 console.error('Error fetching lagrede filter:', error);
@@ -69,17 +71,19 @@ export const useLagredeFilter = (): {
             });
     };
 
-    async function hentLagredeFilter() : Promise<LagretFilter[]>{
+    async function hentLagredeFilter(): Promise<SaksoversiktFilter[]> {
         const response = await fetch(endpoint, {
             method: 'GET',
         });
         if (!response.ok) {
             throw new Error(`Failed to fetch lagrede filter: ${response.statusText}`);
         }
-        return response.json()
+        return response.json();
     }
 
-    async function lagreLagretFilter(filter: LagretFilter): Promise<LagretFilter | null> {
+    async function lagreLagretFilter(
+        filter: SaksoversiktFilter
+    ): Promise<SaksoversiktFilter | null> {
         const response = await fetch(endpoint, {
             method: 'PUT',
             headers: {
@@ -90,10 +94,10 @@ export const useLagredeFilter = (): {
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
         }
-        return response.json()
+        return response.json();
     }
 
-    async function slettLagretFilter(filterId: string): Promise<LagretFilter | null> {
+    async function slettLagretFilter(filterId: string): Promise<SaksoversiktFilter | null> {
         const response = await fetch(`${endpoint}/${filterId}`, {
             method: 'DELETE',
         });
@@ -108,9 +112,9 @@ export const useLagredeFilter = (): {
         loadLagredeFilter,
         lagreLagretFilter,
         slettLagretFilter,
-        status
-    }
-}
+        status,
+    };
+};
 export const LagreFilter = () => {
     const {
         saksoversiktState: { valgtFilterId, filter },
@@ -150,7 +154,9 @@ export const LagreFilter = () => {
         return null;
     }
 
-    const valgtFilter = lagredeFilter.find((lagretFilter) => lagretFilter.uuid === valgtFilterId);
+    const valgtFilter = lagredeFilter.find(
+        (lagretFilter) => lagretFilter.filterId === valgtFilterId
+    );
     return (
         <>
             {lagreStatus === 'failed' ? (
@@ -175,7 +181,7 @@ export const LagreFilter = () => {
                             >
                                 {valgtFilter.navn}
                             </Chips.Removable>
-                            {!equalFilter(valgtFilter.filter, filter) ? (
+                            {!equalFilter(valgtFilter, filter) ? (
                                 <ModalMedÅpneknapp
                                     knappTekst={'Lagre endringer'}
                                     overskrift={`Endre «${valgtFilter.navn}»`}
@@ -195,7 +201,7 @@ export const LagreFilter = () => {
                                 bekreft={'Slett'}
                                 bekreftVariant="danger"
                                 onSubmit={() => {
-                                    slettLagretFilter(valgtFilter.uuid);
+                                    slettLagretFilter(valgtFilter.filterId);
                                     setValgtFilterId(undefined);
                                     logKlikk('slett-valgt-filter');
                                 }}
@@ -219,10 +225,10 @@ export const LagreFilter = () => {
                                 <Dropdown.Menu.List>
                                     {lagredeFilter.map((lagretFilter) => (
                                         <Dropdown.Menu.List.Item
-                                            key={lagretFilter.uuid}
+                                            key={lagretFilter.filterId}
                                             onClick={() => {
-                                                setValgtFilterId(lagretFilter.uuid);
-                                                setFilter({ ...lagretFilter.filter });
+                                                setValgtFilterId(lagretFilter.filterId);
+                                                setFilter({ ...lagretFilter });
                                                 loadLagredeFilter();
                                                 logKlikk('bytt-valgt-filter');
                                             }}
@@ -269,10 +275,8 @@ export const LagreFilter = () => {
                                         setFeilmeldingStatus('duplicate');
                                         handleFocus();
                                     } else {
-                                        const nyopprettetfilter = lagreLagretFilter(
-                                            filter
-                                        );
-                                        setValgtFilterId(nyopprettetfilter.uuid);
+                                        const nyopprettetfilter = lagreLagretFilter(filter);
+                                        setValgtFilterId(filter.filterId);
                                         setOpenLagre(false);
                                         if (filternavn !== '') {
                                             lagreNavnInputRef.current!.value = '';
