@@ -12,7 +12,7 @@ let lagredeFilter: SaksoversiktLagretFilter[] = [
         virksomheter: Set(),
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
-        oppgaveFilter: [],
+        oppgaveFilter: ["TILSTAND_NY"],
     },
 ];
 

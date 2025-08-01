@@ -14,15 +14,21 @@ import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
+import { Set } from 'immutable';
 import {
-    equalFilter, SaksoversiktFilterState,
+    equalFilter,
+    SaksoversiktFilterState,
     SaksoversiktLagretFilter,
     useSaksoversiktContext,
 } from './SaksoversiktProvider';
 
 export const useLagredeFilter = (): {
     lagredeFilter: SaksoversiktLagretFilter[];
-    lagreLagretFilter: (filterId: string, navn: string, filter: SaksoversiktFilterState) => Promise<SaksoversiktLagretFilter | null>;
+    lagreLagretFilter: (
+        filterId: string,
+        navn: string,
+        filter: SaksoversiktFilterState
+    ) => Promise<SaksoversiktLagretFilter | null>;
     slettLagretFilter: (filterId: string) => void;
     loadLagredeFilter: () => void;
     status: 'initializing' | 'loading' | 'completed' | 'failed';
@@ -57,7 +63,12 @@ export const useLagredeFilter = (): {
         if (!response.ok) {
             throw new Error(`Failed to fetch lagrede filter: ${response.statusText}`);
         }
-        return response.json();
+        return response.json().then((res) =>
+            res.map((filter: SaksoversiktLagretFilter) => ({
+                ...filter,
+                virksomheter: Set(filter.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
+            }))
+        );
     }
 
     async function lagreLagretFilter(
@@ -70,7 +81,7 @@ export const useLagredeFilter = (): {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({filterId: filterId, navn: navn, ...filter}),
+            body: JSON.stringify({ filterId: filterId, navn: navn, ...filter }),
         });
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
@@ -168,11 +179,16 @@ export const LagreFilter = () => {
                                     overskrift={`Endre «${valgtLagretFilter.navn}»`}
                                     bekreft={'Lagre'}
                                     onSubmit={() => {
-                                        lagreLagretFilter(valgtLagretFilter.filterId, valgtLagretFilter.navn, filter);
+                                        lagreLagretFilter(
+                                            valgtLagretFilter.filterId,
+                                            valgtLagretFilter.navn,
+                                            filter
+                                        );
                                         logKlikk('endre-valgt-filter');
                                     }}
                                 >
-                                    Er du sikker på at du vil lagre endringene i «{valgtLagretFilter.navn}
+                                    Er du sikker på at du vil lagre endringene i «
+                                    {valgtLagretFilter.navn}
                                     »?
                                 </ModalMedÅpneknapp>
                             ) : null}
@@ -257,7 +273,11 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        const nyopprettetfilter = lagreLagretFilter(filterId, filternavn, filter);
+                                        const nyopprettetfilter = lagreLagretFilter(
+                                            filterId,
+                                            filternavn,
+                                            filter
+                                        );
                                         setValgtFilterId(filterId);
                                         setOpenLagre(false);
                                         if (filternavn !== '') {
