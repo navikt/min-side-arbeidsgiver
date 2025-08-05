@@ -76,8 +76,6 @@ export const useLagredeFilter = (): {
         navn: string,
         filter: SaksoversiktFilterState
     ): Promise<SaksoversiktLagretFilter | null> {
-
-        console.log("navn", navn)
         const response = await fetch(endpoint, {
             method: 'PUT',
             headers: {
@@ -263,7 +261,6 @@ export const LagreFilter = () => {
                             onSubmit={(event) => {
                                 {
                                     event.preventDefault();
-                                    console.log("lagreNavnInputRef", lagreNavnInputRef.current?.value)
                                     const filternavn =
                                         lagreNavnInputRef.current?.value?.trim() ?? '';
                                     if (filternavn === '') {
@@ -275,7 +272,6 @@ export const LagreFilter = () => {
                                         setFeilmeldingStatus('duplicate');
                                         handleFocus();
                                     } else {
-                                        console.log("filternavn", filternavn)
                                         const filterId = uuidv4();
                                         lagreLagretFilter(
                                             filterId,
