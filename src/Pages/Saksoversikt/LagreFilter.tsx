@@ -258,7 +258,7 @@ export const LagreFilter = () => {
                     <Modal.Body>
                         <form
                             id="LagreNyttFilter"
-                            onSubmit={async (event) => {
+                            onSubmit={(event) => {
                                 {
                                     event.preventDefault();
                                     const filternavn =
@@ -273,17 +273,18 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        await lagreLagretFilter(
+                                        lagreLagretFilter(
                                             filterId,
                                             filternavn,
                                             filter
-                                        );
-                                        setValgtFilterId(filterId);
-                                        setOpenLagre(false);
-                                        if (filternavn !== '') {
-                                            lagreNavnInputRef.current!.value = '';
-                                        }
-                                        logKlikk('lagre-som-nytt-valgt-filter');
+                                        ).then((nyttFilter) => {
+                                            setValgtFilterId(nyttFilter?.filterId);
+                                            setOpenLagre(false);
+                                            if (filternavn !== '') {
+                                                lagreNavnInputRef.current!.value = '';
+                                            }
+                                            logKlikk('lagre-som-nytt-valgt-filter');
+                                        });
                                     }
                                 }
                             }}
