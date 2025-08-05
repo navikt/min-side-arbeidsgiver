@@ -96,6 +96,7 @@ export const useLagredeFilter = (): {
         if (!response.ok) {
             throw new Error(`Failed to delete filter: ${response.statusText}`);
         }
+        setLagredeFilter((prevFilters) => prevFilters.filter((f) => f.filterId !== filterId));
         return response.json();
     }
 
@@ -273,18 +274,16 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        lagreLagretFilter(
-                                            filterId,
-                                            filternavn,
-                                            filter
-                                        ).then((nyttFilter) => {
-                                            setValgtFilterId(nyttFilter?.filterId);
-                                            setOpenLagre(false);
-                                            if (filternavn !== '') {
-                                                lagreNavnInputRef.current!.value = '';
+                                        lagreLagretFilter(filterId, filternavn, filter).then(
+                                            (nyttFilter) => {
+                                                setValgtFilterId(nyttFilter?.filterId);
+                                                setOpenLagre(false);
+                                                if (filternavn !== '') {
+                                                    lagreNavnInputRef.current!.value = '';
+                                                }
+                                                logKlikk('lagre-som-nytt-valgt-filter');
                                             }
-                                            logKlikk('lagre-som-nytt-valgt-filter');
-                                        });
+                                        );
                                     }
                                 }
                             }}
