@@ -245,7 +245,7 @@ const FilterStateSessionStorage = z.object({
 
 type FilterStateSessionStorage = z.infer<typeof FilterStateSessionStorage>;
 
-const defaultFilterState: FilterStateSessionStorage = {
+export const defaultFilterState: FilterStateSessionStorage = {
     valgtLagretFilterId: undefined,
     saksoversiktFilterState: {
         side: 1,

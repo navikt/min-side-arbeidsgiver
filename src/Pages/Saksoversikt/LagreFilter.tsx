@@ -16,6 +16,7 @@ import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
 import { Set } from 'immutable';
 import {
+    defaultFilterState,
     equalFilter,
     SaksoversiktFilterState,
     SaksoversiktLagretFilter,
@@ -202,6 +203,7 @@ export const LagreFilter = () => {
                                     slettLagretFilter(valgtLagretFilter.filterId);
                                     setValgtFilterId(undefined);
                                     logKlikk('slett-valgt-filter');
+                                    setFilter(defaultFilterState.saksoversiktFilterState)
                                 }}
                             >
                                 Er du sikker på at du vil slette «{valgtLagretFilter.navn}»?
