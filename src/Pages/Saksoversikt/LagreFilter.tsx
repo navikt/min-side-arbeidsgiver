@@ -258,7 +258,7 @@ export const LagreFilter = () => {
                     <Modal.Body>
                         <form
                             id="LagreNyttFilter"
-                            onSubmit={(event) => {
+                            onSubmit={async (event) => {
                                 {
                                     event.preventDefault();
                                     const filternavn =
@@ -273,7 +273,7 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        lagreLagretFilter(
+                                        await lagreLagretFilter(
                                             filterId,
                                             filternavn,
                                             filter
