@@ -76,12 +76,14 @@ export const useLagredeFilter = (): {
         navn: string,
         filter: SaksoversiktFilterState
     ): Promise<SaksoversiktLagretFilter | null> {
+
+        console.log("navn", navn)
         const response = await fetch(endpoint, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ filterId: filterId, navn: navn, ...filter }),
+            body: JSON.stringify({ ...filter, filterId: filterId, navn: navn }),
         });
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
@@ -261,6 +263,7 @@ export const LagreFilter = () => {
                             onSubmit={(event) => {
                                 {
                                     event.preventDefault();
+                                    console.log("lagreNavnInputRef", lagreNavnInputRef.current?.value)
                                     const filternavn =
                                         lagreNavnInputRef.current?.value?.trim() ?? '';
                                     if (filternavn === '') {
@@ -272,8 +275,9 @@ export const LagreFilter = () => {
                                         setFeilmeldingStatus('duplicate');
                                         handleFocus();
                                     } else {
+                                        console.log("filternavn", filternavn)
                                         const filterId = uuidv4();
-                                        const nyopprettetfilter = lagreLagretFilter(
+                                        lagreLagretFilter(
                                             filterId,
                                             filternavn,
                                             filter
