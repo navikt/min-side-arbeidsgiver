@@ -274,16 +274,13 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        lagreLagretFilter(filterId, filternavn, filter).then(
-                                            (nyttFilter) => {
-                                                setValgtFilterId(nyttFilter?.filterId);
-                                                setOpenLagre(false);
-                                                if (filternavn !== '') {
-                                                    lagreNavnInputRef.current!.value = '';
-                                                }
-                                                logKlikk('lagre-som-nytt-valgt-filter');
-                                            }
-                                        );
+                                        lagreLagretFilter(filterId, filternavn, filter);
+                                        setValgtFilterId(filterId);
+                                        setOpenLagre(false);
+                                        if (filternavn !== '') {
+                                            lagreNavnInputRef.current!.value = '';
+                                        }
+                                        logKlikk('lagre-som-nytt-valgt-filter');
                                     }
                                 }
                             }}
