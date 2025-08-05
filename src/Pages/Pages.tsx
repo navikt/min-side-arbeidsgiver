@@ -184,6 +184,7 @@ const Pages: FunctionComponent = () => (
                                                             </>
                                                         }
                                                     />
+                                                    {/* Denne routen er deprecated, da filter tilstand restores direkte på /saksoversikt gjennom session storage. Behodles da enkelte team fortsatt linker hit */}
                                                     <Route
                                                         path="/sak-restore-session"
                                                         element={
