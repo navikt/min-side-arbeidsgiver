@@ -203,7 +203,7 @@ export const LagreFilter = () => {
                                     slettLagretFilter(valgtLagretFilter.filterId);
                                     setValgtFilterId(undefined);
                                     logKlikk('slett-valgt-filter');
-                                    setFilter(defaultFilterState.saksoversiktFilterState)
+                                    setFilter(defaultFilterState.saksoversiktFilterState);
                                 }}
                             >
                                 Er du sikker på at du vil slette «{valgtLagretFilter.navn}»?
@@ -276,8 +276,9 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        lagreLagretFilter(filterId, filternavn, filter);
-                                        setValgtFilterId(filterId);
+                                        lagreLagretFilter(filterId, filternavn, filter).then(
+                                            (_) => setValgtFilterId(filterId)
+                                        );
                                         setOpenLagre(false);
                                         if (filternavn !== '') {
                                             lagreNavnInputRef.current!.value = '';
