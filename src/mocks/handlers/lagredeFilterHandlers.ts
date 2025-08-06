@@ -37,7 +37,7 @@ export const lagredeFilterHandlers = [
             } else {
                 lagredeFilter.push(newFilter);
             }
-            return HttpResponse.json(lagredeFilter, {
+            return HttpResponse.json(newFilter, {
                 headers: {
                     'Content-Type': 'application/json',
                 },

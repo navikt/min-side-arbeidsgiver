@@ -64,7 +64,7 @@ export const useLagredeFilter = (): {
         if (!response.ok) {
             throw new Error(`Failed to fetch lagrede filter: ${response.statusText}`);
         }
-        return response.json().then((res) =>
+        return response.json().then((res: SaksoversiktLagretFilter[]) =>
             res.map((filter: SaksoversiktLagretFilter) => ({
                 ...filter,
                 virksomheter: Set(filter.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
@@ -87,7 +87,15 @@ export const useLagredeFilter = (): {
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
         }
-        return response.json();
+        const newFilter = await response.json().then((f: SaksoversiktLagretFilter) => ({
+            ...f,
+            virksomheter: Set(f.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
+        }));
+        setLagredeFilter((prevFilters) => {
+            const newFilters = [...prevFilters.filter((f) => f.filterId !== filterId), newFilter];
+            return newFilters;
+        });
+        return newFilter;
     }
 
     async function slettLagretFilter(filterId: string): Promise<SaksoversiktLagretFilter | null> {
@@ -276,8 +284,8 @@ export const LagreFilter = () => {
                                         handleFocus();
                                     } else {
                                         const filterId = uuidv4();
-                                        lagreLagretFilter(filterId, filternavn, filter).then(
-                                            (_) => setValgtFilterId(filterId)
+                                        lagreLagretFilter(filterId, filternavn, filter).then((_) =>
+                                            setValgtFilterId(filterId)
                                         );
                                         setOpenLagre(false);
                                         if (filternavn !== '') {
