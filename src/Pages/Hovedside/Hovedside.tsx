@@ -7,7 +7,6 @@ import { SøknaderOgSkjemaer } from './SøknaderOgSkjemaer';
 import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import './Hovedside.css';
 import { TrengerDuHjelp } from './TrengerDuHjelp';
-import { useOversiktsfilterClearing } from '../Saksoversikt/useOversiktSessionStorage';
 import { AktueltRubrikk } from './AktueltRubrikk';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { infoOmTilgangsstyringURL } from '../../lenker';
@@ -19,7 +18,6 @@ import NotifikasjonPanel from './NotifikasjonPanel/NotifikasjonPanel';
 import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 
 const Hovedside: FunctionComponent = () => {
-    useOversiktsfilterClearing();
 
     useEffect(() => {
         setBreadcrumbs([]); // Fjerner breadcrumbs på hovedsiden

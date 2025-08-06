@@ -7,7 +7,6 @@ import React, {
     useReducer,
 } from 'react';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
-import { useSessionStateSaksoversikt } from './useOversiktSessionStorage';
 import { useSaker } from './useSaker';
 import { SIDE_SIZE } from './Saksoversikt';
 import { finnBucketForAntall, logAnalyticsEvent } from '../../utils/analytics';
@@ -23,9 +22,10 @@ import {
 import { Set, is } from 'immutable';
 import * as Record from '../../utils/Record';
 import { z } from 'zod';
+import { useSessionStorage } from '../../hooks/useStorage';
 
 export type SaksoversiktTransitions = {
-    setFilter: (filter: SaksoversiktFilter) => void;
+    setFilter: (filter: SaksoversiktFilterState) => void;
     setValgtFilterId: (id: string | undefined) => void;
     setSide: (side: number) => void;
     setSortering: (sortering: SakSortering) => void;
@@ -34,8 +34,8 @@ export type SaksoversiktTransitions = {
 export type SaksoversiktState =
     | {
           state: 'loading';
-          filter: SaksoversiktFilter;
-          valgtFilterId: string | undefined;
+          filter: SaksoversiktFilterState;
+          valgtLagretFilterId: string | undefined;
           totaltAntallSaker: number | undefined;
           forrigeSaker: Array<Sak> | null;
           sakstyper: Array<Sakstype> | undefined;
@@ -44,8 +44,8 @@ export type SaksoversiktState =
       }
     | {
           state: 'done';
-          filter: SaksoversiktFilter;
-          valgtFilterId: string | undefined;
+          filter: SaksoversiktFilterState;
+          valgtLagretFilterId: string | undefined;
           saker: Array<Sak>;
           sakstyper: Array<Sakstype>;
           totaltAntallSaker: number;
@@ -53,35 +53,26 @@ export type SaksoversiktState =
       }
     | {
           state: 'error';
-          filter: SaksoversiktFilter;
-          valgtFilterId: string | undefined;
+          filter: SaksoversiktFilterState;
+          valgtLagretFilterId: string | undefined;
           sakstyper: Array<Sakstype> | undefined;
           totaltAntallSaker: number | undefined;
           oppgaveFilterInfo: Array<OppgaveFilterInfo> | undefined;
       };
 
-export const ZodSaksoversiktFilter = z.preprocess(
-    // Preprocess for å håndtere gamle modeller av lagrede filter, som ikke lenger samsvarer med typen
-    (val: any) => {
-        if (val.oppgaveFilter === undefined) {
-            val.oppgaveFilter =
-                val.oppgaveTilstand.map((ot: string) => mapOppgaveTilstandTilFilterType(ot)) ?? [];
-        }
-        val.virksomheter = Set(val.virksomheter);
-        return val;
-    },
-    z.object({
-        side: z.number(),
-        tekstsoek: z.string(),
-        virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
-        sortering: z
-            .enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst])
-            .catch(SakSortering.NyesteFørst)
-            .default(SakSortering.NyesteFørst),
-        sakstyper: z.array(z.string()),
-        oppgaveFilter: z.array(OppgaveFilterType),
-    })
-);
+export const ZodSaksoversiktFilterState = z.object({
+    side: z.number(),
+    tekstsoek: z.string(),
+    virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
+    sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
+    sakstyper: z.array(z.string()),
+    oppgaveFilter: z.array(OppgaveFilterType),
+});
+
+export const ZodSaksoversiktLagretFilter = ZodSaksoversiktFilterState.extend({
+    filterId: z.string(),
+    navn: z.string(),
+});
 
 export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
     switch (tilstand) {
@@ -96,7 +87,8 @@ export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilter
     }
 };
 
-export type SaksoversiktFilter = z.infer<typeof ZodSaksoversiktFilter>;
+export type SaksoversiktFilterState = z.infer<typeof ZodSaksoversiktFilterState>;
+export type SaksoversiktLagretFilter = z.infer<typeof ZodSaksoversiktLagretFilter>;
 
 export type SaksoversiktContext = {
     saksoversiktState: SaksoversiktState;
@@ -104,7 +96,7 @@ export type SaksoversiktContext = {
 };
 
 type Action =
-    | { action: 'bytt-filter'; filter: SaksoversiktFilter }
+    | { action: 'bytt-filter'; filter: SaksoversiktFilterState }
     | { action: 'sett-valgt-filterid'; id: string | undefined }
     | { action: 'lasting-pågår' }
     | { action: 'lasting-ferdig'; resultat: SakerResultat }
@@ -126,32 +118,34 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
 
     const orgs = Record.mapToArray(organisasjonsInfo, (_, { organisasjon }) => organisasjon);
 
-    const [{ filter, valgtFilterId }, setSessionStateSaksoversikt] =
-        useSessionStateSaksoversikt(orgs);
-
-
-
     const reduce = (current: SaksoversiktState, action: Action): SaksoversiktState => {
         switch (action.action) {
             case 'bytt-filter':
                 if (equalFilter(current.filter, action.filter)) {
                     return current;
                 }
-                setSessionStateSaksoversikt(action.filter, current.valgtFilterId);
+                setSessionStorageValue({
+                    saksoversiktFilterState: action.filter,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
+                });
                 return {
                     ...current,
                     filter: action.filter,
                 };
             case 'sett-valgt-filterid':
+                setSessionStorageValue({
+                    saksoversiktFilterState: current.filter,
+                    valgtLagretFilterId: action.id,
+                });
                 return {
                     ...current,
-                    valgtFilterId: action.id,
+                    valgtLagretFilterId: action.id,
                 };
             case 'lasting-pågår':
                 return {
                     state: 'loading',
                     filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
                     sakstyper: current.sakstyper,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
                     startTid: new Date(),
@@ -162,20 +156,17 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 return {
                     state: 'error',
                     filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
                     sakstyper: current.sakstyper,
                     totaltAntallSaker: current.totaltAntallSaker,
                     oppgaveFilterInfo: current.oppgaveFilterInfo,
                 };
             case 'lasting-ferdig':
                 const { totaltAntallSaker, saker, oppgaveFilterInfo, sakstyper } = action.resultat;
-                console.log("lastet ferdig");
-                console.log(saker)
-                console.log(totaltAntallSaker)
                 return {
                     state: 'done',
                     filter: current.filter,
-                    valgtFilterId: current.valgtFilterId,
+                    valgtLagretFilterId: current.valgtLagretFilterId,
                     saker: saker,
                     sakstyper: sakstyper,
                     totaltAntallSaker: totaltAntallSaker,
@@ -184,10 +175,27 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         }
     };
 
+    const transitions: SaksoversiktTransitions = {
+        setFilter: (filter: SaksoversiktFilterState) =>
+            dispatch({ action: 'bytt-filter', filter: { ...filter, side: 1 } }),
+        setValgtFilterId: (id: string | undefined) =>
+            dispatch({ action: 'sett-valgt-filterid', id }),
+        setSide: (side: number) =>
+            dispatch({ action: 'bytt-filter', filter: { ...state.filter, side } }),
+        setSortering: (sortering: SakSortering) =>
+            dispatch({
+                action: 'bytt-filter',
+                filter: { ...state.filter, sortering, side: 1 },
+            }),
+    };
+
+    const { saksoversiktFilterState, valgtLagretFilterId, setSessionStorageValue } =
+        useFilterStateSessionStorage();
+
     const [state, dispatch] = useReducer(reduce, {
         state: 'loading',
-        filter: filter,
-        valgtFilterId: valgtFilterId,
+        filter: saksoversiktFilterState,
+        valgtLagretFilterId: valgtLagretFilterId,
         forrigeSaker: null,
         totaltAntallSaker: undefined,
         sakstyper: undefined,
@@ -218,20 +226,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         }
     }, [loading, data]);
 
-    const transitions: SaksoversiktTransitions = {
-        setFilter: (filter: SaksoversiktFilter) =>
-            dispatch({ action: 'bytt-filter', filter: { ...filter, side: 1 } }),
-        setValgtFilterId: (id: string | undefined) =>
-            dispatch({ action: 'sett-valgt-filterid', id }),
-        setSide: (side: number) =>
-            dispatch({ action: 'bytt-filter', filter: { ...state.filter, side } }),
-        setSortering: (sortering: SakSortering) =>
-            dispatch({
-                action: 'bytt-filter',
-                filter: { ...state.filter, sortering, side: 1 },
-            }),
-    };
-
     return (
         <SaksoversiktContext.Provider
             value={{
@@ -242,6 +236,44 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
             {props.children}
         </SaksoversiktContext.Provider>
     );
+};
+
+const FilterStateSessionStorage = z.object({
+    saksoversiktFilterState: ZodSaksoversiktFilterState,
+    valgtLagretFilterId: z.string().optional(),
+});
+
+type FilterStateSessionStorage = z.infer<typeof FilterStateSessionStorage>;
+
+export const defaultFilterState: FilterStateSessionStorage = {
+    valgtLagretFilterId: undefined,
+    saksoversiktFilterState: {
+        side: 1,
+        tekstsoek: '',
+        virksomheter: Set(),
+        sortering: SakSortering.NyesteFørst,
+        oppgaveFilter: [],
+        sakstyper: [],
+    },
+};
+
+const useFilterStateSessionStorage = () => {
+    const SESSION_STATE_KEY = 'saksoversikt_filter';
+    const [sessionStorageValue, setSessionStorageValue] =
+        useSessionStorage<FilterStateSessionStorage>(SESSION_STATE_KEY, defaultFilterState);
+
+    // Av en eller annen grunn er det sykt klønete å parse et Set fra sessionStorage. Gjør dette på den enkleste måten
+    const parsedFilter = {
+        ...sessionStorageValue.saksoversiktFilterState,
+        virksomheter: Set(sessionStorageValue.saksoversiktFilterState.virksomheter),
+    };
+
+    return {
+        ...sessionStorageValue,
+        saksoversiktFilterState: parsedFilter,
+        setSessionStorageValue,
+    };
+
 };
 
 const finnForrigeSaker = (state: SaksoversiktState): Array<Sak> | null => {
@@ -259,7 +291,7 @@ export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every((aa) => b.includes(aa));
 }
 
-export const equalFilter = (a: SaksoversiktFilter, b: SaksoversiktFilter): boolean =>
+export const equalFilter = (a: SaksoversiktFilterState, b: SaksoversiktFilterState): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
     is(a.virksomheter, b.virksomheter) &&

@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import { Heading, Tag } from '@navikt/ds-react';
-import { useSessionStateForside } from '../Saksoversikt/useOversiktSessionStorage';
 import { SakSortering } from '../../api/graphql-types';
 import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
@@ -45,8 +44,6 @@ const SisteSaker = () => {
         sakstyper: [],
         oppgaveFilter: []
     });
-
-    useSessionStateForside();
 
     useEffect(() => {
         if (!loading && data) {

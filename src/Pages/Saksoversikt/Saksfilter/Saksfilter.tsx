@@ -10,7 +10,7 @@ import { capitalize, sorted, splittListe } from '../../../utils/util';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
-import { SaksoversiktFilter, useSaksoversiktContext } from '../SaksoversiktProvider';
+import { SaksoversiktFilterState, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { ServerError } from '@apollo/client/link/utils';
 import { logAnalyticsEvent } from '../../../utils/analytics';
@@ -109,8 +109,8 @@ function mapSakstyperMedAntall(
 const InntektsmeldingGruppe = (
     antall: number | undefined,
     inntektsmeldingSakstyper: { navn: string; antall: number | undefined }[],
-    filter: SaksoversiktFilter,
-    setFilter: (filter: SaksoversiktFilter) => void
+    filter: SaksoversiktFilterState,
+    setFilter: (filter: SaksoversiktFilterState) => void
 ) => {
     const alleInntektsmeldingstypeNavn = inntektsmeldingSakstyper.map(({ navn }) => navn);
 

@@ -188,12 +188,6 @@ export const OppgaveFilterType = z.enum([
 
 export type OppgaveFilterType = z.infer<typeof OppgaveFilterType>;
 
-// export enum OppgaveFilterType {
-//   TILSTAND_NY = 'TILSTAND_NY',
-//   TILSTAND_UTFOERT = 'TILSTAND_UTFOERT',
-//   TILSTAND_UTGAATT = 'TILSTAND_UTGAATT',
-//   TILSTAND_NY_MED_PAAMINNELSE_UTLOEST = 'TILSTAND_NY_MED_PAAMINNELSE_UTLOEST'
-// }
 
 export type OppgaveTilstandInfo = {
     __typename?: 'OppgaveTilstandInfo';
