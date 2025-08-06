@@ -92,8 +92,7 @@ export const useLagredeFilter = (): {
             virksomheter: Set(f.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
         }));
         setLagredeFilter((prevFilters) => {
-            const newFilters = [...prevFilters.filter((f) => f.filterId !== filterId), newFilter];
-            return newFilters;
+            return [...prevFilters.filter((f) => f.filterId !== filterId), newFilter];
         });
         return newFilter;
     }
@@ -178,6 +177,7 @@ export const LagreFilter = () => {
                                 variant="neutral"
                                 onClick={() => {
                                     setValgtFilterId(undefined);
+                                    setFilter(defaultFilterState.saksoversiktFilterState);
                                     logKlikk('fjerne-valgt-filter');
                                 }}
                             >
