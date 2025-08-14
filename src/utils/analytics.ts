@@ -4,6 +4,8 @@ import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { NAVtjenesteId } from '../altinn/tjenester';
+import { getAnalyticsInstance } from '@navikt/nav-dekoratoren-moduler';
+import { gittMiljo } from './environment';
 
 interface EventProps {
     url: string;
@@ -16,8 +18,21 @@ interface EventProps {
     sektor?: string;
 }
 
+const mockGetAnalyticsInstance = (origin: string) => {
+    return (eventName: string, eventData?: any) => {
+        console.log(`Analytics Event Logged (Origin: ${origin}):`, eventName, eventData);
+        return Promise.resolve(null);
+    };
+};
+
+export const umamiLogger = gittMiljo({
+    prod: () => getAnalyticsInstance('min-side-arbeidsgiver'),
+    dev: () => getAnalyticsInstance('min-side-arbeidsgiver'),
+    other: () => mockGetAnalyticsInstance('min-side-arbeidsgiver'),
+})();
+
 export const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
-    window.minsideUmami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
+    umamiLogger(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
     amplitude.logEvent(eventName, eventData);
 };
 

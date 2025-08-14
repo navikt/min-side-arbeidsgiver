@@ -28,7 +28,6 @@ import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
 import { MsaErrorBoundary } from './MsaErrorBoundary';
-import { AnalyticsScripts } from './AnalyticsScripts';
 import { ConsentProvider } from './ConsentContext';
 import { RetryLink } from '@apollo/client/link/retry';
 
@@ -72,7 +71,6 @@ export const createApolloClient = (uri: string) =>
 const Pages: FunctionComponent = () => (
     <MsaErrorBoundary>
         <ConsentProvider>
-            <AnalyticsScripts />
             <div className="typo-normal bakgrunnsside">
                 <SWRConfig
                     value={{
