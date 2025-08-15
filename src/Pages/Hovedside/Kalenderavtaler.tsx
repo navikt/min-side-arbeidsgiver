@@ -11,7 +11,8 @@ import {
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import {
-    finnBucketForDagerTilDato, logAnalyticsEvent,
+    finnAntallDagerTilDato,
+    logAnalyticsEvent,
     loggNavigasjonTags,
 } from '../../utils/analytics';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
@@ -132,15 +133,17 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
         logAnalyticsEvent('komponent-lastet', {
             komponent: 'Kalenderavtale',
             tilstand: tilstand,
-            avtaleDato: finnBucketForDagerTilDato(startTidspunkt),
             digitaltOppmøte: digitalt,
+            startTidspunkt: startTidspunkt,
+            antallDagerTilStartTidspunkt: finnAntallDagerTilDato(startTidspunkt),
             fysiskOppmøte: !!lokasjon,
         });
     }, []);
 
     const onClickHandler = () => {
         loggNavigasjonTags(lenke, 'kalenderavtale', window.location.pathname, {
-            avtaleDato: finnBucketForDagerTilDato(startTidspunkt),
+            startTidspunkt: startTidspunkt,
+            antallDagerTilStartTidspunkt: finnAntallDagerTilDato(startTidspunkt),
             tilstand: tilstand,
             digitaltOppmøte: digitalt.toString(),
             fysiskOppmøte: (!!lokasjon).toString(),

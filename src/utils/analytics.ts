@@ -1,4 +1,3 @@
-import amplitude from '../utils/amplitude';
 import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
@@ -33,7 +32,6 @@ export const umamiLogger = gittMiljo({
 
 export const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
     umamiLogger(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
-    amplitude.logEvent(eventName, eventData);
 };
 
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;
@@ -45,30 +43,6 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-//TODO; fjern denne når amplitude fjernes. bucketing løses i metabase
-export const finnBucketForAntall = (antall: number | undefined | null) => {
-    if (antall === undefined) return;
-    if (antall === null) return '0';
-
-    switch (true) {
-        case antall === 0:
-            return '0';
-        case antall < 5:
-            return '1 - 4';
-        case antall < 20:
-            return '5 - 19';
-        case antall < 50:
-            return '20 - 49';
-        case antall < 100:
-            return '50 - 99';
-        case antall < 500:
-            return '100 - 499';
-        case antall > 500:
-            return '500 >';
-        default:
-            return undefined;
-    }
-};
 
 export const finnAntallDagerTilDato = (date: Date) => {
     const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
@@ -78,18 +52,6 @@ export const finnAntallDagerTilDato = (date: Date) => {
     return Math.floor(differenceInMilliseconds / oneDayInMilliseconds);
 };
 
-export const finnBucketForDagerTilDato = (date: Date) => {
-    const dager = finnAntallDagerTilDato(date);
-    if (dager < 0) {
-        return 'tidligere';
-    } else if (dager === 0) {
-        return 'samme dag';
-    } else if (dager < 7) {
-        return 'samme uke';
-    } else {
-        return 'mer enn en uke';
-    }
-};
 
 const finnSektorNavn = (eregOrg: Hovedenhet) => {
     if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84')) !== null) {
@@ -142,7 +104,7 @@ export const loggNavigasjonTags = (
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
     currentPagePath: string,
-    tags: Record<string, string>
+    tags: Record<string, any>
 ) => {
     if (destinasjon !== undefined && destinasjon !== '') {
         const { origin, pathname } = new URL(destinasjon, baseUrl);

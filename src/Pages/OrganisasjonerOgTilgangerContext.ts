@@ -10,8 +10,6 @@ import { Set, Map } from 'immutable';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { useUserInfo } from '../hooks/useUserInfo';
 import { AlertContext } from './Alerts';
-import amplitude from '../utils/amplitude';
-import { Identify } from '@amplitude/analytics-browser';
 import { organisasjonStrukturFlatt, mapRecursive, mergeOrgTre } from '../utils/util';
 import { findRecursive } from '@navikt/virksomhetsvelger';
 
@@ -143,14 +141,6 @@ export const useBeregnOrganisasjonsInfo = ():
     useEffect(() => {
         setSystemAlert('UserInfoAltinn', userInfo?.altinnError ?? false);
         setSystemAlert('UserInfoDigiSyfo', userInfo?.digisyfoError ?? false);
-
-        if (userInfo !== undefined) {
-            amplitude.identify(
-                new Identify()
-                    .set('syfotilgang', userInfo.digisyfoOrganisasjoner.length > 0)
-                    .set('buildTimestamp', __BUILD_TIMESTAMP__)
-            );
-        }
     }, [userInfo]);
 
     return useMemo(() => {
