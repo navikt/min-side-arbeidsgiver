@@ -38,7 +38,7 @@ const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     other: 'local',
 });
 
-const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (props) => {
+const SidevisningEventLogger: FunctionComponent<PropsWithChildren> = (props) => {
     const location = useLocation();
 
     useEffect(() => {
@@ -79,7 +79,7 @@ const Pages: FunctionComponent = () => (
                 >
                     <LoginBoundary>
                         <BrowserRouter basename={__BASE_PATH__}>
-                            <AmplitudeSidevisningEventLogger>
+                            <SidevisningEventLogger>
                                 <AlertsProvider>
                                     <ApolloProvider
                                         client={createApolloClient(
@@ -211,7 +211,7 @@ const Pages: FunctionComponent = () => (
                                         </OrganisasjonerOgTilgangerProvider>
                                     </ApolloProvider>
                                 </AlertsProvider>
-                            </AmplitudeSidevisningEventLogger>
+                            </SidevisningEventLogger>
                         </BrowserRouter>
                     </LoginBoundary>
                 </SWRConfig>

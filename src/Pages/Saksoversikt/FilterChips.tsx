@@ -6,7 +6,7 @@ import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
-import { amplitudeChipClick } from '../../utils/analytics';
+import { logAnalyticsChipClick } from '../../utils/analytics';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 
@@ -29,7 +29,7 @@ export const FilterChips = () => {
             sakstyper: [],
             oppgaveFilter: []
         });
-        amplitudeChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
+        logAnalyticsChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
 
     const organisasjonerTilChips: (Organisasjon & { erHovedenhet: boolean })[] = useMemo<
@@ -87,7 +87,7 @@ export const FilterChips = () => {
                             ...saksoversiktState.filter,
                             sakstyper: nySakstyper.filter((it) => it !== sakstype),
                         });
-                        amplitudeChipClick('sakstype', sakstype);
+                        logAnalyticsChipClick('sakstype', sakstype);
                     }}
                 >
                     {sakstype}
@@ -105,7 +105,7 @@ export const FilterChips = () => {
                             (it) => it != filterType
                         ),
                     });
-                    amplitudeChipClick('oppgave', filterType);
+                    logAnalyticsChipClick('oppgave', filterType);
                 }}
             >
                 {filterTypeTilTekst(filterType)}
@@ -129,7 +129,7 @@ export const FilterChips = () => {
                         valgte = valgte.remove(parent);
                     }
                     handleValgteVirksomheter(valgte);
-                    amplitudeChipClick(
+                    logAnalyticsChipClick(
                         'organisasjon',
                         virksomhet.erHovedenhet ? 'hovedenhet' : 'underenhet'
                     );

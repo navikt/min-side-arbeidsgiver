@@ -3,7 +3,7 @@ import './Saksoversikt.css';
 import { Heading, Label, Pagination, Select } from '@navikt/ds-react';
 import { Alerts } from '../Alerts';
 import { OmSaker } from './OmSaker';
-import { amplitudeFilterKlikk, Saksfilter } from './Saksfilter/Saksfilter';
+import { logAnalyticsFilterKlikk, Saksfilter } from './Saksfilter/Saksfilter';
 import * as Record from '../../utils/Record';
 import { Sak, SakSortering } from '../../api/graphql-types';
 import { LagreFilter } from './LagreFilter';
@@ -104,7 +104,7 @@ const VelgSortering: FC = () => {
     const handleOnChange = (e: ChangeEvent<HTMLSelectElement>) => {
         const sortering = e.target.value as SakSortering;
         setSortering(sortering);
-        amplitudeFilterKlikk('sortering', sortering, null);
+        logAnalyticsFilterKlikk('sortering', sortering, null);
     };
 
     return (

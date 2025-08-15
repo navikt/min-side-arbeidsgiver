@@ -2,7 +2,7 @@ import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
 import { Set } from 'immutable';
 import { Organisasjon } from '../../../OrganisasjonerOgTilgangerContext';
-import { amplitudeFilterKlikk } from '../Saksfilter';
+import { logAnalyticsFilterKlikk } from '../Saksfilter';
 
 export const HovedenhetCheckbox = ({
     hovedenhet,
@@ -22,7 +22,7 @@ export const HovedenhetCheckbox = ({
             key={`${hovedenhet.orgnr}_Virksomhetsmeny_list_key`}
             style={{ display: 'flex', alignItems: 'center' }}
             description={`Org.nr. ${hovedenhet.orgnr}`}
-            onClick={(e) => amplitudeFilterKlikk('organisasjon', 'hovedenhet', e.target)}
+            onClick={(e) => logAnalyticsFilterKlikk('organisasjon', 'hovedenhet', e.target)}
         >
             <BodyShort size="medium" as="span">
                 {hovedenhet.navn}

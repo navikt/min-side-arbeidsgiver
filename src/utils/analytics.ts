@@ -131,7 +131,7 @@ export const useLoggKlikk = () => {
     };
 };
 
-export const amplitudeChipClick = (kategori: string, filternavn: string) => {
+export const logAnalyticsChipClick = (kategori: string, filternavn: string) => {
     logAnalyticsEvent('chip-click', {
         kategori: kategori,
         filternavn: filternavn,
