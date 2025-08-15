@@ -41,7 +41,7 @@ spec:
       value: {{{commit}}}
     - name: MILJO
       value: prod
-    - name: VITE_UMAMI_TRACKING_ID
+    - name: VITE_UMAMI_TRACKING_ID # Brukes ikke lenger da vi får umami fra dekoratøren
       value: 3ab987de-cf5c-47a9-a04d-bcf6316f2204
   accessPolicy:
     outbound:
