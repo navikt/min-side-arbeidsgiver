@@ -13,7 +13,6 @@
     "vite-env.d.ts",
     "./vitest.config.ts",
     "./vitest.setup.ts",
-    "src/global.d.ts",
   ],
   "exclude": []
 }
