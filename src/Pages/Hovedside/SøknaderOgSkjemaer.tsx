@@ -12,7 +12,7 @@ import {
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
-import { gittMiljo, isProd } from '../../utils/environment';
+import { gittMiljo } from '../../utils/environment';
 
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
