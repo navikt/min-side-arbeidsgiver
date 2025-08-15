@@ -28,7 +28,6 @@ import { SWRConfig } from 'swr';
 import { Saksside } from './Saksoversikt/Saksside';
 import { SaksOversiktProvider } from './Saksoversikt/SaksoversiktProvider';
 import { MsaErrorBoundary } from './MsaErrorBoundary';
-import { AnalyticsScripts } from './AnalyticsScripts';
 import { ConsentProvider } from './ConsentContext';
 import { RetryLink } from '@apollo/client/link/retry';
 
@@ -39,7 +38,7 @@ const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     other: 'local',
 });
 
-const AmplitudeSidevisningEventLogger: FunctionComponent<PropsWithChildren> = (props) => {
+const SidevisningEventLogger: FunctionComponent<PropsWithChildren> = (props) => {
     const location = useLocation();
 
     useEffect(() => {
@@ -72,7 +71,6 @@ export const createApolloClient = (uri: string) =>
 const Pages: FunctionComponent = () => (
     <MsaErrorBoundary>
         <ConsentProvider>
-            <AnalyticsScripts />
             <div className="typo-normal bakgrunnsside">
                 <SWRConfig
                     value={{
@@ -81,7 +79,7 @@ const Pages: FunctionComponent = () => (
                 >
                     <LoginBoundary>
                         <BrowserRouter basename={__BASE_PATH__}>
-                            <AmplitudeSidevisningEventLogger>
+                            <SidevisningEventLogger>
                                 <AlertsProvider>
                                     <ApolloProvider
                                         client={createApolloClient(
@@ -213,7 +211,7 @@ const Pages: FunctionComponent = () => (
                                         </OrganisasjonerOgTilgangerProvider>
                                     </ApolloProvider>
                                 </AlertsProvider>
-                            </AmplitudeSidevisningEventLogger>
+                            </SidevisningEventLogger>
                         </BrowserRouter>
                     </LoginBoundary>
                 </SWRConfig>

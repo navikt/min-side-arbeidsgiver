@@ -2,7 +2,6 @@ interface Environment {
     MILJO: string;
     NAIS_APP_IMAGE: string;
     GIT_COMMIT: string;
-    VITE_UMAMI_TRACKING_ID: string;
 }
 
 const environment: Environment = {
@@ -31,12 +30,5 @@ export const gittMiljo = <T>(e: Miljo<T>): T => {
             return e.other;
     }
 };
-
-export const isProd = gittMiljo<boolean>({
-    prod: true,
-    other: false,
-});
-
-export const caseMiljo = <T>(e: Miljo<(miljo: string) => T>): T => gittMiljo(e)(environment.MILJO);
 
 export default environment;

@@ -46,7 +46,7 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
     }
 };
 
-export const amplitudeFilterKlikk = (
+export const logAnalyticsFilterKlikk = (
     kategori: string,
     filternavn: string,
     target: EventTarget | null
@@ -177,7 +177,7 @@ const InntektsmeldingGruppe = (
                 key="Inntektsmelding_gruppe"
                 value="Inntektsmelding_gruppe"
                 onClick={(e) =>
-                    amplitudeFilterKlikk('sakstype', 'Inntektsmelding_gruppe', e.target)
+                    logAnalyticsFilterKlikk('sakstype', 'Inntektsmelding_gruppe', e.target)
                 }
             >
                 <BodyShort>
@@ -193,7 +193,7 @@ const InntektsmeldingGruppe = (
                               className={'underfilter'}
                               key={navn}
                               value={navn}
-                              onClick={(e) => amplitudeFilterKlikk('sakstype', navn, e.target)}
+                              onClick={(e) => logAnalyticsFilterKlikk('sakstype', navn, e.target)}
                           >
                               <BodyShort>
                                   {antall === undefined
@@ -303,7 +303,7 @@ export const Saksfilter = () => {
                                             key={navn}
                                             value={navn}
                                             onClick={(e) =>
-                                                amplitudeFilterKlikk('sakstype', navn, e.target)
+                                                logAnalyticsFilterKlikk('sakstype', navn, e.target)
                                             }
                                         >
                                             <BodyShort>
@@ -397,7 +397,7 @@ const OppgaveFilter = () => {
             >
                 <Checkbox
                     value={OppgaveFilterType.Values.TILSTAND_NY}
-                    onClick={(e) => amplitudeFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
+                    onClick={(e) => logAnalyticsFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)}
                 >
                     <BodyShort>
                         {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY)} (${antallUløsteOppgaver})`}

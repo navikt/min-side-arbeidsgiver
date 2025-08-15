@@ -9,7 +9,7 @@ import React, {
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaker } from './useSaker';
 import { SIDE_SIZE } from './Saksoversikt';
-import { finnBucketForAntall, logAnalyticsEvent } from '../../utils/analytics';
+import { logAnalyticsEvent } from '../../utils/analytics';
 import {
     OppgaveFilterInfo,
     OppgaveFilterType,
@@ -217,10 +217,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 tekstsoek: state.filter.tekstsoek.trim() !== '',
                 totaltAntallSaker: data.saker.totaltAntallSaker,
                 totaltAntallSakstyper: state.sakstyper?.length ?? 0,
-                totaltAntallVirksomheter: orgs.length,
-                totaltAntallSakerBucket: finnBucketForAntall(data.saker.totaltAntallSaker),
-                totaltAntallSakstyperBucket: finnBucketForAntall(state.sakstyper?.length),
-                totaltAntallVirksomheterBucket: finnBucketForAntall(orgs.length),
+                totaltAntallVirksomheter: orgs.length
             });
             dispatch({ action: 'lasting-ferdig', resultat: data.saker });
         }

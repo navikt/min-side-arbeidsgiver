@@ -28,8 +28,6 @@ spec:
       value: {{{ commit }}}
     - name: MILJO
       value: demo
-    - name: VITE_UMAMI_TRACKING_ID
-      value: 16cf7325-ffda-4759-9657-4215b91eb3fd
   accessPolicy:
     outbound:
       external:

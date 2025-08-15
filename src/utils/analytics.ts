@@ -1,9 +1,10 @@
-import amplitude from '../utils/amplitude';
 import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { NAVtjenesteId } from '../altinn/tjenester';
+import { getAnalyticsInstance } from '@navikt/nav-dekoratoren-moduler';
+import { gittMiljo } from './environment';
 
 interface EventProps {
     url: string;
@@ -16,9 +17,21 @@ interface EventProps {
     sektor?: string;
 }
 
+const mockGetAnalyticsInstance = (origin: string) => {
+    return (eventName: string, eventData?: any) => {
+        console.log(`Analytics Event Logged (Origin: ${origin}):`, eventName, eventData);
+        return Promise.resolve(null);
+    };
+};
+
+export const umamiLogger = gittMiljo({
+    prod: () => getAnalyticsInstance('min-side-arbeidsgiver'),
+    dev: () => getAnalyticsInstance('min-side-arbeidsgiver'),
+    other: () => mockGetAnalyticsInstance('min-side-arbeidsgiver'),
+})();
+
 export const logAnalyticsEvent = (eventName: string, eventData: Record<string, any>) => {
-    window.minsideUmami?.track(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
-    amplitude.logEvent(eventName, eventData);
+    umamiLogger(eventName, { ...eventData, origin: 'min-side-arbeidsgiver' });
 };
 
 const baseUrl = `https://arbeidsgiver.nav.no/min-side-arbeidsgiver`;
@@ -30,30 +43,6 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-//TODO; fjern denne når amplitude fjernes. bucketing løses i metabase
-export const finnBucketForAntall = (antall: number | undefined | null) => {
-    if (antall === undefined) return;
-    if (antall === null) return '0';
-
-    switch (true) {
-        case antall === 0:
-            return '0';
-        case antall < 5:
-            return '1 - 4';
-        case antall < 20:
-            return '5 - 19';
-        case antall < 50:
-            return '20 - 49';
-        case antall < 100:
-            return '50 - 99';
-        case antall < 500:
-            return '100 - 499';
-        case antall > 500:
-            return '500 >';
-        default:
-            return undefined;
-    }
-};
 
 export const finnAntallDagerTilDato = (date: Date) => {
     const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
@@ -63,18 +52,6 @@ export const finnAntallDagerTilDato = (date: Date) => {
     return Math.floor(differenceInMilliseconds / oneDayInMilliseconds);
 };
 
-export const finnBucketForDagerTilDato = (date: Date) => {
-    const dager = finnAntallDagerTilDato(date);
-    if (dager < 0) {
-        return 'tidligere';
-    } else if (dager === 0) {
-        return 'samme dag';
-    } else if (dager < 7) {
-        return 'samme uke';
-    } else {
-        return 'mer enn en uke';
-    }
-};
 
 const finnSektorNavn = (eregOrg: Hovedenhet) => {
     if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84')) !== null) {
@@ -127,7 +104,7 @@ export const loggNavigasjonTags = (
     /* hvilken knapp sum ble trykket. burde være unik for siden. */
     lenketekst: string,
     currentPagePath: string,
-    tags: Record<string, string>
+    tags: Record<string, any>
 ) => {
     if (destinasjon !== undefined && destinasjon !== '') {
         const { origin, pathname } = new URL(destinasjon, baseUrl);
@@ -154,7 +131,7 @@ export const useLoggKlikk = () => {
     };
 };
 
-export const amplitudeChipClick = (kategori: string, filternavn: string) => {
+export const logAnalyticsChipClick = (kategori: string, filternavn: string) => {
     logAnalyticsEvent('chip-click', {
         kategori: kategori,
         filternavn: filternavn,

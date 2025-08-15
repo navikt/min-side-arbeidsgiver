@@ -1,7 +1,7 @@
 import { Search } from '@navikt/ds-react';
 import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import './Saksfilter.css';
-import { amplitudeFilterKlikk } from './Saksfilter';
+import { logAnalyticsFilterKlikk } from './Saksfilter';
 import { useSaksoversiktContext } from '../SaksoversiktProvider';
 
 export const Søkeboks = () => {
@@ -20,7 +20,7 @@ export const Søkeboks = () => {
     const handleOnSubmit = (e: FormEvent) => {
         e.preventDefault();
         setFilter({ ...filter, tekstsoek });
-        amplitudeFilterKlikk('tekstsøk', 'tekstsøk', null);
+        logAnalyticsFilterKlikk('tekstsøk', 'tekstsøk', null);
     };
 
     return (

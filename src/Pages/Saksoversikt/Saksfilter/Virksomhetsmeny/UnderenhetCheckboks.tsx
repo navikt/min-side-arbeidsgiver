@@ -1,6 +1,6 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
-import { amplitudeFilterKlikk } from '../Saksfilter';
+import { logAnalyticsFilterKlikk } from '../Saksfilter';
 import { Organisasjon } from '../../../OrganisasjonerOgTilgangerContext';
 
 export const UnderenhetCheckboks = ({ underenhet }: { underenhet: Organisasjon }) => {
@@ -11,7 +11,7 @@ export const UnderenhetCheckboks = ({ underenhet }: { underenhet: Organisasjon }
             id={`${underenhet.orgnr}_UnderenhetCheckbox_id`}
             className="virksomheter_virksomhetsmeny_sok_checkbox_underenheter_checkbox"
             description={`Org.nr. ${underenhet.orgnr}`}
-            onClick={(e) => amplitudeFilterKlikk('organisasjon', 'underenhet', e.target)}
+            onClick={(e) => logAnalyticsFilterKlikk('organisasjon', 'underenhet', e.target)}
         >
             <BodyShort size="small" as="span">
                 {' '}

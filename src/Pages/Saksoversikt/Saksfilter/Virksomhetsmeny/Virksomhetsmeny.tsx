@@ -43,7 +43,7 @@ export const Virksomhetsmeny = () => {
 
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
 
-    const amplitudeValgteVirksomheter = (valgte: Set<string>) => {
+    const logAnalyticsValgteVirksomheter = (valgte: Set<string>) => {
         logAnalyticsEvent('velg-virksomheter', {
             antallHovedenheterValgt: valgte.count((orgnr) => childrenMap.has(orgnr)),
             antallHovedenheterTotalt: alleOrganisasjoner.length,
@@ -103,7 +103,7 @@ export const Virksomhetsmeny = () => {
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
         const valgteVirksomheter = utledNyeValgte(Set<string>(checkedEnheter));
         setFilter({ ...filter, virksomheter: valgteVirksomheter });
-        amplitudeValgteVirksomheter(valgteVirksomheter);
+        logAnalyticsValgteVirksomheter(valgteVirksomheter);
     };
 
     return (
