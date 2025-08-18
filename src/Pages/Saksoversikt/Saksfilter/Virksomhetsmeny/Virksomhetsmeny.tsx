@@ -101,7 +101,7 @@ export const Virksomhetsmeny = () => {
     };
 
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
-        const valgteVirksomheter = Set<string>(checkedEnheter); //utledNyeValgte(Set<string>(checkedEnheter));
+        const valgteVirksomheter = utledNyeValgte(Set<string>(checkedEnheter));
         setFilter({ ...filter, virksomheter: valgteVirksomheter });
         logAnalyticsValgteVirksomheter(valgteVirksomheter);
     };
