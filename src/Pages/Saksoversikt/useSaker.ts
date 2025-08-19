@@ -117,9 +117,10 @@ export const beregnVirksomhetsnummer = (
     virksomheter: Set<string>
 ): string[] => {
     if (virksomheter.size === 0) {
-        return flatUtTre(organisasjonstre).flatMap(({ underenheter }) =>
-            underenheter.map((it) => it.orgnr)
-        );
+        return flatUtTre(organisasjonstre).flatMap((organisasjon) => [
+            organisasjon.orgnr,
+            ...organisasjon.underenheter.map((it) => it.orgnr),
+        ]);
     }
 
     return flatUtTre(organisasjonstre).flatMap((organisasjon) => {
