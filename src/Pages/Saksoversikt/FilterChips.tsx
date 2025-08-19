@@ -27,7 +27,7 @@ export const FilterChips = () => {
             virksomheter: Set(),
             sortering: saksoversiktState.filter.sortering,
             sakstyper: [],
-            oppgaveFilter: []
+            oppgaveFilter: [],
         });
         logAnalyticsChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
@@ -117,17 +117,7 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    let valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
-
-                    // om virksomhet.OrganizatonNumber er siste underenhet, fjern hovedenhet også.
-                    const parent = orgnrTilParentMap.get(virksomhet.orgnr);
-                    if (parent === undefined) {
-                        return;
-                    }
-                    const underenheter = orgnrTilChildrenMap.get(parent) ?? [];
-                    if (underenheter.every((it) => !valgte.has(it))) {
-                        valgte = valgte.remove(parent);
-                    }
+                    const valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
                     handleValgteVirksomheter(valgte);
                     logAnalyticsChipClick(
                         'organisasjon',
