@@ -1,7 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { SaksoversiktLagretFilter } from '../../Pages/Saksoversikt/SaksoversiktProvider';
 import { SakSortering } from '../../api/graphql-types';
-import { Set } from 'immutable';
 
 let lagredeFilter: SaksoversiktLagretFilter[] = [
     {
@@ -9,10 +8,10 @@ let lagredeFilter: SaksoversiktLagretFilter[] = [
         navn: 'filter-1',
         side: 1,
         tekstsoek: '',
-        virksomheter: Set(),
+        virksomheter: [],
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
-        oppgaveFilter: ["TILSTAND_NY"],
+        oppgaveFilter: ['TILSTAND_NY'],
     },
 ];
 

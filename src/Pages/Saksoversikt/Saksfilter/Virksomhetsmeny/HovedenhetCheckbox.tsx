@@ -1,6 +1,5 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
-import { Set } from 'immutable';
 import { Organisasjon } from '../../../OrganisasjonerOgTilgangerContext';
 import { logAnalyticsFilterKlikk } from '../Saksfilter';
 
@@ -9,9 +8,9 @@ export const HovedenhetCheckbox = ({
     valgteOrgnr,
 }: {
     hovedenhet: Organisasjon;
-    valgteOrgnr: Set<string>;
+    valgteOrgnr: string[];
 }) => {
-    const valgt = valgteOrgnr.has(hovedenhet.orgnr);
+    const valgt = valgteOrgnr.includes(hovedenhet.orgnr);
 
     return (
         <Checkbox

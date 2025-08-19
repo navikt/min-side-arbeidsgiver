@@ -2,7 +2,6 @@ import React, { ReactNode, useMemo, useState } from 'react';
 import { Button, Chips, Heading } from '@navikt/ds-react';
 import { filterTypeTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
-import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
@@ -24,7 +23,7 @@ export const FilterChips = () => {
         setFilter({
             side: 1,
             tekstsoek: '',
-            virksomheter: Set(),
+            virksomheter: [],
             sortering: saksoversiktState.filter.sortering,
             sakstyper: [],
             oppgaveFilter: [],
@@ -38,16 +37,18 @@ export const FilterChips = () => {
         const chips: (Organisasjon & { erHovedenhet: boolean })[] = [];
 
         for (let { underenheter, ...hovedenhet } of organisasjonstreFlat) {
-            if (saksoversiktState.filter.virksomheter.has(hovedenhet.orgnr)) {
+            if (saksoversiktState.filter.virksomheter.includes(hovedenhet.orgnr)) {
                 const antallUnderValgt = count(underenheter, (it) =>
-                    saksoversiktState.filter.virksomheter.has(it.orgnr)
+                    saksoversiktState.filter.virksomheter.includes(it.orgnr)
                 );
                 if (antallUnderValgt === 0) {
                     chips.push({ underenheter, ...hovedenhet, erHovedenhet: true });
                 } else {
                     chips.push(
                         ...underenheter
-                            .filter((it) => saksoversiktState.filter.virksomheter.has(it.orgnr))
+                            .filter((it) =>
+                                saksoversiktState.filter.virksomheter.includes(it.orgnr)
+                            )
                             .map((it) => ({ ...it, erHovedenhet: false }))
                     );
                 }
@@ -57,7 +58,7 @@ export const FilterChips = () => {
     }, [organisasjonstre, saksoversiktState.filter.virksomheter]);
     const { tekstsoek, sakstyper, oppgaveFilter } = saksoversiktState.filter;
 
-    const handleValgteVirksomheter = (valgte: Set<string>) => {
+    const handleValgteVirksomheter = (valgte: string[]) => {
         setFilter({ ...saksoversiktState.filter, virksomheter: valgte });
     };
 
@@ -117,7 +118,9 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    const valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
+                    const valgte = saksoversiktState.filter.virksomheter.filter(
+                        (orgnr) => orgnr !== virksomhet.orgnr
+                    );
                     handleValgteVirksomheter(valgte);
                     logAnalyticsChipClick(
                         'organisasjon',

@@ -5,7 +5,6 @@ import { UnderenhetCheckboks } from './UnderenhetCheckboks';
 import { HovedenhetCheckbox } from './HovedenhetCheckbox';
 import fuzzysort from 'fuzzysort';
 import { flatUtTre, sum } from '../../../../utils/util';
-import { Set } from 'immutable';
 
 import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from '../../SaksoversiktProvider';
@@ -23,31 +22,35 @@ export const Virksomhetsmeny = () => {
 
     const organisasjonstreFlat = flatUtTre(organisasjonstre);
     const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
-    const parentMap = orgnrTilParentMap.filter((parent, _child) =>
-        organisasjonstreFlat.some((it) => it.orgnr === parent)
+    const parentMap = new Map(
+        Array.from(orgnrTilParentMap.entries()).filter(([_child, parent]) =>
+            organisasjonstreFlat.some((it) => it.orgnr === parent)
+        )
     );
-    const childrenMap = orgnrTilChildrenMap.filter((_children, parent) =>
-        organisasjonstreFlat.some((it) => it.orgnr === parent)
+    const childrenMap = new Map(
+        Array.from(orgnrTilChildrenMap.entries()).filter(([parent, _children]) =>
+            organisasjonstreFlat.some((it) => it.orgnr === parent)
+        )
     );
 
-    const parentsOf = (orgnr: Set<string>): Set<string> =>
+    const parentsOf = (orgnr: string[]): string[] =>
         orgnr.flatMap((it) => {
             const x = parentMap.get(it);
             return x === undefined ? [] : [x];
         });
 
     const valgteEnheter = useMemo(
-        () => filter.virksomheter.union(parentsOf(filter.virksomheter)),
+        () => [...new Set([...filter.virksomheter, ...parentsOf(filter.virksomheter)])],
         [filter.virksomheter, parentMap]
     );
 
-    const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
+    const [søketreff, setSøketreff] = useState<undefined | string[]>(undefined);
 
-    const logAnalyticsValgteVirksomheter = (valgte: Set<string>) => {
+    const logAnalyticsValgteVirksomheter = (valgte: string[]) => {
         logAnalyticsEvent('velg-virksomheter', {
-            antallHovedenheterValgt: valgte.count((orgnr) => childrenMap.has(orgnr)),
+            antallHovedenheterValgt: valgte.filter((orgnr) => childrenMap.has(orgnr)).length,
             antallHovedenheterTotalt: alleOrganisasjoner.length,
-            antallUnderenheterValgt: valgte.count((orgnr) => parentMap.has(orgnr)),
+            antallUnderenheterValgt: valgte.filter((orgnr) => parentMap.has(orgnr)).length,
             antallUnderenheterTotalt: sum(
                 organisasjonstreFlat,
                 (hovedenhet) => hovedenhet.underenheter.length
@@ -55,7 +58,9 @@ export const Virksomhetsmeny = () => {
         });
     };
 
-    const utledNyeValgte = (nyeValgte: Set<string>): Set<string> => {
+    const utledNyeValgte = (nyeValgte: string[]): string[] => {
+        // 1. Fjernede hovedenheter = de som var i valgteEnheter, men ikke i nyeValgte
+        //    og som ikke har en parent
         // NOTE:
         // Hvis man un-checker en hovedenhet, så forsvinner check-box-ene
         // til underenhetene i GUI-et. Men de blir fjernet som en konsekvens av
@@ -63,20 +68,32 @@ export const Virksomhetsmeny = () => {
         // være i `checkedElement`. Det er først i senere kall at de vil ha forsvunnet
         // fra listen.
         const fjernedeHovedenheter = valgteEnheter
-            .subtract(nyeValgte)
+            .filter((it) => !nyeValgte.includes(it))
             .filter((it) => parentMap.get(it) === undefined);
 
-        const implisittFjernedUnderenehter: Set<string> = fjernedeHovedenheter.flatMap(
-            (it) => childrenMap.get(it) ?? Set<string>()
+        // 2. Implisitt fjernede underenheter = alle barna til fjernede hovedenheter
+        const implisittFjernedeUnderenheter = fjernedeHovedenheter.flatMap(
+            (it) => childrenMap.get(it) ?? []
         );
 
+        // 3. Lagt til = de som er i nyeValgte, men ikke i valgteEnheter
         // NOTE:
         // På grunn av søk, så er det mulig å klikke på underenheter
         // uten at hovedenhet er huket av.
-        const lagtTil = nyeValgte.subtract(valgteEnheter);
+        const lagtTil = nyeValgte.filter((it) => !valgteEnheter.includes(it));
+
+        // 4. Implisitt valgte hovedenheter = alle foreldrene til de nye
         const implisittValgteHovedenheter = parentsOf(lagtTil);
 
-        return nyeValgte.subtract(implisittFjernedUnderenehter).union(implisittValgteHovedenheter);
+        // 5. Returner:
+        //    - nyeValgte, uten de implisitt fjernede underenhetene
+        //    - + implisitt valgte hovedenheter
+        const resultat = nyeValgte
+            .filter((it) => !implisittFjernedeUnderenheter.includes(it))
+            .concat(implisittValgteHovedenheter);
+
+        // Fjerne duplikater siden concat kan gi dobbelt opp
+        return [...new Set(resultat)];
     };
 
     const onSearchChange = (søkeord: string) => {
@@ -87,7 +104,7 @@ export const Virksomhetsmeny = () => {
             const fuzzyResultsNavn = fuzzysort.go(søkeord, alleOrganisasjoner, {
                 keys,
             });
-            const matches = Set(fuzzyResultsNavn.map(({ obj }) => obj.orgnr));
+            const matches = [...new Set(fuzzyResultsNavn.map(({ obj }) => obj.orgnr))];
             const parents = matches.flatMap((it) => {
                 const parent = parentMap.get(it);
                 if (parent === undefined) {
@@ -96,12 +113,12 @@ export const Virksomhetsmeny = () => {
                     return [parent];
                 }
             });
-            setSøketreff(matches.union(parents));
+            setSøketreff([...new Set([...matches, ...parents])]);
         }
     };
 
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
-        const valgteVirksomheter = utledNyeValgte(Set<string>(checkedEnheter));
+        const valgteVirksomheter = utledNyeValgte(checkedEnheter);
         setFilter({ ...filter, virksomheter: valgteVirksomheter });
         logAnalyticsValgteVirksomheter(valgteVirksomheter);
     };
@@ -114,13 +131,13 @@ export const Virksomhetsmeny = () => {
                 id="virksomheter_checkbox_group_id"
                 legend="Velg virksomheter"
                 hideLegend
-                value={valgteEnheter.toArray()}
+                value={valgteEnheter}
                 onChange={onCheckboxGroupChange}
             >
                 <ul className="sak_virksomhetsmeny_hovedenhetliste">
                     {organisasjonstreFlat.map((hovedenhet) => {
                         const underenheter = hovedenhet.underenheter;
-                        if (søketreff && !søketreff.has(hovedenhet.orgnr)) {
+                        if (søketreff && !søketreff.includes(hovedenhet.orgnr)) {
                             return null;
                         }
                         return (
@@ -131,14 +148,17 @@ export const Virksomhetsmeny = () => {
                                 />
                                 <Conditionally
                                     when={
-                                        valgteEnheter.has(hovedenhet.orgnr) ||
+                                        valgteEnheter.includes(hovedenhet.orgnr) ||
                                         (søketreff !== undefined &&
-                                            underenheter.some((it) => søketreff.has(it.orgnr)))
+                                            underenheter.some((it) => søketreff.includes(it.orgnr)))
                                     }
                                 >
                                     <ul>
                                         {underenheter.flatMap((underenhet) => {
-                                            if (søketreff && !søketreff.has(underenhet.orgnr)) {
+                                            if (
+                                                søketreff &&
+                                                !søketreff.includes(underenhet.orgnr)
+                                            ) {
                                                 return [];
                                             }
 

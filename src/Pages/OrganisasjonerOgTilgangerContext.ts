@@ -6,7 +6,6 @@ import {
     AltinntjenesteId,
     isAltinn2Tilgang,
 } from '../altinn/tjenester';
-import { Set, Map } from 'immutable';
 import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
 import { useUserInfo } from '../hooks/useUserInfo';
 import { AlertContext } from './Alerts';
@@ -162,7 +161,7 @@ export const useBeregnOrganisasjonsInfo = ():
             ...digisyfoOrganisasjonerFlatt,
         ];
 
-        const orgnrTilParent = Map(
+        const orgnrTilParent = new Map(
             alleOrganisasjonerFlatt.flatMap((org) => {
                 const parent = alleOrganisasjonerFlatt.find((it) =>
                     it.underenheter.some((it) => it.orgnr === org.orgnr)
@@ -192,8 +191,8 @@ export const useBeregnOrganisasjonsInfo = ():
                         organisasjon: org,
                         altinntilgang: Record.map(
                             userInfo.tilganger,
-                            (_: AltinntjenesteId, orgnrMedTilgang: Set<orgnr>): boolean =>
-                                orgnrMedTilgang.has(org.orgnr)
+                            (_: AltinntjenesteId, orgnrMedTilgang: orgnr[]): boolean =>
+                                orgnrMedTilgang.includes(org.orgnr)
                         ),
                         syfotilgang: digisyfoOrganisasjon !== undefined,
                         antallSykmeldte: digisyfoOrganisasjon?.antallSykmeldte ?? 0,
@@ -209,11 +208,16 @@ export const useBeregnOrganisasjonsInfo = ():
 
         return {
             organisasjonsInfo,
-            orgnrTilParentMap: orgnrTilParent.mapEntries(([key, value]) => [key, value.orgnr]),
-            orgnrTilChildrenMap: orgnrTilParent.reduce(
-                (acc, parent, child) =>
-                    acc.update(parent.orgnr, [], (value) => value.concat(child)),
-                Map<string, string[]>()
+            orgnrTilParentMap: new Map(
+                Array.from(orgnrTilParent.entries()).map(([key, value]) => [key, value.orgnr])
+            ),
+            orgnrTilChildrenMap: Array.from(orgnrTilParent.entries()).reduce(
+                (acc, [child, parent]) => {
+                    const existing = acc.get(parent.orgnr) ?? [];
+                    acc.set(parent.orgnr, [...existing, child]);
+                    return acc;
+                },
+                new Map<string, string[]>()
             ),
             organisasjonerFlatt: alleOrganisasjonerFlatt,
         };

@@ -6,7 +6,6 @@ import { SaksoversiktFilterState } from './SaksoversiktProvider';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
-import { Set } from 'immutable';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 type SakerResultat = Pick<Query, 'saker'>;
@@ -114,9 +113,9 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
  */
 export const beregnVirksomhetsnummer = (
     organisasjonstre: Organisasjon[],
-    virksomheter: Set<string>
+    virksomheter: string[]
 ): string[] => {
-    if (virksomheter.size === 0) {
+    if (virksomheter.length === 0) {
         return flatUtTre(organisasjonstre).flatMap((organisasjon) => [
             organisasjon.orgnr,
             ...organisasjon.underenheter.map((it) => it.orgnr),
@@ -124,9 +123,9 @@ export const beregnVirksomhetsnummer = (
     }
 
     return flatUtTre(organisasjonstre).flatMap((organisasjon) => {
-        if (virksomheter.has(organisasjon.orgnr)) {
+        if (virksomheter.includes(organisasjon.orgnr)) {
             const underenheterOrgnr = organisasjon.underenheter.map((it) => it.orgnr);
-            const valgteUnderenheter = underenheterOrgnr.filter((it) => virksomheter.has(it));
+            const valgteUnderenheter = underenheterOrgnr.filter((it) => virksomheter.includes(it));
 
             if (valgteUnderenheter.length === 0) {
                 return [organisasjon.orgnr, ...underenheterOrgnr];

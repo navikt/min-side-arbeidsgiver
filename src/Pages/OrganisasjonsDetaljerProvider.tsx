@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useLoggBedriftValgtOgTilganger } from '../utils/analytics';
 import { useSaker } from './Saksoversikt/useSaker';
 import { SakSortering } from '../api/graphql-types';
-import { Set } from 'immutable';
 import { Organisasjon } from '@navikt/virksomhetsvelger';
 import { OrganisasjonsDetaljerContext } from './OrganisasjonsDetaljerContext';
 import {
@@ -31,7 +30,7 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
 
     const { data, loading } = useSaker(0, {
         side: 1,
-        virksomheter: Set(),
+        virksomheter: [],
         tekstsoek: '',
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
