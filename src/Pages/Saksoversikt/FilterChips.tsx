@@ -118,12 +118,15 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    const virksomheter = [...saksoversiktState.filter.virksomheter];
-                    const valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
-                    console.log('onLukk', {
-                        virksomheter,
-                        valgte,
-                    });
+                    let valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
+                    const parent = orgnrTilParentMap.get(virksomhet.orgnr);
+                    if (parent !== undefined) {
+                        // om virksomhet er siste underenhet, fjern hovedenhet også.
+                        const underenheter = orgnrTilChildrenMap.get(parent) ?? [];
+                        if (underenheter.every((it) => !valgte.has(it))) {
+                            valgte = valgte.remove(parent);
+                        }
+                    }
                     handleValgteVirksomheter(valgte);
                     logAnalyticsChipClick(
                         'organisasjon',
