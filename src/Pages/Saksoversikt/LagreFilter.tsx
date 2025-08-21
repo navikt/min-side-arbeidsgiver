@@ -14,7 +14,6 @@ import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
-import { Set } from 'immutable';
 import {
     defaultFilterState,
     equalFilter,
@@ -67,7 +66,7 @@ export const useLagredeFilter = (): {
         return response.json().then((res: SaksoversiktLagretFilter[]) =>
             res.map((filter: SaksoversiktLagretFilter) => ({
                 ...filter,
-                virksomheter: Set(filter.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
+                virksomheter: [...new Set(filter.virksomheter)],
             }))
         );
     }
@@ -89,7 +88,7 @@ export const useLagredeFilter = (): {
         }
         const newFilter = await response.json().then((f: SaksoversiktLagretFilter) => ({
             ...f,
-            virksomheter: Set(f.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
+            virksomheter: [...new Set(f.virksomheter)],
         }));
         setLagredeFilter((prevFilters) => {
             return [...prevFilters.filter((f) => f.filterId !== filterId), newFilter];

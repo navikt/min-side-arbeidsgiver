@@ -4,7 +4,6 @@ import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import { Heading, Tag } from '@navikt/ds-react';
 import { SakSortering } from '../../api/graphql-types';
-import { Set } from 'immutable';
 import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
@@ -38,11 +37,11 @@ const SisteSaker = () => {
 
     const { loading, data } = useSaker(0, {
         side: 1,
-        virksomheter: Set(),
+        virksomheter: [],
         tekstsoek: '',
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
-        oppgaveFilter: []
+        oppgaveFilter: [],
     });
 
     useEffect(() => {
@@ -63,7 +62,7 @@ const SisteSaker = () => {
     ).length;
 
     const sakstyper = Array(
-        ...Set<string>(
+        ...new Set<string>(
             data.saker.sakstyper.map(({ navn }) =>
                 navn === 'Inntektsmelding' ? 'Inntektsmelding sykepenger' : navn
             )
