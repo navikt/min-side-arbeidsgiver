@@ -58,6 +58,7 @@ export const FilterChips = () => {
     const { tekstsoek, sakstyper, oppgaveFilter } = saksoversiktState.filter;
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
+        console.log('handleValgteVirksomheter', valgte);
         setFilter({ ...saksoversiktState.filter, virksomheter: valgte });
     };
 
@@ -117,7 +118,12 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
+                    const virksomheter = [...saksoversiktState.filter.virksomheter];
                     const valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
+                    console.log('onLukk', {
+                        virksomheter,
+                        valgte,
+                    });
                     handleValgteVirksomheter(valgte);
                     logAnalyticsChipClick(
                         'organisasjon',
