@@ -58,7 +58,6 @@ export const FilterChips = () => {
     const { tekstsoek, sakstyper, oppgaveFilter } = saksoversiktState.filter;
 
     const handleValgteVirksomheter = (valgte: Set<string>) => {
-        console.log('handleValgteVirksomheter', valgte);
         setFilter({ ...saksoversiktState.filter, virksomheter: valgte });
     };
 
@@ -123,7 +122,7 @@ export const FilterChips = () => {
                     if (parent !== undefined) {
                         // om virksomhet er siste underenhet, fjern hovedenhet også.
                         const underenheter = orgnrTilChildrenMap.get(parent) ?? [];
-                        if (underenheter.every((it) => !valgte.has(it))) {
+                        if (underenheter.every((it) => !valgte.includes(it))) {
                             valgte = valgte.remove(parent);
                         }
                     }
