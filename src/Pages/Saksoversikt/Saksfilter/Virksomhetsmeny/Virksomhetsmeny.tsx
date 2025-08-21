@@ -31,15 +31,7 @@ export const Virksomhetsmeny = () => {
         Array.from(orgnrTilChildrenMap.entries()).filter(([parent, _children]) =>
             organisasjonstreFlat.some((it) => it.orgnr === parent)
         )
-    const childrenMap = (() => {
-        const map = new Map<string, Organisasjon[]>();
-        for (const [parent, children] of orgnrTilChildrenMap.entries()) {
-            if (organisasjonstreFlat.some((it) => it.orgnr === parent)) {
-                map.set(parent, children);
-            }
-        }
-        return map;
-    })();
+    );
 
     const parentsOf = (orgnr: string[]): string[] =>
         orgnr.flatMap((it) => {
