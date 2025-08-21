@@ -112,24 +112,26 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
  * internal = { H, U1 }
  * external = { H, U1 }
  */
-const beregnVirksomhetsnummer = (
+export const beregnVirksomhetsnummer = (
     organisasjonstre: Organisasjon[],
     virksomheter: Set<string>
 ): string[] => {
     if (virksomheter.size === 0) {
-        return flatUtTre(organisasjonstre).flatMap(({ underenheter }) =>
-            underenheter.map((it) => it.orgnr)
-        );
+        return flatUtTre(organisasjonstre).flatMap((organisasjon) => [
+            organisasjon.orgnr,
+            ...organisasjon.underenheter.map((it) => it.orgnr),
+        ]);
     }
 
     return flatUtTre(organisasjonstre).flatMap((organisasjon) => {
         if (virksomheter.has(organisasjon.orgnr)) {
             const underenheterOrgnr = organisasjon.underenheter.map((it) => it.orgnr);
             const valgteUnderenheter = underenheterOrgnr.filter((it) => virksomheter.has(it));
+
             if (valgteUnderenheter.length === 0) {
-                return underenheterOrgnr;
+                return [organisasjon.orgnr, ...underenheterOrgnr];
             } else {
-                return valgteUnderenheter;
+                return [organisasjon.orgnr, ...valgteUnderenheter];
             }
         } else {
             return [];
