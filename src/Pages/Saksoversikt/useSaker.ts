@@ -163,9 +163,9 @@ export function useSaker(
     // også med mellomrom/streker, skal vi søke på de første 6 (fødselsdato)
     const mapTekstsoekForBackend = (s: string): string => {
       const digitsOnly = s.replace(/\D/g, '');
-      if (digitsOnly.length === 11) {
-        const foedselsdato = digitsOnly.substring(0, 6);
-        return `${s} ${foedselsdato}`;
+       if (digitsOnly.length === 11) {
+          const fodselsdato = digitsOnly.substring(0, 6);
+          return s.replace(/\d[\d\s-]{9,}\d/, fodselsdato).trim();
       }
       return s;
     };
