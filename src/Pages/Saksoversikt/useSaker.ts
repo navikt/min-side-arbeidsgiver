@@ -161,15 +161,19 @@ export function useSaker(
 
     // Dersom brukeren skriver inn 11 siffer (f.eks. fødselsnummer),
     // også med mellomrom/streker, skal vi søke på de første 6 (fødselsdato)
-    const normaliserTekstsoekForBackend = (s: string): string => {
-        const digitsOnly = s.replace(/\D/g, '');
-        if (digitsOnly.length === 11) return digitsOnly.substring(0, 6);
-        return s;
+    const mapTekstsoekForBackend = (s: string): string => {
+      const digitsOnly = s.replace(/\D/g, '');
+      if (digitsOnly.length === 11) {
+        const foedselsdato = digitsOnly.substring(0, 6);
+        return `${s} ${foedselsdato}`;
+      }
+      return s;
     };
+
 
     const variables = {
         virksomhetsnumre,
-        tekstsoek: tekstsoek === '' ? null : normaliserTekstsoekForBackend(tekstsoek),
+        tekstsoek: tekstsoek === '' ? null : mapTekstsoekForBackend(tekstsoek),
         sortering: sortering,
         sakstyper: sakstyper.length === 0 ? null : inkluderInntektsmelding(sakstyper),
         oppgaveFilter: oppgaveFilter.length === 0 ? null : oppgaveFilter,
