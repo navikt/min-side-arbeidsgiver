@@ -8,7 +8,6 @@ import {
     isAltinn2Tilgang,
 } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
-import { Set } from 'immutable';
 import { useState } from 'react';
 import { erStøy } from '../utils/util';
 
@@ -27,7 +26,11 @@ export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
  */
 const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
     Object.entries(altinntjeneste).map(([key, value]) => [
-        isAltinn2Tilgang(value) ? (value as Altinn2Tilgang).tjenestekode + ':' + (value as Altinn2Tilgang).tjenesteversjon : (value as Altinn3Tilgang).ressurs,
+        isAltinn2Tilgang(value)
+            ? (value as Altinn2Tilgang).tjenestekode +
+              ':' +
+              (value as Altinn2Tilgang).tjenesteversjon
+            : (value as Altinn3Tilgang).ressurs,
         key,
     ])
 );
@@ -65,7 +68,10 @@ const UserInfoRespons = z.object({
     organisasjoner: z.array(AltinnTilgang),
     tilganger: z.record(z.string(), z.array(z.string())).transform((tilganger) => {
         return Record.fromEntries(
-            Object.entries(tilganger).map(([id, orgnumre]) => [idLookup(id), Set(orgnumre)])
+            Object.entries(tilganger).map(([id, orgnumre]) => [
+                idLookup(id),
+                [...new Set(orgnumre)],
+            ])
         );
     }),
     digisyfoOrganisasjoner: z.array(DigisyfoOrganisasjon),
