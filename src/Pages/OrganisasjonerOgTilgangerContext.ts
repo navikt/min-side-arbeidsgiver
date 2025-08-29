@@ -45,7 +45,9 @@ export type OrganisasjonerOgTilgangerContext = {
     organisasjonstre: Organisasjon[];
     organisasjonsInfo: Record<orgnr, OrganisasjonInfo>;
     organisasjonerFlatt: Organisasjon[];
+    // map av orgnr til dens parent. gitt et orgnr finner man dens parent
     orgnrTilParentMap: Map<string, string>;
+    // map av orgnr til dens children. gitt et orgnr finner man alle direkte children
     orgnrTilChildrenMap: Map<string, string[]>;
     altinnTilgangssøknad: Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>>;
 };
@@ -213,8 +215,8 @@ export const useBeregnOrganisasjonsInfo = ():
             ),
             orgnrTilChildrenMap: Array.from(orgnrTilParent.entries()).reduce(
                 (acc, [child, parent]) => {
-                    const existing = acc.get(parent.orgnr) ?? [];
-                    acc.set(parent.orgnr, [...existing, child]);
+                    const children = acc.get(parent.orgnr) ?? [];
+                    acc.set(parent.orgnr, [...children, child]);
                     return acc;
                 },
                 new Map<string, string[]>()

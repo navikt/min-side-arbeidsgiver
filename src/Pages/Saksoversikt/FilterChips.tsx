@@ -23,7 +23,7 @@ export const FilterChips = () => {
         setFilter({
             side: 1,
             tekstsoek: '',
-            virksomheter: [],
+            virksomheter: new Set(),
             sortering: saksoversiktState.filter.sortering,
             sakstyper: [],
             oppgaveFilter: [],
@@ -37,18 +37,16 @@ export const FilterChips = () => {
         const chips: (Organisasjon & { erHovedenhet: boolean })[] = [];
 
         for (let { underenheter, ...hovedenhet } of organisasjonstreFlat) {
-            if (saksoversiktState.filter.virksomheter.includes(hovedenhet.orgnr)) {
+            if (saksoversiktState.filter.virksomheter.has(hovedenhet.orgnr)) {
                 const antallUnderValgt = count(underenheter, (it) =>
-                    saksoversiktState.filter.virksomheter.includes(it.orgnr)
+                    saksoversiktState.filter.virksomheter.has(it.orgnr)
                 );
                 if (antallUnderValgt === 0) {
                     chips.push({ underenheter, ...hovedenhet, erHovedenhet: true });
                 } else {
                     chips.push(
                         ...underenheter
-                            .filter((it) =>
-                                saksoversiktState.filter.virksomheter.includes(it.orgnr)
-                            )
+                            .filter((it) => saksoversiktState.filter.virksomheter.has(it.orgnr))
                             .map((it) => ({ ...it, erHovedenhet: false }))
                     );
                 }
@@ -58,7 +56,7 @@ export const FilterChips = () => {
     }, [organisasjonstre, saksoversiktState.filter.virksomheter]);
     const { tekstsoek, sakstyper, oppgaveFilter } = saksoversiktState.filter;
 
-    const handleValgteVirksomheter = (valgte: string[]) => {
+    const handleValgteVirksomheter = (valgte: Set<string>) => {
         setFilter({ ...saksoversiktState.filter, virksomheter: valgte });
     };
 
@@ -118,15 +116,16 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    let valgte = saksoversiktState.filter.virksomheter.filter(
-                        (orgnr) => orgnr !== virksomhet.orgnr
-                    );
+                    const valgte = new Set(saksoversiktState.filter.virksomheter);
+                    valgte.delete(virksomhet.orgnr);
+
                     const parent = orgnrTilParentMap.get(virksomhet.orgnr);
                     if (parent !== undefined) {
                         // om virksomhet er siste underenhet, fjern hovedenhet også.
                         const underenheter = orgnrTilChildrenMap.get(parent) ?? [];
-                        if (underenheter.every((it) => !valgte.includes(it))) {
-                            valgte = valgte.filter((orgnr) => orgnr !== parent);
+                        const harValgtUnderenhet = underenheter.some((it) => valgte.has(it));
+                        if (!harValgtUnderenhet) {
+                            valgte.delete(parent);
                         }
                     }
                     handleValgteVirksomheter(valgte);

@@ -37,7 +37,7 @@ const SisteSaker = () => {
 
     const { loading, data } = useSaker(0, {
         side: 1,
-        virksomheter: [],
+        virksomheter: new Set(),
         tekstsoek: '',
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],

@@ -113,9 +113,9 @@ const HENT_SAKER: TypedDocumentNode<SakerResultat> = gql`
  */
 export const beregnVirksomhetsnummer = (
     organisasjonstre: Organisasjon[],
-    virksomheter: string[]
+    virksomheter: Set<string>
 ): string[] => {
-    if (virksomheter.length === 0) {
+    if (virksomheter.size === 0) {
         return flatUtTre(organisasjonstre).flatMap((organisasjon) => [
             organisasjon.orgnr,
             ...organisasjon.underenheter.map((it) => it.orgnr),
@@ -123,9 +123,9 @@ export const beregnVirksomhetsnummer = (
     }
 
     return flatUtTre(organisasjonstre).flatMap((organisasjon) => {
-        if (virksomheter.includes(organisasjon.orgnr)) {
+        if (virksomheter.has(organisasjon.orgnr)) {
             const underenheterOrgnr = organisasjon.underenheter.map((it) => it.orgnr);
-            const valgteUnderenheter = underenheterOrgnr.filter((it) => virksomheter.includes(it));
+            const valgteUnderenheter = underenheterOrgnr.filter((it) => virksomheter.has(it));
 
             if (valgteUnderenheter.length === 0) {
                 return [organisasjon.orgnr, ...underenheterOrgnr];

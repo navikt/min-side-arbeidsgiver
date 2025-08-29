@@ -62,7 +62,7 @@ export type SaksoversiktState =
 export const ZodSaksoversiktFilterState = z.object({
     side: z.number(),
     tekstsoek: z.string(),
-    virksomheter: z.array(z.string()),
+    virksomheter: z.set(z.string()),
     sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
     sakstyper: z.array(z.string()),
     oppgaveFilter: z.array(OppgaveFilterType),
@@ -246,7 +246,7 @@ export const defaultFilterState: FilterStateSessionStorage = {
     saksoversiktFilterState: {
         side: 1,
         tekstsoek: '',
-        virksomheter: [],
+        virksomheter: new Set<string>(),
         sortering: SakSortering.NyesteFørst,
         oppgaveFilter: [],
         sakstyper: [],
@@ -256,7 +256,16 @@ export const defaultFilterState: FilterStateSessionStorage = {
 const useFilterStateSessionStorage = () => {
     const SESSION_STATE_KEY = 'saksoversikt_filter';
     const [sessionStorageValue, setSessionStorageValue] =
-        useSessionStorage<FilterStateSessionStorage>(SESSION_STATE_KEY, defaultFilterState);
+        useSessionStorage<FilterStateSessionStorage>(
+            SESSION_STATE_KEY,
+            defaultFilterState,
+            (key, value) =>
+                key === 'virksomheter' && value?.type === 'Set' ? new Set(value.values) : value,
+            (key, value) =>
+                key === 'virksomheter' && value instanceof Set
+                    ? { type: 'Set', values: [...value] }
+                    : value
+        );
 
     return {
         ...sessionStorageValue,
@@ -279,10 +288,14 @@ export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every((aa) => b.includes(aa));
 }
 
+export function equalSets(a: Set<string>, b: Set<string>) {
+    return a.isSubsetOf(b) && b.isSubsetOf(a);
+}
+
 export const equalFilter = (a: SaksoversiktFilterState, b: SaksoversiktFilterState): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
-    equalAsSets(a.virksomheter, b.virksomheter) &&
+    equalSets(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalAsSets(a.oppgaveFilter, b.oppgaveFilter);

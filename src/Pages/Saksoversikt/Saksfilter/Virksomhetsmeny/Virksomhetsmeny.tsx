@@ -12,53 +12,67 @@ import { logAnalyticsEvent } from '../../../../utils/analytics';
 import { Organisasjon } from '@navikt/virksomhetsvelger';
 
 export const Virksomhetsmeny = () => {
-    const { organisasjonstre, orgnrTilParentMap, orgnrTilChildrenMap } =
-        useOrganisasjonerOgTilgangerContext();
+    const {
+        organisasjonstre,
+        // map av orgnr til dens parent. gitt et orgnr finner man parent
+        orgnrTilParentMap,
+        // map av orgnr til dens children. gitt et orgnr finner man alle children
+        orgnrTilChildrenMap,
+    } = useOrganisasjonerOgTilgangerContext();
 
     const {
         saksoversiktState: { filter },
         transitions: { setFilter },
     } = useSaksoversiktContext();
 
-    const organisasjonstreFlat = flatUtTre(organisasjonstre);
-    const alleOrganisasjoner = organisasjonstreFlat.flatMap((it) => [it, ...it.underenheter]);
+    // liste av organisasjoner som er parent av løvnoder.
+    const parentOrganisasjoner = flatUtTre(organisasjonstre);
+
+    // set av alle orgnr som er parent til minst en løvnode
+    const parentOrgnumre = new Set(parentOrganisasjoner.map((it) => it.orgnr));
+
+    // alle parents av løvnoder og dems barn som flat liste: [parent1, childavp1, parent2, childavp2, ...]
+    const parentsOgChildrenFlatt = parentOrganisasjoner.flatMap((it) => [it, ...it.underenheter]);
+
+    // map <orgnr, org> av alle orgnummer som er parent
     const parentMap = new Map(
-        Array.from(orgnrTilParentMap.entries()).filter(([_child, parent]) =>
-            organisasjonstreFlat.some((it) => it.orgnr === parent)
-        )
-    );
-    const childrenMap = new Map(
-        Array.from(orgnrTilChildrenMap.entries()).filter(([parent, _children]) =>
-            organisasjonstreFlat.some((it) => it.orgnr === parent)
-        )
+        [...orgnrTilParentMap].filter(([_child, parent]) => parentOrgnumre.has(parent))
     );
 
-    const parentsOf = (orgnr: string[]): string[] =>
-        orgnr.flatMap((it) => {
-            const x = parentMap.get(it);
-            return x === undefined ? [] : [x];
-        });
+    // map <orgnr, org[]> av alle orgnummer som er parent
+    const childrenMap = new Map(
+        [...orgnrTilChildrenMap].filter(([parent, _children]) => parentOrgnumre.has(parent))
+    );
+
+    const parentsOf = (orgnr: Set<string>): Set<string> => {
+        const result = new Set<string>();
+        for (const it of orgnr) {
+            const parent = parentMap.get(it);
+            if (parent !== undefined) result.add(parent);
+        }
+        return result;
+    };
 
     const valgteEnheter = useMemo(
-        () => [...new Set([...filter.virksomheter, ...parentsOf(filter.virksomheter)])],
+        () => filter.virksomheter.union(parentsOf(filter.virksomheter)),
         [filter.virksomheter, parentMap]
     );
 
-    const [søketreff, setSøketreff] = useState<undefined | string[]>(undefined);
+    const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
 
-    const logAnalyticsValgteVirksomheter = (valgte: string[]) => {
+    const logAnalyticsValgteVirksomheter = (valgte: Set<string>) => {
         logAnalyticsEvent('velg-virksomheter', {
-            antallHovedenheterValgt: valgte.filter((orgnr) => childrenMap.has(orgnr)).length,
-            antallHovedenheterTotalt: alleOrganisasjoner.length,
-            antallUnderenheterValgt: valgte.filter((orgnr) => parentMap.has(orgnr)).length,
+            antallHovedenheterValgt: valgte.intersection(new Set(childrenMap.keys())).size,
+            antallHovedenheterTotalt: parentsOgChildrenFlatt.length,
+            antallUnderenheterValgt: valgte.intersection(new Set(parentMap.keys())).size,
             antallUnderenheterTotalt: sum(
-                organisasjonstreFlat,
+                parentOrganisasjoner,
                 (hovedenhet) => hovedenhet.underenheter.length
             ),
         });
     };
 
-    const utledNyeValgte = (nyeValgte: string[]): string[] => {
+    const utledNyeValgte = (nyeValgte: Set<string>): Set<string> => {
         // 1. Fjernede hovedenheter = de som var i valgteEnheter, men ikke i nyeValgte
         //    og som ikke har en parent
         // NOTE:
@@ -67,20 +81,26 @@ export const Virksomhetsmeny = () => {
         // effekten til denne handleren, så i dette kallet vil underenhetene fortsatt
         // være i `checkedElement`. Det er først i senere kall at de vil ha forsvunnet
         // fra listen.
-        const fjernedeHovedenheter = valgteEnheter
-            .filter((it) => !nyeValgte.includes(it))
-            .filter((it) => parentMap.get(it) === undefined);
+        const fjernedeHovedenheter = new Set(
+            [...valgteEnheter].filter((it) => !nyeValgte.has(it) && parentMap.get(it) === undefined)
+        );
 
         // 2. Implisitt fjernede underenheter = alle barna til fjernede hovedenheter
-        const implisittFjernedeUnderenheter = fjernedeHovedenheter.flatMap(
-            (it) => childrenMap.get(it) ?? []
-        );
+        const implisittFjernedeUnderenheter = new Set<string>();
+        for (const hoved of fjernedeHovedenheter) {
+            const children = childrenMap.get(hoved);
+            if (children) {
+                for (const child of children) {
+                    implisittFjernedeUnderenheter.add(child);
+                }
+            }
+        }
 
         // 3. Lagt til = de som er i nyeValgte, men ikke i valgteEnheter
         // NOTE:
         // På grunn av søk, så er det mulig å klikke på underenheter
         // uten at hovedenhet er huket av.
-        const lagtTil = nyeValgte.filter((it) => !valgteEnheter.includes(it));
+        const lagtTil = new Set([...nyeValgte].filter((it) => !valgteEnheter.has(it)));
 
         // 4. Implisitt valgte hovedenheter = alle foreldrene til de nye
         const implisittValgteHovedenheter = parentsOf(lagtTil);
@@ -88,12 +108,15 @@ export const Virksomhetsmeny = () => {
         // 5. Returner:
         //    - nyeValgte, uten de implisitt fjernede underenhetene
         //    - + implisitt valgte hovedenheter
-        const resultat = nyeValgte
-            .filter((it) => !implisittFjernedeUnderenheter.includes(it))
-            .concat(implisittValgteHovedenheter);
+        const resultat = new Set<string>(
+            [...nyeValgte].filter((it) => !implisittFjernedeUnderenheter.has(it))
+        );
+        for (const it of implisittValgteHovedenheter) {
+            resultat.add(it);
+        }
 
         // Fjerne duplikater siden concat kan gi dobbelt opp
-        return [...new Set(resultat)];
+        return resultat;
     };
 
     const onSearchChange = (søkeord: string) => {
@@ -101,7 +124,7 @@ export const Virksomhetsmeny = () => {
             setSøketreff(undefined);
         } else {
             const keys: (keyof Organisasjon)[] = ['navn', 'orgnr'];
-            const fuzzyResultsNavn = fuzzysort.go(søkeord, alleOrganisasjoner, {
+            const fuzzyResultsNavn = fuzzysort.go(søkeord, parentsOgChildrenFlatt, {
                 keys,
             });
             const matches = [...new Set(fuzzyResultsNavn.map(({ obj }) => obj.orgnr))];
@@ -113,12 +136,12 @@ export const Virksomhetsmeny = () => {
                     return [parent];
                 }
             });
-            setSøketreff([...new Set([...matches, ...parents])]);
+            setSøketreff(new Set([...matches, ...parents]));
         }
     };
 
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
-        const valgteVirksomheter = utledNyeValgte(checkedEnheter);
+        const valgteVirksomheter = utledNyeValgte(new Set(checkedEnheter));
         setFilter({ ...filter, virksomheter: valgteVirksomheter });
         logAnalyticsValgteVirksomheter(valgteVirksomheter);
     };
@@ -131,13 +154,13 @@ export const Virksomhetsmeny = () => {
                 id="virksomheter_checkbox_group_id"
                 legend="Velg virksomheter"
                 hideLegend
-                value={valgteEnheter}
+                value={[...valgteEnheter]}
                 onChange={onCheckboxGroupChange}
             >
                 <ul className="sak_virksomhetsmeny_hovedenhetliste">
-                    {organisasjonstreFlat.map((hovedenhet) => {
+                    {parentOrganisasjoner.map((hovedenhet) => {
                         const underenheter = hovedenhet.underenheter;
-                        if (søketreff && !søketreff.includes(hovedenhet.orgnr)) {
+                        if (søketreff && !søketreff.has(hovedenhet.orgnr)) {
                             return null;
                         }
                         return (
@@ -148,17 +171,14 @@ export const Virksomhetsmeny = () => {
                                 />
                                 <Conditionally
                                     when={
-                                        valgteEnheter.includes(hovedenhet.orgnr) ||
+                                        valgteEnheter.has(hovedenhet.orgnr) ||
                                         (søketreff !== undefined &&
-                                            underenheter.some((it) => søketreff.includes(it.orgnr)))
+                                            underenheter.some((it) => søketreff.has(it.orgnr)))
                                     }
                                 >
                                     <ul>
                                         {underenheter.flatMap((underenhet) => {
-                                            if (
-                                                søketreff &&
-                                                !søketreff.includes(underenhet.orgnr)
-                                            ) {
+                                            if (søketreff && !søketreff.has(underenhet.orgnr)) {
                                                 return [];
                                             }
 

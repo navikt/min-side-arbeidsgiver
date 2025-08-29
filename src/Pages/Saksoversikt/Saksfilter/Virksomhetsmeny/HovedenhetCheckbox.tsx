@@ -8,9 +8,9 @@ export const HovedenhetCheckbox = ({
     valgteOrgnr,
 }: {
     hovedenhet: Organisasjon;
-    valgteOrgnr: string[];
+    valgteOrgnr: Set<string>;
 }) => {
-    const valgt = valgteOrgnr.includes(hovedenhet.orgnr);
+    const valgt = valgteOrgnr.has(hovedenhet.orgnr);
 
     return (
         <Checkbox
