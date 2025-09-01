@@ -79,7 +79,9 @@ export const useLagredeFilter = (): {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...filter, filterId: filterId, navn: navn }),
+            body: JSON.stringify({ ...filter, filterId: filterId, navn: navn }, (key, value) =>
+                key === 'virksomheter' ? [...value] : value
+            ),
         });
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
