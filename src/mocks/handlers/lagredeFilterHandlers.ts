@@ -32,9 +32,10 @@ export const lagredeFilterHandlers = [
     http.put<any, SaksoversiktLagretFilter>(
         '/min-side-arbeidsgiver/api/lagredeFilter',
         async ({ request }) => {
+            const json = await request.json();
             const newFilter = {
-                ...(await request.json()),
-                virksomheter: new Set((await request.json()).virksomheter ?? []),
+                ...json,
+                virksomheter: new Set(json.virksomheter ?? []),
             };
             const existingIndex = lagredeFilter.findIndex(
                 (filter) => filter.filterId === newFilter.filterId
@@ -45,11 +46,14 @@ export const lagredeFilterHandlers = [
             } else {
                 lagredeFilter.push(newFilter);
             }
-            return HttpResponse.json(newFilter, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            return HttpResponse.json(
+                { ...newFilter, virksomheter: [...newFilter.virksomheter] },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
         }
     ),
     http.delete('/min-side-arbeidsgiver/api/lagredeFilter/:filterId', ({ params }) => {
