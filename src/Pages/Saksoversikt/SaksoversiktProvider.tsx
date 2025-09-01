@@ -259,12 +259,10 @@ const useFilterStateSessionStorage = () => {
         useSessionStorage<FilterStateSessionStorage>(
             SESSION_STATE_KEY,
             defaultFilterState,
-            (key, value) =>
-                key === 'virksomheter' && value?.type === 'Set' ? new Set(value.values) : value,
-            (key, value) =>
-                key === 'virksomheter' && value instanceof Set
-                    ? { type: 'Set', values: [...value] }
-                    : value
+            (key, value) => {
+                return key === 'virksomheter' ? new Set(value) : value;
+            },
+            (_key, value) => value
         );
 
     return {
