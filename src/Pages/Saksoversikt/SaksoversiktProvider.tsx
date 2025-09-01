@@ -259,10 +259,8 @@ const useFilterStateSessionStorage = () => {
         useSessionStorage<FilterStateSessionStorage>(
             SESSION_STATE_KEY,
             defaultFilterState,
-            (key, value) => {
-                return key === 'virksomheter' ? new Set(value) : value;
-            },
-            (_key, value) => [...value]
+            (key, value) => (key === 'virksomheter' ? new Set(value) : value),
+            (key, value) => (key === 'virksomheter' ? [...value] : value)
         );
 
     return {
