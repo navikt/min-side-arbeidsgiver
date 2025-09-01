@@ -262,7 +262,7 @@ const useFilterStateSessionStorage = () => {
             (key, value) => {
                 return key === 'virksomheter' ? new Set(value) : value;
             },
-            (_key, value) => value
+            (_key, value) => [...value]
         );
 
     return {

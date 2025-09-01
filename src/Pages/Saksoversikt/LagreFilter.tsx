@@ -62,15 +62,10 @@ export const useLagredeFilter = (): {
             throw new Error(`Failed to fetch lagrede filter: ${response.statusText}`);
         }
         return response.json().then((res: SaksoversiktLagretFilter[]) =>
-            res.map((filter: SaksoversiktLagretFilter) => {
-                console.log('TYPE', typeof filter.virksomheter, {
-                    virksomheter: filter.virksomheter,
-                });
-                return {
-                    ...filter,
-                    virksomheter: new Set(filter.virksomheter),
-                };
-            })
+            res.map((filter: SaksoversiktLagretFilter) => ({
+                ...filter,
+                virksomheter: new Set(filter.virksomheter),
+            }))
         );
     }
 
