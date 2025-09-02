@@ -2,7 +2,6 @@ import React, { ReactNode, useMemo, useState } from 'react';
 import { Button, Chips, Heading } from '@navikt/ds-react';
 import { filterTypeTilTekst } from './Saksfilter/Saksfilter';
 import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
-import { Set } from 'immutable';
 import { count, flatUtTre } from '../../utils/util';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
@@ -24,7 +23,7 @@ export const FilterChips = () => {
         setFilter({
             side: 1,
             tekstsoek: '',
-            virksomheter: Set(),
+            virksomheter: new Set(),
             sortering: saksoversiktState.filter.sortering,
             sakstyper: [],
             oppgaveFilter: [],
@@ -117,13 +116,16 @@ export const FilterChips = () => {
                 navn={virksomhet.navn}
                 erHovedenhet={virksomhet.erHovedenhet}
                 onLukk={() => {
-                    let valgte = saksoversiktState.filter.virksomheter.remove(virksomhet.orgnr);
+                    const valgte = new Set(saksoversiktState.filter.virksomheter);
+                    valgte.delete(virksomhet.orgnr);
+
                     const parent = orgnrTilParentMap.get(virksomhet.orgnr);
                     if (parent !== undefined) {
                         // om virksomhet er siste underenhet, fjern hovedenhet også.
                         const underenheter = orgnrTilChildrenMap.get(parent) ?? [];
-                        if (underenheter.every((it) => !valgte.includes(it))) {
-                            valgte = valgte.remove(parent);
+                        const harValgtUnderenhet = underenheter.some((it) => valgte.has(it));
+                        if (!harValgtUnderenhet) {
+                            valgte.delete(parent);
                         }
                     }
                     handleValgteVirksomheter(valgte);

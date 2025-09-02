@@ -1,7 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { SaksoversiktLagretFilter } from '../../Pages/Saksoversikt/SaksoversiktProvider';
 import { SakSortering } from '../../api/graphql-types';
-import { Set } from 'immutable';
 
 let lagredeFilter: SaksoversiktLagretFilter[] = [
     {
@@ -9,25 +8,35 @@ let lagredeFilter: SaksoversiktLagretFilter[] = [
         navn: 'filter-1',
         side: 1,
         tekstsoek: '',
-        virksomheter: Set(),
+        virksomheter: new Set(),
         sortering: SakSortering.NyesteFørst,
         sakstyper: [],
-        oppgaveFilter: ["TILSTAND_NY"],
+        oppgaveFilter: ['TILSTAND_NY'],
     },
 ];
 
 export const lagredeFilterHandlers = [
     http.get('/min-side-arbeidsgiver/api/lagredeFilter', () => {
-        return HttpResponse.json(lagredeFilter, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        return HttpResponse.json(
+            lagredeFilter.map((filter: SaksoversiktLagretFilter) => ({
+                ...filter,
+                virksomheter: [...filter.virksomheter],
+            })),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
     }),
     http.put<any, SaksoversiktLagretFilter>(
         '/min-side-arbeidsgiver/api/lagredeFilter',
         async ({ request }) => {
-            const newFilter = await request.json();
+            const json = await request.json();
+            const newFilter = {
+                ...json,
+                virksomheter: new Set(json.virksomheter ?? []),
+            };
             const existingIndex = lagredeFilter.findIndex(
                 (filter) => filter.filterId === newFilter.filterId
             );
@@ -37,11 +46,14 @@ export const lagredeFilterHandlers = [
             } else {
                 lagredeFilter.push(newFilter);
             }
-            return HttpResponse.json(newFilter, {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
+            return HttpResponse.json(
+                { ...newFilter, virksomheter: [...newFilter.virksomheter] },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
         }
     ),
     http.delete('/min-side-arbeidsgiver/api/lagredeFilter/:filterId', ({ params }) => {

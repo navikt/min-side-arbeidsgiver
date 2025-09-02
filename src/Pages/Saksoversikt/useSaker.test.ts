@@ -1,6 +1,5 @@
-import {expect, test} from 'vitest';
-import {beregnVirksomhetsnummer} from './useSaker';
-import Immutable from 'immutable';
+import { expect, test } from 'vitest';
+import { beregnVirksomhetsnummer } from './useSaker';
 
 test('beregnVirksomhetsnummer fungerer som forventet', () => {
     const tre = [
@@ -31,7 +30,7 @@ test('beregnVirksomhetsnummer fungerer som forventet', () => {
         },
     ];
 
-    expect(beregnVirksomhetsnummer(tre, Immutable.Set([]))).toEqual([
+    expect(beregnVirksomhetsnummer(tre, new Set([]))).toEqual([
         '1',
         '1.2',
         '1.1',
@@ -40,12 +39,12 @@ test('beregnVirksomhetsnummer fungerer som forventet', () => {
         '1.3.1.1',
         '1.3.1.2',
     ]);
-    expect(beregnVirksomhetsnummer(tre, Immutable.Set(['1.3.1']))).toEqual([
+    expect(beregnVirksomhetsnummer(tre, new Set(['1.3.1']))).toEqual([
         '1.3.1',
         '1.3.1.1',
         '1.3.1.2',
     ]);
-    expect(beregnVirksomhetsnummer(tre, Immutable.Set(['1.3.1', '1.3.1.1']))).toEqual([
+    expect(beregnVirksomhetsnummer(tre, new Set(['1.3.1', '1.3.1.1']))).toEqual([
         '1.3.1',
         '1.3.1.1',
     ]);

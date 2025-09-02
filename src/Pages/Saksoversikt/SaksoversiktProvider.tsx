@@ -19,7 +19,6 @@ import {
     SakSortering,
     Sakstype,
 } from '../../api/graphql-types';
-import { Set, is } from 'immutable';
 import * as Record from '../../utils/Record';
 import { z } from 'zod';
 import { useSessionStorage } from '../../hooks/useStorage';
@@ -63,7 +62,7 @@ export type SaksoversiktState =
 export const ZodSaksoversiktFilterState = z.object({
     side: z.number(),
     tekstsoek: z.string(),
-    virksomheter: z.custom<Set<string>>((val) => Set.isSet(val)),
+    virksomheter: z.set(z.string()),
     sortering: z.enum([SakSortering.NyesteFørst, SakSortering.EldsteFørst]),
     sakstyper: z.array(z.string()),
     oppgaveFilter: z.array(OppgaveFilterType),
@@ -217,7 +216,7 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
                 tekstsoek: state.filter.tekstsoek.trim() !== '',
                 totaltAntallSaker: data.saker.totaltAntallSaker,
                 totaltAntallSakstyper: state.sakstyper?.length ?? 0,
-                totaltAntallVirksomheter: orgs.length
+                totaltAntallVirksomheter: orgs.length,
             });
             dispatch({ action: 'lasting-ferdig', resultat: data.saker });
         }
@@ -247,7 +246,7 @@ export const defaultFilterState: FilterStateSessionStorage = {
     saksoversiktFilterState: {
         side: 1,
         tekstsoek: '',
-        virksomheter: Set(),
+        virksomheter: new Set<string>(),
         sortering: SakSortering.NyesteFørst,
         oppgaveFilter: [],
         sakstyper: [],
@@ -257,20 +256,17 @@ export const defaultFilterState: FilterStateSessionStorage = {
 const useFilterStateSessionStorage = () => {
     const SESSION_STATE_KEY = 'saksoversikt_filter';
     const [sessionStorageValue, setSessionStorageValue] =
-        useSessionStorage<FilterStateSessionStorage>(SESSION_STATE_KEY, defaultFilterState);
-
-    // Av en eller annen grunn er det sykt klønete å parse et Set fra sessionStorage. Gjør dette på den enkleste måten
-    const parsedFilter = {
-        ...sessionStorageValue.saksoversiktFilterState,
-        virksomheter: Set(sessionStorageValue.saksoversiktFilterState.virksomheter),
-    };
+        useSessionStorage<FilterStateSessionStorage>(
+            SESSION_STATE_KEY,
+            defaultFilterState,
+            (key, value) => (key === 'virksomheter' ? new Set(value) : value),
+            (key, value) => (key === 'virksomheter' ? [...value] : value)
+        );
 
     return {
         ...sessionStorageValue,
-        saksoversiktFilterState: parsedFilter,
         setSessionStorageValue,
     };
-
 };
 
 const finnForrigeSaker = (state: SaksoversiktState): Array<Sak> | null => {
@@ -288,10 +284,14 @@ export function equalAsSets(a: string[], b: string[]) {
     return a.length === b.length && a.every((aa) => b.includes(aa));
 }
 
+export function equalSets(a: Set<string>, b: Set<string>) {
+    return a.isSubsetOf(b) && b.isSubsetOf(a);
+}
+
 export const equalFilter = (a: SaksoversiktFilterState, b: SaksoversiktFilterState): boolean =>
     a.side === b.side &&
     a.tekstsoek === b.tekstsoek &&
-    is(a.virksomheter, b.virksomheter) &&
+    equalSets(a.virksomheter, b.virksomheter) &&
     a.sortering === b.sortering &&
     equalAsSets(a.sakstyper, b.sakstyper) &&
     equalAsSets(a.oppgaveFilter, b.oppgaveFilter);

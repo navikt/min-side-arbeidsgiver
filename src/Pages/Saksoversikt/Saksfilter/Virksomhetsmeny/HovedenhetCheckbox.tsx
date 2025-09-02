@@ -1,6 +1,5 @@
 import { BodyShort, Checkbox } from '@navikt/ds-react';
 import React from 'react';
-import { Set } from 'immutable';
 import { Organisasjon } from '../../../OrganisasjonerOgTilgangerContext';
 import { logAnalyticsFilterKlikk } from '../Saksfilter';
 

@@ -14,7 +14,6 @@ import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
 import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
-import { Set } from 'immutable';
 import {
     defaultFilterState,
     equalFilter,
@@ -40,22 +39,20 @@ export const useLagredeFilter = (): {
         'initializing'
     );
 
+    const loadLagredeFilter = async () => {
+        setStatus('loading');
+        try {
+            const data = await hentLagredeFilter();
+            setLagredeFilter(data);
+            setStatus('completed');
+        } catch (error) {
+            console.error('Error fetching lagrede filter:', error);
+            setStatus('failed');
+        }
+    };
     useEffect(() => {
         loadLagredeFilter();
     }, []);
-
-    const loadLagredeFilter = () => {
-        setStatus('loading');
-        hentLagredeFilter()
-            .then((data) => {
-                setLagredeFilter(data);
-                setStatus('completed');
-            })
-            .catch((error) => {
-                console.error('Error fetching lagrede filter:', error);
-                setStatus('failed');
-            });
-    };
 
     async function hentLagredeFilter(): Promise<SaksoversiktLagretFilter[]> {
         const response = await fetch(endpoint, {
@@ -67,7 +64,7 @@ export const useLagredeFilter = (): {
         return response.json().then((res: SaksoversiktLagretFilter[]) =>
             res.map((filter: SaksoversiktLagretFilter) => ({
                 ...filter,
-                virksomheter: Set(filter.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
+                virksomheter: new Set(filter.virksomheter),
             }))
         );
     }
@@ -82,14 +79,16 @@ export const useLagredeFilter = (): {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...filter, filterId: filterId, navn: navn }),
+            body: JSON.stringify({ ...filter, filterId: filterId, navn: navn }, (key, value) =>
+                key === 'virksomheter' ? [...value] : value
+            ),
         });
         if (!response.ok) {
             throw new Error(`Failed to create new filter: ${response.statusText}`);
         }
         const newFilter = await response.json().then((f: SaksoversiktLagretFilter) => ({
             ...f,
-            virksomheter: Set(f.virksomheter), // pass på at virksomheter håndteres som et immutabel Set
+            virksomheter: new Set(f.virksomheter),
         }));
         setLagredeFilter((prevFilters) => {
             return [...prevFilters.filter((f) => f.filterId !== filterId), newFilter];

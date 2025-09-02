@@ -6,7 +6,6 @@ import { SaksoversiktFilterState } from './SaksoversiktProvider';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ServerError } from '@apollo/client/link/utils';
 import { flatUtTre } from '../../utils/util';
-import { Set } from 'immutable';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 type SakerResultat = Pick<Query, 'saker'>;

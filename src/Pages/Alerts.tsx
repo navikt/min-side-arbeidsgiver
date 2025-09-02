@@ -7,10 +7,9 @@ import React, {
     useState,
 } from 'react';
 import { Alert } from '@navikt/ds-react';
-import { Set } from 'immutable';
 
 type Context = {
-    alerts: Set<AlertType>;
+    alerts: AlertType[];
     setSystemAlert: (system: System, alerting: boolean) => void;
 };
 
@@ -18,10 +17,16 @@ export type System = 'UserInfoAltinn' | 'UserInfoDigiSyfo' | 'SakerAltinn';
 export const AlertContext = React.createContext<Context>({} as Context);
 
 export const AlertsProvider: FunctionComponent<PropsWithChildren> = (props) => {
-    const [alertingSystems, setAlertingSystems] = useState<Set<System>>(() => Set());
+    const [alertingSystems, setAlertingSystems] = useState<System[]>(() => []);
 
     const setSystemAlert = (system: System, alerting: boolean) => {
-        setAlertingSystems((it) => (alerting ? it.add(system) : it.delete(system)));
+        setAlertingSystems((prev) =>
+            alerting
+                ? prev.includes(system)
+                    ? prev
+                    : [...prev, system]
+                : prev.filter((s) => s !== system)
+        );
     };
 
     const alerts = useMemo(
@@ -40,19 +45,16 @@ type AlertType = 'Altinn' | 'DigiSyfo';
 
 export const Alerts = () => {
     const { alerts } = useContext(AlertContext);
-    if (alerts.size === 0) {
+    if (alerts.length === 0) {
         return null;
     }
     return (
         <>
-            {alerts
-                .toArray()
-                .sort()
-                .map((alertType) => (
-                    <Alert key={alertType} variant="error" role="status">
-                        {ALERTS[alertType]}
-                    </Alert>
-                ))}
+            {alerts.sort().map((alertType) => (
+                <Alert key={alertType} variant="error" role="status">
+                    {ALERTS[alertType]}
+                </Alert>
+            ))}
         </>
     );
 };
