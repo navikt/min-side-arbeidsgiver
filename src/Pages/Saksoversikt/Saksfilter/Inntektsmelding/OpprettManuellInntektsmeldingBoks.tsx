@@ -11,7 +11,7 @@ export default function OpprettManuellInntektsmeldingBoks({ openOnMount }: Props
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        if (openOnMount) {
+        if (openOnMount === true) {
             setModalIsOpen(true);
         }
     }, [openOnMount]);
