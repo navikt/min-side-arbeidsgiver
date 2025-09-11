@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, BodyShort, Button, Heading, VStack } from '@navikt/ds-react';
 import { PlusIcon } from '@navikt/aksel-icons';
 import OpprettManuellInntektsmeldingModal from './OpprettManuellInntektsmeldingModal';
 
-export default function OpprettManuellInntektsmeldingBoks() {
+type Props = {
+    openOnMount?: boolean;
+};
+
+export default function OpprettManuellInntektsmeldingBoks({ openOnMount }: Props) {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (openOnMount) {
+            setModalIsOpen(true);
+        }
+    }, [openOnMount]);
     return (
         <>
             <Alert variant="info">
