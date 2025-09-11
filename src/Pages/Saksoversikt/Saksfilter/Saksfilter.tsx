@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './Saksfilter.css';
 import { Virksomhetsmeny } from './Virksomhetsmeny/Virksomhetsmeny';
 import { Søkeboks } from './Søkeboks';
@@ -330,14 +330,13 @@ const OpprettInntektsmelding = () => {
     const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );
-    const ref = useRef<HTMLDivElement>(null);
     const location = useLocation();
     const navigate = useNavigate();
+    const [openOnMount, setOpenOnMount] = useState(false);
 
     useEffect(() => {
         if (location.hash === '#opprett-inntektsmelding') {
-            scroll(0, 0);
-            ref.current?.scrollIntoView({ behavior: 'instant', block: 'end', inline: 'end' });
+            setOpenOnMount(true);
             navigate(location.pathname, { replace: true });
         }
     }, []);
@@ -345,7 +344,6 @@ const OpprettInntektsmelding = () => {
     if (tilgangInntektsmelding) {
         return (
             <div
-                ref={ref}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -353,7 +351,7 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <OpprettManuellInntektsmeldingBoks />
+                <OpprettManuellInntektsmeldingBoks openOnMount={openOnMount} />
             </div>
         );
     } else {

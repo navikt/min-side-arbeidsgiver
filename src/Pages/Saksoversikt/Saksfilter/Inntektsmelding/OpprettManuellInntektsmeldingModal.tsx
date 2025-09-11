@@ -85,13 +85,7 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
                                 Bedriften får normalt et varsel når vi trenger inntektsmelding
                             </Heading>
                             <BodyLong>
-                                Varsel med oppgave blir tilgjengelig i{' '}
-                                <InternLenkeMedLogging
-                                    loggLenketekst="Saksoversikten lenke i OpprettManuellInntektsmelding"
-                                    href="/saksoversikt"
-                                >
-                                    saksoversikten
-                                </InternLenkeMedLogging>{' '}
+                                Varsel med oppgave blir tilgjengelig i saksoversikten
                                 når den ansatte har sendt inn søknad til oss. Manuell
                                 inntektsmelding er kun tilgjengelig for unntakstilfeller.
                             </BodyLong>
