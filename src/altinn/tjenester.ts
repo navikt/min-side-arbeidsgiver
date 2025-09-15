@@ -17,7 +17,6 @@ export const NAVtjenesteId = [
     'mentortilskudd',
     'inkluderingstilskudd',
     'sykefravarstatistikk',
-    'forebyggefravar',
     'rekruttering',
     'tilskuddsbrev',
     'yrkesskade',
@@ -200,13 +199,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Sykefraværsstatistikk',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Virksomhetens legemeldte sykefraværsstatistikk» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
-    },
-    forebyggefravar: {
-        sort: 'tjeneste',
-        navn: 'Forebygge fravær',
-        beOmTilgangBeskrivelse:
-            'Du må ha enkeltrettigheten «Verktøy for å forebygge og redusere sykefravær i virksomheten» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.',
-        ressurs: 'nav_forebygge-og-redusere-sykefravar_samarbeid',
     },
     rekruttering: {
         sort: 'tjeneste',

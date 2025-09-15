@@ -20,7 +20,6 @@ import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilga
 
 const altinnIdIRekkefølge: AltinntjenesteId[] = [
     'rekruttering',
-    'forebyggefravar',
     'sykefravarstatistikk',
     'arbeidstrening',
     'arbeidsforhold',
