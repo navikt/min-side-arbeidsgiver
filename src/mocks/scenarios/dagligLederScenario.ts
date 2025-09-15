@@ -20,6 +20,7 @@ const alleTilganger = [
     '5516:6', // vtao
     'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk', // sykefravarstatistikk
     '5078:1', // rekruttering
+    'nav_rekruttering_stillingsannonser', // stillingsannonser arbeidsplassen.no
     '5278:1', // tilskuddsbrev
     '5902:1', // yrkesskade
     '5902:1', // yrkesskade

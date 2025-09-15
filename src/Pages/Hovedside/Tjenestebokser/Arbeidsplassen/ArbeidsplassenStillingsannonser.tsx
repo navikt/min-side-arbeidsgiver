@@ -8,7 +8,7 @@ import useSWR from 'swr';
 import { erStøy } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
-const Arbeidsplassen = () => {
+const ArbeidsplassenStillingsannonser = () => {
     const antallAnnonser = useAntallannonser();
 
     return (
@@ -40,7 +40,7 @@ const Arbeidsplassen = () => {
     );
 };
 
-export default Arbeidsplassen;
+export default ArbeidsplassenStillingsannonser;
 
 const PamStatusAnnonser = z.object({
     PUBLISERT: z.number(),

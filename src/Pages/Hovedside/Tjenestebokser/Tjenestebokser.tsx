@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import Arbeidsforhold from './Arbeidsforhold/Arbeidsforhold';
 import Sykmeldte from './Sykmeldte/Sykmeldte';
-import Arbeidsplassen from './Arbeidsplassen/Arbeidsplassen';
+import Stillingsannonser from './Arbeidsplassen/ArbeidsplassenStillingsannonser';
 import Kandidatlister from './Kandidatlister/Kandidatlister';
 import TiltakAvtaler from './TiltakAvtaler/TiltakAvtaler';
 import ForebyggeFravær from './ForebyggeFravær/ForebyggeFravær';
@@ -10,16 +10,14 @@ import './Tjenestebokser.css';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 import { logAnalyticsEvent } from '../../../utils/analytics';
 
-const Bokser = {
-    Arbeidsforhold: Arbeidsforhold,
-    Sykmeldte: Sykmeldte,
-    ForebyggeFravær: ForebyggeFravær,
-    Kandidatlister: Kandidatlister,
-    Arbeidsplassen: Arbeidsplassen,
-    TiltakAvtaler: TiltakAvtaler,
-    TiltakRefusjoner: TiltakRefusjoner,
-};
-type TjenesteBoks = keyof typeof Bokser;
+type TjenesteBoks =
+    | typeof Arbeidsforhold
+    | typeof Sykmeldte
+    | typeof ForebyggeFravær
+    | typeof Kandidatlister
+    | typeof Stillingsannonser
+    | typeof TiltakAvtaler
+    | typeof TiltakRefusjoner;
 
 const TjenesteboksContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
@@ -27,20 +25,23 @@ const TjenesteboksContainer: FunctionComponent = () => {
     const tjenester: TjenesteBoks[] = [];
 
     if (valgtOrganisasjon.altinntilgang.arbeidsforhold) {
-        tjenester.push('Arbeidsforhold');
+        tjenester.push(Arbeidsforhold);
     }
 
     if (valgtOrganisasjon.syfotilgang) {
-        tjenester.push('Sykmeldte');
+        tjenester.push(Sykmeldte);
     }
 
     if (valgtOrganisasjon.reporteetilgang) {
-        tjenester.push('ForebyggeFravær');
+        tjenester.push(ForebyggeFravær);
+    }
+
+    if (valgtOrganisasjon.altinntilgang.rekruttering_stillingsannonser) {
+        tjenester.push(Stillingsannonser);
     }
 
     if (valgtOrganisasjon.altinntilgang.rekruttering) {
-        tjenester.push('Kandidatlister');
-        tjenester.push('Arbeidsplassen');
+        tjenester.push(Kandidatlister);
     }
 
     if (
@@ -51,14 +52,14 @@ const TjenesteboksContainer: FunctionComponent = () => {
         valgtOrganisasjon.altinntilgang.mentortilskudd ||
         valgtOrganisasjon.altinntilgang.inkluderingstilskudd
     ) {
-        tjenester.push('TiltakAvtaler');
+        tjenester.push(TiltakAvtaler);
     }
 
     if (
         valgtOrganisasjon.altinntilgang.inntektsmelding &&
         valgtOrganisasjon.refusjonstatustilgang
     ) {
-        tjenester.push('TiltakRefusjoner');
+        tjenester.push(TiltakRefusjoner);
     }
 
     return (
@@ -78,13 +79,13 @@ const Tjenestebokser: FunctionComponent<{ tjenester: TjenesteBoks[] }> = ({ tjen
 
     const tjenestebokser = tjenester.map((tjeneste) => ({
         tjeneste,
-        Boks: Bokser[tjeneste],
+        Boks: tjeneste,
     }));
 
     return (
         <>
             {tjenestebokser.map(({ tjeneste, Boks }) => (
-                <Boks key={tjeneste} />
+                <Boks key={tjeneste.name} />
             ))}
         </>
     );

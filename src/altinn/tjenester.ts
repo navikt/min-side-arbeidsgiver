@@ -210,6 +210,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
+    rekruttering_stillingsannonser: {
+        sort: 'tjeneste',
+        navn: 'Stillingsannonser',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Stillingsannonser på arbeidsplassen.no» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_rekruttering_stillingsannonser',
+    },
     tilskuddsbrev: {
         sort: 'tjeneste',
         navn: 'Tilskuddsbrev om NAV-tiltak',
