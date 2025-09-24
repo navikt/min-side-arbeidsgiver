@@ -1,11 +1,13 @@
 import { Alert, BodyLong, Button, Heading, Modal, Select, VStack } from '@navikt/ds-react';
-import { InternLenkeMedLogging } from '../../../../GeneriskeElementer/LenkeMedLogging';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
+    opplaeringspengerURL,
     opprettInntektsmeldingForeldrepenger,
     opprettInntektsmeldingSvangerskapspenger,
     opprettInntektsmeldingURL,
+    pleiepengerILivetsSluttfaseURL,
+    pleiepengerSyktBarnURL,
 } from '../../../../lenker';
 import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
 
@@ -29,6 +31,21 @@ const inntektsmeldingYtelser = [
         label: 'Svangerskapspenger',
         value: 'SVANGERSKAPSPENGER',
         lenke: opprettInntektsmeldingSvangerskapspenger,
+    },
+    {
+        label: 'Pleiepenger i livets sluttfase',
+        value: 'PLEIEPENGER_I_LIVETS_SLUTTFASE',
+        lenke: pleiepengerILivetsSluttfaseURL,
+    },
+    {
+        label: 'Pleiepenger sykt barn',
+        value: 'PLEIEPENGER_SYKT_BARN',
+        lenke: pleiepengerSyktBarnURL,
+    },
+    {
+        label: 'Opplæringspenger',
+        value: 'OPPLÆRINGSPENGER',
+        lenke: opplaeringspengerURL,
     },
 ] as const;
 
