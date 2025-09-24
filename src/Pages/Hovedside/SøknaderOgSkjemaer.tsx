@@ -19,6 +19,8 @@ import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext
 export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
+    const tilgangEndreKontoummer =
+        valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
     const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
@@ -104,6 +106,15 @@ export const SøknaderOgSkjemaer = () => {
                           gittMiljo({
                               prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
                               other: `https://skademelding.intern.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
+                          })
+                      )
+                    : null}
+                {tilgangEndreKontoummer === true
+                    ? lenke(
+                          'Endre bankkontonummer for refusjoner fra NAV',
+                          gittMiljo({
+                              prod: `https://arbeidsgiver.nav.no/endre-kontonummer/`,
+                              other: `https://sokos-kro-selvbetjening-frontend.ekstern.dev.nav.no/endre-kontonummer/`,
                           })
                       )
                     : null}
