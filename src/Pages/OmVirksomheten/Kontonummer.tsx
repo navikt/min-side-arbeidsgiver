@@ -8,6 +8,7 @@ import { z } from 'zod';
 
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { erStøy } from '../../utils/util';
+import { gittMiljo } from '../../utils/environment';
 
 const KontonummerRespons = z
     .object({
@@ -151,10 +152,13 @@ export const KontonummerOverordnetEnhet = ({
 
 const EndreKontonummer = () => (
     <LenkeMedLogging
-        loggLenketekst={'Endre kontonummer i Altinn'}
-        href="https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/bankkontonummer-for-refusjoner-fra-nav-til-arbeidsgiver/"
+        loggLenketekst={'Endre kontonummer'}
+        href={gittMiljo({
+            prod: `https://arbeidsgiver.nav.no/endre-kontonummer/`,
+            other: `https://sokos-kro-selvbetjening-frontend.ekstern.dev.nav.no/endre-kontonummer/`,
+        })}
     >
-        Endre kontonummer i Altinn
+        Endre kontonummer
     </LenkeMedLogging>
 );
 
