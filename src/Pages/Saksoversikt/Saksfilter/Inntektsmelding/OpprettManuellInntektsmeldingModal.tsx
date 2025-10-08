@@ -50,7 +50,7 @@ const inntektsmeldingYtelserDev = [
     },
 ]
 
-const inntektsmeldingYtelserOther = [
+const inntektsmeldingYtelserProd = [
     {
         label: 'Sykepenger',
         value: 'SYKEPENGER',
@@ -70,9 +70,8 @@ const inntektsmeldingYtelserOther = [
 
 
 const inntektsmeldingYtelser = gittMiljo({
-    prod: inntektsmeldingYtelserOther,
-    other: inntektsmeldingYtelserOther,
-    dev: inntektsmeldingYtelserDev,
+    prod: inntektsmeldingYtelserProd,
+    other: inntektsmeldingYtelserDev,
 })
 
 
