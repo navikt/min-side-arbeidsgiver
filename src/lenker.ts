@@ -90,3 +90,18 @@ export const opprettInntektsmeldingSvangerskapspenger = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
     other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER'
 })
+
+export const pleiepengerILivetsSluttfaseURL = gittMiljo({
+  prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE',
+  other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE'
+})
+
+export const pleiepengerSyktBarnURL = gittMiljo({
+  prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN',
+  other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN'
+})
+
+export const opplaeringspengerURL = gittMiljo({
+  prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER',
+  other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER'
+})
