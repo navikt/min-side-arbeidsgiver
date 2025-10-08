@@ -10,13 +10,14 @@ import {
     pleiepengerSyktBarnURL,
 } from '../../../../lenker';
 import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
+import { gittMiljo } from '../../../../utils/environment';
 
 interface Props {
     isOpen: boolean;
     onRequestClose: () => void;
 }
 
-const inntektsmeldingYtelser = [
+const inntektsmeldingYtelserDev = [
     {
         label: 'Sykepenger',
         value: 'SYKEPENGER',
@@ -47,7 +48,33 @@ const inntektsmeldingYtelser = [
         value: 'OPPLÆRINGSPENGER',
         lenke: opplaeringspengerURL,
     },
-] as const;
+]
+
+const inntektsmeldingYtelserOther = [
+    {
+        label: 'Sykepenger',
+        value: 'SYKEPENGER',
+        lenke: opprettInntektsmeldingURL,
+    },
+    {
+        label: 'Foreldrepenger',
+        value: 'FORELDREPENGER',
+        lenke: opprettInntektsmeldingForeldrepenger,
+    },
+    {
+        label: 'Svangerskapspenger',
+        value: 'SVANGERSKAPSPENGER',
+        lenke: opprettInntektsmeldingSvangerskapspenger,
+    },
+]
+
+
+const inntektsmeldingYtelser = gittMiljo({
+    prod: inntektsmeldingYtelserOther,
+    other: inntektsmeldingYtelserOther,
+    dev: inntektsmeldingYtelserDev,
+})
+
 
 type InntektsmeldingYtelse = (typeof inntektsmeldingYtelser)[number];
 
@@ -57,7 +84,7 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
 
     useEffect(() => {
         logAnalyticsEvent('komponent-lastet', {
-            komponent: 'OpprettManuellInntektsmeldingModal'
+            komponent: 'OpprettManuellInntektsmeldingModal',
         });
     }, []);
 
@@ -102,9 +129,9 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
                                 Bedriften får normalt et varsel når vi trenger inntektsmelding
                             </Heading>
                             <BodyLong>
-                                Varsel med oppgave blir tilgjengelig i saksoversikten
-                                når den ansatte har sendt inn søknad til oss. Manuell
-                                inntektsmelding er kun tilgjengelig for unntakstilfeller.
+                                Varsel med oppgave blir tilgjengelig i saksoversikten når den
+                                ansatte har sendt inn søknad til oss. Manuell inntektsmelding er kun
+                                tilgjengelig for unntakstilfeller.
                             </BodyLong>
                         </VStack>
                     </Alert>
