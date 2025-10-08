@@ -7,6 +7,7 @@ import { erStøy } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import { logAnalyticsEvent } from '../../utils/analytics';
+import { gittMiljo } from '../../utils/environment';
 
 export const ManglerKontonummerAlert = () => {
     const kontonummerStatus = manglerKontonummerAlert();
@@ -39,12 +40,14 @@ export const ManglerKontonummerAlert = () => {
                 {kanEndreKontonummer ? (
                     <>
                         {' '}
-                        Gå til altinn og
                         <LenkeMedLogging
-                            href="https://info.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/bankkontonummer-for-refusjoner-fra-nav-til-arbeidsgiver/"
-                            loggLenketekst="Endre kontonummer"
+                            loggLenketekst={'Endre kontonummer'}
+                            href={gittMiljo({
+                                prod: `https://arbeidsgiver.nav.no/endre-kontonummer/`,
+                                other: `https://sokos-kro-selvbetjening-frontend.ekstern.dev.nav.no/endre-kontonummer/`,
+                            })}
                         >
-                            legg inn kontonummer for refusjon fra NAV.
+                            Legg inn kontonummer for refusjon fra Nav.
                         </LenkeMedLogging>
                     </>
                 ) : (
