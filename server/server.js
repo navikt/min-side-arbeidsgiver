@@ -295,7 +295,7 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/api',
+                target: 'http://min-side-arbeidsgiver-api.fager.svc.cluster.local/ditt-nav-arbeidsgiver-api/api',
             })
         );
 
