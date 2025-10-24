@@ -125,13 +125,8 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     arbeidsforhold: {
         sort: 'tjeneste',
         navn: 'Arbeidsforhold',
-        beOmTilgangBeskrivelse: `
-            Få oversikt over alle arbeidsforhold du som arbeidsgiver har
-            rapportert inn via A-meldingen. Her kan du kontrollere opplysningene
-            og se hva som er registrert i arbeidsgiver- og arbeidstakerregisteret
-            (Aa-registeret).`,
-        tjenestekode: '5441',
-        tjenesteversjon: '1',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Innsyn i Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret) for arbeidsgivere» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
     },
     midlertidigLønnstilskudd: {
         sort: 'tjeneste',
