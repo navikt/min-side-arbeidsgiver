@@ -51,7 +51,6 @@ const fetcher = async ({
 }) => {
     const respons = await fetch(url, {
         headers: {
-            'Nav-Aareg-Kontekst': 'ARBEIDSGIVER',
             jurenhet,
             orgnr,
         },
