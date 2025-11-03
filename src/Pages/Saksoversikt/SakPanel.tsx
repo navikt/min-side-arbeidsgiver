@@ -33,6 +33,11 @@ export const dateFormat = new Intl.DateTimeFormat('no', {
     day: 'numeric',
 });
 
+export const klokkeslettFormat = new Intl.DateTimeFormat('no', {
+    hour: 'numeric',
+    minute: 'numeric',
+});
+
 type SakPanelProps = {
     sak: Sak;
     placeholder?: boolean;
@@ -326,7 +331,8 @@ const BeskjedElement = ({
                 <BodyShort className="tidslinje-element-tittel">{tekst}</BodyShort>
             </NotifikasjonsLenke>
             <Detail className="tidslinje-element-detaljer">
-                {dateFormat.format(new Date(opprettetTidspunkt))}
+                {dateFormat.format(new Date(opprettetTidspunkt))} kl.{' '}
+                {klokkeslettFormat.format(new Date(opprettetTidspunkt))}
             </Detail>
             <div className="tidslinje-linje">{TidslinjeLinjeIkon}</div>
         </div>
@@ -369,7 +375,8 @@ const OppgaveElement = ({
             ) : (
                 <>
                     <Detail className="tidslinje-element-detaljer">
-                        {dateFormat.format(new Date(opprettetTidspunkt))}
+                        {dateFormat.format(new Date(opprettetTidspunkt))} kl.{' '}
+                        {klokkeslettFormat.format(new Date(opprettetTidspunkt))}
                     </Detail>
                     <div className="tidslinje-element-detaljer2">
                         <StatusLinje oppgave={tidslinjeelement as OppgaveTidslinjeElement} />
@@ -394,11 +401,6 @@ const KalenderavtaleElement = ({
 
     const { avtaletilstand, tekst, startTidspunkt, sluttTidspunkt, lokasjon, digitalt, lenke } =
         tidslinjeelement as KalenderavtaleTidslinjeElement;
-
-    const klokkeslett = new Intl.DateTimeFormat('no', {
-        hour: 'numeric',
-        minute: 'numeric',
-    });
 
     const harPassert = new Date(startTidspunkt) < new Date();
     const ingenLokasjon = (lokasjon ?? undefined) === undefined && digitalt === false;
@@ -447,9 +449,9 @@ const KalenderavtaleElement = ({
                     }
                 >
                     {dateFormat.format(new Date(startTidspunkt))} kl.{' '}
-                    {klokkeslett.format(new Date(startTidspunkt))}
+                    {klokkeslettFormat.format(new Date(startTidspunkt))}
                     {sluttTidspunkt !== undefined && sluttTidspunkt !== null
-                        ? ` – ${klokkeslett.format(new Date(sluttTidspunkt))}`
+                        ? ` – ${klokkeslettFormat.format(new Date(sluttTidspunkt))}`
                         : ''}
                 </BodyShort>
             </NotifikasjonsLenke>

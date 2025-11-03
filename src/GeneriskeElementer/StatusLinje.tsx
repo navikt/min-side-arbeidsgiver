@@ -8,7 +8,7 @@ import {
     OppgaveTidslinjeElement,
     OppgaveTilstand,
 } from '../api/graphql-types';
-import { dateFormat } from '../Pages/Saksoversikt/SakPanel';
+import { dateFormat, klokkeslettFormat } from '../Pages/Saksoversikt/SakPanel';
 
 export interface StatusLinjeProps {
     oppgave: OppgaveTidslinjeElement;
@@ -22,16 +22,22 @@ const uformellDatotekst = (dato: Date) => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
+    let formattedDate
     switch (dateFormat.format(dato)) {
         case dateFormat.format(today):
-            return 'i dag';
+            formattedDate = 'i dag';
+            break
         case dateFormat.format(yesterday):
-            return 'i går';
+            formattedDate = 'i går';
+            break
         case dateFormat.format(tomorrow):
-            return 'i morgen';
+            formattedDate = 'i morgen';
+            break
         default:
-            return dateFormat.format(dato);
+            formattedDate = dateFormat.format(dato);
+            break
     }
+    return `${formattedDate} kl. ${klokkeslettFormat.format(dato)}`;
 };
 
 export const StatusLinje: FC<StatusLinjeProps> = ({ oppgave, className }) => {
