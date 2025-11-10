@@ -56,7 +56,7 @@ const TjenesteboksContainer: FunctionComponent = () => {
     }
 
     if (
-        valgtOrganisasjon.altinntilgang.inntektsmelding &&
+        valgtOrganisasjon.altinntilgang.tiltaksrefusjon &&
         valgtOrganisasjon.refusjonstatustilgang
     ) {
         tjenester.push(TiltakRefusjoner);
