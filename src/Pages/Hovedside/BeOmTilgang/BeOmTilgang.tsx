@@ -14,25 +14,40 @@ import {
 import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
 import { beOmTilgangIAltinnLink } from '../../../lenker';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
-import { Alert, BodyShort, Heading } from '@navikt/ds-react';
+import { Alert, Heading, LinkCard } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
+import { gittMiljo } from '../../../utils/environment';
 
-const altinnIdIRekkefølge: AltinntjenesteId[] = [
-    'rekruttering',
-    'sykefravarstatistikk',
-    'arbeidstrening',
-    'arbeidsforhold',
-    'yrkesskade',
-    'midlertidigLønnstilskudd',
-    'varigLønnstilskudd',
-    'varigTilrettelagtArbeid',
-    'sommerjobb',
-    'ekspertbistand',
-    'inkluderingstilskudd',
-    'mentortilskudd',
-    'inntektsmelding',
-];
+type IsVisible = 'visible' | 'hidden';
+
+const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
+    rekruttering: 'visible',
+    sykefravarstatistikk: 'visible',
+    arbeidstrening: 'visible',
+    arbeidsforhold: 'visible',
+    yrkesskade: 'visible',
+    midlertidigLønnstilskudd: 'visible',
+    varigLønnstilskudd: 'visible',
+    varigTilrettelagtArbeid: 'visible',
+    sommerjobb: 'visible',
+    ekspertbistand: 'visible',
+    inkluderingstilskudd: 'visible',
+    mentortilskudd: 'visible',
+    inntektsmelding: 'visible',
+    oppgiNarmesteleder: gittMiljo({
+        prod: 'hidden', // TODO: finnes ikke i prod enda. Venter på beskjed fra esyfo
+        other: 'visible',
+    }),
+    utsendtArbeidstakerEØS: 'hidden',
+    endreBankkontonummerForRefusjoner: 'hidden',
+    rekrutteringStillingsannonser: 'hidden',
+    tilskuddsbrev: 'hidden',
+};
+
+const tjenesteRekkefølge = Object.entries(altinnLayout)
+    .filter(([_, v]) => v === 'visible')
+    .map(([id]) => id as AltinntjenesteId);
 
 const beOmTilgangUrlFallback = (
     altinn2Tilgang: Altinn2Tilgang,
@@ -87,10 +102,17 @@ const BeOmTilgang: FunctionComponent = () => {
     if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang) {
         return (
             <TilgangContainer>
-                <BodyShort>
-                    Noen i virksomheten må gi deg riktig tilgang i Altinn. Nå er du kun satt opp som
-                    nærmeste leder.
-                </BodyShort>
+                <LinkCard>
+                    <LinkCard.Title>
+                        <LinkCard.Anchor href="/eksempel">
+                            Lær om tilganger og varsler i Altinn
+                        </LinkCard.Anchor>
+                    </LinkCard.Title>
+                    <LinkCard.Description>
+                        Noen i virksomheten må gi deg riktig tilgang i Altinn. Nå er du kun satt opp
+                        som nærmeste leder.
+                    </LinkCard.Description>
+                </LinkCard>
             </TilgangContainer>
         );
     }
@@ -101,7 +123,7 @@ const BeOmTilgang: FunctionComponent = () => {
 
     if (valgtOrganisasjon.reporteetilgang) {
         const tilgangssøknader = altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.orgnr];
-        for (let altinnId of altinnIdIRekkefølge) {
+        for (let altinnId of tjenesteRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
             const altinnTjeneste = altinntjeneste[altinnId];
             if (tilgang === true) {

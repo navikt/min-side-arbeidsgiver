@@ -7,21 +7,21 @@ export type AltinnskjemaId =
     | 'utsendtArbeidstakerEØS'
     | 'endreBankkontonummerForRefusjoner';
 
-export const NAVtjenesteId = [
-    'arbeidstrening',
-    'arbeidsforhold',
-    'midlertidigLønnstilskudd',
-    'varigLønnstilskudd',
-    'varigTilrettelagtArbeid',
-    'sommerjobb',
-    'mentortilskudd',
-    'inkluderingstilskudd',
-    'sykefravarstatistikk',
-    'rekruttering',
-    'tilskuddsbrev',
-    'yrkesskade',
-];
-export type NAVtjenesteId = (typeof NAVtjenesteId)[number];
+export type NAVtjenesteId =
+    | 'arbeidstrening'
+    | 'arbeidsforhold'
+    | 'midlertidigLønnstilskudd'
+    | 'varigLønnstilskudd'
+    | 'varigTilrettelagtArbeid'
+    | 'sommerjobb'
+    | 'mentortilskudd'
+    | 'inkluderingstilskudd'
+    | 'sykefravarstatistikk'
+    | 'rekruttering'
+    | 'rekrutteringStillingsannonser'
+    | 'tilskuddsbrev'
+    | 'yrkesskade'
+    | 'oppgiNarmesteleder';
 
 export type AltinnFellesInfo = {
     navn: string;
@@ -205,7 +205,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
-    rekruttering_stillingsannonser: {
+    rekrutteringStillingsannonser: {
         sort: 'tjeneste',
         navn: 'Stillingsannonser',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Stillingsannonser på arbeidsplassen.no» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
@@ -230,6 +230,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
             'Få mulighet til å melde inn yrkesskade eller yrkessykdom digitalt.',
         tjenestekode: '5902',
         tjenesteversjon: '1',
+    },
+    oppgiNarmesteleder: {
+        sort: 'tjeneste',
+        navn: 'Oppgi nærmeste leder',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Oppgi nærmeste leder for sykmeldt ansatt» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_syfo_oppgi-narmesteleder',
     },
 };
 

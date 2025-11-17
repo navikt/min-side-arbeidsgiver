@@ -31,7 +31,7 @@ const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
               ':' +
               (value as Altinn2Tilgang).tjenesteversjon
             : (value as Altinn3Tilgang).ressurs,
-        key,
+        key as AltinntjenesteId,
     ])
 );
 

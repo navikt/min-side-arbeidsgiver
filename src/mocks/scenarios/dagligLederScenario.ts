@@ -25,6 +25,8 @@ const alleTilganger = [
     '5902:1', // yrkesskade
     '5902:1', // yrkesskade
     '2896:87', // endreBankkontonummerForRefusjoner
+    'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
+    'nav_syfo_oppgi-narmesteleder',
 ];
 const underenheter = [
     {
