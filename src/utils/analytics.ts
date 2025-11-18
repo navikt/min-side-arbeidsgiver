@@ -2,7 +2,6 @@ import { OrganisasjonInfo } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { Hovedenhet, useUnderenhet } from '../api/enhetsregisteretApi';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import { NAVtjenesteId } from '../altinn/tjenester';
 import { getAnalyticsInstance } from '@navikt/nav-dekoratoren-moduler';
 import { gittMiljo } from './environment';
 
@@ -43,7 +42,6 @@ export const loggSidevisning = (pathname: string) => {
     });
 };
 
-
 export const finnAntallDagerTilDato = (date: Date) => {
     const oneDayInMilliseconds = 24 * 60 * 60 * 1000;
     const now = new Date(); // antar at starttidspunkt er i fremtiden
@@ -51,7 +49,6 @@ export const finnAntallDagerTilDato = (date: Date) => {
     const differenceInMilliseconds = date.getTime() - now.getTime();
     return Math.floor(differenceInMilliseconds / oneDayInMilliseconds);
 };
-
 
 const finnSektorNavn = (eregOrg: Hovedenhet) => {
     if (eregOrg.naeringskoder?.find((kode) => kode.startsWith('84')) !== null) {
@@ -69,7 +66,7 @@ export const useLoggBedriftValgtOgTilganger = (org: OrganisasjonInfo | undefined
         if (isLoading) return;
 
         const tilganger = Object.entries(org.altinntilgang)
-            .filter(([key, value]) => value === true && NAVtjenesteId.includes(key))
+            .filter(([_, value]) => value === true)
             .map(([key]) => key);
 
         if (org.syfotilgang) {
