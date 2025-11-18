@@ -111,7 +111,7 @@ const BeOmTilgang: FunctionComponent = () => {
             <TilgangContainer>
                 <LinkCard>
                     <LinkCard.Title>
-                        <LinkCard.Anchor href="/eksempel">
+                        <LinkCard.Anchor href="https://www.nav.no/arbeidsgiver/tilganger#tilganger">
                             Du mangler tilgang i Altinn
                         </LinkCard.Anchor>
                     </LinkCard.Title>
