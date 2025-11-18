@@ -197,17 +197,17 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     },
     rekruttering: {
         sort: 'tjeneste',
-        navn: 'Rekruttering',
+        navn: 'Kandidater til dine stillinger',
         beOmTilgangBeskrivelse: `
-            Gå til Arbeidsplassen for å rekruttere og lage stillingsannonser.
-            Under «Kandidater til dine stillinger» kan du se CV til personer NAV har sendt deg.
+            Kandidater til dine stillinger viser deg CV-en til arbeidssøkere Nav har sendt deg.
+            Denne tjenesten krever enkeltrettigheten "Rekruttering".
         `,
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
     rekrutteringStillingsannonser: {
         sort: 'tjeneste',
-        navn: 'Stillingsannonser',
+        navn: 'Stillingsannonser på arbeidsplassen.no',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Stillingsannonser på arbeidsplassen.no» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_rekruttering_stillingsannonser',
     },

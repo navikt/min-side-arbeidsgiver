@@ -22,10 +22,22 @@ import { gittMiljo } from '../../../utils/environment';
 type IsVisible = 'visible' | 'hidden';
 
 const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
-    rekruttering: 'visible',
+    // dine sykmeldte er en boks som ikke er del av altinn layout men vises først i listen
+    oppgiNarmesteleder: gittMiljo({
+        prod: 'hidden', // TODO: finnes ikke i prod enda. Venter på beskjed fra esyfo
+        other: 'visible',
+    }),
+
     sykefravarstatistikk: 'visible',
-    arbeidstrening: 'visible',
+
+    rekruttering: 'visible',
+    rekrutteringStillingsannonser: 'visible',
+
     arbeidsforhold: 'visible',
+
+    inntektsmelding: 'visible',
+
+    arbeidstrening: 'visible',
     yrkesskade: 'visible',
     midlertidigLønnstilskudd: 'visible',
     varigLønnstilskudd: 'visible',
@@ -34,15 +46,10 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     ekspertbistand: 'visible',
     inkluderingstilskudd: 'visible',
     mentortilskudd: 'visible',
-    inntektsmelding: 'visible',
-    oppgiNarmesteleder: gittMiljo({
-        prod: 'hidden', // TODO: finnes ikke i prod enda. Venter på beskjed fra esyfo
-        other: 'visible',
-    }),
+    tilskuddsbrev: 'hidden', // tilskuddsbrev vises ikke på min side i dag, derfor ble den fjernet ref: https://jira.adeo.no/browse/TAG-2179
+
     utsendtArbeidstakerEØS: 'hidden',
-    endreBankkontonummerForRefusjoner: 'hidden',
-    rekrutteringStillingsannonser: 'hidden',
-    tilskuddsbrev: 'hidden',
+    endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang
 };
 
 const tjenesteRekkefølge = Object.entries(altinnLayout)
