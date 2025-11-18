@@ -31,13 +31,22 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKontonummerAlert />
                 <InfoBokser />
                 <AktueltRubrikk />
-                {/*<SisteSaker />*/}
                 <NotifikasjonPanel />
                 <Kalenderavtaler />
                 <Tjenestebokser />
                 <SøknaderOgSkjemaer />
                 <NyttigForDegContainer />
                 <BeOmTilgang />
+                <div>
+                    {' '}
+                    {/*Legger inn en ekstra div for at linken ikke skal strekkes ut av flex*/}
+                    <LenkeMedLogging
+                        href={infoOmTilgangsstyringURL}
+                        loggLenketekst="Lær om tilganger og varsler i Altinn"
+                    >
+                        Lær mer om tilganger og varsler i Altinn
+                    </LenkeMedLogging>
+                </div>
             </div>
             <TrengerDuHjelp />
         </div>

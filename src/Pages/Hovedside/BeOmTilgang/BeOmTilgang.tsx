@@ -112,7 +112,7 @@ const BeOmTilgang: FunctionComponent = () => {
                 <LinkCard>
                     <LinkCard.Title>
                         <LinkCard.Anchor href="/eksempel">
-                            Lær om tilganger og varsler i Altinn
+                            Du mangler tilgang i Altinn
                         </LinkCard.Anchor>
                     </LinkCard.Title>
                     <LinkCard.Description>
