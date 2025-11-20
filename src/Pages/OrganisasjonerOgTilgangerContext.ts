@@ -36,7 +36,7 @@ export type OrganisasjonInfo = {
     syfotilgang: boolean;
     antallSykmeldte: number;
     reporteetilgang: boolean;
-    refusjonstatustilgang: boolean;
+    refusjonstatustilgang: boolean; // true dersom man har noen refusjonstatuser > 0 på denne virksomheten
     refusjonstatus: {
         KLAR_FOR_INNSENDING?: number;
     };

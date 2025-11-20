@@ -16,10 +16,11 @@ export type NAVtjenesteId =
     | 'sommerjobb'
     | 'mentortilskudd'
     | 'inkluderingstilskudd'
+    | 'tilskuddsbrev'
+    | 'tiltaksrefusjon'
     | 'sykefravarstatistikk'
     | 'rekruttering'
     | 'rekrutteringStillingsannonser'
-    | 'tilskuddsbrev'
     | 'yrkesskade'
     | 'oppgiNarmesteleder';
 
@@ -188,6 +189,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         Få tilgang til avtaler om varig tilrettelagt arbeid i ordinær virksomhet.
         Du kan søke om tilskudd for å dekke merkostnader du som
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
+    },
+    tiltaksrefusjon: {
+        sort: 'tjeneste',
+        navn: 'Tiltaksrefusjon',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Tiltaksrefusjon» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_tiltak_tiltaksrefusjon',
     },
     sykefravarstatistikk: {
         sort: 'tjeneste',
