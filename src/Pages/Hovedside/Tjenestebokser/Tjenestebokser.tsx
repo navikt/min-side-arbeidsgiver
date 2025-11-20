@@ -36,7 +36,7 @@ const TjenesteboksContainer: FunctionComponent = () => {
         tjenester.push(ForebyggeFravær);
     }
 
-    if (valgtOrganisasjon.altinntilgang.rekruttering_stillingsannonser) {
+    if (valgtOrganisasjon.altinntilgang.rekrutteringStillingsannonser) {
         tjenester.push(Stillingsannonser);
     }
 

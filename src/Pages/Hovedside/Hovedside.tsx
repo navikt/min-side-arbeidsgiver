@@ -18,7 +18,6 @@ import NotifikasjonPanel from './NotifikasjonPanel/NotifikasjonPanel';
 import { setBreadcrumbs } from '@navikt/nav-dekoratoren-moduler';
 
 const Hovedside: FunctionComponent = () => {
-
     useEffect(() => {
         setBreadcrumbs([]); // Fjerner breadcrumbs på hovedsiden
     }, []);
@@ -32,7 +31,6 @@ const Hovedside: FunctionComponent = () => {
                 <ManglerKontonummerAlert />
                 <InfoBokser />
                 <AktueltRubrikk />
-                {/*<SisteSaker />*/}
                 <NotifikasjonPanel />
                 <Kalenderavtaler />
                 <Tjenestebokser />
@@ -46,7 +44,7 @@ const Hovedside: FunctionComponent = () => {
                         href={infoOmTilgangsstyringURL}
                         loggLenketekst="Lær om tilganger og varsler i Altinn"
                     >
-                        Lær om tilganger og varsler i Altinn
+                        Lær mer om tilganger og varsler i Altinn
                     </LenkeMedLogging>
                 </div>
             </div>
