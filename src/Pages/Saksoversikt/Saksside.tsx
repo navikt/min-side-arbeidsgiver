@@ -153,7 +153,7 @@ export const Saksside = () => {
     useEffect(() => {
         if (!sak && !skip && !loading && !feilIAltinn) {
             console.error(
-                `#MSA: Saksside: Kunne ikke hente sak. Saksid: ${saksid}, merkelapp: ${merkelapp}. Apollo error: ${error?.message}`
+                `#FARO: Saksside: Kunne ikke hente sak. Saksid: ${saksid}, merkelapp: ${merkelapp}. Apollo error: ${error?.message}`
             );
         }
     }, [sak, skip, loading, feilIAltinn]);

@@ -35,7 +35,7 @@ injectDecoratorClientSide({
         logoutWarning: true,
     },
 }).catch((e) => {
-    console.error('#MSA: injectDecoratorClientSide feilet', e);
+    console.error('#FARO: injectDecoratorClientSide feilet', e);
 });
 
 const maintainance = gittMiljo({

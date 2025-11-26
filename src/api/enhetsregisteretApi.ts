@@ -58,7 +58,7 @@ export const useUnderenhet = (
             onError: (error) => {
                 if (!erStøy(error)) {
                     console.error(
-                        `#MSA: hent Underenhet fra brreg feilet med ${
+                        `#FARO: hent Underenhet fra brreg feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error
@@ -89,7 +89,7 @@ export const useOverordnetEnhet = (orgnr: string | undefined): Hovedenhet | unde
             onError: (error) => {
                 if (!erStøy(error)) {
                     console.error(
-                        `#MSA: hent OverordnetEnhet fra brreg feilet med ${
+                        `#FARO: hent OverordnetEnhet fra brreg feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

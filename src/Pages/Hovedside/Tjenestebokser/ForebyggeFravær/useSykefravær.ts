@@ -23,7 +23,7 @@ export const useSykefravær = (): Sykefraværsrespons | undefined => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${
+                        `#FARO: hent sykefraværsstatistikk fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

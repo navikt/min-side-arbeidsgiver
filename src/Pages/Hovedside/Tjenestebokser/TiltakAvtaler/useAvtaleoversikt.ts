@@ -27,7 +27,7 @@ export const useAvtaleoversikt = (): Avtaleoversikt => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
+                        `#FARO: hent arbeidsavtaler fra tiltaksgjennomforing-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

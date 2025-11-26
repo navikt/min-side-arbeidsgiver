@@ -27,7 +27,7 @@ export const useAltinnTilgangssøknader = (): AltinnTilgangssøknadResponse => {
         onError: (error) => {
             if (retries === 5 && !erStøy(error)) {
                 console.error(
-                    `#MSA: hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
+                    `#FARO: hent AltinnTilgangssøknader fra min-side-arbeidsgiver-api feilet med ${
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error
                     }`
                 );

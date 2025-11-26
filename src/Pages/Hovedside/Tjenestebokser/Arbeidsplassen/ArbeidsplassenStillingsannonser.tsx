@@ -62,7 +62,7 @@ const useAntallannonser = () => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent AntallAnnonser fra stillingsregistrering-api feilet med ${
+                        `#FARO: hent AntallAnnonser fra stillingsregistrering-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

@@ -46,7 +46,7 @@ const useKontaktinfo = () => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent kontaktinfo fra min-side-arbeidsgiver-api feilet med ${
+                        `#FARO: hent kontaktinfo fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

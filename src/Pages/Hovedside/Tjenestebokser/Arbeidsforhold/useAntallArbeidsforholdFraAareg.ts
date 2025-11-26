@@ -20,7 +20,7 @@ export const useAntallArbeidsforholdFraAareg = (): number => {
                 setRetries((x) => x + 1);
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent antall arbeidsforhold fra aareg feilet med ${
+                        `#FARO: hent antall arbeidsforhold fra aareg feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error
