@@ -90,7 +90,7 @@ const manglerKontonummerAlert = (): KontonummerStatus => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent kontonummerStatus fra min-side-arbeidsgiver feilet med ${
+                        `#FARO: hent kontonummerStatus fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

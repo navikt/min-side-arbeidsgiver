@@ -8,7 +8,7 @@ import { SimpleBanner } from './Banner';
 export const MsaErrorBoundary = ({ children }: { children: ReactNode }) => {
     function onError(error: Error, info: React.ErrorInfo) {
         console.error(
-            `#MSA: Generisk feil ${error.name}:\nmessage: ${error.message}\ncomponentStack: ${info.componentStack}\n`
+            `#FARO: Generisk feil ${error.name}:\nmessage: ${error.message}\ncomponentStack: ${info.componentStack}\n`
         );
     }
 

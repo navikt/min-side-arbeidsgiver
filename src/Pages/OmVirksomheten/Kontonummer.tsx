@@ -76,7 +76,7 @@ const useKontonummer = (input: KontonummerInput) => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent kontonummer fra min-side-arbeidsgiver-api feilet med ${
+                        `#FARO: hent kontonummer fra min-side-arbeidsgiver-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

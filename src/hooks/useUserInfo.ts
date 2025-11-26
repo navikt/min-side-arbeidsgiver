@@ -92,7 +92,7 @@ export const useUserInfo = (): UseUserInfoResult => {
         onError: (error) => {
             if (retries === 5 && !erStøy(error)) {
                 console.error(
-                    `#MSA: hent userInfo fra min-side-arbeidsgiver feilet med ${
+                    `#FARO: hent userInfo fra min-side-arbeidsgiver feilet med ${
                         error.status !== undefined ? `${error.status} ${error.statusText}` : error
                     }`
                 );

@@ -38,7 +38,7 @@ function useStorage<S>(
                   ? initialValue()
                   : initialValue;
         } catch (error) {
-            console.error('#MSA: useStorage initState feilet.', error);
+            console.error('#FARO: useStorage initState feilet.', error);
             return initialValue instanceof Function ? initialValue() : initialValue;
         }
     });
@@ -49,7 +49,7 @@ function useStorage<S>(
             setStoredValue(valueToStore);
             storage.setItem(key, JSON.stringify(valueToStore, freezer));
         } catch (error) {
-            console.error('#MSA: useStorage setValue feilet', error);
+            console.error('#FARO: useStorage setValue feilet', error);
         }
     };
 

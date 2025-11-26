@@ -67,7 +67,7 @@ const manglerKofuviAlert = (): VarslingStatus => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent varslingStatus fra min-side-arbeidsgiver feilet med ${
+                        `#FARO: hent varslingStatus fra min-side-arbeidsgiver feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

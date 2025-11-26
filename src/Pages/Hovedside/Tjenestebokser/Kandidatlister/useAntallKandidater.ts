@@ -16,7 +16,7 @@ export const useAntallKandidater = (): number => {
             onError: (error) => {
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#MSA: hent antall kandidater fra presenterte-kandidater-api feilet med ${
+                        `#FARO: hent antall kandidater fra presenterte-kandidater-api feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error

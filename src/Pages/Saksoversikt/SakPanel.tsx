@@ -195,7 +195,7 @@ const Tidslinjeelement = ({
             />
         );
     } else {
-        console.error(`#MSA: uforventet tidslinjeelement type ${tidslinjeelement.__typename}`);
+        console.error(`#FARO: uforventet tidslinjeelement type ${tidslinjeelement.__typename}`);
         return null;
     }
 };
