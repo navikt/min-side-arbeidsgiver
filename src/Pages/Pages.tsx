@@ -54,7 +54,7 @@ export const createApolloClient = (uri: string) =>
         link: from([
             new RetryLink({
                 attempts: {
-                    max: 25,
+                    max: 3,
                     retryIf: (error, _operation) => {
                         if (error.statusCode === 401) {
                             // do not retry 401
