@@ -10,14 +10,13 @@ import {
     pleiepengerSyktBarnURL,
 } from '../../../../lenker';
 import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
-import { gittMiljo } from '../../../../utils/environment';
 
 interface Props {
     isOpen: boolean;
     onRequestClose: () => void;
 }
 
-const inntektsmeldingYtelserDev = [
+const inntektsmeldingYtelser = [
     {
         label: 'Sykepenger',
         value: 'SYKEPENGER',
@@ -49,31 +48,6 @@ const inntektsmeldingYtelserDev = [
         lenke: opplaeringspengerURL,
     },
 ]
-
-const inntektsmeldingYtelserProd = [
-    {
-        label: 'Sykepenger',
-        value: 'SYKEPENGER',
-        lenke: opprettInntektsmeldingURL,
-    },
-    {
-        label: 'Foreldrepenger',
-        value: 'FORELDREPENGER',
-        lenke: opprettInntektsmeldingForeldrepenger,
-    },
-    {
-        label: 'Svangerskapspenger',
-        value: 'SVANGERSKAPSPENGER',
-        lenke: opprettInntektsmeldingSvangerskapspenger,
-    },
-]
-
-
-const inntektsmeldingYtelser = gittMiljo({
-    prod: inntektsmeldingYtelserProd,
-    other: inntektsmeldingYtelserDev,
-})
-
 
 type InntektsmeldingYtelse = (typeof inntektsmeldingYtelser)[number];
 
