@@ -133,7 +133,7 @@ export const SøknaderOgSkjemaer = () => {
                           prod: null, // TODO: finnes ikke i prod enda. Venter på beskjed fra esyfo, se også TODO i BeOmTilgang.tsx
                           other: lenke(
                               'Oppgi nærmeste leder for sykmeldt ansatt',
-                              `https://demo.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder`
+                              `https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder`
                           ),
                       })
                     : null}
