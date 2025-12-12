@@ -1,12 +1,12 @@
-FROM gcr.io/distroless/nodejs22-debian12
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:22-slim
 
-WORKDIR /usr/src/app
+ENV NODE_ENV=production
+ENV NPM_CONFIG_CACHE=/tmp
+
+WORKDIR /app
 COPY build/ build/
 COPY server/ server/
 COPY bruker.graphql .
 
-WORKDIR /usr/src/app/server
-USER apprunner
-
 EXPOSE 8080
-CMD ["server.js"]
+CMD ["server/server.js"]
