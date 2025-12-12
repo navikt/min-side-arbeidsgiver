@@ -1,0 +1,8 @@
+# Sørger for at installerte pakker må være 7 dager gamle før de kan installeres (likt som dependabot cooldown)
+# Et sikkerhetstiltak i tilfelle en pakke blir komprimittert
+minimumReleaseAge: 10080 # 24 x 60 x 7
+
+# Unntak for manuelt oppdaterte pakker innenfor minimumReleaseAge
+minimumReleaseAgeExclude:
+  - react@19.0.1 #CVE-2025-55182
+  - react-dom@19.0.1 #CVE-2025-55182
