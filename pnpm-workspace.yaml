@@ -6,3 +6,7 @@ minimumReleaseAge: 10080 # 24 x 60 x 7
 minimumReleaseAgeExclude:
   - react@19.0.1 #CVE-2025-55182
   - react-dom@19.0.1 #CVE-2025-55182
+
+packages:
+  - .
+  - server
