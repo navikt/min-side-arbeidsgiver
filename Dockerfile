@@ -4,6 +4,12 @@ ENV NODE_ENV=production
 ENV NPM_CONFIG_CACHE=/tmp
 
 WORKDIR /app
+
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY server/package.json ./server/
+RUN corepack enable \
+    && corepack pnpm install --prod --filter server --frozen-lockfile
+
 COPY build/ build/
 COPY server/ server/
 COPY bruker.graphql .
