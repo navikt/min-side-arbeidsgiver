@@ -52,10 +52,10 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/arbeidsgiver/varig-tilrettelagt-arbeid#refusjon',
-        tittel: 'Refusjon for varig tilrettelagt arbeid (VTA-O) blir fremover utbetalt automatisk til arbeidsgiver.',
-        visFra: new Date('2025-08-19T00:00:00+02:00'),
-        visTil: new Date('2025-09-19T00:00:00+02:00'),
+        lenke: 'https://www.nav.no/arbeidsgiver/meldyrkesskade#digital-skademelding',
+        tittel: 'Fra 1. januar 2026 må yrkesskade og yrkessykdom meldes elektronisk til Nav.',
+        visFra: new Date('2025-12-19T00:00:00+02:00'),
+        visTil: new Date('2026-02-01T00:00:00+02:00'),
         tilgangssjekk: (_) => true,
     },
 ];
