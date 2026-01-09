@@ -5,15 +5,15 @@
     "type": "module",
     "main": "server.js",
     "dependencies": {
-        "@navikt/oasis": "3.4.0",
-        "express": "5.1.0",
-        "express-http-proxy": "2.1.1",
-        "express-rate-limit": "7.5.0",
-        "http-proxy-middleware": "3.0.5",
-        "http-terminator": "3.2.0",
+        "@navikt/oasis": "^3.8.0",
+        "express": "^5.2.1",
+        "express-http-proxy": "^2.1.2",
+        "express-rate-limit": "^7.5.1",
+        "http-proxy-middleware": "^3.0.5",
+        "http-terminator": "^3.2.0",
         "prom-client": "^14.2.0",
         "prometheus-api-metrics": "^3.2.2",
-        "winston": "3.13.0"
+        "winston": "^3.19.0"
     },
     "scripts": {
         "start": "node server.js"
