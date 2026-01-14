@@ -17,7 +17,7 @@ export const innsynAaregURL = gittMiljo({
 export const syfoURL = gittMiljo({
     prod: 'https://www.nav.no/arbeidsgiver/sykmeldte',
     other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
-    demo: 'https://dinesykmeldte.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
+    demo: 'https://demo.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
 });
 
 export const tiltakRefusjonURL = gittMiljo({
