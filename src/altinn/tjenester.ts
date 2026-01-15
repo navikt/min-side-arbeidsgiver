@@ -20,6 +20,7 @@ export type NAVtjenesteId =
     | 'tiltaksrefusjon'
     | 'sykefravarstatistikk'
     | 'rekruttering'
+    | 'rekrutteringKandidater'
     | 'rekrutteringStillingsannonser'
     | 'yrkesskade'
     | 'oppgiNarmesteleder';
@@ -203,6 +204,14 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         ressurs: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
     },
     rekruttering: {
+        sort: 'tjeneste',
+        navn: 'Kandidater til dine stillinger',
+        beOmTilgangBeskrivelse:
+            'Denne tjenesten er erstattet av "Rekrutteringssaker og CV-er fra Nav".',
+        tjenestekode: '5078',
+        tjenesteversjon: '1',
+    },
+    rekrutteringKandidater: {
         sort: 'tjeneste',
         navn: 'Kandidater til dine stillinger',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Rekrutteringssaker og CV-er fra Nav» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
