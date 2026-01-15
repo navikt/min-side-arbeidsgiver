@@ -205,12 +205,8 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     rekruttering: {
         sort: 'tjeneste',
         navn: 'Kandidater til dine stillinger',
-        beOmTilgangBeskrivelse: `
-            Kandidater til dine stillinger viser deg CV-en til arbeidssøkere Nav har sendt deg.
-            Denne tjenesten krever enkeltrettigheten "Rekruttering".
-        `,
-        tjenestekode: '5078',
-        tjenesteversjon: '1',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Rekrutteringssaker og CV-er fra Nav» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_rekruttering_kandidater',
     },
     rekrutteringStillingsannonser: {
         sort: 'tjeneste',
