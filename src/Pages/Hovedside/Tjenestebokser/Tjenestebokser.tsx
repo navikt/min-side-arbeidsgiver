@@ -40,7 +40,10 @@ const TjenesteboksContainer: FunctionComponent = () => {
         tjenester.push(Stillingsannonser);
     }
 
-    if (valgtOrganisasjon.altinntilgang.rekruttering) {
+    if (
+        valgtOrganisasjon.altinntilgang.rekrutteringKandidater ||
+        valgtOrganisasjon.altinntilgang.rekruttering // gammel altinn 2 tjeneste, skal fjernes etter 1.mars 2026
+    ) {
         tjenester.push(Kandidatlister);
     }
 
