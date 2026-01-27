@@ -129,13 +129,13 @@ export const SøknaderOgSkjemaer = () => {
                     </li>
                 ) : null}
                 {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder === true
-                    ? gittMiljo({
-                          prod: null, // TODO: finnes ikke i prod enda. Venter på beskjed fra esyfo, se også TODO i BeOmTilgang.tsx
-                          other: lenke(
-                              'Oppgi nærmeste leder for sykmeldt ansatt',
-                              `https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder`
-                          ),
-                      })
+                    ? lenke(
+                          'Oppgi nærmeste leder for sykmeldt ansatt',
+                          gittMiljo({
+                              prod: 'https://www.nav.no/arbeidsgiver/ansatte/narmesteleder',
+                              other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder',
+                          })
+                      )
                     : null}
                 {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('ekspertbistand')}
