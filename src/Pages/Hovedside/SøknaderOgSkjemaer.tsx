@@ -94,9 +94,9 @@ export const SøknaderOgSkjemaer = () => {
                     </>
                 ) : null}
 
-                {valgtOrganisasjon.reporteetilgang
+                {valgtOrganisasjon.altinntilgang.permitteringOgNedbemanning
                     ? lenke(
-                          'Varsle NAV om permitteringer, masseoppsigelser eller innskrenkninger i arbeidstiden',
+                          'Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid',
                           lenkeTilPermitteringOgMasseoppsigelsesSkjema
                       )
                     : null}

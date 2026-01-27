@@ -21,6 +21,7 @@ const alleTilganger = [
     'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk', // sykefravarstatistikk
     'nav_rekruttering_kandidater', // rekruttering
     'nav_rekruttering_stillingsannonser', // stillingsannonser arbeidsplassen.no
+    'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
     '5278:1', // tilskuddsbrev
     '5902:1', // yrkesskade
     '5902:1', // yrkesskade

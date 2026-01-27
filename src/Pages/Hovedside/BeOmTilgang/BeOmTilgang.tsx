@@ -33,6 +33,8 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
 
     arbeidsforhold: 'visible',
 
+    permitteringOgNedbemanning: 'visible',
+
     inntektsmelding: 'visible',
 
     arbeidstrening: 'visible',
