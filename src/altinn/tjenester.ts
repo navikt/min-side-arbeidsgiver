@@ -23,6 +23,7 @@ export type NAVtjenesteId =
     | 'rekrutteringKandidater'
     | 'rekrutteringStillingsannonser'
     | 'yrkesskade'
+    | 'permitteringOgNedbemanning'
     | 'oppgiNarmesteleder';
 
 export type AltinnFellesInfo = {
@@ -248,6 +249,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Oppgi nærmeste leder',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Oppgi nærmeste leder for sykmeldt ansatt» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_syfo_oppgi-narmesteleder',
+    },
+    permitteringOgNedbemanning: {
+        sort: 'tjeneste',
+        navn: 'Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
     },
 };
 
