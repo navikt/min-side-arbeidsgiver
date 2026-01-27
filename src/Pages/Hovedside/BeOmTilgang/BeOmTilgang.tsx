@@ -1,6 +1,9 @@
 import React, { FC, FunctionComponent, MouseEventHandler } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerContext';
+import {
+    OrganisasjonInfo,
+    useOrganisasjonerOgTilgangerContext,
+} from '../../OrganisasjonerOgTilgangerContext';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
@@ -16,17 +19,11 @@ import { beOmTilgangIAltinnLink } from '../../../lenker';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
 import { Alert, Heading, LinkCard } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
-import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
-import { gittMiljo } from '../../../utils/environment';
 
 type IsVisible = 'visible' | 'hidden';
 
 const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
-    // dine sykmeldte er en boks som ikke er del av altinn layout men vises først i listen
-    oppgiNarmesteleder: gittMiljo({
-        prod: 'hidden', // TODO: finnes ikke i prod enda. Venter på beskjed fra esyfo
-        other: 'visible',
-    }),
+    oppgiNarmesteleder: 'visible',
 
     sykefravarstatistikk: 'visible',
 
