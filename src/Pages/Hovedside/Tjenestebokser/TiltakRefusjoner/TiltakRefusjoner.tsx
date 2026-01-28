@@ -18,7 +18,7 @@ const TiltakRefusjoner = () => {
 
     const aria_label =
         klareForInnsending === undefined
-            ? 'Søk og se refusjon for lønnstilskudd, sommerjobb og varig tilrettelagt arbeid'
+            ? 'Søk og se refusjon for lønnstilskudd, sommerjobb, mentortilskudd og varig tilrettelagt arbeid'
             : `${klareForInnsending} refusjoner klare for innsending.` + ' Søk og se refusjon';
 
     return (
@@ -36,7 +36,8 @@ const TiltakRefusjoner = () => {
                     </>
                 )}
                 <div className="tiltak-refusjoner_bunntekst">
-                    Søk og se refusjon for lønnstilskudd, sommerjobb og varig tilrettelagt arbeid
+                    Søk og se refusjon for lønnstilskudd, sommerjobb, mentortilskudd og varig
+                    tilrettelagt arbeid
                 </div>
             </div>
         </Tjenesteboks>
