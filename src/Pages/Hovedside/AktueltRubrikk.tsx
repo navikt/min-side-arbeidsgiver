@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerContext';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
+import { any, pick } from '../../utils/Record';
 
 type AktueltProps = {
     lenke: string;
@@ -52,11 +53,15 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/arbeidsgiver/meldyrkesskade#digital-skademelding',
-        tittel: 'Fra 1. januar 2026 må yrkesskade og yrkessykdom meldes elektronisk til Nav.',
-        visFra: new Date('2025-12-19T00:00:00+02:00'),
-        visTil: new Date('2026-02-01T00:00:00+02:00'),
-        tilgangssjekk: (_) => true,
+        lenke: 'https://www.nav.no/arbeidsgiver/mentor#refusjon',
+        tittel: 'Refusjon for mentortilskudd blir nå utbetalt automatisk.',
+        visFra: new Date('2026-01-27T00:00:00+02:00'),
+        visTil: new Date('2026-03-01T00:00:00+02:00'),
+        tilgangssjekk: (o) =>
+            any(
+                pick(o.altinntilgang, 'mentortilskudd', 'tiltaksrefusjon'),
+                (value) => value === true
+            ),
     },
 ];
 
