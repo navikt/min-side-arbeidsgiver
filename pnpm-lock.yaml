@@ -30,8 +30,8 @@ importers:
         specifier: ^3.6.2
         version: 3.6.2(csp-header@6.1.0)(html-react-parser@5.2.5(@types/react@19.2.14)(react@19.2.4))(jsdom@26.1.0)(react@19.2.4)
       '@navikt/virksomhetsvelger':
-        specifier: ^1.0.8
-        version: 1.0.8(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+        specifier: ^1.0.9
+        version: 1.0.9(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -1624,9 +1624,6 @@ packages:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
 
   '@navikt/ds-tokens@7.40.0':
     resolution: {integrity: sha512-zBaBKLS5R2OZyXI4UUPOmiB15L/u/aJPHiyoccJDtmqrv5wRkc1oM6UCjzKK0D4gLZHBoxp7YBT0sR9Mp4DXFQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/7.40.0/36f981e12d4d90f18155615b7666b737039a3ff0}
@@ -1639,12 +1636,9 @@ packages:
       html-react-parser: '>=5.x'
       jsdom: '>=16.x'
       react: '>=17.x'
-    peerDependenciesMeta:
-      react:
-        optional: true
 
-  '@navikt/virksomhetsvelger@1.0.8':
-    resolution: {integrity: sha512-KyiDm9eeZu7MjFj/fYWnZs36QqlxErm5ezZkD0gh1H4IONfiO/VpW4gJSqsx1Xpyhe11yj8i4QrHaf/TU6jO3g==, tarball: https://npm.pkg.github.com/download/@navikt/virksomhetsvelger/1.0.8/6ed206adfc08ea8032e1358e23b48ced89b43c38}
+  '@navikt/virksomhetsvelger@1.0.9':
+    resolution: {integrity: sha512-qhmfXiGdjanbff0PV7U0OW6aBmPqkBwFlleMZxbtavNHSfgOJJJ+FuZvpnWlCRO2nsNtKEFM4FKLtiFL/jkNKA==, tarball: https://npm.pkg.github.com/download/@navikt/virksomhetsvelger/1.0.9/85907a8d54d30ec530015866c93ffc9bf537c076}
     peerDependencies:
       '@navikt/ds-css': '>=6'
       '@navikt/ds-react': '>=6'
@@ -7392,13 +7386,12 @@ snapshots:
       '@floating-ui/react-dom': 2.1.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@navikt/aksel-icons': 7.40.0
       '@navikt/ds-tokens': 7.40.0
+      '@types/react': 19.2.14
       clsx: 2.1.1
       date-fns: 4.1.0
       react: 19.2.4
       react-day-picker: 9.7.0(react@19.2.4)
       react-dom: 19.2.4(react@19.2.4)
-    optionalDependencies:
-      '@types/react': 19.2.14
 
   '@navikt/ds-tokens@7.40.0': {}
 
@@ -7408,10 +7401,9 @@ snapshots:
       html-react-parser: 5.2.5(@types/react@19.2.14)(react@19.2.4)
       js-cookie: 3.0.5
       jsdom: 26.1.0
-    optionalDependencies:
       react: 19.2.4
 
-  '@navikt/virksomhetsvelger@1.0.8(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+  '@navikt/virksomhetsvelger@1.0.9(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
       '@navikt/ds-css': 7.40.0
       '@navikt/ds-react': 7.40.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
