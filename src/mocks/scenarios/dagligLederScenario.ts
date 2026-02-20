@@ -28,6 +28,7 @@ const alleTilganger = [
     '2896:87', // endreBankkontonummerForRefusjoner
     'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
     'nav_syfo_oppgi-narmesteleder',
+    'nav_tiltak_ekspertbistand', // ekspertbistand
 ];
 const underenheter = [
     {
