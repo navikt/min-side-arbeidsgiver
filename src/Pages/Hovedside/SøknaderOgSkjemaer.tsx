@@ -94,6 +94,15 @@ export const SøknaderOgSkjemaer = () => {
                     </>
                 ) : null}
 
+                {valgtOrganisasjon.altinntilgang.ekspertbistand
+                    ? lenke(
+                          'Tilskudd til ekspertbistand',
+                          gittMiljo({
+                              prod: 'https://arbeidsgiver.nav.no/ekspertbistand',
+                              other: 'https://arbeidsgiver.intern.dev.nav.no/ekspertbistand',
+                          })
+                      )
+                    : null}
                 {valgtOrganisasjon.altinntilgang.permitteringOgNedbemanning
                     ? lenke(
                           'Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid',
@@ -138,7 +147,6 @@ export const SøknaderOgSkjemaer = () => {
                       )
                     : null}
                 {altinnSkjemaLenke('inntektsmelding')}
-                {altinnSkjemaLenke('ekspertbistand')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
             <div>
