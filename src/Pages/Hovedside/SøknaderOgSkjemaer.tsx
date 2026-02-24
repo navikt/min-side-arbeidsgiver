@@ -99,6 +99,7 @@ export const SøknaderOgSkjemaer = () => {
                           'Tilskudd til ekspertbistand',
                           gittMiljo({
                               prod: 'https://arbeidsgiver.nav.no/ekspertbistand',
+                              demo: 'https://arbeidsgiver-dev.ansatt.dev.nav.no/ekspertbistand',
                               other: 'https://arbeidsgiver.intern.dev.nav.no/ekspertbistand',
                           })
                       )
