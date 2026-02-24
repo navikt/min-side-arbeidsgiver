@@ -2,7 +2,6 @@ import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
 
 export type AltinnskjemaId =
-    | 'ekspertbistand'
     | 'inntektsmelding'
     | 'utsendtArbeidstakerEØS'
     | 'endreBankkontonummerForRefusjoner';
@@ -10,6 +9,7 @@ export type AltinnskjemaId =
 export type NAVtjenesteId =
     | 'arbeidstrening'
     | 'arbeidsforhold'
+    | 'ekspertbistand'
     | 'midlertidigLønnstilskudd'
     | 'varigLønnstilskudd'
     | 'varigTilrettelagtArbeid'
@@ -63,18 +63,6 @@ export type AltinntjenesteId = AltinnskjemaId | NAVtjenesteId;
 export type Altinn = Altinnskjema | NAVTjeneste;
 
 export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
-    ekspertbistand: {
-        sort: 'skjema',
-        navn: 'Ekspertbistand',
-        tjenestekode: '5384',
-        tjenesteversjon: '1',
-        beOmTilgangBeskrivelse: `
-            Få tilgang til å søke ekspertbistand i Altinn. Du kan søke om ekspertbistand
-            hvis en arbeidstaker har lange og/eller hyppige sykefravær.`,
-        skjemaUrl:
-            'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-tilskudd-til-ekspertbistand/',
-    },
-
     inntektsmelding: {
         sort: 'skjema',
         navn: 'Inntektsmelding',
@@ -130,6 +118,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Arbeidsforhold',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Innsyn i Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret) for arbeidsgivere» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
+    },
+    ekspertbistand: {
+        sort: 'tjeneste',
+        navn: 'Ekspertbistand',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Tilskudd til ekspertbistand» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_tiltak_ekspertbistand',
     },
     midlertidigLønnstilskudd: {
         sort: 'tjeneste',
