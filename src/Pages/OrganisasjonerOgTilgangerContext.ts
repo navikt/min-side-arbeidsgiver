@@ -35,7 +35,7 @@ export type OrganisasjonInfo = {
     altinntilgang: Record<AltinntjenesteId, boolean>;
     syfotilgang: boolean;
     antallSykmeldte: number;
-    reporteetilgang: boolean;
+    vilkaarligAltinntilgang: boolean;
     refusjonstatustilgang: boolean; // true dersom man har noen refusjonstatuser > 0 på denne virksomheten
     refusjonstatus: {
         KLAR_FOR_INNSENDING?: number;
@@ -198,7 +198,7 @@ export const useBeregnOrganisasjonsInfo = ():
                         ),
                         syfotilgang: digisyfoOrganisasjon !== undefined,
                         antallSykmeldte: digisyfoOrganisasjon?.antallSykmeldte ?? 0,
-                        reporteetilgang: altinnOrganisasjonerFlatt.some(
+                        vilkaarligAltinntilgang: altinnOrganisasjonerFlatt.some(
                             ({ orgnr }) => orgnr === org.orgnr
                         ),
                         refusjonstatus: refusjonstatus?.statusoversikt ?? {},
