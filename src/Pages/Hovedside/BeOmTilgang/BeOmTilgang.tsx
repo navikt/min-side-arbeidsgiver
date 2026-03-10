@@ -107,7 +107,7 @@ const BeOmTilgang: FunctionComponent = () => {
 
     const tjenesteinfoBokser: React.JSX.Element[] = [];
 
-    if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.reporteetilgang) {
+    if (valgtOrganisasjon.syfotilgang && !valgtOrganisasjon.vilkaarligAltinntilgang) {
         return (
             <TilgangContainer>
                 <LinkCard>
@@ -129,7 +129,7 @@ const BeOmTilgang: FunctionComponent = () => {
         tjenesteinfoBokser.push(<BeOmSyfotilgang />);
     }
 
-    if (valgtOrganisasjon.reporteetilgang) {
+    if (valgtOrganisasjon.vilkaarligAltinntilgang) {
         const tilgangssøknader = altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.orgnr];
         for (let altinnId of tjenesteRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];

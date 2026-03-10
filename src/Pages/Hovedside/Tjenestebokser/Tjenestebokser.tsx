@@ -32,7 +32,7 @@ const TjenesteboksContainer: FunctionComponent = () => {
         tjenester.push(Sykmeldte);
     }
 
-    if (valgtOrganisasjon.reporteetilgang) {
+    if (valgtOrganisasjon.vilkaarligAltinntilgang) {
         tjenester.push(ForebyggeFravær);
     }
 
