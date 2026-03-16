@@ -157,6 +157,7 @@ export const dagligLederScenario = [
                     'INKLUDERINGSTILSKUDD',
                     'MENTOR',
                     'VTAO',
+                    'FIREARIG_LONNSTILSKUDD',
                 ]),
             }))
         )

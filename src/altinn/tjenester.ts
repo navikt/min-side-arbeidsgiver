@@ -16,6 +16,7 @@ export type NAVtjenesteId =
     | 'sommerjobb'
     | 'mentortilskudd'
     | 'inkluderingstilskudd'
+    | 'firearigLønnstilskudd'
     | 'tilskuddsbrev'
     | 'tiltaksrefusjon'
     | 'sykefravarstatistikk'
@@ -185,6 +186,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         Få tilgang til avtaler om varig tilrettelagt arbeid i ordinær virksomhet.
         Du kan søke om tilskudd for å dekke merkostnader du som
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
+    },
+    firearigLønnstilskudd: {
+        sort: 'tjeneste',
+        navn: 'Fireårig lønnstilskudd for unge',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Avtale om fireårig lønstilskot for unge» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_tiltak_firearig-lonnstilskudd',
     },
     tiltaksrefusjon: {
         sort: 'tjeneste',
