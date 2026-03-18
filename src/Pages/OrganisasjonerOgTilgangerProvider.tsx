@@ -4,7 +4,6 @@ import { ManglerTilganger } from './ManglerTilganger/ManglerTilganger';
 import { SpinnerMedBanner } from './Banner';
 import {
     OrganisasjonerOgTilgangerContext,
-    useBeregnAltinnTilgangssøknad,
     useBeregnOrganisasjonsInfo,
     useBeregnOrganisasjonstre,
 } from './OrganisasjonerOgTilgangerContext';
@@ -13,13 +12,8 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent<PropsWithChild
     const { organisasjonstre } = useBeregnOrganisasjonstre();
     const { organisasjonsInfo, organisasjonerFlatt, orgnrTilParentMap, orgnrTilChildrenMap } =
         useBeregnOrganisasjonsInfo();
-    const altinnTilgangssøknad = useBeregnAltinnTilgangssøknad(organisasjonsInfo);
 
-    if (
-        organisasjonsInfo === undefined ||
-        organisasjonstre === undefined ||
-        altinnTilgangssøknad === undefined
-    ) {
+    if (organisasjonsInfo === undefined || organisasjonstre === undefined) {
         return <SpinnerMedBanner />;
     }
 
@@ -39,7 +33,6 @@ export const OrganisasjonerOgTilgangerProvider: FunctionComponent<PropsWithChild
                 orgnrTilParentMap,
                 orgnrTilChildrenMap,
                 organisasjonsInfo,
-                altinnTilgangssøknad,
             }}
         >
             {props.children}

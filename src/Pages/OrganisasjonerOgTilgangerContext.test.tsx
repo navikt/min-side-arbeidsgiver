@@ -139,6 +139,4 @@ describe('OrganisasjonerOgTilgangerContext', () => {
     });
 });
 
-const server = setupServer(
-    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
-);
+const server = setupServer();
