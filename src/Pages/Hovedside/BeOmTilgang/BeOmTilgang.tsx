@@ -68,8 +68,9 @@ const opprettSøknad = (
             altinn3Tilgang: altinn3Tilgang,
         })
             .then((response) => {
-                if (response?.links?.detailsLink) {
-                    window.location.href = response.links.detailsLink;
+                const detailsLink = response?.links?.detailsLink;
+                if (detailsLink != null && detailsLink !== '') {
+                    window.location.href = detailsLink;
                 }
             })
             .catch(() => {
