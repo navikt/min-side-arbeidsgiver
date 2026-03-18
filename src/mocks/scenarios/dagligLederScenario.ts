@@ -36,7 +36,7 @@ const underenheter = [
         underenheter: [],
         navn: faker.company.name(),
         organisasjonsform: 'AAFY',
-        roller: [],
+        roller: ['LEDE'],
     },
     {
         orgnr: orgnr(),
@@ -73,7 +73,7 @@ export const dagligLederOrganisasjon = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
-    roller: ['LEDE'],
+    roller: [],
     underenheter: [...underenheter.slice(1), orgledd],
 };
 const hestemannen = {
