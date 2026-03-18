@@ -36,17 +36,20 @@ const underenheter = [
         underenheter: [],
         navn: faker.company.name(),
         organisasjonsform: 'AAFY',
+        roller: [],
     },
     {
         orgnr: orgnr(),
         underenheter: [],
         navn: faker.company.name(),
         organisasjonsform: 'FLI',
+        roller: [],
     },
     {
         orgnr: orgnr(),
         navn: faker.company.name(),
         organisasjonsform: 'BEDR',
+        roller: [],
         underenheter: [],
     },
 ];
@@ -55,11 +58,13 @@ const orgledd = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'ORGL',
+    roller: [],
     underenheter: [
         {
             orgnr: orgnr(),
             navn: faker.company.name(),
             organisasjonsform: 'ORGL',
+            roller: [],
             underenheter: underenheter.slice(0, 1),
         },
     ],
@@ -68,12 +73,14 @@ export const dagligLederOrganisasjon = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
+    roller: ['LEDE'],
     underenheter: [...underenheter.slice(1), orgledd],
 };
 const hestemannen = {
     orgnr: '994884344',
     organisasjonsform: 'FLI',
     navn: 'HESTMANNEN UNGDOMS- OG IDRETTSLAG',
+    roller: [],
     altinn3Tilganger: [],
     altinn2Tilganger: [],
     underenheter: [],
