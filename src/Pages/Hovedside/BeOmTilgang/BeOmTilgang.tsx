@@ -1,8 +1,11 @@
-import React, { FC, FunctionComponent, MouseEventHandler } from 'react';
+import React, { FC, FunctionComponent, useState } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import { OrganisasjonInfo } from '../../OrganisasjonerOgTilgangerContext';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
-import { BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
+import {
+    AltinntilgangAlleredeSøkt,
+    BeOmSyfotilgang,
+    BeOmTilgangBoks,
+} from './TjenesteInfo';
 import './BeOmTilgang.css';
 import {
     Altinn3Tilgang,
@@ -15,6 +18,7 @@ import { opprettDelegationRequest } from '../../../altinn/tilganger';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
 import { Alert, Heading, LinkCard } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
+import { useLocalStorage } from '../../../hooks/useStorage';
 
 type IsVisible = 'visible' | 'hidden';
 
@@ -53,35 +57,39 @@ const tjenesteRekkefølge = Object.entries(altinnLayout)
     .filter(([_, v]) => v === 'visible')
     .map(([id]) => id as AltinntjenesteId);
 
-const opprettSøknad = (
-    altinn3Tilgang: Altinn3Tilgang,
-    valgtOrganisasjon: OrganisasjonInfo
-): MouseEventHandler<unknown> => {
-    let harTrykket = false; /* ikke opprett to søknader hvis bruker klikker raskt på knappen. */
-    return () => {
-        if (harTrykket) {
+const BeOmTilgang: FunctionComponent = () => {
+    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
+    const [etterspurt, setEtterspurt] = useLocalStorage<AltinntjenesteId[]>(
+        `msa-be-om-tilgang-etterspurt-${valgtOrganisasjon.organisasjon.orgnr}`,
+        []
+    );
+    const [pågår, setPågår] = useState<Set<AltinntjenesteId>>(new Set());
+
+    const opprettSøknad = (altinnId: AltinntjenesteId, altinn3Tilgang: Altinn3Tilgang) => {
+        if (pågår.has(altinnId)) {
             return;
         }
-        harTrykket = true;
+        setPågår((prev) => new Set(prev).add(altinnId));
         opprettDelegationRequest({
             orgnr: valgtOrganisasjon.organisasjon.orgnr,
             altinn3Tilgang: altinn3Tilgang,
         })
-            .then((response) => {
-                const detailsLink = response?.links?.detailsLink;
-                if (detailsLink != null && detailsLink !== '') {
-                    window.location.href = detailsLink;
-                }
+            .then(() => {
+                setEtterspurt((prev) =>
+                    prev.includes(altinnId) ? prev : [...prev, altinnId]
+                );
             })
             .catch(() => {
-                /* feil ved opprettelse av delegation request, brukeren kan prøve igjen */
-                harTrykket = false;
+                /* feil ved opprettelse, brukeren kan prøve igjen */
+            })
+            .finally(() => {
+                setPågår((prev) => {
+                    const next = new Set(prev);
+                    next.delete(altinnId);
+                    return next;
+                });
             });
     };
-};
-
-const BeOmTilgang: FunctionComponent = () => {
-    const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     const tjenesteinfoBokser: React.JSX.Element[] = [];
 
@@ -108,16 +116,27 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     if (valgtOrganisasjon.vilkaarligAltinntilgang) {
-        for (let altinnId of tjenesteRekkefølge) {
+        for (const altinnId of tjenesteRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
             const altinnTjeneste = altinntjeneste[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
+            } else if (etterspurt.includes(altinnId)) {
+                tjenesteinfoBokser.push(
+                    <AltinntilgangAlleredeSøkt
+                        altinnId={altinnId}
+                        status="Tilgang etterspurt"
+                        statusBeskrivelse="Du har bedt om tilgang. En administrator i virksomheten må godkjenne forespørselen."
+                        type="suksess"
+                    />
+                );
             } else if (isAltinn3Tilgang(altinnTjeneste)) {
                 tjenesteinfoBokser.push(
                     <BeOmTilgangBoks
                         altinnId={altinnId}
-                        onClick={opprettSøknad(altinnTjeneste as Altinn3Tilgang, valgtOrganisasjon)}
+                        onClick={() =>
+                            opprettSøknad(altinnId, altinnTjeneste as Altinn3Tilgang)
+                        }
                     />
                 );
             } else if (isAltinn2Tilgang(altinnTjeneste)) {
