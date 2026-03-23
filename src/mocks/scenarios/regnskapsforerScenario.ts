@@ -17,10 +17,12 @@ export const regnskapsforerOrganisasjoner = Array.from({ length: 100 }).map(() =
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
+    roller: ['REGNA'],
     underenheter: Array.from({
         length: faker.number.int({ min: 0, max: 5 }),
     }).map(() => ({
         orgnr: orgnr(),
+        roller: [],
         underenheter: [],
         navn: faker.company.name(),
         organisasjonsform: 'BEDR',

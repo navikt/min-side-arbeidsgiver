@@ -106,27 +106,32 @@ const server = setupServer(
             organisasjoner: [
                 {
                     orgnr: orgnr(),
+                    roller: [],
                     underenheter: [
                         {
                             orgnr: '182345674',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
                         },
                         {
                             orgnr: '118345674',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
                         },
                         {
                             orgnr: '119985432',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
                         },
                         {
                             orgnr: '119988432',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
