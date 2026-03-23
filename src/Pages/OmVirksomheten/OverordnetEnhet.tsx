@@ -6,7 +6,6 @@ import { Buildings3Icon } from '@navikt/aksel-icons';
 import './OverordnetEnhet.css';
 import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
 import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
-import { KontaktinfoOverordnetEnhet } from './Kontaktinfo';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 import { formatOrgNr } from '../../utils/util';
 import { KontonummerOverordnetEnhet } from './Kontonummer';
@@ -100,7 +99,6 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                 </LenkeMedLogging>
             </Tekstboks>
             <HStack gap="6" align={'start'}>
-                <KontaktinfoOverordnetEnhet overordnetEnhet={overordnetenhet} />
                 <KontonummerOverordnetEnhet overordnetEnhet={overordnetenhet} />
             </HStack>
         </div>

@@ -25,6 +25,7 @@ export interface Organisasjon {
     orgnr: string;
     organisasjonsform: string;
     navn: string;
+    roller?: string[];
     underenheter: Organisasjon[];
 }
 
@@ -32,6 +33,7 @@ export type OrganisasjonInfo = {
     øversteLedd: Organisasjon | undefined;
     parent: Organisasjon | undefined;
     organisasjon: Organisasjon;
+    roller: string[];
     altinntilgang: Record<AltinntjenesteId, boolean>;
     syfotilgang: boolean;
     antallSykmeldte: number;
@@ -156,7 +158,13 @@ export const useBeregnOrganisasjonsInfo = ():
 
         const altinnOrganisasjonerFlatt = organisasjonStrukturFlatt(userInfo.organisasjoner);
         const digisyfoOrganisasjonerFlatt = organisasjonStrukturFlatt(
-            userInfo.digisyfoOrganisasjoner
+            mapRecursive<Organisasjon>(userInfo.digisyfoOrganisasjoner, (org) => ({
+                orgnr: org.orgnr,
+                navn: org.navn,
+                organisasjonsform: org.organisasjonsform,
+                roller: [],
+                underenheter: org.underenheter,
+            }))
         );
         const alleOrganisasjonerFlatt: Organisasjon[] = [
             ...altinnOrganisasjonerFlatt,
@@ -180,17 +188,26 @@ export const useBeregnOrganisasjonsInfo = ():
                 const refusjonstatus = userInfo.refusjoner.find(
                     ({ virksomhetsnummer }) => virksomhetsnummer === org.orgnr
                 );
+                const altinnOrganisasjon = findRecursive(
+                    userInfo.organisasjoner,
+                    ({ orgnr }) => orgnr === org.orgnr
+                );
 
                 const digisyfoOrganisasjon = findRecursive(
                     userInfo.digisyfoOrganisasjoner,
                     ({ orgnr }) => orgnr === org.orgnr
                 );
+                const roller = altinnOrganisasjon?.roller ?? [];
                 return [
                     org.orgnr,
                     {
                         øversteLedd: hentØversteLedd(org, orgnrTilParent),
                         parent: orgnrTilParent.get(org.orgnr),
-                        organisasjon: org,
+                        organisasjon: {
+                            ...org,
+                            roller,
+                        },
+                        roller,
                         altinntilgang: Record.map(
                             userInfo.tilganger,
                             (_: AltinntjenesteId, orgnrMedTilgang: orgnr[]): boolean =>
@@ -240,6 +257,7 @@ export const useBeregnOrganisasjonstre = (): { organisasjonstre: Organisasjon[] 
                 orgnr: org.orgnr,
                 navn: org.navn,
                 organisasjonsform: org.organisasjonsform,
+                roller: [],
                 underenheter: org.underenheter,
             }))
         );

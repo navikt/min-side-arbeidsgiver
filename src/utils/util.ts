@@ -120,5 +120,6 @@ const mergeOrgs = (orgA: Organisasjon, orgB: Organisasjon): Organisasjon => ({
     navn: orgA.navn,
     orgnr: orgA.orgnr,
     organisasjonsform: orgA.organisasjonsform,
+    roller: orgA.roller ?? orgB.roller ?? [],
     underenheter: mergeOrgTre(orgA.underenheter, orgB.underenheter),
 });

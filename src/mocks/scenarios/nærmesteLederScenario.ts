@@ -11,12 +11,14 @@ const underenheter = [
         orgnr: orgnr(),
         navn: faker.company.name(),
         organisasjonsform: 'BEDR',
+        roller: [],
         underenheter: [],
     },
     {
         orgnr: orgnr(),
         navn: faker.company.name(),
         organisasjonsform: 'BEDR',
+        roller: [],
         underenheter: [],
     },
 ];
@@ -24,6 +26,7 @@ export const nærmesteLederOrganisasjon = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
+    roller: [],
     underenheter,
 };
 
