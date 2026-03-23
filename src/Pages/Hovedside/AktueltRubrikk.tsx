@@ -63,6 +63,15 @@ const aktuelt: Array<AktueltProps> = [
                 (value) => value === true
             ),
     },
+    {
+        lenke: 'https://arbeidsplassen.nav.no/lys-ut-sommerjobber',
+        tittel: 'Trenger du ekstra hjelp i bedriften i sommer?',
+        beskrivelse:
+            'På Arbeidsplassen.no kan du legge ut annonse om sommerjobb gratis.',
+        visFra: new Date('2026-03-23T00:00:00+01:00'),
+        visTil: new Date('2026-04-30T00:00:00+02:00'),
+        tilgangssjekk: (o) => o.altinntilgang.rekrutteringStillingsannonser === true,
+    },
 ];
 
 export const AktueltRubrikk = () => {
