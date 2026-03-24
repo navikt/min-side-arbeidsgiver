@@ -1,11 +1,11 @@
 import React from 'react';
 import NyFaneIkon from '../Pages/OmVirksomheten/NyFaneIkon';
-import { LenkeMedLogging, Props } from './LenkeMedLogging';
+import { Lenke, Props } from './Lenke';
 
 const NyFaneLenke = (props: Props) => (
-    <LenkeMedLogging target="_blank" {...props}>
+    <Lenke target="_blank" {...props}>
         <span>{props.children}</span> <NyFaneIkon />
-    </LenkeMedLogging>
+    </Lenke>
 );
 
 export default NyFaneLenke;

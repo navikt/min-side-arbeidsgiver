@@ -5,7 +5,7 @@ import OverordnetEnhet from './OverordnetEnhet';
 import './OmVirksomheten.css';
 import { Alert, BodyLong, Box, Heading } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { useCloseInfoboks } from '../../hooks/useCloseInfoboks';
 
 const Kontaktpanel = ({ children }: { children: React.ReactNode }) => (
@@ -28,12 +28,11 @@ const InfoBoks = () => {
                 <br />
                 For å gjøre slike endringer, må du ha tilgang til enkelttjenesten: "Endre
                 bankkontonummer for refusjoner fra NAV til arbeidsgiver". Se
-                <LenkeMedLogging
+                <Lenke
                     href="https://www.nav.no/arbeidsgiver/endring-kontonummer"
-                    loggLenketekst="endring kontonummer"
                 >
                     Nytt om tilgang til endring av kontonummer for refusjoner fra Nav.
-                </LenkeMedLogging>
+                </Lenke>
             </BodyLong>
         </Alert>
     );

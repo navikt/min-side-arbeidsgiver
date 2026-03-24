@@ -12,7 +12,6 @@ import {
 } from '@navikt/ds-react';
 import { StarIcon } from '@navikt/aksel-icons';
 import { ModalMedÅpneknapp } from '../../GeneriskeElementer/ModalMedKnapper';
-import { useLoggKlikk } from '../../utils/analytics';
 import './LagreFilter.css';
 import {
     defaultFilterState,
@@ -127,7 +126,6 @@ export const LagreFilter = () => {
     );
     const feilmeldingRef = React.useRef<HTMLDivElement>(null);
     const handleFocus = () => feilmeldingRef.current?.focus();
-    const logKlikk = useLoggKlikk();
 
     const lagreNavnInputRef = useRef<HTMLInputElement>(null);
     const lagreNavnInputFocus = () => lagreNavnInputRef.current?.focus();
@@ -177,7 +175,6 @@ export const LagreFilter = () => {
                                 onClick={() => {
                                     setValgtFilterId(undefined);
                                     setFilter(defaultFilterState.saksoversiktFilterState);
-                                    logKlikk('fjerne-valgt-filter');
                                 }}
                             >
                                 {valgtLagretFilter.navn}
@@ -193,7 +190,6 @@ export const LagreFilter = () => {
                                             valgtLagretFilter.navn,
                                             filter
                                         );
-                                        logKlikk('endre-valgt-filter');
                                     }}
                                 >
                                     Er du sikker på at du vil lagre endringene i «
@@ -209,7 +205,6 @@ export const LagreFilter = () => {
                                 onSubmit={() => {
                                     slettLagretFilter(valgtLagretFilter.filterId);
                                     setValgtFilterId(undefined);
-                                    logKlikk('slett-valgt-filter');
                                     setFilter(defaultFilterState.saksoversiktFilterState);
                                 }}
                             >
@@ -237,7 +232,6 @@ export const LagreFilter = () => {
                                                 setValgtFilterId(lagretFilter.filterId);
                                                 setFilter({ ...lagretFilter });
                                                 loadLagredeFilter();
-                                                logKlikk('bytt-valgt-filter');
                                             }}
                                         >
                                             {lagretFilter.navn}
@@ -251,7 +245,6 @@ export const LagreFilter = () => {
                             <Dropdown.Menu.List.Item
                                 onClick={() => {
                                     setOpenLagre(true);
-                                    logKlikk('åpne-lagre-som-nytt-filter');
                                 }}
                             >
                                 Lagre som nytt filter
@@ -290,7 +283,6 @@ export const LagreFilter = () => {
                                         if (filternavn !== '') {
                                             lagreNavnInputRef.current!.value = '';
                                         }
-                                        logKlikk('lagre-som-nytt-valgt-filter');
                                     }
                                 }
                             }}

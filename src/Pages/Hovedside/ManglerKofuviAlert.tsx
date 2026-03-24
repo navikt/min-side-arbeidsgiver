@@ -1,21 +1,13 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { erStøy } from '../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
-import { logAnalyticsEvent } from '../../utils/analytics';
 
 export const ManglerKofuviAlert = () => {
     const varslingStatus = manglerKofuviAlert();
-
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'ManglerKofuviAlert',
-            status: varslingStatus.status,
-        });
-    }, [varslingStatus]);
 
     if (varslingStatus.status !== 'MANGLER_KOFUVI') {
         return null;
@@ -29,12 +21,11 @@ export const ManglerKofuviAlert = () => {
                 </Heading>
                 Virksomheten mangler varslingsadresse (en e-post eller et mobilnummer). Virksomheten
                 din må legge inn dette slik at NAV kan kommunisere digitalt med dere. <br />
-                <LenkeMedLogging
+                <Lenke
                     href="https://www.altinn.no/hjelp/profil/kontaktinformasjon-og-varslinger/"
-                    loggLenketekst="Les om varslingsadresse i Altinn"
                 >
                     Les om varslingsadresse i Altinn
-                </LenkeMedLogging>
+                </Lenke>
             </Alert>
         </div>
     );

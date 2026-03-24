@@ -1,5 +1,5 @@
 import { Alert, BodyLong, Button, Heading, Modal, Select, VStack } from '@navikt/ds-react';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
     opplaeringspengerURL,
@@ -9,7 +9,6 @@ import {
     pleiepengerILivetsSluttfaseURL,
     pleiepengerSyktBarnURL,
 } from '../../../../lenker';
-import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
 
 interface Props {
     isOpen: boolean;
@@ -55,19 +54,11 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
     const [valgtYtelse, setValgtYtelse] = useState<InntektsmeldingYtelse | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'OpprettManuellInntektsmeldingModal',
-        });
-    }, []);
-
     const handleOpprettManuellInntektsmelding = () => {
         if (!valgtYtelse) {
             setError('Ingen ytelse er valgt.');
             return;
         }
-
-        loggNavigasjon(valgtYtelse.lenke, valgtYtelse.label);
 
         window.location.href = valgtYtelse.lenke;
     };

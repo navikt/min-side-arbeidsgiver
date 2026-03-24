@@ -24,7 +24,6 @@ const {
     LOGIN_URL = '',
     NAIS_CLUSTER_NAME = 'local',
     MILJO = 'local',
-    VITE_UMAMI_TRACKING_ID,
 } = process.env;
 
 const log_events_counter = new Prometheus.Counter({
@@ -343,8 +342,7 @@ const main = async () => {
             window.environment = {
                 MILJO: '${MILJO}',
                 NAIS_APP_IMAGE: '${NAIS_APP_IMAGE}',
-                GIT_COMMIT: '${GIT_COMMIT}',
-                VITE_UMAMI_TRACKING_ID: '${VITE_UMAMI_TRACKING_ID}'
+                GIT_COMMIT: '${GIT_COMMIT}'
             };
         `);
     });

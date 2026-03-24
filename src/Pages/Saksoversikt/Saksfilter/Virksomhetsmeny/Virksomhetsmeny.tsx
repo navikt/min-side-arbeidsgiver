@@ -8,7 +8,6 @@ import { flatUtTre, sum } from '../../../../utils/util';
 
 import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from '../../SaksoversiktProvider';
-import { logAnalyticsEvent } from '../../../../utils/analytics';
 import { Organisasjon } from '@navikt/virksomhetsvelger';
 
 export const Virksomhetsmeny = () => {
@@ -59,18 +58,6 @@ export const Virksomhetsmeny = () => {
     );
 
     const [søketreff, setSøketreff] = useState<undefined | Set<string>>(undefined);
-
-    const logAnalyticsValgteVirksomheter = (valgte: Set<string>) => {
-        logAnalyticsEvent('velg-virksomheter', {
-            antallHovedenheterValgt: valgte.intersection(new Set(childrenMap.keys())).size,
-            antallHovedenheterTotalt: parentsOgChildrenFlatt.length,
-            antallUnderenheterValgt: valgte.intersection(new Set(parentMap.keys())).size,
-            antallUnderenheterTotalt: sum(
-                parentOrganisasjoner,
-                (hovedenhet) => hovedenhet.underenheter.length
-            ),
-        });
-    };
 
     const utledNyeValgte = (nyeValgte: Set<string>): Set<string> => {
         // 1. Fjernede hovedenheter = de som var i valgteEnheter, men ikke i nyeValgte
@@ -143,7 +130,6 @@ export const Virksomhetsmeny = () => {
     const onCheckboxGroupChange = (checkedEnheter: string[]) => {
         const valgteVirksomheter = utledNyeValgte(new Set(checkedEnheter));
         setFilter({ ...filter, virksomheter: valgteVirksomheter });
-        logAnalyticsValgteVirksomheter(valgteVirksomheter);
     };
 
     return (

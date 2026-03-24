@@ -19,7 +19,6 @@ import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilga
 import { SaksoversiktFilterState, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { ServerError } from '@apollo/client/link/utils';
-import { logAnalyticsEvent } from '../../../utils/analytics';
 
 export const filterTypeTilTekst = (oppgaveFilter: OppgaveFilterType) => {
     switch (oppgaveFilter) {
@@ -53,23 +52,10 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
 };
 
 export const logAnalyticsFilterKlikk = (
-    kategori: string,
-    filternavn: string,
-    target: EventTarget | null
-) => {
-    if (target instanceof HTMLInputElement) {
-        logAnalyticsEvent('filtervalg', {
-            kategori: kategori,
-            filternavn: filternavn,
-            checked: target.checked,
-        });
-    } else {
-        logAnalyticsEvent('filtervalg', {
-            kategori: kategori,
-            filternavn: filternavn,
-        });
-    }
-};
+    _kategori: string,
+    _filternavn: string,
+    _target: EventTarget | null
+) => {};
 
 /**
  * TAG-2253 - Slår sammen "Inntektsmelding" og "Inntektsmelding sykepenger" til en sakstype
@@ -251,12 +237,6 @@ export const Saksfilter = () => {
         window.addEventListener('resize', setSize);
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
-
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'Saksfilter',
-        });
-    }, []);
 
     if (organisasjonstre === undefined) {
         return null;

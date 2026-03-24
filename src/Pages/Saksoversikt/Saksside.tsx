@@ -1,6 +1,6 @@
 import './Saksside.css';
 import { useEffect } from 'react';
-import { InternLenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { InternLenke } from '../../GeneriskeElementer/Lenke';
 import { ChevronLeftIcon } from '@navikt/aksel-icons';
 import { useSearchParams } from 'react-router-dom';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
@@ -162,10 +162,10 @@ export const Saksside = () => {
 
     return (
         <div className="saksside">
-            <InternLenkeMedLogging loggLenketekst="Tilbake til saksoversikten" href="/saksoversikt">
+            <InternLenke href="/saksoversikt">
                 <ChevronLeftIcon width="2rem" height="2rem" aria-hidden={true} />
                 Se alle saker
-            </InternLenkeMedLogging>
+            </InternLenke>
 
             {!sak ? (
                 <Alert variant="error">
