@@ -18,7 +18,6 @@ import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext
 
 export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
     const tilgangEndreKontoummer =
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
@@ -67,7 +66,7 @@ export const SøknaderOgSkjemaer = () => {
                     })
                 )}
 
-                {tilgangInntektsmelding === true ? (
+                {valgtOrganisasjon.altinntilgang.sykepengerFritakAGP === true ? (
                     <>
                         {lenke(
                             'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -84,6 +83,11 @@ export const SøknaderOgSkjemaer = () => {
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/krav',
                             })
                         )}
+                    </>
+                ) : null}
+
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien === true ? (
+                    <>
                         {lenke(
                             'Refusjonskrav omsorgspenger',
                             gittMiljo({
@@ -128,7 +132,9 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true ? (
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ||
+                valgtOrganisasjon.altinntilgang.inntektsmeldingSykepenger ||
+                valgtOrganisasjon.altinntilgang.inntektsmeldingForeldrepenger ? (
                     <li>
                         <InternalLenkepanel
                             to={'/saksoversikt#opprett-inntektsmelding'}
@@ -146,7 +152,6 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
             <div>

@@ -3,15 +3,21 @@ import { Alert, BodyShort, Button, Heading, VStack } from '@navikt/ds-react';
 import { PlusIcon } from '@navikt/aksel-icons';
 import OpprettManuellInntektsmeldingModal from './OpprettManuellInntektsmeldingModal';
 
-type Props = {
+export default function OpprettManuellInntektsmeldingBoks({
+    openOnMount,
+    tilgangInntektsmeldingSykepenger,
+    tilgangInntektsmeldingSykdomIFamilien,
+    tilgangInntektsmeldingForeldrepenger,
+}: {
     openOnMount?: boolean;
-};
-
-export default function OpprettManuellInntektsmeldingBoks({ openOnMount }: Props) {
+    tilgangInntektsmeldingSykepenger: boolean;
+    tilgangInntektsmeldingSykdomIFamilien: boolean;
+    tilgangInntektsmeldingForeldrepenger: boolean;
+}) {
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        if (openOnMount === true) {
+        if (openOnMount) {
             setModalIsOpen(true);
         }
     }, [openOnMount]);
@@ -39,6 +45,11 @@ export default function OpprettManuellInntektsmeldingBoks({ openOnMount }: Props
             <OpprettManuellInntektsmeldingModal
                 isOpen={modalIsOpen}
                 onRequestClose={() => setModalIsOpen(false)}
+                tilganger={{
+                    inntektsmeldingSykepenger: tilgangInntektsmeldingSykepenger,
+                    inntektsmeldingForeldrepenger: tilgangInntektsmeldingForeldrepenger,
+                    inntektsmeldingSykdomIFamilien: tilgangInntektsmeldingSykdomIFamilien,
+                }}
             />
         </>
     );
