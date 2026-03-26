@@ -10,7 +10,6 @@ import {
     pleiepengerILivetsSluttfaseURL,
     pleiepengerSyktBarnURL,
 } from '../../../../lenker';
-import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
 import { gittMiljo } from '../../../../utils/environment';
 
 interface Props {
