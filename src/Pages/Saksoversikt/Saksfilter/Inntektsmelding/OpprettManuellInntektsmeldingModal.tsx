@@ -2,6 +2,7 @@ import { Alert, BodyLong, Button, Heading, Modal, Select, VStack } from '@navikt
 import React, { ChangeEvent, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
+    omsorgspengerURL,
     opplaeringspengerURL,
     opprettInntektsmeldingForeldrepenger,
     opprettInntektsmeldingSvangerskapspenger,
@@ -9,11 +10,24 @@ import {
     pleiepengerILivetsSluttfaseURL,
     pleiepengerSyktBarnURL,
 } from '../../../../lenker';
+import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
+import { gittMiljo } from '../../../../utils/environment';
 
 interface Props {
     isOpen: boolean;
     onRequestClose: () => void;
 }
+
+const omsorgspengerYtelse = gittMiljo({
+    prod: [],
+    other: [
+        {
+            label: 'Omsorgspenger',
+            value: 'OMSORGSPENGER',
+            lenke: omsorgspengerURL,
+        },
+    ],
+});
 
 const inntektsmeldingYtelser = [
     {
@@ -46,7 +60,8 @@ const inntektsmeldingYtelser = [
         value: 'OPPLÆRINGSPENGER',
         lenke: opplaeringspengerURL,
     },
-]
+    ...omsorgspengerYtelse,
+];
 
 type InntektsmeldingYtelse = (typeof inntektsmeldingYtelser)[number];
 
