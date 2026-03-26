@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import Arbeidsforhold from './Arbeidsforhold/Arbeidsforhold';
 import Sykmeldte from './Sykmeldte/Sykmeldte';
 import Stillingsannonser from './Arbeidsplassen/ArbeidsplassenStillingsannonser';
@@ -8,7 +8,6 @@ import ForebyggeFravær from './ForebyggeFravær/ForebyggeFravær';
 import TiltakRefusjoner from './TiltakRefusjoner/TiltakRefusjoner';
 import './Tjenestebokser.css';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
-import { logAnalyticsEvent } from '../../../utils/analytics';
 
 type TjenesteBoks =
     | typeof Arbeidsforhold
@@ -73,13 +72,6 @@ const TjenesteboksContainer: FunctionComponent = () => {
 };
 
 const Tjenestebokser: FunctionComponent<{ tjenester: TjenesteBoks[] }> = ({ tjenester }) => {
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'tjenestebokser',
-            tjenester: [...tjenester].sort().join(' '),
-        });
-    }, []);
-
     const tjenestebokser = tjenester.map((tjeneste) => ({
         tjeneste,
         Boks: tjeneste,

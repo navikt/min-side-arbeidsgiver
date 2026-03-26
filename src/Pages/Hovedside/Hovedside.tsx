@@ -8,7 +8,7 @@ import BeOmTilgang from './BeOmTilgang/BeOmTilgang';
 import './Hovedside.css';
 import { TrengerDuHjelp } from './TrengerDuHjelp';
 import { AktueltRubrikk } from './AktueltRubrikk';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { InfoBokser } from './InfoBokser';
@@ -40,12 +40,11 @@ const Hovedside: FunctionComponent = () => {
                 <div>
                     {' '}
                     {/*Legger inn en ekstra div for at linken ikke skal strekkes ut av flex*/}
-                    <LenkeMedLogging
+                    <Lenke
                         href={infoOmTilgangsstyringURL}
-                        loggLenketekst="Lær om tilganger og varsler i Altinn"
                     >
                         Lær mer om tilganger og varsler i Altinn
-                    </LenkeMedLogging>
+                    </Lenke>
                 </div>
             </div>
             <TrengerDuHjelp />

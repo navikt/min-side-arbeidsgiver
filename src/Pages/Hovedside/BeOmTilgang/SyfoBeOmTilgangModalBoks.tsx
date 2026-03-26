@@ -1,7 +1,7 @@
 import React from 'react';
 import { infoOmNærmesteLederURL } from '../../../lenker';
 import NyFaneIkon from './NyFaneIkon';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../../GeneriskeElementer/Lenke';
 import { BodyLong, BodyShort, Heading, Modal } from '@navikt/ds-react';
 import { InformationSquareIcon } from '@navikt/aksel-icons';
 
@@ -29,14 +29,13 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
                     eller flere ansatte.
                 </BodyLong>
 
-                <LenkeMedLogging
-                    loggLenketekst="Be om tilgang - Les om hvordan nærmeste leder registreres"
+                <Lenke
                     href={infoOmNærmesteLederURL}
                     target="_blank"
                 >
                     <BodyShort>Les om hvordan nærmeste leder registreres</BodyShort>
                     <NyFaneIkon />
-                </LenkeMedLogging>
+                </Lenke>
             </Modal.Body>
         </Modal>
     );

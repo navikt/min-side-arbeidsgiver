@@ -1,5 +1,5 @@
 import './Kalenderavtaler.css';
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import { BodyShort, Button, Heading, Tag } from '@navikt/ds-react';
 import {
     ChevronDownIcon,
@@ -10,11 +10,6 @@ import {
 } from '@navikt/aksel-icons';
 import { KalenderavtaleTilstand, Lokasjon, Query } from '../../api/graphql-types';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
-import {
-    finnAntallDagerTilDato,
-    logAnalyticsEvent,
-    loggNavigasjonTags,
-} from '../../utils/analytics';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 
 const HENT_KALENDERAVTALER: TypedDocumentNode<Pick<Query, 'kommendeKalenderavtaler'>> = gql`
@@ -129,29 +124,8 @@ const Kalenderavtale: FunctionComponent<Kalenderavtale> = ({
     digitalt,
     lenke,
 }) => {
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'Kalenderavtale',
-            tilstand: tilstand,
-            digitaltOppmøte: digitalt,
-            startTidspunkt: startTidspunkt,
-            antallDagerTilStartTidspunkt: finnAntallDagerTilDato(startTidspunkt),
-            fysiskOppmøte: !!lokasjon,
-        });
-    }, []);
-
-    const onClickHandler = () => {
-        loggNavigasjonTags(lenke, 'kalenderavtale', window.location.pathname, {
-            startTidspunkt: startTidspunkt,
-            antallDagerTilStartTidspunkt: finnAntallDagerTilDato(startTidspunkt),
-            tilstand: tilstand,
-            digitaltOppmøte: digitalt.toString(),
-            fysiskOppmøte: (!!lokasjon).toString(),
-        });
-    };
-
     return (
-        <a className="kalenderavtale" href={lenke} onClick={onClickHandler}>
+        <a className="kalenderavtale" href={lenke}>
             <BodyShort className="kalenderavtaler_tittel" size="large">
                 {tekst}
             </BodyShort>

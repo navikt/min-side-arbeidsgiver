@@ -4,11 +4,11 @@ import {
     skjemaForArbeidsgiverURL,
 } from '../../lenker';
 import './SøknaderOgSkjemaer.css';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import {
-    InternalLenkepanelMedLogging,
-    LenkepanelMedLogging,
-} from '../../GeneriskeElementer/LenkepanelMedLogging';
+    InternalLenkepanel,
+    Lenkepanel,
+} from '../../GeneriskeElementer/Lenkepanel';
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
@@ -33,9 +33,9 @@ export const SøknaderOgSkjemaer = () => {
 
     const lenke = (tekst: string, href: string, target?: string) => (
         <li>
-            <LenkepanelMedLogging href={href} loggLenketekst={tekst} target={target}>
+            <Lenkepanel href={href} target={target}>
                 {tekst}
-            </LenkepanelMedLogging>
+            </Lenkepanel>
         </li>
     );
 
@@ -130,12 +130,11 @@ export const SøknaderOgSkjemaer = () => {
                     : null}
                 {tilgangInntektsmelding === true ? (
                     <li>
-                        <InternalLenkepanelMedLogging
-                            loggLenketekst={'Opprett manuell inntektsmelding'}
+                        <InternalLenkepanel
                             to={'/saksoversikt#opprett-inntektsmelding'}
                         >
                             Opprett manuell inntektsmelding
-                        </InternalLenkepanelMedLogging>
+                        </InternalLenkepanel>
                     </li>
                 ) : null}
                 {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder === true
@@ -151,13 +150,12 @@ export const SøknaderOgSkjemaer = () => {
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
             <div>
-                <LenkeMedLogging
+                <Lenke
                     href={skjemaForArbeidsgiverURL}
-                    loggLenketekst="Alle søknader og skjemaer hos NAV"
                 >
                     Alle søknader og skjemaer
                     <HoyreChevron />
-                </LenkeMedLogging>
+                </Lenke>
             </div>
         </div>
     );

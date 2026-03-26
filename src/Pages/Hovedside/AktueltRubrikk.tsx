@@ -1,8 +1,6 @@
 import { Heading, LinkPanel } from '@navikt/ds-react';
-import React, { useEffect } from 'react';
-import { logAnalyticsEvent, loggNavigasjonTags } from '../../utils/analytics';
+import React from 'react';
 import { DisplayBetween, shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
-import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerContext';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
@@ -24,23 +22,12 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 });
 
 const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) => {
-    const { pathname } = useLocation();
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'aktuelt',
-            lenketekst: tittel,
-        });
-    }, []);
-
     return (
         <DisplayBetween showFrom={visFra} showUntil={visTil}>
             <LinkPanel
                 className="aktuelt-panel"
                 href={lenke}
                 border
-                onClick={() => {
-                    loggNavigasjonTags(lenke, tittel, pathname, { komponent: 'aktuelt' });
-                }}
             >
                 <LinkPanel.Title>{tittel}</LinkPanel.Title>
                 <LinkPanel.Description>
