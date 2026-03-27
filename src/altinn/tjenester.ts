@@ -1,15 +1,16 @@
 import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
 
-export type AltinnskjemaId =
-    | 'inntektsmelding'
-    | 'utsendtArbeidstakerEØS'
-    | 'endreBankkontonummerForRefusjoner';
+export type AltinnskjemaId = 'utsendtArbeidstakerEØS' | 'endreBankkontonummerForRefusjoner';
 
 export type NAVtjenesteId =
     | 'arbeidstrening'
     | 'arbeidsforhold'
     | 'ekspertbistand'
+    | 'inntektsmeldingForeldrepenger'
+    | 'inntektsmeldingSykepenger'
+    | 'inntektsmeldingSykdomIFamilien'
+    | 'refusjonskravSykepengerAGP'
     | 'midlertidigLønnstilskudd'
     | 'varigLønnstilskudd'
     | 'varigTilrettelagtArbeid'
@@ -63,19 +64,6 @@ export type AltinntjenesteId = AltinnskjemaId | NAVtjenesteId;
 export type Altinn = Altinnskjema | NAVTjeneste;
 
 export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
-    inntektsmelding: {
-        sort: 'skjema',
-        navn: 'Inntektsmelding',
-        tjenestekode: '4936',
-        tjenesteversjon: '1',
-        beOmTilgangBeskrivelse: `
-            Få tilgang til å sende digital inntektsmelding når arbeidstakeren skal ha
-             sykepenger, foreldrepenger, svangerskapspenger, pleiepenger, omsorgspenger
-             eller opplæringspenger.`,
-        skjemaUrl:
-            'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/Inntektsmelding-til-NAV/',
-    },
-
     utsendtArbeidstakerEØS: {
         sort: 'skjema',
         navn: 'Utsendt arbeidstaker til EØS/Sveits',
@@ -124,6 +112,30 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Ekspertbistand',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Tilskudd til ekspertbistand» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_tiltak_ekspertbistand',
+    },
+    inntektsmeldingForeldrepenger: {
+        sort: 'tjeneste',
+        navn: 'Inntektsmelding for foreldrepenger',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for foreldrepenger og svangerskapspenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_foreldrepenger_inntektsmelding',
+    },
+    inntektsmeldingSykepenger: {
+        sort: 'tjeneste',
+        navn: 'Inntektsmelding for sykepenger',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for sykepenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_sykepenger_inntektsmelding',
+    },
+    inntektsmeldingSykdomIFamilien: {
+        sort: 'tjeneste',
+        navn: 'Inntektsmelding for pleie-, opplærings- og omsorgspenger og refusjonskrav for omsorgspenger',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for pleie-, opplærings- og omsorgspenger og refusjonskrav for omsorgspenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_sykdom-i-familien_inntektsmelding',
+    },
+    refusjonskravSykepengerAGP: {
+        sort: 'tjeneste',
+        navn: 'Refusjonskrav for sykepenger i arbeidsgiverperioden',
+        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Refusjonskrav for sykepenger i arbeidsgiverperioden» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        ressurs: 'nav_sykepenger_fritak-arbeidsgiverperiode',
     },
     midlertidigLønnstilskudd: {
         sort: 'tjeneste',
@@ -235,7 +247,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         beOmTilgangTittel: 'Meld inn yrkesskade',
         beOmTilgangBeskrivelse:
             'Få mulighet til å melde inn yrkesskade eller yrkessykdom digitalt.',
-        tjenestekode: '5902',
+        ressurs: '5902',
         tjenesteversjon: '1',
     },
     oppgiNarmesteleder: {

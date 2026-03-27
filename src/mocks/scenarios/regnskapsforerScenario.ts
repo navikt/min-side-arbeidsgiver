@@ -7,9 +7,12 @@ import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { nærmesteLederOrganisasjon } from './nærmesteLederScenario';
 
 const tilganger = [
-    '4936:1', // inntektsmelding
-    '5902:1', // yrkesskade
-    '5384:1', // ekspertbistand
+    'nav_foreldrepenger_inntektsmelding',
+    'nav_sykepenger_inntektsmelding',
+    'nav_sykepenger_fritak-arbeidsgiverperiode',
+    'nav_sykdom-i-familien_inntektsmelding',
+    'nav_yrkesskade_skademelding',
+    'nav_tiltak_ekspertbistand',
     '4826:1', // utsendtArbeidstakerEØS
 ];
 

@@ -35,7 +35,10 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
 
     permitteringOgNedbemanning: 'visible',
 
-    inntektsmelding: 'visible',
+    inntektsmeldingSykepenger: 'visible',
+    inntektsmeldingForeldrepenger: 'visible',
+    inntektsmeldingSykdomIFamilien: 'visible',
+    refusjonskravSykepengerAGP: 'visible',
 
     arbeidstrening: 'visible',
     yrkesskade: 'visible',

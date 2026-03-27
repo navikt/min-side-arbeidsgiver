@@ -12,9 +12,15 @@ import {
 } from '../../../../lenker';
 import { gittMiljo } from '../../../../utils/environment';
 
+type Tilgang =
+    | 'inntektsmeldingSykepenger'
+    | 'inntektsmeldingSykdomIFamilien'
+    | 'inntektsmeldingForeldrepenger';
+
 interface Props {
     isOpen: boolean;
     onRequestClose: () => void;
+    tilganger: Record<Tilgang, boolean>;
 }
 
 const omsorgspengerYtelse = gittMiljo({
@@ -24,49 +30,65 @@ const omsorgspengerYtelse = gittMiljo({
             label: 'Omsorgspenger',
             value: 'OMSORGSPENGER',
             lenke: omsorgspengerURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien' as Tilgang,
         },
     ],
 });
 
-const inntektsmeldingYtelser = [
-    {
-        label: 'Sykepenger',
-        value: 'SYKEPENGER',
-        lenke: opprettInntektsmeldingURL,
-    },
-    {
-        label: 'Foreldrepenger',
-        value: 'FORELDREPENGER',
-        lenke: opprettInntektsmeldingForeldrepenger,
-    },
-    {
-        label: 'Svangerskapspenger',
-        value: 'SVANGERSKAPSPENGER',
-        lenke: opprettInntektsmeldingSvangerskapspenger,
-    },
-    {
-        label: 'Pleiepenger i livets sluttfase',
-        value: 'PLEIEPENGER_I_LIVETS_SLUTTFASE',
-        lenke: pleiepengerILivetsSluttfaseURL,
-    },
-    {
-        label: 'Pleiepenger sykt barn',
-        value: 'PLEIEPENGER_SYKT_BARN',
-        lenke: pleiepengerSyktBarnURL,
-    },
-    {
-        label: 'Opplæringspenger',
-        value: 'OPPLÆRINGSPENGER',
-        lenke: opplaeringspengerURL,
-    },
-    ...omsorgspengerYtelse,
-];
+const inntektsmeldingYtelser: { label: string; value: string; lenke: string; tilgang: Tilgang }[] =
+    [
+        {
+            label: 'Sykepenger',
+            value: 'SYKEPENGER',
+            lenke: opprettInntektsmeldingURL,
+            tilgang: 'inntektsmeldingSykepenger',
+        },
+        {
+            label: 'Foreldrepenger',
+            value: 'FORELDREPENGER',
+            lenke: opprettInntektsmeldingForeldrepenger,
+            tilgang: 'inntektsmeldingForeldrepenger',
+        },
+        {
+            label: 'Svangerskapspenger',
+            value: 'SVANGERSKAPSPENGER',
+            lenke: opprettInntektsmeldingSvangerskapspenger,
+            tilgang: 'inntektsmeldingForeldrepenger',
+        },
+        {
+            label: 'Pleiepenger i livets sluttfase',
+            value: 'PLEIEPENGER_I_LIVETS_SLUTTFASE',
+            lenke: pleiepengerILivetsSluttfaseURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien',
+        },
+        {
+            label: 'Pleiepenger sykt barn',
+            value: 'PLEIEPENGER_SYKT_BARN',
+            lenke: pleiepengerSyktBarnURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien',
+        },
+        {
+            label: 'Opplæringspenger',
+            value: 'OPPLÆRINGSPENGER',
+            lenke: opplaeringspengerURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien',
+        },
+        ...omsorgspengerYtelse,
+    ];
 
 type InntektsmeldingYtelse = (typeof inntektsmeldingYtelser)[number];
 
-export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestClose }: Props) {
+export default function OpprettManuellInntektsmeldingModal({
+    isOpen,
+    onRequestClose,
+    tilganger,
+}: Props) {
     const [valgtYtelse, setValgtYtelse] = useState<InntektsmeldingYtelse | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    const inntektsmeldingYtelserMedTilgang = inntektsmeldingYtelser.filter(
+        (ytelse) => tilganger[ytelse.tilgang]
+    );
 
     const handleOpprettManuellInntektsmelding = () => {
         if (!valgtYtelse) {
@@ -120,7 +142,7 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
                         onChange={handleSelectYtelse}
                     >
                         <option value="">Velg ytelse</option>
-                        {inntektsmeldingYtelser.map((option) => (
+                        {inntektsmeldingYtelserMedTilgang.map((option) => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
                             </option>
