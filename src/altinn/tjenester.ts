@@ -1,12 +1,13 @@
 import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
 
-export type AltinnskjemaId = 'utsendtArbeidstakerEØS' | 'endreBankkontonummerForRefusjoner';
+export type AltinnskjemaId = 'utsendtArbeidstakerEØS';
 
 export type NAVtjenesteId =
     | 'arbeidstrening'
     | 'arbeidsforhold'
     | 'ekspertbistand'
+    | 'endreBankkontonummerForRefusjoner'
     | 'inntektsmeldingForeldrepenger'
     | 'inntektsmeldingSykepenger'
     | 'inntektsmeldingSykdomIFamilien'
@@ -30,7 +31,7 @@ export type NAVtjenesteId =
 export type AltinnFellesInfo = {
     navn: string;
     beOmTilgangTittel?: string;
-    beOmTilgangBeskrivelse: string /* Fravær av beskrivelse betyr man ikke kan søke om tilgang */;
+    beOmTilgangBeskrivelse: string;
 };
 export type Altinn2Tilgang = {
     tjenestekode: string;
@@ -77,16 +78,6 @@ export const altinnskjema: Record<AltinnskjemaId, Altinnskjema> = {
         skjemaUrl:
             'https://www.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/soknad-om-a1-for-utsendte-arbeidstakeren-innen-eossveits/',
     },
-
-    endreBankkontonummerForRefusjoner: {
-        sort: 'skjema',
-        navn: 'Endre bankkontonummer for refusjoner fra NAV til arbeidsgiver',
-        tjenestekode: '2896',
-        tjenesteversjon: '87',
-        beOmTilgangBeskrivelse: '',
-        skjemaUrl:
-            'https://info.altinn.no/skjemaoversikt/arbeids--og-velferdsetaten-nav/bankkontonummer-for-refusjoner-fra-nav-til-arbeidsgiver/',
-    },
 };
 
 export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
@@ -112,6 +103,13 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Ekspertbistand',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Tilskudd til ekspertbistand» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_tiltak_ekspertbistand',
+    },
+    endreBankkontonummerForRefusjoner: {
+        sort: 'tjeneste',
+        navn: 'Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver',
+        beOmTilgangBeskrivelse:
+            'Du må ha enkeltrettigheten «Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.',
+        ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
     },
     inntektsmeldingForeldrepenger: {
         sort: 'tjeneste',
