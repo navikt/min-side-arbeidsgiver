@@ -10,7 +10,7 @@ export type NAVtjenesteId =
     | 'inntektsmeldingForeldrepenger'
     | 'inntektsmeldingSykepenger'
     | 'inntektsmeldingSykdomIFamilien'
-    | 'sykepengerFritakAGP'
+    | 'refusjonskravSykepengerAGP'
     | 'midlertidigLønnstilskudd'
     | 'varigLønnstilskudd'
     | 'varigTilrettelagtArbeid'
@@ -131,7 +131,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for pleie-, opplærings- og omsorgspenger og refusjonskrav for omsorgspenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
         ressurs: 'nav_sykdom-i-familien_inntektsmelding',
     },
-    sykepengerFritakAGP: {
+    refusjonskravSykepengerAGP: {
         sort: 'tjeneste',
         navn: 'Refusjonskrav for sykepenger i arbeidsgiverperioden',
         beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Refusjonskrav for sykepenger i arbeidsgiverperioden» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
