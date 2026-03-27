@@ -52,7 +52,8 @@ const TjenesteboksContainer: FunctionComponent = () => {
         valgtOrganisasjon.altinntilgang.varigTilrettelagtArbeid ||
         valgtOrganisasjon.altinntilgang.arbeidstrening ||
         valgtOrganisasjon.altinntilgang.mentortilskudd ||
-        valgtOrganisasjon.altinntilgang.inkluderingstilskudd
+        valgtOrganisasjon.altinntilgang.inkluderingstilskudd ||
+        valgtOrganisasjon.altinntilgang.firearigLønnstilskudd
     ) {
         tjenester.push(TiltakAvtaler);
     }

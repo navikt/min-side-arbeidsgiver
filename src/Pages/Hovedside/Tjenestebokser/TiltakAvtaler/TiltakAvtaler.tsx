@@ -15,6 +15,7 @@ const displayname: Record<Avtalenavn, string> = {
     INKLUDERINGSTILSKUDD: 'inkluderingstilskudd',
     MENTOR: 'mentortilskudd',
     VTAO: 'varig tilrettelagt arbeid',
+    FIREARIG_LONNSTILSKUDD: 'fireårig lønnstilskudd for unge',
 };
 
 const displayorder: Avtalenavn[] = [
@@ -25,6 +26,7 @@ const displayorder: Avtalenavn[] = [
     'INKLUDERINGSTILSKUDD',
     'MENTOR',
     'VTAO',
+    'FIREARIG_LONNSTILSKUDD',
 ];
 
 const TiltakAvtaler = () => {
