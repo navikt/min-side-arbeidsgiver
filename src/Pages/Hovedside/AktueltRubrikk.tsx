@@ -59,6 +59,15 @@ const aktuelt: Array<AktueltProps> = [
         visTil: new Date('2026-04-30T00:00:00+02:00'),
         tilgangssjekk: (o) => o.altinntilgang.rekrutteringStillingsannonser === true,
     },
+    {
+        lenke: 'https://www.nav.no/arbeidsgiver/oppgjorsrapport',
+        tittel: 'Store endringer i Oppgjørsrapporten (tidligere kalt K27)',
+        beskrivelse:
+            'Det blir nye rapportnavn, nye leveransekanaler og en periode med dobbeltvarsling.',
+        visFra: new Date('2026-03-26T00:00:00+01:00'),
+        visTil: new Date('2026-04-26T00:00:00+02:00'),
+        tilgangssjekk: (o) => o.vilkaarligAltinntilgang,
+    },
 ];
 
 export const AktueltRubrikk = () => {
