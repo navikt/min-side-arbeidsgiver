@@ -5,10 +5,7 @@ import {
 } from '../../lenker';
 import './SøknaderOgSkjemaer.css';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
-import {
-    InternalLenkepanel,
-    Lenkepanel,
-} from '../../GeneriskeElementer/Lenkepanel';
+import { InternalLenkepanel, Lenkepanel } from '../../GeneriskeElementer/Lenkepanel';
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
@@ -66,7 +63,7 @@ export const SøknaderOgSkjemaer = () => {
                     })
                 )}
 
-                {valgtOrganisasjon.altinntilgang.sykepengerFritakAGP === true ? (
+                {valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP === true ? (
                     <>
                         {lenke(
                             'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -136,9 +133,7 @@ export const SøknaderOgSkjemaer = () => {
                 valgtOrganisasjon.altinntilgang.inntektsmeldingSykepenger ||
                 valgtOrganisasjon.altinntilgang.inntektsmeldingForeldrepenger ? (
                     <li>
-                        <InternalLenkepanel
-                            to={'/saksoversikt#opprett-inntektsmelding'}
-                        >
+                        <InternalLenkepanel to={'/saksoversikt#opprett-inntektsmelding'}>
                             Opprett manuell inntektsmelding
                         </InternalLenkepanel>
                     </li>
@@ -155,9 +150,7 @@ export const SøknaderOgSkjemaer = () => {
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
             <div>
-                <Lenke
-                    href={skjemaForArbeidsgiverURL}
-                >
+                <Lenke href={skjemaForArbeidsgiverURL}>
                     Alle søknader og skjemaer
                     <HoyreChevron />
                 </Lenke>

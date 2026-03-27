@@ -38,7 +38,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     inntektsmeldingSykepenger: 'visible',
     inntektsmeldingForeldrepenger: 'visible',
     inntektsmeldingSykdomIFamilien: 'visible',
-    sykepengerFritakAGP: 'visible',
+    refusjonskravSykepengerAGP: 'visible',
 
     arbeidstrening: 'visible',
     yrkesskade: 'visible',
