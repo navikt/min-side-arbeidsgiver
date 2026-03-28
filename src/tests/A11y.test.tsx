@@ -548,27 +548,14 @@ const server = setupServer(
             },
         });
     }),
-    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () =>
-        HttpResponse.json([
+    http.post(`${__BASE_PATH__}/api/delegation-request`, () =>
+        HttpResponse.json(
             {
-                orgnr: '321988123',
-                status: 'Unopened',
-                submitUrl: 'https://fake-altinn/send-inn-soknad/',
-                serviceCode: '5278',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
+                id: '1a9e3a32-252b-4d81-a23c-ed0d86b852c7',
+                status: 'Pending',
             },
-            {
-                orgnr: '321988123',
-                status: 'Created',
-                submitUrl: 'https://fake-altinn/send-inn-soknad/',
-                serviceCode: '5332',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
-            },
-        ])
+            { status: 202 }
+        )
     ),
     http.post(`${__BASE_PATH__}/api/kontonummerStatus/v1`, () =>
         HttpResponse.json({
