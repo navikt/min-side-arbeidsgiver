@@ -24,11 +24,7 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) => {
     return (
         <DisplayBetween showFrom={visFra} showUntil={visTil}>
-            <LinkPanel
-                className="aktuelt-panel"
-                href={lenke}
-                border
-            >
+            <LinkPanel className="aktuelt-panel" href={lenke} border>
                 <LinkPanel.Title>{tittel}</LinkPanel.Title>
                 <LinkPanel.Description>
                     {beskrivelse ?? dateFormat.format(visFra)}
@@ -40,24 +36,13 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/arbeidsgiver/mentor#refusjon',
-        tittel: 'Refusjon for mentortilskudd blir nå utbetalt automatisk.',
-        visFra: new Date('2026-01-27T00:00:00+02:00'),
-        visTil: new Date('2026-03-01T00:00:00+02:00'),
-        tilgangssjekk: (o) =>
-            any(
-                pick(o.altinntilgang, 'mentortilskudd', 'tiltaksrefusjon'),
-                (value) => value === true
-            ),
-    },
-    {
-        lenke: 'https://arbeidsplassen.nav.no/lys-ut-sommerjobber',
-        tittel: 'Trenger du ekstra hjelp i bedriften i sommer?',
+        lenke: 'https://www.nav.no/arbeidsgiver/sommerjobb',
+        tittel: 'Trenger du hjelp i sommer?',
         beskrivelse:
-            'På Arbeidsplassen.no kan du legge ut annonse om sommerjobb gratis.',
-        visFra: new Date('2026-03-23T00:00:00+01:00'),
-        visTil: new Date('2026-04-30T00:00:00+02:00'),
-        tilgangssjekk: (o) => o.altinntilgang.rekrutteringStillingsannonser === true,
+            'Gir du sommerjobb til ungdom gjennom Nav, får ungdom verdifull erfaring samtidig som Nav dekker deler av lønnen.',
+        visFra: new Date('2026-04-09T00:00:00+02:00'),
+        visTil: new Date('2026-05-30T00:00:00+02:00'),
+        tilgangssjekk: (o) => o.vilkaarligAltinntilgang,
     },
     {
         lenke: 'https://www.nav.no/arbeidsgiver/oppgjorsrapport',
