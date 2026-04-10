@@ -8,6 +8,7 @@ export type NAVtjenesteId =
     | 'arbeidsforhold'
     | 'ekspertbistand'
     | 'endreBankkontonummerForRefusjoner'
+    | 'inntektsmelding'
     | 'inntektsmeldingForeldrepenger'
     | 'inntektsmeldingSykepenger'
     | 'inntektsmeldingSykdomIFamilien'
@@ -110,6 +111,13 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         beOmTilgangBeskrivelse:
             'Du må ha enkeltrettigheten «Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.',
         ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
+    },
+    inntektsmelding: {
+        sort: 'tjeneste',
+        navn: 'Inntektsmelding',
+        beOmTilgangBeskrivelse: ``,
+        tjenestekode: '4936',
+        tjenesteversjon: '1',
     },
     inntektsmeldingForeldrepenger: {
         sort: 'tjeneste',

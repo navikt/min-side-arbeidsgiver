@@ -313,6 +313,9 @@ export const Saksfilter = () => {
 
 const OpprettInntektsmelding = () => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
+    const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
+        (org) => org.altinntilgang?.inntektsmelding === true
+    );
     const tilgangInntektsmeldingSykdomIFamilien = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmeldingSykdomIFamilien === true
     );
@@ -334,6 +337,7 @@ const OpprettInntektsmelding = () => {
     }, []);
 
     if (
+        tilgangInntektsmelding ||
         tilgangInntektsmeldingSykepenger ||
         tilgangInntektsmeldingSykdomIFamilien ||
         tilgangInntektsmeldingForeldrepenger
@@ -349,9 +353,10 @@ const OpprettInntektsmelding = () => {
             >
                 <OpprettManuellInntektsmeldingBoks
                     openOnMount={openOnMount}
-                    tilgangInntektsmeldingSykepenger
-                    tilgangInntektsmeldingSykdomIFamilien
-                    tilgangInntektsmeldingForeldrepenger
+                    tilgangInntektsmelding={tilgangInntektsmelding}
+                    tilgangInntektsmeldingSykepenger={tilgangInntektsmeldingSykepenger}
+                    tilgangInntektsmeldingSykdomIFamilien={tilgangInntektsmeldingSykdomIFamilien}
+                    tilgangInntektsmeldingForeldrepenger={tilgangInntektsmeldingForeldrepenger}
                 />
             </div>
         );
