@@ -20,7 +20,7 @@ import {
     useDelegationRequests,
 } from '../../../altinn/tilganger';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
-import { Alert, Heading, LinkCard } from '@navikt/ds-react';
+import { Alert, Heading, LinkCard, Tag } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 
 type IsVisible = 'visible' | 'hidden';
@@ -97,6 +97,18 @@ const BeOmTilgang: FunctionComponent = () => {
             orgnr: valgtOrganisasjon.organisasjon.orgnr,
             altinn3Tilgang: altinn3Tilgang,
         })
+            .then((response) => {
+                // Altinn returnerer Draft + detailsLink når brukeren må fullføre forespørselen i Altinn.
+                const detailsLink = response?.links?.detailsLink;
+                if (
+                    response?.status === 'Draft' &&
+                    detailsLink !== undefined &&
+                    detailsLink !== null &&
+                    detailsLink !== ''
+                ) {
+                    window.location.assign(detailsLink);
+                }
+            })
             .catch(() => {
                 /* feil ved opprettelse, brukeren kan prøve igjen */
             })
@@ -143,6 +155,14 @@ const BeOmTilgang: FunctionComponent = () => {
                 const altinn3 = altinnTjeneste as Altinn3Tilgang;
                 const eksisterende = requestByRessurs.get(altinn3.ressurs);
 
+                const draftDetailsLink =
+                    eksisterende?.status === 'Draft' &&
+                    eksisterende.detailsLink !== undefined &&
+                    eksisterende.detailsLink !== null &&
+                    eksisterende.detailsLink !== ''
+                        ? eksisterende.detailsLink
+                        : undefined;
+
                 if (eksisterende && ETTERSPURT_STATUSER.has(eksisterende.status)) {
                     tjenesteinfoBokser.push(
                         <AltinntilgangAlleredeSøkt
@@ -152,21 +172,35 @@ const BeOmTilgang: FunctionComponent = () => {
                             type="suksess"
                         />
                     );
-                } else if (
-                    eksisterende?.status === 'Draft' &&
-                    eksisterende.detailsLink !== undefined &&
-                    eksisterende.detailsLink !== null &&
-                    eksisterende.detailsLink !== ''
-                ) {
+                } else if (draftDetailsLink !== undefined) {
+                    // Draft med detailsLink → fortsett forespørselen i Altinn
                     tjenesteinfoBokser.push(
                         <BeOmTilgangBoks
                             altinnId={altinnId}
-                            href={eksisterende.detailsLink}
+                            href={draftDetailsLink}
                             eksternSide
                         />
                     );
+                } else if (eksisterende?.status === 'Rejected') {
+                    tjenesteinfoBokser.push(
+                        <>
+                            <div className="header">
+                                <Tag
+                                    className="tilgang-sokt-etikett"
+                                    variant="warning"
+                                    size="medium"
+                                >
+                                    Forespørsel avvist
+                                </Tag>
+                            </div>
+                            <BeOmTilgangBoks
+                                altinnId={altinnId}
+                                onClick={() => opprettSøknad(altinnId, altinn3)}
+                            />
+                        </>
+                    );
                 } else {
-                    // ingen request, avvist/trukket, eller draft uten detailsLink → la brukeren sende (på nytt)
+                    // ingen request, Withdrawn, eller Draft uten detailsLink → la brukeren sende (på nytt)
                     tjenesteinfoBokser.push(
                         <BeOmTilgangBoks
                             altinnId={altinnId}
