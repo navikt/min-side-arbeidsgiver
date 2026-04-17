@@ -1,4 +1,4 @@
-import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
+import React, { FunctionComponent, MouseEventHandler, ReactNode, useState } from 'react';
 import SyfoBeOmTilgangModalBoks from './SyfoBeOmTilgangModalBoks';
 import './TjenesteInfo.css';
 import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
@@ -19,6 +19,8 @@ interface BeOmTilgangAction {
     eksternSide?: boolean /* default value: false */;
     href?: string;
     onClick?: MouseEventHandler<unknown>;
+    /** Valgfri status-tag rendret i `.header` til høyre for tittelen. */
+    tag?: ReactNode;
 }
 
 const hentInfo = (props: TjenesteInfo | EnAltinnId): [string, string] => {
@@ -42,22 +44,32 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
         }
     };
 
+    const tittelNode =
+        props.href !== undefined || props.onClick !== undefined ? (
+            <Lenke
+                href={props.href ?? ''}
+                onClick={onClickAction}
+                className="be-om-tilgang-lenke"
+            >
+                <span>{tittel} – be om tilgang</span>
+                {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
+            </Lenke>
+        ) : (
+            <BodyShort as={'span'}>
+                <span>{tittel}</span>
+                {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
+            </BodyShort>
+        );
+
     return (
         <>
-            {props.href !== undefined || props.onClick !== undefined ? (
-                <Lenke
-                    href={props.href ?? ''}
-                    onClick={onClickAction}
-                    className="be-om-tilgang-lenke"
-                >
-                    <span>{tittel} – be om tilgang</span>
-                    {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
-                </Lenke>
+            {props.tag !== undefined ? (
+                <div className="header">
+                    {tittelNode}
+                    {props.tag}
+                </div>
             ) : (
-                <BodyShort as={'span'}>
-                    <span>{tittel}</span>
-                    {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
-                </BodyShort>
+                tittelNode
             )}
             <BodyShort>{beskrivelse}</BodyShort>
         </>
@@ -86,24 +98,20 @@ export interface AltinntilgangAlleredeSøktProps {
     altinnId: AltinntjenesteId;
     status: string;
     statusBeskrivelse: string;
-    type: 'suksess' | 'info';
 }
 
 export const AltinntilgangAlleredeSøkt: FunctionComponent<AltinntilgangAlleredeSøktProps> = ({
     altinnId,
     status,
     statusBeskrivelse,
-}) => {
-    return (
-        <>
-            <div className="header">
-                <span>{altinntjeneste[altinnId].navn}</span>
-                <Tag className="tilgang-sokt-etikett" variant="info" size="medium">
-                    <span>{status}</span>
-                    <HelpText title="Hva skjer videre?">{statusBeskrivelse}</HelpText>
-                </Tag>
-            </div>
-            <BodyShort>{altinntjeneste[altinnId].beOmTilgangBeskrivelse}</BodyShort>
-        </>
-    );
-};
+}) => (
+    <BeOmTilgangBoks
+        altinnId={altinnId}
+        tag={
+            <Tag className="tilgang-sokt-etikett" variant="info" size="medium">
+                <span>{status}</span>
+                <HelpText title="Hva skjer videre?">{statusBeskrivelse}</HelpText>
+            </Tag>
+        }
+    />
+);

@@ -16,7 +16,7 @@ import {
     useDelegationRequests,
 } from '../../../altinn/tilganger';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
-import { Alert, Heading, LinkCard, Tag } from '@navikt/ds-react';
+import { Alert, Heading, HelpText, LinkCard, Tag } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 
 type IsVisible = 'visible' | 'hidden';
@@ -165,7 +165,6 @@ const BeOmTilgang: FunctionComponent = () => {
                             altinnId={altinnId}
                             status="Tilgang etterspurt"
                             statusBeskrivelse="Du har bedt om tilgang. En administrator i virksomheten må godkjenne forespørselen."
-                            type="suksess"
                         />
                     );
                 } else if (draftDetailsLink !== undefined) {
@@ -175,21 +174,24 @@ const BeOmTilgang: FunctionComponent = () => {
                     );
                 } else if (eksisterende?.status === 'Rejected') {
                     tjenesteinfoBokser.push(
-                        <>
-                            <div className="header">
+                        <BeOmTilgangBoks
+                            altinnId={altinnId}
+                            onClick={() => opprettSøknad(altinnId, altinn3)}
+                            tag={
                                 <Tag
-                                    className="tilgang-avvist-etikett"
+                                    className="tilgang-sokt-etikett"
                                     variant="warning"
                                     size="medium"
                                 >
-                                    Forespørsel avvist
+                                    <span>Forespørsel avvist</span>
+                                    <HelpText title="Hva skjer videre?">
+                                        Søknaden ble avvist av en administrator i virksomheten. Du
+                                        kan prøve å sende forespørselen på nytt, eller ta kontakt
+                                        med en administrator i virksomheten for mer informasjon.
+                                    </HelpText>
                                 </Tag>
-                            </div>
-                            <BeOmTilgangBoks
-                                altinnId={altinnId}
-                                onClick={() => opprettSøknad(altinnId, altinn3)}
-                            />
-                        </>
+                            }
+                        />
                     );
                 } else {
                     // ingen request, Withdrawn, eller Draft uten detailsLink → la brukeren sende (på nytt)
