@@ -152,7 +152,12 @@ const BeOmTilgang: FunctionComponent = () => {
                             type="suksess"
                         />
                     );
-                } else if (eksisterende?.status === 'Draft' && eksisterende.detailsLink) {
+                } else if (
+                    eksisterende?.status === 'Draft' &&
+                    eksisterende.detailsLink !== undefined &&
+                    eksisterende.detailsLink !== null &&
+                    eksisterende.detailsLink !== ''
+                ) {
                     tjenesteinfoBokser.push(
                         <BeOmTilgangBoks
                             altinnId={altinnId}
