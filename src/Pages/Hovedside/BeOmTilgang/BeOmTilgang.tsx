@@ -1,11 +1,7 @@
 import React, { FC, FunctionComponent, useMemo, useState } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
-import {
-    AltinntilgangAlleredeSøkt,
-    BeOmSyfotilgang,
-    BeOmTilgangBoks,
-} from './TjenesteInfo';
+import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
 import {
     Altinn3Tilgang,
@@ -175,18 +171,14 @@ const BeOmTilgang: FunctionComponent = () => {
                 } else if (draftDetailsLink !== undefined) {
                     // Draft med detailsLink → fortsett forespørselen i Altinn
                     tjenesteinfoBokser.push(
-                        <BeOmTilgangBoks
-                            altinnId={altinnId}
-                            href={draftDetailsLink}
-                            eksternSide
-                        />
+                        <BeOmTilgangBoks altinnId={altinnId} href={draftDetailsLink} eksternSide />
                     );
                 } else if (eksisterende?.status === 'Rejected') {
                     tjenesteinfoBokser.push(
                         <>
                             <div className="header">
                                 <Tag
-                                    className="tilgang-sokt-etikett"
+                                    className="tilgang-avvist-etikett"
                                     variant="warning"
                                     size="medium"
                                 >

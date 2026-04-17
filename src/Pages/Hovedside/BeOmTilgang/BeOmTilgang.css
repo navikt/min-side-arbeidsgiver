@@ -25,6 +25,11 @@
 
 }
 
+.be-om-tilgang__tjenesteinfo .tilgang-avvist-etikett {
+  display: flex;
+  gap: 1ch;
+}
+
 @media (max-width: 800px) {
   .be-om-tilgang__tjenesteinfo-bokser {
     grid-template-columns: 1fr;
