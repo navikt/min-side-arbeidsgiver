@@ -1,9 +1,7 @@
-import React, { FC, PropsWithChildren, useEffect } from 'react';
+import React, { FC, PropsWithChildren } from 'react';
 import './Tjenesteboks.css';
 import { Heading } from '@navikt/ds-react';
 import { ChevronRightIcon } from '@navikt/aksel-icons';
-import { logAnalyticsEvent, loggNavigasjon } from '../../../utils/analytics';
-import { useLocation } from 'react-router-dom';
 
 interface Props {
     ikon: string;
@@ -13,16 +11,8 @@ interface Props {
 }
 
 export const Tjenesteboks: FC<PropsWithChildren<Props>> = ({ ikon, href, tittel, children }) => {
-    const { pathname } = useLocation();
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'Tjenesteboks',
-            lenketekst: tittel,
-        });
-    }, []);
     const onClickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        loggNavigasjon(href, tittel, pathname);
         window.location.href = href;
     };
     return (

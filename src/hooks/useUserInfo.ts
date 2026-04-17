@@ -42,6 +42,7 @@ const BaseAltinnTilgang = z.object({
     orgnr: z.string(),
     navn: z.string(),
     organisasjonsform: z.string(),
+    roller: z.array(z.string()).optional(),
 });
 export type AltinnTilgang = z.infer<typeof BaseAltinnTilgang> & {
     underenheter: AltinnTilgang[];

@@ -3,7 +3,7 @@ import SyfoBeOmTilgangModalBoks from './SyfoBeOmTilgangModalBoks';
 import './TjenesteInfo.css';
 import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
-import { LenkeMedLogging } from '../../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../../GeneriskeElementer/Lenke';
 import { BodyShort, HelpText, Tag } from '@navikt/ds-react';
 
 interface TjenesteInfo {
@@ -45,15 +45,14 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
     return (
         <>
             {props.href !== undefined || props.onClick !== undefined ? (
-                <LenkeMedLogging
-                    loggLenketekst={`be om tilgang-${tittel}`}
+                <Lenke
                     href={props.href ?? ''}
                     onClick={onClickAction}
                     className="be-om-tilgang-lenke"
                 >
                     <span>{tittel} – be om tilgang</span>
                     {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
-                </LenkeMedLogging>
+                </Lenke>
             ) : (
                 <BodyShort as={'span'}>
                     <span>{tittel}</span>

@@ -4,11 +4,8 @@ import {
     skjemaForArbeidsgiverURL,
 } from '../../lenker';
 import './SøknaderOgSkjemaer.css';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
-import {
-    InternalLenkepanelMedLogging,
-    LenkepanelMedLogging,
-} from '../../GeneriskeElementer/LenkepanelMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
+import { InternalLenkepanel, Lenkepanel } from '../../GeneriskeElementer/Lenkepanel';
 import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
@@ -18,9 +15,9 @@ import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext
 
 export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
     const tilgangEndreKontoummer =
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
+    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
     const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
@@ -33,9 +30,9 @@ export const SøknaderOgSkjemaer = () => {
 
     const lenke = (tekst: string, href: string, target?: string) => (
         <li>
-            <LenkepanelMedLogging href={href} loggLenketekst={tekst} target={target}>
+            <Lenkepanel href={href} target={target}>
                 {tekst}
-            </LenkepanelMedLogging>
+            </Lenkepanel>
         </li>
     );
 
@@ -67,7 +64,8 @@ export const SøknaderOgSkjemaer = () => {
                     })
                 )}
 
-                {tilgangInntektsmelding === true ? (
+                {tilgangInntektsmelding === true ||
+                valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP === true ? (
                     <>
                         {lenke(
                             'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -84,6 +82,12 @@ export const SøknaderOgSkjemaer = () => {
                                 other: 'https://arbeidsgiver.intern.dev.nav.no/fritak-agp/nb/kronisk/krav',
                             })
                         )}
+                    </>
+                ) : null}
+
+                {tilgangInntektsmelding === true ||
+                valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien === true ? (
+                    <>
                         {lenke(
                             'Refusjonskrav omsorgspenger',
                             gittMiljo({
@@ -128,14 +132,14 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true ? (
+                {tilgangInntektsmelding === true ||
+                valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ||
+                valgtOrganisasjon.altinntilgang.inntektsmeldingSykepenger ||
+                valgtOrganisasjon.altinntilgang.inntektsmeldingForeldrepenger ? (
                     <li>
-                        <InternalLenkepanelMedLogging
-                            loggLenketekst={'Opprett manuell inntektsmelding'}
-                            to={'/saksoversikt#opprett-inntektsmelding'}
-                        >
+                        <InternalLenkepanel to={'/saksoversikt#opprett-inntektsmelding'}>
                             Opprett manuell inntektsmelding
-                        </InternalLenkepanelMedLogging>
+                        </InternalLenkepanel>
                     </li>
                 ) : null}
                 {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder === true
@@ -147,17 +151,13 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {altinnSkjemaLenke('inntektsmelding')}
                 {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
             </ul>
             <div>
-                <LenkeMedLogging
-                    href={skjemaForArbeidsgiverURL}
-                    loggLenketekst="Alle søknader og skjemaer hos NAV"
-                >
+                <Lenke href={skjemaForArbeidsgiverURL}>
                     Alle søknader og skjemaer
                     <HoyreChevron />
-                </LenkeMedLogging>
+                </Lenke>
             </div>
         </div>
     );

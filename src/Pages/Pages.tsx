@@ -1,11 +1,10 @@
-import React, { FunctionComponent, PropsWithChildren, useEffect } from 'react';
+import React, { FunctionComponent } from 'react';
 import {
     BrowserRouter,
     Link as RouterLink,
     Navigate,
     Route,
     Routes,
-    useLocation,
 } from 'react-router-dom';
 import Hovedside from './Hovedside/Hovedside';
 import { LoginBoundary } from './LoginBoundary';
@@ -13,7 +12,6 @@ import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonsDetaljerProvider';
 import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
-import { loggSidevisning } from '../utils/analytics';
 import './Pages.css';
 import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client';
 import {
@@ -37,16 +35,6 @@ const miljø = gittMiljo<'local' | 'labs' | 'dev' | 'prod'>({
     demo: 'labs',
     other: 'local',
 });
-
-const SidevisningEventLogger: FunctionComponent<PropsWithChildren> = (props) => {
-    const location = useLocation();
-
-    useEffect(() => {
-        loggSidevisning(location.pathname);
-    }, [location.pathname]);
-
-    return <>{props.children}</>;
-};
 
 export const createApolloClient = (uri: string) =>
     new ApolloClient({
@@ -79,8 +67,7 @@ const Pages: FunctionComponent = () => (
                 >
                     <LoginBoundary>
                         <BrowserRouter basename={__BASE_PATH__}>
-                            <SidevisningEventLogger>
-                                <AlertsProvider>
+                            <AlertsProvider>
                                     <ApolloProvider
                                         client={createApolloClient(
                                             `${__BASE_PATH__}/notifikasjon-bruker-api`
@@ -211,7 +198,6 @@ const Pages: FunctionComponent = () => (
                                         </OrganisasjonerOgTilgangerProvider>
                                     </ApolloProvider>
                                 </AlertsProvider>
-                            </SidevisningEventLogger>
                         </BrowserRouter>
                     </LoginBoundary>
                 </SWRConfig>
