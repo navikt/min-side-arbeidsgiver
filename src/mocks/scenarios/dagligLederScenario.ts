@@ -6,12 +6,14 @@ import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { mapRecursive } from '../../utils/util';
 
 const alleTilganger = [
-    '5216:1', // sykefraværsstatistikk
-    '4936:1', // inntektsmelding
-    '5384:1', // ekspertbistand
+    'nav_foreldrepenger_inntektsmelding',
+    'nav_sykepenger_inntektsmelding',
+    'nav_sykepenger_fritak-arbeidsgiverperiode',
+    'nav_sykdom-i-familien_inntektsmelding',
+    'nav_tiltak_ekspertbistand',
+    'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver', // arbeidsforhold
     '4826:1', // utsendtArbeidstakerEØS
     '5332:1', // arbeidstrening
-    '5441:1', // arbeidsforhold
     '5516:1', // midlertidigLønnstilskudd
     '5516:2', // varigLønnstilskudd
     '5516:3', // sommerjobb
@@ -23,9 +25,8 @@ const alleTilganger = [
     'nav_rekruttering_stillingsannonser', // stillingsannonser arbeidsplassen.no
     'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
     '5278:1', // tilskuddsbrev
-    '5902:1', // yrkesskade
-    '5902:1', // yrkesskade
-    '2896:87', // endreBankkontonummerForRefusjoner
+    'nav_yrkesskade_skademelding',
+    'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
     'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
     'nav_syfo_oppgi-narmesteleder',
     'nav_tiltak_ekspertbistand', // ekspertbistand
@@ -36,17 +37,20 @@ const underenheter = [
         underenheter: [],
         navn: faker.company.name(),
         organisasjonsform: 'AAFY',
+        roller: ['LEDE'],
     },
     {
         orgnr: orgnr(),
         underenheter: [],
         navn: faker.company.name(),
         organisasjonsform: 'FLI',
+        roller: [],
     },
     {
         orgnr: orgnr(),
         navn: faker.company.name(),
         organisasjonsform: 'BEDR',
+        roller: [],
         underenheter: [],
     },
 ];
@@ -55,11 +59,13 @@ const orgledd = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'ORGL',
+    roller: [],
     underenheter: [
         {
             orgnr: orgnr(),
             navn: faker.company.name(),
             organisasjonsform: 'ORGL',
+            roller: [],
             underenheter: underenheter.slice(0, 1),
         },
     ],
@@ -68,12 +74,14 @@ export const dagligLederOrganisasjon = {
     orgnr: orgnr(),
     navn: faker.company.name(),
     organisasjonsform: 'AS',
+    roller: [],
     underenheter: [...underenheter.slice(1), orgledd],
 };
 const hestemannen = {
     orgnr: '994884344',
     organisasjonsform: 'FLI',
     navn: 'HESTMANNEN UNGDOMS- OG IDRETTSLAG',
+    roller: [],
     altinn3Tilganger: [],
     altinn2Tilganger: [],
     underenheter: [],

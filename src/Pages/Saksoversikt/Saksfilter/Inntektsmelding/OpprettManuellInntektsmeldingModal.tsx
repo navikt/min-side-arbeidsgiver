@@ -1,7 +1,8 @@
 import { Alert, BodyLong, Button, Heading, Modal, Select, VStack } from '@navikt/ds-react';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
 import {
+    omsorgspengerURL,
     opplaeringspengerURL,
     opprettInntektsmeldingForeldrepenger,
     opprettInntektsmeldingSvangerskapspenger,
@@ -9,65 +10,92 @@ import {
     pleiepengerILivetsSluttfaseURL,
     pleiepengerSyktBarnURL,
 } from '../../../../lenker';
-import { logAnalyticsEvent, loggNavigasjon } from '../../../../utils/analytics';
+import { gittMiljo } from '../../../../utils/environment';
+
+type Tilgang =
+    | 'inntektsmelding'
+    | 'inntektsmeldingSykepenger'
+    | 'inntektsmeldingSykdomIFamilien'
+    | 'inntektsmeldingForeldrepenger';
 
 interface Props {
     isOpen: boolean;
     onRequestClose: () => void;
+    tilganger: Record<Tilgang, boolean>;
 }
 
-const inntektsmeldingYtelser = [
-    {
-        label: 'Sykepenger',
-        value: 'SYKEPENGER',
-        lenke: opprettInntektsmeldingURL,
-    },
-    {
-        label: 'Foreldrepenger',
-        value: 'FORELDREPENGER',
-        lenke: opprettInntektsmeldingForeldrepenger,
-    },
-    {
-        label: 'Svangerskapspenger',
-        value: 'SVANGERSKAPSPENGER',
-        lenke: opprettInntektsmeldingSvangerskapspenger,
-    },
-    {
-        label: 'Pleiepenger i livets sluttfase',
-        value: 'PLEIEPENGER_I_LIVETS_SLUTTFASE',
-        lenke: pleiepengerILivetsSluttfaseURL,
-    },
-    {
-        label: 'Pleiepenger sykt barn',
-        value: 'PLEIEPENGER_SYKT_BARN',
-        lenke: pleiepengerSyktBarnURL,
-    },
-    {
-        label: 'Opplæringspenger',
-        value: 'OPPLÆRINGSPENGER',
-        lenke: opplaeringspengerURL,
-    },
-]
+const omsorgspengerYtelse = gittMiljo({
+    prod: [],
+    other: [
+        {
+            label: 'Omsorgspenger',
+            value: 'OMSORGSPENGER',
+            lenke: omsorgspengerURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien' as Tilgang,
+        },
+    ],
+});
+
+const inntektsmeldingYtelser: { label: string; value: string; lenke: string; tilgang: Tilgang }[] =
+    [
+        {
+            label: 'Sykepenger',
+            value: 'SYKEPENGER',
+            lenke: opprettInntektsmeldingURL,
+            tilgang: 'inntektsmeldingSykepenger',
+        },
+        {
+            label: 'Foreldrepenger',
+            value: 'FORELDREPENGER',
+            lenke: opprettInntektsmeldingForeldrepenger,
+            tilgang: 'inntektsmeldingForeldrepenger',
+        },
+        {
+            label: 'Svangerskapspenger',
+            value: 'SVANGERSKAPSPENGER',
+            lenke: opprettInntektsmeldingSvangerskapspenger,
+            tilgang: 'inntektsmeldingForeldrepenger',
+        },
+        {
+            label: 'Pleiepenger i livets sluttfase',
+            value: 'PLEIEPENGER_I_LIVETS_SLUTTFASE',
+            lenke: pleiepengerILivetsSluttfaseURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien',
+        },
+        {
+            label: 'Pleiepenger sykt barn',
+            value: 'PLEIEPENGER_SYKT_BARN',
+            lenke: pleiepengerSyktBarnURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien',
+        },
+        {
+            label: 'Opplæringspenger',
+            value: 'OPPLÆRINGSPENGER',
+            lenke: opplaeringspengerURL,
+            tilgang: 'inntektsmeldingSykdomIFamilien',
+        },
+        ...omsorgspengerYtelse,
+    ];
 
 type InntektsmeldingYtelse = (typeof inntektsmeldingYtelser)[number];
 
-export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestClose }: Props) {
+export default function OpprettManuellInntektsmeldingModal({
+    isOpen,
+    onRequestClose,
+    tilganger,
+}: Props) {
     const [valgtYtelse, setValgtYtelse] = useState<InntektsmeldingYtelse | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'OpprettManuellInntektsmeldingModal',
-        });
-    }, []);
+    const inntektsmeldingYtelserMedTilgang = inntektsmeldingYtelser.filter(
+        (ytelse) => tilganger[ytelse.tilgang] || tilganger['inntektsmelding']
+    );
 
     const handleOpprettManuellInntektsmelding = () => {
         if (!valgtYtelse) {
             setError('Ingen ytelse er valgt.');
             return;
         }
-
-        loggNavigasjon(valgtYtelse.lenke, valgtYtelse.label);
 
         window.location.href = valgtYtelse.lenke;
     };
@@ -115,7 +143,7 @@ export default function OpprettManuellInntektsmeldingModal({ isOpen, onRequestCl
                         onChange={handleSelectYtelse}
                     >
                         <option value="">Velg ytelse</option>
-                        {inntektsmeldingYtelser.map((option) => (
+                        {inntektsmeldingYtelserMedTilgang.map((option) => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
                             </option>

@@ -4,7 +4,7 @@ import NyFaneIkon from './NyFaneIkon';
 import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
 import { Buildings3Icon } from '@navikt/aksel-icons';
 import './OverordnetEnhet.css';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { Hovedenhet } from '../../api/enhetsregisteretApi';
 import { formatOrgNr } from '../../utils/util';
@@ -90,13 +90,12 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
                 </Tekstboks>
             )}
             <Tekstboks>
-                <LenkeMedLogging
+                <Lenke
                     href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
-                    loggLenketekst="Flere opplysinger for overordnet enhet hos Enhetsregisteret"
                 >
                     <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                     <NyFaneIkon />
-                </LenkeMedLogging>
+                </Lenke>
             </Tekstboks>
             <HStack gap="6" align={'start'}>
                 <KontonummerOverordnetEnhet overordnetEnhet={overordnetenhet} />

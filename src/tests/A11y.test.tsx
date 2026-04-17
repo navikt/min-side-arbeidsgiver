@@ -106,27 +106,32 @@ const server = setupServer(
             organisasjoner: [
                 {
                     orgnr: orgnr(),
+                    roller: [],
                     underenheter: [
                         {
                             orgnr: '182345674',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
                         },
                         {
                             orgnr: '118345674',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
                         },
                         {
                             orgnr: '119985432',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
                         },
                         {
                             orgnr: '119988432',
+                            roller: [],
                             underenheter: [],
                             navn: faker.company.name(),
                             organisasjonsform: 'BEDR',
@@ -137,11 +142,21 @@ const server = setupServer(
                 },
             ],
             tilganger: {
-                '5384:1': ['182345674', '118345674', '119985432', '119988432'],
-                '4936:1': ['182345674', '118345674', '119985432', '119988432'],
+                nav_tiltak_ekspertbistand: ['182345674', '118345674', '119985432', '119988432'],
+                nav_sykepenger_inntektsmelding: [
+                    '182345674',
+                    '118345674',
+                    '119985432',
+                    '119988432',
+                ],
                 '4826:1': ['182345674', '118345674', '119985432', '119988432'],
                 '5332:1': ['182345674', '118345674', '119985432', '119988432'],
-                '5441:1': ['182345674', '118345674', '119985432', '119988432'],
+                'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver': [
+                    '182345674',
+                    '118345674',
+                    '119985432',
+                    '119988432',
+                ],
                 '5516:1': ['182345674', '118345674', '119985432', '119988432'],
                 '5516:2': ['182345674', '118345674', '119985432', '119988432'],
                 '5516:3': ['182345674', '118345674', '119985432', '119988432'],
@@ -153,9 +168,9 @@ const server = setupServer(
                     '119985432',
                     '119988432',
                 ],
-                '5078:1': ['182345674', '118345674', '119985432', '119988432'],
+                nav_rekruttering_kandidater: ['182345674', '118345674', '119985432', '119988432'],
                 '5278:1': ['182345674', '118345674', '119985432', '119988432'],
-                '5902:1': ['182345674', '118345674', '119985432', '119988432'],
+                nav_yrkesskade_skademelding: ['182345674', '118345674', '119985432', '119988432'],
             },
             digisyfoError: false,
             digisyfoOrganisasjoner: [

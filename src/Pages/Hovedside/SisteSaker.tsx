@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import { Heading, Tag } from '@navikt/ds-react';
 import { SakSortering } from '../../api/graphql-types';
-import { InternalLenkepanelMedLogging } from '../../GeneriskeElementer/LenkepanelMedLogging';
+import { InternalLenkepanel } from '../../GeneriskeElementer/Lenkepanel';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
-import { logAnalyticsEvent } from '../../utils/analytics';
 
 const Saksikon = () => (
     <svg
@@ -44,15 +43,6 @@ const SisteSaker = () => {
         oppgaveFilter: [],
     });
 
-    useEffect(() => {
-        if (!loading && data) {
-            logAnalyticsEvent('komponent-lastet', {
-                komponent: 'siste-saker',
-                totaltAntallSaker: data.saker.totaltAntallSaker,
-            });
-        }
-    }, [loading, data]);
-
     if (loading || !data) return null;
 
     if ((antallSakerForAlleBedrifter ?? 0) === 0) return null;
@@ -70,7 +60,7 @@ const SisteSaker = () => {
     ).sort();
 
     return (
-        <InternalLenkepanelMedLogging
+        <InternalLenkepanel
             to={{
                 pathname: 'saksoversikt',
                 search: location.search,
@@ -78,7 +68,6 @@ const SisteSaker = () => {
             onClick={() => {
                 scroll(0, 0);
             }}
-            loggLenketekst={`Saker for dine virksomheter`}
         >
             <div className="siste_saker">
                 <Saksikon />
@@ -95,7 +84,7 @@ const SisteSaker = () => {
                     ))}
                 </div>
             </div>
-        </InternalLenkepanelMedLogging>
+        </InternalLenkepanel>
     );
 };
 

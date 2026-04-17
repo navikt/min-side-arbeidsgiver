@@ -19,7 +19,6 @@ import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilga
 import { SaksoversiktFilterState, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { ServerError } from '@apollo/client/link/utils';
-import { logAnalyticsEvent } from '../../../utils/analytics';
 
 export const filterTypeTilTekst = (oppgaveFilter: OppgaveFilterType) => {
     switch (oppgaveFilter) {
@@ -53,23 +52,10 @@ const KollapsHvisMobil: FC<KollapsHvisMobilProps> = ({
 };
 
 export const logAnalyticsFilterKlikk = (
-    kategori: string,
-    filternavn: string,
-    target: EventTarget | null
-) => {
-    if (target instanceof HTMLInputElement) {
-        logAnalyticsEvent('filtervalg', {
-            kategori: kategori,
-            filternavn: filternavn,
-            checked: target.checked,
-        });
-    } else {
-        logAnalyticsEvent('filtervalg', {
-            kategori: kategori,
-            filternavn: filternavn,
-        });
-    }
-};
+    _kategori: string,
+    _filternavn: string,
+    _target: EventTarget | null
+) => {};
 
 /**
  * TAG-2253 - Slår sammen "Inntektsmelding" og "Inntektsmelding sykepenger" til en sakstype
@@ -252,12 +238,6 @@ export const Saksfilter = () => {
         return () => window.removeEventListener('resize', setSize);
     }, [setWidth]);
 
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'Saksfilter',
-        });
-    }, []);
-
     if (organisasjonstre === undefined) {
         return null;
     }
@@ -336,6 +316,15 @@ const OpprettInntektsmelding = () => {
     const tilgangInntektsmelding = Object.values(organisasjonsInfo).some(
         (org) => org.altinntilgang?.inntektsmelding === true
     );
+    const tilgangInntektsmeldingSykdomIFamilien = Object.values(organisasjonsInfo).some(
+        (org) => org.altinntilgang?.inntektsmeldingSykdomIFamilien === true
+    );
+    const tilgangInntektsmeldingSykepenger = Object.values(organisasjonsInfo).some(
+        (org) => org.altinntilgang?.inntektsmeldingSykepenger === true
+    );
+    const tilgangInntektsmeldingForeldrepenger = Object.values(organisasjonsInfo).some(
+        (org) => org.altinntilgang?.inntektsmeldingForeldrepenger === true
+    );
     const location = useLocation();
     const navigate = useNavigate();
     const [openOnMount, setOpenOnMount] = useState(false);
@@ -347,7 +336,12 @@ const OpprettInntektsmelding = () => {
         }
     }, []);
 
-    if (tilgangInntektsmelding) {
+    if (
+        tilgangInntektsmelding ||
+        tilgangInntektsmeldingSykepenger ||
+        tilgangInntektsmeldingSykdomIFamilien ||
+        tilgangInntektsmeldingForeldrepenger
+    ) {
         return (
             <div
                 style={{
@@ -357,7 +351,13 @@ const OpprettInntektsmelding = () => {
                     paddingBottom: '32px',
                 }}
             >
-                <OpprettManuellInntektsmeldingBoks openOnMount={openOnMount} />
+                <OpprettManuellInntektsmeldingBoks
+                    openOnMount={openOnMount}
+                    tilgangInntektsmelding={tilgangInntektsmelding}
+                    tilgangInntektsmeldingSykepenger={tilgangInntektsmeldingSykepenger}
+                    tilgangInntektsmeldingSykdomIFamilien={tilgangInntektsmeldingSykdomIFamilien}
+                    tilgangInntektsmeldingForeldrepenger={tilgangInntektsmeldingForeldrepenger}
+                />
             </div>
         );
     } else {

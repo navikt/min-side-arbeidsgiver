@@ -1,7 +1,7 @@
 import React from 'react';
 import './TrengerDuHjelp.css';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { Chat2Icon, PaperplaneIcon, PhoneIcon } from '@navikt/aksel-icons';
 import { kontaktskjemaURL } from '../../lenker';
 import { openChatbot } from '@navikt/nav-dekoratoren-moduler';
@@ -23,8 +23,7 @@ export const TrengerDuHjelp = () => {
                 <ul>
                     <li>
                         <BodyShort size="large">
-                            <LenkeMedLogging
-                                loggLenketekst="Ring oss på 55 55 33 36"
+                            <Lenke
                                 href="tel:55553336"
                             >
                                 <PhoneIcon
@@ -33,7 +32,7 @@ export const TrengerDuHjelp = () => {
                                     aria-hidden="true"
                                 />
                                 Ring oss på 55 55 33 36
-                            </LenkeMedLogging>
+                            </Lenke>
                         </BodyShort>
                         <BodyLong spacing>
                             Åpent hverdager kl. 9–15. Vi kan ringe deg tilbake hvis ventetiden er
@@ -42,8 +41,7 @@ export const TrengerDuHjelp = () => {
                     </li>
                     <li>
                         <BodyShort size="large">
-                            <LenkeMedLogging
-                                loggLenketekst={'Kontaktskjema'}
+                            <Lenke
                                 href={kontaktskjemaURL}
                             >
                                 <PaperplaneIcon
@@ -52,7 +50,7 @@ export const TrengerDuHjelp = () => {
                                     aria-hidden="true"
                                 />
                                 Kontaktskjema
-                            </LenkeMedLogging>
+                            </Lenke>
                         </BodyShort>
                         <BodyLong spacing>
                             Du kan skrive til oss hvis du ønsker hjelp til å rekruttere, inkludere
@@ -61,9 +59,8 @@ export const TrengerDuHjelp = () => {
                     </li>
                     <li>
                         <BodyShort size="large">
-                            <LenkeMedLogging
+                            <Lenke
                                 href={'#'}
-                                loggLenketekst={'Chat med Frida'}
                                 onClick={showFrida}
                             >
                                 <Chat2Icon
@@ -72,7 +69,7 @@ export const TrengerDuHjelp = () => {
                                     aria-hidden="true"
                                 />
                                 Chat med Frida
-                            </LenkeMedLogging>
+                            </Lenke>
                         </BodyShort>
                         <BodyLong spacing>
                             Du møter først chatbot Frida som har døgnåpent. Mellom klokken 9 og

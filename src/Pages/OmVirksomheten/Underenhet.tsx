@@ -4,7 +4,7 @@ import NyFaneIkon from './NyFaneIkon';
 import { Buildings2Icon } from '@navikt/aksel-icons';
 import { enhetsregisteretUnderenhetLink } from '../../lenker';
 import './Underenhet.css';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
 import { BodyShort, Heading, HStack, Label } from '@navikt/ds-react';
 import { formatOrgNr } from '../../utils/util';
@@ -49,13 +49,12 @@ const Underenhet = ({ underenhet }: Props) => {
             </Tekstboks>
 
             <Tekstboks>
-                <LenkeMedLogging
+                <Lenke
                     href={enhetsregisteretUnderenhetLink(underenhet.organisasjonsnummer)}
-                    loggLenketekst="Flere opplysninger om virksomheten hos Enhetsregisteret"
                 >
                     <span>Flere opplysninger for virksomheten hos Enhetsregisteret</span>
                     <NyFaneIkon />
-                </LenkeMedLogging>
+                </Lenke>
             </Tekstboks>
             <HStack gap="6" align={'start'}>
                 <KontonummerUnderenhet underenhet={underenhet} />

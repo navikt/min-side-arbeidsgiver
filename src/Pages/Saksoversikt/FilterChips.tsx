@@ -5,7 +5,6 @@ import { VirksomhetChips } from './Saksfilter/VirksomhetChips';
 import { count, flatUtTre } from '../../utils/util';
 import { Organisasjon } from '../OrganisasjonerOgTilgangerContext';
 import { ChevronUpIcon, ChevronDownIcon } from '@navikt/aksel-icons';
-import { logAnalyticsChipClick } from '../../utils/analytics';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaksoversiktContext } from './SaksoversiktProvider';
 
@@ -28,7 +27,6 @@ export const FilterChips = () => {
             sakstyper: [],
             oppgaveFilter: [],
         });
-        logAnalyticsChipClick('tøm-alle-filtre', 'tøm-falle-filtre');
     };
 
     const organisasjonerTilChips: (Organisasjon & { erHovedenhet: boolean })[] = useMemo<
@@ -86,7 +84,6 @@ export const FilterChips = () => {
                             ...saksoversiktState.filter,
                             sakstyper: nySakstyper.filter((it) => it !== sakstype),
                         });
-                        logAnalyticsChipClick('sakstype', sakstype);
                     }}
                 >
                     {sakstype}
@@ -104,7 +101,6 @@ export const FilterChips = () => {
                             (it) => it != filterType
                         ),
                     });
-                    logAnalyticsChipClick('oppgave', filterType);
                 }}
             >
                 {filterTypeTilTekst(filterType)}
@@ -129,10 +125,6 @@ export const FilterChips = () => {
                         }
                     }
                     handleValgteVirksomheter(valgte);
-                    logAnalyticsChipClick(
-                        'organisasjon',
-                        virksomhet.erHovedenhet ? 'hovedenhet' : 'underenhet'
-                    );
                 }}
             />
         )),

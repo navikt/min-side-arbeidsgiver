@@ -9,7 +9,6 @@ import React, {
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 import { useSaker } from './useSaker';
 import { SIDE_SIZE } from './Saksoversikt';
-import { logAnalyticsEvent } from '../../utils/analytics';
 import {
     OppgaveFilterInfo,
     OppgaveFilterType,
@@ -210,14 +209,6 @@ export const SaksOversiktProvider: FunctionComponent<PropsWithChildren> = (props
         } else if (data?.saker?.__typename !== 'SakerResultat') {
             dispatch({ action: 'lasting-feilet' });
         } else {
-            logAnalyticsEvent('komponent-lastet', {
-                komponent: 'saksoversikt',
-                side: state.filter.side,
-                tekstsoek: state.filter.tekstsoek.trim() !== '',
-                totaltAntallSaker: data.saker.totaltAntallSaker,
-                totaltAntallSakstyper: state.sakstyper?.length ?? 0,
-                totaltAntallVirksomheter: orgs.length,
-            });
             dispatch({ action: 'lasting-ferdig', resultat: data.saker });
         }
     }, [loading, data]);

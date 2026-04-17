@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { useLoggBedriftValgtOgTilganger } from '../utils/analytics';
 import { useSaker } from './Saksoversikt/useSaker';
 import { SakSortering } from '../api/graphql-types';
 import { Organisasjon } from '@navikt/virksomhetsvelger';
@@ -54,8 +53,6 @@ export const OrganisasjonsDetaljerProvider: FunctionComponent<{
             setValgtOrganisasjon(organisasjonsInfo[valgtOrganisasjon.organisasjon.orgnr]);
         }
     }, [organisasjonsInfo, valgtOrganisasjon]);
-
-    useLoggBedriftValgtOgTilganger(valgtOrganisasjon);
 
     return valgtOrganisasjon === undefined ? null : (
         <OrganisasjonsDetaljerContext.Provider
