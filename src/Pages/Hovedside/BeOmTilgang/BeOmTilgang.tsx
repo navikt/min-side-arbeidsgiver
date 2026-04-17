@@ -1,4 +1,4 @@
-import React, { FC, FunctionComponent, useState } from 'react';
+import React, { FC, FunctionComponent, useMemo, useState } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import {
@@ -14,11 +14,10 @@ import {
     isAltinn2Tilgang,
     isAltinn3Tilgang,
 } from '../../../altinn/tjenester';
-import { opprettDelegationRequest } from '../../../altinn/tilganger';
+import { opprettDelegationRequest, useDelegationRequests } from '../../../altinn/tilganger';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
 import { Alert, Heading, LinkCard } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
-import { useLocalStorage } from '../../../hooks/useStorage';
 
 type IsVisible = 'visible' | 'hidden';
 
@@ -57,13 +56,23 @@ const tjenesteRekkefølge = Object.entries(altinnLayout)
     .filter(([_, v]) => v === 'visible')
     .map(([id]) => id as AltinntjenesteId);
 
+// Statuser der brukeren fremdeles venter eller har fått tilgang – vi viser "etterspurt" for disse.
+// Rejected/Withdrawn lar vi falle tilbake til normal "be om tilgang"-knapp slik at brukeren kan prøve igjen.
+const AKTIVE_STATUSER = new Set<string>(['None', 'Draft', 'Pending', 'Approved']);
+
 const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const [etterspurt, setEtterspurt] = useLocalStorage<AltinntjenesteId[]>(
-        `msa-be-om-tilgang-etterspurt-${valgtOrganisasjon.organisasjon.orgnr}`,
-        []
-    );
+    const delegationRequests = useDelegationRequests();
     const [pågår, setPågår] = useState<Set<AltinntjenesteId>>(new Set());
+
+    const etterspurteRessurser = useMemo(() => {
+        const orgnr = valgtOrganisasjon.organisasjon.orgnr;
+        return new Set(
+            delegationRequests
+                .filter((r) => r.orgnr === orgnr && AKTIVE_STATUSER.has(r.status))
+                .map((r) => r.resourceReferenceId)
+        );
+    }, [delegationRequests, valgtOrganisasjon.organisasjon.orgnr]);
 
     const opprettSøknad = (altinnId: AltinntjenesteId, altinn3Tilgang: Altinn3Tilgang) => {
         if (pågår.has(altinnId)) {
@@ -74,11 +83,6 @@ const BeOmTilgang: FunctionComponent = () => {
             orgnr: valgtOrganisasjon.organisasjon.orgnr,
             altinn3Tilgang: altinn3Tilgang,
         })
-            .then(() => {
-                setEtterspurt((prev) =>
-                    prev.includes(altinnId) ? prev : [...prev, altinnId]
-                );
-            })
             .catch(() => {
                 /* feil ved opprettelse, brukeren kan prøve igjen */
             })
@@ -121,7 +125,10 @@ const BeOmTilgang: FunctionComponent = () => {
             const altinnTjeneste = altinntjeneste[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            } else if (etterspurt.includes(altinnId)) {
+            } else if (
+                isAltinn3Tilgang(altinnTjeneste) &&
+                etterspurteRessurser.has((altinnTjeneste as Altinn3Tilgang).ressurs)
+            ) {
                 tjenesteinfoBokser.push(
                     <AltinntilgangAlleredeSøkt
                         altinnId={altinnId}

@@ -542,6 +542,7 @@ const server = setupServer(
             { status: 202 }
         )
     ),
+    http.get(`${__BASE_PATH__}/api/delegation-request`, () => HttpResponse.json([])),
     http.post(`${__BASE_PATH__}/api/kontonummerStatus/v1`, () =>
         HttpResponse.json({
             status: 'OK',

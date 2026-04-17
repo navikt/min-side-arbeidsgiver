@@ -45,6 +45,7 @@ export const handlers = (demoprofil: Demoprofil) => [
             { status: 202 }
         )
     ),
+    http.get('/min-side-arbeidsgiver/api/delegation-request', () => HttpResponse.json([])),
 
     // eregHandlers
     ...eregHandlers(demoprofil),
