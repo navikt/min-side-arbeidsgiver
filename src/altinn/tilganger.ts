@@ -51,6 +51,7 @@ const DelegationRequestRow = z.object({
     orgnr: z.string(),
     resourceReferenceId: z.string(),
     status: z.enum(['None', 'Draft', 'Pending', 'Approved', 'Rejected', 'Withdrawn']),
+    detailsLink: z.string().optional().nullable(),
     opprettet: z.string(),
     sistOppdatert: z.string(),
 });

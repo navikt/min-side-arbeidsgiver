@@ -14,7 +14,11 @@ import {
     isAltinn2Tilgang,
     isAltinn3Tilgang,
 } from '../../../altinn/tjenester';
-import { opprettDelegationRequest, useDelegationRequests } from '../../../altinn/tilganger';
+import {
+    DelegationRequestRow,
+    opprettDelegationRequest,
+    useDelegationRequests,
+} from '../../../altinn/tilganger';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
 import { Alert, Heading, LinkCard } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
@@ -56,22 +60,28 @@ const tjenesteRekkefølge = Object.entries(altinnLayout)
     .filter(([_, v]) => v === 'visible')
     .map(([id]) => id as AltinntjenesteId);
 
-// Statuser der brukeren fremdeles venter eller har fått tilgang – vi viser "etterspurt" for disse.
+// Statuser der brukeren venter på behandling eller har fått tilgang — vi viser "etterspurt" for disse.
+// Draft håndteres separat: har forespørselen en detailsLink lenker vi dit, ellers kan brukeren sende på nytt.
 // Rejected/Withdrawn lar vi falle tilbake til normal "be om tilgang"-knapp slik at brukeren kan prøve igjen.
-const AKTIVE_STATUSER = new Set<string>(['None', 'Draft', 'Pending', 'Approved']);
+const ETTERSPURT_STATUSER = new Set<string>(['None', 'Pending', 'Approved']);
 
 const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const delegationRequests = useDelegationRequests();
     const [pågår, setPågår] = useState<Set<AltinntjenesteId>>(new Set());
 
-    const etterspurteRessurser = useMemo(() => {
+    const requestByRessurs = useMemo(() => {
         const orgnr = valgtOrganisasjon.organisasjon.orgnr;
-        return new Set(
-            delegationRequests
-                .filter((r) => r.orgnr === orgnr && AKTIVE_STATUSER.has(r.status))
-                .map((r) => r.resourceReferenceId)
-        );
+        const map = new Map<string, DelegationRequestRow>();
+        for (const row of delegationRequests) {
+            if (row.orgnr === orgnr) {
+                // sorted newest first by backend — keep first seen
+                if (!map.has(row.resourceReferenceId)) {
+                    map.set(row.resourceReferenceId, row);
+                }
+            }
+        }
+        return map;
     }, [delegationRequests, valgtOrganisasjon.organisasjon.orgnr]);
 
     const opprettSøknad = (altinnId: AltinntjenesteId, altinn3Tilgang: Altinn3Tilgang) => {
@@ -125,27 +135,36 @@ const BeOmTilgang: FunctionComponent = () => {
             const altinnTjeneste = altinntjeneste[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            } else if (
-                isAltinn3Tilgang(altinnTjeneste) &&
-                etterspurteRessurser.has((altinnTjeneste as Altinn3Tilgang).ressurs)
-            ) {
-                tjenesteinfoBokser.push(
-                    <AltinntilgangAlleredeSøkt
-                        altinnId={altinnId}
-                        status="Tilgang etterspurt"
-                        statusBeskrivelse="Du har bedt om tilgang. En administrator i virksomheten må godkjenne forespørselen."
-                        type="suksess"
-                    />
-                );
             } else if (isAltinn3Tilgang(altinnTjeneste)) {
-                tjenesteinfoBokser.push(
-                    <BeOmTilgangBoks
-                        altinnId={altinnId}
-                        onClick={() =>
-                            opprettSøknad(altinnId, altinnTjeneste as Altinn3Tilgang)
-                        }
-                    />
-                );
+                const altinn3 = altinnTjeneste as Altinn3Tilgang;
+                const eksisterende = requestByRessurs.get(altinn3.ressurs);
+
+                if (eksisterende && ETTERSPURT_STATUSER.has(eksisterende.status)) {
+                    tjenesteinfoBokser.push(
+                        <AltinntilgangAlleredeSøkt
+                            altinnId={altinnId}
+                            status="Tilgang etterspurt"
+                            statusBeskrivelse="Du har bedt om tilgang. En administrator i virksomheten må godkjenne forespørselen."
+                            type="suksess"
+                        />
+                    );
+                } else if (eksisterende?.status === 'Draft' && eksisterende.detailsLink) {
+                    tjenesteinfoBokser.push(
+                        <BeOmTilgangBoks
+                            altinnId={altinnId}
+                            href={eksisterende.detailsLink}
+                            eksternSide
+                        />
+                    );
+                } else {
+                    // ingen request, avvist/trukket, eller draft uten detailsLink → la brukeren sende (på nytt)
+                    tjenesteinfoBokser.push(
+                        <BeOmTilgangBoks
+                            altinnId={altinnId}
+                            onClick={() => opprettSøknad(altinnId, altinn3)}
+                        />
+                    );
+                }
             } else if (isAltinn2Tilgang(altinnTjeneste)) {
                 /* altinn 2 tjenester er ikke lenger søkbare via delegation request */
                 tjenesteinfoBokser.push(<BeOmTilgangBoks altinnId={altinnId} />);
