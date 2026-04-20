@@ -50,7 +50,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     inkluderingstilskudd: 'visible',
     mentortilskudd: 'visible',
     tiltaksrefusjon: 'visible',
-    tilskuddsbrev: 'hidden', // tilskuddsbrev vises ikke på min side i dag, derfor ble den fjernet ref: https://jira.adeo.no/browse/TAG-2179
+    tilskuddsbrev: 'visible',
 
     utsendtArbeidstakerEØS: 'hidden',
     endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang
