@@ -1,23 +1,21 @@
-import React, { FC, FunctionComponent, MouseEventHandler } from 'react';
+import React, { FC, FunctionComponent, useMemo, useState } from 'react';
 import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpanel';
-import {
-    OrganisasjonInfo,
-    useOrganisasjonerOgTilgangerContext,
-} from '../../OrganisasjonerOgTilgangerContext';
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
 import {
-    Altinn2Tilgang,
+    Altinn3Tilgang,
     altinntjeneste,
     AltinntjenesteId,
-    isAltinn2Tilgang,
     isAltinn3Tilgang,
 } from '../../../altinn/tjenester';
-import { opprettAltinnTilgangssøknad } from '../../../altinn/tilganger';
-import { beOmTilgangIAltinnLink } from '../../../lenker';
+import {
+    DelegationRequestRow,
+    opprettDelegationRequest,
+    useDelegationRequests,
+} from '../../../altinn/tilganger';
 import { LinkableFragment } from '../../../GeneriskeElementer/LinkableFragment';
-import { Alert, Heading, LinkCard } from '@navikt/ds-react';
+import { Alert, Heading, HelpText, LinkCard, Tag } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 
 type IsVisible = 'visible' | 'hidden';
@@ -42,7 +40,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     refusjonskravSykepengerAGP: 'visible',
 
     arbeidstrening: 'visible',
-    yrkesskade: 'visible',
+    yrkesskade: 'hidden', // ikke migrert enda, skjules intill migrering er gjennomført
     midlertidigLønnstilskudd: 'visible',
     varigLønnstilskudd: 'visible',
     varigTilrettelagtArbeid: 'visible',
@@ -51,7 +49,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     inkluderingstilskudd: 'visible',
     mentortilskudd: 'visible',
     tiltaksrefusjon: 'visible',
-    tilskuddsbrev: 'hidden', // tilskuddsbrev vises ikke på min side i dag, derfor ble den fjernet ref: https://jira.adeo.no/browse/TAG-2179
+    tilskuddsbrev: 'hidden', // foreløpig skjult i prod, sett visible her når den er satt synlig i altinn prod
 
     utsendtArbeidstakerEØS: 'hidden',
     endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang
@@ -61,53 +59,62 @@ const tjenesteRekkefølge = Object.entries(altinnLayout)
     .filter(([_, v]) => v === 'visible')
     .map(([id]) => id as AltinntjenesteId);
 
-const beOmTilgangUrlFallback = (
-    altinn2Tilgang: Altinn2Tilgang,
-    valgtOrganisasjon: OrganisasjonInfo
-): string => {
-    return beOmTilgangIAltinnLink(
-        valgtOrganisasjon.organisasjon.orgnr,
-        altinn2Tilgang.tjenestekode,
-        altinn2Tilgang.tjenesteversjon
-    );
-};
-
-const opprettSøknad = (
-    altinn2Tilgang: Altinn2Tilgang,
-    valgtOrganisasjon: OrganisasjonInfo
-): MouseEventHandler<unknown> => {
-    let harTrykket = false; /* ikke opprett to søknader hvis bruker klikker raskt på knappen. */
-    return () => {
-        if (harTrykket) {
-            return;
-        }
-        harTrykket = true;
-        const redirectUrl = new URL(window.location.href);
-        redirectUrl.searchParams.set('fragment', 'be-om-tilgang');
-        opprettAltinnTilgangssøknad({
-            orgnr: valgtOrganisasjon.organisasjon.orgnr,
-            altinn2Tilgang: altinn2Tilgang,
-            redirectUrl: redirectUrl.toString(),
-        })
-            .then((søknad) => {
-                if (søknad === null) {
-                    window.location.href = beOmTilgangUrlFallback(
-                        altinn2Tilgang,
-                        valgtOrganisasjon
-                    );
-                } else {
-                    window.location.href = søknad.submitUrl;
-                }
-            })
-            .catch(() => {
-                window.location.href = beOmTilgangUrlFallback(altinn2Tilgang, valgtOrganisasjon);
-            });
-    };
-};
+// Statuser der brukeren venter på behandling eller har fått tilgang — vi viser "etterspurt" for disse.
+// Draft håndteres separat: har forespørselen en detailsLink lenker vi dit, ellers kan brukeren sende på nytt.
+// Rejected/Withdrawn lar vi falle tilbake til normal "be om tilgang"-knapp slik at brukeren kan prøve igjen.
+const ETTERSPURT_STATUSER = new Set<string>(['None', 'Pending', 'Approved']);
 
 const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-    const { altinnTilgangssøknad } = useOrganisasjonerOgTilgangerContext();
+    const delegationRequests = useDelegationRequests();
+    const [pågår, setPågår] = useState<Set<AltinntjenesteId>>(new Set());
+
+    const requestByRessurs = useMemo(() => {
+        const orgnr = valgtOrganisasjon.organisasjon.orgnr;
+        const map = new Map<string, DelegationRequestRow>();
+        for (const row of delegationRequests) {
+            if (row.orgnr === orgnr) {
+                // sorted newest first by backend — keep first seen
+                if (!map.has(row.resourceReferenceId)) {
+                    map.set(row.resourceReferenceId, row);
+                }
+            }
+        }
+        return map;
+    }, [delegationRequests, valgtOrganisasjon.organisasjon.orgnr]);
+
+    const opprettSøknad = (altinnId: AltinntjenesteId, altinn3Tilgang: Altinn3Tilgang) => {
+        if (pågår.has(altinnId)) {
+            return;
+        }
+        setPågår((prev) => new Set(prev).add(altinnId));
+        opprettDelegationRequest({
+            orgnr: valgtOrganisasjon.organisasjon.orgnr,
+            altinn3Tilgang: altinn3Tilgang,
+        })
+            .then((response) => {
+                // Altinn returnerer Draft + detailsLink når brukeren må fullføre forespørselen i Altinn.
+                const detailsLink = response?.links?.detailsLink;
+                if (
+                    response?.status === 'Draft' &&
+                    detailsLink !== undefined &&
+                    detailsLink !== null &&
+                    detailsLink !== ''
+                ) {
+                    window.location.assign(detailsLink);
+                }
+            })
+            .catch(() => {
+                /* feil ved opprettelse, brukeren kan prøve igjen */
+            })
+            .finally(() => {
+                setPågår((prev) => {
+                    const next = new Set(prev);
+                    next.delete(altinnId);
+                    return next;
+                });
+            });
+    };
 
     const tjenesteinfoBokser: React.JSX.Element[] = [];
 
@@ -134,65 +141,66 @@ const BeOmTilgang: FunctionComponent = () => {
     }
 
     if (valgtOrganisasjon.vilkaarligAltinntilgang) {
-        const tilgangssøknader = altinnTilgangssøknad?.[valgtOrganisasjon.organisasjon.orgnr];
-        for (let altinnId of tjenesteRekkefølge) {
+        for (const altinnId of tjenesteRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
             const altinnTjeneste = altinntjeneste[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            } else if (isAltinn2Tilgang(altinnTjeneste)) {
-                const tilgangsøknad = tilgangssøknader?.[altinnId];
-                if (tilgangsøknad === undefined || tilgangsøknad.tilgang === 'ikke søkt') {
-                    tjenesteinfoBokser.push(
-                        <BeOmTilgangBoks
-                            altinnId={altinnId}
-                            onClick={opprettSøknad(
-                                altinnTjeneste as Altinn2Tilgang,
-                                valgtOrganisasjon
-                            )}
-                            eksternSide={true}
-                        />
-                    );
-                } else if (tilgangsøknad.tilgang === 'søknad opprettet') {
-                    tjenesteinfoBokser.push(
-                        <BeOmTilgangBoks
-                            altinnId={altinnId}
-                            href={tilgangsøknad.url}
-                            eksternSide={true}
-                        />
-                    );
-                } else if (tilgangsøknad.tilgang === 'søkt') {
+            } else if (isAltinn3Tilgang(altinnTjeneste)) {
+                const altinn3 = altinnTjeneste as Altinn3Tilgang;
+                const eksisterende = requestByRessurs.get(altinn3.ressurs);
+
+                const draftDetailsLink =
+                    eksisterende?.status === 'Draft' &&
+                    eksisterende.detailsLink !== undefined &&
+                    eksisterende.detailsLink !== null &&
+                    eksisterende.detailsLink !== ''
+                        ? eksisterende.detailsLink
+                        : undefined;
+
+                if (eksisterende && ETTERSPURT_STATUSER.has(eksisterende.status)) {
                     tjenesteinfoBokser.push(
                         <AltinntilgangAlleredeSøkt
                             altinnId={altinnId}
-                            type="info"
                             status="Tilgang etterspurt"
-                            statusBeskrivelse={`
-                            Du vil motta et varsel fra Altinn når
-                            forespørselen er behandlet og tilganger er på plass.
-                    `}
+                            statusBeskrivelse="Du har bedt om tilgang. En administrator i virksomheten må godkjenne forespørselen."
                         />
                     );
-                } else if (tilgangsøknad.tilgang === 'godkjent') {
+                } else if (draftDetailsLink !== undefined) {
+                    // Draft med detailsLink → fortsett forespørselen i Altinn
                     tjenesteinfoBokser.push(
-                        <AltinntilgangAlleredeSøkt
+                        <BeOmTilgangBoks altinnId={altinnId} href={draftDetailsLink} eksternSide />
+                    );
+                } else if (eksisterende?.status === 'Rejected') {
+                    tjenesteinfoBokser.push(
+                        <BeOmTilgangBoks
                             altinnId={altinnId}
-                            type="suksess"
-                            status="Forespørsel godkjent"
-                            statusBeskrivelse={`
-                        Forespørselen er behandlet og er godkjent. Det kan
-                        ta litt tid før tjenesten blir tilgjengelig for deg.
-                    `}
+                            onClick={() => opprettSøknad(altinnId, altinn3)}
+                            tag={
+                                <Tag
+                                    className="tilgang-sokt-etikett"
+                                    variant="warning"
+                                    size="medium"
+                                >
+                                    <span>Forespørsel avvist</span>
+                                    <HelpText title="Hva skjer videre?">
+                                        Søknaden ble avvist av en administrator i virksomheten. Du
+                                        kan prøve å sende forespørselen på nytt, eller ta kontakt
+                                        med en administrator i virksomheten for mer informasjon.
+                                    </HelpText>
+                                </Tag>
+                            }
+                        />
+                    );
+                } else {
+                    // ingen request, Withdrawn, eller Draft uten detailsLink → la brukeren sende (på nytt)
+                    tjenesteinfoBokser.push(
+                        <BeOmTilgangBoks
+                            altinnId={altinnId}
+                            onClick={() => opprettSøknad(altinnId, altinn3)}
                         />
                     );
                 }
-            } else if (isAltinn3Tilgang(altinnTjeneste)) {
-                tjenesteinfoBokser.push(
-                    <BeOmTilgangBoks
-                        tittel={altinnTjeneste.navn}
-                        beskrivelse={altinnTjeneste.beOmTilgangBeskrivelse}
-                    />
-                );
             }
         }
     }

@@ -26,47 +26,26 @@ export const handlers = (demoprofil: Demoprofil) => [
         })
     ),
 
-    // altinnTilgangsoknadHandler
-    http.get('/min-side-arbeidsgiver/api/altinn-tilgangssoknad', () =>
-        HttpResponse.json([
+    // delegationRequestHandler
+    http.post('/min-side-arbeidsgiver/api/delegation-request', () =>
+        HttpResponse.json(
             {
-                orgnr: '321988123',
-                status: 'Unopened',
-                submitUrl: 'https://fake-altinn/send-inn-soknad/',
-                serviceCode: '5278',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
+                id: '1a9e3a32-252b-4d81-a23c-ed0d86b852c7',
+                status: 'Pending',
+                type: 'resource',
+                lastUpdated: '2025-01-01T00:00:00Z',
+                resource: {
+                    referenceId: 'nav_example_resource',
+                },
+                links: {
+                    detailsLink:
+                        'https://altinn.no/ui/delegation-request/1a9e3a32-252b-4d81-a23c-ed0d86b852c7',
+                },
             },
-            {
-                orgnr: '321988123',
-                status: 'Created',
-                submitUrl: 'https://fake-altinn/send-inn-soknad/',
-                serviceCode: '5332',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
-            },
-            {
-                orgnr: '321988123',
-                status: 'Unopened',
-                submitUrl: '/mock-altinn/skjema/',
-                serviceCode: '5516',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
-            },
-            {
-                orgnr: '321988123',
-                status: 'Unopened',
-                submitUrl: '/mock-altinn/skjema/',
-                serviceCode: '5216',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
-            },
-        ])
+            { status: 202 }
+        )
     ),
+    http.get('/min-side-arbeidsgiver/api/delegation-request', () => HttpResponse.json([])),
 
     // eregHandlers
     ...eregHandlers(demoprofil),

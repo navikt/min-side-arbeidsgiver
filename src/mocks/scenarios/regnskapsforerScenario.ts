@@ -63,8 +63,64 @@ const regnskapsførerSakstyper = [
     //Merkelapp.Yrkesskade,
 ];
 
+// Demo-rader for hver Delegation-request-state. Hver underenhet får én rad for hver status,
+// slik at alle UI-tilstandene vises side-om-side på samme virksomhet.
+const demoStates: Array<{
+    resourceReferenceId: string;
+    status: 'None' | 'Draft' | 'Pending' | 'Approved' | 'Rejected' | 'Withdrawn';
+    detailsLink: string | null;
+}> = [
+    {
+        resourceReferenceId: 'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
+        status: 'Pending',
+        detailsLink: null,
+    },
+    {
+        resourceReferenceId: 'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
+        status: 'Approved',
+        detailsLink: null,
+    },
+    {
+        resourceReferenceId: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
+        status: 'Draft',
+        detailsLink: 'https://altinn.no/ui/delegation-request/demo-draft-link',
+    },
+    {
+        resourceReferenceId: 'nav_rekruttering_kandidater',
+        status: 'Draft',
+        detailsLink: null,
+    },
+    {
+        resourceReferenceId: 'nav_rekruttering_stillingsannonser',
+        status: 'Rejected',
+        detailsLink: null,
+    },
+    {
+        resourceReferenceId: 'nav_tiltak_tiltaksrefusjon',
+        status: 'Withdrawn',
+        detailsLink: null,
+    },
+];
+
+const delegationRequestsScenario = http.get('/min-side-arbeidsgiver/api/delegation-request', () => {
+    const now = new Date().toISOString();
+    const rows = alleUnderenheter.flatMap((u) =>
+        demoStates.map((s) => ({
+            id: faker.string.uuid(),
+            orgnr: u.orgnr,
+            resourceReferenceId: s.resourceReferenceId,
+            status: s.status,
+            detailsLink: s.detailsLink,
+            opprettet: now,
+            sistOppdatert: now,
+        }))
+    );
+    return HttpResponse.json(rows);
+});
+
 export const regnskapsforerScenario = [
     regnskapsforerUserInfoScenario,
+    delegationRequestsScenario,
 
     ...brukerApiHandlers([nærmesteLederOrganisasjon], (merkelapp) =>
         regnskapsførerSakstyper.includes(merkelapp)
