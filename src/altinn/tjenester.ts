@@ -228,7 +228,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     rekrutteringStillingsannonser: {
         sort: 'tjeneste',
         navn: 'Stillingsannonser på arbeidsplassen.no',
-        beOmTilgangBeskrivelse: `Få tilgang til å registrere og redigere stillingsannonser på vegne av en arbeidsgiver. Den gir også tilgang til  å motta og behandle «superraske søknader» knyttet til stillingsannonsen.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å registrere og redigere stillingsannonser samt motta og behandle «superraske søknader» knyttet til stillingsannonsen.`,
         ressurs: 'nav_rekruttering_stillingsannonser',
     },
     tilskuddsbrev: {

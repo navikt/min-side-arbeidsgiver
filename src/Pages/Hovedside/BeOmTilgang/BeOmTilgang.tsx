@@ -7,7 +7,6 @@ import {
     Altinn3Tilgang,
     altinntjeneste,
     AltinntjenesteId,
-    isAltinn2Tilgang,
     isAltinn3Tilgang,
 } from '../../../altinn/tjenester';
 import {
@@ -41,7 +40,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     refusjonskravSykepengerAGP: 'visible',
 
     arbeidstrening: 'visible',
-    yrkesskade: 'visible',
+    yrkesskade: 'hidden', // ikke migrert enda, skjules intill migrering er gjennomført
     midlertidigLønnstilskudd: 'visible',
     varigLønnstilskudd: 'visible',
     varigTilrettelagtArbeid: 'visible',
@@ -202,9 +201,6 @@ const BeOmTilgang: FunctionComponent = () => {
                         />
                     );
                 }
-            } else if (isAltinn2Tilgang(altinnTjeneste)) {
-                /* altinn 2 tjenester er ikke lenger søkbare via delegation request */
-                tjenesteinfoBokser.push(<BeOmTilgangBoks altinnId={altinnId} />);
             }
         }
     }
