@@ -50,7 +50,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     inkluderingstilskudd: 'visible',
     mentortilskudd: 'visible',
     tiltaksrefusjon: 'visible',
-    tilskuddsbrev: 'visible',
+    tilskuddsbrev: 'hidden', // foreløpig skjult i prod, sett visible her når den er satt synlig i altinn prod
 
     utsendtArbeidstakerEØS: 'hidden',
     endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang

@@ -90,57 +90,59 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
              mulighet til å prøve seg i arbeid, få relevant erfaring
              og skaffe seg en ordinær jobb. Arbeidstrening i din
              bedrift kan bidra til at arbeidssøkeren når målene sine.`,
-        tjenestekode: '5332',
-        tjenesteversjon: gittMiljo({ prod: '2', other: '1' }),
+        ressurs: 'nav_tiltak_arbeidstrening',
     },
     arbeidsforhold: {
         sort: 'tjeneste',
         navn: 'Arbeidsforhold',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Innsyn i Arbeidsgiver- og arbeidstakerregisteret (Aa-registeret) for arbeidsgivere» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `
+            Få oversikt over alle arbeidsforhold du som arbeidsgiver har
+            rapportert inn via A-meldingen. Her kan du kontrollere opplysningene
+            og se hva som er registrert i arbeidsgiver- og arbeidstakerregisteret
+            (Aa-registeret).`,
         ressurs: 'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
     },
     ekspertbistand: {
         sort: 'tjeneste',
         navn: 'Ekspertbistand',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Tilskudd til ekspertbistand» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Tilskudd til ekspertbistand kan gis til arbeidsgivere for å forebygge lange eller hyppig gjentakende sykefravær i enkeltsaker.`,
         ressurs: 'nav_tiltak_ekspertbistand',
     },
     endreBankkontonummerForRefusjoner: {
         sort: 'tjeneste',
         navn: 'Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver',
-        beOmTilgangBeskrivelse:
-            'Du må ha enkeltrettigheten «Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.',
+        beOmTilgangBeskrivelse: '', // skjult fra be om tilgang
         ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
     },
     inntektsmelding: {
         sort: 'tjeneste',
         navn: 'Inntektsmelding',
-        beOmTilgangBeskrivelse: ``,
+        beOmTilgangBeskrivelse: ``, // skjult fra be om tilgang, kun for gamle tilganger i overgangsperioden
         tjenestekode: '4936',
         tjenesteversjon: '1',
     },
     inntektsmeldingForeldrepenger: {
         sort: 'tjeneste',
         navn: 'Inntektsmelding for foreldrepenger',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for foreldrepenger og svangerskapspenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å sende inn og endre inntektsmeldinger for foreldrepenger og svangerskapspenger, og lese relaterte Dialogporten meldinger sendt fra Nav.`,
         ressurs: 'nav_foreldrepenger_inntektsmelding',
     },
     inntektsmeldingSykepenger: {
         sort: 'tjeneste',
         navn: 'Inntektsmelding for sykepenger',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for sykepenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å sende opplysninger til NAV om inntekt, arbeidsgiverperiode, eventuelle naturalytelser og om arbeidsgiver krever refusjon av utbetalt lønn under sykefravær.`,
         ressurs: 'nav_sykepenger_inntektsmelding',
     },
     inntektsmeldingSykdomIFamilien: {
         sort: 'tjeneste',
         navn: 'Inntektsmelding for pleie-, opplærings- og omsorgspenger og refusjonskrav for omsorgspenger',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Inntektsmelding for pleie-, opplærings- og omsorgspenger og refusjonskrav for omsorgspenger» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å sende inn og endre inntektsmeldinger og refusjonskrav for pleie-, opplærings- og omsorgspenger, og lese relaterte Dialogporten meldinger sendt fra Nav.`,
         ressurs: 'nav_sykdom-i-familien_inntektsmelding',
     },
     refusjonskravSykepengerAGP: {
         sort: 'tjeneste',
         navn: 'Refusjonskrav for sykepenger i arbeidsgiverperioden',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Refusjonskrav for sykepenger i arbeidsgiverperioden» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å søke om dekning av arbeidsgiverperioden når en arbeidstaker er kronisk syk eller er sykmeldt grunnet graviditet.`,
         ressurs: 'nav_sykepenger_fritak-arbeidsgiverperiode',
     },
     midlertidigLønnstilskudd: {
@@ -150,8 +152,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
             Få tilgang til avtaler om midlertidig lønnstilskudd i din virksomhet.
             Lønnstilskudd kan gis dersom du ansetter personer som har problemer
             med å komme inn på arbeidsmarkedet.`,
-        tjenestekode: '5516',
-        tjenesteversjon: '1',
+        ressurs: 'nav_tiltak_midlertidig-lonnstilskudd',
     },
     varigLønnstilskudd: {
         sort: 'tjeneste',
@@ -160,8 +161,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
                 Få tilgang til avtaler om varig lønnstilskudd i din virksomhet.
                 Lønnstilskudd kan gis dersom du ansetter personer som har problemer
                 med å komme inn på arbeidsmarkedet.`,
-        tjenestekode: '5516',
-        tjenesteversjon: '2',
+        ressurs: 'nav_tiltak_varig-lonnstilskudd',
     },
     sommerjobb: {
         sort: 'tjeneste',
@@ -169,71 +169,66 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         beOmTilgangBeskrivelse: `
                 Få tilgang til avtaler om sommerjobb i din virksomhet.
                 Tilskudd til sommerjobb kan gis dersom du kan tilby sommerjobb til unge arbeidsledige som har fått vurdert av NAV at de har behov for arbeidsrettet bistand.`,
-        tjenestekode: '5516',
-        tjenesteversjon: '3',
+        ressurs: 'nav_tiltak_sommerjobb',
     },
     mentortilskudd: {
         sort: 'tjeneste',
         navn: 'Mentortilskudd',
-        tjenestekode: '5516',
-        tjenesteversjon: '4',
         beOmTilgangBeskrivelse: `
             Få tilgang til avtaler om mentortilskudd. 
             Du kan søke om mentortilskudd for å få dekket frikjøp av en 
             arbeidskollega som kan gi praktisk hjelp, veiledning og opplæring 
             for personer som gjennomfører arbeidsmarkedstiltak.
             `,
+        ressurs: 'nav_tiltak_mentor',
     },
     inkluderingstilskudd: {
         sort: 'tjeneste',
         navn: 'Inkluderingstilskudd',
-        tjenestekode: '5516',
-        tjenesteversjon: '5',
         beOmTilgangBeskrivelse: `
         Få tilgang til avtaler om inkluderingstilskudd.
         Du kan søke om tilskudd for å dekke merkostnader du som
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
+        ressurs: 'nav_tiltak_inkluderingstilskudd',
     },
     varigTilrettelagtArbeid: {
         sort: 'tjeneste',
         navn: 'Varig tilrettelagt arbeid',
-        tjenestekode: '5516',
-        tjenesteversjon: '6',
         beOmTilgangBeskrivelse: `
         Få tilgang til avtaler om varig tilrettelagt arbeid i ordinær virksomhet.
         Du kan søke om tilskudd for å dekke merkostnader du som
         arbeidsgiver har ved tilrettelegging av arbeidsplassen.`,
+        ressurs: 'nav_tiltak_varig-tilrettelagt-arbeid-ordinaer',
     },
     tiltaksrefusjon: {
         sort: 'tjeneste',
         navn: 'Tiltaksrefusjon',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Tiltaksrefusjon» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å håndtere refusjon for lønnstilskudd, tilskudd til sommerjobb, mentortilskudd og varig tilrettelagt arbeid i ordinær virksomhet.`,
         ressurs: 'nav_tiltak_tiltaksrefusjon',
     },
     sykefravarstatistikk: {
         sort: 'tjeneste',
         navn: 'Sykefraværsstatistikk',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Virksomhetens legemeldte sykefraværsstatistikk» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få innsyn i statistikk for virksomhetens legemeldte sykefravær (sykefraværsstatistikk), og sammenligning med statistikk for tilhørende næring.`,
         ressurs: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
     },
     rekruttering: {
         sort: 'tjeneste',
         navn: 'Kandidater til dine stillinger',
-        beOmTilgangBeskrivelse:
-            'Denne tjenesten er erstattet av "Rekrutteringssaker og CV-er fra Nav".',
+        beOmTilgangBeskrivelse: '', // Denne tjenesten er erstattet av "Rekrutteringssaker og CV-er fra Nav".
         tjenestekode: '5078',
         tjenesteversjon: '1',
     },
     rekrutteringKandidater: {
         sort: 'tjeneste',
         navn: 'Kandidater til dine stillinger',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Rekrutteringssaker og CV-er fra Nav» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til oversendte CV-er fra Nav på nav.no, når de har innledet et samarbeid med Nav i et rekrutteringsoppdrag.`,
         ressurs: 'nav_rekruttering_kandidater',
     },
     rekrutteringStillingsannonser: {
         sort: 'tjeneste',
         navn: 'Stillingsannonser på arbeidsplassen.no',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Stillingsannonser på arbeidsplassen.no» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å registrere og redigere stillingsannonser på vegne av en arbeidsgiver. Den gir også tilgang til  å motta og behandle «superraske søknader» knyttet til stillingsannonsen.`,
         ressurs: 'nav_rekruttering_stillingsannonser',
     },
     tilskuddsbrev: {
@@ -244,8 +239,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
             NAV sender digitale brev om blant annet inkluderingstilskudd og
             tilskudd til mentor og ekspertbistand.
         `,
-        tjenestekode: '5278',
-        tjenesteversjon: '1',
+        ressurs: 'nav_tiltak_tilskuddsbrev',
     },
     yrkesskade: {
         sort: 'tjeneste',
@@ -259,13 +253,13 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     oppgiNarmesteleder: {
         sort: 'tjeneste',
         navn: 'Oppgi nærmeste leder',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Oppgi nærmeste leder for sykmeldt ansatt» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å endre hvem som er nærmeste leder for en sykmeldt ansatt i bedriften.`,
         ressurs: 'nav_syfo_oppgi-narmesteleder',
     },
     permitteringOgNedbemanning: {
         sort: 'tjeneste',
         navn: 'Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å opprette og se innsendte meldinger til Nav om permitteringer, oppsigelser, eller innskrenkning i arbeidstid.`,
         ressurs: 'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
     },
 };
