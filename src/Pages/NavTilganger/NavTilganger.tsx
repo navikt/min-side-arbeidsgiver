@@ -130,7 +130,7 @@ const NavTilganger: FunctionComponent = () => {
                     <>
                         <div className="nav-tilganger-panel-topp">
                             <Heading level="2" size="medium">
-                                Alle enheter
+                                Alle virksomheter
                             </Heading>
                             <Button
                                 variant="tertiary"
@@ -166,7 +166,7 @@ const NavTilganger: FunctionComponent = () => {
                                 size="small"
                                 onClick={() => setVisAlleEnheter(true)}
                             >
-                                Se alle enheter
+                                Se alle virksomheter
                             </Button>
                         </div>
                         {isLoading ? (
