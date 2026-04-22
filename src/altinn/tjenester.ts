@@ -1,4 +1,3 @@
-import { gittMiljo } from '../utils/environment';
 import * as Record from '../utils/Record';
 
 export type AltinnskjemaId = 'utsendtArbeidstakerEØS';
@@ -22,7 +21,6 @@ export type NAVtjenesteId =
     | 'tilskuddsbrev'
     | 'tiltaksrefusjon'
     | 'sykefravarstatistikk'
-    | 'rekruttering'
     | 'rekrutteringKandidater'
     | 'rekrutteringStillingsannonser'
     | 'yrkesskade'
@@ -211,13 +209,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Sykefraværsstatistikk',
         beOmTilgangBeskrivelse: `Få innsyn i statistikk for virksomhetens legemeldte sykefravær (sykefraværsstatistikk), og sammenligning med statistikk for tilhørende næring.`,
         ressurs: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
-    },
-    rekruttering: {
-        sort: 'tjeneste',
-        navn: 'Kandidater til dine stillinger',
-        beOmTilgangBeskrivelse: '', // Denne tjenesten er erstattet av "Rekrutteringssaker og CV-er fra Nav".
-        tjenestekode: '5078',
-        tjenesteversjon: '1',
     },
     rekrutteringKandidater: {
         sort: 'tjeneste',

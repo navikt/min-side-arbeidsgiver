@@ -25,7 +25,6 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
 
     sykefravarstatistikk: 'visible',
 
-    rekruttering: 'hidden', // altinn 2 tjenesten er migrert og skjult fra be om tilgang. skal fjernes ette 1.mars 2026
     rekrutteringKandidater: 'visible',
     rekrutteringStillingsannonser: 'visible',
 
