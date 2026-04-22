@@ -1,11 +1,5 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
-import {
-    altinntjeneste,
-    Altinn,
-    AltinntjenesteId,
-    isAltinn2Tilgang,
-    isAltinn3Tilgang,
-} from '../../altinn/tjenester';
+import { altinntjeneste, isAltinn3Tilgang } from '../../altinn/tjenester';
 import { finnOrganisasjonIHierarki, useAltinnTilganger } from '../../api/altinnTilgangerApi';
 import { AltinnTilgangOrganisasjon } from '../../api/altinnTilgangerSchema';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
@@ -20,36 +14,21 @@ import {
     Label,
     List,
     Loader,
-    Tabs,
     Tag,
 } from '@navikt/ds-react';
 
 type TilgangVisning = { id: string; navn: string };
 
-const TabLabel = ({ navn, antall }: { navn: string; antall: number }) => (
-    <span className="nav-tilganger-tablabel">
-        <span>{navn}</span>
-        <span className="nav-tilganger-tabbadge" aria-hidden="true">
-            {antall}
-        </span>
-    </span>
-);
-
-const finnTilgangsnavn = (tilgangId: string, filter: (tilgang: Altinn) => boolean) => {
-    const treff = Object.values(altinntjeneste).find((tilgang) => {
-        if (!filter(tilgang)) return false;
-        if (isAltinn3Tilgang(tilgang)) return tilgang.ressurs === tilgangId;
-        return `${tilgang.tjenestekode}:${tilgang.tjenesteversjon}` === tilgangId;
-    });
-    return treff?.navn ?? tilgangId;
+const finnTilgangsnavn = (ressursId: string): string => {
+    const treff = Object.values(altinntjeneste).find(
+        (tilgang) => isAltinn3Tilgang(tilgang) && tilgang.ressurs === ressursId
+    );
+    return treff?.navn ?? ressursId;
 };
 
-const sorterTilganger = (
-    tilganger: string[],
-    filter: (tilgang: Altinn) => boolean
-): TilgangVisning[] =>
+const sorterTilganger = (tilganger: string[]): TilgangVisning[] =>
     tilganger
-        .map((id) => ({ id, navn: finnTilgangsnavn(id, filter) }))
+        .map((id) => ({ id, navn: finnTilgangsnavn(id) }))
         .sort((a, b) => a.navn.localeCompare(b.navn));
 
 const TilgangListe = ({ tilganger }: { tilganger: TilgangVisning[] }) =>
@@ -85,43 +64,17 @@ const RollerSeksjon = ({ roller }: { roller: string[] }) => (
     </section>
 );
 
-const TilgangerSeksjon = ({
-    altinn3,
-    altinn2,
-}: {
-    altinn3: TilgangVisning[];
-    altinn2: TilgangVisning[];
-}) => (
+const TilgangerSeksjon = ({ tilganger }: { tilganger: TilgangVisning[] }) => (
     <section className="nav-tilganger-seksjon">
         <Label as="h3">Tilganger</Label>
-        <Tabs defaultValue="altinn3" className="nav-tilganger-tabs">
-            <Tabs.List>
-                <Tabs.Tab
-                    value="altinn3"
-                    label={<TabLabel navn="Altinn 3" antall={altinn3.length} />}
-                />
-                <Tabs.Tab
-                    value="altinn2"
-                    label={<TabLabel navn="Altinn 2" antall={altinn2.length} />}
-                />
-            </Tabs.List>
-            <Tabs.Panel value="altinn3">
-                <TilgangListe tilganger={altinn3} />
-            </Tabs.Panel>
-            <Tabs.Panel value="altinn2">
-                <TilgangListe tilganger={altinn2} />
-            </Tabs.Panel>
-        </Tabs>
+        <TilgangListe tilganger={tilganger} />
     </section>
 );
 
 const OrgDetaljer = ({ org }: { org: AltinnTilgangOrganisasjon }) => (
     <>
         <RollerSeksjon roller={org.roller.map((r) => r.visningsnavn)} />
-        <TilgangerSeksjon
-            altinn3={sorterTilganger(org.altinn3Tilganger, isAltinn3Tilgang)}
-            altinn2={sorterTilganger(org.altinn2Tilganger, isAltinn2Tilgang)}
-        />
+        <TilgangerSeksjon tilganger={sorterTilganger(org.altinn3Tilganger)} />
     </>
 );
 

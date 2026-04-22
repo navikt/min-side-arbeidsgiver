@@ -1,7 +1,7 @@
 import React from 'react';
-import bedriftinfoikon from '../Bedriftsinfoknapp/infoombedriftikon.svg';
+import { KeyHorizontalIcon } from '@navikt/aksel-icons';
+import { Heading } from '@navikt/ds-react';
 import { InternalLenkepanel } from '../../../../GeneriskeElementer/Lenkepanel';
-import { TittelMedIkon } from '../../../../GeneriskeElementer/TittelMedIkon';
 import './NavTilgangerKnapp.css';
 
 const NavTilgangerKnapp = () => (
@@ -10,7 +10,14 @@ const NavTilgangerKnapp = () => (
         onClick={() => scroll(0, 0)}
         className="nav-tilganger-knapp"
     >
-        <TittelMedIkon tittel={'Se mine Nav-tilganger'} ikon={bedriftinfoikon} />
+        <div className="tittel-med-ikon">
+            <div className="tittel-med-ikon-container">
+                <KeyHorizontalIcon aria-hidden className="tittel-med-ikon__ikon" fontSize="1.5rem" />
+            </div>
+            <Heading size="small" level="2">
+                Se mine Nav-tilganger
+            </Heading>
+        </div>
     </InternalLenkepanel>
 );
 

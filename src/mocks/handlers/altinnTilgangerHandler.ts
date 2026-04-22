@@ -11,7 +11,6 @@ export const altinnTilgangerHandler = http.post(
                     navn: 'Eksempel AS',
                     organisasjonsform: 'AS',
                     altinn3Tilganger: [],
-                    altinn2Tilganger: [],
                     roller: [
                         { kode: 'DAGL', visningsnavn: 'Daglig leder' },
                         { kode: 'LEDE', visningsnavn: 'Styrets leder' },
@@ -22,7 +21,6 @@ export const altinnTilgangerHandler = http.post(
                             navn: 'Eksempel FLI',
                             organisasjonsform: 'FLI',
                             altinn3Tilganger: ['nav_test_ressurs'],
-                            altinn2Tilganger: ['3403:1'],
                             roller: [],
                             underenheter: [],
                         },
@@ -31,7 +29,6 @@ export const altinnTilgangerHandler = http.post(
                             navn: 'Eksempel ORGL',
                             organisasjonsform: 'ORGL',
                             altinn3Tilganger: [],
-                            altinn2Tilganger: [],
                             roller: [],
                             underenheter: [
                                 {
@@ -39,7 +36,6 @@ export const altinnTilgangerHandler = http.post(
                                     navn: 'Eksempel ORGL underenhet',
                                     organisasjonsform: 'ORGL',
                                     altinn3Tilganger: [],
-                                    altinn2Tilganger: [],
                                     roller: [],
                                     underenheter: [
                                         {
@@ -47,7 +43,6 @@ export const altinnTilgangerHandler = http.post(
                                             navn: 'Eksempel AAFY',
                                             organisasjonsform: 'AAFY',
                                             altinn3Tilganger: [],
-                                            altinn2Tilganger: [],
                                             roller: [
                                                 { kode: 'LEDE', visningsnavn: 'Styrets leder' },
                                             ],
@@ -60,12 +55,5 @@ export const altinnTilgangerHandler = http.post(
                     ],
                 },
             ],
-            orgNrTilTilganger: {
-                '100000002': ['nav_test_ressurs', '3403:1'],
-            },
-            tilgangTilOrgNr: {
-                nav_test_ressurs: ['100000002'],
-                '3403:1': ['100000002'],
-            },
         })
 );
