@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { orgnr } from '../brukerApi/helpers';
 import { fromEntries } from '../../utils/Record';
 import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { mapRecursive } from '../../utils/util';
@@ -33,22 +32,22 @@ const alleTilganger = [
 ];
 const underenheter = [
     {
-        orgnr: orgnr(),
+        orgnr: '100000001',
         underenheter: [],
-        navn: faker.company.name(),
+        navn: 'Eksempel AAFY',
         organisasjonsform: 'AAFY',
         roller: ['LEDE'],
     },
     {
-        orgnr: orgnr(),
+        orgnr: '100000002',
         underenheter: [],
-        navn: faker.company.name(),
+        navn: 'Eksempel FLI',
         organisasjonsform: 'FLI',
         roller: [],
     },
     {
-        orgnr: orgnr(),
-        navn: faker.company.name(),
+        orgnr: '100000003',
+        navn: 'Eksempel BEDR',
         organisasjonsform: 'BEDR',
         roller: [],
         underenheter: [],
@@ -56,14 +55,14 @@ const underenheter = [
 ];
 
 const orgledd = {
-    orgnr: orgnr(),
-    navn: faker.company.name(),
+    orgnr: '100000010',
+    navn: 'Eksempel ORGL',
     organisasjonsform: 'ORGL',
     roller: [],
     underenheter: [
         {
-            orgnr: orgnr(),
-            navn: faker.company.name(),
+            orgnr: '100000011',
+            navn: 'Eksempel ORGL underenhet',
             organisasjonsform: 'ORGL',
             roller: [],
             underenheter: underenheter.slice(0, 1),
@@ -71,8 +70,8 @@ const orgledd = {
     ],
 };
 export const dagligLederOrganisasjon = {
-    orgnr: orgnr(),
-    navn: faker.company.name(),
+    orgnr: '100000020',
+    navn: 'Eksempel AS',
     organisasjonsform: 'AS',
     roller: ['DAGL', 'LEDE'],
     underenheter: [...underenheter.slice(1), orgledd],

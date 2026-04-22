@@ -29,7 +29,7 @@ export const useAltinnTilganger = (): {
 };
 
 const fetcher = async (url: string) => {
-    const respons = await fetch(url);
+    const respons = await fetch(url, { method: 'POST' });
     if (!respons.ok) throw respons;
     return AltinnTilgangerResponseSchema.parse(await respons.json());
 };

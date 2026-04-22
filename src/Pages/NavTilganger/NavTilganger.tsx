@@ -170,35 +170,6 @@ const NavTilganger: FunctionComponent = () => {
         [altinnTilganger?.hierarki, valgtOrganisasjon.organisasjon.orgnr]
     );
 
-    // Fallback brukes kun når org ikke finnes i altinn-tilganger-hierarkiet
-    const rollerFallback = valgtOrganisasjon.roller;
-    const altinn3Fallback = useMemo(
-        () =>
-            Object.entries(valgtOrganisasjon.altinntilgang)
-                .filter(([, harTilgang]) => harTilgang)
-                .flatMap(([tilgangId]) => {
-                    const tilgang = altinntjeneste[tilgangId as AltinntjenesteId];
-                    return tilgang !== undefined && isAltinn3Tilgang(tilgang)
-                        ? [{ id: tilgang.ressurs, navn: tilgang.navn }]
-                        : [];
-                })
-                .sort((a, b) => a.navn.localeCompare(b.navn)),
-        [valgtOrganisasjon.altinntilgang]
-    );
-    const altinn2Fallback = useMemo(
-        () =>
-            Object.entries(valgtOrganisasjon.altinntilgang)
-                .filter(([, harTilgang]) => harTilgang)
-                .flatMap(([tilgangId]) => {
-                    const tilgang = altinntjeneste[tilgangId as AltinntjenesteId];
-                    return tilgang !== undefined && isAltinn2Tilgang(tilgang)
-                        ? [{ id: `${tilgang.tjenestekode}:${tilgang.tjenesteversjon}`, navn: tilgang.navn }]
-                        : [];
-                })
-                .sort((a, b) => a.navn.localeCompare(b.navn)),
-        [valgtOrganisasjon.altinntilgang]
-    );
-
     return (
         <div className="nav-tilganger-side">
             <Box className="nav-tilganger-panel">
@@ -213,7 +184,7 @@ const NavTilganger: FunctionComponent = () => {
                                 size="small"
                                 onClick={() => setVisAlleEnheter(false)}
                             >
-                                Tilbake
+                                Tilbake til valgt enhet
                             </Button>
                         </div>
                         {isLoading ? (
@@ -247,16 +218,10 @@ const NavTilganger: FunctionComponent = () => {
                         </div>
                         {isLoading ? (
                             <LoadingState />
-                        ) : organisasjon ? (
+                        ) : organisasjon !== undefined ? (
                             <OrgDetaljer org={organisasjon} />
                         ) : (
-                            <>
-                                <RollerSeksjon roller={rollerFallback} />
-                                <TilgangerSeksjon
-                                    altinn3={altinn3Fallback}
-                                    altinn2={altinn2Fallback}
-                                />
-                            </>
+                            <BodyLong>Fant ikke tilganger for valgt virksomhet.</BodyLong>
                         )}
                     </>
                 )}
