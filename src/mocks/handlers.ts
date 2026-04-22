@@ -12,6 +12,7 @@ import { kontonummerHandlers } from './handlers/kontonummerHandler';
 import { eregHandlers } from './handlers/eregHandlers';
 import { Demoprofil } from '../hooks/useDemoprofil';
 import { lagredeFilterHandlers } from './handlers/lagredeFilterHandlers';
+import { altinnTilgangerHandler } from './handlers/altinnTilgangerHandler';
 
 /**
  * generelle handlers som har lik oppførsel uavhengig av profil.
@@ -49,6 +50,8 @@ export const handlers = (demoprofil: Demoprofil) => [
 
     // eregHandlers
     ...eregHandlers(demoprofil),
+
+    altinnTilgangerHandler,
 
     // sykefravaerstatistikkHandler
     http.get('/min-side-arbeidsgiver/api/sykefravaerstatistikk/:orgnr', () =>

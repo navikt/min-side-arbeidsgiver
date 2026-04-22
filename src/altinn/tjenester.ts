@@ -41,11 +41,11 @@ export type Altinn3Tilgang = {
     ressurs: string;
 };
 
-export function isAltinn2Tilgang(altinn: Altinn): boolean {
+export function isAltinn2Tilgang(altinn: Altinn): altinn is Altinnskjema & Altinn2Tilgang | NAVTjeneste & Altinn2Tilgang {
     return 'tjenestekode' in altinn && 'tjenesteversjon' in altinn;
 }
 
-export function isAltinn3Tilgang(altinn: Altinn): boolean {
+export function isAltinn3Tilgang(altinn: Altinn): altinn is Altinnskjema & Altinn3Tilgang | NAVTjeneste & Altinn3Tilgang {
     return 'ressurs' in altinn;
 }
 
