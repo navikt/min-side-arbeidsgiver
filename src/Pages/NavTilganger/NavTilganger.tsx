@@ -178,7 +178,7 @@ const NavTilganger: FunctionComponent = () => {
                 .filter(([, harTilgang]) => harTilgang)
                 .flatMap(([tilgangId]) => {
                     const tilgang = altinntjeneste[tilgangId as AltinntjenesteId];
-                    return tilgang && isAltinn3Tilgang(tilgang)
+                    return tilgang !== undefined && isAltinn3Tilgang(tilgang)
                         ? [{ id: tilgang.ressurs, navn: tilgang.navn }]
                         : [];
                 })
@@ -191,7 +191,7 @@ const NavTilganger: FunctionComponent = () => {
                 .filter(([, harTilgang]) => harTilgang)
                 .flatMap(([tilgangId]) => {
                     const tilgang = altinntjeneste[tilgangId as AltinntjenesteId];
-                    return tilgang && isAltinn2Tilgang(tilgang)
+                    return tilgang !== undefined && isAltinn2Tilgang(tilgang)
                         ? [{ id: `${tilgang.tjenestekode}:${tilgang.tjenesteversjon}`, navn: tilgang.navn }]
                         : [];
                 })
