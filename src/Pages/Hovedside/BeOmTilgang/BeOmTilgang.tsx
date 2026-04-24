@@ -47,6 +47,7 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     ekspertbistand: 'visible',
     inkluderingstilskudd: 'visible',
     mentortilskudd: 'visible',
+    firearigLønnstilskudd: 'visible',
     tiltaksrefusjon: 'visible',
     tilskuddsbrev: 'hidden', // foreløpig skjult i prod, sett visible her når den er satt synlig i altinn prod
 
