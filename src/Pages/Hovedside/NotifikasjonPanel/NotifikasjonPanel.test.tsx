@@ -1,4 +1,3 @@
-import { http, HttpResponse } from 'msw';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { setupServer } from 'msw/node';
@@ -59,9 +58,7 @@ describe('Uleste Notifikasjoner', () => {
     });
 });
 
-const server = setupServer(
-    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () => HttpResponse.json([]))
-);
+const server = setupServer();
 const nå = new Date();
 const toDagerIFortiden = dateInPast({ days: 2 });
 

@@ -22,7 +22,7 @@ import {
     Sak,
     TidslinjeElement,
 } from '../../api/graphql-types';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { AvtaletilstandLinje, StatusLinje } from '../../GeneriskeElementer/StatusLinje';
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { LocationPinIcon, PersonHeadsetIcon } from '@navikt/aksel-icons';
@@ -100,12 +100,11 @@ const Saksoverskrift = ({ lenkeTilSak, sak }: SaksoverskriftProps) => {
     if (lenkeTilSak) {
         if (typeof sak.lenke === 'string') {
             return (
-                <LenkeMedLogging
+                <Lenke
                     href={sak.lenke}
-                    loggLenketekst={`lenke til sak med merkelapp ${sak.merkelapp}`}
                 >
                     <BodyShort className="sakstittel">{sak.tittel}</BodyShort>
-                </LenkeMedLogging>
+                </Lenke>
             );
         } else {
             return <BodyShort className="sakstittel">{sak.tittel}</BodyShort>;

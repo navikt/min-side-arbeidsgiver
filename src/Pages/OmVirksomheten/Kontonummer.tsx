@@ -1,7 +1,7 @@
 import { Alert, BodyShort, Heading, HelpText } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import './Kontonummer.css';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { Hovedenhet, Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
 import useSWR from 'swr';
 import { z } from 'zod';
@@ -151,15 +151,14 @@ export const KontonummerOverordnetEnhet = ({
 };
 
 const EndreKontonummer = () => (
-    <LenkeMedLogging
-        loggLenketekst={'Endre kontonummer'}
+    <Lenke
         href={gittMiljo({
             prod: `https://arbeidsgiver.nav.no/endre-kontonummer/`,
             other: `https://sokos-kro-selvbetjening-frontend.ekstern.dev.nav.no/endre-kontonummer/`,
         })}
     >
         Endre kontonummer
-    </LenkeMedLogging>
+    </Lenke>
 );
 
 const KontonummerTittel = ({ enhetsType }: { enhetsType: string }) => (

@@ -1,8 +1,6 @@
 import { Heading, LinkPanel } from '@navikt/ds-react';
-import React, { useEffect } from 'react';
-import { logAnalyticsEvent, loggNavigasjonTags } from '../../utils/analytics';
+import React from 'react';
 import { DisplayBetween, shouldDisplay } from '../../GeneriskeElementer/DisplayBetween';
-import { useLocation } from 'react-router-dom';
 import './AktueltRubrikk.css';
 import { OrganisasjonInfo } from '../OrganisasjonerOgTilgangerContext';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
@@ -24,24 +22,9 @@ const dateFormat = new Intl.DateTimeFormat('no', {
 });
 
 const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) => {
-    const { pathname } = useLocation();
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'aktuelt',
-            lenketekst: tittel,
-        });
-    }, []);
-
     return (
         <DisplayBetween showFrom={visFra} showUntil={visTil}>
-            <LinkPanel
-                className="aktuelt-panel"
-                href={lenke}
-                border
-                onClick={() => {
-                    loggNavigasjonTags(lenke, tittel, pathname, { komponent: 'aktuelt' });
-                }}
-            >
+            <LinkPanel className="aktuelt-panel" href={lenke} border>
                 <LinkPanel.Title>{tittel}</LinkPanel.Title>
                 <LinkPanel.Description>
                     {beskrivelse ?? dateFormat.format(visFra)}
@@ -53,24 +36,22 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
 
 const aktuelt: Array<AktueltProps> = [
     {
-        lenke: 'https://www.nav.no/arbeidsgiver/mentor#refusjon',
-        tittel: 'Refusjon for mentortilskudd blir nå utbetalt automatisk.',
-        visFra: new Date('2026-01-27T00:00:00+02:00'),
-        visTil: new Date('2026-03-01T00:00:00+02:00'),
-        tilgangssjekk: (o) =>
-            any(
-                pick(o.altinntilgang, 'mentortilskudd', 'tiltaksrefusjon'),
-                (value) => value === true
-            ),
+        lenke: 'https://www.nav.no/arbeidsgiver/sommerjobb',
+        tittel: 'Trenger du hjelp i sommer?',
+        beskrivelse:
+            'Gir du sommerjobb til ungdom gjennom Nav, får ungdom verdifull erfaring samtidig som Nav dekker deler av lønnen.',
+        visFra: new Date('2026-04-09T00:00:00+02:00'),
+        visTil: new Date('2026-05-30T00:00:00+02:00'),
+        tilgangssjekk: (o) => o.vilkaarligAltinntilgang,
     },
     {
-        lenke: 'https://arbeidsplassen.nav.no/lys-ut-sommerjobber',
-        tittel: 'Trenger du ekstra hjelp i bedriften i sommer?',
+        lenke: 'https://www.nav.no/arbeidsgiver/oppgjorsrapport',
+        tittel: 'Store endringer i Oppgjørsrapporten (tidligere kalt K27)',
         beskrivelse:
-            'På Arbeidsplassen.no kan du legge ut annonse om sommerjobb gratis.',
-        visFra: new Date('2026-03-23T00:00:00+01:00'),
-        visTil: new Date('2026-04-30T00:00:00+02:00'),
-        tilgangssjekk: (o) => o.altinntilgang.rekrutteringStillingsannonser === true,
+            'Det blir nye rapportnavn, nye leveransekanaler og en periode med dobbeltvarsling.',
+        visFra: new Date('2026-03-26T00:00:00+01:00'),
+        visTil: new Date('2026-04-26T00:00:00+02:00'),
+        tilgangssjekk: (o) => o.vilkaarligAltinntilgang,
     },
 ];
 

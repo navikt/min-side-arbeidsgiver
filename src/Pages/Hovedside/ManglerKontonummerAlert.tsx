@@ -1,12 +1,11 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Alert, Heading } from '@navikt/ds-react';
-import { LenkeMedLogging } from '../../GeneriskeElementer/LenkeMedLogging';
+import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { erStøy } from '../../utils/util';
 import './ManglerKontonummerAlert.css';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
-import { logAnalyticsEvent } from '../../utils/analytics';
 import { gittMiljo } from '../../utils/environment';
 
 export const ManglerKontonummerAlert = () => {
@@ -14,14 +13,6 @@ export const ManglerKontonummerAlert = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const kanEndreKontonummer =
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner ?? false;
-
-    useEffect(() => {
-        logAnalyticsEvent('komponent-lastet', {
-            komponent: 'ManglerKontonummerAlert',
-            status: kontonummerStatus.status,
-            kanEndreKontonummer,
-        });
-    }, [kontonummerStatus, kanEndreKontonummer]);
 
     if (kontonummerStatus.status !== 'MANGLER_KONTONUMMER') {
         return null;
@@ -40,26 +31,24 @@ export const ManglerKontonummerAlert = () => {
                 {kanEndreKontonummer ? (
                     <>
                         {' '}
-                        <LenkeMedLogging
-                            loggLenketekst={'Endre kontonummer'}
+                        <Lenke
                             href={gittMiljo({
                                 prod: `https://arbeidsgiver.nav.no/endre-kontonummer/`,
                                 other: `https://sokos-kro-selvbetjening-frontend.ekstern.dev.nav.no/endre-kontonummer/`,
                             })}
                         >
                             Legg inn kontonummer for refusjon fra Nav.
-                        </LenkeMedLogging>
+                        </Lenke>
                     </>
                 ) : (
                     <>
                         {' '}
                         Les mer om
-                        <LenkeMedLogging
+                        <Lenke
                             href={`https://www.nav.no/arbeidsgiver/endre-kontonummer`}
-                            loggLenketekst="kontonummer for refusjon."
                         >
                             kontonummer for refusjon.
-                        </LenkeMedLogging>
+                        </Lenke>
                     </>
                 )}
             </Alert>

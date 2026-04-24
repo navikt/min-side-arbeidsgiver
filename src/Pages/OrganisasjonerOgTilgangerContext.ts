@@ -1,25 +1,12 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import * as Record from '../utils/Record';
-import {
-    Altinn2Tilgang,
-    altinntjeneste,
-    AltinntjenesteId,
-    isAltinn2Tilgang,
-} from '../altinn/tjenester';
-import { AltinnTilgangssøknad, useAltinnTilgangssøknader } from '../altinn/tilganger';
+import { AltinntjenesteId } from '../altinn/tjenester';
 import { useUserInfo } from '../hooks/useUserInfo';
 import { AlertContext } from './Alerts';
 import { organisasjonStrukturFlatt, mapRecursive, mergeOrgTre } from '../utils/util';
 import { findRecursive } from '@navikt/virksomhetsvelger';
 
 export type orgnr = string;
-
-export type Søknadsstatus =
-    | { tilgang: 'søknad opprettet'; url: string }
-    | { tilgang: 'søkt' }
-    | { tilgang: 'godkjent' }
-    | { tilgang: 'ikke søkt' }
-    | { tilgang: 'ikke søkbar' };
 
 export interface Organisasjon {
     orgnr: string;
@@ -51,7 +38,6 @@ export type OrganisasjonerOgTilgangerContext = {
     orgnrTilParentMap: Map<string, string>;
     // map av orgnr til dens children. gitt et orgnr finner man alle direkte children
     orgnrTilChildrenMap: Map<string, string[]>;
-    altinnTilgangssøknad: Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>>;
 };
 
 export const OrganisasjonerOgTilgangerContext =
@@ -65,64 +51,6 @@ export const useOrganisasjonerOgTilgangerContext = () => {
         );
     }
     return organisasjonerOgTilgangerContext;
-};
-
-export const useBeregnAltinnTilgangssøknad = (
-    organisasjonsInfo: Record<string, OrganisasjonInfo> | undefined
-): Record<orgnr, Record<AltinntjenesteId, Søknadsstatus>> | undefined => {
-    const altinnTilgangssøknader = useAltinnTilgangssøknader();
-
-    return useMemo(() => {
-        if (organisasjonsInfo === undefined) {
-            return undefined;
-        }
-
-        return Record.fromEntries(
-            Object.values(organisasjonsInfo).map((org) => {
-                return [
-                    org.organisasjon.orgnr,
-                    Record.map(altinntjeneste, (_: AltinntjenesteId, altinnTjeneste) =>
-                        isAltinn2Tilgang(altinnTjeneste)
-                            ? sjekkTilgangssøknader(
-                                  org.organisasjon.orgnr,
-                                  (altinnTjeneste as Altinn2Tilgang).tjenestekode,
-                                  (altinnTjeneste as Altinn2Tilgang).tjenesteversjon,
-                                  altinnTilgangssøknader
-                              )
-                            : { tilgang: 'ikke søkbar' }
-                    ),
-                ];
-            })
-        );
-    }, [organisasjonsInfo, altinnTilgangssøknader]);
-};
-
-export const sjekkTilgangssøknader = (
-    orgnr: orgnr,
-    tjenestekode: string,
-    tjenesteversjon: string,
-    altinnTilgangssøknader: AltinnTilgangssøknad[]
-): Søknadsstatus => {
-    const søknader = altinnTilgangssøknader.filter(
-        (s) =>
-            s.orgnr === orgnr &&
-            s.serviceCode === tjenestekode &&
-            s.serviceEdition.toString() === tjenesteversjon
-    );
-
-    if (søknader.some((_) => _.status === 'Unopened')) {
-        return { tilgang: 'søkt' };
-    }
-
-    const søknad = søknader.find((_) => _.status === 'Created');
-    if (søknad) {
-        return { tilgang: 'søknad opprettet', url: søknad.submitUrl };
-    }
-
-    if (søknader.some((_) => _.status === 'Accepted')) {
-        return { tilgang: 'godkjent' };
-    }
-    return { tilgang: 'ikke søkt' };
 };
 
 export const useBeregnOrganisasjonsInfo = ():

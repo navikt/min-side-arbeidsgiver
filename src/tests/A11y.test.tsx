@@ -142,11 +142,21 @@ const server = setupServer(
                 },
             ],
             tilganger: {
-                '5384:1': ['182345674', '118345674', '119985432', '119988432'],
-                '4936:1': ['182345674', '118345674', '119985432', '119988432'],
+                nav_tiltak_ekspertbistand: ['182345674', '118345674', '119985432', '119988432'],
+                nav_sykepenger_inntektsmelding: [
+                    '182345674',
+                    '118345674',
+                    '119985432',
+                    '119988432',
+                ],
                 '4826:1': ['182345674', '118345674', '119985432', '119988432'],
                 '5332:1': ['182345674', '118345674', '119985432', '119988432'],
-                '5441:1': ['182345674', '118345674', '119985432', '119988432'],
+                'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver': [
+                    '182345674',
+                    '118345674',
+                    '119985432',
+                    '119988432',
+                ],
                 '5516:1': ['182345674', '118345674', '119985432', '119988432'],
                 '5516:2': ['182345674', '118345674', '119985432', '119988432'],
                 '5516:3': ['182345674', '118345674', '119985432', '119988432'],
@@ -158,9 +168,9 @@ const server = setupServer(
                     '119985432',
                     '119988432',
                 ],
-                '5078:1': ['182345674', '118345674', '119985432', '119988432'],
+                nav_rekruttering_kandidater: ['182345674', '118345674', '119985432', '119988432'],
                 '5278:1': ['182345674', '118345674', '119985432', '119988432'],
-                '5902:1': ['182345674', '118345674', '119985432', '119988432'],
+                nav_yrkesskade_skademelding: ['182345674', '118345674', '119985432', '119988432'],
             },
             digisyfoError: false,
             digisyfoOrganisasjoner: [
@@ -538,28 +548,16 @@ const server = setupServer(
             },
         });
     }),
-    http.get(`${__BASE_PATH__}/api/altinn-tilgangssoknad`, () =>
-        HttpResponse.json([
+    http.post(`${__BASE_PATH__}/api/delegation-request`, () =>
+        HttpResponse.json(
             {
-                orgnr: '321988123',
-                status: 'Unopened',
-                submitUrl: 'https://fake-altinn/send-inn-soknad/',
-                serviceCode: '5278',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
+                id: '1a9e3a32-252b-4d81-a23c-ed0d86b852c7',
+                status: 'Pending',
             },
-            {
-                orgnr: '321988123',
-                status: 'Created',
-                submitUrl: 'https://fake-altinn/send-inn-soknad/',
-                serviceCode: '5332',
-                serviceEdition: 1,
-                createdDateTime: '',
-                lastChangedDateTime: '',
-            },
-        ])
+            { status: 202 }
+        )
     ),
+    http.get(`${__BASE_PATH__}/api/delegation-request`, () => HttpResponse.json([])),
     http.post(`${__BASE_PATH__}/api/kontonummerStatus/v1`, () =>
         HttpResponse.json({
             status: 'OK',
