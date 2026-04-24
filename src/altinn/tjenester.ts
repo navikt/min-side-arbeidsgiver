@@ -202,7 +202,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     firearigLønnstilskudd: {
         sort: 'tjeneste',
         navn: 'Fireårig lønnstilskudd for unge',
-        beOmTilgangBeskrivelse: `Du må ha enkeltrettigheten «Avtale om fireårig lønstilskot for unge» for å ta i bruk tjenesten. Spør virksomheten din hvem som kan gi deg rettigheter i Altinn.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å endre avtaler om fireårig lønnstilskudd for unge, samt lese eksisterende avtaler som er gjeldende for virksomheten.`,
         ressurs: 'nav_tiltak_firearig-lonnstilskudd',
     },
     tiltaksrefusjon: {
