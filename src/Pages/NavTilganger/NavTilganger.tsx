@@ -39,7 +39,9 @@ const TilgangAccordionItem = ({
         <Accordion.Item>
             <Accordion.Header>{tittel}</Accordion.Header>
             <Accordion.Content>
-                {beskrivelse && <BodyLong spacing>{beskrivelse}</BodyLong>}
+                {beskrivelse != null && beskrivelse.length > 0 && (
+                    <BodyLong spacing>{beskrivelse}</BodyLong>
+                )}
                 <div className="nav-tilganger-tags">
                     {matchendeRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
