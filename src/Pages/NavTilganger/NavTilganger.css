@@ -41,7 +41,21 @@
 
 
 
-.nav-tilganger-laster {
+.nav-tilganger-nærmeste-leder {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.nav-tilganger-nærmeste-leder-ikon {
+  flex-shrink: 0;
+  color: var(--a-icon-success);
+  font-size: 1.5rem;
+  margin-top: 0.1rem;
+}
+
+
   display: flex;
   min-height: 18rem;
   flex-direction: column;

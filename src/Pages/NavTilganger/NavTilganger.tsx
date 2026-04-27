@@ -11,9 +11,13 @@ import {
     Detail,
     Heading,
     Label,
+    Link,
     Loader,
     Tag,
 } from '@navikt/ds-react';
+import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
+import { narmesteLederKoblingURL } from '../../lenker';
+import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
 const TilgangAccordionItem = ({
     ressursId,
@@ -100,29 +104,64 @@ const TilgangerAccordion = ({
         <BodyLong>Ingen tilganger registrert.</BodyLong>
     );
 
-const OrgDetaljer = ({
+const NærmesteLederSeksjon = () => (
+    <section className="nav-tilganger-seksjon">
+        <Label as="h3">Nærmeste leder - oppfølging av sykemeldte</Label>
+        <div className="nav-tilganger-nærmeste-leder">
+            <CheckmarkCircleFillIcon
+                className="nav-tilganger-nærmeste-leder-ikon"
+                aria-hidden
+            />
+            <BodyLong>
+                Du er oppgitt som nærmeste leder for en eller flere ansatte i virksomheten.
+            </BodyLong>
+        </div>
+        <Link href={narmesteLederKoblingURL}>Kontroller eller fjern kobling</Link>
+    </section>
+);
+
+const AltinnTilgangerSeksjon = ({
     org,
     ressursMetadata,
 }: {
     org: AltinnTilgangOrganisasjon;
     ressursMetadata: Record<string, RessursMetadata>;
 }) => (
-    <>
+    <section className="nav-tilganger-seksjon">
+        <Label as="h3">Altinn tilganger</Label>
+        <BodyLong spacing>Du har følgende tilganger i Altinn til Navs tjenester.</BodyLong>
         <TilgangerAccordion
             tilganger={org.altinn3Tilganger}
             ressursMetadata={ressursMetadata}
             orgRoller={org.roller}
             orgTilgangspakker={org.tilgangspakker}
         />
+    </section>
+);
+
+const OrgDetaljer = ({
+    org,
+    ressursMetadata,
+    syfotilgang,
+}: {
+    org: AltinnTilgangOrganisasjon;
+    ressursMetadata: Record<string, RessursMetadata>;
+    syfotilgang: boolean;
+}) => (
+    <>
+        {syfotilgang && <NærmesteLederSeksjon />}
+        <AltinnTilgangerSeksjon org={org} ressursMetadata={ressursMetadata} />
     </>
 );
 
 const OrgAccordionItem = ({
     org,
     ressursMetadata,
+    organisasjonsInfo,
 }: {
     org: AltinnTilgangOrganisasjon;
     ressursMetadata: Record<string, RessursMetadata>;
+    organisasjonsInfo: ReturnType<typeof useOrganisasjonerOgTilgangerContext>['organisasjonsInfo'];
 }) => (
     <Accordion.Item>
         <Accordion.Header>
@@ -132,7 +171,11 @@ const OrgAccordionItem = ({
             </div>
         </Accordion.Header>
         <Accordion.Content>
-            <OrgDetaljer org={org} ressursMetadata={ressursMetadata} />
+            <OrgDetaljer
+                org={org}
+                ressursMetadata={ressursMetadata}
+                syfotilgang={organisasjonsInfo[org.orgnr]?.syfotilgang ?? false}
+            />
             {org.underenheter.length > 0 && (
                 <section className="nav-tilganger-seksjon">
                     <Label as="h3">Underenheter</Label>
@@ -142,6 +185,7 @@ const OrgAccordionItem = ({
                                 key={u.orgnr}
                                 org={u}
                                 ressursMetadata={ressursMetadata}
+                                organisasjonsInfo={organisasjonsInfo}
                             />
                         ))}
                     </Accordion>
@@ -160,6 +204,7 @@ const LoadingState = () => (
 
 const NavTilganger: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
+    const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const { data: altinnTilganger, isLoading } = useAltinnTilganger();
     const [visAlleEnheter, setVisAlleEnheter] = useState(false);
 
@@ -200,6 +245,7 @@ const NavTilganger: FunctionComponent = () => {
                                         key={org.orgnr}
                                         org={org}
                                         ressursMetadata={ressursMetadata}
+                                        organisasjonsInfo={organisasjonsInfo}
                                     />
                                 ))}
                             </Accordion>
@@ -227,7 +273,11 @@ const NavTilganger: FunctionComponent = () => {
                         {isLoading ? (
                             <LoadingState />
                         ) : organisasjon !== undefined ? (
-                            <OrgDetaljer org={organisasjon} ressursMetadata={ressursMetadata} />
+                            <OrgDetaljer
+                                org={organisasjon}
+                                ressursMetadata={ressursMetadata}
+                                syfotilgang={valgtOrganisasjon.syfotilgang}
+                            />
                         ) : (
                             <BodyLong>Fant ikke tilganger for valgt virksomhet.</BodyLong>
                         )}
