@@ -20,7 +20,7 @@ export type AltinnTilgangOrganisasjon = z.infer<typeof BaseAltinnTilgangOrganisa
     underenheter: AltinnTilgangOrganisasjon[];
 };
 
-export const AltinnTilgangOrganisasjonSchema: z.ZodType<AltinnTilgangOrganisasjon> =
+export const AltinnTilgangOrganisasjonSchema: z.ZodType<AltinnTilgangOrganisasjon, z.ZodTypeDef, unknown> =
     BaseAltinnTilgangOrganisasjonSchema.extend({
         underenheter: z.lazy(() => AltinnTilgangOrganisasjonSchema.array()),
     });
