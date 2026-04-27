@@ -100,22 +100,6 @@ const TilgangerAccordion = ({
         <BodyLong>Ingen tilganger registrert.</BodyLong>
     );
 
-const TilgangspakkerSeksjon = ({ tilgangspakker }: { tilgangspakker: string[] }) => {
-    if (tilgangspakker.length === 0) return null;
-    return (
-        <section className="nav-tilganger-seksjon">
-            <Label as="h3">Tilgangspakker</Label>
-            <div className="nav-tilganger-tags">
-                {tilgangspakker.map((pakke) => (
-                    <Tag key={pakke} variant="neutral">
-                        {pakke}
-                    </Tag>
-                ))}
-            </div>
-        </section>
-    );
-};
-
 const OrgDetaljer = ({
     org,
     ressursMetadata,
@@ -130,7 +114,6 @@ const OrgDetaljer = ({
             orgRoller={org.roller}
             orgTilgangspakker={org.tilgangspakker}
         />
-        <TilgangspakkerSeksjon tilgangspakker={org.tilgangspakker} />
     </>
 );
 
