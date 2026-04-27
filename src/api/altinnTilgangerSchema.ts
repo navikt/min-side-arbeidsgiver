@@ -24,9 +24,31 @@ export const AltinnTilgangOrganisasjonSchema: z.ZodType<AltinnTilgangOrganisasjo
         underenheter: z.lazy(() => AltinnTilgangOrganisasjonSchema.array()),
     });
 
+const LocalizedStringSchema = z.object({
+    nb: z.string().nullable(),
+    nn: z.string().nullable(),
+    en: z.string().nullable(),
+});
+
+export const RessursMetadataSchema = z.object({
+    metadata: z.object({
+        identifier: z.string(),
+        title: LocalizedStringSchema,
+        rightDescription: LocalizedStringSchema,
+        resourceType: z.string(),
+        status: z.string(),
+        delegable: z.boolean(),
+    }),
+    grantedByRoles: z.array(z.string()),
+    grantedByAccessPackages: z.array(z.string()),
+});
+
+export type RessursMetadata = z.infer<typeof RessursMetadataSchema>;
+
 export const AltinnTilgangerResponseSchema = z.object({
     isError: z.boolean(),
     hierarki: z.array(AltinnTilgangOrganisasjonSchema),
+    ressursMetadata: z.record(z.string(), RessursMetadataSchema).default({}),
 });
 
 export type AltinnTilgangerResponse = z.infer<typeof AltinnTilgangerResponseSchema>;

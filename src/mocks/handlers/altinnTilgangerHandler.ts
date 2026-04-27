@@ -21,7 +21,7 @@ export const altinnTilgangerHandler = http.post(
                             navn: 'Eksempel FLI',
                             organisasjonsform: 'FLI',
                             altinn3Tilganger: ['nav_test_ressurs'],
-                            roller: [],
+                            roller: [{ kode: 'DAGL', visningsnavn: 'Daglig leder' }],
                             underenheter: [],
                         },
                         {
@@ -55,5 +55,27 @@ export const altinnTilgangerHandler = http.post(
                     ],
                 },
             ],
+            ressursMetadata: {
+                nav_test_ressurs: {
+                    metadata: {
+                        identifier: 'nav_test_ressurs',
+                        title: {
+                            nb: 'Test ressurs',
+                            nn: 'Test ressurs nn',
+                            en: 'Test resource',
+                        },
+                        rightDescription: {
+                            nb: 'Gir tilgang til test ressurs',
+                            nn: null,
+                            en: null,
+                        },
+                        resourceType: 'GenericAccessResource',
+                        status: 'Completed',
+                        delegable: true,
+                    },
+                    grantedByRoles: ['dagl'],
+                    grantedByAccessPackages: [],
+                },
+            },
         })
 );

@@ -1,7 +1,6 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
-import { altinntjeneste, isAltinn3Tilgang } from '../../altinn/tjenester';
 import { finnOrganisasjonIHierarki, useAltinnTilganger } from '../../api/altinnTilgangerApi';
-import { AltinnTilgangOrganisasjon } from '../../api/altinnTilgangerSchema';
+import { AltinnTilgangOrganisasjon, Rolle, RessursMetadata } from '../../api/altinnTilgangerSchema';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import './NavTilganger.css';
 import {
@@ -12,73 +11,109 @@ import {
     Detail,
     Heading,
     Label,
-    List,
     Loader,
     Tag,
 } from '@navikt/ds-react';
 
-type TilgangVisning = { id: string; navn: string };
+const TilgangAccordionItem = ({
+    ressursId,
+    ressursMetadata,
+    orgRoller,
+}: {
+    ressursId: string;
+    ressursMetadata: Record<string, RessursMetadata>;
+    orgRoller: Rolle[];
+}) => {
+    const metadata = ressursMetadata[ressursId];
+    const tittel = metadata?.metadata.title.nb ?? ressursId;
+    const beskrivelse = metadata?.metadata.rightDescription.nb;
 
-const finnTilgangsnavn = (ressursId: string): string => {
-    const treff = Object.values(altinntjeneste).find(
-        (tilgang) => isAltinn3Tilgang(tilgang) && tilgang.ressurs === ressursId
+    const matchendeRoller = orgRoller.filter((rolle) =>
+        (metadata?.grantedByRoles ?? []).some(
+            (r) => r.toLowerCase() === rolle.kode.toLowerCase()
+        )
     );
-    return treff?.navn ?? ressursId;
+    const matchendePakker = metadata?.grantedByAccessPackages ?? [];
+
+    return (
+        <Accordion.Item>
+            <Accordion.Header>{tittel}</Accordion.Header>
+            <Accordion.Content>
+                {beskrivelse && <BodyLong spacing>{beskrivelse}</BodyLong>}
+                <div className="nav-tilganger-tags">
+                    {matchendeRoller.map((rolle) => (
+                        <Tag key={rolle.kode} variant="alt1">
+                            Delegert via rollen {rolle.visningsnavn} ({rolle.kode})
+                        </Tag>
+                    ))}
+                    {matchendePakker.map((pakke) => (
+                        <Tag key={pakke} variant="alt1">
+                            Delegert via tilgangspakke {pakke}
+                        </Tag>
+                    ))}
+                </div>
+            </Accordion.Content>
+        </Accordion.Item>
+    );
 };
 
-const sorterTilganger = (tilganger: string[]): TilgangVisning[] =>
-    tilganger
-        .map((id) => ({ id, navn: finnTilgangsnavn(id) }))
-        .sort((a, b) => a.navn.localeCompare(b.navn));
+const sorterRessursIds = (
+    ressursIds: string[],
+    ressursMetadata: Record<string, RessursMetadata>
+): string[] =>
+    [...ressursIds].sort((a, b) => {
+        const navnA = ressursMetadata[a]?.metadata.title.nb ?? a;
+        const navnB = ressursMetadata[b]?.metadata.title.nb ?? b;
+        return navnA.localeCompare(navnB);
+    });
 
-const TilgangListe = ({ tilganger }: { tilganger: TilgangVisning[] }) =>
+const TilgangerAccordion = ({
+    tilganger,
+    ressursMetadata,
+    orgRoller,
+}: {
+    tilganger: string[];
+    ressursMetadata: Record<string, RessursMetadata>;
+    orgRoller: Rolle[];
+}) =>
     tilganger.length > 0 ? (
-        <List>
-            {tilganger.map((t) => (
-                <List.Item key={t.id}>
-                    <div className="nav-tilganger-listeelement">
-                        <span>{t.navn}</span>
-                        <Detail textColor="subtle">{t.id}</Detail>
-                    </div>
-                </List.Item>
+        <Accordion>
+            {sorterRessursIds(tilganger, ressursMetadata).map((id) => (
+                <TilgangAccordionItem
+                    key={id}
+                    ressursId={id}
+                    ressursMetadata={ressursMetadata}
+                    orgRoller={orgRoller}
+                />
             ))}
-        </List>
+        </Accordion>
     ) : (
         <BodyLong>Ingen tilganger registrert.</BodyLong>
     );
 
-const RollerSeksjon = ({ roller }: { roller: string[] }) => (
-    <section className="nav-tilganger-seksjon">
-        <Label as="h3">Roller</Label>
-        {roller.length > 0 ? (
-            <div className="nav-tilganger-tags">
-                {roller.map((rolle) => (
-                    <Tag key={rolle} variant="neutral">
-                        {rolle}
-                    </Tag>
-                ))}
-            </div>
-        ) : (
-            <BodyLong>Ingen roller registrert.</BodyLong>
-        )}
-    </section>
-);
-
-const TilgangerSeksjon = ({ tilganger }: { tilganger: TilgangVisning[] }) => (
-    <section className="nav-tilganger-seksjon">
-        <Label as="h3">Tilganger</Label>
-        <TilgangListe tilganger={tilganger} />
-    </section>
-);
-
-const OrgDetaljer = ({ org }: { org: AltinnTilgangOrganisasjon }) => (
+const OrgDetaljer = ({
+    org,
+    ressursMetadata,
+}: {
+    org: AltinnTilgangOrganisasjon;
+    ressursMetadata: Record<string, RessursMetadata>;
+}) => (
     <>
-        <RollerSeksjon roller={org.roller.map((r) => r.visningsnavn)} />
-        <TilgangerSeksjon tilganger={sorterTilganger(org.altinn3Tilganger)} />
+        <TilgangerAccordion
+            tilganger={org.altinn3Tilganger}
+            ressursMetadata={ressursMetadata}
+            orgRoller={org.roller}
+        />
     </>
 );
 
-const OrgAccordionItem = ({ org }: { org: AltinnTilgangOrganisasjon }) => (
+const OrgAccordionItem = ({
+    org,
+    ressursMetadata,
+}: {
+    org: AltinnTilgangOrganisasjon;
+    ressursMetadata: Record<string, RessursMetadata>;
+}) => (
     <Accordion.Item>
         <Accordion.Header>
             <div className="nav-tilganger-accordion-header">
@@ -87,13 +122,17 @@ const OrgAccordionItem = ({ org }: { org: AltinnTilgangOrganisasjon }) => (
             </div>
         </Accordion.Header>
         <Accordion.Content>
-            <OrgDetaljer org={org} />
+            <OrgDetaljer org={org} ressursMetadata={ressursMetadata} />
             {org.underenheter.length > 0 && (
                 <section className="nav-tilganger-seksjon">
                     <Label as="h3">Underenheter</Label>
                     <Accordion className="nav-tilganger-underenheter">
                         {org.underenheter.map((u) => (
-                            <OrgAccordionItem key={u.orgnr} org={u} />
+                            <OrgAccordionItem
+                                key={u.orgnr}
+                                org={u}
+                                ressursMetadata={ressursMetadata}
+                            />
                         ))}
                     </Accordion>
                 </section>
@@ -113,6 +152,8 @@ const NavTilganger: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const { data: altinnTilganger, isLoading } = useAltinnTilganger();
     const [visAlleEnheter, setVisAlleEnheter] = useState(false);
+
+    const ressursMetadata = altinnTilganger?.ressursMetadata ?? {};
 
     const organisasjon = useMemo(
         () =>
@@ -145,7 +186,11 @@ const NavTilganger: FunctionComponent = () => {
                         ) : (
                             <Accordion>
                                 {altinnTilganger?.hierarki.map((org) => (
-                                    <OrgAccordionItem key={org.orgnr} org={org} />
+                                    <OrgAccordionItem
+                                        key={org.orgnr}
+                                        org={org}
+                                        ressursMetadata={ressursMetadata}
+                                    />
                                 ))}
                             </Accordion>
                         )}
@@ -172,7 +217,7 @@ const NavTilganger: FunctionComponent = () => {
                         {isLoading ? (
                             <LoadingState />
                         ) : organisasjon !== undefined ? (
-                            <OrgDetaljer org={organisasjon} />
+                            <OrgDetaljer org={organisasjon} ressursMetadata={ressursMetadata} />
                         ) : (
                             <BodyLong>Fant ikke tilganger for valgt virksomhet.</BodyLong>
                         )}
@@ -184,3 +229,4 @@ const NavTilganger: FunctionComponent = () => {
 };
 
 export default NavTilganger;
+
