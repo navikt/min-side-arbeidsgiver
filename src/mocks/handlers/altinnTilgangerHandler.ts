@@ -15,6 +15,7 @@ export const altinnTilgangerHandler = http.post(
                         { kode: 'DAGL', visningsnavn: 'Daglig leder' },
                         { kode: 'LEDE', visningsnavn: 'Styrets leder' },
                     ],
+                    tilgangspakker: ['regnskapsfoerer', 'revisor'],
                     underenheter: [
                         {
                             orgnr: '100000002',
@@ -22,6 +23,7 @@ export const altinnTilgangerHandler = http.post(
                             organisasjonsform: 'FLI',
                             altinn3Tilganger: ['nav_test_ressurs'],
                             roller: [{ kode: 'DAGL', visningsnavn: 'Daglig leder' }],
+                            tilgangspakker: [],
                             underenheter: [],
                         },
                         {
@@ -30,6 +32,7 @@ export const altinnTilgangerHandler = http.post(
                             organisasjonsform: 'ORGL',
                             altinn3Tilganger: [],
                             roller: [],
+                            tilgangspakker: [],
                             underenheter: [
                                 {
                                     orgnr: '100000011',
@@ -37,6 +40,7 @@ export const altinnTilgangerHandler = http.post(
                                     organisasjonsform: 'ORGL',
                                     altinn3Tilganger: [],
                                     roller: [],
+                                    tilgangspakker: [],
                                     underenheter: [
                                         {
                                             orgnr: '100000001',
@@ -46,6 +50,7 @@ export const altinnTilgangerHandler = http.post(
                                             roller: [
                                                 { kode: 'LEDE', visningsnavn: 'Styrets leder' },
                                             ],
+                                            tilgangspakker: [],
                                             underenheter: [],
                                         },
                                     ],

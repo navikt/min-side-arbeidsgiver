@@ -13,6 +13,7 @@ const BaseAltinnTilgangOrganisasjonSchema = z.object({
     organisasjonsform: z.string(),
     altinn3Tilganger: z.array(z.string()),
     roller: z.array(RolleSchema),
+    tilgangspakker: z.array(z.string()).default([]),
 });
 
 export type AltinnTilgangOrganisasjon = z.infer<typeof BaseAltinnTilgangOrganisasjonSchema> & {

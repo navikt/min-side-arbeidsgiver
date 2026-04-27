@@ -19,10 +19,12 @@ const TilgangAccordionItem = ({
     ressursId,
     ressursMetadata,
     orgRoller,
+    orgTilgangspakker,
 }: {
     ressursId: string;
     ressursMetadata: Record<string, RessursMetadata>;
     orgRoller: Rolle[];
+    orgTilgangspakker: string[];
 }) => {
     const metadata = ressursMetadata[ressursId];
     const tittel = metadata?.metadata.title.nb ?? ressursId;
@@ -33,7 +35,9 @@ const TilgangAccordionItem = ({
             (r) => r.toLowerCase() === rolle.kode.toLowerCase()
         )
     );
-    const matchendePakker = metadata?.grantedByAccessPackages ?? [];
+    const matchendePakker = (metadata?.grantedByAccessPackages ?? []).filter((pakke) =>
+        orgTilgangspakker.some((p) => p.toLowerCase() === pakke.toLowerCase())
+    );
 
     return (
         <Accordion.Item>
@@ -73,10 +77,12 @@ const TilgangerAccordion = ({
     tilganger,
     ressursMetadata,
     orgRoller,
+    orgTilgangspakker,
 }: {
     tilganger: string[];
     ressursMetadata: Record<string, RessursMetadata>;
     orgRoller: Rolle[];
+    orgTilgangspakker: string[];
 }) =>
     tilganger.length > 0 ? (
         <Accordion>
@@ -86,12 +92,29 @@ const TilgangerAccordion = ({
                     ressursId={id}
                     ressursMetadata={ressursMetadata}
                     orgRoller={orgRoller}
+                    orgTilgangspakker={orgTilgangspakker}
                 />
             ))}
         </Accordion>
     ) : (
         <BodyLong>Ingen tilganger registrert.</BodyLong>
     );
+
+const TilgangspakkerSeksjon = ({ tilgangspakker }: { tilgangspakker: string[] }) => {
+    if (tilgangspakker.length === 0) return null;
+    return (
+        <section className="nav-tilganger-seksjon">
+            <Label as="h3">Tilgangspakker</Label>
+            <div className="nav-tilganger-tags">
+                {tilgangspakker.map((pakke) => (
+                    <Tag key={pakke} variant="neutral">
+                        {pakke}
+                    </Tag>
+                ))}
+            </div>
+        </section>
+    );
+};
 
 const OrgDetaljer = ({
     org,
@@ -105,7 +128,9 @@ const OrgDetaljer = ({
             tilganger={org.altinn3Tilganger}
             ressursMetadata={ressursMetadata}
             orgRoller={org.roller}
+            orgTilgangspakker={org.tilgangspakker}
         />
+        <TilgangspakkerSeksjon tilgangspakker={org.tilgangspakker} />
     </>
 );
 
