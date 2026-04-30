@@ -19,6 +19,12 @@ import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { narmesteLederKoblingURL } from '../../lenker';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
+const normaliserRessursId = (id: string): string => {
+    const utenPrefix = id.replace(/^nav_/, '');
+    const medMellomrom = utenPrefix.replace(/[_-]/g, ' ');
+    return medMellomrom.charAt(0).toUpperCase() + medMellomrom.slice(1);
+};
+
 const TilgangAccordionItem = ({
     ressursId,
     ressursMetadata,
@@ -33,7 +39,7 @@ const TilgangAccordionItem = ({
     accessPackages: Record<string, AccessPackage>;
 }) => {
     const metadata = ressursMetadata[ressursId];
-    const tittel = metadata?.metadata.title.nb ?? ressursId;
+    const tittel = metadata?.metadata.title.nb ?? normaliserRessursId(ressursId);
     const beskrivelse = metadata?.metadata.rightDescription.nb;
 
     const matchendeRoller = orgRoller.filter((rolle) =>
@@ -60,7 +66,10 @@ const TilgangAccordionItem = ({
                     )}
                     {matchendeRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
-                            Delegert via rollen {rolle.visningsnavn} ({rolle.kode})
+                            Delegert via rollen{' '}
+                            {rolle.visningsnavn.toLowerCase() === rolle.kode.toLowerCase()
+                                ? rolle.visningsnavn
+                                : `${rolle.visningsnavn} (${rolle.kode})`}
                         </Tag>
                     ))}
                     {matchendePakker.map((pakke) => (
