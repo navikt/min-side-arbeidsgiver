@@ -46,10 +46,25 @@ export const RessursMetadataSchema = z.object({
 
 export type RessursMetadata = z.infer<typeof RessursMetadataSchema>;
 
+export const AccessPackageAreaSchema = z.object({
+    urn: z.string(),
+    name: z.string(),
+    description: z.string(),
+});
+
+export const AccessPackageSchema = z.object({
+    name: z.string(),
+    description: z.string(),
+    area: AccessPackageAreaSchema,
+});
+
+export type AccessPackage = z.infer<typeof AccessPackageSchema>;
+
 export const AltinnTilgangerResponseSchema = z.object({
     isError: z.boolean(),
     hierarki: z.array(AltinnTilgangOrganisasjonSchema),
     ressursMetadata: z.record(z.string(), RessursMetadataSchema).default({}),
+    accessPackages: z.record(z.string(), AccessPackageSchema).default({}),
 });
 
 export type AltinnTilgangerResponse = z.infer<typeof AltinnTilgangerResponseSchema>;

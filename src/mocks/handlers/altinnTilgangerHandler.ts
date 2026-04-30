@@ -60,6 +60,26 @@ export const altinnTilgangerHandler = http.post(
                     ],
                 },
             ],
+            accessPackages: {
+                regnskapsfoerer: {
+                    name: 'Regnskapsfører',
+                    description: 'Tilgang for regnskapsfører',
+                    area: {
+                        urn: 'accesspackage:area:skatt_avgift_regnskap_og_toll',
+                        name: 'Skatt, avgift, regnskap og toll',
+                        description: 'Tilgangspakker for skatt, avgift, regnskap og toll',
+                    },
+                },
+                revisor: {
+                    name: 'Revisor',
+                    description: 'Tilgang for revisor',
+                    area: {
+                        urn: 'accesspackage:area:skatt_avgift_regnskap_og_toll',
+                        name: 'Skatt, avgift, regnskap og toll',
+                        description: 'Tilgangspakker for skatt, avgift, regnskap og toll',
+                    },
+                },
+            },
             ressursMetadata: {
                 nav_test_ressurs: {
                     metadata: {

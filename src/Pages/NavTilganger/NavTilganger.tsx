@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
 import { finnOrganisasjonIHierarki, useAltinnTilganger } from '../../api/altinnTilgangerApi';
-import { AltinnTilgangOrganisasjon, Rolle, RessursMetadata } from '../../api/altinnTilgangerSchema';
+import { AccessPackage, AltinnTilgangOrganisasjon, Rolle, RessursMetadata } from '../../api/altinnTilgangerSchema';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import './NavTilganger.css';
 import {
@@ -24,11 +24,13 @@ const TilgangAccordionItem = ({
     ressursMetadata,
     orgRoller,
     orgTilgangspakker,
+    accessPackages,
 }: {
     ressursId: string;
     ressursMetadata: Record<string, RessursMetadata>;
     orgRoller: Rolle[];
     orgTilgangspakker: string[];
+    accessPackages: Record<string, AccessPackage>;
 }) => {
     const metadata = ressursMetadata[ressursId];
     const tittel = metadata?.metadata.title.nb ?? ressursId;
@@ -58,7 +60,7 @@ const TilgangAccordionItem = ({
                     ))}
                     {matchendePakker.map((pakke) => (
                         <Tag key={pakke} variant="alt1">
-                            Delegert via tilgangspakke {pakke}
+                            Delegert via tilgangspakke {accessPackages[pakke]?.name ?? pakke}
                         </Tag>
                     ))}
                 </div>
@@ -82,11 +84,13 @@ const TilgangerAccordion = ({
     ressursMetadata,
     orgRoller,
     orgTilgangspakker,
+    accessPackages,
 }: {
     tilganger: string[];
     ressursMetadata: Record<string, RessursMetadata>;
     orgRoller: Rolle[];
     orgTilgangspakker: string[];
+    accessPackages: Record<string, AccessPackage>;
 }) =>
     tilganger.length > 0 ? (
         <Accordion>
@@ -97,6 +101,7 @@ const TilgangerAccordion = ({
                     ressursMetadata={ressursMetadata}
                     orgRoller={orgRoller}
                     orgTilgangspakker={orgTilgangspakker}
+                    accessPackages={accessPackages}
                 />
             ))}
         </Accordion>
@@ -123,9 +128,11 @@ const NærmesteLederSeksjon = () => (
 const AltinnTilgangerSeksjon = ({
     org,
     ressursMetadata,
+    accessPackages,
 }: {
     org: AltinnTilgangOrganisasjon;
     ressursMetadata: Record<string, RessursMetadata>;
+    accessPackages: Record<string, AccessPackage>;
 }) => (
     <section className="nav-tilganger-seksjon">
         <Label as="h3">Altinn tilganger</Label>
@@ -135,6 +142,7 @@ const AltinnTilgangerSeksjon = ({
             ressursMetadata={ressursMetadata}
             orgRoller={org.roller}
             orgTilgangspakker={org.tilgangspakker}
+            accessPackages={accessPackages}
         />
     </section>
 );
@@ -142,25 +150,29 @@ const AltinnTilgangerSeksjon = ({
 const OrgDetaljer = ({
     org,
     ressursMetadata,
+    accessPackages,
     syfotilgang,
 }: {
     org: AltinnTilgangOrganisasjon;
     ressursMetadata: Record<string, RessursMetadata>;
+    accessPackages: Record<string, AccessPackage>;
     syfotilgang: boolean;
 }) => (
     <>
         {syfotilgang && <NærmesteLederSeksjon />}
-        <AltinnTilgangerSeksjon org={org} ressursMetadata={ressursMetadata} />
+        <AltinnTilgangerSeksjon org={org} ressursMetadata={ressursMetadata} accessPackages={accessPackages} />
     </>
 );
 
 const OrgAccordionItem = ({
     org,
     ressursMetadata,
+    accessPackages,
     organisasjonsInfo,
 }: {
     org: AltinnTilgangOrganisasjon;
     ressursMetadata: Record<string, RessursMetadata>;
+    accessPackages: Record<string, AccessPackage>;
     organisasjonsInfo: ReturnType<typeof useOrganisasjonerOgTilgangerContext>['organisasjonsInfo'];
 }) => (
     <Accordion.Item>
@@ -174,6 +186,7 @@ const OrgAccordionItem = ({
             <OrgDetaljer
                 org={org}
                 ressursMetadata={ressursMetadata}
+                accessPackages={accessPackages}
                 syfotilgang={organisasjonsInfo[org.orgnr]?.syfotilgang ?? false}
             />
             {org.underenheter.length > 0 && (
@@ -185,6 +198,7 @@ const OrgAccordionItem = ({
                                 key={u.orgnr}
                                 org={u}
                                 ressursMetadata={ressursMetadata}
+                                accessPackages={accessPackages}
                                 organisasjonsInfo={organisasjonsInfo}
                             />
                         ))}
@@ -209,6 +223,7 @@ const NavTilganger: FunctionComponent = () => {
     const [visAlleEnheter, setVisAlleEnheter] = useState(false);
 
     const ressursMetadata = altinnTilganger?.ressursMetadata ?? {};
+    const accessPackages = altinnTilganger?.accessPackages ?? {};
 
     const organisasjon = useMemo(
         () =>
@@ -245,6 +260,7 @@ const NavTilganger: FunctionComponent = () => {
                                         key={org.orgnr}
                                         org={org}
                                         ressursMetadata={ressursMetadata}
+                                        accessPackages={accessPackages}
                                         organisasjonsInfo={organisasjonsInfo}
                                     />
                                 ))}
@@ -276,6 +292,7 @@ const NavTilganger: FunctionComponent = () => {
                             <OrgDetaljer
                                 org={organisasjon}
                                 ressursMetadata={ressursMetadata}
+                                accessPackages={accessPackages}
                                 syfotilgang={valgtOrganisasjon.syfotilgang}
                             />
                         ) : (
