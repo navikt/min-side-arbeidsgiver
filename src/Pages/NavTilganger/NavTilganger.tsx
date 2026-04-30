@@ -41,9 +41,11 @@ const TilgangAccordionItem = ({
             (r) => r.toLowerCase() === rolle.kode.toLowerCase()
         )
     );
-    const matchendePakker = (metadata?.grantedByAccessPackages ?? []).filter((pakke) =>
-        orgTilgangspakker.some((p) => p.toLowerCase() === pakke.toLowerCase())
-    );
+    const matchendePakker = (metadata?.grantedByAccessPackages ?? []).flatMap((pakke) => {
+        const match = orgTilgangspakker.find((p) => p.toLowerCase() === pakke.toLowerCase());
+        return match !== undefined ? [match] : [];
+    });
+    const erEnkeltrettighet = matchendeRoller.length === 0 && matchendePakker.length === 0;
 
     return (
         <Accordion.Item>
@@ -53,6 +55,9 @@ const TilgangAccordionItem = ({
                     <BodyLong spacing>{beskrivelse}</BodyLong>
                 )}
                 <div className="nav-tilganger-tags">
+                    {erEnkeltrettighet && (
+                        <Tag variant="alt1">Delegert som enkeltrettighet</Tag>
+                    )}
                     {matchendeRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
                             Delegert via rollen {rolle.visningsnavn} ({rolle.kode})
