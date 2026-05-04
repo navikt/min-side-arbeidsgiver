@@ -12,17 +12,55 @@ export const altinnTilgangerHandler = http.post(
                     organisasjonsform: 'AS',
                     altinn3Tilganger: [],
                     roller: [
-                        { kode: 'DAGL', visningsnavn: 'Daglig leder' },
-                        { kode: 'LEDE', visningsnavn: 'Styrets leder' },
+                        {
+                            kode: 'DAGL',
+                            visningsnavn: 'Daglig leder',
+                            beskrivelse: 'Personen som er ansvarlig for den daglige driften av selskapet.',
+                        },
+                        {
+                            kode: 'LEDE',
+                            visningsnavn: 'Styrets leder',
+                            beskrivelse: 'Leder av styret i selskapet.',
+                        },
                     ],
-                    tilgangspakker: ['regnskapsfoerer', 'revisor'],
+                    tilgangspakker: [
+                        {
+                            id: 'regnskapsfoerer',
+                            navn: 'Regnskapsfører',
+                            beskrivelse: 'Tilgang for regnskapsfører',
+                            area: {
+                                urn: 'accesspackage:area:skatt_avgift_regnskap_og_toll',
+                                name: 'Skatt, avgift, regnskap og toll',
+                                description: 'Tilgangspakker for skatt, avgift, regnskap og toll',
+                            },
+                        },
+                        {
+                            id: 'revisor',
+                            navn: 'Revisor',
+                            beskrivelse: 'Tilgang for revisor',
+                            area: {
+                                urn: 'accesspackage:area:skatt_avgift_regnskap_og_toll',
+                                name: 'Skatt, avgift, regnskap og toll',
+                                description: 'Tilgangspakker for skatt, avgift, regnskap og toll',
+                            },
+                        },
+                    ],
                     underenheter: [
                         {
                             orgnr: '100000002',
                             navn: 'Eksempel FLI',
                             organisasjonsform: 'FLI',
-                            altinn3Tilganger: ['nav_test_ressurs'],
-                            roller: [{ kode: 'DAGL', visningsnavn: 'Daglig leder' }],
+                            altinn3Tilganger: [
+                                {
+                                    ressursId: 'nav_test_ressurs',
+                                    navn: { nb: 'Test ressurs', nn: 'Test ressurs nn', en: 'Test resource' },
+                                    beskrivelse: { nb: 'Gir tilgang til test ressurs', nn: null, en: null },
+                                    delegertViaRoller: [{ kode: 'DAGL', visningsnavn: 'Daglig leder', beskrivelse: 'Personen som er ansvarlig for den daglige driften av selskapet.' }],
+                                    delegertViaTilgangspakker: [],
+                                    erEnkeltrettighet: false,
+                                },
+                            ],
+                            roller: [{ kode: 'DAGL', visningsnavn: 'Daglig leder', beskrivelse: 'Personen som er ansvarlig for den daglige driften av selskapet.' }],
                             tilgangspakker: [],
                             underenheter: [],
                         },
@@ -46,10 +84,17 @@ export const altinnTilgangerHandler = http.post(
                                             orgnr: '100000001',
                                             navn: 'Eksempel AAFY',
                                             organisasjonsform: 'AAFY',
-                                            altinn3Tilganger: [],
-                                            roller: [
-                                                { kode: 'LEDE', visningsnavn: 'Styrets leder' },
+                                            altinn3Tilganger: [
+                                                {
+                                                    ressursId: 'nav_enkelt_ressurs',
+                                                    navn: null,
+                                                    beskrivelse: null,
+                                                    delegertViaRoller: [],
+                                                    delegertViaTilgangspakker: [],
+                                                    erEnkeltrettighet: true,
+                                                },
                                             ],
+                                            roller: [{ kode: 'LEDE', visningsnavn: 'Styrets leder', beskrivelse: 'Leder av styret i selskapet.' }],
                                             tilgangspakker: [],
                                             underenheter: [],
                                         },
@@ -60,47 +105,6 @@ export const altinnTilgangerHandler = http.post(
                     ],
                 },
             ],
-            accessPackages: {
-                regnskapsfoerer: {
-                    name: 'Regnskapsfører',
-                    description: 'Tilgang for regnskapsfører',
-                    area: {
-                        urn: 'accesspackage:area:skatt_avgift_regnskap_og_toll',
-                        name: 'Skatt, avgift, regnskap og toll',
-                        description: 'Tilgangspakker for skatt, avgift, regnskap og toll',
-                    },
-                },
-                revisor: {
-                    name: 'Revisor',
-                    description: 'Tilgang for revisor',
-                    area: {
-                        urn: 'accesspackage:area:skatt_avgift_regnskap_og_toll',
-                        name: 'Skatt, avgift, regnskap og toll',
-                        description: 'Tilgangspakker for skatt, avgift, regnskap og toll',
-                    },
-                },
-            },
-            ressursMetadata: {
-                nav_test_ressurs: {
-                    metadata: {
-                        identifier: 'nav_test_ressurs',
-                        title: {
-                            nb: 'Test ressurs',
-                            nn: 'Test ressurs nn',
-                            en: 'Test resource',
-                        },
-                        rightDescription: {
-                            nb: 'Gir tilgang til test ressurs',
-                            nn: null,
-                            en: null,
-                        },
-                        resourceType: 'GenericAccessResource',
-                        status: 'Completed',
-                        delegable: true,
-                    },
-                    grantedByRoles: ['dagl'],
-                    grantedByAccessPackages: [],
-                },
-            },
         })
 );
+

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
 import { finnOrganisasjonIHierarki, useAltinnTilganger } from '../../api/altinnTilgangerApi';
-import { AccessPackage, AltinnTilgangOrganisasjon, Rolle, RessursMetadata } from '../../api/altinnTilgangerSchema';
+import { Altinn3Tilgang, AltinnTilgangOrganisasjon } from '../../api/altinnTilgangerSchema';
 import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext';
 import './NavTilganger.css';
 import {
@@ -25,33 +25,12 @@ const normaliserRessursId = (id: string): string => {
     return medMellomrom.charAt(0).toUpperCase() + medMellomrom.slice(1);
 };
 
-const TilgangAccordionItem = ({
-    ressursId,
-    ressursMetadata,
-    orgRoller,
-    orgTilgangspakker,
-    accessPackages,
-}: {
-    ressursId: string;
-    ressursMetadata: Record<string, RessursMetadata>;
-    orgRoller: Rolle[];
-    orgTilgangspakker: string[];
-    accessPackages: Record<string, AccessPackage>;
-}) => {
-    const metadata = ressursMetadata[ressursId];
-    const tittel = metadata?.metadata.title.nb ?? normaliserRessursId(ressursId);
-    const beskrivelse = metadata?.metadata.rightDescription.nb;
-
-    const matchendeRoller = orgRoller.filter((rolle) =>
-        (metadata?.grantedByRoles ?? []).some(
-            (r) => r.toLowerCase() === rolle.kode.toLowerCase()
-        )
-    );
-    const matchendePakker = (metadata?.grantedByAccessPackages ?? []).flatMap((pakke) => {
-        const match = orgTilgangspakker.find((p) => p.toLowerCase() === pakke.toLowerCase());
-        return match !== undefined ? [match] : [];
-    });
-    const erEnkeltrettighet = matchendeRoller.length === 0 && matchendePakker.length === 0;
+const TilgangAccordionItem = ({ tilgang }: { tilgang: Altinn3Tilgang }) => {
+    const tittel = tilgang.navn?.nb ?? normaliserRessursId(tilgang.ressursId);
+    const beskrivelse = tilgang.beskrivelse?.nb;
+    const erEnkeltrettighet =
+        tilgang.erEnkeltrettighet ??
+        (tilgang.delegertViaRoller.length === 0 && tilgang.delegertViaTilgangspakker.length === 0);
 
     return (
         <Accordion.Item>
@@ -64,7 +43,7 @@ const TilgangAccordionItem = ({
                     {erEnkeltrettighet && (
                         <Tag variant="alt1">Delegert som enkeltrettighet</Tag>
                     )}
-                    {matchendeRoller.map((rolle) => (
+                    {tilgang.delegertViaRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
                             Delegert via rollen{' '}
                             {rolle.visningsnavn.toLowerCase() === rolle.kode.toLowerCase()
@@ -72,9 +51,9 @@ const TilgangAccordionItem = ({
                                 : `${rolle.visningsnavn} (${rolle.kode})`}
                         </Tag>
                     ))}
-                    {matchendePakker.map((pakke) => (
-                        <Tag key={pakke} variant="alt1">
-                            Delegert via tilgangspakke {accessPackages[pakke]?.name ?? pakke}
+                    {tilgang.delegertViaTilgangspakker.map((pakke) => (
+                        <Tag key={pakke.id} variant="alt1">
+                            Delegert via tilgangspakke {pakke.navn}
                         </Tag>
                     ))}
                 </div>
@@ -83,40 +62,18 @@ const TilgangAccordionItem = ({
     );
 };
 
-const sorterRessursIds = (
-    ressursIds: string[],
-    ressursMetadata: Record<string, RessursMetadata>
-): string[] =>
-    [...ressursIds].sort((a, b) => {
-        const navnA = ressursMetadata[a]?.metadata.title.nb ?? a;
-        const navnB = ressursMetadata[b]?.metadata.title.nb ?? b;
+const sorterTilganger = (tilganger: Altinn3Tilgang[]): Altinn3Tilgang[] =>
+    [...tilganger].sort((a, b) => {
+        const navnA = a.navn?.nb ?? normaliserRessursId(a.ressursId);
+        const navnB = b.navn?.nb ?? normaliserRessursId(b.ressursId);
         return navnA.localeCompare(navnB);
     });
 
-const TilgangerAccordion = ({
-    tilganger,
-    ressursMetadata,
-    orgRoller,
-    orgTilgangspakker,
-    accessPackages,
-}: {
-    tilganger: string[];
-    ressursMetadata: Record<string, RessursMetadata>;
-    orgRoller: Rolle[];
-    orgTilgangspakker: string[];
-    accessPackages: Record<string, AccessPackage>;
-}) =>
+const TilgangerAccordion = ({ tilganger }: { tilganger: Altinn3Tilgang[] }) =>
     tilganger.length > 0 ? (
         <Accordion>
-            {sorterRessursIds(tilganger, ressursMetadata).map((id) => (
-                <TilgangAccordionItem
-                    key={id}
-                    ressursId={id}
-                    ressursMetadata={ressursMetadata}
-                    orgRoller={orgRoller}
-                    orgTilgangspakker={orgTilgangspakker}
-                    accessPackages={accessPackages}
-                />
+            {sorterTilganger(tilganger).map((tilgang) => (
+                <TilgangAccordionItem key={tilgang.ressursId} tilgang={tilgang} />
             ))}
         </Accordion>
     ) : (
@@ -139,54 +96,32 @@ const NærmesteLederSeksjon = () => (
     </section>
 );
 
-const AltinnTilgangerSeksjon = ({
-    org,
-    ressursMetadata,
-    accessPackages,
-}: {
-    org: AltinnTilgangOrganisasjon;
-    ressursMetadata: Record<string, RessursMetadata>;
-    accessPackages: Record<string, AccessPackage>;
-}) => (
+const AltinnTilgangerSeksjon = ({ org }: { org: AltinnTilgangOrganisasjon }) => (
     <section className="nav-tilganger-seksjon">
         <Label as="h3">Altinn tilganger</Label>
         <BodyLong spacing>Du har følgende tilganger i Altinn til Navs tjenester.</BodyLong>
-        <TilgangerAccordion
-            tilganger={org.altinn3Tilganger}
-            ressursMetadata={ressursMetadata}
-            orgRoller={org.roller}
-            orgTilgangspakker={org.tilgangspakker}
-            accessPackages={accessPackages}
-        />
+        <TilgangerAccordion tilganger={org.altinn3Tilganger} />
     </section>
 );
 
 const OrgDetaljer = ({
     org,
-    ressursMetadata,
-    accessPackages,
     syfotilgang,
 }: {
     org: AltinnTilgangOrganisasjon;
-    ressursMetadata: Record<string, RessursMetadata>;
-    accessPackages: Record<string, AccessPackage>;
     syfotilgang: boolean;
 }) => (
     <>
         {syfotilgang && <NærmesteLederSeksjon />}
-        <AltinnTilgangerSeksjon org={org} ressursMetadata={ressursMetadata} accessPackages={accessPackages} />
+        <AltinnTilgangerSeksjon org={org} />
     </>
 );
 
 const OrgAccordionItem = ({
     org,
-    ressursMetadata,
-    accessPackages,
     organisasjonsInfo,
 }: {
     org: AltinnTilgangOrganisasjon;
-    ressursMetadata: Record<string, RessursMetadata>;
-    accessPackages: Record<string, AccessPackage>;
     organisasjonsInfo: ReturnType<typeof useOrganisasjonerOgTilgangerContext>['organisasjonsInfo'];
 }) => (
     <Accordion.Item>
@@ -199,8 +134,6 @@ const OrgAccordionItem = ({
         <Accordion.Content>
             <OrgDetaljer
                 org={org}
-                ressursMetadata={ressursMetadata}
-                accessPackages={accessPackages}
                 syfotilgang={organisasjonsInfo[org.orgnr]?.syfotilgang ?? false}
             />
             {org.underenheter.length > 0 && (
@@ -211,8 +144,6 @@ const OrgAccordionItem = ({
                             <OrgAccordionItem
                                 key={u.orgnr}
                                 org={u}
-                                ressursMetadata={ressursMetadata}
-                                accessPackages={accessPackages}
                                 organisasjonsInfo={organisasjonsInfo}
                             />
                         ))}
@@ -235,9 +166,6 @@ const NavTilganger: FunctionComponent = () => {
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
     const { data: altinnTilganger, isLoading } = useAltinnTilganger();
     const [visAlleEnheter, setVisAlleEnheter] = useState(false);
-
-    const ressursMetadata = altinnTilganger?.ressursMetadata ?? {};
-    const accessPackages = altinnTilganger?.accessPackages ?? {};
 
     const organisasjon = useMemo(
         () =>
@@ -273,8 +201,6 @@ const NavTilganger: FunctionComponent = () => {
                                     <OrgAccordionItem
                                         key={org.orgnr}
                                         org={org}
-                                        ressursMetadata={ressursMetadata}
-                                        accessPackages={accessPackages}
                                         organisasjonsInfo={organisasjonsInfo}
                                     />
                                 ))}
@@ -305,8 +231,6 @@ const NavTilganger: FunctionComponent = () => {
                         ) : organisasjon !== undefined ? (
                             <OrgDetaljer
                                 org={organisasjon}
-                                ressursMetadata={ressursMetadata}
-                                accessPackages={accessPackages}
                                 syfotilgang={valgtOrganisasjon.syfotilgang}
                             />
                         ) : (
