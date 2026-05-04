@@ -41,7 +41,7 @@ const TilgangAccordionItem = ({ tilgang }: { tilgang: Altinn3Tilgang }) => {
                 )}
                 <div className="nav-tilganger-tags">
                     {erEnkeltrettighet && (
-                        <Tag variant="alt1">Delegert som enkeltrettighet</Tag>
+                        <Tag variant="alt1">Delegert som enkelttjeneste</Tag>
                     )}
                     {tilgang.delegertViaRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
