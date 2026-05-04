@@ -46,9 +46,7 @@ const TilgangAccordionItem = ({ tilgang }: { tilgang: Altinn3Tilgang }) => {
                     {tilgang.delegertViaRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
                             Delegert via rollen{' '}
-                            {rolle.visningsnavn.toLowerCase() === rolle.kode.toLowerCase()
-                                ? rolle.visningsnavn
-                                : `${rolle.visningsnavn} (${rolle.kode})`}
+                            {rolle.visningsnavn}
                         </Tag>
                     ))}
                     {tilgang.delegertViaTilgangspakker.map((pakke) => (
