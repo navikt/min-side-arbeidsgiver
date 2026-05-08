@@ -47,14 +47,14 @@ spec:
       external:
         - host: arbeidsgiver-gcp.dev.nav.no
         - host: arbeidsgiver.intern.dev.nav.no
-        - host: tiltak-proxy.dev-fss-pub.nais.io
+        - host: tiltaksgjennomforing-api.intern.dev.nav.no
         - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
         - host: arbeidsplassen.intern.dev.nav.no
         - host: storage.googleapis.com
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
-        - application: tiltak-proxy
+        - application: tiltaksgjennomforing-api
           namespace: arbeidsgiver
           cluster: dev-fss
         - application: aareg-innsyn-arbeidsgiver-api
