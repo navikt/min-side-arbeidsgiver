@@ -54,7 +54,9 @@ spec:
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
-
+        - application: tiltaksgjennomforing-api
+          namespace: arbeidsgiver
+          cluster: dev-fss
         - application: aareg-innsyn-arbeidsgiver-api
           namespace: arbeidsforhold
           cluster: dev-fss
