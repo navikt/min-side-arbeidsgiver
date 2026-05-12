@@ -21,6 +21,20 @@
   margin-top: 0.75rem;
 }
 
+.nav-tilganger-heading-rad {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.nav-tilganger-kopier-knapp {
+  flex-shrink: 0;
+}
+
+.nav-tilganger-varsel {
+  margin-bottom: 1.5rem;
+}
+
 .nav-tilganger-panel-topp {
   display: flex;
   align-items: flex-start;

@@ -5,6 +5,7 @@ import { useOrganisasjonsDetaljerContext } from '../OrganisasjonsDetaljerContext
 import './NavTilganger.css';
 import {
     Accordion,
+    Alert,
     BodyLong,
     Box,
     Button,
@@ -14,8 +15,9 @@ import {
     Link,
     Loader,
     Tag,
+    Tooltip,
 } from '@navikt/ds-react';
-import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
+import { CheckmarkCircleFillIcon, CheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { narmesteLederKoblingURL } from '../../lenker';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
 
@@ -159,6 +161,35 @@ const LoadingState = () => (
     </section>
 );
 
+const KopierTilgangerKnapp = ({ org }: { org: AltinnTilgangOrganisasjon }) => {
+    const [kopiert, setKopiert] = useState(false);
+
+    const kopier = async () => {
+        await navigator.clipboard.writeText(JSON.stringify(org, null, 2));
+        setKopiert(true);
+        setTimeout(() => setKopiert(false), 2000);
+    };
+
+    return (
+        <Tooltip content={kopiert ? 'Kopiert!' : 'Kopier tilganger som JSON'}>
+            <Button
+                variant="tertiary-neutral"
+                size="small"
+                icon={
+                    kopiert ? (
+                        <CheckmarkIcon aria-hidden />
+                    ) : (
+                        <ClipboardIcon aria-hidden />
+                    )
+                }
+                onClick={kopier}
+                aria-label="Kopier tilganger som JSON"
+                className="nav-tilganger-kopier-knapp"
+            />
+        </Tooltip>
+    );
+};
+
 const NavTilganger: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const { organisasjonsInfo } = useOrganisasjonerOgTilgangerContext();
@@ -177,6 +208,9 @@ const NavTilganger: FunctionComponent = () => {
     return (
         <div className="nav-tilganger-side">
             <Box className="nav-tilganger-panel">
+                <Alert variant="info" className="nav-tilganger-varsel">
+                    Det kan ta opptil 20 minutter før endringer i tilganger vises her.
+                </Alert>
                 {visAlleEnheter ? (
                     <>
                         <div className="nav-tilganger-panel-topp">
@@ -208,10 +242,15 @@ const NavTilganger: FunctionComponent = () => {
                 ) : (
                     <>
                         <div className="nav-tilganger-panel-topp">
-                            <div>
+                            <div className="nav-tilganger-heading-rad">
                                 <Heading level="2" size="medium">
                                     {valgtOrganisasjon.organisasjon.navn}
                                 </Heading>
+                                {!isLoading && organisasjon !== undefined && (
+                                    <KopierTilgangerKnapp org={organisasjon} />
+                                )}
+                            </div>
+                            <div>
                                 <BodyLong>
                                     Organisasjonsnummer: {valgtOrganisasjon.organisasjon.orgnr}
                                 </BodyLong>
