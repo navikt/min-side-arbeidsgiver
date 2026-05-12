@@ -242,15 +242,15 @@ const NavTilganger: FunctionComponent = () => {
                 ) : (
                     <>
                         <div className="nav-tilganger-panel-topp">
-                            <div className="nav-tilganger-heading-rad">
-                                <Heading level="2" size="medium">
-                                    {valgtOrganisasjon.organisasjon.navn}
-                                </Heading>
-                                {!isLoading && organisasjon !== undefined && (
-                                    <KopierTilgangerKnapp org={organisasjon} />
-                                )}
-                            </div>
                             <div>
+                                <div className="nav-tilganger-heading-rad">
+                                    <Heading level="2" size="medium">
+                                        {valgtOrganisasjon.organisasjon.navn}
+                                    </Heading>
+                                    {!isLoading && organisasjon !== undefined && (
+                                        <KopierTilgangerKnapp org={organisasjon} />
+                                    )}
+                                </div>
                                 <BodyLong>
                                     Organisasjonsnummer: {valgtOrganisasjon.organisasjon.orgnr}
                                 </BodyLong>

@@ -37,10 +37,18 @@
 
 .nav-tilganger-panel-topp {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
   margin-bottom: 1rem;
+}
+
+@media (min-width: 480px) {
+  .nav-tilganger-panel-topp {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 }
 
 .nav-tilganger-accordion-header {
