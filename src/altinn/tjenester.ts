@@ -236,10 +236,8 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         sort: 'tjeneste',
         navn: 'Meld inn yrkesskade eller yrkessykdom',
         beOmTilgangTittel: 'Meld inn yrkesskade',
-        beOmTilgangBeskrivelse:
-            'Få mulighet til å melde inn yrkesskade eller yrkessykdom digitalt.',
-        tjenestekode: '5902',
-        tjenesteversjon: '1',
+        beOmTilgangBeskrivelse: `Få tilgang til å melde inn yrkesskade eller yrkessykdom digitalt.`,
+        ressurs: 'nav_yrkesskade_skademelding',
     },
     oppgiNarmesteleder: {
         sort: 'tjeneste',

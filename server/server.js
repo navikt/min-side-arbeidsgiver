@@ -195,8 +195,8 @@ const main = async () => {
             tokenXMiddleware({
                 log: log,
                 audience: {
-                    dev: 'dev-fss:arbeidsgiver:tiltak-proxy',
-                    prod: 'prod-fss:arbeidsgiver:tiltak-proxy',
+                    dev: 'dev-fss:arbeidsgiver:tiltaksgjennomforing-api',
+                    prod: 'prod-fss:arbeidsgiver:tiltaksgjennomforing-api',
                 }[MILJO],
             }),
             createProxyMiddleware({
@@ -226,8 +226,8 @@ const main = async () => {
                     }),
                 },
                 target: {
-                    dev: 'https://tiltak-proxy.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
-                    prod: 'https://tiltak-proxy.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
+                    dev: 'https://tiltaksgjennomforing-api.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
+                    prod: 'https://tiltaksgjennomforing-api.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
                 }[MILJO],
             })
         );

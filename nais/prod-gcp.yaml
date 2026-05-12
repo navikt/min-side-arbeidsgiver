@@ -45,14 +45,14 @@ spec:
     outbound:
       external:
         - host: arbeidsgiver.nav.no
-        - host: tiltak-proxy.prod-fss-pub.nais.io
+        - host: tiltaksgjennomforing-api.prod-fss-pub.nais.io
         - host: aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io
         - host: arbeidsplassen.nav.no
         - host: storage.googleapis.com
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
-        - application: tiltak-proxy
+        - application: tiltaksgjennomforing-api
           namespace: arbeidsgiver
           cluster: prod-fss
         - application: aareg-innsyn-arbeidsgiver-api
