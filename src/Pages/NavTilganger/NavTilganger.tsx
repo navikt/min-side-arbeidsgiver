@@ -251,9 +251,9 @@ const NavTilganger: FunctionComponent = () => {
                                         <KopierTilgangerKnapp org={organisasjon} />
                                     )}
                                 </div>
-                                <BodyLong>
-                                    Organisasjonsnummer: {valgtOrganisasjon.organisasjon.orgnr}
-                                </BodyLong>
+                                <Detail textColor="subtle">
+                                    {valgtOrganisasjon.organisasjon.orgnr}
+                                </Detail>
                             </div>
                             <Button
                                 variant="secondary"
