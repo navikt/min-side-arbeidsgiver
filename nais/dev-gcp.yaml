@@ -47,7 +47,7 @@ spec:
       external:
         - host: arbeidsgiver-gcp.dev.nav.no
         - host: arbeidsgiver.intern.dev.nav.no
-        - host: tiltaksgjennomforing-api.intern.dev.nav.no
+        - host: tiltaksgjennomforing-api.dev-fss-pub.nais.io
         - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
         - host: arbeidsplassen.intern.dev.nav.no
         - host: storage.googleapis.com

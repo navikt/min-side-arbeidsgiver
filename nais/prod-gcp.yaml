@@ -45,7 +45,7 @@ spec:
     outbound:
       external:
         - host: arbeidsgiver.nav.no
-        - host: tiltaksgjennomforing-api.intern.nav.no
+        - host: tiltaksgjennomforing-api.prod-fss-pub.nais.io
         - host: aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io
         - host: arbeidsplassen.nav.no
         - host: storage.googleapis.com

@@ -226,8 +226,8 @@ const main = async () => {
                     }),
                 },
                 target: {
-                    dev: 'https://tiltaksgjennomforing-api.intern.dev.nav.no/tiltaksgjennomforing-api',
-                    prod: 'https://tiltaksgjennomforing-api.intern.nav.no/tiltaksgjennomforing-api',
+                    dev: 'https://tiltaksgjennomforing-api.dev-fss-pub.nais.io/tiltaksgjennomforing-api',
+                    prod: 'https://tiltaksgjennomforing-api.prod-fss-pub.nais.io/tiltaksgjennomforing-api',
                 }[MILJO],
             })
         );
