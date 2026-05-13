@@ -12,6 +12,7 @@ import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from './OrganisasjonsDetaljerProvider';
 import OmVirksomheten from './OmVirksomheten/OmVirksomheten';
+import NavTilganger from './NavTilganger/NavTilganger';
 import './Pages.css';
 import { ApolloClient, ApolloProvider, from, HttpLink, InMemoryCache } from '@apollo/client';
 import {
@@ -92,6 +93,27 @@ const Pages: FunctionComponent = () => (
                                                                     sidetittel={'Om virksomheten'}
                                                                 />
                                                                 <OmVirksomheten />
+                                                            </>
+                                                        }
+                                                    />
+                                                    <Route
+                                                        path="/nav-tilganger"
+                                                        element={
+                                                            <>
+                                                                <Brodsmulesti
+                                                                    brødsmuler={[
+                                                                        {
+                                                                            title: 'Mine Nav-tilganger',
+                                                                            url: '/nav-tilganger',
+                                                                        },
+                                                                    ]}
+                                                                />
+                                                                <BannerMedBedriftsmeny
+                                                                    sidetittel={
+                                                                        'Mine Nav-tilganger'
+                                                                    }
+                                                                />
+                                                                <NavTilganger />
                                                             </>
                                                         }
                                                     />

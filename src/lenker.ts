@@ -43,6 +43,11 @@ export const infoOmTilgangsstyringURL = 'https://www.nav.no/arbeidsgiver/tilgang
 
 export const infoOmNærmesteLederURL = 'https://www.nav.no/arbeidsgiver/tilganger#sykmelding';
 
+export const narmesteLederKoblingURL = gittMiljo({
+    prod: 'https://nav.no/arbeidsgiver/sykmeldte',
+    other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
+});
+
 export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${orgnr}`;
 
