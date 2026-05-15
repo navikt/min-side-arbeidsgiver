@@ -195,8 +195,7 @@ const AlertHvisEnkeltrettighetDelegertOverORGL = ({
             tittel: `${o.navn} (${o.orgnr})`,
             tilgangerTekst: o.altinn3Tilganger
                 .filter((e) => e.erEnkeltrettighet === true)
-                .map((t) => t.navn?.nb)
-                .filter(Boolean)
+                .map((t) => t.navn?.nb ?? '')
                 .join(', '),
         }));
 
