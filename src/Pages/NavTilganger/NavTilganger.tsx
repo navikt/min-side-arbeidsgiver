@@ -13,9 +13,11 @@ import {
     Heading,
     Label,
     Link,
+    List,
     Loader,
     Tag,
     Tooltip,
+    VStack,
 } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, CheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { narmesteLederKoblingURL } from '../../lenker';
@@ -42,13 +44,10 @@ const TilgangAccordionItem = ({ tilgang }: { tilgang: Altinn3Tilgang }) => {
                     <BodyLong spacing>{beskrivelse}</BodyLong>
                 )}
                 <div className="nav-tilganger-tags">
-                    {erEnkeltrettighet && (
-                        <Tag variant="alt1">Delegert som enkelttjeneste</Tag>
-                    )}
+                    {erEnkeltrettighet && <Tag variant="alt1">Delegert som enkelttjeneste</Tag>}
                     {tilgang.delegertViaRoller.map((rolle) => (
                         <Tag key={rolle.kode} variant="alt1">
-                            Delegert via rollen{' '}
-                            {rolle.visningsnavn}
+                            Delegert via rollen {rolle.visningsnavn}
                         </Tag>
                     ))}
                     {tilgang.delegertViaTilgangspakker.map((pakke) => (
@@ -84,10 +83,7 @@ const NærmesteLederSeksjon = () => (
     <section className="nav-tilganger-seksjon">
         <Label as="h3">Nærmeste leder - oppfølging av sykemeldte</Label>
         <div className="nav-tilganger-nærmeste-leder">
-            <CheckmarkCircleFillIcon
-                className="nav-tilganger-nærmeste-leder-ikon"
-                aria-hidden
-            />
+            <CheckmarkCircleFillIcon className="nav-tilganger-nærmeste-leder-ikon" aria-hidden />
             <BodyLong>
                 Du er oppgitt som nærmeste leder for en eller flere ansatte i virksomheten.
             </BodyLong>
@@ -175,19 +171,51 @@ const KopierTilgangerKnapp = ({ org }: { org: AltinnTilgangOrganisasjon }) => {
             <Button
                 variant="tertiary-neutral"
                 size="small"
-                icon={
-                    kopiert ? (
-                        <CheckmarkIcon aria-hidden />
-                    ) : (
-                        <ClipboardIcon aria-hidden />
-                    )
-                }
+                icon={kopiert ? <CheckmarkIcon aria-hidden /> : <ClipboardIcon aria-hidden />}
                 onClick={kopier}
                 aria-label="Kopier tilganger som JSON"
                 className="nav-tilganger-kopier-knapp"
             />
         </Tooltip>
     );
+};
+
+const AlertHvisEnkeltrettighetDelegertOverORGL = ({
+    hierarki,
+}: {
+    hierarki: AltinnTilgangOrganisasjon[];
+}) => {
+    const harOrglUnderenheter = (org: AltinnTilgangOrganisasjon) =>
+        org.underenheter.some(({ organisasjonsform }) => organisasjonsform === 'ORGL');
+    const harEnkelttjenesteDelegering = (org: AltinnTilgangOrganisasjon) =>
+        org.altinn3Tilganger.some((t) => t.erEnkeltrettighet === true);
+
+    const detaljer = hierarki
+        .filter((o) => harOrglUnderenheter(o) && harEnkelttjenesteDelegering(o))
+        .map((o) => ({
+            tittel: `${o.navn} (${o.orgnr})`,
+            tilgangerTekst: o.altinn3Tilganger
+                .filter((e) => e.erEnkeltrettighet || true)
+                .map((t) => t.navn?.nb)
+                .filter(Boolean)
+                .join(', '),
+        }));
+
+    return detaljer.length > 0 ? (
+        <Alert variant="warning" className="nav-tilganger-varsel">
+            Du har en eller flere Nav-tilganger delegert på et nivå som ikke fungerer for
+            virksomheter i organisasjoner med organisasjonsledd. Be den som ga deg tilgangen om å
+            delegere på nytt – på organisasjonsleddet eller direkte på virksomheten. Dette er en
+            kjent begrensning i Altinn.
+            <List as="ul">
+                {detaljer.map(({ tittel, tilgangerTekst }) => (
+                    <List.Item title={tittel} key={tittel}>
+                        {tilgangerTekst}
+                    </List.Item>
+                ))}
+            </List>
+        </Alert>
+    ) : null;
 };
 
 const NavTilganger: FunctionComponent = () => {
@@ -211,6 +239,10 @@ const NavTilganger: FunctionComponent = () => {
                 <Alert variant="info" className="nav-tilganger-varsel">
                     Det kan ta opptil 20 minutter før endringer i tilganger vises her.
                 </Alert>
+                <AlertHvisEnkeltrettighetDelegertOverORGL
+                    hierarki={altinnTilganger?.hierarki ?? []}
+                />
+
                 {visAlleEnheter ? (
                     <>
                         <div className="nav-tilganger-panel-topp">
@@ -281,4 +313,3 @@ const NavTilganger: FunctionComponent = () => {
 };
 
 export default NavTilganger;
-
