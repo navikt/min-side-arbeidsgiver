@@ -68,7 +68,7 @@
         "build:production": "vite build --mode production",
         "build": "npm run clean && npm run compile && npx msw init ./public --save && npm-run-all --parallel build:*",
         "dev": "vite --mode=demo --base=/min-side-arbeidsgiver/",
-        "lint": "eslint --ext ts,tsx .",
+        "lint": "eslint .",
         "test": "vitest run"
     },
     "lint-staged": {
