@@ -17,7 +17,6 @@ import {
     Loader,
     Tag,
     Tooltip,
-    VStack,
 } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, CheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
 import { narmesteLederKoblingURL } from '../../lenker';
@@ -195,7 +194,7 @@ const AlertHvisEnkeltrettighetDelegertOverORGL = ({
         .map((o) => ({
             tittel: `${o.navn} (${o.orgnr})`,
             tilgangerTekst: o.altinn3Tilganger
-                .filter((e) => e.erEnkeltrettighet || true)
+                .filter((e) => e.erEnkeltrettighet === true)
                 .map((t) => t.navn?.nb)
                 .filter(Boolean)
                 .join(', '),
