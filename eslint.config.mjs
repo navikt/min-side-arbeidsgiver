@@ -17,7 +17,7 @@ const compat = new FlatCompat({
 export default defineConfig([
     globalIgnores(['**/*.js', '**/*.mjs']),
     {
-        files: ['**/*.ts', '**/*.tsx'], // ← add this line
+        files: ['**/*.ts', '**/*.tsx'],
 
         extends: compat.extends('plugin:jsx-a11y/recommended'),
 
