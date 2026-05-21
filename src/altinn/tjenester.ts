@@ -7,7 +7,6 @@ export type NAVtjenesteId =
     | 'arbeidsforhold'
     | 'ekspertbistand'
     | 'endreBankkontonummerForRefusjoner'
-    | 'inntektsmelding'
     | 'inntektsmeldingForeldrepenger'
     | 'inntektsmeldingSykepenger'
     | 'inntektsmeldingSykdomIFamilien'
@@ -41,11 +40,15 @@ export type Altinn3Tilgang = {
     ressurs: string;
 };
 
-export function isAltinn2Tilgang(altinn: Altinn): altinn is Altinnskjema & Altinn2Tilgang | NAVTjeneste & Altinn2Tilgang {
+export function isAltinn2Tilgang(
+    altinn: Altinn
+): altinn is (Altinnskjema & Altinn2Tilgang) | (NAVTjeneste & Altinn2Tilgang) {
     return 'tjenestekode' in altinn && 'tjenesteversjon' in altinn;
 }
 
-export function isAltinn3Tilgang(altinn: Altinn): altinn is Altinnskjema & Altinn3Tilgang | NAVTjeneste & Altinn3Tilgang {
+export function isAltinn3Tilgang(
+    altinn: Altinn
+): altinn is (Altinnskjema & Altinn3Tilgang) | (NAVTjeneste & Altinn3Tilgang) {
     return 'ressurs' in altinn;
 }
 
@@ -111,13 +114,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver',
         beOmTilgangBeskrivelse: '', // skjult fra be om tilgang
         ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
-    },
-    inntektsmelding: {
-        sort: 'tjeneste',
-        navn: 'Inntektsmelding',
-        beOmTilgangBeskrivelse: ``, // skjult fra be om tilgang, kun for gamle tilganger i overgangsperioden
-        tjenestekode: '4936',
-        tjenesteversjon: '1',
     },
     inntektsmeldingForeldrepenger: {
         sort: 'tjeneste',
