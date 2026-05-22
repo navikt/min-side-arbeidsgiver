@@ -13,7 +13,6 @@ import {
 import { gittMiljo } from '../../../../utils/environment';
 
 type Tilgang =
-    | 'inntektsmelding'
     | 'inntektsmeldingSykepenger'
     | 'inntektsmeldingSykdomIFamilien'
     | 'inntektsmeldingForeldrepenger';
@@ -88,7 +87,7 @@ export default function OpprettManuellInntektsmeldingModal({
     const [error, setError] = useState<string | null>(null);
 
     const inntektsmeldingYtelserMedTilgang = inntektsmeldingYtelser.filter(
-        (ytelse) => tilganger[ytelse.tilgang] || tilganger['inntektsmelding']
+        (ytelse) => tilganger[ytelse.tilgang]
     );
 
     const handleOpprettManuellInntektsmelding = () => {

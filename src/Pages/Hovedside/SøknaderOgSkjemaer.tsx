@@ -17,7 +17,6 @@ export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const tilgangEndreKontoummer =
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
-    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
     const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
@@ -64,8 +63,7 @@ export const SøknaderOgSkjemaer = () => {
                     })
                 )}
 
-                {tilgangInntektsmelding === true ||
-                valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP === true ? (
+                {valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP === true ? (
                     <>
                         {lenke(
                             'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -85,8 +83,7 @@ export const SøknaderOgSkjemaer = () => {
                     </>
                 ) : null}
 
-                {tilgangInntektsmelding === true ||
-                valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien === true ? (
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien === true ? (
                     <>
                         {lenke(
                             'Refusjonskrav omsorgspenger',
@@ -132,8 +129,7 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true ||
-                valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ||
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ||
                 valgtOrganisasjon.altinntilgang.inntektsmeldingSykepenger ||
                 valgtOrganisasjon.altinntilgang.inntektsmeldingForeldrepenger ? (
                     <li>
