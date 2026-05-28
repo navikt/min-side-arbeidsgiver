@@ -1,11 +1,5 @@
 import { gittMiljo } from './utils/environment';
 
-export const altinnUrl = gittMiljo({
-    prod: 'https://altinn.no',
-    dev: 'https://tt02.altinn.no',
-    other: `${__BASE_PATH__}/mock/tt02.altinn.no`,
-});
-
 export const skjemaForArbeidsgiverURL = 'https://www.nav.no/soknader/nb/bedrift';
 
 export const innsynAaregURL = gittMiljo({
@@ -54,13 +48,6 @@ export const enhetsregisteretUnderenhetLink = (orgnr: string) =>
 export const enhetsregisteretOverordnetenhetLink = (orgnr: string) =>
     `https://data.brreg.no/enhetsregisteret/oppslag/enheter/${orgnr}`;
 
-export const beOmTilgangIAltinnLink = (
-    orgnr: string,
-    serviceKode: string,
-    serviceEditionKode: string
-) =>
-    `${altinnUrl}/ui/DelegationRequest?offeredBy=${orgnr}&resources=${serviceKode}_${serviceEditionKode}`;
-
 export const lenkeTilDittNavPerson = 'https://www.nav.no/person/dittnav/';
 
 export const lenkeTilForebyggefravar = gittMiljo({
@@ -88,28 +75,28 @@ export const opprettInntektsmeldingURL = gittMiljo({
 
 export const opprettInntektsmeldingForeldrepenger = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER',
-    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER'
-})
+    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER',
+});
 
 export const opprettInntektsmeldingSvangerskapspenger = gittMiljo({
     prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
-    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER'
-})
+    other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
+});
 
 export const pleiepengerILivetsSluttfaseURL = gittMiljo({
-  prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE',
-  other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE'
-})
+    prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE',
+    other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE',
+});
 
 export const pleiepengerSyktBarnURL = gittMiljo({
-  prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN',
-  other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN'
-})
+    prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN',
+    other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN',
+});
 
 export const opplaeringspengerURL = gittMiljo({
-  prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER',
-  other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER'
-})
+    prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER',
+    other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER',
+});
 
 export const omsorgspengerURL =
     'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OMSORGSPENGER';

@@ -19,7 +19,6 @@ export const SøknaderOgSkjemaer = () => {
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
-
     const lenke = (tekst: string, href: string, target?: string) => (
         <li>
             <Lenkepanel href={href} target={target}>
@@ -56,7 +55,7 @@ export const SøknaderOgSkjemaer = () => {
                     })
                 )}
 
-                {valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP === true ? (
+                {valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP ? (
                     <>
                         {lenke(
                             'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -76,7 +75,7 @@ export const SøknaderOgSkjemaer = () => {
                     </>
                 ) : null}
 
-                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien === true ? (
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ? (
                     <>
                         {lenke(
                             'Refusjonskrav omsorgspenger',
@@ -104,7 +103,7 @@ export const SøknaderOgSkjemaer = () => {
                           lenkeTilPermitteringOgMasseoppsigelsesSkjema
                       )
                     : null}
-                {tilgangYrkesskade === true
+                {tilgangYrkesskade
                     ? lenke(
                           navtjenester.yrkesskade.navn,
                           gittMiljo({
@@ -113,7 +112,7 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangEndreKontoummer === true
+                {tilgangEndreKontoummer
                     ? lenke(
                           'Endre bankkontonummer for refusjoner fra NAV',
                           gittMiljo({
@@ -131,7 +130,7 @@ export const SøknaderOgSkjemaer = () => {
                         </InternalLenkepanel>
                     </li>
                 ) : null}
-                {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder === true
+                {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder
                     ? lenke(
                           'Oppgi nærmeste leder for sykmeldt ansatt',
                           gittMiljo({
@@ -140,7 +139,7 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {valgtOrganisasjon.altinntilgang.utsendtArbeidstakerEØS === true
+                {valgtOrganisasjon.altinntilgang.utsendtArbeidstakerEØS
                     ? lenke(
                           navtjenester.utsendtArbeidstakerEØS.navn,
                           gittMiljo({
