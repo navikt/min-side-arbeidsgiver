@@ -6,7 +6,7 @@ import {
 import './SøknaderOgSkjemaer.css';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { InternalLenkepanel, Lenkepanel } from '../../GeneriskeElementer/Lenkepanel';
-import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
+import { navtjenester } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
 import { gittMiljo } from '../../utils/environment';
@@ -19,13 +19,6 @@ export const SøknaderOgSkjemaer = () => {
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
 
-    const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
-        if (!valgtOrganisasjon.altinntilgang[altinnSkjemaId]) {
-            return null;
-        }
-        const skjema = altinnskjema[altinnSkjemaId];
-        return lenke(`${skjema.navn} (Altinn)`, skjema.skjemaUrl, '_blank');
-    };
 
     const lenke = (tekst: string, href: string, target?: string) => (
         <li>
@@ -113,7 +106,7 @@ export const SøknaderOgSkjemaer = () => {
                     : null}
                 {tilgangYrkesskade === true
                     ? lenke(
-                          altinntjeneste.yrkesskade.navn,
+                          navtjenester.yrkesskade.navn,
                           gittMiljo({
                               prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
                               other: `https://skademelding.intern.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
@@ -147,7 +140,15 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
+                {valgtOrganisasjon.altinntilgang.utsendtArbeidstakerEØS === true
+                    ? lenke(
+                          navtjenester.utsendtArbeidstakerEØS.navn,
+                          gittMiljo({
+                              prod: 'https://www.nav.no/medlemskap-lovvalg/soknad',
+                              other: 'https://melosys-skjema-web.intern.dev.nav.no/medlemskap-lovvalg/soknad',
+                          })
+                      )
+                    : null}
             </ul>
             <div>
                 <Lenke href={skjemaForArbeidsgiverURL}>

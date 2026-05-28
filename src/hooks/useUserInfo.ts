@@ -1,12 +1,6 @@
 import { z } from 'zod';
 import useSWR from 'swr';
-import {
-    Altinn2Tilgang,
-    Altinn3Tilgang,
-    altinntjeneste,
-    AltinntjenesteId,
-    isAltinn2Tilgang,
-} from '../altinn/tjenester';
+import { navtjenester, NAVtjenesteId } from '../altinn/tjenester';
 import * as Record from '../utils/Record';
 import { useState } from 'react';
 import { erStøy } from '../utils/util';
@@ -20,18 +14,10 @@ const RefusjonStatus = z.object({
 });
 export type RefusjonStatus = z.infer<typeof RefusjonStatus>;
 
-/**
- * På sikt vil ressursid være beskrivende og altinntjeneste.id være overflødig/unødvendig
- * Da vil denne mappingen kunne fjernes
- */
-const tjenesteTilIdMap: Record<string, AltinntjenesteId> = Record.fromEntries(
-    Object.entries(altinntjeneste).map(([key, value]) => [
-        isAltinn2Tilgang(value)
-            ? (value as Altinn2Tilgang).tjenestekode +
-              ':' +
-              (value as Altinn2Tilgang).tjenesteversjon
-            : (value as Altinn3Tilgang).ressurs,
-        key as AltinntjenesteId,
+const tjenesteTilIdMap: Record<string, NAVtjenesteId> = Record.fromEntries(
+    Object.entries(navtjenester).map(([key, value]) => [
+        value.ressurs,
+        key as NAVtjenesteId,
     ])
 );
 
