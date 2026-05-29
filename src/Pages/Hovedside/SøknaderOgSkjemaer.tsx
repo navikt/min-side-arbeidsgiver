@@ -1,8 +1,4 @@
 import React from 'react';
-import {
-    lenkeTilPermitteringOgMasseoppsigelsesSkjema,
-    skjemaForArbeidsgiverURL,
-} from '../../lenker';
 import './SøknaderOgSkjemaer.css';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { InternalLenkepanel, Lenkepanel } from '../../GeneriskeElementer/Lenkepanel';
@@ -100,7 +96,11 @@ export const SøknaderOgSkjemaer = () => {
                 {valgtOrganisasjon.altinntilgang.permitteringOgNedbemanning
                     ? lenke(
                           'Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid',
-                          lenkeTilPermitteringOgMasseoppsigelsesSkjema
+                          gittMiljo({
+                              prod: 'https://arbeidsgiver.nav.no/permittering/',
+                              demo: 'https://arbeidsgiver.ansatt.dev.nav.no/permittering',
+                              other: 'https://permitteringsskjema.intern.dev.nav.no/permittering/',
+                          })
                       )
                     : null}
                 {tilgangYrkesskade
@@ -150,7 +150,7 @@ export const SøknaderOgSkjemaer = () => {
                     : null}
             </ul>
             <div>
-                <Lenke href={skjemaForArbeidsgiverURL}>
+                <Lenke href={'https://www.nav.no/soknader/nb/bedrift'}>
                     Alle søknader og skjemaer
                     <HoyreChevron />
                 </Lenke>

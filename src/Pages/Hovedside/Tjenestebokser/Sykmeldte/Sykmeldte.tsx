@@ -1,10 +1,10 @@
 import React from 'react';
-import { syfoURL } from '../../../../lenker';
 import syfoikon from './sykmeldte-ikon-kontrast.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import './Sykemeldte.css';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
+import { gittMiljo } from '../../../../utils/environment';
 
 const Sykmeldte = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
@@ -12,7 +12,11 @@ const Sykmeldte = () => {
     return (
         <Tjenesteboks
             ikon={syfoikon}
-            href={`${syfoURL}?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`}
+            href={`${gittMiljo({
+                prod: 'https://www.nav.no/arbeidsgiver/sykmeldte',
+                other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
+                demo: 'https://demo.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
+            })}?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`}
             tittel="Sykmeldte"
             aria-label={`Sykemeldte, du har ${antallSykmeldte} ${antallSykmeldte === 1 ? 'sykmeldt' : 'sykmeldte'} å følge opp`}
         >

@@ -2,7 +2,6 @@ import React from 'react';
 import Tekstboks from './Tekstboks';
 import NyFaneIkon from './NyFaneIkon';
 import { Buildings2Icon } from '@navikt/aksel-icons';
-import { enhetsregisteretUnderenhetLink } from '../../lenker';
 import './Underenhet.css';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { Underenhet as UnderenhetType } from '../../api/enhetsregisteretApi';
@@ -50,7 +49,7 @@ const Underenhet = ({ underenhet }: Props) => {
 
             <Tekstboks>
                 <Lenke
-                    href={enhetsregisteretUnderenhetLink(underenhet.organisasjonsnummer)}
+                    href={`https://data.brreg.no/enhetsregisteret/oppslag/underenheter/${underenhet.organisasjonsnummer}`}
                 >
                     <span>Flere opplysninger for virksomheten hos Enhetsregisteret</span>
                     <NyFaneIkon />

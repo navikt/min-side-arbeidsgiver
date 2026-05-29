@@ -3,7 +3,6 @@ import './TrengerDuHjelp.css';
 import { BodyLong, BodyShort, Heading } from '@navikt/ds-react';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { Chat2Icon, PaperplaneIcon, PhoneIcon } from '@navikt/aksel-icons';
-import { kontaktskjemaURL } from '../../lenker';
 import { openChatbot } from '@navikt/nav-dekoratoren-moduler';
 
 const showFrida = (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -23,9 +22,7 @@ export const TrengerDuHjelp = () => {
                 <ul>
                     <li>
                         <BodyShort size="large">
-                            <Lenke
-                                href="tel:55553336"
-                            >
+                            <Lenke href="tel:55553336">
                                 <PhoneIcon
                                     title="Telefonikon"
                                     style={{ height: '1.5rem', width: '1.5rem' }}
@@ -41,9 +38,7 @@ export const TrengerDuHjelp = () => {
                     </li>
                     <li>
                         <BodyShort size="large">
-                            <Lenke
-                                href={kontaktskjemaURL}
-                            >
+                            <Lenke href={'https://kontaktskjema.arbeidsgiver.nav.no/'}>
                                 <PaperplaneIcon
                                     title="Sendikon"
                                     style={{ height: '1.5rem', width: '1.5rem' }}
@@ -59,10 +54,7 @@ export const TrengerDuHjelp = () => {
                     </li>
                     <li>
                         <BodyShort size="large">
-                            <Lenke
-                                href={'#'}
-                                onClick={showFrida}
-                            >
+                            <Lenke href={'#'} onClick={showFrida}>
                                 <Chat2Icon
                                     title="Dialogikon"
                                     style={{ height: '1.5rem', width: '1.5rem' }}

@@ -1,8 +1,7 @@
 import React from 'react';
-import { infoOmNærmesteLederURL } from '../../../lenker';
 import NyFaneIkon from './NyFaneIkon';
 import { Lenke } from '../../../GeneriskeElementer/Lenke';
-import { BodyLong, BodyShort, Heading, Modal } from '@navikt/ds-react';
+import { BodyLong, BodyShort, Modal } from '@navikt/ds-react';
 import { InformationSquareIcon } from '@navikt/aksel-icons';
 
 interface Props {
@@ -30,7 +29,7 @@ const SyfoBeOmTilgangModalBoks = ({ isOpen, onRequestClose }: Props) => {
                 </BodyLong>
 
                 <Lenke
-                    href={infoOmNærmesteLederURL}
+                    href={'https://www.nav.no/arbeidsgiver/tilganger#sykmelding'}
                     target="_blank"
                 >
                     <BodyShort>Les om hvordan nærmeste leder registreres</BodyShort>

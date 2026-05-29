@@ -19,8 +19,8 @@ import {
     Tooltip,
 } from '@navikt/ds-react';
 import { CheckmarkCircleFillIcon, CheckmarkIcon, ClipboardIcon } from '@navikt/aksel-icons';
-import { narmesteLederKoblingURL } from '../../lenker';
 import { useOrganisasjonerOgTilgangerContext } from '../OrganisasjonerOgTilgangerContext';
+import { gittMiljo } from '../../utils/environment';
 
 const normaliserRessursId = (id: string): string => {
     const utenPrefix = id.replace(/^nav_/, '');
@@ -87,7 +87,14 @@ const NærmesteLederSeksjon = () => (
                 Du er oppgitt som nærmeste leder for en eller flere ansatte i virksomheten.
             </BodyLong>
         </div>
-        <Link href={narmesteLederKoblingURL}>Kontroller eller fjern kobling</Link>
+        <Link
+            href={gittMiljo({
+                prod: 'https://nav.no/arbeidsgiver/sykmeldte',
+                other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/sykmeldte',
+            })}
+        >
+            Kontroller eller fjern kobling
+        </Link>
     </section>
 );
 

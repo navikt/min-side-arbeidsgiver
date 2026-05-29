@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { arbeidsplassenURL } from '../../../../lenker';
 import PamboksIkon from './arbeidsplassen-ikon-kontrast.svg';
 import './Arbeidsplassen.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
@@ -7,6 +6,7 @@ import { z } from 'zod';
 import useSWR from 'swr';
 import { erStøy } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
+import { gittMiljo } from '../../../../utils/environment';
 
 const ArbeidsplassenStillingsannonser = () => {
     const antallAnnonser = useAntallannonser();
@@ -14,7 +14,10 @@ const ArbeidsplassenStillingsannonser = () => {
     return (
         <Tjenesteboks
             ikon={PamboksIkon}
-            href={arbeidsplassenURL}
+            href={gittMiljo({
+                prod: 'https://arbeidsplassen.nav.no/bedrift',
+                other: 'https://arbeidsplassen.intern.dev.nav.no/bedrift',
+            })}
             tittel={'Rekruttere på arbeidsplassen.no'}
             aria-label={
                 'Rekruttere på arbeidsplassen.no, ' +
