@@ -9,7 +9,6 @@ import './Hovedside.css';
 import { TrengerDuHjelp } from './TrengerDuHjelp';
 import { AktueltRubrikk } from './AktueltRubrikk';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
-import { infoOmTilgangsstyringURL } from '../../lenker';
 import { ManglerKofuviAlert } from './ManglerKofuviAlert';
 import { InfoBokser } from './InfoBokser';
 import { Kalenderavtaler } from './Kalenderavtaler';
@@ -40,9 +39,7 @@ const Hovedside: FunctionComponent = () => {
                 <div>
                     {' '}
                     {/*Legger inn en ekstra div for at linken ikke skal strekkes ut av flex*/}
-                    <Lenke
-                        href={infoOmTilgangsstyringURL}
-                    >
+                    <Lenke href={'https://www.nav.no/arbeidsgiver/tilganger'}>
                         Lær mer om tilganger og varsler i Altinn
                     </Lenke>
                 </div>

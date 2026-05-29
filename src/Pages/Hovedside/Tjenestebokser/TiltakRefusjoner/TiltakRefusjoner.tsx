@@ -1,14 +1,18 @@
 import React from 'react';
-import { tiltakRefusjonURL } from '../../../../lenker';
 import tiltakrefusjonikon from './tiltak-refusjoner-kontrast.svg';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import './TiltakRefusjoner.css';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
+import { gittMiljo } from '../../../../utils/environment';
 
 const TiltakRefusjoner = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
-
+    const tiltakRefusjonURL = gittMiljo({
+        prod: 'https://tiltak-refusjon.nav.no/refusjon',
+        other: 'https://tiltak-refusjon.intern.dev.nav.no/refusjon',
+        demo: ' https://tiltak-refusjon-arbeidsgiver-labs.ekstern.dev.nav.no/refusjon',
+    });
     const url =
         valgtOrganisasjon.organisasjon.orgnr !== ''
             ? `${tiltakRefusjonURL}?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useMemo } from 'react';
 import * as Record from '../utils/Record';
-import { AltinntjenesteId } from '../altinn/tjenester';
+import { NAVtjenesteId } from '../altinn/tjenester';
 import { useUserInfo } from '../hooks/useUserInfo';
 import { AlertContext } from './Alerts';
 import { organisasjonStrukturFlatt, mapRecursive, mergeOrgTre } from '../utils/util';
@@ -21,7 +21,7 @@ export type OrganisasjonInfo = {
     parent: Organisasjon | undefined;
     organisasjon: Organisasjon;
     roller: string[];
-    altinntilgang: Record<AltinntjenesteId, boolean>;
+    altinntilgang: Record<NAVtjenesteId, boolean>;
     syfotilgang: boolean;
     antallSykmeldte: number;
     vilkaarligAltinntilgang: boolean;
@@ -138,7 +138,7 @@ export const useBeregnOrganisasjonsInfo = ():
                         roller,
                         altinntilgang: Record.map(
                             userInfo.tilganger,
-                            (_: AltinntjenesteId, orgnrMedTilgang: orgnr[]): boolean =>
+                            (_: NAVtjenesteId, orgnrMedTilgang: orgnr[]): boolean =>
                                 orgnrMedTilgang.includes(org.orgnr)
                         ),
                         syfotilgang: digisyfoOrganisasjon !== undefined,

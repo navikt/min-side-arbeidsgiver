@@ -39,7 +39,6 @@ src/
   altinn/             # Altinn-integrasjon (tilganger, org)
   mocks/              # MSW-handlers for demo-modus
   utils/              # Hjelpefunksjoner (analytics, dato, miljø)
-  lenker.ts           # Lenke-konstanter
 server/               # Express BFF (proxy + autentisering)
 nais/                 # Kubernetes/NAIS-konfigurasjon
 public/               # Statiske filer

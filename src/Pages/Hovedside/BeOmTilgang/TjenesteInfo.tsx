@@ -1,7 +1,7 @@
 import React, { FunctionComponent, MouseEventHandler, ReactNode, useState } from 'react';
 import SyfoBeOmTilgangModalBoks from './SyfoBeOmTilgangModalBoks';
 import './TjenesteInfo.css';
-import { altinntjeneste, AltinntjenesteId } from '../../../altinn/tjenester';
+import { navtjenester, NAVtjenesteId } from '../../../altinn/tjenester';
 import NyFaneIkon from './NyFaneIkon';
 import { Lenke } from '../../../GeneriskeElementer/Lenke';
 import { BodyShort, HelpText, Tag } from '@navikt/ds-react';
@@ -12,7 +12,7 @@ interface TjenesteInfo {
 }
 
 interface EnAltinnId {
-    altinnId: AltinntjenesteId;
+    altinnId: NAVtjenesteId;
 }
 
 interface BeOmTilgangAction {
@@ -25,7 +25,7 @@ interface BeOmTilgangAction {
 
 const hentInfo = (props: TjenesteInfo | EnAltinnId): [string, string] => {
     if ('altinnId' in props) {
-        const tjeneste = altinntjeneste[props.altinnId];
+        const tjeneste = navtjenester[props.altinnId];
         return [tjeneste.beOmTilgangTittel ?? tjeneste.navn, tjeneste.beOmTilgangBeskrivelse];
     } else {
         return [props.tittel, props.beskrivelse];
@@ -95,7 +95,7 @@ export const BeOmSyfotilgang = () => {
 };
 
 export interface AltinntilgangAlleredeSøktProps {
-    altinnId: AltinntjenesteId;
+    altinnId: NAVtjenesteId;
     status: string;
     statusBeskrivelse: string;
 }

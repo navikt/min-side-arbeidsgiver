@@ -1,15 +1,6 @@
 import { Alert, BodyLong, Button, Heading, Modal, Select, VStack } from '@navikt/ds-react';
 import React, { ChangeEvent, useState } from 'react';
 import { ArrowRightIcon } from '@navikt/aksel-icons';
-import {
-    omsorgspengerURL,
-    opplaeringspengerURL,
-    opprettInntektsmeldingForeldrepenger,
-    opprettInntektsmeldingSvangerskapspenger,
-    opprettInntektsmeldingURL,
-    pleiepengerILivetsSluttfaseURL,
-    pleiepengerSyktBarnURL,
-} from '../../../../lenker';
 import { gittMiljo } from '../../../../utils/environment';
 
 type Tilgang =
@@ -29,7 +20,7 @@ const omsorgspengerYtelse = gittMiljo({
         {
             label: 'Omsorgspenger',
             value: 'OMSORGSPENGER',
-            lenke: omsorgspengerURL,
+            lenke: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OMSORGSPENGER',
             tilgang: 'inntektsmeldingSykdomIFamilien' as Tilgang,
         },
     ],
@@ -40,37 +31,55 @@ const inntektsmeldingYtelser: { label: string; value: string; lenke: string; til
         {
             label: 'Sykepenger',
             value: 'SYKEPENGER',
-            lenke: opprettInntektsmeldingURL,
+            lenke: gittMiljo({
+                prod: 'https://arbeidsgiver.nav.no/im-dialog/initiering',
+                other: 'https://arbeidsgiver.intern.dev.nav.no/im-dialog/initiering',
+            }),
             tilgang: 'inntektsmeldingSykepenger',
         },
         {
             label: 'Foreldrepenger',
             value: 'FORELDREPENGER',
-            lenke: opprettInntektsmeldingForeldrepenger,
+            lenke: gittMiljo({
+                prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER',
+                other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=FORELDREPENGER',
+            }),
             tilgang: 'inntektsmeldingForeldrepenger',
         },
         {
             label: 'Svangerskapspenger',
             value: 'SVANGERSKAPSPENGER',
-            lenke: opprettInntektsmeldingSvangerskapspenger,
+            lenke: gittMiljo({
+                prod: 'https://arbeidsgiver.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
+                other: 'https://arbeidsgiver.intern.dev.nav.no/fp-im-dialog/agi?ytelseType=SVANGERSKAPSPENGER',
+            }),
             tilgang: 'inntektsmeldingForeldrepenger',
         },
         {
             label: 'Pleiepenger i livets sluttfase',
             value: 'PLEIEPENGER_I_LIVETS_SLUTTFASE',
-            lenke: pleiepengerILivetsSluttfaseURL,
+            lenke: gittMiljo({
+                prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE',
+                other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_I_LIVETS_SLUTTFASE',
+            }),
             tilgang: 'inntektsmeldingSykdomIFamilien',
         },
         {
             label: 'Pleiepenger sykt barn',
             value: 'PLEIEPENGER_SYKT_BARN',
-            lenke: pleiepengerSyktBarnURL,
+            lenke: gittMiljo({
+                prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN',
+                other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=PLEIEPENGER_SYKT_BARN',
+            }),
             tilgang: 'inntektsmeldingSykdomIFamilien',
         },
         {
             label: 'Opplæringspenger',
             value: 'OPPLÆRINGSPENGER',
-            lenke: opplaeringspengerURL,
+            lenke: gittMiljo({
+                prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER',
+                other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OPPL%C3%86RINGSPENGER',
+            }),
             tilgang: 'inntektsmeldingSykdomIFamilien',
         },
         ...omsorgspengerYtelse,

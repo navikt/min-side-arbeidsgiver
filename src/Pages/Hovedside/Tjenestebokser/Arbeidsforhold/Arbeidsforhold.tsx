@@ -1,17 +1,22 @@
 import React from 'react';
-import { innsynAaregURL } from '../../../../lenker';
 import arbeidsforholdikon from './arbeidsforhold-ikon-kontrast.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
+import { gittMiljo } from '../../../../utils/environment';
 
 const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
     const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
-    const href = innsynAaregURL + (orgnr === '' ? '' : `?bedrift=${orgnr}`);
+    const href =
+        gittMiljo({
+            prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
+            demo: 'https://arbeidsforhold.ansatt.dev.nav.no/arbeidsforhold/',
+            other: 'https://arbeidsforhold.intern.dev.nav.no/arbeidsforhold/',
+        }) + (orgnr === '' ? '' : `?bedrift=${orgnr}`);
 
     return (
         <Tjenesteboks
@@ -26,9 +31,7 @@ const Arbeidsforhold = () => {
                     <StortTall>{antallArbeidsforhold > 0 ? antallArbeidsforhold : '-'}</StortTall>
                     arbeidsforhold (aktive og avsluttede){' '}
                 </span>
-                <div className="arbeidsforholdboks_bunntekst">
-                    Innrapportert til Aa-registret
-                </div>
+                <div className="arbeidsforholdboks_bunntekst">Innrapportert til Aa-registret</div>
             </div>
         </Tjenesteboks>
     );

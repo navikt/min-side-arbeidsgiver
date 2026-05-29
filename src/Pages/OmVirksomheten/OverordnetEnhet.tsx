@@ -1,7 +1,6 @@
 import React from 'react';
 import Tekstboks from './Tekstboks';
 import NyFaneIkon from './NyFaneIkon';
-import { enhetsregisteretOverordnetenhetLink } from '../../lenker';
 import { Buildings3Icon } from '@navikt/aksel-icons';
 import './OverordnetEnhet.css';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
@@ -91,7 +90,7 @@ const OverordnetEnhet = ({ overordnetenhet }: Props) => {
             )}
             <Tekstboks>
                 <Lenke
-                    href={enhetsregisteretOverordnetenhetLink(overordnetenhet.organisasjonsnummer)}
+                    href={`https://data.brreg.no/enhetsregisteret/oppslag/enheter/${overordnetenhet.organisasjonsnummer}`}
                 >
                     <span>Flere opplysninger for overordnet enhet hos Enhetsregisteret</span>
                     <NyFaneIkon />

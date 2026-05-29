@@ -13,7 +13,7 @@ const tilganger = [
     'nav_sykdom-i-familien_inntektsmelding',
     'nav_yrkesskade_skademelding',
     'nav_tiltak_ekspertbistand',
-    '4826:1', // utsendtArbeidstakerEØS
+    'nav_medlemskap-lovvalg_soknad',
 ];
 
 export const regnskapsforerOrganisasjoner = Array.from({ length: 100 }).map(() => ({
