@@ -14,17 +14,17 @@ interface Props {
     tilganger: Record<Tilgang, boolean>;
 }
 
-const omsorgspengerYtelse = gittMiljo({
-    prod: [],
-    other: [
-        {
-            label: 'Omsorgspenger',
-            value: 'OMSORGSPENGER',
-            lenke: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OMSORGSPENGER',
-            tilgang: 'inntektsmeldingSykdomIFamilien' as Tilgang,
-        },
-    ],
-});
+const omsorgspengerYtelse = [
+    {
+        label: 'Omsorgspenger',
+        value: 'OMSORGSPENGER',
+        lenke: gittMiljo({
+            prod: 'https://arbeidsgiver.nav.no/k9-im-dialog/opprett?ytelseType=OMSORGSPENGER',
+            other: 'https://arbeidsgiver.intern.dev.nav.no/k9-im-dialog/opprett?ytelseType=OMSORGSPENGER',
+        }),
+        tilgang: 'inntektsmeldingSykdomIFamilien' as Tilgang,
+    },
+];
 
 const inntektsmeldingYtelser: { label: string; value: string; lenke: string; tilgang: Tilgang }[] =
     [
