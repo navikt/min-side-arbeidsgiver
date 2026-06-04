@@ -3,11 +3,7 @@ import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpan
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
-import {
-    Altinn3Tilgang,
-    navtjenester,
-    NAVtjenesteId,
-} from '../../../altinn/tjenester';
+import { Altinn3Tilgang, navtjenester, NAVtjenesteId } from '../../../altinn/tjenester';
 import {
     DelegationRequestRow,
     opprettDelegationRequest,
@@ -37,7 +33,7 @@ const altinnLayout: Record<NAVtjenesteId, IsVisible> = {
     refusjonskravSykepengerAGP: 'visible',
 
     arbeidstrening: 'visible',
-    yrkesskade: 'hidden', // ikke migrert enda, skjules intill migrering er gjennomført
+    yrkesskade: 'visible',
     midlertidigLønnstilskudd: 'visible',
     varigLønnstilskudd: 'visible',
     varigTilrettelagtArbeid: 'visible',
