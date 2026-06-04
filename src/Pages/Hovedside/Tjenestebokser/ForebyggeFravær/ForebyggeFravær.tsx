@@ -41,7 +41,7 @@ const ForebyggeFravR = () => {
                     other: 'https://forebygge-fravar.intern.dev.nav.no/forebygge-fravar/',
                 }) + valgtbedrift()
             }
-            tittel="Forebygge fravær"
+            tittel="Forebygge og redusere fravær"
             aria-label={'Forebygge Fravær, ' + aria_label}
         >
             <div>
