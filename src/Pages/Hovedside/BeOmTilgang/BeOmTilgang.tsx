@@ -44,7 +44,7 @@ const altinnLayout: Record<NAVtjenesteId, IsVisible> = {
     tiltaksrefusjon: 'visible',
     tilskuddsbrev: 'visible',
 
-    utsendtArbeidstakerEØS: 'hidden',
+    utsendtArbeidstakerEØS: 'visible',
     endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang
 };
 

@@ -32,7 +32,6 @@ export type Altinn3Tilgang = {
 export type NAVTjeneste = Altinn3Tilgang & {
     sort: 'tjeneste';
     navn: string;
-    beOmTilgangTittel?: string;
     beOmTilgangBeskrivelse: string;
 };
 
@@ -207,7 +206,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     yrkesskade: {
         sort: 'tjeneste',
         navn: 'Meld inn yrkesskade eller yrkessykdom',
-        beOmTilgangTittel: 'Meld inn yrkesskade eller yrkessykdom',
         beOmTilgangBeskrivelse: `Få tilgang til å sende skademelding om arbeidsulykker og yrkessykdommer.`,
         ressurs: 'nav_yrkesskade_skademelding',
     },
