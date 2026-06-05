@@ -26,7 +26,7 @@ interface BeOmTilgangAction {
 const hentInfo = (props: TjenesteInfo | EnAltinnId): [string, string] => {
     if ('altinnId' in props) {
         const tjeneste = navtjenester[props.altinnId];
-        return [tjeneste.beOmTilgangTittel ?? tjeneste.navn, tjeneste.beOmTilgangBeskrivelse];
+        return [tjeneste.navn, tjeneste.beOmTilgangBeskrivelse];
     } else {
         return [props.tittel, props.beskrivelse];
     }
@@ -46,11 +46,7 @@ export const BeOmTilgangBoks = (props: (TjenesteInfo | EnAltinnId) & BeOmTilgang
 
     const tittelNode =
         props.href !== undefined || props.onClick !== undefined ? (
-            <Lenke
-                href={props.href ?? ''}
-                onClick={onClickAction}
-                className="be-om-tilgang-lenke"
-            >
+            <Lenke href={props.href ?? ''} onClick={onClickAction} className="be-om-tilgang-lenke">
                 <span>{tittel} – be om tilgang</span>
                 {(props.eksternSide ?? false) ? <NyFaneIkon /> : null}
             </Lenke>

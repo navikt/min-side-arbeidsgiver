@@ -32,7 +32,6 @@ export type Altinn3Tilgang = {
 export type NAVTjeneste = Altinn3Tilgang & {
     sort: 'tjeneste';
     navn: string;
-    beOmTilgangTittel?: string;
     beOmTilgangBeskrivelse: string;
 };
 
@@ -179,11 +178,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     utsendtArbeidstakerEØS: {
         sort: 'tjeneste',
         navn: 'Utsendt arbeidstaker til EØS/Sveits',
-        beOmTilgangBeskrivelse: `
-            Få tilgang til å søke om attest A1 for avklart
-            trygdetilhørighet for arbeidstakere som er midlertidig
-            utsendt til et EØS-land eller Sveits.
-             `,
+        beOmTilgangBeskrivelse: `Få tilgang til å søke om medlemskap i folketrygden for utsendte arbeidstakere innenfor EØS.`,
         ressurs: 'nav_medlemskap-lovvalg_soknad',
     },
     varigLønnstilskudd: {
@@ -207,7 +202,6 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     yrkesskade: {
         sort: 'tjeneste',
         navn: 'Meld inn yrkesskade eller yrkessykdom',
-        beOmTilgangTittel: 'Meld inn yrkesskade eller yrkessykdom',
         beOmTilgangBeskrivelse: `Få tilgang til å sende skademelding om arbeidsulykker og yrkessykdommer.`,
         ressurs: 'nav_yrkesskade_skademelding',
     },
