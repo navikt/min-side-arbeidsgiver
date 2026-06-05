@@ -178,11 +178,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     utsendtArbeidstakerEØS: {
         sort: 'tjeneste',
         navn: 'Utsendt arbeidstaker til EØS/Sveits',
-        beOmTilgangBeskrivelse: `
-            Få tilgang til å søke om attest A1 for avklart
-            trygdetilhørighet for arbeidstakere som er midlertidig
-            utsendt til et EØS-land eller Sveits.
-             `,
+        beOmTilgangBeskrivelse: `Få tilgang til å sende inn søknaden om medlemskap i folketrygden for utsendte arbeidstakere innenfor EØS.`,
         ressurs: 'nav_medlemskap-lovvalg_soknad',
     },
     varigLønnstilskudd: {
