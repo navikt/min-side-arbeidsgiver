@@ -178,7 +178,7 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     utsendtArbeidstakerEØS: {
         sort: 'tjeneste',
         navn: 'Utsendt arbeidstaker til EØS/Sveits',
-        beOmTilgangBeskrivelse: `Få tilgang til å sende inn søknaden om medlemskap i folketrygden for utsendte arbeidstakere innenfor EØS.`,
+        beOmTilgangBeskrivelse: `Få tilgang til å søke om medlemskap i folketrygden for utsendte arbeidstakere innenfor EØS.`,
         ressurs: 'nav_medlemskap-lovvalg_soknad',
     },
     varigLønnstilskudd: {
