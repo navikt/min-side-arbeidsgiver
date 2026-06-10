@@ -32,6 +32,8 @@ const displayorder: Avtalenavn[] = [
 const TiltakAvtaler = () => {
     const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
 
+    // Tilgangsstyring skjer i tiltaksgjennomforing-api; responsen inneholder kun avtaletyper
+    // brukeren har tilgang til for valgt virksomhet.
     const avtaler = useAvtaleoversikt();
 
     const tiltakUrl = `${gittMiljo({
