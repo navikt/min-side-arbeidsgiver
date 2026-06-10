@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-    lenkeTilPermitteringOgMasseoppsigelsesSkjema,
-    skjemaForArbeidsgiverURL,
-} from '../../lenker';
 import './SøknaderOgSkjemaer.css';
 import { Lenke } from '../../GeneriskeElementer/Lenke';
 import { InternalLenkepanel, Lenkepanel } from '../../GeneriskeElementer/Lenkepanel';
-import { altinnskjema, AltinnskjemaId, altinntjeneste } from '../../altinn/tjenester';
+import { navtjenester } from '../../altinn/tjenester';
 import { HoyreChevron } from '../../GeneriskeElementer/HoyreChevron';
 import { Heading } from '@navikt/ds-react';
 import { gittMiljo } from '../../utils/environment';
@@ -17,16 +13,7 @@ export const SøknaderOgSkjemaer = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const tilgangEndreKontoummer =
         valgtOrganisasjon.altinntilgang.endreBankkontonummerForRefusjoner;
-    const tilgangInntektsmelding = valgtOrganisasjon.altinntilgang.inntektsmelding;
     const tilgangYrkesskade = valgtOrganisasjon.altinntilgang.yrkesskade;
-
-    const altinnSkjemaLenke = (altinnSkjemaId: AltinnskjemaId) => {
-        if (!valgtOrganisasjon.altinntilgang[altinnSkjemaId]) {
-            return null;
-        }
-        const skjema = altinnskjema[altinnSkjemaId];
-        return lenke(`${skjema.navn} (Altinn)`, skjema.skjemaUrl, '_blank');
-    };
 
     const lenke = (tekst: string, href: string, target?: string) => (
         <li>
@@ -64,8 +51,7 @@ export const SøknaderOgSkjemaer = () => {
                     })
                 )}
 
-                {tilgangInntektsmelding === true ||
-                valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP === true ? (
+                {valgtOrganisasjon.altinntilgang.refusjonskravSykepengerAGP ? (
                     <>
                         {lenke(
                             'Refusjonskrav sykepenger i arbeidsgiverperioden - gravid ansatt',
@@ -85,8 +71,7 @@ export const SøknaderOgSkjemaer = () => {
                     </>
                 ) : null}
 
-                {tilgangInntektsmelding === true ||
-                valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien === true ? (
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ? (
                     <>
                         {lenke(
                             'Refusjonskrav omsorgspenger',
@@ -111,19 +96,23 @@ export const SøknaderOgSkjemaer = () => {
                 {valgtOrganisasjon.altinntilgang.permitteringOgNedbemanning
                     ? lenke(
                           'Skjema til NAV om permitteringer, oppsigelser, eller innskrenkning i arbeidstid',
-                          lenkeTilPermitteringOgMasseoppsigelsesSkjema
+                          gittMiljo({
+                              prod: 'https://arbeidsgiver.nav.no/permittering/',
+                              demo: 'https://arbeidsgiver.ansatt.dev.nav.no/permittering',
+                              other: 'https://permitteringsskjema.intern.dev.nav.no/permittering/',
+                          })
                       )
                     : null}
-                {tilgangYrkesskade === true
+                {tilgangYrkesskade
                     ? lenke(
-                          altinntjeneste.yrkesskade.navn,
+                          navtjenester.yrkesskade.navn,
                           gittMiljo({
                               prod: `https://skademelding.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
                               other: `https://skademelding.intern.dev.nav.no/yrkesskade/?bedrift=${valgtOrganisasjon.organisasjon.orgnr}`,
                           })
                       )
                     : null}
-                {tilgangEndreKontoummer === true
+                {tilgangEndreKontoummer
                     ? lenke(
                           'Endre bankkontonummer for refusjoner fra NAV',
                           gittMiljo({
@@ -132,8 +121,7 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {tilgangInntektsmelding === true ||
-                valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ||
+                {valgtOrganisasjon.altinntilgang.inntektsmeldingSykdomIFamilien ||
                 valgtOrganisasjon.altinntilgang.inntektsmeldingSykepenger ||
                 valgtOrganisasjon.altinntilgang.inntektsmeldingForeldrepenger ? (
                     <li>
@@ -142,7 +130,7 @@ export const SøknaderOgSkjemaer = () => {
                         </InternalLenkepanel>
                     </li>
                 ) : null}
-                {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder === true
+                {valgtOrganisasjon.altinntilgang.oppgiNarmesteleder
                     ? lenke(
                           'Oppgi nærmeste leder for sykmeldt ansatt',
                           gittMiljo({
@@ -151,10 +139,18 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
-                {altinnSkjemaLenke('utsendtArbeidstakerEØS')}
+                {valgtOrganisasjon.altinntilgang.utsendtArbeidstakerEØS
+                    ? lenke(
+                          navtjenester.utsendtArbeidstakerEØS.navn,
+                          gittMiljo({
+                              prod: 'https://www.nav.no/medlemskap-lovvalg/soknad',
+                              other: 'https://melosys-skjema-web.intern.dev.nav.no/medlemskap-lovvalg/soknad',
+                          })
+                      )
+                    : null}
             </ul>
             <div>
-                <Lenke href={skjemaForArbeidsgiverURL}>
+                <Lenke href={'https://www.nav.no/soknader/nb/bedrift'}>
                     Alle søknader og skjemaer
                     <HoyreChevron />
                 </Lenke>

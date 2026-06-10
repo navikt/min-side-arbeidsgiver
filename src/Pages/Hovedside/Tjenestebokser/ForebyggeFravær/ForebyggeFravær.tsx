@@ -1,11 +1,11 @@
-import { lenkeTilForebyggefravar } from '../../../../lenker';
 import React from 'react';
 import ForebyggeFraværIkon from './forebygge-fravær-ikon-kontrast.svg';
 import { useSykefravær } from './useSykefravær';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-import './ForebyggeFravær.css'
+import './ForebyggeFravær.css';
 
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
+import { gittMiljo } from '../../../../utils/environment';
 
 const ForebyggeFravR = () => {
     const valgtbedrift = () => {
@@ -34,8 +34,14 @@ const ForebyggeFravR = () => {
     return (
         <Tjenesteboks
             ikon={ForebyggeFraværIkon}
-            href={lenkeTilForebyggefravar + valgtbedrift()}
-            tittel="Forebygge fravær"
+            href={
+                gittMiljo({
+                    prod: 'https://arbeidsgiver.nav.no/forebygge-fravar/',
+                    demo: 'https://arbeidsgiver.ekstern.dev.nav.no/forebygge-fravar',
+                    other: 'https://forebygge-fravar.intern.dev.nav.no/forebygge-fravar/',
+                }) + valgtbedrift()
+            }
+            tittel="Forebygge og redusere fravær"
             aria-label={'Forebygge Fravær, ' + aria_label}
         >
             <div>
@@ -43,7 +49,9 @@ const ForebyggeFravR = () => {
                     <>
                         <StortTall>{sykefravær.prosent.toString()} %</StortTall>
                         legemeldt sykefravær i din {statistikktype(sykefravær.type)}.
-                        <div className='forebyggefravær_bunntekst'>Lag en plan for å redusere fraværet.</div>
+                        <div className="forebyggefravær_bunntekst">
+                            Lag en plan for å redusere fraværet.
+                        </div>
                     </>
                 ) : (
                     <span>{beskrivelse}</span>

@@ -1,11 +1,11 @@
 import React from 'react';
-import { tiltaksgjennomforingURL } from '../../../../lenker';
 import './TiltakAvtaler.css';
 import tiltakikon from './tiltak-avtaler-ikon-kontrast.svg';
 import { Avtalenavn, useAvtaleoversikt } from './useAvtaleoversikt';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
 import { BodyShort } from '@navikt/ds-react';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
+import { gittMiljo } from '../../../../utils/environment';
 
 const displayname: Record<Avtalenavn, string> = {
     ARBEIDSTRENING: 'arbeidstrening',
@@ -34,7 +34,11 @@ const TiltakAvtaler = () => {
 
     const avtaler = useAvtaleoversikt();
 
-    const tiltakUrl = `${tiltaksgjennomforingURL}&bedrift=${orgnr ?? ''}`;
+    const tiltakUrl = `${gittMiljo({
+        prod: 'https://arbeidsgiver.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+        demo: 'https://tiltaksgjennomforing-labs.ekstern.dev.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+        other: 'https://tiltaksgjennomforing.intern.dev.nav.no/tiltaksgjennomforing/?part=arbeidsgiver',
+    })}&bedrift=${orgnr ?? ''}`;
 
     const tallElems = displayorder.flatMap((avtaletype) => {
         const antall = avtaler[avtaletype];

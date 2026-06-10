@@ -1,6 +1,5 @@
 import { http, HttpResponse } from 'msw';
 import { faker } from '@faker-js/faker';
-import { orgnr } from '../brukerApi/helpers';
 import { fromEntries } from '../../utils/Record';
 import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { mapRecursive } from '../../utils/util';
@@ -12,19 +11,19 @@ const alleTilganger = [
     'nav_sykdom-i-familien_inntektsmelding',
     'nav_tiltak_ekspertbistand',
     'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver', // arbeidsforhold
-    '4826:1', // utsendtArbeidstakerEØS
-    '5332:1', // arbeidstrening
-    '5516:1', // midlertidigLønnstilskudd
-    '5516:2', // varigLønnstilskudd
-    '5516:3', // sommerjobb
-    '5516:4', // mentortilskudd
-    '5516:5', // inkluderingstilskudd
-    '5516:6', // vtao
-    'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk', // sykefravarstatistikk
-    'nav_rekruttering_kandidater', // rekruttering
-    'nav_rekruttering_stillingsannonser', // stillingsannonser arbeidsplassen.no
+    'nav_medlemskap-lovvalg_soknad',
+    'nav_tiltak_arbeidstrening',
+    'nav_tiltak_midlertidig-lonnstilskudd',
+    'nav_tiltak_varig-lonnstilskudd',
+    'nav_tiltak_sommerjobb',
+    'nav_tiltak_mentor',
+    'nav_tiltak_inkluderingstilskudd',
+    'nav_tiltak_varig-tilrettelagt-arbeid-ordinaer',
+    'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
+    'nav_rekruttering_kandidater',
+    'nav_rekruttering_stillingsannonser',
     'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
-    '5278:1', // tilskuddsbrev
+    'nav_tiltak_tilskuddsbrev',
     'nav_yrkesskade_skademelding',
     'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
     'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
@@ -33,22 +32,22 @@ const alleTilganger = [
 ];
 const underenheter = [
     {
-        orgnr: orgnr(),
+        orgnr: '100000001',
         underenheter: [],
-        navn: faker.company.name(),
+        navn: 'Eksempel AAFY',
         organisasjonsform: 'AAFY',
         roller: ['LEDE'],
     },
     {
-        orgnr: orgnr(),
+        orgnr: '100000002',
         underenheter: [],
-        navn: faker.company.name(),
+        navn: 'Eksempel FLI',
         organisasjonsform: 'FLI',
         roller: [],
     },
     {
-        orgnr: orgnr(),
-        navn: faker.company.name(),
+        orgnr: '100000003',
+        navn: 'Eksempel BEDR',
         organisasjonsform: 'BEDR',
         roller: [],
         underenheter: [],
@@ -56,14 +55,14 @@ const underenheter = [
 ];
 
 const orgledd = {
-    orgnr: orgnr(),
-    navn: faker.company.name(),
+    orgnr: '100000010',
+    navn: 'Eksempel ORGL',
     organisasjonsform: 'ORGL',
     roller: [],
     underenheter: [
         {
-            orgnr: orgnr(),
-            navn: faker.company.name(),
+            orgnr: '100000011',
+            navn: 'Eksempel ORGL underenhet',
             organisasjonsform: 'ORGL',
             roller: [],
             underenheter: underenheter.slice(0, 1),
@@ -71,10 +70,10 @@ const orgledd = {
     ],
 };
 export const dagligLederOrganisasjon = {
-    orgnr: orgnr(),
-    navn: faker.company.name(),
+    orgnr: '100000020',
+    navn: 'Eksempel AS',
     organisasjonsform: 'AS',
-    roller: [],
+    roller: ['DAGL', 'LEDE'],
     underenheter: [...underenheter.slice(1), orgledd],
 };
 const hestemannen = {

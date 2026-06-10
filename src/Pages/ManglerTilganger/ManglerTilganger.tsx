@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { infoOmTilgangsstyringURL, lenkeTilDittNavPerson } from '../../lenker';
 import './ManglerTilganger.css';
 import { Heading, LinkPanel } from '@navikt/ds-react';
 import { Lenkepanel } from '../../GeneriskeElementer/Lenkepanel';
@@ -18,16 +17,12 @@ export const ManglerTilganger: FunctionComponent = () => {
                 </Heading>
 
                 <span className="ingen-tilgang-container">
-                    <Lenkepanel
-                        href={lenkeTilDittNavPerson}
-                    >
+                    <Lenkepanel href={'https://www.nav.no/person/dittnav/'}>
                         <LinkPanel.Title>Se tjenester som privatperson</LinkPanel.Title>
                         <LinkPanel.Description>Gå til din innloggede side</LinkPanel.Description>
                     </Lenkepanel>
 
-                    <Lenkepanel
-                        href={infoOmTilgangsstyringURL}
-                    >
+                    <Lenkepanel href={'https://www.nav.no/arbeidsgiver/tilganger'}>
                         <LinkPanel.Title>Hvordan får jeg tilgang?</LinkPanel.Title>
                         <LinkPanel.Description>
                             Lær om roller og tilganger i Altinn

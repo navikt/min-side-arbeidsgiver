@@ -5,6 +5,7 @@ import { fromEntries } from '../../utils/Record';
 import { Merkelapp } from '../brukerApi/alleMerkelapper';
 import { brukerApiHandlers } from '../brukerApi/resolvers';
 import { nærmesteLederOrganisasjon } from './nærmesteLederScenario';
+import { navtjenester } from '../../altinn/tjenester';
 
 const tilganger = [
     'nav_foreldrepenger_inntektsmelding',
@@ -13,7 +14,7 @@ const tilganger = [
     'nav_sykdom-i-familien_inntektsmelding',
     'nav_yrkesskade_skademelding',
     'nav_tiltak_ekspertbistand',
-    '4826:1', // utsendtArbeidstakerEØS
+    'nav_medlemskap-lovvalg_soknad',
 ];
 
 export const regnskapsforerOrganisasjoner = Array.from({ length: 100 }).map(() => ({
@@ -63,44 +64,17 @@ const regnskapsførerSakstyper = [
     //Merkelapp.Yrkesskade,
 ];
 
-// Demo-rader for hver Delegation-request-state. Hver underenhet får én rad for hver status,
-// slik at alle UI-tilstandene vises side-om-side på samme virksomhet.
-const demoStates: Array<{
-    resourceReferenceId: string;
-    status: 'None' | 'Draft' | 'Pending' | 'Approved' | 'Rejected' | 'Withdrawn';
-    detailsLink: string | null;
-}> = [
-    {
-        resourceReferenceId: 'nav_permittering-og-nedbemmaning_innsyn-i-alle-innsendte-meldinger',
-        status: 'Pending',
-        detailsLink: null,
-    },
-    {
-        resourceReferenceId: 'nav_arbeidsforhold_aa-registeret-innsyn-arbeidsgiver',
-        status: 'Approved',
-        detailsLink: null,
-    },
-    {
-        resourceReferenceId: 'nav_forebygge-og-redusere-sykefravar_sykefravarsstatistikk',
-        status: 'Draft',
-        detailsLink: 'https://altinn.no/ui/delegation-request/demo-draft-link',
-    },
-    {
-        resourceReferenceId: 'nav_rekruttering_kandidater',
-        status: 'Draft',
-        detailsLink: null,
-    },
-    {
-        resourceReferenceId: 'nav_rekruttering_stillingsannonser',
-        status: 'Rejected',
-        detailsLink: null,
-    },
-    {
-        resourceReferenceId: 'nav_tiltak_tiltaksrefusjon',
-        status: 'Withdrawn',
-        detailsLink: null,
-    },
-];
+// Demo-rader for hver Delegation-request-state. Hver underenhet får én rad per tjeneste,
+// og statusene sykles slik at alle UI-tilstandene vises side-om-side på samme virksomhet.
+const delegationStatuses = ['None', 'Draft', 'Pending', 'Approved', 'Rejected', 'Withdrawn'] as const;
+const demoStates = Object.values(navtjenester).map((tjeneste, i) => ({
+    resourceReferenceId: tjeneste.ressurs,
+    status: delegationStatuses[i % delegationStatuses.length],
+    detailsLink:
+        delegationStatuses[i % delegationStatuses.length] === 'Draft' && i === 1
+            ? 'https://altinn.no/ui/delegation-request/demo-draft-link'
+            : null,
+}));
 
 const delegationRequestsScenario = http.get('/min-side-arbeidsgiver/api/delegation-request', () => {
     const now = new Date().toISOString();

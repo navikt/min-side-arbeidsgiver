@@ -3,12 +3,7 @@ import { Ekspanderbartpanel } from '../../../GeneriskeElementer/Ekspanderbartpan
 import Organisasjonsbeskrivelse from './Organisasjonsbeskrivelse';
 import { AltinntilgangAlleredeSøkt, BeOmSyfotilgang, BeOmTilgangBoks } from './TjenesteInfo';
 import './BeOmTilgang.css';
-import {
-    Altinn3Tilgang,
-    altinntjeneste,
-    AltinntjenesteId,
-    isAltinn3Tilgang,
-} from '../../../altinn/tjenester';
+import { Altinn3Tilgang, navtjenester, NAVtjenesteId } from '../../../altinn/tjenester';
 import {
     DelegationRequestRow,
     opprettDelegationRequest,
@@ -20,7 +15,7 @@ import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerCont
 
 type IsVisible = 'visible' | 'hidden';
 
-const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
+const altinnLayout: Record<NAVtjenesteId, IsVisible> = {
     oppgiNarmesteleder: 'visible',
 
     sykefravarstatistikk: 'visible',
@@ -32,14 +27,13 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
 
     permitteringOgNedbemanning: 'visible',
 
-    inntektsmelding: 'hidden',
     inntektsmeldingSykepenger: 'visible',
     inntektsmeldingForeldrepenger: 'visible',
     inntektsmeldingSykdomIFamilien: 'visible',
     refusjonskravSykepengerAGP: 'visible',
 
     arbeidstrening: 'visible',
-    yrkesskade: 'hidden', // ikke migrert enda, skjules intill migrering er gjennomført
+    yrkesskade: 'visible',
     midlertidigLønnstilskudd: 'visible',
     varigLønnstilskudd: 'visible',
     varigTilrettelagtArbeid: 'visible',
@@ -49,15 +43,15 @@ const altinnLayout: Record<AltinntjenesteId, IsVisible> = {
     mentortilskudd: 'visible',
     firearigLønnstilskudd: 'visible',
     tiltaksrefusjon: 'visible',
-    tilskuddsbrev: 'hidden', // foreløpig skjult i prod, sett visible her når den er satt synlig i altinn prod
+    tilskuddsbrev: 'visible',
 
-    utsendtArbeidstakerEØS: 'hidden',
+    utsendtArbeidstakerEØS: 'visible',
     endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang
 };
 
 const tjenesteRekkefølge = Object.entries(altinnLayout)
     .filter(([_, v]) => v === 'visible')
-    .map(([id]) => id as AltinntjenesteId);
+    .map(([id]) => id as NAVtjenesteId);
 
 // Statuser der brukeren venter på behandling eller har fått tilgang — vi viser "etterspurt" for disse.
 // Draft håndteres separat: har forespørselen en detailsLink lenker vi dit, ellers kan brukeren sende på nytt.
@@ -67,7 +61,7 @@ const ETTERSPURT_STATUSER = new Set<string>(['None', 'Pending', 'Approved']);
 const BeOmTilgang: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const delegationRequests = useDelegationRequests();
-    const [pågår, setPågår] = useState<Set<AltinntjenesteId>>(new Set());
+    const [pågår, setPågår] = useState<Set<NAVtjenesteId>>(new Set());
 
     const requestByRessurs = useMemo(() => {
         const orgnr = valgtOrganisasjon.organisasjon.orgnr;
@@ -83,7 +77,7 @@ const BeOmTilgang: FunctionComponent = () => {
         return map;
     }, [delegationRequests, valgtOrganisasjon.organisasjon.orgnr]);
 
-    const opprettSøknad = (altinnId: AltinntjenesteId, altinn3Tilgang: Altinn3Tilgang) => {
+    const opprettSøknad = (altinnId: NAVtjenesteId, altinn3Tilgang: Altinn3Tilgang) => {
         if (pågår.has(altinnId)) {
             return;
         }
@@ -143,11 +137,11 @@ const BeOmTilgang: FunctionComponent = () => {
     if (valgtOrganisasjon.vilkaarligAltinntilgang) {
         for (const altinnId of tjenesteRekkefølge) {
             const tilgang = valgtOrganisasjon.altinntilgang[altinnId];
-            const altinnTjeneste = altinntjeneste[altinnId];
+            const altinnTjeneste = navtjenester[altinnId];
             if (tilgang === true) {
                 /* har tilgang -- ingen ting å vise */
-            } else if (isAltinn3Tilgang(altinnTjeneste)) {
-                const altinn3 = altinnTjeneste as Altinn3Tilgang;
+            } else {
+                const altinn3: Altinn3Tilgang = altinnTjeneste;
                 const eksisterende = requestByRessurs.get(altinn3.ressurs);
 
                 const draftDetailsLink =

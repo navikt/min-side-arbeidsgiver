@@ -5,13 +5,11 @@ import OpprettManuellInntektsmeldingModal from './OpprettManuellInntektsmeldingM
 
 export default function OpprettManuellInntektsmeldingBoks({
     openOnMount,
-    tilgangInntektsmelding,
     tilgangInntektsmeldingSykepenger,
     tilgangInntektsmeldingSykdomIFamilien,
     tilgangInntektsmeldingForeldrepenger,
 }: {
     openOnMount?: boolean;
-    tilgangInntektsmelding: boolean;
     tilgangInntektsmeldingSykepenger: boolean;
     tilgangInntektsmeldingSykdomIFamilien: boolean;
     tilgangInntektsmeldingForeldrepenger: boolean;
@@ -48,7 +46,6 @@ export default function OpprettManuellInntektsmeldingBoks({
                 isOpen={modalIsOpen}
                 onRequestClose={() => setModalIsOpen(false)}
                 tilganger={{
-                    inntektsmelding: tilgangInntektsmelding,
                     inntektsmeldingSykepenger: tilgangInntektsmeldingSykepenger,
                     inntektsmeldingForeldrepenger: tilgangInntektsmeldingForeldrepenger,
                     inntektsmeldingSykdomIFamilien: tilgangInntektsmeldingSykdomIFamilien,
