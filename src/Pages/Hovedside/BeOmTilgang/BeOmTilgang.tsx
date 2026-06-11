@@ -41,6 +41,7 @@ const altinnLayout: Record<NAVtjenesteId, IsVisible> = {
     ekspertbistand: 'visible',
     inkluderingstilskudd: 'visible',
     mentortilskudd: 'visible',
+    firearigLønnstilskudd: 'hidden', // be om tilgang lanseres 1 aug og da som et prøvetiltak kun tilgjengelig i visse fylker
     tiltaksrefusjon: 'visible',
     tilskuddsbrev: 'visible',
 

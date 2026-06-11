@@ -15,6 +15,7 @@ const displayname: Record<Avtalenavn, string> = {
     INKLUDERINGSTILSKUDD: 'inkluderingstilskudd',
     MENTOR: 'mentortilskudd',
     VTAO: 'varig tilrettelagt arbeid',
+    FIREARIG_LONNSTILSKUDD: 'fireårig lønnstilskudd for unge',
 };
 
 const displayorder: Avtalenavn[] = [
@@ -25,11 +26,14 @@ const displayorder: Avtalenavn[] = [
     'INKLUDERINGSTILSKUDD',
     'MENTOR',
     'VTAO',
+    'FIREARIG_LONNSTILSKUDD',
 ];
 
 const TiltakAvtaler = () => {
     const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
 
+    // Tilgangsstyring skjer i tiltaksgjennomforing-api; responsen inneholder kun avtaletyper
+    // brukeren har tilgang til for valgt virksomhet.
     const avtaler = useAvtaleoversikt();
 
     const tiltakUrl = `${gittMiljo({

@@ -5,6 +5,7 @@ export type NAVtjenesteId =
     | 'arbeidstrening'
     | 'ekspertbistand'
     | 'endreBankkontonummerForRefusjoner'
+    | 'firearigLønnstilskudd'
     | 'inkluderingstilskudd'
     | 'inntektsmeldingForeldrepenger'
     | 'inntektsmeldingSykdomIFamilien'
@@ -67,6 +68,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
         navn: 'Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver',
         beOmTilgangBeskrivelse: '', // skjult fra be om tilgang
         ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
+    },
+    firearigLønnstilskudd: {
+        sort: 'tjeneste',
+        navn: 'Fireårig lønnstilskudd for unge',
+        beOmTilgangBeskrivelse: `Få tilgang til å endre avtaler om fireårig lønnstilskudd for unge, samt lese eksisterende avtaler som er gjeldende for virksomheten.`,
+        ressurs: 'nav_tiltak_firearig-lonnstilskudd',
     },
     inkluderingstilskudd: {
         sort: 'tjeneste',
