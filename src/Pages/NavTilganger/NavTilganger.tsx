@@ -191,15 +191,14 @@ const AlertHvisEnkeltrettighetDelegertOverORGL = ({
 }: {
     hierarki: AltinnTilgangOrganisasjon[];
 }) => {
-    const harOrglUnderenheter = (org: AltinnTilgangOrganisasjon) =>
-        org.underenheter.some(({ organisasjonsform }) => organisasjonsform === 'ORGL');
+    const erKomm = (org: AltinnTilgangOrganisasjon) => org.organisasjonsform === 'KOMM';
     const harEnkelttjenesteDelegering = (org: AltinnTilgangOrganisasjon) =>
         org.altinn3Tilganger.some((t) => t.erEnkeltrettighet === true);
 
     const detaljer = hierarki
-        .filter((o) => harOrglUnderenheter(o) && harEnkelttjenesteDelegering(o))
+        .filter((o) => erKomm(o) && harEnkelttjenesteDelegering(o))
         .map((o) => ({
-            tittel: `${o.navn} (${o.orgnr})`,
+            tittel: `${o.navn} (orgnr: ${o.orgnr} organisasjonsform: ${o.organisasjonsform})`,
             tilgangerTekst: o.altinn3Tilganger
                 .filter((e) => e.erEnkeltrettighet === true)
                 .map((t) => t.navn?.nb ?? '')
