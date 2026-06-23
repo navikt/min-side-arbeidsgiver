@@ -37,7 +37,7 @@ const Aktuelt = ({ lenke, tittel, beskrivelse, visFra, visTil }: AktueltProps) =
 const aktuelt: Array<AktueltProps> = [
     {
         lenke: 'https://www.nav.no/arbeidsgiver/sende-inntektsmelding',
-        tittel: 'A-melding må sendes for inntektsmelding',
+        tittel: 'A-melding må sendes før inntektsmelding',
         visFra: new Date('2026-06-18T00:00:00+02:00'),
         visTil: new Date('2026-07-05T23:59:59+02:00'),
         tilgangssjekk: (o) =>
