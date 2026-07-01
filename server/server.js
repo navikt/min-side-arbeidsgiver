@@ -248,6 +248,22 @@ const main = async () => {
         );
 
         app.use(
+            '/min-side-arbeidsgiver/esyfo-narmesteleder',
+            tokenXMiddleware({
+                log: log,
+                audience: {
+                    dev: 'dev-gcp:team-esyfo:esyfo-narmesteleder',
+                    prod: 'prod-gcp:team-esyfo:esyfo-narmesteleder',
+                }[MILJO],
+            }),
+            createProxyMiddleware({
+                ...proxyOptions,
+                // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
+                target: 'http://esyfo-narmesteleder.team-esyfo',
+            })
+        );
+
+        app.use(
             '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
             tokenXMiddleware({
                 log: log,

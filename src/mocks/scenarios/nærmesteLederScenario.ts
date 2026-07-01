@@ -30,12 +30,19 @@ export const nærmesteLederOrganisasjon = {
     underenheter,
 };
 
+const alleOrgnr = [
+    nærmesteLederOrganisasjon.orgnr,
+    ...underenheter.map((u) => u.orgnr),
+];
+
 export const nærmesteLederScenario = [
     http.get('/min-side-arbeidsgiver/api/userInfo/v3', () => {
         return HttpResponse.json({
             altinnError: false,
             organisasjoner: [], // Ingen organisasjoner fra Altinn
-            tilganger: {},
+            tilganger: {
+                'nav_syfo_oppgi-narmesteleder': alleOrgnr,
+            },
             digisyfoError: false,
             digisyfoOrganisasjoner: [
                 {
@@ -50,6 +57,12 @@ export const nærmesteLederScenario = [
             refusjoner: [],
         });
     }),
+
+    // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
+    http.get(
+        '/min-side-arbeidsgiver/esyfo-narmesteleder/api/v1/linemanager/requirement',
+        () => HttpResponse.json({ meta: { total: 42 } })
+    ),
 
     // brukerApi
     ...brukerApiHandlers([nærmesteLederOrganisasjon], (merkelapp) =>
