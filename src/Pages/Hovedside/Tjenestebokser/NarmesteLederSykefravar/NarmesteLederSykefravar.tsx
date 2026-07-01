@@ -13,7 +13,8 @@ const NarmesteLederSykefravar = () => {
     // ?orgnr= (ikke ?bedrift=) er forventet av målappen.
     const href = `${gittMiljo({
         prod: 'https://www.nav.no/arbeidsgiver/ansatte/narmesteleder/oversikt',
-        other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder/oversikt',
+        dev: 'https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder/oversikt',
+        other: 'https://demo.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder/oversikt',
     })}?orgnr=${valgtOrganisasjon.organisasjon.orgnr}`;
 
     return (
