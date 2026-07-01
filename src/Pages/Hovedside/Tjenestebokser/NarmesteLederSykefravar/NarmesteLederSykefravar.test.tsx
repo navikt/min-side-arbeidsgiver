@@ -11,6 +11,8 @@ import { useOrganisasjonerOgTilgangerContext } from '../../../OrganisasjonerOgTi
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 import { faker } from '@faker-js/faker';
 import NarmesteLederSykefravar from './NarmesteLederSykefravar';
+import { createApolloClient } from '../../../Pages';
+import { ApolloProvider } from '@apollo/client';
 
 const TEST_ORGNR = '182345674';
 
@@ -44,9 +46,8 @@ const server = setupServer(
         })
     ),
     // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
-    http.get(
-        `${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`,
-        () => HttpResponse.json({ meta: { total: 7 } })
+    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`, () =>
+        HttpResponse.json({ meta: { total: 7 } })
     )
 );
 
@@ -84,11 +85,15 @@ const TestWrapper: FC<{ children: ReactNode }> = ({ children }) => (
     <MemoryRouter>
         <SWRConfig value={{ dedupingInterval: 0, provider: () => new Map() }}>
             <AlertsProvider>
-                <OrganisasjonerOgTilgangerProvider>
-                    <OrganisasjonsDetaljerProvider>
-                        <VelgOrganisasjon>{children}</VelgOrganisasjon>
-                    </OrganisasjonsDetaljerProvider>
-                </OrganisasjonerOgTilgangerProvider>
+                <ApolloProvider
+                    client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
+                >
+                    <OrganisasjonerOgTilgangerProvider>
+                        <OrganisasjonsDetaljerProvider>
+                            <VelgOrganisasjon>{children}</VelgOrganisasjon>
+                        </OrganisasjonsDetaljerProvider>
+                    </OrganisasjonerOgTilgangerProvider>
+                </ApolloProvider>
             </AlertsProvider>
         </SWRConfig>
     </MemoryRouter>
