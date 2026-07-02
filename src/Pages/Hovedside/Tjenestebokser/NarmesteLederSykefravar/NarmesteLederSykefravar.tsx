@@ -27,8 +27,8 @@ const NarmesteLederSykefravar = () => {
             aria-label={`Oversikt over nærmeste leder sykefravær, ${antall} sykmeldte mangler leder`}
         >
             <div>
-                <StortTall>{antall}</StortTall>
-                <div className="tjenesteboks_bunntekst">sykmeldte mangler leder</div>
+                <StortTall>{antall}</StortTall>{' '}
+                sykmeldte mangler leder
             </div>
         </Tjenesteboks>
     );
