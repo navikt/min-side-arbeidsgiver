@@ -6,6 +6,7 @@ import Kandidatlister from './Kandidatlister/Kandidatlister';
 import TiltakAvtaler from './TiltakAvtaler/TiltakAvtaler';
 import ForebyggeFravær from './ForebyggeFravær/ForebyggeFravær';
 import TiltakRefusjoner from './TiltakRefusjoner/TiltakRefusjoner';
+import NarmesteLederSykefravar from './NarmesteLederSykefravar/NarmesteLederSykefravar';
 import './Tjenestebokser.css';
 import { useOrganisasjonsDetaljerContext } from '../../OrganisasjonsDetaljerContext';
 
@@ -16,7 +17,8 @@ type TjenesteBoks =
     | typeof Kandidatlister
     | typeof Stillingsannonser
     | typeof TiltakAvtaler
-    | typeof TiltakRefusjoner;
+    | typeof TiltakRefusjoner
+    | typeof NarmesteLederSykefravar;
 
 const TjenesteboksContainer: FunctionComponent = () => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
@@ -61,6 +63,10 @@ const TjenesteboksContainer: FunctionComponent = () => {
         valgtOrganisasjon.refusjonstatustilgang
     ) {
         tjenester.push(TiltakRefusjoner);
+    }
+
+    if (valgtOrganisasjon.altinntilgang.oppgiNarmesteleder) {
+        tjenester.push(NarmesteLederSykefravar);
     }
 
     return (

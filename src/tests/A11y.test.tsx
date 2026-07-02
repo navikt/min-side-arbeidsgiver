@@ -171,6 +171,12 @@ const server = setupServer(
                 nav_rekruttering_kandidater: ['182345674', '118345674', '119985432', '119988432'],
                 '5278:1': ['182345674', '118345674', '119985432', '119988432'],
                 nav_yrkesskade_skademelding: ['182345674', '118345674', '119985432', '119988432'],
+                'nav_syfo_oppgi-narmesteleder': [
+                    '182345674',
+                    '118345674',
+                    '119985432',
+                    '119988432',
+                ],
             },
             digisyfoError: false,
             digisyfoOrganisasjoner: [
@@ -570,5 +576,10 @@ const server = setupServer(
     hentNotifikasjonerResolver(alleNotifikasjoner),
     hentSakByIdResolver(alleSaker),
     hentNotifikasjonerSistLest(new Date()),
-    setNotifikasjonerSistLest()
+    setNotifikasjonerSistLest(),
+
+    // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
+    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`, () =>
+        HttpResponse.json({ meta: { total: 3 } })
+    )
 );

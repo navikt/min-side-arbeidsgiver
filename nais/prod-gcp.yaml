@@ -60,5 +60,7 @@ spec:
           cluster: prod-fss
         - application: presenterte-kandidater-api
           namespace: toi
+        - application: esyfo-narmesteleder
+          namespace: team-esyfo
         - application: pam-stillingsregistrering-api
           namespace: teampam
