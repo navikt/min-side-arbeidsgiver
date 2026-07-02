@@ -66,6 +66,24 @@ describe('NarmesteLederSykefravar', () => {
         expect(await screen.findByText('7')).toBeInTheDocument();
         expect(await screen.findByText('sykmeldte mangler leder')).toBeInTheDocument();
     });
+
+    it('viser ikke boksen når antall er 0', async () => {
+        server.use(
+            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`, () =>
+                HttpResponse.json({ meta: { total: 0 } })
+            )
+        );
+
+        render(
+            <TestWrapper>
+                <NarmesteLederSykefravar />
+            </TestWrapper>
+        );
+
+        // Vent litt slik at SWR rekker å hente data
+        await new Promise((r) => setTimeout(r, 100));
+        expect(screen.queryByText('sykmeldte mangler leder')).not.toBeInTheDocument();
+    });
 });
 
 const VelgOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {

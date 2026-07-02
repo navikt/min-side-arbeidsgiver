@@ -17,6 +17,8 @@ const NarmesteLederSykefravar = () => {
         other: 'https://demo.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder/oversikt',
     })}?orgnr=${valgtOrganisasjon.organisasjon.orgnr}`;
 
+    if (antall === 0) return null;
+
     return (
         <Tjenesteboks
             ikon={ikon}
