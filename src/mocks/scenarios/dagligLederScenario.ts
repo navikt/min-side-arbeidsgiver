@@ -170,6 +170,10 @@ export const dagligLederScenario = [
         )
     ),
 
+    http.get('/min-side-arbeidsgiver/esyfo-narmesteleder/api/v1/linemanager/requirement', () =>
+        HttpResponse.json({ meta: { total: 42 } })
+    ),
+
     // brukerApi
     ...brukerApiHandlers([dagligLederOrganisasjon], (_) => true),
 ];
