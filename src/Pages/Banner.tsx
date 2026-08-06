@@ -1,7 +1,7 @@
 import React, { FC, FunctionComponent, ReactNode, useEffect } from 'react';
 import { Banner, findRecursive, Virksomhetsvelger } from '@navikt/virksomhetsvelger';
 import '@navikt/virksomhetsvelger/dist/assets/style.css';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { Heading, Loader } from '@navikt/ds-react';
 import './Banner.css';
 import { useOrganisasjonsDetaljerContext } from './OrganisasjonsDetaljerContext';

@@ -7,7 +7,7 @@ import { AlertsProvider } from '../Pages/Alerts';
 import { useOrganisasjonerOgTilgangerContext } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { OrganisasjonsDetaljerProvider } from '../Pages/OrganisasjonsDetaljerProvider';
 import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { useOrganisasjonsDetaljerContext } from '../Pages/OrganisasjonsDetaljerContext';
 import { OrganisasjonerOgTilgangerProvider } from '../Pages/OrganisasjonerOgTilgangerProvider';
 import { setupServer } from 'msw/node';

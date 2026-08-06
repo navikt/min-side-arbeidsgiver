@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 import { SWRConfig } from 'swr';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { AlertsProvider } from '../../../Alerts';
 import { OrganisasjonerOgTilgangerProvider } from '../../../OrganisasjonerOgTilgangerProvider';
 import { OrganisasjonsDetaljerProvider } from '../../../OrganisasjonsDetaljerProvider';
