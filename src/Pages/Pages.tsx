@@ -5,7 +5,7 @@ import {
     Navigate,
     Route,
     Routes,
-} from 'react-router-dom';
+} from 'react-router';
 import Hovedside from './Hovedside/Hovedside';
 import { LoginBoundary } from './LoginBoundary';
 import { AlertsProvider } from './Alerts';

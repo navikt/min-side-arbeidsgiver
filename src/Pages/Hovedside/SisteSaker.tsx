@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import './SisteSaker.css';
 import { useSaker } from '../Saksoversikt/useSaker';
 import { Heading, Tag } from '@navikt/ds-react';

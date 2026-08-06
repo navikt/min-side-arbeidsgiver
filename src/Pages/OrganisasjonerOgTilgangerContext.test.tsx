@@ -10,7 +10,7 @@ import React, { ReactNode } from 'react';
 import { SWRConfig } from 'swr';
 import { AlertsProvider } from './Alerts';
 import { OrganisasjonerOgTilgangerProvider } from './OrganisasjonerOgTilgangerProvider';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 
 describe('OrganisasjonerOgTilgangerContext', () => {
     beforeAll(() => server.listen({ onUnhandledRequest: 'warn' }));

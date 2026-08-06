@@ -2,7 +2,7 @@ import './Saksside.css';
 import { useEffect } from 'react';
 import { InternLenke } from '../../GeneriskeElementer/Lenke';
 import { ChevronLeftIcon } from '@navikt/aksel-icons';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
 import { SakResultat } from '../../api/graphql-types';
 import { SakPanel } from './SakPanel';

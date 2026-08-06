@@ -1,6 +1,6 @@
 import { forwardRef, FunctionComponent, ReactNode } from 'react';
 import { BodyShort, Link as DsLink, LinkProps } from '@navikt/ds-react';
-import { Link as ReactLink } from 'react-router-dom';
+import { Link as ReactLink } from 'react-router';
 
 export interface Props extends LinkProps {
     href: string;

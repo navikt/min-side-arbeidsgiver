@@ -14,7 +14,7 @@ import {
 } from '../../../api/graphql-types';
 import { capitalize, sorted, splittListe } from '../../../utils/util';
 import OpprettManuellInntektsmeldingBoks from './Inntektsmelding/OpprettManuellInntektsmeldingBoks';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import { useOrganisasjonerOgTilgangerContext } from '../../OrganisasjonerOgTilgangerContext';
 import { SaksoversiktFilterState, useSaksoversiktContext } from '../SaksoversiktProvider';
 import { gql, TypedDocumentNode, useQuery } from '@apollo/client';
