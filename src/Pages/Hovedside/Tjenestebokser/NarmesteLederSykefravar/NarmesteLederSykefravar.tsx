@@ -6,7 +6,8 @@ import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerC
 import { gittMiljo } from '../../../../utils/environment';
 
 const NarmesteLederSykefravar = () => {
-    const antall = useAntallSykmeldteManglerLeder();
+    const { antallSykmeldteManglerLeder: antall, visTjenesteboks } =
+        useAntallSykmeldteManglerLeder();
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
 
     // Lenkemål: nytt oversikt-frontend hos team-esyfo.
@@ -17,7 +18,7 @@ const NarmesteLederSykefravar = () => {
         other: 'https://demo.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder/oversikt',
     })}?orgnr=${valgtOrganisasjon.organisasjon.orgnr}`;
 
-    if (antall === 0) return null;
+    if (!visTjenesteboks) return null;
 
     return (
         <Tjenesteboks
