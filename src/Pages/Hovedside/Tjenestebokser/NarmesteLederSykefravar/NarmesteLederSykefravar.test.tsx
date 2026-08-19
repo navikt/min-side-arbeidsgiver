@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useEffect } from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { http, HttpResponse } from 'msw';
 import { SWRConfig } from 'swr';
@@ -45,12 +45,9 @@ const server = setupServer(
             refusjoner: [],
         })
     ),
-    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
-        HttpResponse.json({
-            employeesOnSickLeaveWithoutLinemanager: 7,
-            employeesOnSickLeaveWithLinemanager: 0,
-            employeesNotOnSickLeaveWithLinemanager: 0,
-        })
+    // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
+    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`, () =>
+        HttpResponse.json({ meta: { total: 7 } })
     )
 );
 
@@ -59,7 +56,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 describe('NarmesteLederSykefravar', () => {
-    it('viser antall sykmeldte mangler leder fra statistikk-endepunktet', async () => {
+    it('viser antall sykmeldte mangler leder fra meta.total', async () => {
         render(
             <TestWrapper>
                 <NarmesteLederSykefravar />
@@ -72,12 +69,8 @@ describe('NarmesteLederSykefravar', () => {
 
     it('viser ikke boksen når antall er 0', async () => {
         server.use(
-            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
-                HttpResponse.json({
-                    employeesOnSickLeaveWithoutLinemanager: 0,
-                    employeesOnSickLeaveWithLinemanager: 0,
-                    employeesNotOnSickLeaveWithLinemanager: 0,
-                })
+            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`, () =>
+                HttpResponse.json({ meta: { total: 0 } })
             )
         );
 
@@ -87,30 +80,9 @@ describe('NarmesteLederSykefravar', () => {
             </TestWrapper>
         );
 
-        await waitFor(() =>
-            expect(screen.queryByText('sykmeldte mangler leder')).not.toBeInTheDocument()
-        );
-    });
-
-    it('viser boksen når minst ett av statistikktallene er over 0', async () => {
-        server.use(
-            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
-                HttpResponse.json({
-                    employeesOnSickLeaveWithoutLinemanager: 0,
-                    employeesOnSickLeaveWithLinemanager: 2,
-                    employeesNotOnSickLeaveWithLinemanager: 1,
-                })
-            )
-        );
-
-        render(
-            <TestWrapper>
-                <NarmesteLederSykefravar />
-            </TestWrapper>
-        );
-
-        expect(await screen.findByText('sykmeldte mangler leder')).toBeInTheDocument();
-        expect(await screen.findByText('0')).toBeInTheDocument();
+        // Vent litt slik at SWR rekker å hente data
+        await new Promise((r) => setTimeout(r, 100));
+        expect(screen.queryByText('sykmeldte mangler leder')).not.toBeInTheDocument();
     });
 });
 

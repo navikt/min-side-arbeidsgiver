@@ -4,13 +4,21 @@ import { useState } from 'react';
 import { erStøy } from '../../../../utils/util';
 import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 
-const LinemanagerStatistics = z.object({
-    employeesOnSickLeaveWithoutLinemanager: z.number(),
-    employeesOnSickLeaveWithLinemanager: z.number(),
-    employeesNotOnSickLeaveWithLinemanager: z.number(),
-});
+// Midlertidig endepunkt hos team-esyfo. Kun meta.total brukes.
+// Byttes ut når team-esyfo leverer et mer spesifikt endepunkt.
+const Requirement = z
+    .object({
+        meta: z.object({ total: z.number() }),
+    })
+    .passthrough();
 
-type LinemanagerStatistics = z.infer<typeof LinemanagerStatistics>;
+// createdAfter = i dag minus 1 år (fullt ISO-instant med Z). Midlertidig detalj –
+// forsvinner med det nye endepunktet, derfor beregnet her og holdt utenfor SWR-nøkkelen.
+const createdAfterEttÅrSiden = (): string => {
+    const d = new Date();
+    d.setUTCFullYear(d.getUTCFullYear() - 1);
+    return d.toISOString();
+};
 
 const fetcher = async ({
     url,
@@ -18,26 +26,24 @@ const fetcher = async ({
 }: {
     url: string;
     orgNumber: string;
-}): Promise<LinemanagerStatistics> => {
+}): Promise<number> => {
     const params = new URLSearchParams({
         orgNumber,
+        createdAfter: createdAfterEttÅrSiden(),
     });
     const respons = await fetch(`${url}?${params}`);
     if (respons.status !== 200) throw respons;
-    return LinemanagerStatistics.parse(await respons.json());
+    return Requirement.parse(await respons.json()).meta.total;
 };
 
-export const useAntallSykmeldteManglerLeder = (): {
-    antallSykmeldteManglerLeder: number;
-    visTjenesteboks: boolean;
-} => {
+export const useAntallSykmeldteManglerLeder = (): number => {
     const { valgtOrganisasjon } = useOrganisasjonsDetaljerContext();
     const orgNumber = valgtOrganisasjon.organisasjon.orgnr;
     const [retries, setRetries] = useState(0);
 
     const { data } = useSWR(
         {
-            url: `${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`,
+            url: `${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`,
             orgNumber,
         },
         fetcher,
@@ -47,7 +53,7 @@ export const useAntallSykmeldteManglerLeder = (): {
                 setRetries((x) => x + 1);
                 if (retries === 5 && !erStøy(error)) {
                     console.error(
-                        `#FARO: hent linemanager-statistikk fra esyfo-narmesteleder feilet med ${
+                        `#FARO: hent antall sykmeldte mangler leder fra esyfo-narmesteleder feilet med ${
                             error.status !== undefined
                                 ? `${error.status} ${error.statusText}`
                                 : error
@@ -56,16 +62,9 @@ export const useAntallSykmeldteManglerLeder = (): {
                 }
             },
             errorRetryInterval: 300,
-            fallbackData: {
-                employeesOnSickLeaveWithoutLinemanager: 0,
-                employeesOnSickLeaveWithLinemanager: 0,
-                employeesNotOnSickLeaveWithLinemanager: 0,
-            },
+            fallbackData: 0,
         }
     );
 
-    return {
-        antallSykmeldteManglerLeder: data.employeesOnSickLeaveWithoutLinemanager,
-        visTjenesteboks: Object.values(data).some((antall) => antall !== 0),
-    };
+    return data;
 };

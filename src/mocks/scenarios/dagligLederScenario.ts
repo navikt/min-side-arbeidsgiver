@@ -170,12 +170,8 @@ export const dagligLederScenario = [
         )
     ),
 
-    http.get('/min-side-arbeidsgiver/esyfo-narmesteleder/internal/api/v1/linemanager/statistics', () =>
-        HttpResponse.json({
-            employeesOnSickLeaveWithoutLinemanager: 42,
-            employeesOnSickLeaveWithLinemanager: 0,
-            employeesNotOnSickLeaveWithLinemanager: 0,
-        })
+    http.get('/min-side-arbeidsgiver/esyfo-narmesteleder/api/v1/linemanager/requirement', () =>
+        HttpResponse.json({ meta: { total: 42 } })
     ),
 
     // brukerApi

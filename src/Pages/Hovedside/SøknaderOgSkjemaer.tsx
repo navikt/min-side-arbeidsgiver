@@ -134,8 +134,8 @@ export const SøknaderOgSkjemaer = () => {
                     ? lenke(
                           'Oppgi nærmeste leder for sykmeldt ansatt',
                           gittMiljo({
-                              prod: `https://www.nav.no/arbeidsgiver/ansatte/narmesteleder?orgnr=${valgtOrganisasjon.organisasjon.orgnr}`,
-                              other: `https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder?orgnr=${valgtOrganisasjon.organisasjon.orgnr}`,
+                              prod: 'https://www.nav.no/arbeidsgiver/ansatte/narmesteleder',
+                              other: 'https://www.ekstern.dev.nav.no/arbeidsgiver/ansatte/narmesteleder',
                           })
                       )
                     : null}
