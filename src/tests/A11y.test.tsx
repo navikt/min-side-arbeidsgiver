@@ -578,8 +578,11 @@ const server = setupServer(
     hentNotifikasjonerSistLest(new Date()),
     setNotifikasjonerSistLest(),
 
-    // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
-    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/requirement`, () =>
-        HttpResponse.json({ meta: { total: 3 } })
+    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
+        HttpResponse.json({
+            employeesOnSickLeaveWithoutLinemanager: 3,
+            employeesOnSickLeaveWithLinemanager: 0,
+            employeesNotOnSickLeaveWithLinemanager: 0,
+        })
     )
 );
