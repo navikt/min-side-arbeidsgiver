@@ -37,7 +37,7 @@ export const useAntallSykmeldteManglerLeder = (): {
 
     const { data } = useSWR(
         {
-            url: `${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`,
+            url: `${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/statistics`,
             orgNumber,
         },
         fetcher,

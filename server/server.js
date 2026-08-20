@@ -258,7 +258,15 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                // Midlertidig endepunkt – team-esyfo lager et mer spesifikt endepunkt senere.
+                // Statistics-endepunktet ligger under /internal hos team-esyfo. NAIS-ingressen
+                // blokkerer /internal på offentlig domene (arbeidsgiver.nav.no), så frontend
+                // kaller uten /internal og vi legger det på her (in-cluster-kall er ikke blokkert).
+                // Målrettet rewrite – andre esyfo-paths (f.eks. /api/v1/linemanager/requirement)
+                // sendes videre uendret.
+                pathRewrite: {
+                    '^/api/v1/linemanager/statistics':
+                        '/internal/api/v1/linemanager/statistics',
+                },
                 target: 'http://esyfo-narmesteleder.team-esyfo',
             })
         );

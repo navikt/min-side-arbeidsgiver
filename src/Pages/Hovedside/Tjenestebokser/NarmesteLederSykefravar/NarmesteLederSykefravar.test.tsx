@@ -45,7 +45,7 @@ const server = setupServer(
             refusjoner: [],
         })
     ),
-    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
+    http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/statistics`, () =>
         HttpResponse.json({
             employeesOnSickLeaveWithoutLinemanager: 7,
             employeesOnSickLeaveWithLinemanager: 0,
@@ -72,7 +72,7 @@ describe('NarmesteLederSykefravar', () => {
 
     it('viser ikke boksen når antall er 0', async () => {
         server.use(
-            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
+            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/statistics`, () =>
                 HttpResponse.json({
                     employeesOnSickLeaveWithoutLinemanager: 0,
                     employeesOnSickLeaveWithLinemanager: 0,
@@ -94,7 +94,7 @@ describe('NarmesteLederSykefravar', () => {
 
     it('viser boksen når minst ett av statistikktallene er over 0', async () => {
         server.use(
-            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/internal/api/v1/linemanager/statistics`, () =>
+            http.get(`${__BASE_PATH__}/esyfo-narmesteleder/api/v1/linemanager/statistics`, () =>
                 HttpResponse.json({
                     employeesOnSickLeaveWithoutLinemanager: 0,
                     employeesOnSickLeaveWithLinemanager: 2,
