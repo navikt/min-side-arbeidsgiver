@@ -11,12 +11,13 @@ const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
 
     const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
-    const href =
-        gittMiljo({
-            prod: 'https://arbeidsgiver.nav.no/arbeidsforhold/',
-            demo: 'https://arbeidsforhold.ansatt.dev.nav.no/arbeidsforhold/',
-            other: 'https://arbeidsforhold.intern.dev.nav.no/arbeidsforhold/',
-        }) + (orgnr === '' ? '' : `?bedrift=${orgnr}`);
+    const href = gittMiljo({
+        prod:
+            'https://arbeidsgiver.nav.no/arbeidsforhold/' +
+            (orgnr === '' ? '' : `?bedrift=${orgnr}`),
+        demo: 'https://www.ansatt.dev.nav.no/arbeidsgiver/aa-registeret/innsyn',
+        other: 'https://www.ansatt.dev.nav.no/arbeidsgiver/aa-registeret/innsyn',
+    });
 
     return (
         <Tjenesteboks
