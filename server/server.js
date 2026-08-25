@@ -300,10 +300,7 @@ const main = async () => {
             }),
             createProxyMiddleware({
                 ...proxyOptions,
-                target: {
-                    dev: 'https://arbeidsplassen.intern.dev.nav.no/stillingsregistrering-api',
-                    prod: 'https://arbeidsplassen.nav.no/stillingsregistrering-api',
-                }[MILJO],
+                target: 'http://pam-stillingsregistrering-api.teampam/stillingsregistrering-api',
             })
         );
 
