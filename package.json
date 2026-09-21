@@ -11,7 +11,7 @@
         "@navikt/ds-css": "^7.40.0",
         "@navikt/ds-react": "^7.40.0",
         "@navikt/nav-dekoratoren-moduler": "^3.7.3",
-        "@navikt/virksomhetsvelger": "^2.0.6",
+        "@navikt/virksomhetsvelger": "^2.1.0",
         "clsx": "2.1.1",
         "eslint": "^9.39.5",
         "fuzzysort": "^3.1.0",
