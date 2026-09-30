@@ -30,9 +30,6 @@ export default defineConfig(({ command, mode }) => {
         },
         server: {
             port: 3000,
-            proxy: {
-                '/min-side-arbeidsgiver/artikler': 'http://localhost:8080',
-            },
         },
     };
 });

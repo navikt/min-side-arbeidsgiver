@@ -28,8 +28,3 @@ spec:
       value: {{{ commit }}}
     - name: MILJO
       value: demo
-  accessPolicy:
-    outbound:
-      external:
-        - host: fakedings.intern.dev.nav.no
-        - host: storage.googleapis.com

@@ -49,7 +49,6 @@ spec:
         - host: arbeidsgiver.intern.dev.nav.no
         - host: tiltaksgjennomforing-api.dev-fss-pub.nais.io
         - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
-        - host: storage.googleapis.com
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api

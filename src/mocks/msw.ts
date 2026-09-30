@@ -11,7 +11,6 @@ export const startMSW = async () => {
         ...demoScenarios,
         ...handlers(demoprofil),
         http.get('/demoprofil', () => HttpResponse.json(demoprofil)),
-        http.get('/min-side-arbeidsgiver/artikler', passthrough),
         http.post('/collect', () => HttpResponse.json()),
         http.get('*.svg', passthrough),
         http.get('*.js', passthrough),
