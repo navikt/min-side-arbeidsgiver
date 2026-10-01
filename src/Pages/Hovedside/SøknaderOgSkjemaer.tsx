@@ -148,6 +148,15 @@ export const SøknaderOgSkjemaer = () => {
                           })
                       )
                     : null}
+                {valgtOrganisasjon.altinntilgang.oppgjørsrapportRefusjon
+                    ? lenke(
+                          'Oppgjørsrapporter fra Nav',
+                          gittMiljo({
+                              prod: 'https://www.nav.no/oppgjorsrapporter/ref-arbg',
+                              other: 'https://www.ekstern.dev.nav.no/oppgjorsrapporter/ref-arbg',
+                          })
+                      )
+                    : null}
             </ul>
             <div>
                 <Lenke href={'https://www.nav.no/soknader/nb/bedrift'}>

@@ -5,6 +5,7 @@ export type NAVtjenesteId =
     | 'arbeidstrening'
     | 'ekspertbistand'
     | 'endreBankkontonummerForRefusjoner'
+    | 'oppgjørsrapportRefusjon'
     | 'firearigLønnstilskudd'
     | 'inkluderingstilskudd'
     | 'inntektsmeldingForeldrepenger'
@@ -66,6 +67,12 @@ export const navtjenester: Record<NAVtjenesteId, NAVTjeneste> = {
     endreBankkontonummerForRefusjoner: {
         sort: 'tjeneste',
         navn: 'Registrere kontonummer for utbetalinger fra Nav til arbeidsgiver',
+        beOmTilgangBeskrivelse: '', // skjult fra be om tilgang
+        ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
+    },
+    oppgjørsrapportRefusjon: {
+        sort: 'tjeneste',
+        navn: 'Oppgjørsrapport arbeidsgiver - refusjoner fra Nav (tidligere K27)"',
         beOmTilgangBeskrivelse: '', // skjult fra be om tilgang
         ressurs: 'nav_utbetaling_endre-kontonummer-refusjon-arbeidsgiver',
     },

@@ -47,6 +47,7 @@ const altinnLayout: Record<NAVtjenesteId, IsVisible> = {
 
     utsendtArbeidstakerEØS: 'visible',
     endreBankkontonummerForRefusjoner: 'hidden', // dette skal aldri vises i be om tilgang
+    oppgjørsrapportRefusjon: 'hidden'
 };
 
 const tjenesteRekkefølge = Object.entries(altinnLayout)
