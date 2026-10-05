@@ -12,9 +12,7 @@ const Arbeidsforhold = () => {
 
     const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
     const href = gittMiljo({
-        prod:
-            'https://arbeidsgiver.nav.no/arbeidsforhold/' +
-            (orgnr === '' ? '' : `?bedrift=${orgnr}`),
+        prod: 'https://www.nav.no/arbeidsgiver/aa-registeret/innsyn',
         demo: 'https://www.ansatt.dev.nav.no/arbeidsgiver/aa-registeret/innsyn',
         other: 'https://www.ansatt.dev.nav.no/arbeidsgiver/aa-registeret/innsyn',
     });
