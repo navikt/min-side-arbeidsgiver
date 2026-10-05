@@ -3,14 +3,10 @@ import arbeidsforholdikon from './arbeidsforhold-ikon-kontrast.svg';
 import { useAntallArbeidsforholdFraAareg } from './useAntallArbeidsforholdFraAareg';
 import './Arbeidsforhold.css';
 import { StortTall, Tjenesteboks } from '../Tjenesteboks';
-
-import { useOrganisasjonsDetaljerContext } from '../../../OrganisasjonsDetaljerContext';
 import { gittMiljo } from '../../../../utils/environment';
 
 const Arbeidsforhold = () => {
     const antallArbeidsforhold = useAntallArbeidsforholdFraAareg();
-
-    const orgnr = useOrganisasjonsDetaljerContext().valgtOrganisasjon.organisasjon.orgnr;
     const href = gittMiljo({
         prod: 'https://www.nav.no/arbeidsgiver/aa-registeret/innsyn',
         demo: 'https://www.ansatt.dev.nav.no/arbeidsgiver/aa-registeret/innsyn',
