@@ -159,7 +159,7 @@ export const SøknaderOgSkjemaer = () => {
                     : null}
             </ul>
             <div>
-                <Lenke href={'https://www.nav.no/soknader/nb/bedrift'}>
+                <Lenke href="https://www.nav.no/arbeidsgiver/soknader">
                     Alle søknader og skjemaer
                     <HoyreChevron />
                 </Lenke>
