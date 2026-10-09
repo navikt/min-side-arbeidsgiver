@@ -22,7 +22,7 @@ importers:
         version: 7.40.0
       '@navikt/arbeidsgiver-notifikasjon-widget':
         specifier: 8.0.4
-        version: 8.0.4(@navikt/aksel-icons@7.40.0)(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@navikt/nav-dekoratoren-moduler@3.7.3(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8))(@types/react@19.2.18)(graphql-ws@6.2.1(graphql@16.14.2)(ws@8.21.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+        version: 8.0.4(@navikt/aksel-icons@7.40.0)(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@navikt/nav-dekoratoren-moduler@4.5.0(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8))(@types/react@19.2.18)(graphql-ws@6.2.1(graphql@16.14.2)(ws@8.21.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@navikt/ds-css':
         specifier: ^7.40.0
         version: 7.40.0
@@ -30,8 +30,8 @@ importers:
         specifier: ^7.40.0
         version: 7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@navikt/nav-dekoratoren-moduler':
-        specifier: ^3.7.3
-        version: 3.7.3(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8)
+        specifier: ^4.5.0
+        version: 4.5.0(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8)
       '@navikt/virksomhetsvelger':
         specifier: ^2.1.0
         version: 2.1.0(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@types/react-dom@19.2.6(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -1638,6 +1638,10 @@ packages:
   '@navikt/aksel-icons@7.40.0':
     resolution: {integrity: sha512-1xuhplMhKCEPn2iMFypMVgkRNxUd5iupQ7HP2itdQCkK3K2mm2b8HsDwL9d7YDWcxowq5ff7ewpKgQFPn6o1UQ==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/7.40.0/16d67c0742bcf2a2c38ad37be6c287765640fd7f}
 
+  '@navikt/analytics-types@0.0.9':
+    resolution: {integrity: sha512-bopCvqEogyFcmrJiBxK/Mr25d6yPKF7GR36MGrJqiHCPJYf1rDu6lK4cpooTG4Q//D/1xTkHRom8ZH5BI6dTew==, tarball: https://npm.pkg.github.com/download/@navikt/analytics-types/0.0.9/5919241a6dbb782eb101fff3234ce5c36d16e942}
+    engines: {node: '>=20.0.0', npm: '>=9.0.0'}
+
   '@navikt/arbeidsgiver-notifikasjon-widget@8.0.4':
     resolution: {integrity: sha512-bBg5wg6hj8YuSKcRL2mbuo0uOlbaBzliRSdUA75Ph6iS4nVPyBnVVjNPBQNgFBn+y0xehgNrzZyudIV9pUvT+g==, tarball: https://npm.pkg.github.com/download/@navikt/arbeidsgiver-notifikasjon-widget/8.0.4/eb00c9397968f50be00a79831d33cee1c16a88c9}
     peerDependencies:
@@ -1664,15 +1668,12 @@ packages:
   '@navikt/ds-tokens@7.40.0':
     resolution: {integrity: sha512-zBaBKLS5R2OZyXI4UUPOmiB15L/u/aJPHiyoccJDtmqrv5wRkc1oM6UCjzKK0D4gLZHBoxp7YBT0sR9Mp4DXFQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/7.40.0/36f981e12d4d90f18155615b7666b737039a3ff0}
 
-  '@navikt/nav-dekoratoren-moduler@3.7.3':
-    resolution: {integrity: sha512-qhK94HP468se5ekqwxzmIg2wfrRGvwqOa47sSF+80CTqJNgYXhzFYcoiCuwqNrLVUdBgBPW4fREHHlpRZzpPbw==, tarball: https://npm.pkg.github.com/download/@navikt/nav-dekoratoren-moduler/3.7.3/3c790758f06d026b8732261131b13aa937055646}
+  '@navikt/nav-dekoratoren-moduler@4.5.0':
+    resolution: {integrity: sha512-0eTtpgk+kOGjxncAA5PT2+yLPIobPdvIMVJzWDVdlZmuKUGG1NMoom8DYtnCPkro3Mw+dZeoFJ0TVY+4F57J5Q==, tarball: https://npm.pkg.github.com/download/@navikt/nav-dekoratoren-moduler/4.5.0/e3c7d8e6e3f2efd2fb46952564e6c9c47ca200ad}
     engines: {node: 24.x}
     peerDependencies:
       html-react-parser: '>=5.x'
       react: '>=17.x'
-    peerDependenciesMeta:
-      react:
-        optional: true
 
   '@navikt/virksomhetsvelger@2.1.0':
     resolution: {integrity: sha512-LmngDe+gKI9IlWnQpSID/nESRwivZpkzOEla+8uSaYyycrM4NqBnFUL2RLGs6Mm+wgL0SOEtb6ukH+ZYXwpmfw==, tarball: https://npm.pkg.github.com/download/@navikt/virksomhetsvelger/2.1.0/eabdd6a47a3d2c8881d39ca880b217653f4cc659}
@@ -2778,8 +2779,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  csp-header@6.3.1:
-    resolution: {integrity: sha512-ykcqGMOGP/uU7RLXDD83k2Ge5Stgc/N3qgKgSN+dATDlNgLHnIoI1IdZBjOskD5Ev1RSKTabLdIETJ6VzXTmvA==}
+  csp-header@6.4.0:
+    resolution: {integrity: sha512-9YEpW20tPtKzVouyAxNtXqSE4EGaTd4ZiT1n/FbUQ5xhmFkPCjC3Db/gHDbesryQoO/TigBAUCqgKypOHviRgQ==}
     engines: {node: '>=18'}
 
   css.escape@1.5.1:
@@ -3876,9 +3877,8 @@ packages:
   jose@5.10.0:
     resolution: {integrity: sha512-s+3Al/p9g32Iq+oqXxkW//7jk2Vig6FF1CFqzVXoTUXt2qz89YWbL+OwS17NFYEvxC35n0FKeGO2LGYSxeM2Gg==}
 
-  js-cookie@3.0.7:
-    resolution: {integrity: sha512-z/wZZgDrkNV1eA0ULjM/F9/50Ya8fbzgKneSpoPsXSGd0KnpdtHfOZWK+GcwLk+EZbS4F9RBhU+K2RgzuDaItw==}
-    engines: {node: '>=20'}
+  js-cookie@3.0.8:
+    resolution: {integrity: sha512-yeJd4aNAdYZQjaon2bpD/Gb0B/omw7HQOsynXXcOiWVCacbBcPlgn8S/d1X6blFSaHao7ozqtW7NZW19xpCtIw==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -7362,13 +7362,15 @@ snapshots:
 
   '@navikt/aksel-icons@7.40.0': {}
 
-  '@navikt/arbeidsgiver-notifikasjon-widget@8.0.4(@navikt/aksel-icons@7.40.0)(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@navikt/nav-dekoratoren-moduler@3.7.3(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8))(@types/react@19.2.18)(graphql-ws@6.2.1(graphql@16.14.2)(ws@8.21.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+  '@navikt/analytics-types@0.0.9': {}
+
+  '@navikt/arbeidsgiver-notifikasjon-widget@8.0.4(@navikt/aksel-icons@7.40.0)(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@navikt/nav-dekoratoren-moduler@4.5.0(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8))(@types/react@19.2.18)(graphql-ws@6.2.1(graphql@16.14.2)(ws@8.21.3))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
     dependencies:
       '@apollo/client': 3.13.8(@types/react@19.2.18)(graphql-ws@6.2.1(graphql@16.14.2)(ws@8.21.3))(graphql@16.11.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@navikt/aksel-icons': 7.40.0
       '@navikt/ds-css': 7.40.0
       '@navikt/ds-react': 7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      '@navikt/nav-dekoratoren-moduler': 3.7.3(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8)
+      '@navikt/nav-dekoratoren-moduler': 4.5.0(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8)
       graphql: 16.11.0
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
@@ -7395,12 +7397,12 @@ snapshots:
 
   '@navikt/ds-tokens@7.40.0': {}
 
-  '@navikt/nav-dekoratoren-moduler@3.7.3(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8)':
+  '@navikt/nav-dekoratoren-moduler@4.5.0(html-react-parser@5.2.5(@types/react@19.2.18)(react@19.2.8))(react@19.2.8)':
     dependencies:
-      csp-header: 6.3.1
+      '@navikt/analytics-types': 0.0.9
+      csp-header: 6.4.0
       html-react-parser: 5.2.5(@types/react@19.2.18)(react@19.2.8)
-      js-cookie: 3.0.7
-    optionalDependencies:
+      js-cookie: 3.0.8
       react: 19.2.8
 
   '@navikt/virksomhetsvelger@2.1.0(@navikt/ds-css@7.40.0)(@navikt/ds-react@7.40.0(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@types/react-dom@19.2.6(@types/react@19.2.18))(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
@@ -8512,7 +8514,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  csp-header@6.3.1: {}
+  csp-header@6.4.0: {}
 
   css.escape@1.5.1: {}
 
@@ -9988,7 +9990,7 @@ snapshots:
 
   jose@5.10.0: {}
 
-  js-cookie@3.0.7: {}
+  js-cookie@3.0.8: {}
 
   js-tokens@4.0.0: {}
 

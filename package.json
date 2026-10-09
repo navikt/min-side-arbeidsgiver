@@ -10,7 +10,7 @@
         "@navikt/arbeidsgiver-notifikasjon-widget": "8.0.4",
         "@navikt/ds-css": "^7.40.0",
         "@navikt/ds-react": "^7.40.0",
-        "@navikt/nav-dekoratoren-moduler": "^3.7.3",
+        "@navikt/nav-dekoratoren-moduler": "^4.5.0",
         "@navikt/virksomhetsvelger": "^2.1.0",
         "clsx": "2.1.1",
         "eslint": "^9.39.5",
