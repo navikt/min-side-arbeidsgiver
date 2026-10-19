@@ -46,14 +46,14 @@ spec:
       external:
         - host: arbeidsgiver.nav.no
         - host: tiltaksgjennomforing-api.prod-fss-pub.nais.io
-        - host: aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io
+        - host: aareg-services.prod-fss-pub.nais.io
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
         - application: tiltaksgjennomforing-api
           namespace: arbeidsgiver
           cluster: prod-fss
-        - application: aareg-innsyn-arbeidsgiver-api
+        - application: aareg-services-nais
           namespace: arbeidsforhold
           cluster: prod-fss
         - application: presenterte-kandidater-api

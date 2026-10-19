@@ -271,20 +271,29 @@ const main = async () => {
             })
         );
 
-        app.use(
-            '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api',
+        // Kun dette ene kallet slippes gjennom til aareg-services: eksakt path og metode,
+        // fast upstream-path og tvungen ARBEIDSGIVER-kontekst. Resten av aareg-services
+        // (bl.a. arbeidsforhold med personopplysninger) skal ikke kunne nås fra nettleseren.
+        app.post(
+            '/min-side-arbeidsgiver/aareg-services/arbeidsstedoversikt',
             tokenXMiddleware({
                 log: log,
                 audience: {
-                    dev: 'dev-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
-                    prod: 'prod-fss:arbeidsforhold:aareg-innsyn-arbeidsgiver-api',
+                    dev: 'dev-fss:arbeidsforhold:aareg-services-nais',
+                    prod: 'prod-fss:arbeidsforhold:aareg-services-nais',
                 }[MILJO],
             }),
             createProxyMiddleware({
                 ...proxyOptions,
+                pathRewrite: () => '/api/v2/opplysningspliktig/arbeidsstedoversikt',
+                on: {
+                    proxyReq: (proxyReq) => {
+                        proxyReq.setHeader('Nav-Aareg-Kontekst', 'ARBEIDSGIVER');
+                    },
+                },
                 target: {
-                    dev: 'https://aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
-                    prod: 'https://aareg-innsyn-arbeidsgiver-api.prod-fss-pub.nais.io/arbeidsgiver-arbeidsforhold-api',
+                    dev: 'https://aareg-services-q2.dev-fss-pub.nais.io',
+                    prod: 'https://aareg-services.prod-fss-pub.nais.io',
                 }[MILJO],
             })
         );
