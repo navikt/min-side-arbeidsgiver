@@ -6,9 +6,10 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { SimpleBanner } from './Banner';
 
 export const MsaErrorBoundary = ({ children }: { children: ReactNode }) => {
-    function onError(error: Error, info: React.ErrorInfo) {
+    function onError(error: unknown, info: React.ErrorInfo) {
+        const normalizedError = error instanceof Error ? error : new Error(String(error));
         console.error(
-            `#FARO: Generisk feil ${error.name}:\nmessage: ${error.message}\ncomponentStack: ${info.componentStack}\n`
+            `#FARO: Generisk feil ${normalizedError.name}:\nmessage: ${normalizedError.message}\ncomponentStack: ${info.componentStack}\n`
         );
     }
 
