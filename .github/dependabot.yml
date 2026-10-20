@@ -9,9 +9,11 @@ registries:
     token: ${{ secrets.READER_TOKEN }}
 
 updates:
-  # pnpm-workspace (frontend/*). Kun oppdateringer innenfor rangene i package.json.
+  # Rotprosjektet og BFF-en har hver sin package.json og pnpm-lock.yaml.
   - package-ecosystem: npm
-    directory: "/"
+    directories:
+      - "/"
+      - "/server"
     registries:
       - npm-github
     schedule:
@@ -21,7 +23,7 @@ updates:
       timezone: Europe/Oslo
     cooldown:
       default-days: 3
-    versioning-strategy: lockfile-only
+    versioning-strategy: increase
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
