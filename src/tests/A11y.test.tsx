@@ -6,7 +6,8 @@ import { SWRConfig } from 'swr';
 import { AlertsProvider } from '../Pages/Alerts';
 import { useOrganisasjonerOgTilgangerContext } from '../Pages/OrganisasjonerOgTilgangerContext';
 import { OrganisasjonsDetaljerProvider } from '../Pages/OrganisasjonsDetaljerProvider';
-import { NotifikasjonWidgetProvider } from '@navikt/arbeidsgiver-notifikasjon-widget';
+import { ApolloProvider } from '@apollo/client';
+import { createApolloClient } from '../Pages/Pages';
 import { MemoryRouter } from 'react-router';
 import { useOrganisasjonsDetaljerContext } from '../Pages/OrganisasjonsDetaljerContext';
 import { OrganisasjonerOgTilgangerProvider } from '../Pages/OrganisasjonerOgTilgangerProvider';
@@ -71,9 +72,8 @@ const MedValgtOrganisasjon: FC<{ children: ReactNode }> = ({ children }) => {
 const ComponentTestEnabler: FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <MemoryRouter>
-            <NotifikasjonWidgetProvider
-                miljo={'local'}
-                apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
+            <ApolloProvider
+                client={createApolloClient(`${__BASE_PATH__}/api/notifikasjon-bruker-api`)}
             >
                 <SWRConfig
                     value={{
@@ -94,7 +94,7 @@ const ComponentTestEnabler: FC<{ children: ReactNode }> = ({ children }) => {
                         </OrganisasjonerOgTilgangerProvider>
                     </AlertsProvider>
                 </SWRConfig>
-            </NotifikasjonWidgetProvider>
+            </ApolloProvider>
         </MemoryRouter>
     );
 };
