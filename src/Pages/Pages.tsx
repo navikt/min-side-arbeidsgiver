@@ -134,20 +134,22 @@ const Pages: FunctionComponent = () => (
                                                         <Route
                                                             path="/notifikasjon-widget"
                                                             element={
-                                                                <NotifikasjonWidgetProvider
-                                                                    miljo={miljø}
-                                                                    apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
-                                                                >
-                                                                    <BannerMedBedriftsmeny
-                                                                        sidetittel={
-                                                                            'Min side – arbeidsgiver'
-                                                                        }
-                                                                        widget={
-                                                                            <NotifikasjonWidget />
-                                                                        }
-                                                                    />
+                                                                <>
+                                                                    <NotifikasjonWidgetProvider
+                                                                        miljo={miljø}
+                                                                        apiUrl={`${__BASE_PATH__}/notifikasjon-bruker-api`}
+                                                                    >
+                                                                        <BannerMedBedriftsmeny
+                                                                            sidetittel={
+                                                                                'Min side – arbeidsgiver'
+                                                                            }
+                                                                            widget={
+                                                                                <NotifikasjonWidget />
+                                                                            }
+                                                                        />
+                                                                    </NotifikasjonWidgetProvider>
                                                                     <Hovedside />
-                                                                </NotifikasjonWidgetProvider>
+                                                                </>
                                                             }
                                                         />
                                                     )}
