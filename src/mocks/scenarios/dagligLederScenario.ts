@@ -143,13 +143,11 @@ export const dagligLederScenario = [
         });
     }),
 
-    http.get(
-        '/min-side-arbeidsgiver/arbeidsgiver-arbeidsforhold-api/antall-arbeidsforhold',
-        async () =>
-            HttpResponse.json({
-                first: '131488434',
-                second: 42,
-            })
+    http.post('/min-side-arbeidsgiver/aareg-services/arbeidsstedoversikt', () =>
+        HttpResponse.json({
+            aktiveArbeidsforhold: 30,
+            inaktiveArbeidsforhold: 12,
+        })
     ),
 
     //  tiltaksgjennomforing / TiltakAvtaler

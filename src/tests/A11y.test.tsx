@@ -260,9 +260,10 @@ const server = setupServer(
             kvittertEventTimestamp: '2021-01-04T00:00:00Z',
         })
     ),
-    http.get(/.*arbeidsgiver-arbeidsforhold-api\/antall-arbeidsforhold.*/, () =>
+    http.post(/.*aareg-services\/arbeidsstedoversikt.*/, () =>
         HttpResponse.json({
-            second: 53,
+            aktiveArbeidsforhold: 50,
+            inaktiveArbeidsforhold: 3,
         })
     ),
     http.get(/.*presenterte-kandidater-api\/ekstern\/antallkandidater.*/, () =>

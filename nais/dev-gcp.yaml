@@ -48,14 +48,14 @@ spec:
         - host: arbeidsgiver-gcp.dev.nav.no
         - host: arbeidsgiver.intern.dev.nav.no
         - host: tiltaksgjennomforing-api.dev-fss-pub.nais.io
-        - host: aareg-innsyn-arbeidsgiver-api.dev-fss-pub.nais.io
+        - host: aareg-services-q2.dev-fss-pub.nais.io
       rules:
         - application: min-side-arbeidsgiver-api
         - application: notifikasjon-bruker-api
         - application: tiltaksgjennomforing-api
           namespace: arbeidsgiver
           cluster: dev-fss
-        - application: aareg-innsyn-arbeidsgiver-api
+        - application: aareg-services-nais
           namespace: arbeidsforhold
           cluster: dev-fss
         - application: presenterte-kandidater-api
