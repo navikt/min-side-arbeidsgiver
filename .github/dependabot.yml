@@ -29,5 +29,9 @@ updates:
         update-types: ["version-update:semver-major"]
     groups:
       pnpm:
+        applies-to: version-updates
         patterns: ["*"]
         update-types: [minor, patch]
+      pnpm-security:
+        applies-to: security-updates
+        patterns: ["*"]
