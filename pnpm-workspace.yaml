@@ -1,0 +1,8 @@
+allowBuilds:
+  '@swc/core': set this to true or false
+  core-js: set this to true or false
+  esbuild: set this to true or false
+  msw: set this to true or false
+  unrs-resolver: set this to true or false
+overrides:
+  lodash: 4.18.1
