@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { setupServer } from 'msw/node';
 import { dateInPast, virksomhet } from '../../../mocks/brukerApi/helpers';
@@ -33,8 +33,10 @@ describe('Uleste Notifikasjoner', () => {
             </ApolloProvider>
         );
 
-        const antallUlesteElement = await screen.findByTestId('antallUleste');
-        expect(antallUlesteElement.textContent).toBe('1');
+        await waitFor(() => {
+            const antallUlesteElement = screen.getByTestId('antallUleste');
+            expect(antallUlesteElement.textContent).toBe('1');
+        });
     });
 
     it('leser fra localStorage dersom remote returnerer null', async () => {
@@ -53,8 +55,10 @@ describe('Uleste Notifikasjoner', () => {
             </ApolloProvider>
         );
 
-        const antallUlesteElement = await screen.findByTestId('antallUleste');
-        expect(antallUlesteElement.textContent).toBe('1');
+        await waitFor(() => {
+            const antallUlesteElement = screen.getByTestId('antallUleste');
+            expect(antallUlesteElement.textContent).toBe('1');
+        });
     });
 });
 
