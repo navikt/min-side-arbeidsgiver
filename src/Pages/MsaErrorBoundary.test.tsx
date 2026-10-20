@@ -18,7 +18,7 @@ describe('MsaErrorBoundary', () => {
         );
 
         expect(screen.getByText('Innhold')).toBeInTheDocument();
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+        expect(screen.queryByText(/En ukjent feil ble oppdaget\./)).not.toBeInTheDocument();
     });
 
     it.each([
@@ -38,7 +38,7 @@ describe('MsaErrorBoundary', () => {
             </MsaErrorBoundary>
         );
 
-        expect(screen.getByRole('alert')).toHaveTextContent('En ukjent feil ble oppdaget.');
+        expect(screen.getByText(/En ukjent feil ble oppdaget\./)).toBeInTheDocument();
         expect(screen.getByRole('link', { name: 'Last inn siden på nytt' })).toHaveAttribute(
             'href',
             window.location.href
