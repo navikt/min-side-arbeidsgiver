@@ -40,6 +40,12 @@ jobs:
       - run: pnpm run lint
       - run: pnpm run build
 
+      - name: Verifiser server-avhengigheter
+        working-directory: ./server
+        run: |
+          test -e node_modules/express
+          node --input-type=module -e "await import('express')"
+
       - uses: nais/docker-build-push@v0
         id: gar-push
         with:
