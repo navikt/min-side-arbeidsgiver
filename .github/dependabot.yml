@@ -24,6 +24,7 @@ updates:
     cooldown:
       default-days: 3
     versioning-strategy: increase
+    open-pull-requests-limit: 10
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
