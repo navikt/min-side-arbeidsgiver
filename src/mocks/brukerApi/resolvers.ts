@@ -231,7 +231,7 @@ function harFilterType(sak: Sak, oppgaveFilter?: InputMaybe<string[]>) {
         return true;
     }
 
-    if (oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)) {
+    if (oppgaveFilter.includes(OppgaveFilterType.enum.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)) {
         return (
             sak.tidslinje.filter(
                 (t) =>

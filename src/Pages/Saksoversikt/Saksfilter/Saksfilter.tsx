@@ -22,9 +22,9 @@ import { ServerError } from '@apollo/client/link/utils';
 
 export const filterTypeTilTekst = (oppgaveFilter: OppgaveFilterType) => {
     switch (oppgaveFilter) {
-        case OppgaveFilterType.Values.TILSTAND_NY:
+        case OppgaveFilterType.enum.TILSTAND_NY:
             return 'Uløste oppgaver';
-        case OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST:
+        case OppgaveFilterType.enum.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST:
             return 'Med påminnelse';
         default:
             return '';
@@ -369,9 +369,9 @@ const OppgaveFilter = () => {
     const hentAntallAvType = (type: OppgaveFilterType) =>
         oppgaveFilterInfo?.find((filterInfo) => filterInfo.filterType === type)?.antall ?? 0;
 
-    const antallUløsteOppgaver = hentAntallAvType(OppgaveFilterType.Values.TILSTAND_NY);
+    const antallUløsteOppgaver = hentAntallAvType(OppgaveFilterType.enum.TILSTAND_NY);
     const antallUløsteOppgaverMedPåminnelse = hentAntallAvType(
-        OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST
+        OppgaveFilterType.enum.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST
     );
 
     return (
@@ -380,7 +380,7 @@ const OppgaveFilter = () => {
                 value={filter.oppgaveFilter}
                 legend={'Oppgaver'}
                 onChange={(valgteOppgaveFilter) => {
-                    if (valgteOppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY)) {
+                    if (valgteOppgaveFilter.includes(OppgaveFilterType.enum.TILSTAND_NY)) {
                         setFilter({
                             ...filter,
                             oppgaveFilter: valgteOppgaveFilter,
@@ -396,22 +396,22 @@ const OppgaveFilter = () => {
                 }}
             >
                 <Checkbox
-                    value={OppgaveFilterType.Values.TILSTAND_NY}
+                    value={OppgaveFilterType.enum.TILSTAND_NY}
                     onClick={(e) =>
                         logAnalyticsFilterKlikk('oppgave', OppgaveTilstand.Ny, e.target)
                     }
                 >
                     <BodyShort>
-                        {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY)} (${antallUløsteOppgaver})`}
+                        {`${filterTypeTilTekst(OppgaveFilterType.enum.TILSTAND_NY)} (${antallUløsteOppgaver})`}
                     </BodyShort>
                 </Checkbox>
-                {filter.oppgaveFilter.includes(OppgaveFilterType.Values.TILSTAND_NY) && (
+                {filter.oppgaveFilter.includes(OppgaveFilterType.enum.TILSTAND_NY) && (
                     <Checkbox
-                        value={OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST}
+                        value={OppgaveFilterType.enum.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST}
                         className={'underfilter'}
                     >
                         <BodyShort>
-                            {`${filterTypeTilTekst(OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)} (${antallUløsteOppgaverMedPåminnelse})`}
+                            {`${filterTypeTilTekst(OppgaveFilterType.enum.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST)} (${antallUløsteOppgaverMedPåminnelse})`}
                         </BodyShort>
                     </Checkbox>
                 )}

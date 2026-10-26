@@ -156,7 +156,7 @@ export const oppgaveFilterInfo = (saker: Sak[]): Array<OppgaveFilterInfo> => {
             antall: oppgaver.length,
         })),
         {
-            filterType: OppgaveFilterType.Values.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST,
+            filterType: OppgaveFilterType.enum.TILSTAND_NY_MED_PAAMINNELSE_UTLOEST,
             antall:
                 group.NY?.filter(
                     (o) => o.paaminnelseTidspunkt !== null && o.paaminnelseTidspunkt !== undefined

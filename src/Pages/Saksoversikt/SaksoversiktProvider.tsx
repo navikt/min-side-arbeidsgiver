@@ -75,11 +75,11 @@ export const ZodSaksoversiktLagretFilter = ZodSaksoversiktFilterState.extend({
 export const mapOppgaveTilstandTilFilterType = (tilstand: string): OppgaveFilterType | null => {
     switch (tilstand) {
         case OppgaveTilstand.Ny:
-            return OppgaveFilterType.Values.TILSTAND_NY;
+            return OppgaveFilterType.enum.TILSTAND_NY;
         case OppgaveTilstand.Utfoert:
-            return OppgaveFilterType.Values.TILSTAND_UTFOERT;
+            return OppgaveFilterType.enum.TILSTAND_UTFOERT;
         case OppgaveTilstand.Utgaatt:
-            return OppgaveFilterType.Values.TILSTAND_UTGAATT;
+            return OppgaveFilterType.enum.TILSTAND_UTGAATT;
         default:
             return null;
     }
