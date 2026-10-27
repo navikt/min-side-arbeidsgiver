@@ -16,7 +16,13 @@ updates:
       day: monday
       time: "06:00"
       timezone: Europe/Oslo
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 10
+    groups:
+      actions:
+        patterns:
+          - "*"
 
   # Rotprosjektet og BFF-en har hver sin package.json og pnpm-lock.yaml.
   - package-ecosystem: npm

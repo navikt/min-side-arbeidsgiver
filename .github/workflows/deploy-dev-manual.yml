@@ -11,7 +11,7 @@ jobs:
             id-token: 'write'
 
         steps:
-            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
             - uses: nais/login@40b72a35a18ddf2ad74b632461139ab838cc2a2f # v0
               id: login
@@ -19,7 +19,7 @@ jobs:
                   team: fager
 
             - name: 'Deploy dev-gcp'
-              uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
+              uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: nais/dev-gcp.yaml
@@ -35,7 +35,7 @@ jobs:
             id-token: 'write'
 
         steps:
-            - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
             - uses: nais/login@40b72a35a18ddf2ad74b632461139ab838cc2a2f # v0
               id: login
@@ -43,7 +43,7 @@ jobs:
                   team: fager
 
             - name: 'Deploy labs-gcp'
-              uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
+              uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
               env:
                   CLUSTER: dev-gcp
                   RESOURCE: nais/demo-devlik.yaml
