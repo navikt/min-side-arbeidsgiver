@@ -9,6 +9,15 @@ registries:
     token: ${{ secrets.READER_TOKEN }}
 
 updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Oslo
+    open-pull-requests-limit: 10
+
   # Rotprosjektet og BFF-en har hver sin package.json og pnpm-lock.yaml.
   - package-ecosystem: npm
     directories:
