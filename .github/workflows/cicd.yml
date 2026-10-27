@@ -71,7 +71,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Deploy til dev-gcp
-        uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
+        uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: nais/dev-gcp.yaml
@@ -87,7 +87,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Deploy til prod-gcp
-        uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
+        uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
         env:
           CLUSTER: prod-gcp
           RESOURCE: nais/prod-gcp.yaml
@@ -103,7 +103,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Deploy prodlik demo til dev-gcp
-        uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
+        uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: nais/demo-prodlik.yaml
@@ -119,7 +119,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Deploy dev-lik demo til dev-gcp
-        uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
+        uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: nais/demo-devlik.yaml
