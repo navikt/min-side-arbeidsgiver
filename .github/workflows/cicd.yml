@@ -16,7 +16,7 @@ jobs:
       packages: write
 
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: pnpm/action-setup@b906affcce14559ad1aafd4ab0e942779e9f58b1 # v4
         with:
@@ -69,7 +69,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Deploy til dev-gcp
         uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
         env:
@@ -85,7 +85,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Deploy til prod-gcp
         uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
         env:
@@ -101,7 +101,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Deploy prodlik demo til dev-gcp
         uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
         env:
@@ -117,7 +117,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Deploy dev-lik demo til dev-gcp
         uses: nais/deploy/actions/deploy@1064e26587ab2794266a35f477387e561899a7ef # v2
         env:
