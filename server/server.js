@@ -288,6 +288,8 @@ const main = async () => {
                 pathRewrite: () => '/api/v2/opplysningspliktig/arbeidsstedoversikt',
                 on: {
                     proxyReq: (proxyReq) => {
+                        // Tomcat i aareg-services avviser forespørsler med mer enn 10 locales.
+                        proxyReq.removeHeader('accept-language');
                         proxyReq.setHeader('Nav-Aareg-Kontekst', 'ARBEIDSGIVER');
                     },
                 },
