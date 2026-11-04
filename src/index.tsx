@@ -29,6 +29,7 @@ injectDecoratorClientSide({
         other: 'dev',
     }),
     params: {
+        teamName: 'min-side-arbeidsgiver.fager',
         context: 'arbeidsgiver',
         redirectToApp: true,
         level: 'Level4',
