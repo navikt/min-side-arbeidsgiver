@@ -13,8 +13,18 @@ export default defineConfig(({ command, mode }) => {
             graphqlLoader(),
             react(),
             legacy({
-                modernPolyfills: ['es.string.replace', 'esnext.string.replace-all'],
-                polyfills: ['es.string.replace', 'esnext.string.replace-all'],
+                modernPolyfills: [
+                    'es.string.replace',
+                    'esnext.string.replace-all',
+                    'es.set.union.v2',
+                    'es.set.is-subset-of.v2',
+                ],
+                polyfills: [
+                    'es.string.replace',
+                    'esnext.string.replace-all',
+                    'es.set.union.v2',
+                    'es.set.is-subset-of.v2',
+                ],
             }),
         ],
         optimizeDeps: {
