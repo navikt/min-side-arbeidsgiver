@@ -21,8 +21,8 @@ importers:
         specifier: ^7.5.1
         version: 7.5.1(express@5.3.0)
       http-proxy-middleware:
-        specifier: ^3.0.7
-        version: 3.0.7
+        specifier: ^3.0.10
+        version: 3.0.10
       http-terminator:
         specifier: ^3.2.0
         version: 3.2.0
@@ -324,8 +324,8 @@ packages:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
 
-  http-proxy-middleware@3.0.7:
-    resolution: {integrity: sha512-iwbQltVlx8bCrqePUM8C+hllHvdawVhQJaLrj1X7qllkvFQdXFsr16pW/mo9+JDVjN+QO2XUx9jd8SmoFkE5qw==}
+  http-proxy-middleware@3.0.10:
+    resolution: {integrity: sha512-Niw9P+62tB2DuWJ/Vjxn53gAmDrRBM7hku8YRoxMFQu7pAkhITq0Dq9Uw4X/8hnAZ9kHsnDuBXKMzuN2i/RnGw==}
     engines: {node: ^14.18.0 || ^16.10.0 || >=18.0.0}
 
   http-proxy@1.18.1:
@@ -959,7 +959,7 @@ snapshots:
       statuses: 2.0.2
       toidentifier: 1.0.1
 
-  http-proxy-middleware@3.0.7:
+  http-proxy-middleware@3.0.10:
     dependencies:
       '@types/http-proxy': 1.17.17
       debug: 4.4.3
