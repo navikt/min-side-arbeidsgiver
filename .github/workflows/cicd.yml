@@ -3,7 +3,8 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron: '0 6 * * 1' # bygg nytt image hver mandag morgen
+    - cron: '0 4 * * *' # bygg og deploy hver natt kl. 04
+      timezone: Europe/Oslo
 
 
 jobs:
