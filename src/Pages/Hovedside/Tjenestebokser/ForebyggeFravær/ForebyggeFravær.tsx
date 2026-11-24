@@ -48,7 +48,7 @@ const ForebyggeFravR = () => {
                 {sykefravær !== undefined ? (
                     <>
                         <StortTall>{sykefravær.prosent.toString()} %</StortTall>
-                        legemeldt sykefravær i din {statistikktype(sykefravær.type)}.
+                        <span>legemeldt sykefravær i din {statistikktype(sykefravær.type)}.</span>
                         <div className="forebyggefravær_bunntekst">
                             Lag en plan for å redusere fraværet.
                         </div>
